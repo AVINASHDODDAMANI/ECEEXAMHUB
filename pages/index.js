@@ -87,10 +87,10 @@ export default function Home() {
 
   return (
     <Layout title="ECEExamHub | Home">
-      <div className="mx-auto max-w-6xl px-4 pb-12 pt-6 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-5xl px-3 pb-6 pt-4 sm:px-6 lg:px-8">
         <HeroSection stats={heroStats} actions={heroActions} />
 
-        <section className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <section className="mt-4 grid gap-3 grid-cols-2 md:grid-cols-4">
           {featureCards.map((card) => (
             <FeatureCard key={card.title} {...card} />
           ))}
@@ -216,7 +216,7 @@ export default function Home() {
           <ProgressOverview progressStats={progressStats} />
         </section>
 
-        <section className="mt-8 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+        <section className="mt-4 grid gap-3 lg:grid-cols-[1.2fr_0.8fr]">
           <article className="rounded-[2rem] border border-slate-800/80 bg-slate-950/90 p-6 text-slate-100 shadow-panel">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-300">
               Learn Roadmap

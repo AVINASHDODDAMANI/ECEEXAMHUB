@@ -123,7 +123,7 @@ export default function Navbar({
           <span className="text-lg font-semibold text-white">ECEExamHub</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="flex overflow-x-auto whitespace-nowrap gap-4">
           {SITE_NAVIGATION.map((link) => {
             const isActive = isNavigationActive(router.pathname, link.href);
 
