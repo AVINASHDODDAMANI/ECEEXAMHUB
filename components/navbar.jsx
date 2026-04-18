@@ -114,102 +114,87 @@ export default function Navbar({
   }
 
   return (
-    <header className="sticky top-0 z-30 px-4 pt-4 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-[1280px] rounded-[2rem] border border-slatebrand-700/70 bg-slatebrand-900/95 px-5 py-4 text-white shadow-panel backdrop-blur">
-        <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-          <div className="min-w-0">
-            <Link href="/" className="inline-flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-lg font-bold text-white">
-                E
-              </span>
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slatebrand-300">
-                  Beginner-Friendly ECE Prep
-                </p>
-                <h1 className="text-2xl font-extrabold tracking-tight text-white">
-                  ECEExamHub
-                </h1>
-              </div>
-            </Link>
+    <header className="sticky top-0 z-30 border-b border-slate-800/80 bg-slate-950/95 backdrop-blur-sm">
+      <div className="mx-auto flex h-[56px] max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="flex items-center gap-3">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800 text-sm font-bold text-white">
+            E
+          </span>
+          <span className="text-lg font-semibold text-white">ECEExamHub</span>
+        </Link>
+
+        <nav className="hidden md:flex items-center gap-6">
+          {SITE_NAVIGATION.map((link) => {
+            const isActive = isNavigationActive(router.pathname, link.href);
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm font-medium transition ${
+                  isActive
+                    ? "text-white"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="flex items-center gap-4">
+          <div ref={searchRef} className="relative">
+            <form
+              onSubmit={handleSearchSubmit}
+              className="flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100"
+            >
+              <svg
+                className="h-4 w-4 flex-none text-slate-400"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  d="M14.167 14.167L17.5 17.5M15.833 9.167A6.667 6.667 0 1 1 2.5 9.167a6.667 6.667 0 0 1 13.333 0Z"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <input
+                type="search"
+                value={resolvedSearchValue}
+                onChange={(event) => handleSearchChange(event.target.value)}
+                onFocus={() => setIsSearchOpen(true)}
+                placeholder="Search..."
+                className="w-32 bg-transparent outline-none placeholder:text-slate-500 sm:w-40"
+              />
+            </form>
+
+            {shouldShowDropdown ? (
+              <SmartSearchDropdown
+                query={deferredQuery}
+                groupedResults={groupedResults}
+                suggestions={suggestions}
+                onSelect={() => setIsSearchOpen(false)}
+              />
+            ) : null}
           </div>
 
-          <div className="flex flex-1 flex-col gap-4 xl:items-end">
-            <nav className="flex flex-wrap gap-2">
-              {SITE_NAVIGATION.map((link) => {
-                const isActive = isNavigationActive(router.pathname, link.href);
-
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                      isActive
-                        ? "bg-white text-slatebrand-900 shadow-sm"
-                        : "bg-white/10 text-slatebrand-100 hover:bg-white/20"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
-            </nav>
-
-            <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-start xl:w-auto">
-              <div ref={searchRef} className="relative flex-1 sm:min-w-[420px]">
-                <form
-                  onSubmit={handleSearchSubmit}
-                  className="flex min-w-0 items-center gap-3 rounded-2xl border border-white/10 bg-white px-4 py-3 text-slate-700 shadow-sm"
-                >
-                  <svg
-                    className="h-4 w-4 flex-none text-slate-400"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M14.167 14.167L17.5 17.5M15.833 9.167A6.667 6.667 0 1 1 2.5 9.167a6.667 6.667 0 0 1 13.333 0Z"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-
-                  <input
-                    type="search"
-                    value={resolvedSearchValue}
-                    onChange={(event) => handleSearchChange(event.target.value)}
-                    onFocus={() => setIsSearchOpen(true)}
-                    placeholder={searchPlaceholder}
-                    className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-slate-400"
-                  />
-
-                  {!hasSearch ? (
-                    <button
-                      type="submit"
-                      className="rounded-xl bg-slatebrand-900 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slatebrand-800"
-                    >
-                      Search
-                    </button>
-                  ) : null}
-                </form>
-
-                {shouldShowDropdown ? (
-                  <SmartSearchDropdown
-                    query={deferredQuery}
-                    groupedResults={groupedResults}
-                    suggestions={suggestions}
-                    onSelect={() => setIsSearchOpen(false)}
-                  />
-                ) : null}
-              </div>
-
-              <div className="rounded-2xl bg-white/10 px-4 py-3 text-sm font-medium text-slatebrand-100">
-                Exams: GATE, ISRO, BEL, BARC
-              </div>
-            </div>
-          </div>
+          <button
+            type="button"
+            className="md:hidden rounded-lg border border-slate-700 bg-slate-900 p-2 text-slate-400 hover:text-white"
+            onClick={() => {
+              // Mobile menu toggle - placeholder
+            }}
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
         </div>
       </div>
     </header>

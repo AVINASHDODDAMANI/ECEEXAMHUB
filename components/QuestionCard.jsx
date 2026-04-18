@@ -20,107 +20,77 @@ export default function QuestionCard({
   }, [question._id]);
 
   return (
-    <article className="rounded-[2rem] border border-white/60 bg-white/95 p-6 shadow-panel">
-      <div className="mb-6 flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-start sm:justify-between">
+    <article className="rounded-[1.75rem] border border-slate-800/80 bg-slate-950/95 p-5 shadow-panel text-slate-100">
+      <div className="flex flex-col gap-3 border-b border-slate-800 pb-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slatebrand-500">
-            Practice Question
+          <p className="text-xs font-medium uppercase tracking-[0.25em] text-slate-400">
+            {question.subject} • {question.topic}
           </p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900">
-            {question.subject} - {question.topic}
-          </h2>
+          <p className="mt-2 text-lg font-medium text-white sm:text-xl leading-relaxed">
+            {question.question}
+          </p>
         </div>
-        <div className="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600">
-          Question {index + 1} of {total}
+        <div className="rounded-2xl bg-slate-900/80 px-3 py-2 text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">
+          Q{index + 1} / {total}
         </div>
       </div>
 
-      <p className="text-lg leading-8 text-slate-800">{question.question}</p>
-      <p className="mt-3 text-sm leading-6 text-slate-500">
-        Click any option once. The correct answer will turn green immediately, and a wrong selection will turn red.
-      </p>
-
-      {question.diagram ? (
-        <div className="mt-6 overflow-hidden rounded-3xl border border-slate-200">
-          <img
-            src={question.diagram}
-            alt="Question diagram"
-            className="h-56 w-full object-cover"
-          />
-        </div>
-      ) : null}
-
-      <div className="mt-6 grid gap-3">
+      <div className="mt-5 grid gap-3">
         {(question.options || []).map((option, optionIndex) => {
           const isSelected = selectedOption === option;
           const showCorrect = submitted && option === question.correctAnswer;
           const showIncorrect = submitted && isSelected && option !== question.correctAnswer;
 
           return (
-            <label
+            <button
+              type="button"
               key={`${optionIndex}-${option}`}
-              className={`flex cursor-pointer items-start rounded-2xl border px-4 py-4 text-left transition ${
-                submitted ? "cursor-default" : "cursor-pointer"
-              } ${
+              onClick={() => {
+                if (submitted) {
+                  return;
+                }
+
+                setSelectedOption(option);
+                setSubmitted(true);
+                setShowExplanation(false);
+              }}
+              className={`w-full rounded-2xl border px-4 py-4 text-left text-sm font-medium transition ${
                 showCorrect
-                  ? "border-emerald-500 bg-emerald-50 text-emerald-800"
+                  ? "border-emerald-500 bg-emerald-500/15 text-emerald-100"
                   : showIncorrect
-                  ? "border-rose-400 bg-rose-50 text-rose-700"
+                  ? "border-rose-400 bg-rose-500/10 text-rose-100"
                   : isSelected
-                  ? "border-slatebrand-400 bg-slatebrand-50 text-slatebrand-900"
-                  : "border-slate-200 bg-slate-50 text-slate-800 hover:border-slatebrand-300 hover:bg-white"
-              }`}
+                  ? "border-slate-500 bg-slate-900 text-white"
+                  : "border-slate-700 bg-slate-900/80 text-slate-100 hover:border-slate-500 hover:bg-slate-900"
+              } ${submitted ? "cursor-default" : "cursor-pointer"}`}
             >
-              <input
-                type="radio"
-                name={`question-${question._id}`}
-                value={option}
-                checked={isSelected}
-                disabled={submitted}
-                onChange={() => {
-                  if (!submitted) {
-                    setSelectedOption(option);
-                    setSubmitted(true);
-                    setShowExplanation(false);
-                  }
-                }}
-                className="sr-only"
-              />
-              <span
-                className={`mr-3 inline-flex h-8 w-8 flex-none items-center justify-center rounded-full text-sm font-semibold shadow-sm ${
-                  showCorrect
-                    ? "bg-emerald-100 text-emerald-700"
-                    : showIncorrect
-                    ? "bg-rose-100 text-rose-700"
-                    : isSelected
-                    ? "bg-slatebrand-900 text-white"
-                    : "bg-white text-slatebrand-700"
-                }`}
-              >
-                {String.fromCharCode(65 + optionIndex)}
-              </span>
-              <span className="pt-1">{option}</span>
-            </label>
+              <div className="flex items-start gap-3">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-sm font-semibold text-slate-200">
+                  {String.fromCharCode(65 + optionIndex)}
+                </span>
+                <span className="leading-6">{option}</span>
+              </div>
+            </button>
           );
         })}
       </div>
 
-      <div className="mt-6 flex flex-col gap-4 border-t border-slate-200 pt-6">
-        <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="mt-5 flex flex-col gap-3 border-t border-slate-800 pt-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap gap-3">
           {submitted ? (
             <button
               type="button"
               onClick={() => setShowExplanation((value) => !value)}
-              className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slatebrand-300"
+              className="rounded-2xl border border-slate-700 bg-slate-900/90 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:border-slate-500 hover:bg-slate-800"
             >
-              {showExplanation ? "Hide Explanation" : "Show Answer & Explanation"}
+              {showExplanation ? "Hide Answer" : "Show Answer"}
             </button>
           ) : null}
           <button
             type="button"
             onClick={onPrevious}
             disabled={index === 0}
-            className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slatebrand-300 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-2xl border border-slate-700 bg-slate-900/90 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:border-slate-500 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Previous
           </button>
@@ -128,7 +98,7 @@ export default function QuestionCard({
             type="button"
             onClick={onNext}
             disabled={index === total - 1}
-            className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slatebrand-300 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-2xl border border-slate-700 bg-slate-900/90 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:border-slate-500 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Next
           </button>
@@ -136,47 +106,25 @@ export default function QuestionCard({
 
         {submitted ? (
           <div
-            className={`rounded-3xl border p-5 ${
+            className={`rounded-2xl px-4 py-3 text-sm font-medium ${
               isCorrect
-                ? "border-emerald-200 bg-emerald-50"
-                : "border-rose-200 bg-rose-50"
+                ? "bg-emerald-500/10 text-emerald-100 border border-emerald-500/20"
+                : "bg-rose-500/10 text-rose-100 border border-rose-500/20"
             }`}
           >
-            <p
-              className={`text-sm font-semibold uppercase tracking-[0.2em] ${
-                isCorrect ? "text-emerald-600" : "text-rose-600"
-              }`}
-            >
-              {isCorrect ? "You Selected the Right Answer" : "You Selected the Wrong Answer"}
-            </p>
-            <p className="mt-3 text-base font-medium text-slate-900">
-              Your answer: {selectedOption}
-            </p>
-            {!isCorrect ? (
-              <p className="mt-2 text-sm font-medium text-slate-700">
-                Correct answer: {question.correctAnswer}
-              </p>
-            ) : null}
-          </div>
-        ) : null}
-
-        {submitted && showExplanation ? (
-          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-              Correct Answer
-            </p>
-            <p className="mt-3 text-base font-medium text-slate-900">
-              {question.correctAnswer}
-            </p>
-            <p className="mt-5 text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-              Explanation
-            </p>
-            <p className="mt-3 text-sm leading-7 text-slate-700">
-              {question.explanation}
-            </p>
+            {isCorrect ? "Correct answer selected" : "Incorrect answer selected"}
           </div>
         ) : null}
       </div>
+
+      {submitted && showExplanation ? (
+        <div className="mt-4 rounded-2xl border border-slate-800/80 bg-slate-900/80 p-4 text-sm leading-7 text-slate-300">
+          <p className="font-semibold text-white">Answer</p>
+          <p className="mt-2">{question.correctAnswer}</p>
+          <p className="mt-3 font-semibold text-white">Explanation</p>
+          <p className="mt-2">{question.explanation}</p>
+        </div>
+      ) : null}
     </article>
   );
 }

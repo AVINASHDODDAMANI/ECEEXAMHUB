@@ -7,6 +7,8 @@ export default function Layout({
   description = "ECEExamHub helps ECE students learn concepts, solve PYQs, practice topic-wise questions, and track exam progress.",
   searchValue = "",
   onSearchChange,
+  hideNavbar = false,
+  pageClassName = "pt-6",
 }) {
   return (
     <>
@@ -23,8 +25,8 @@ export default function Layout({
         <div className="pointer-events-none fixed inset-x-0 top-0 z-0 mx-auto h-[340px] max-w-[1280px] bg-hero-glow opacity-90 blur-3xl" />
 
         <div className="relative z-10">
-          <Navbar searchValue={searchValue} onSearchChange={onSearchChange} />
-          <main className="mx-auto w-full max-w-[1280px] px-4 pb-12 pt-6 sm:px-6 lg:px-8">
+          {!hideNavbar && <Navbar searchValue={searchValue} onSearchChange={onSearchChange} />}
+          <main className={`mx-auto w-full max-w-[1280px] px-4 pb-12 ${pageClassName} sm:px-6 lg:px-8`}>
             {children}
           </main>
         </div>

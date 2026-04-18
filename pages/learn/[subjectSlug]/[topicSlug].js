@@ -171,10 +171,10 @@ export default function LearningTopicPage({ topic, initialQuestions }) {
       title={`ECEExamHub | ${topic.title}`}
       description={`${topic.title} learning page with explanations, formulas, PYQs, practice, and important questions for ${topic.subjectName}.`}
     >
-      <div className="pb-24 xl:pb-0">
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="pb-12">
+        <section className="grid gap-6">
           <div className="grid gap-6">
-            <div className="rounded-[2rem] bg-slatebrand-900 p-8 text-white shadow-panel">
+            <div className="rounded-[2rem] bg-slatebrand-900 p-6 text-white shadow-panel">
               <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-slatebrand-300">
                 <Link href="/learn" className="transition hover:text-white">
                   Learn
@@ -185,33 +185,33 @@ export default function LearningTopicPage({ topic, initialQuestions }) {
                 <span>{topic.chapterTitle}</span>
               </div>
 
-              <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl">
+              <h1 className="mt-3 max-w-3xl text-3xl font-semibold leading-tight sm:text-4xl">
                 {topic.title}
               </h1>
-              <p className="mt-5 max-w-3xl text-base leading-8 text-slatebrand-100">
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-slatebrand-100">
                 {topic.summary}
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-3">
-                <span className="rounded-full border border-slatebrand-700 bg-slatebrand-800/70 px-4 py-2 text-sm font-medium text-white">
+              <div className="mt-4 flex flex-wrap gap-2">
+                <span className="rounded-full border border-slatebrand-700 bg-slatebrand-800/70 px-3 py-1 text-xs font-medium text-white">
                   {topic.subjectName}
                 </span>
-                <span className="rounded-full border border-slatebrand-700 bg-slatebrand-800/70 px-4 py-2 text-sm font-medium text-white">
+                <span className="rounded-full border border-slatebrand-700 bg-slatebrand-800/70 px-3 py-1 text-xs font-medium text-white">
                   {topic.subjectWeightage}
                 </span>
-                <span className="rounded-full border border-slatebrand-700 bg-slatebrand-800/70 px-4 py-2 text-sm font-medium text-white">
+                <span className="rounded-full border border-slatebrand-700 bg-slatebrand-800/70 px-3 py-1 text-xs font-medium text-white">
                   {topic.estimatedTime}
                 </span>
-                <span className="rounded-full border border-slatebrand-700 bg-slatebrand-800/70 px-4 py-2 text-sm font-medium text-white">
+                <span className="rounded-full border border-slatebrand-700 bg-slatebrand-800/70 px-3 py-1 text-xs font-medium text-white">
                   {questionSummary.total} linked question{questionSummary.total === 1 ? "" : "s"}
                 </span>
               </div>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-4 flex flex-wrap gap-2">
                 <button
                   type="button"
                   onClick={toggleCompletedState}
-                  className={`rounded-2xl px-5 py-3 text-sm font-semibold transition ${
+                  className={`rounded-lg px-3 py-2 text-xs font-semibold transition ${
                     isCompleted
                       ? "bg-emerald-100 text-emerald-900 hover:bg-emerald-200"
                       : "bg-accent-500 text-slate-950 hover:bg-accent-300"
@@ -222,7 +222,7 @@ export default function LearningTopicPage({ topic, initialQuestions }) {
                 <button
                   type="button"
                   onClick={toggleRevisionState}
-                  className={`rounded-2xl border px-5 py-3 text-sm font-semibold transition ${
+                  className={`rounded-lg border px-3 py-2 text-xs font-semibold transition ${
                     isSavedForRevision
                       ? "border-amber-200 bg-amber-50 text-amber-900 hover:bg-amber-100"
                       : "border-slatebrand-700 text-white hover:bg-slatebrand-800"
@@ -233,89 +233,78 @@ export default function LearningTopicPage({ topic, initialQuestions }) {
                 <button
                   type="button"
                   onClick={() => jumpToSection("practice")}
-                  className="rounded-2xl border border-slatebrand-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slatebrand-800"
+                  className="rounded-lg border border-slatebrand-700 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slatebrand-800"
                 >
                   Jump to Practice
                 </button>
               </div>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              <div className="rounded-[2rem] border border-white/70 bg-white/90 p-5 shadow-panel">
+            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+              <div className="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                   Subject progress
                 </p>
-                <p className="mt-3 text-3xl font-semibold text-slate-900">
+                <p className="mt-1 text-2xl font-semibold text-slate-900">
                   {subjectProgress?.completionPercent || 0}%
                 </p>
-                <div className="mt-4 h-2.5 rounded-full bg-slate-100">
+                <div className="mt-2 h-1.5 rounded-full bg-slate-100">
                   <div
-                    className="h-2.5 rounded-full bg-gradient-to-r from-slatebrand-600 to-accent-500"
+                    className="h-1.5 rounded-full bg-gradient-to-r from-slatebrand-600 to-accent-500"
                     style={{ width: `${subjectProgress?.completionPercent || 0}%` }}
                   />
                 </div>
               </div>
 
-              <div className="rounded-[2rem] border border-white/70 bg-white/90 p-5 shadow-panel">
+              <div className="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                   Exams covered
                 </p>
-                <p className="mt-3 text-lg font-semibold text-slate-900">
+                <p className="mt-1 text-sm font-semibold text-slate-900">
                   {questionSummary.exams.length ? questionSummary.exams.join(" | ") : "Adding soon"}
                 </p>
-                <p className="mt-4 text-sm text-slate-600">
+                <p className="mt-1 text-xs text-slate-600">
                   Years: {questionSummary.years.length ? questionSummary.years.join(", ") : "Pending"}
                 </p>
               </div>
 
-              <div className="rounded-[2rem] border border-white/70 bg-white/90 p-5 shadow-panel">
+              <div className="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                   Important questions
                 </p>
-                <p className="mt-3 text-3xl font-semibold text-slate-900">
+                <p className="mt-1 text-2xl font-semibold text-slate-900">
                   {questionSummary.importantCount}
                 </p>
-                <p className="mt-4 text-sm text-slate-600">
-                  Priority revision signals for this topic.
+                <p className="mt-1 text-xs text-slate-600">
+                  Priority revision signals
                 </p>
               </div>
 
-              <div className="rounded-[2rem] border border-white/70 bg-white/90 p-5 shadow-panel">
+              <div className="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                   Exam insight
                 </p>
-                <p className="mt-3 text-sm leading-7 text-slate-700">{topic.insightSummary}</p>
+                <p className="mt-1 text-xs leading-5 text-slate-700 line-clamp-3">{topic.insightSummary}</p>
               </div>
             </div>
           </div>
 
-          <TopicAssistantPanel
-            topic={topic}
-            isCompleted={isCompleted}
-            isSavedForRevision={isSavedForRevision}
-            questionCount={questionSummary.total}
-            importantCount={questionSummary.importantCount}
-            subjectProgressPercent={subjectProgress?.completionPercent || 0}
-            onJump={jumpToSection}
-            onToggleCompleted={toggleCompletedState}
-            onToggleRevision={toggleRevisionState}
-          />
         </section>
 
-        <section className="mt-6 flex flex-wrap gap-3">
+        <section className="mt-4 flex flex-wrap gap-2">
           {sectionLinks.map((section) => (
             <button
               key={section.id}
               type="button"
               onClick={() => jumpToSection(section.id)}
-              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slatebrand-300 hover:text-slatebrand-900"
+              className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slatebrand-300 hover:text-slatebrand-900"
             >
               {section.label}
             </button>
           ))}
         </section>
 
-        <section className="mt-8 grid gap-6">
+        <section className="mt-6 grid gap-4">
           <TopicSectionCard
             id="explanation"
             eyebrow="Explanation"
