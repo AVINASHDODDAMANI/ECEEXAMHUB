@@ -1,11 +1,27 @@
+import { useState } from "react";
 import { formatQuestionTag, hasQuestionTag } from "../lib/question-utils";
 
 export default function PreviousYearQuestionCard({
   question,
   showTopicMeta = true,
 }) {
+  const [selectedOption, setSelectedOption] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [showExplanation, setShowExplanation] = useState(false);
+
   const isImportant = hasQuestionTag(question, "important");
   const isRepeated = hasQuestionTag(question, "repeated");
+  const isCorrect = submitted && selectedOption === question.correctAnswer;
+
+  function handleOptionSelect(option) {
+    if (submitted) {
+      return;
+    }
+
+    setSelectedOption(option);
+    setSubmitted(true);
+    setShowExplanation(false);
+  }
 
   return (
     <article
@@ -40,17 +56,37 @@ export default function PreviousYearQuestionCard({
       </div>
 
       <p className="mt-5 text-base leading-8 text-slate-800">{question.question}</p>
+      <p className="mt-3 text-sm leading-6 text-slate-500">
+        Select an option to check your answer. The selected choice will be highlighted immediately.
+      </p>
 
       <div className="mt-5 grid gap-3 md:grid-cols-2">
-        {(question.options || []).map((option, index) => (
-          <div
-            key={`${index}-${option}`}
-            className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
-          >
-            <span className="mr-2 font-semibold">{String.fromCharCode(65 + index)}.</span>
-            {option}
-          </div>
-        ))}
+        {(question.options || []).map((option, index) => {
+          const isSelected = selectedOption === option;
+          const showCorrect = submitted && option === question.correctAnswer;
+          const showIncorrect = submitted && isSelected && option !== question.correctAnswer;
+
+          return (
+            <button
+              key={`${index}-${option}`}
+              type="button"
+              onClick={() => handleOptionSelect(option)}
+              className={`flex items-start rounded-2xl border px-4 py-3 text-left text-sm transition ${
+                showCorrect
+                  ? "border-emerald-500 bg-emerald-50 text-emerald-800"
+                  : showIncorrect
+                  ? "border-rose-400 bg-rose-50 text-rose-700"
+                  : isSelected
+                  ? "border-slatebrand-400 bg-slatebrand-50 text-slatebrand-900"
+                  : "border-slate-200 bg-slate-50 text-slate-800 hover:border-slatebrand-300 hover:bg-white"
+              } ${submitted ? "cursor-default" : "cursor-pointer"}`}
+              disabled={submitted}
+            >
+              <span className="mr-2 font-semibold">{String.fromCharCode(65 + index)}.</span>
+              <span>{option}</span>
+            </button>
+          );
+        })}
       </div>
 
       {(question.tags || []).length ? (
@@ -66,23 +102,50 @@ export default function PreviousYearQuestionCard({
         </div>
       ) : null}
 
-      <details className="mt-5 overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
-        <summary className="cursor-pointer list-none px-5 py-4 text-sm font-semibold text-slatebrand-700">
-          Show Answer and Explanation
-        </summary>
-        <div className="border-t border-slate-200 px-5 py-5">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-            Correct Answer
-          </p>
-          <p className="mt-3 text-base font-medium text-slate-900">
-            {question.correctAnswer}
-          </p>
-          <p className="mt-5 text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-            Explanation
-          </p>
-          <p className="mt-3 text-sm leading-7 text-slate-700">{question.explanation}</p>
-        </div>
-      </details>
+      <div className="mt-6 flex flex-col gap-4 border-t border-slate-200 pt-6">
+        {submitted ? (
+          <div
+            className={`rounded-3xl border p-5 ${
+              isCorrect ? "border-emerald-200 bg-emerald-50" : "border-rose-200 bg-rose-50"
+            }`}
+          >
+            <p
+              className={`text-sm font-semibold uppercase tracking-[0.2em] ${
+                isCorrect ? "text-emerald-600" : "text-rose-600"
+              }`}
+            >
+              {isCorrect ? "Correct answer" : "Wrong answer"}
+            </p>
+            <p className="mt-3 text-base font-medium text-slate-900">
+              Your answer: {selectedOption}
+            </p>
+            {!isCorrect ? (
+              <p className="mt-2 text-sm font-medium text-slate-700">
+                Correct answer: {question.correctAnswer}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+
+        {submitted ? (
+          <button
+            type="button"
+            onClick={() => setShowExplanation((value) => !value)}
+            className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slatebrand-300"
+          >
+            {showExplanation ? "Hide Explanation" : "Show Answer & Explanation"}
+          </button>
+        ) : null}
+
+        {submitted && showExplanation ? (
+          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
+              Explanation
+            </p>
+            <p className="mt-3 text-sm leading-7 text-slate-700">{question.explanation}</p>
+          </div>
+        ) : null}
+      </div>
     </article>
   );
 }
