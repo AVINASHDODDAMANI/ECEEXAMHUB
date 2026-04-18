@@ -31,6 +31,15 @@ function normalizePayload(rawPayload = {}) {
         )
       )
     : [];
+  const tags = Array.isArray(rawPayload.tags)
+    ? Array.from(
+        new Set(
+          rawPayload.tags
+            .map((item) => String(item || "").trim().toLowerCase())
+            .filter(Boolean)
+        )
+      )
+    : [];
 
   const payload = {
     question: String(rawPayload.question || "").trim(),
@@ -40,6 +49,7 @@ function normalizePayload(rawPayload = {}) {
     subject: String(rawPayload.subject || "").trim(),
     topic: String(rawPayload.topic || "").trim(),
     exam,
+    tags,
     year: Number(rawPayload.year),
     diagram: String(rawPayload.diagram || "").trim(),
   };
@@ -132,6 +142,9 @@ export default async function handler(req, res) {
           { question: { $regex: safeSearch, $options: "i" } },
           { topic: { $regex: safeSearch, $options: "i" } },
           { subject: { $regex: safeSearch, $options: "i" } },
+          { explanation: { $regex: safeSearch, $options: "i" } },
+          { exam: { $regex: safeSearch, $options: "i" } },
+          { tags: { $regex: safeSearch, $options: "i" } },
         ];
       }
 

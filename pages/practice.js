@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Layout from "../components/layout";
 import FilterPanel from "../components/FilterPanel";
 import QuestionCard from "../components/QuestionCard";
@@ -8,6 +9,7 @@ import { SUBJECTS, getTopics, filterQuestions } from "../lib/question-utils";
 import { fetchQuestions } from "../lib/api-client";
 
 export default function PracticePage() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [subject, setSubject] = useState("All Subjects");
   const [topic, setTopic] = useState("All Topics");
@@ -62,6 +64,16 @@ export default function PracticePage() {
   useEffect(() => {
     setCurrentIndex(0);
   }, [search, topic]);
+
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+
+    const routeSearch =
+      typeof router.query.search === "string" ? router.query.search : "";
+    setSearch(routeSearch);
+  }, [router.isReady, router.query.search]);
 
   return (
     <Layout
@@ -119,7 +131,7 @@ export default function PracticePage() {
               </label>
 
               <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
-                One question is shown at a time. Submit your answer to reveal the explanation.
+                One question is shown at a time. Click an option to instantly see right or wrong.
               </div>
 
               <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">

@@ -1,16 +1,77 @@
 import { useEffect, useState } from "react";
-import Layout from "../components/layout";
-import FilterPanel from "../components/FilterPanel";
+import { useRouter } from "next/router";
 import EmptyState from "../components/EmptyState";
-import { EXAMS } from "../lib/question-utils";
+import FilterPanel from "../components/FilterPanel";
+import Layout from "../components/layout";
+import PreviousYearQuestionCard from "../components/PreviousYearQuestionCard";
 import { fetchFilters, fetchQuestions } from "../lib/api-client";
+import { EXAMS, SUBJECTS, hasQuestionTag } from "../lib/question-utils";
+
+function buildImportantTopics(questions) {
+  const topicMap = questions.reduce((accumulator, question) => {
+    const isImportant = hasQuestionTag(question, "important");
+    const isRepeated = hasQuestionTag(question, "repeated");
+
+    if (!isImportant && !isRepeated) {
+      return accumulator;
+    }
+
+    const current = accumulator[question.topic] || {
+      topic: question.topic,
+      subject: question.subject,
+      importantCount: 0,
+      repeatedCount: 0,
+      total: 0,
+    };
+
+    current.total += 1;
+    current.importantCount += isImportant ? 1 : 0;
+    current.repeatedCount += isRepeated ? 1 : 0;
+
+    accumulator[question.topic] = current;
+    return accumulator;
+  }, {});
+
+  return Object.values(topicMap).sort((left, right) => {
+    if (right.importantCount !== left.importantCount) {
+      return right.importantCount - left.importantCount;
+    }
+
+    if (right.repeatedCount !== left.repeatedCount) {
+      return right.repeatedCount - left.repeatedCount;
+    }
+
+    return right.total - left.total;
+  });
+}
+
+function HighlightSection({ title, items, emptyMessage, renderItem }) {
+  return (
+    <section className="rounded-[2rem] border border-white/60 bg-white/90 p-6 shadow-panel">
+      <h2 className="text-xl font-semibold text-slate-900">{title}</h2>
+      {items.length ? (
+        <div className="mt-5 grid gap-4">{items.map(renderItem)}</div>
+      ) : (
+        <p className="mt-5 text-sm leading-7 text-slate-600">{emptyMessage}</p>
+      )}
+    </section>
+  );
+}
 
 export default function PreviousYearPage() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [exam, setExam] = useState("All Exams");
   const [year, setYear] = useState("");
+  const [subject, setSubject] = useState("All Subjects");
+  const [topic, setTopic] = useState("All Topics");
   const [questions, setQuestions] = useState([]);
-  const [years, setYears] = useState([]);
+  const [filterOptions, setFilterOptions] = useState({
+    subjects: SUBJECTS,
+    exams: EXAMS,
+    topics: ["All Topics"],
+    years: [],
+  });
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
 
@@ -20,13 +81,27 @@ export default function PreviousYearPage() {
 
     async function loadFilterMetadata() {
       try {
-        const payload = await fetchFilters({ exam }, { signal: controller.signal });
+        const payload = await fetchFilters(
+          { exam, year, subject, topic },
+          { signal: controller.signal }
+        );
+
         if (mounted) {
-          setYears(Array.isArray(payload.years) ? payload.years : []);
+          setFilterOptions({
+            subjects: Array.isArray(payload.subjects) ? payload.subjects : SUBJECTS,
+            exams: Array.isArray(payload.exams) ? payload.exams : EXAMS,
+            topics: Array.isArray(payload.topics) ? payload.topics : ["All Topics"],
+            years: Array.isArray(payload.years) ? payload.years : [],
+          });
         }
       } catch (error) {
         if (mounted && error.name !== "AbortError") {
-          setYears([]);
+          setFilterOptions({
+            subjects: SUBJECTS,
+            exams: EXAMS,
+            topics: ["All Topics"],
+            years: [],
+          });
         }
       }
     }
@@ -37,7 +112,7 @@ export default function PreviousYearPage() {
       mounted = false;
       controller.abort();
     };
-  }, [exam]);
+  }, [exam, year, subject, topic]);
 
   useEffect(() => {
     let mounted = true;
@@ -49,7 +124,7 @@ export default function PreviousYearPage() {
 
       try {
         const data = await fetchQuestions(
-          { search, exam, year },
+          { search, exam, year, subject, topic },
           { signal: controller.signal }
         );
         if (mounted) {
@@ -73,11 +148,33 @@ export default function PreviousYearPage() {
       mounted = false;
       controller.abort();
     };
-  }, [search, exam, year]);
+  }, [search, exam, year, subject, topic]);
+
+  useEffect(() => {
+    setTopic("All Topics");
+  }, [subject]);
 
   useEffect(() => {
     setYear("");
   }, [exam]);
+
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+
+    const routeSearch =
+      typeof router.query.search === "string" ? router.query.search : "";
+    setSearch(routeSearch);
+  }, [router.isReady, router.query.search]);
+
+  const importantQuestions = questions.filter((question) =>
+    hasQuestionTag(question, "important")
+  );
+  const repeatedQuestions = questions.filter((question) =>
+    hasQuestionTag(question, "repeated")
+  );
+  const importantTopics = buildImportantTopics(questions).slice(0, 6);
 
   return (
     <Layout
@@ -96,7 +193,7 @@ export default function PreviousYearPage() {
                 onChange={(event) => setExam(event.target.value)}
                 className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-slatebrand-400"
               >
-                {EXAMS.map((item) => (
+                {filterOptions.exams.map((item) => (
                   <option key={item}>{item}</option>
                 ))}
               </select>
@@ -110,7 +207,7 @@ export default function PreviousYearPage() {
                 className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-slatebrand-400"
               >
                 <option value="">All Years</option>
-                {years.map((item) => (
+                {filterOptions.years.map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>
@@ -118,13 +215,31 @@ export default function PreviousYearPage() {
               </select>
             </label>
 
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
-              Filtered sets include full solution text so students can review logic after each question.
-            </div>
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
+              Subject
+              <select
+                value={subject}
+                onChange={(event) => setSubject(event.target.value)}
+                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-slatebrand-400"
+              >
+                {filterOptions.subjects.map((item) => (
+                  <option key={item}>{item}</option>
+                ))}
+              </select>
+            </label>
 
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
-              This layout scales naturally as more exam-year combinations are added.
-            </div>
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
+              Topic
+              <select
+                value={topic}
+                onChange={(event) => setTopic(event.target.value)}
+                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-slatebrand-400"
+              >
+                {filterOptions.topics.map((item) => (
+                  <option key={item}>{item}</option>
+                ))}
+              </select>
+            </label>
           </>
         }
       />
@@ -141,63 +256,77 @@ export default function PreviousYearPage() {
             message="Fetching solved questions from your current data source."
           />
         ) : questions.length ? (
-          <div className="grid gap-5">
-            {questions.map((question) => (
-              <article
-                key={question._id}
-                className="rounded-[2rem] border border-white/60 bg-white/90 p-6 shadow-panel"
-              >
-                <div className="flex flex-col gap-3 border-b border-slate-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slatebrand-500">
+          <>
+            <div className="grid gap-5">
+              {questions.map((question) => (
+                <PreviousYearQuestionCard key={question._id} question={question} />
+              ))}
+            </div>
+
+            <div className="mt-8 grid gap-6 xl:grid-cols-3">
+              <HighlightSection
+                title="Important Questions"
+                items={importantQuestions.slice(0, 4)}
+                emptyMessage="No important-tagged questions match the current filters."
+                renderItem={(question) => (
+                  <div
+                    key={`important-${question._id}`}
+                    className="rounded-3xl border border-amber-200 bg-amber-50 px-4 py-4"
+                  >
+                    <p className="text-sm font-semibold text-amber-800">
+                      {question.subject} | {question.topic}
+                    </p>
+                    <p className="mt-2 text-sm leading-7 text-slate-700">{question.question}</p>
+                    <p className="mt-3 text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+                      Year {question.year}
+                    </p>
+                  </div>
+                )}
+              />
+
+              <HighlightSection
+                title="Repeated Questions"
+                items={repeatedQuestions.slice(0, 4)}
+                emptyMessage="No repeated questions match the current filters."
+                renderItem={(question) => (
+                  <div
+                    key={`repeated-${question._id}`}
+                    className="rounded-3xl border border-sky-200 bg-sky-50 px-4 py-4"
+                  >
+                    <p className="text-sm font-semibold text-sky-800">
+                      {question.subject} | {question.topic}
+                    </p>
+                    <p className="mt-2 text-sm leading-7 text-slate-700">{question.question}</p>
+                    <p className="mt-3 text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
                       {(question.exam || []).join(" | ")}
                     </p>
-                    <h2 className="mt-2 text-xl font-semibold text-slate-900">
-                      {question.subject} - {question.topic}
-                    </h2>
                   </div>
-                  <div className="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600">
-                    Year {question.year}
+                )}
+              />
+
+              <HighlightSection
+                title="Important Topics"
+                items={importantTopics}
+                emptyMessage="Important topics will appear here once questions are tagged."
+                renderItem={(item) => (
+                  <div
+                    key={`topic-${item.topic}`}
+                    className="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-4"
+                  >
+                    <p className="text-sm font-semibold text-slate-900">{item.topic}</p>
+                    <p className="mt-2 text-sm text-slate-600">{item.subject}</p>
+                    <p className="mt-3 text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+                      Important {item.importantCount} | Repeated {item.repeatedCount}
+                    </p>
                   </div>
-                </div>
-
-                <p className="mt-5 text-base leading-8 text-slate-800">
-                  {question.question}
-                </p>
-
-                <div className="mt-5 grid gap-3 md:grid-cols-2">
-                  {(question.options || []).map((option, index) => (
-                    <div
-                      key={`${index}-${option}`}
-                      className={`rounded-2xl border px-4 py-3 text-sm ${
-                        option === question.correctAnswer
-                          ? "border-emerald-300 bg-emerald-50 text-emerald-800"
-                          : "border-slate-200 bg-slate-50 text-slate-700"
-                      }`}
-                    >
-                      <span className="mr-2 font-semibold">
-                        {String.fromCharCode(65 + index)}.
-                      </span>
-                      {option}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-                    Solution
-                  </p>
-                  <p className="mt-3 text-sm leading-7 text-slate-700">
-                    {question.explanation}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
+                )}
+              />
+            </div>
+          </>
         ) : (
           <EmptyState
             title="No previous year questions found"
-            message="Adjust the exam, year, or search filter to bring relevant solved questions back into view."
+            message="Adjust the filters or search term to bring relevant solved questions back into view."
           />
         )}
       </section>

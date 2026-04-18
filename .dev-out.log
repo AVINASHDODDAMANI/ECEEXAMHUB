@@ -6,13 +6,9 @@
 - Local:         http://localhost:3000
 - Network:       http://10.246.45.174:3000
 - Environments: .env.local
-✓ Ready in 2.2s
+✓ Ready in 4.2s
 Creating turbopack project { dir: 'C:\\Users\\Doddamani\\Desktop\\ECEXEAMHUB', testMode: true }
 
-○ Compiling / ...
-✓ Finished writing to filesystem cache in 57s
-✓ Finished writing to filesystem cache in 19.7s
-✓ Finished writing to filesystem cache in 29.0s
-✓ Finished writing to filesystem cache in 32.1s
-✓ Finished writing to filesystem cache in 43s
-[?25h
+ GET / 200 in 625ms (next.js: 482ms, application-code: 143ms)
+ GET /api/questions 200 in 4.2s (next.js: 4.0s, application-code: 207ms)
+✓ Finished filesystem cache database compaction in 10.3s

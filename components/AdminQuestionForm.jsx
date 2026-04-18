@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { EXAMS, QUESTION_TAGS } from "../lib/question-utils";
 
 const initialState = {
   question: "",
@@ -8,11 +9,12 @@ const initialState = {
   subject: "Analog",
   topic: "",
   exam: ["GATE"],
+  tags: [],
   year: new Date().getFullYear(),
   diagram: "",
 };
 
-const availableExams = ["GATE", "ISRO", "BEL", "BARC"];
+const availableExams = EXAMS.filter((exam) => exam !== "All Exams");
 
 export default function AdminQuestionForm({ onCreated }) {
   const [formState, setFormState] = useState(initialState);
@@ -38,6 +40,15 @@ export default function AdminQuestionForm({ onCreated }) {
       : [...formState.exam, examName];
 
     setFormState((current) => ({ ...current, exam: nextExams }));
+  };
+
+  const toggleTag = (tagName) => {
+    const hasTag = formState.tags.includes(tagName);
+    const nextTags = hasTag
+      ? formState.tags.filter((item) => item !== tagName)
+      : [...formState.tags, tagName];
+
+    setFormState((current) => ({ ...current, tags: nextTags }));
   };
 
   const handleSubmit = async (event) => {
@@ -239,6 +250,30 @@ export default function AdminQuestionForm({ onCreated }) {
                   }`}
                 >
                   {examName}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div>
+          <p className="text-sm font-medium text-slate-700">Question Flags</p>
+          <div className="mt-3 flex flex-wrap gap-3">
+            {QUESTION_TAGS.map((tagName) => {
+              const selected = formState.tags.includes(tagName);
+
+              return (
+                <button
+                  key={tagName}
+                  type="button"
+                  onClick={() => toggleTag(tagName)}
+                  className={`rounded-full px-4 py-2 text-sm font-medium capitalize transition ${
+                    selected
+                      ? "bg-amber-100 text-amber-800"
+                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                  }`}
+                >
+                  {tagName}
                 </button>
               );
             })}

@@ -15,6 +15,7 @@ const questions = [
     subject: "Analog",
     topic: "Operational Amplifiers",
     exam: ["GATE", "ISRO"],
+    tags: ["important", "repeated"],
     year: 2023,
     diagram:
       "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
@@ -29,6 +30,7 @@ const questions = [
     subject: "Digital",
     topic: "Flip-Flops",
     exam: ["GATE", "BEL"],
+    tags: ["repeated"],
     year: 2022,
     diagram: "",
   },
@@ -43,6 +45,7 @@ const questions = [
     subject: "Signals",
     topic: "Laplace Transform",
     exam: ["GATE", "BARC"],
+    tags: ["important"],
     year: 2021,
     diagram: "",
   },
@@ -57,6 +60,7 @@ const questions = [
     subject: "Networks",
     topic: "Resonance",
     exam: ["ISRO", "BARC"],
+    tags: ["important", "repeated"],
     year: 2020,
     diagram:
       "https://images.unsplash.com/photo-1563770660941-10a636076916?auto=format&fit=crop&w=900&q=80",
@@ -72,6 +76,7 @@ const questions = [
     subject: "Control Systems",
     topic: "Time Response",
     exam: ["GATE", "BEL", "BARC"],
+    tags: ["important"],
     year: 2024,
     diagram: "",
   },
@@ -86,7 +91,73 @@ const questions = [
     subject: "Digital",
     topic: "Logic Families",
     exam: ["ISRO", "BEL"],
+    tags: ["repeated"],
     year: 2021,
+    diagram: "",
+  },
+  {
+    _id: "q7",
+    question:
+      "For a D flip-flop, the next state is equal to:",
+    options: ["Present state", "Clock input", "D input", "Complement of D input"],
+    correctAnswer: "D input",
+    explanation:
+      "A D flip-flop directly transfers the input D to the next state on the active clock edge, so its characteristic equation is Q(n+1) = D.",
+    subject: "Digital",
+    topic: "Flip-Flops",
+    exam: ["GATE"],
+    tags: ["important"],
+    year: 2023,
+    diagram: "",
+  },
+  {
+    _id: "q8",
+    question:
+      "The race-around condition is associated with which flip-flop configuration?",
+    options: [
+      "Level-triggered JK flip-flop with J = K = 1",
+      "D flip-flop with D = 0",
+      "T flip-flop with T = 0",
+      "SR flip-flop with S = 0 and R = 0",
+    ],
+    correctAnswer: "Level-triggered JK flip-flop with J = K = 1",
+    explanation:
+      "When a JK flip-flop is level-triggered and J = K = 1, the output can toggle repeatedly during the active clock pulse, producing the race-around problem.",
+    subject: "Digital",
+    topic: "Flip-Flops",
+    exam: ["ISRO", "BARC"],
+    tags: ["important", "repeated"],
+    year: 2021,
+    diagram: "",
+  },
+  {
+    _id: "q9",
+    question:
+      "A T flip-flop behaves as a hold circuit when:",
+    options: ["T = 0", "T = 1", "Clock = 1", "Q = 0"],
+    correctAnswer: "T = 0",
+    explanation:
+      "The characteristic equation of a T flip-flop is Q(n+1) = T xor Q(n). When T = 0, the next state remains equal to the present state.",
+    subject: "Digital",
+    topic: "Flip-Flops",
+    exam: ["BEL"],
+    tags: ["important"],
+    year: 2020,
+    diagram: "",
+  },
+  {
+    _id: "q10",
+    question:
+      "Which flip-flop is most convenient when designing a divide-by-2 toggle circuit?",
+    options: ["SR flip-flop", "JK flip-flop", "T flip-flop", "D flip-flop"],
+    correctAnswer: "T flip-flop",
+    explanation:
+      "A T flip-flop toggles whenever T = 1, so it naturally alternates its output on every active clock edge and acts as a divide-by-2 stage.",
+    subject: "Digital",
+    topic: "Flip-Flops",
+    exam: ["GATE", "BEL"],
+    tags: ["repeated"],
+    year: 2024,
     diagram: "",
   },
 ];

@@ -80,7 +80,7 @@ export default function AdminPage() {
               explanation
             </div>
             <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-              subject, topic, exam[], year
+              subject, topic, exam[], tags[], year
             </div>
             <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
               diagram URL (optional)

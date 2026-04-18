@@ -1,13 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/practice", label: "Practice" },
-  { href: "/previous-year", label: "Previous Year" },
-  { href: "/insights", label: "Insights" },
-  { href: "/admin", label: "Admin" },
-];
+import { SITE_NAVIGATION, isNavigationActive } from "../lib/site-navigation";
 
 export default function Sidebar() {
   const router = useRouter();
@@ -20,13 +13,13 @@ export default function Sidebar() {
         </p>
         <h2 className="mt-3 text-3xl font-semibold">Learn. Practice. Rank.</h2>
         <p className="mt-3 max-w-xs text-sm leading-6 text-slatebrand-200">
-          Topic-wise MCQs, previous year papers, and exam insights in one place.
+          Chapter-wise concepts, PYQs, practice, and exam insights in one place.
         </p>
       </div>
 
       <nav className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
-        {links.map((link) => {
-          const isActive = router.pathname === link.href;
+        {SITE_NAVIGATION.map((link) => {
+          const isActive = isNavigationActive(router.pathname, link.href);
 
           return (
             <Link
@@ -47,7 +40,7 @@ export default function Sidebar() {
       <div className="mt-8 rounded-3xl border border-slatebrand-700 bg-slatebrand-800/70 p-5">
         <p className="text-sm font-semibold text-white">Quick Revision Tip</p>
         <p className="mt-2 text-sm leading-6 text-slatebrand-200">
-          Alternate between topic-wise practice and previous year sets to improve both accuracy and recall speed.
+          Finish the explanation first, then solve the linked PYQs and practice set before marking the topic complete.
         </p>
       </div>
     </aside>

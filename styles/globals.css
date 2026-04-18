@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,12 +13,21 @@ html {
 }
 
 body {
-  @apply bg-slatebrand-50 text-slate-900;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  @apply text-slate-900;
+  background:
+    radial-gradient(circle at top left, rgba(77, 98, 151, 0.14), transparent 30%),
+    radial-gradient(circle at top right, rgba(255, 207, 125, 0.22), transparent 28%),
+    linear-gradient(180deg, #f7f8fc 0%, #eff3fb 100%);
+  font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
 }
 
 * {
   box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(77, 98, 151, 0.18);
+  color: #151a2a;
 }
 
 input,
@@ -24,4 +35,8 @@ select,
 textarea,
 button {
   font: inherit;
+}
+
+a {
+  color: inherit;
 }

@@ -33,6 +33,10 @@ module.exports = {
       backgroundImage: {
         mesh:
           "radial-gradient(circle at top left, rgba(245, 158, 11, 0.18), transparent 35%), radial-gradient(circle at bottom right, rgba(101, 125, 183, 0.2), transparent 30%)",
+        "app-shell":
+          "linear-gradient(180deg, rgba(248, 250, 252, 0.92) 0%, rgba(241, 245, 249, 0.94) 100%)",
+        "hero-glow":
+          "radial-gradient(circle at center, rgba(148, 163, 184, 0.2), rgba(255, 255, 255, 0))",
       },
     },
   },

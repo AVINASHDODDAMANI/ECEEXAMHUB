@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function QuestionCard({
   question,
@@ -9,8 +9,15 @@ export default function QuestionCard({
 }) {
   const [selectedOption, setSelectedOption] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [showExplanation, setShowExplanation] = useState(false);
 
   const isCorrect = submitted && selectedOption === question.correctAnswer;
+
+  useEffect(() => {
+    setSelectedOption("");
+    setSubmitted(false);
+    setShowExplanation(false);
+  }, [question._id]);
 
   return (
     <article className="rounded-[2rem] border border-white/60 bg-white/95 p-6 shadow-panel">
@@ -29,6 +36,9 @@ export default function QuestionCard({
       </div>
 
       <p className="text-lg leading-8 text-slate-800">{question.question}</p>
+      <p className="mt-3 text-sm leading-6 text-slate-500">
+        Click any option once. The correct answer will turn green immediately, and a wrong selection will turn red.
+      </p>
 
       {question.diagram ? (
         <div className="mt-6 overflow-hidden rounded-3xl border border-slate-200">
@@ -47,12 +57,11 @@ export default function QuestionCard({
           const showIncorrect = submitted && isSelected && option !== question.correctAnswer;
 
           return (
-            <button
+            <label
               key={`${optionIndex}-${option}`}
-              type="button"
-              disabled={submitted}
-              onClick={() => setSelectedOption(option)}
-              className={`rounded-2xl border px-4 py-4 text-left transition ${
+              className={`flex cursor-pointer items-start rounded-2xl border px-4 py-4 text-left transition ${
+                submitted ? "cursor-default" : "cursor-pointer"
+              } ${
                 showCorrect
                   ? "border-emerald-500 bg-emerald-50 text-emerald-800"
                   : showIncorrect
@@ -62,25 +71,51 @@ export default function QuestionCard({
                   : "border-slate-200 bg-slate-50 text-slate-800 hover:border-slatebrand-300 hover:bg-white"
               }`}
             >
-              <span className="mr-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white text-sm font-semibold text-slatebrand-700 shadow-sm">
+              <input
+                type="radio"
+                name={`question-${question._id}`}
+                value={option}
+                checked={isSelected}
+                disabled={submitted}
+                onChange={() => {
+                  if (!submitted) {
+                    setSelectedOption(option);
+                    setSubmitted(true);
+                    setShowExplanation(false);
+                  }
+                }}
+                className="sr-only"
+              />
+              <span
+                className={`mr-3 inline-flex h-8 w-8 flex-none items-center justify-center rounded-full text-sm font-semibold shadow-sm ${
+                  showCorrect
+                    ? "bg-emerald-100 text-emerald-700"
+                    : showIncorrect
+                    ? "bg-rose-100 text-rose-700"
+                    : isSelected
+                    ? "bg-slatebrand-900 text-white"
+                    : "bg-white text-slatebrand-700"
+                }`}
+              >
                 {String.fromCharCode(65 + optionIndex)}
               </span>
-              {option}
-            </button>
+              <span className="pt-1">{option}</span>
+            </label>
           );
         })}
       </div>
 
       <div className="mt-6 flex flex-col gap-4 border-t border-slate-200 pt-6">
         <div className="flex flex-col gap-3 sm:flex-row">
-          <button
-            type="button"
-            onClick={() => setSubmitted(true)}
-            disabled={!selectedOption || submitted}
-            className="rounded-2xl bg-slatebrand-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slatebrand-800 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            Check Answer
-          </button>
+          {submitted ? (
+            <button
+              type="button"
+              onClick={() => setShowExplanation((value) => !value)}
+              className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slatebrand-300"
+            >
+              {showExplanation ? "Hide Explanation" : "Show Answer & Explanation"}
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={onPrevious}
@@ -100,16 +135,41 @@ export default function QuestionCard({
         </div>
 
         {submitted ? (
-          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+          <div
+            className={`rounded-3xl border p-5 ${
+              isCorrect
+                ? "border-emerald-200 bg-emerald-50"
+                : "border-rose-200 bg-rose-50"
+            }`}
+          >
             <p
               className={`text-sm font-semibold uppercase tracking-[0.2em] ${
                 isCorrect ? "text-emerald-600" : "text-rose-600"
               }`}
             >
-              {isCorrect ? "Correct Answer" : "Review This Concept"}
+              {isCorrect ? "You Selected the Right Answer" : "You Selected the Wrong Answer"}
             </p>
             <p className="mt-3 text-base font-medium text-slate-900">
-              Correct option: {question.correctAnswer}
+              Your answer: {selectedOption}
+            </p>
+            {!isCorrect ? (
+              <p className="mt-2 text-sm font-medium text-slate-700">
+                Correct answer: {question.correctAnswer}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+
+        {submitted && showExplanation ? (
+          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
+              Correct Answer
+            </p>
+            <p className="mt-3 text-base font-medium text-slate-900">
+              {question.correctAnswer}
+            </p>
+            <p className="mt-5 text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
+              Explanation
             </p>
             <p className="mt-3 text-sm leading-7 text-slate-700">
               {question.explanation}

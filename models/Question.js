@@ -42,6 +42,10 @@ const QuestionSchema = new mongoose.Schema(
       required: true,
       default: [],
     },
+    tags: {
+      type: [String],
+      default: [],
+    },
     year: {
       type: Number,
       required: true,
