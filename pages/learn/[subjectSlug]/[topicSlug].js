@@ -5,7 +5,6 @@ import EmptyState from "../../../components/EmptyState";
 import Layout from "../../../components/layout";
 import PreviousYearQuestionCard from "../../../components/PreviousYearQuestionCard";
 import QuestionCard from "../../../components/QuestionCard";
-import TopicAssistantPanel from "../../../components/TopicAssistantPanel";
 import TopicSectionCard from "../../../components/TopicSectionCard";
 import seedQuestions from "../../../data/questions";
 import { fetchQuestions } from "../../../lib/api-client";
@@ -67,7 +66,7 @@ export default function LearningTopicPage({ topic, initialQuestions }) {
   );
   const activePracticeQuestion = topicQuestions[practiceIndex] || null;
   const sectionLinks = [
-    { id: "explanation", label: "Explanation" },
+    { id: "explanation", label: "Theory" },
     { id: "pyqs", label: "PYQs" },
     { id: "practice", label: "Practice" },
     { id: "important", label: "Important" },
@@ -232,10 +231,10 @@ export default function LearningTopicPage({ topic, initialQuestions }) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => jumpToSection("practice")}
+                  onClick={() => jumpToSection("explanation")}
                   className="rounded-lg border border-slatebrand-700 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slatebrand-800"
                 >
-                  Jump to Practice
+                  Open Theory Notes
                 </button>
               </div>
             </div>
@@ -307,14 +306,14 @@ export default function LearningTopicPage({ topic, initialQuestions }) {
         <section className="mt-6 grid gap-4">
           <TopicSectionCard
             id="explanation"
-            eyebrow="Explanation"
-            title="Understand the topic first"
-            description="Read the explanation, key concepts, formulas, and worked examples before opening the question sections."
+            eyebrow="Theory First"
+            title="Understand the topic before solving questions"
+            description="Start with concept notes, formulas, common mistakes, and quick revision so the theory is easy to find and retain."
             open={sectionState.explanation}
             onToggle={() => toggleSection("explanation")}
             actions={
               <span className="rounded-full bg-slatebrand-100 px-4 py-2 text-sm font-semibold text-slatebrand-700">
-                Beginner-first notes
+                Theory notes
               </span>
             }
           >
@@ -407,6 +406,49 @@ export default function LearningTopicPage({ topic, initialQuestions }) {
                   ))}
                 </div>
               </article>
+            </div>
+
+            <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
+              <article className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
+                  Common Mistakes
+                </p>
+                <div className="mt-4 grid gap-3">
+                  {(topic.commonMistakes || []).map((item) => (
+                    <div key={item} className="rounded-2xl bg-white px-4 py-4">
+                      <p className="text-sm leading-7 text-slate-700">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </article>
+
+              <div className="grid gap-6">
+                <article className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
+                    Exam Pointers
+                  </p>
+                  <div className="mt-4 grid gap-3">
+                    {(topic.examPointers || []).map((item) => (
+                      <div key={item} className="rounded-2xl bg-white px-4 py-4">
+                        <p className="text-sm leading-7 text-slate-700">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+
+                <article className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
+                    Two-Minute Revision
+                  </p>
+                  <div className="mt-4 grid gap-3">
+                    {(topic.quickRevision || []).map((item) => (
+                      <div key={item} className="rounded-2xl bg-white px-4 py-4">
+                        <p className="text-sm leading-7 text-slate-700">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              </div>
             </div>
           </TopicSectionCard>
 

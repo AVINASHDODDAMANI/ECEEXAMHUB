@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Footer from "./Footer";
 import Navbar from "./navbar";
 
 export default function Layout({
@@ -29,6 +30,7 @@ export default function Layout({
           <main className={`mx-auto w-full max-w-[1280px] px-4 pb-12 ${pageClassName} sm:px-6 lg:px-8`}>
             {children}
           </main>
+          <Footer />
         </div>
       </div>
     </>

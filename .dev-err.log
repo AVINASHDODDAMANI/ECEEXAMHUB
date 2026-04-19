@@ -1,4 +1,13 @@
-⚠ Slow filesystem detected. The benchmark took 361ms. If C:\Users\Doddamani\Desktop\ECEXEAMHUB\.next/dev is a network drive, consider moving it to a local folder.
-See more: https://nextjs.org/docs/app/guides/local-development
-[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
-^C
+Error: spawn EPERM
+    at ChildProcess.spawn (node:internal/child_process:440:11)
+    at spawn (node:child_process:796:9)
+    at fork (node:child_process:174:10)
+    at C:\Users\Doddamani\Desktop\ECEXEAMHUB\node_modules\next\dist\cli\next-dev.js:253:45
+    at new Promise (<anonymous>)
+    at startServer (C:\Users\Doddamani\Desktop\ECEXEAMHUB\node_modules\next\dist\cli\next-dev.js:221:16)
+    at runDevServer (C:\Users\Doddamani\Desktop\ECEXEAMHUB\node_modules\next\dist\cli\next-dev.js:355:23)
+    at Module.nextDev (C:\Users\Doddamani\Desktop\ECEXEAMHUB\node_modules\next\dist\cli\next-dev.js:363:11) {
+  errno: -4048,
+  code: 'EPERM',
+  syscall: 'spawn'
+}

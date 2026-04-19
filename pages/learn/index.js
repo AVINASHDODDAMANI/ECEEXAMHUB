@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/layout";
 import LearningTopicCard from "../../components/LearningTopicCard";
+import PageBanner from "../../components/PageBanner";
 import ProgressOverview from "../../components/ProgressOverview";
 import { previousExamArchives, upcomingExamSyllabus } from "../../data/exam-roadmaps";
 import {
@@ -31,67 +31,33 @@ export default function LearnPage() {
 
   return (
     <Layout title="ECEExamHub | Learn" searchValue={search} onSearchChange={setSearch}>
-      <section className="grid gap-6 xl:grid-cols-[1.5fr_1fr]">
-        <div className="rounded-[2rem] bg-slatebrand-900 p-8 text-white shadow-panel">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slatebrand-300">
-            Learn Concepts
-          </p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl">
-            Move from question practice to complete chapter-wise ECE preparation.
-          </h1>
-          <p className="mt-5 max-w-3xl text-base leading-8 text-slatebrand-100">
-            Each ready topic combines explanation, formulas, PYQs, practice flow, and
-            important-question signals in one place. Use the search bar to find a concept,
-            topic, or formula and jump straight into revision.
-          </p>
-          <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            <div className="rounded-3xl border border-slatebrand-700 bg-slatebrand-800/70 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slatebrand-300">
-                Ready modules
-              </p>
-              <p className="mt-3 text-3xl font-semibold">{progressStats.totalTopics}</p>
-            </div>
-            <div className="rounded-3xl border border-slatebrand-700 bg-slatebrand-800/70 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slatebrand-300">
-                Subjects
-              </p>
-              <p className="mt-3 text-3xl font-semibold">{subjects.length}</p>
-            </div>
-            <div className="rounded-3xl border border-slatebrand-700 bg-slatebrand-800/70 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slatebrand-300">
-                Completion
-              </p>
-              <p className="mt-3 text-3xl font-semibold">
-                {progressStats.completionPercent}%
-              </p>
-            </div>
-            <div className="rounded-3xl border border-slatebrand-700 bg-slatebrand-800/70 p-4 sm:col-span-3">
-              <p className="text-xs uppercase tracking-[0.2em] text-slatebrand-300">
-                Revision list
-              </p>
-              <p className="mt-3 text-3xl font-semibold">{revisionCount}</p>
-              <p className="mt-2 text-sm text-slatebrand-100">
-                Topics saved for revision are stored in this browser and will stay ready for quick review.
-              </p>
-            </div>
-          </div>
-        </div>
+      <PageBanner
+        eyebrow="Theory Library"
+        title="Find theory quickly, understand it simply, and revise it faster"
+        description="Browse concept notes, formulas, mistakes, and quick revision summaries in a smaller library layout."
+        metrics={[
+          { label: "Ready", value: String(progressStats.totalTopics) },
+          { label: "Subjects", value: String(subjects.length) },
+          { label: "Revision", value: String(revisionCount) },
+        ]}
+      />
 
-        <div className="rounded-[2rem] border border-white/60 bg-white/90 p-6 shadow-panel">
+      <section className="mt-6 grid gap-4 xl:grid-cols-[1.35fr_0.95fr]">
+        <div className="rounded-[1.6rem] border border-slate-200 bg-white p-4 shadow-[0_14px_34px_rgba(15,23,42,0.08)]">
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slatebrand-500">
-            Search Intelligence
+            Theory Search
           </p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900">
-            Concepts, topics, and formulas
+          <h2 className="mt-2 text-xl font-semibold text-slate-900">
+            Concepts, formulas, mistakes, and revision points
           </h2>
           {search ? (
-            <div className="mt-5 grid gap-4">
+            <div className="mt-4 grid gap-3">
               {searchResults.length ? (
                 searchResults.map((result) => (
                   <Link
                     key={result.href}
                     href={result.href}
-                    className="rounded-3xl border border-slate-200 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-slatebrand-300"
+                    className="rounded-[1.2rem] border border-slate-200 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-slatebrand-300"
                   >
                     <p className="text-sm font-semibold text-slatebrand-700">
                       {result.subjectName} | {result.chapterTitle}
@@ -99,66 +65,68 @@ export default function LearnPage() {
                     <h3 className="mt-2 text-lg font-semibold text-slate-900">
                       {result.title}
                     </h3>
-                    <p className="mt-2 text-sm leading-7 text-slate-600">{result.summary}</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">{result.summary}</p>
                     {result.matchedSubtopics.length ? (
-                      <p className="mt-3 text-xs uppercase tracking-[0.2em] text-slate-500">
-                        Subtopic matches: {result.matchedSubtopics.join(" | ")}
+                      <p className="mt-2 text-xs uppercase tracking-[0.2em] text-slate-500">
+                        Subtopics: {result.matchedSubtopics.join(" | ")}
                       </p>
                     ) : null}
                     {result.matchedConcepts.length ? (
-                      <p className="mt-3 text-xs uppercase tracking-[0.2em] text-slate-500">
-                        Matches: {result.matchedConcepts.join(" | ")}
+                      <p className="mt-2 text-xs uppercase tracking-[0.2em] text-slate-500">
+                        Concepts: {result.matchedConcepts.join(" | ")}
                       </p>
                     ) : null}
                     {result.matchedFormulas.length ? (
                       <p className="mt-2 text-xs uppercase tracking-[0.2em] text-slate-500">
-                        Formula matches:{" "}
-                        {result.matchedFormulas.map((formula) => formula.label).join(" | ")}
+                        Formulas: {result.matchedFormulas.map((formula) => formula.label).join(" | ")}
+                      </p>
+                    ) : null}
+                    {result.matchedTheorySnippets.length ? (
+                      <p className="mt-2 text-xs uppercase tracking-[0.2em] text-slate-500">
+                        Theory: {result.matchedTheorySnippets.join(" | ")}
                       </p>
                     ) : null}
                   </Link>
                 ))
               ) : (
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  No ready learning module matched that search yet. Try a topic like
-                  {" "}Flip-Flops, Laplace, or CMOS.
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  No ready learning module matched that search yet. Try Flip-Flops,
+                  Laplace, CMOS, or settling time.
                 </p>
               )}
             </div>
           ) : (
-            <div className="mt-5 rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-5">
-              <p className="text-sm leading-7 text-slate-600">
+            <div className="mt-4 rounded-[1.2rem] border border-dashed border-slate-300 bg-slate-50 p-4">
+              <p className="text-sm leading-6 text-slate-600">
                 Example searches: KCL, flip-flop, resonance, damping ratio, CMOS,
-                virtual ground.
+                virtual ground, race around, settling time.
               </p>
             </div>
           )}
         </div>
+
+        <ProgressOverview progressStats={progressStats} compact />
       </section>
 
-      <section className="mt-8">
-        <ProgressOverview progressStats={progressStats} />
-      </section>
-
-      <section className="mt-8 grid gap-6 xl:grid-cols-2">
-        <article className="rounded-[2rem] border border-white/60 bg-white/90 p-6 shadow-panel">
+      <section className="mt-6 grid gap-4 xl:grid-cols-2">
+        <article className="rounded-[1.6rem] border border-slate-200 bg-white p-4 shadow-[0_14px_34px_rgba(15,23,42,0.08)]">
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slatebrand-500">
             Upcoming Exams Syllabus
           </p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900">
+          <h2 className="mt-2 text-xl font-semibold text-slate-900">
             What to finish for the next exam cycle
           </h2>
-          <div className="mt-6 grid gap-4">
+          <div className="mt-4 grid gap-3">
             {upcomingExamSyllabus.map((section) => (
-              <div key={section.title} className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+              <div key={section.title} className="rounded-[1.2rem] border border-slate-200 bg-slate-50 p-4">
                 <div className="flex items-center justify-between gap-3">
                   <h3 className="text-lg font-semibold text-slate-900">{section.title}</h3>
                   <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-blue-700">
                     {section.tag}
                   </span>
                 </div>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{section.description}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
+                <p className="mt-3 text-sm leading-6 text-slate-600">{section.description}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
                   {section.focusAreas.map((item) => (
                     <span
                       key={item}
@@ -173,24 +141,24 @@ export default function LearnPage() {
           </div>
         </article>
 
-        <article className="rounded-[2rem] border border-white/60 bg-white/90 p-6 shadow-panel">
+        <article className="rounded-[1.6rem] border border-slate-200 bg-white p-4 shadow-[0_14px_34px_rgba(15,23,42,0.08)]">
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slatebrand-500">
             Previous Exams Syllabus
           </p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900">
+          <h2 className="mt-2 text-xl font-semibold text-slate-900">
             How to revise from older papers
           </h2>
-          <div className="mt-6 grid gap-4">
+          <div className="mt-4 grid gap-3">
             {previousExamArchives.map((section) => (
-              <div key={section.title} className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+              <div key={section.title} className="rounded-[1.2rem] border border-slate-200 bg-slate-50 p-4">
                 <div className="flex items-center justify-between gap-3">
                   <h3 className="text-lg font-semibold text-slate-900">{section.title}</h3>
                   <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-orange-700">
                     {section.tag}
                   </span>
                 </div>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{section.description}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
+                <p className="mt-3 text-sm leading-6 text-slate-600">{section.description}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
                   {section.focusAreas.map((item) => (
                     <span
                       key={item}
@@ -206,60 +174,60 @@ export default function LearnPage() {
         </article>
       </section>
 
-      <section className="mt-8 grid gap-6">
+      <section className="mt-6 grid gap-4">
         {subjects.map((subject) => (
           <article
             key={subject.slug}
-            className="rounded-[2rem] border border-white/60 bg-white/90 p-6 shadow-panel"
+            className="rounded-[1.6rem] border border-slate-200 bg-white p-4 shadow-[0_14px_34px_rgba(15,23,42,0.08)]"
           >
-            <div className="flex flex-col gap-4 border-b border-slate-200 pb-5 lg:flex-row lg:items-start lg:justify-between">
+            <div className="flex flex-col gap-4 border-b border-slate-200 pb-4 lg:flex-row lg:items-start lg:justify-between">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slatebrand-500">
                   {subject.weightage}
                 </p>
-                <h2 className="mt-2 text-3xl font-semibold text-slate-900">
+                <h2 className="mt-2 text-2xl font-semibold text-slate-900">
                   {subject.name}
                 </h2>
-                <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">
+                <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
                   {subject.description}
                 </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-3">
-                <div className="rounded-3xl bg-slate-50 px-5 py-4">
+                <div className="rounded-[1.1rem] bg-slate-50 px-4 py-3">
                   <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                     Progress
                   </p>
-                  <p className="mt-2 text-2xl font-semibold text-slate-900">
+                  <p className="mt-2 text-xl font-semibold text-slate-900">
                     {progressStats.subjects.find((item) => item.slug === subject.slug)?.completionPercent || 0}%
                   </p>
                 </div>
-                <div className="rounded-3xl bg-slate-50 px-5 py-4">
+                <div className="rounded-[1.1rem] bg-slate-50 px-4 py-3">
                   <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                     Chapters
                   </p>
-                  <p className="mt-2 text-2xl font-semibold text-slate-900">
+                  <p className="mt-2 text-xl font-semibold text-slate-900">
                     {subject.chapters.length}
                   </p>
                 </div>
-                <div className="rounded-3xl bg-slate-50 px-5 py-4">
+                <div className="rounded-[1.1rem] bg-slate-50 px-4 py-3">
                   <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
                     Topics
                   </p>
-                  <p className="mt-2 text-2xl font-semibold text-slate-900">
+                  <p className="mt-2 text-xl font-semibold text-slate-900">
                     {subject.chapters.reduce((total, chapter) => total + chapter.topics.length, 0)}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="mt-6 grid gap-6">
+            <div className="mt-4 grid gap-4">
               {subject.chapters.map((chapter) => (
-                <section key={chapter.slug} className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+                <section key={chapter.slug} className="rounded-[1.3rem] border border-slate-200 bg-slate-50 p-4">
                   <div className="flex items-center justify-between gap-3">
                     <div>
-                      <h3 className="text-xl font-semibold text-slate-900">{chapter.title}</h3>
+                      <h3 className="text-lg font-semibold text-slate-900">{chapter.title}</h3>
                       <p className="mt-2 text-sm text-slate-600">
-                        This chapter includes topic-by-topic learning blocks and subtopic breakdowns.
+                        Topic-by-topic notes and subtopic breakdowns.
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -276,7 +244,7 @@ export default function LearnPage() {
                     </div>
                   </div>
 
-                  <div className="mt-4 grid gap-4 lg:grid-cols-2">
+                  <div className="mt-3 grid gap-3 lg:grid-cols-2">
                     {chapter.topics.map((topic) => (
                       <LearningTopicCard
                         key={`${subject.slug}-${chapter.slug}-${topic.slug}`}

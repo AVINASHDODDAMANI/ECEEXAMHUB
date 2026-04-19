@@ -35,7 +35,7 @@ const learningSubjects = [
             summary:
               "See how op-amps shape frequency response in low-pass, high-pass, and band-pass filters.",
             estimatedTime: "35 min",
-            status: "roadmap",
+            status: "ready",
             concepts: ["Cutoff frequency", "Passband gain", "Filter order"],
             subtopics: [
               "Low-pass filter",
@@ -137,7 +137,7 @@ const learningSubjects = [
             summary:
               "Reduce logic expressions quickly using algebraic laws and Karnaugh map grouping rules.",
             estimatedTime: "45 min",
-            status: "roadmap",
+            status: "ready",
             concepts: ["Boolean identities", "Canonical forms", "K-map simplification"],
             subtopics: [
               "SOP and POS forms",
@@ -330,7 +330,7 @@ const learningSubjects = [
             summary:
               "Understand Nyquist rate, aliasing, and reconstruction in sampled signals.",
             estimatedTime: "35 min",
-            status: "roadmap",
+            status: "ready",
             concepts: ["Nyquist rate", "Aliasing", "Reconstruction"],
             subtopics: [
               "Nyquist sampling theorem",
@@ -543,7 +543,7 @@ const learningSubjects = [
             summary:
               "Trace closed-loop pole movement and predict stability with simple construction rules.",
             estimatedTime: "45 min",
-            status: "roadmap",
+            status: "ready",
             concepts: ["Asymptotes", "Breakaway", "Angle criterion"],
             subtopics: [
               "Basic rules",
@@ -997,6 +997,16 @@ const topicLibrary = {
       "Differentiate between ideal assumptions and practical limitations in one line.",
       "Look for capacitor and resistor placement to classify integrator vs differentiator instantly.",
     ],
+    commonMistakes: [
+      "Applying virtual ground even when the op-amp is not under proper negative feedback.",
+      "Mixing up integrator and differentiator topologies by remembering only the formula and not the component placement.",
+      "Ignoring practical limits like bandwidth and noise sensitivity when reasoning about real differentiators.",
+    ],
+    quickRevision: [
+      "Virtual short means the two inputs are nearly equal only in linear operation with negative feedback.",
+      "Capacitor at input and resistor in feedback means differentiator.",
+      "Inverting gain is negative, non-inverting gain is positive and larger than one.",
+    ],
     insightSummary:
       "Analog questions often reward fast pattern recognition. If you can classify the feedback network in the first few seconds, the math becomes straightforward.",
     relatedTopics: [
@@ -1072,6 +1082,16 @@ const topicLibrary = {
       "For conversion problems, write the present and next state first, then infer excitation inputs.",
       "If a question mentions repeated toggling during a long active clock pulse, think race-around in JK.",
     ],
+    commonMistakes: [
+      "Confusing the characteristic table with the excitation table.",
+      "Assuming JK has the same invalid condition as SR when J = K = 1.",
+      "Forgetting that race-around is tied to level-triggered JK operation, not edge-triggered behavior in general.",
+    ],
+    quickRevision: [
+      "D stores, T toggles, JK improves SR, and SR is the basic latch-style memory idea.",
+      "T = 0 holds and T = 1 toggles.",
+      "Race-around appears for level-triggered JK with J = K = 1.",
+    ],
     insightSummary:
       "Flip-flops show up not only as direct theory questions but also inside counters, registers, and FSM design. Strong fundamentals here unlock many later digital questions.",
     relatedTopics: [
@@ -1114,6 +1134,16 @@ const topicLibrary = {
     examPointers: [
       "If the question asks for lowest static power, CMOS is a strong first check.",
       "If it asks for very high speed, compare ECL immediately.",
+    ],
+    commonMistakes: [
+      "Treating low power and high speed as if they always come from the same family.",
+      "Forgetting that CMOS is strongest in static power savings, not necessarily every speed metric.",
+      "Ignoring fan-out and noise margin when the question is not directly about power.",
+    ],
+    quickRevision: [
+      "CMOS is the usual low-static-power answer.",
+      "ECL is the usual high-speed answer.",
+      "Logic-family questions are often solved by comparing power, speed, fan-out, and noise margin.",
     ],
     insightSummary:
       "Logic-family questions are usually short, direct, and scoring. A compact comparison table is enough to convert them into quick marks.",
@@ -1161,6 +1191,16 @@ const topicLibrary = {
     examPointers: [
       "Always sanity-check ROC before using value theorems.",
       "Treat transform-pair questions as quick revision marks.",
+    ],
+    commonMistakes: [
+      "Using the final value theorem without checking whether the conditions are satisfied.",
+      "Ignoring ROC while deciding causality or stability.",
+      "Memorizing transform pairs without connecting them to poles and system behavior.",
+    ],
+    quickRevision: [
+      "Unit step maps to 1/s in the unilateral Laplace transform.",
+      "ROC is central for causality and stability logic.",
+      "Initial and final value theorems are shortcuts, but only when their conditions hold.",
     ],
     insightSummary:
       "Laplace transform links directly into control systems, so it is one of the best topics for cross-subject payoff.",
@@ -1210,6 +1250,16 @@ const topicLibrary = {
       "If reactances cancel, rewrite the circuit mentally before evaluating options.",
       "Remember the difference between current peak and impedance peak in series vs parallel cases.",
     ],
+    commonMistakes: [
+      "Mixing up series resonance with parallel resonance conclusions.",
+      "Remembering the resonant-frequency formula but forgetting what happens to impedance.",
+      "Treating quality factor as a generic formula without linking it to sharpness and bandwidth.",
+    ],
+    quickRevision: [
+      "At series resonance, impedance becomes purely resistive.",
+      "Higher Q means sharper resonance and narrower bandwidth.",
+      "Series resonance emphasizes current maximum, while parallel resonance emphasizes impedance maximum.",
+    ],
     insightSummary:
       "Resonance questions are compact and formula-friendly, which makes them high-confidence marks once the physical picture is clear.",
     relatedTopics: [
@@ -1257,11 +1307,301 @@ const topicLibrary = {
       "Translate zeta into response shape before touching any formula.",
       "Keep one line of memory for underdamped, critically damped, and overdamped cases.",
     ],
+    commonMistakes: [
+      "Starting with formulas before classifying the response from the damping ratio.",
+      "Forgetting that zeta greater than one means non-oscillatory overdamped behavior.",
+      "Mixing settling-time intuition with overshoot intuition without checking how damping changes both.",
+    ],
+    quickRevision: [
+      "zeta greater than one means overdamped.",
+      "0 less than zeta less than 1 means underdamped and oscillatory.",
+      "The standard second-order denominator is s^2 + 2 zeta wn s + wn^2.",
+    ],
     insightSummary:
       "Time-response theory is foundational for root locus and frequency response, so this topic pays back across the full control-systems syllabus.",
     relatedTopics: [
       { subjectSlug: "signals", topicSlug: "laplace-transform" },
       { subjectSlug: "control-systems", topicSlug: "root-locus" },
+    ],
+  },
+  "analog/active-filters": {
+    learningGoals: [
+      "Classify low-pass, high-pass, and band-pass active filters from the circuit structure.",
+      "Relate cutoff frequency and order to the shape of the magnitude response.",
+      "Use op-amp based intuition to answer quick exam questions without full derivations.",
+    ],
+    overview: [
+      "Active filters use amplifying devices like op-amps together with resistors and capacitors to shape the frequency response of a circuit. Unlike passive RC filters, they can provide gain and buffering in addition to filtering.",
+      "In exam questions, active filters are usually tested through identification, cutoff-frequency relations, and the difference between first-order and higher-order behavior. The fastest approach is to read the topology, identify the passband, and then connect that to the expected Bode-style response.",
+      "When an op-amp is used in a filter, the gain stage and frequency-selective network work together. This is why active filters are common in signal conditioning and measurement systems.",
+    ],
+    formulas: [
+      {
+        label: "First-order cutoff frequency",
+        expression: "fc = 1 / (2 pi RC)",
+        note: "This is the standard starting relation for simple RC-based active filter sections.",
+      },
+      {
+        label: "Passband gain",
+        expression: "Av = 1 + Rf / R1",
+        note: "A common non-inverting op-amp form used in active low-pass and high-pass realizations.",
+      },
+      {
+        label: "Slope idea",
+        expression: "20 dB/decade per pole",
+        note: "Each additional pole increases the rate of attenuation beyond the cutoff region.",
+      },
+    ],
+    keyConcepts: [
+      "A low-pass filter passes low frequencies and attenuates high frequencies.",
+      "A high-pass filter does the opposite and is often recognized by the capacitor placement in the input network.",
+      "Filter order decides how sharply the response changes around cutoff.",
+      "Active filters avoid loading problems because the op-amp can buffer the next stage.",
+    ],
+    examples: [
+      {
+        title: "Recognize a low-pass active filter",
+        prompt:
+          "A circuit uses an op-amp with an RC network that strongly attenuates high-frequency components while maintaining low-frequency gain. What class of filter is it?",
+        steps: [
+          "Focus on which frequency region is preserved.",
+          "If low frequencies pass with gain and higher ones are reduced, the filter is low-pass.",
+          "Then connect the answer to the cutoff-frequency relation and pole count if needed.",
+        ],
+        answer:
+          "It is an active low-pass filter.",
+      },
+    ],
+    examPointers: [
+      "First identify the passband, then think about the formula.",
+      "If the question asks about roll-off, count poles and remember 20 dB/decade per pole.",
+      "Use cutoff-frequency intuition before diving into op-amp algebra.",
+    ],
+    commonMistakes: [
+      "Memorizing the cutoff formula but not knowing whether the circuit is low-pass or high-pass.",
+      "Confusing gain-setting resistors with the frequency-selective RC network.",
+      "Forgetting that active filters can provide gain and isolation, not just attenuation.",
+    ],
+    quickRevision: [
+      "Low-pass keeps low frequencies, high-pass keeps high frequencies.",
+      "First-order cutoff starts with fc = 1 / (2 pi RC).",
+      "Each pole adds roughly 20 dB/decade to the roll-off rate.",
+    ],
+    insightSummary:
+      "Active-filter questions often become easy once the passband is identified. Structure first, formula second is the fastest route.",
+    relatedTopics: [
+      { subjectSlug: "analog", topicSlug: "operational-amplifiers" },
+      { subjectSlug: "signals", topicSlug: "sampling-theorem" },
+    ],
+  },
+  "digital/boolean-algebra-and-kmaps": {
+    learningGoals: [
+      "Reduce Boolean expressions using standard identities and K-map grouping rules.",
+      "Move between minterms, maxterms, SOP, and POS forms comfortably.",
+      "Use don't-care conditions to simplify logic further in exam-style problems.",
+    ],
+    overview: [
+      "Boolean algebra gives you the symbolic rules for simplifying digital logic, while Karnaugh maps give you a visual shortcut for minimization. Together, they form one of the fastest-scoring theory blocks in digital electronics.",
+      "In exams, the real skill is not memorizing too many identities in isolation, but recognizing when terms can be absorbed, combined, or grouped. K-maps help convert abstract expressions into patterns that can be simplified almost mechanically.",
+      "Once you understand adjacency, grouping powers of two, and the role of don't-care terms, many logic-minimization questions become short routine steps instead of long derivations.",
+    ],
+    formulas: [
+      {
+        label: "Idempotent law",
+        expression: "A + A = A, A.A = A",
+        note: "Repeating the same literal does not change the expression.",
+      },
+      {
+        label: "Complement law",
+        expression: "A + A' = 1, A.A' = 0",
+        note: "A variable combined with its complement gives a constant result.",
+      },
+      {
+        label: "Absorption law",
+        expression: "A + AB = A, A(A + B) = A",
+        note: "A common shortcut in manual algebraic simplification.",
+      },
+    ],
+    keyConcepts: [
+      "Minterms correspond to canonical SOP representation, while maxterms correspond to canonical POS representation.",
+      "K-map group sizes must be powers of two such as 1, 2, 4, or 8.",
+      "Larger valid groups generally produce simpler expressions.",
+      "Don't-care terms are optional helpers that can be included only when they simplify the final form.",
+    ],
+    examples: [
+      {
+        title: "Use a K-map grouping shortcut",
+        prompt:
+          "A 4-variable K-map has four adjacent 1s in a rectangular group. What should you expect in the simplified term?",
+        steps: [
+          "Find which variables stay constant across the whole group.",
+          "Drop the variables that change inside the group.",
+          "Write only the literals that remain fixed.",
+        ],
+        answer:
+          "The simplified term keeps only the variables constant across that 4-cell group.",
+      },
+    ],
+    examPointers: [
+      "Before using a K-map, decide whether the answer should end in SOP or POS form.",
+      "Always try to make the largest valid groups first.",
+      "Use don't-care entries only when they reduce the number of literals.",
+    ],
+    commonMistakes: [
+      "Making groups that are not powers of two.",
+      "Forgetting that K-map edges wrap around and are still adjacent.",
+      "Treating don't-care cells as mandatory 1s instead of optional simplification aids.",
+    ],
+    quickRevision: [
+      "Minterms map to SOP and maxterms map to POS.",
+      "Groups must be 1, 2, 4, 8, and so on.",
+      "Bigger valid groups usually mean fewer literals in the answer.",
+    ],
+    insightSummary:
+      "Boolean simplification is one of the best places to save exam time because the rules are stable and highly repeatable.",
+    relatedTopics: [
+      { subjectSlug: "digital", topicSlug: "combinational-circuits" },
+      { subjectSlug: "digital", topicSlug: "flip-flops" },
+    ],
+  },
+  "signals/sampling-theorem": {
+    learningGoals: [
+      "State the Nyquist sampling condition and use it in direct exam questions.",
+      "Explain aliasing in a simple physical way and recognize when it occurs.",
+      "Connect sampling rate, signal bandwidth, and reconstruction quality.",
+    ],
+    overview: [
+      "Sampling theorem tells you how fast a continuous-time signal must be sampled so that it can be reconstructed from its samples without losing information. This is one of the most repeated conceptual topics in signals and communications.",
+      "The core idea is simple: if the sampling frequency is at least twice the highest frequency present in the signal, ideal reconstruction is possible. If the sampling rate is too low, spectral overlap occurs and the original information becomes ambiguous.",
+      "In exam settings, this topic is usually tested through direct numerical conditions, aliasing interpretation, or reconstruction logic rather than heavy derivation.",
+    ],
+    formulas: [
+      {
+        label: "Nyquist condition",
+        expression: "fs >= 2 fm",
+        note: "The sampling frequency must be at least twice the highest message frequency.",
+      },
+      {
+        label: "Nyquist rate",
+        expression: "2 fm",
+        note: "This is the minimum ideal sampling rate for a baseband signal with highest frequency fm.",
+      },
+      {
+        label: "Sampling period relation",
+        expression: "Ts = 1 / fs",
+        note: "Useful when the question gives period instead of frequency.",
+      },
+    ],
+    keyConcepts: [
+      "Aliasing happens when spectral replicas overlap because the sampling frequency is too low.",
+      "Higher sampling rates create more spacing between spectral copies and make reconstruction easier.",
+      "An anti-aliasing low-pass filter is used before sampling to limit the input bandwidth.",
+      "Sampling theorem is about preserving information, not merely taking many samples.",
+    ],
+    examples: [
+      {
+        title: "Check a safe sampling rate",
+        prompt:
+          "A signal contains frequency components up to 5 kHz. What is the minimum sampling frequency according to the sampling theorem?",
+        steps: [
+          "Identify the highest frequency component as fm = 5 kHz.",
+          "Apply the Nyquist condition fs >= 2 fm.",
+          "Double the highest frequency to get the minimum ideal value.",
+        ],
+        answer:
+          "The minimum ideal sampling frequency is 10 kHz.",
+      },
+    ],
+    examPointers: [
+      "Find the highest frequency first; everything else follows from that.",
+      "If the question asks what goes wrong below Nyquist, the keyword is aliasing.",
+      "Watch units carefully when the problem mixes kHz, Hz, and sampling period.",
+    ],
+    commonMistakes: [
+      "Using twice the signal bandwidth incorrectly when the question already gives the highest frequency.",
+      "Forgetting that aliasing is caused by overlap of spectral replicas, not by noise.",
+      "Confusing Nyquist rate with the actual chosen sampling frequency in a design problem.",
+    ],
+    quickRevision: [
+      "Sample at least twice the highest frequency component.",
+      "Below Nyquist, aliasing occurs.",
+      "Anti-aliasing filters are used before the sampler.",
+    ],
+    insightSummary:
+      "Sampling-theorem questions are usually direct marks once the ideas of highest frequency and aliasing are clear.",
+    relatedTopics: [
+      { subjectSlug: "signals", topicSlug: "fourier-transform" },
+      { subjectSlug: "signals", topicSlug: "z-transform" },
+    ],
+  },
+  "control-systems/root-locus": {
+    learningGoals: [
+      "Interpret root locus as the path of closed-loop poles as gain varies.",
+      "Use the basic rules for real-axis segments, asymptotes, and breakaway points.",
+      "Connect pole movement to stability and transient-response behavior.",
+    ],
+    overview: [
+      "Root locus is a graphical method for seeing how the closed-loop poles of a feedback system move as the loop gain changes. It turns abstract characteristic-equation behavior into a visual stability tool.",
+      "Most exam questions focus on the standard construction rules: where the locus begins and ends, which parts of the real axis belong to it, how asymptotes behave, and how gain affects stability.",
+      "The most important intuition is this: as the pole locations move, the system response changes. So root locus is not just a plotting topic; it is directly tied to damping, oscillation, and settling behavior.",
+    ],
+    formulas: [
+      {
+        label: "Characteristic condition",
+        expression: "1 + K G(s)H(s) = 0",
+        note: "Closed-loop poles are the roots of the characteristic equation.",
+      },
+      {
+        label: "Angle condition",
+        expression: "angle G(s)H(s) = (2q + 1)180 deg",
+        note: "A point lies on the root locus when the phase condition is satisfied.",
+      },
+      {
+        label: "Asymptote centroid",
+        expression: "sigma = (sum of poles - sum of zeros) / (n - m)",
+        note: "Used when the number of poles exceeds the number of zeros.",
+      },
+    ],
+    keyConcepts: [
+      "The locus starts at open-loop poles and ends at open-loop zeros or infinity.",
+      "A real-axis point belongs to the root locus if the number of poles and zeros to its right is odd.",
+      "Asymptotes show where branches go when there are more poles than zeros.",
+      "Pole movement toward the right half-plane indicates reduced stability.",
+    ],
+    examples: [
+      {
+        title: "Interpret gain increase",
+        prompt:
+          "If a root-locus branch crosses into the right half-plane as gain increases, what does that suggest about the closed-loop system?",
+        steps: [
+          "Remember that closed-loop poles determine stability.",
+          "A pole in the right half-plane means the response grows instead of decays.",
+          "So crossing the imaginary axis marks a stability boundary.",
+        ],
+        answer:
+          "It indicates the system becomes unstable beyond that gain range.",
+      },
+    ],
+    examPointers: [
+      "Start every root-locus question by counting poles and zeros.",
+      "Check the real-axis rule before trying to sketch asymptotes or breakaway points.",
+      "Link pole locations back to damping and stability to interpret the result quickly.",
+    ],
+    commonMistakes: [
+      "Trying to memorize the whole sketch without first counting poles and zeros.",
+      "Forgetting that branches begin at poles and end at zeros or infinity.",
+      "Treating the root locus as pure geometry and not relating it to system stability.",
+    ],
+    quickRevision: [
+      "Root locus shows closed-loop pole paths as gain varies.",
+      "Real-axis segments are chosen using the odd-number-to-the-right rule.",
+      "Crossing into the right half-plane means instability.",
+    ],
+    insightSummary:
+      "Root locus becomes much easier once you stop treating it like a drawing exercise and start reading it as a stability story.",
+    relatedTopics: [
+      { subjectSlug: "control-systems", topicSlug: "time-response" },
+      { subjectSlug: "signals", topicSlug: "laplace-transform" },
     ],
   },
 };

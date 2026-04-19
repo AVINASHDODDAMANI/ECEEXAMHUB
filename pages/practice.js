@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../components/layout";
-import CompactHeader from "../components/CompactHeader";
+import PageBanner from "../components/PageBanner";
 import QuestionCard from "../components/QuestionCard";
 import StatCard from "../components/StatCard";
 import EmptyState from "../components/EmptyState";
@@ -76,13 +76,22 @@ export default function PracticePage() {
   }, [router.isReady, router.query.search]);
 
   return (
-    <Layout title="ECEExamHub | Practice" hideNavbar pageClassName="pt-0">
-      <CompactHeader />
+    <Layout title="ECEExamHub | Practice">
+      <div className="mx-auto max-w-6xl">
+        <PageBanner
+          eyebrow="MCQ Practice"
+          title="Practice questions in a smaller, cleaner workspace"
+          description="Filter by subject and topic, then solve one question at a time without oversized panels."
+          metrics={[
+            { label: "Visible", value: loading ? "..." : String(filteredQuestions.length) },
+            { label: "Subject", value: subject === "All Subjects" ? "All" : subject },
+            { label: "Topic", value: topic === "All Topics" ? "Mixed" : topic },
+          ]}
+        />
 
-      <div className="mx-auto max-w-6xl px-4 pb-10 sm:px-6 lg:px-8">
-        <div className="grid gap-6 lg:grid-cols-[1.6fr_0.95fr]">
-          <div className="space-y-6">
-            <section className="rounded-[1.75rem] border border-slate-800/80 bg-slate-950/95 p-5 shadow-panel">
+        <div className="mt-6 grid gap-4 lg:grid-cols-[1.6fr_0.9fr]">
+          <div>
+            <section className="rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-[0_14px_34px_rgba(15,23,42,0.08)]">
               {loadError ? (
                 <EmptyState title="Unable to load questions" message={loadError} />
               ) : loading ? (
@@ -110,64 +119,60 @@ export default function PracticePage() {
             </section>
           </div>
 
-          <aside className="space-y-6">
-            <section className="rounded-[1.75rem] border border-slate-800/80 bg-slate-950/95 p-5 shadow-panel">
+          <aside className="space-y-4">
+            <section className="rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-[0_14px_34px_rgba(15,23,42,0.08)]">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-400">
+                  <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slatebrand-500">
                     Practice Filters
                   </p>
                   <p className="mt-1 text-xs text-slate-500">
                     Keep the question visible while you filter.
                   </p>
                 </div>
-                <span className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-slate-300">
+                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
                   {filteredQuestions.length} items
                 </span>
               </div>
 
-              <div className="mt-5 space-y-4">
-                <label className="grid gap-2 text-sm font-medium text-slate-200">
+              <div className="mt-4 space-y-3">
+                <label className="grid gap-2 text-sm font-medium text-slate-700">
                   Subject
                   <select
                     value={subject}
                     onChange={(event) => setSubject(event.target.value)}
-                    className="rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-slate-500"
+                    className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-800 outline-none transition focus:border-slatebrand-400"
                   >
                     {SUBJECTS.map((item) => (
-                      <option key={item} className="bg-slate-950 text-slate-100">
-                        {item}
-                      </option>
+                      <option key={item}>{item}</option>
                     ))}
                   </select>
                 </label>
 
-                <label className="grid gap-2 text-sm font-medium text-slate-200">
+                <label className="grid gap-2 text-sm font-medium text-slate-700">
                   Topic
                   <select
                     value={topic}
                     onChange={(event) => setTopic(event.target.value)}
-                    className="rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-slate-500"
+                    className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-800 outline-none transition focus:border-slatebrand-400"
                   >
                     {topics.map((item) => (
-                      <option key={item} className="bg-slate-950 text-slate-100">
-                        {item}
-                      </option>
+                      <option key={item}>{item}</option>
                     ))}
                   </select>
                 </label>
 
-                <div className="rounded-2xl border border-slate-800/80 bg-slate-900/90 px-4 py-3 text-sm text-slate-400">
-                  You can change the subject and topic without losing the current question flow.
+                <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-500">
+                  Change filters without losing the current study flow.
                 </div>
               </div>
             </section>
 
-            <section className="rounded-[1.75rem] border border-slate-800/80 bg-slate-950/95 p-5 shadow-panel">
-              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-400">
+            <section className="rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-[0_14px_34px_rgba(15,23,42,0.08)]">
+              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slatebrand-500">
                 Quick Stats
               </p>
-              <div className="mt-5 grid gap-3">
+              <div className="mt-4 grid gap-3">
                 <StatCard
                   label="Filtered Questions"
                   value={loading ? "..." : filteredQuestions.length}

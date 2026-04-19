@@ -1,14 +1,4 @@
 
 > eceexamhub@1.0.0 dev
-> next dev
+> next dev -p 3050
 
-▲ Next.js 16.2.2 (Turbopack)
-- Local:         http://localhost:3000
-- Network:       http://10.246.45.174:3000
-- Environments: .env.local
-✓ Ready in 4.2s
-Creating turbopack project { dir: 'C:\\Users\\Doddamani\\Desktop\\ECEXEAMHUB', testMode: true }
-
- GET / 200 in 625ms (next.js: 482ms, application-code: 143ms)
- GET /api/questions 200 in 4.2s (next.js: 4.0s, application-code: 207ms)
-✓ Finished filesystem cache database compaction in 10.3s

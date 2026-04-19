@@ -1,15 +1,21 @@
 export default function ProgressOverview({ progressStats, compact = false }) {
+  const visibleSubjects = compact
+    ? progressStats.subjects.filter((subject) => subject.totalTopics > 0).slice(0, 4)
+    : progressStats.subjects;
+
   return (
-    <section className="rounded-[2rem] border border-white/60 bg-white/90 p-6 shadow-panel">
+    <section className={`rounded-[2rem] border border-white/60 bg-white/90 shadow-panel ${
+      compact ? "p-4" : "p-6"
+    }`}>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slatebrand-500">
             Progress Tracking
           </p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-900">
+          <h2 className={`mt-2 font-semibold text-slate-900 ${compact ? "text-xl" : "text-2xl"}`}>
             GATE syllabus completion: {progressStats.completionPercent}%
           </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+          <p className={`mt-3 max-w-2xl text-sm text-slate-600 ${compact ? "leading-6" : "leading-7"}`}>
             Completed topics: {progressStats.completedCount} of {progressStats.totalTopics} ready
             learning modules. Progress is stored locally in this browser for now.
           </p>
@@ -31,8 +37,8 @@ export default function ProgressOverview({ progressStats, compact = false }) {
         />
       </div>
 
-      <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-        {progressStats.subjects.map((subject) => (
+      <div className={`mt-6 grid gap-4 ${compact ? "md:grid-cols-2 xl:grid-cols-4" : "md:grid-cols-2 xl:grid-cols-5"}`}>
+        {visibleSubjects.map((subject) => (
           <div
             key={subject.slug}
             className="rounded-3xl border border-slate-200 bg-slate-50 p-4"
@@ -54,6 +60,12 @@ export default function ProgressOverview({ progressStats, compact = false }) {
           </div>
         ))}
       </div>
+
+      {compact && progressStats.subjects.filter((subject) => subject.totalTopics > 0).length > visibleSubjects.length ? (
+        <p className="mt-4 text-sm text-slate-500">
+          Open Learn to see the full subject progress breakdown.
+        </p>
+      ) : null}
     </section>
   );
 }

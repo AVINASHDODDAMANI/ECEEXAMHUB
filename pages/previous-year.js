@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import EmptyState from "../components/EmptyState";
 import FilterPanel from "../components/FilterPanel";
 import Layout from "../components/layout";
+import PageBanner from "../components/PageBanner";
 import PreviousYearQuestionCard from "../components/PreviousYearQuestionCard";
 import { fetchFilters, fetchQuestions } from "../lib/api-client";
 import { EXAMS, SUBJECTS, hasQuestionTag } from "../lib/question-utils";
@@ -47,12 +48,12 @@ function buildImportantTopics(questions) {
 
 function HighlightSection({ title, items, emptyMessage, renderItem }) {
   return (
-    <section className="rounded-[2rem] border border-white/60 bg-white/90 p-6 shadow-panel">
-      <h2 className="text-xl font-semibold text-slate-900">{title}</h2>
+    <section className="rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-[0_14px_34px_rgba(15,23,42,0.08)]">
+      <h2 className="text-lg font-semibold text-slate-900">{title}</h2>
       {items.length ? (
-        <div className="mt-5 grid gap-4">{items.map(renderItem)}</div>
+        <div className="mt-4 grid gap-3">{items.map(renderItem)}</div>
       ) : (
-        <p className="mt-5 text-sm leading-7 text-slate-600">{emptyMessage}</p>
+        <p className="mt-4 text-sm leading-6 text-slate-600">{emptyMessage}</p>
       )}
     </section>
   );
@@ -182,67 +183,80 @@ export default function PreviousYearPage() {
       searchValue={search}
       onSearchChange={setSearch}
     >
-      <FilterPanel
-        title="Previous Year Filters"
-        controls={
-          <>
-            <label className="grid gap-2 text-sm font-medium text-slate-700">
-              Exam
-              <select
-                value={exam}
-                onChange={(event) => setExam(event.target.value)}
-                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-slatebrand-400"
-              >
-                {filterOptions.exams.map((item) => (
-                  <option key={item}>{item}</option>
-                ))}
-              </select>
-            </label>
-
-            <label className="grid gap-2 text-sm font-medium text-slate-700">
-              Year
-              <select
-                value={year}
-                onChange={(event) => setYear(event.target.value)}
-                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-slatebrand-400"
-              >
-                <option value="">All Years</option>
-                {filterOptions.years.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label className="grid gap-2 text-sm font-medium text-slate-700">
-              Subject
-              <select
-                value={subject}
-                onChange={(event) => setSubject(event.target.value)}
-                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-slatebrand-400"
-              >
-                {filterOptions.subjects.map((item) => (
-                  <option key={item}>{item}</option>
-                ))}
-              </select>
-            </label>
-
-            <label className="grid gap-2 text-sm font-medium text-slate-700">
-              Topic
-              <select
-                value={topic}
-                onChange={(event) => setTopic(event.target.value)}
-                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-slatebrand-400"
-              >
-                {filterOptions.topics.map((item) => (
-                  <option key={item}>{item}</option>
-                ))}
-              </select>
-            </label>
-          </>
-        }
+      <PageBanner
+        eyebrow="Previous Papers"
+        title="Browse previous year questions in a tighter, cleaner layout"
+        description="Use the filters to jump between exams, years, subjects, and important topics without oversized content blocks."
+        metrics={[
+          { label: "Results", value: loading ? "..." : String(questions.length) },
+          { label: "Exam", value: exam === "All Exams" ? "Mixed" : exam },
+          { label: "Year", value: year || "All" },
+        ]}
       />
+
+      <div className="mt-6">
+        <FilterPanel
+          title="Previous Year Filters"
+          controls={
+            <>
+              <label className="grid gap-2 text-sm font-medium text-slate-700">
+                Exam
+                <select
+                  value={exam}
+                  onChange={(event) => setExam(event.target.value)}
+                  className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none focus:border-slatebrand-400"
+                >
+                  {filterOptions.exams.map((item) => (
+                    <option key={item}>{item}</option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="grid gap-2 text-sm font-medium text-slate-700">
+                Year
+                <select
+                  value={year}
+                  onChange={(event) => setYear(event.target.value)}
+                  className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none focus:border-slatebrand-400"
+                >
+                  <option value="">All Years</option>
+                  {filterOptions.years.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="grid gap-2 text-sm font-medium text-slate-700">
+                Subject
+                <select
+                  value={subject}
+                  onChange={(event) => setSubject(event.target.value)}
+                  className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none focus:border-slatebrand-400"
+                >
+                  {filterOptions.subjects.map((item) => (
+                    <option key={item}>{item}</option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="grid gap-2 text-sm font-medium text-slate-700">
+                Topic
+                <select
+                  value={topic}
+                  onChange={(event) => setTopic(event.target.value)}
+                  className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none focus:border-slatebrand-400"
+                >
+                  {filterOptions.topics.map((item) => (
+                    <option key={item}>{item}</option>
+                  ))}
+                </select>
+              </label>
+            </>
+          }
+        />
+      </div>
 
       <section className="mt-6">
         {loadError ? (
@@ -257,13 +271,13 @@ export default function PreviousYearPage() {
           />
         ) : questions.length ? (
           <>
-            <div className="grid gap-5">
+            <div className="grid gap-4">
               {questions.map((question) => (
                 <PreviousYearQuestionCard key={question._id} question={question} />
               ))}
             </div>
 
-            <div className="mt-8 grid gap-6 xl:grid-cols-3">
+            <div className="mt-6 grid gap-4 xl:grid-cols-3">
               <HighlightSection
                 title="Important Questions"
                 items={importantQuestions.slice(0, 4)}
@@ -271,13 +285,13 @@ export default function PreviousYearPage() {
                 renderItem={(question) => (
                   <div
                     key={`important-${question._id}`}
-                    className="rounded-3xl border border-amber-200 bg-amber-50 px-4 py-4"
+                    className="rounded-[1.1rem] border border-amber-200 bg-amber-50 px-4 py-3"
                   >
                     <p className="text-sm font-semibold text-amber-800">
                       {question.subject} | {question.topic}
                     </p>
-                    <p className="mt-2 text-sm leading-7 text-slate-700">{question.question}</p>
-                    <p className="mt-3 text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+                    <p className="mt-2 text-sm leading-6 text-slate-700">{question.question}</p>
+                    <p className="mt-2 text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
                       Year {question.year}
                     </p>
                   </div>
@@ -291,13 +305,13 @@ export default function PreviousYearPage() {
                 renderItem={(question) => (
                   <div
                     key={`repeated-${question._id}`}
-                    className="rounded-3xl border border-sky-200 bg-sky-50 px-4 py-4"
+                    className="rounded-[1.1rem] border border-sky-200 bg-sky-50 px-4 py-3"
                   >
                     <p className="text-sm font-semibold text-sky-800">
                       {question.subject} | {question.topic}
                     </p>
-                    <p className="mt-2 text-sm leading-7 text-slate-700">{question.question}</p>
-                    <p className="mt-3 text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+                    <p className="mt-2 text-sm leading-6 text-slate-700">{question.question}</p>
+                    <p className="mt-2 text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
                       {(question.exam || []).join(" | ")}
                     </p>
                   </div>
@@ -311,11 +325,11 @@ export default function PreviousYearPage() {
                 renderItem={(item) => (
                   <div
                     key={`topic-${item.topic}`}
-                    className="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-4"
+                    className="rounded-[1.1rem] border border-slate-200 bg-slate-50 px-4 py-3"
                   >
                     <p className="text-sm font-semibold text-slate-900">{item.topic}</p>
                     <p className="mt-2 text-sm text-slate-600">{item.subject}</p>
-                    <p className="mt-3 text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+                    <p className="mt-2 text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
                       Important {item.importantCount} | Repeated {item.repeatedCount}
                     </p>
                   </div>
