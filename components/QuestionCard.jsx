@@ -20,22 +20,22 @@ export default function QuestionCard({
   }, [question._id]);
 
   return (
-    <article className="rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-[0_14px_34px_rgba(15,23,42,0.08)] text-slate-900">
-      <div className="flex flex-col gap-3 border-b border-slate-200 pb-3 sm:flex-row sm:items-start sm:justify-between">
+    <article className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm text-slate-900">
+      <div className="flex flex-col gap-2 border-b border-slate-200 pb-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="text-xs font-medium uppercase tracking-[0.25em] text-slatebrand-500">
+          <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-slatebrand-500">
             {question.subject} | {question.topic}
           </p>
-          <p className="mt-2 text-base font-medium leading-relaxed text-slate-900 sm:text-lg">
+          <p className="mt-1.5 text-sm font-medium leading-6 text-slate-900 sm:text-base">
             {question.question}
           </p>
         </div>
-        <div className="rounded-xl bg-slate-100 px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
+        <div className="rounded-md bg-slate-100 px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-600">
           Q{index + 1} / {total}
         </div>
       </div>
 
-      <div className="mt-4 grid gap-2.5">
+      <div className="mt-3 grid gap-2">
         {(question.options || []).map((option, optionIndex) => {
           const isSelected = selectedOption === option;
           const showCorrect = submitted && option === question.correctAnswer;
@@ -54,7 +54,7 @@ export default function QuestionCard({
                 setSubmitted(true);
                 setShowExplanation(false);
               }}
-              className={`w-full rounded-xl border px-3 py-3 text-left text-sm font-medium transition ${
+              className={`w-full rounded-lg border px-3 py-2.5 text-left text-sm font-medium transition ${
                 showCorrect
                   ? "border-emerald-400 bg-emerald-50 text-emerald-800"
                   : showIncorrect
@@ -65,7 +65,7 @@ export default function QuestionCard({
               } ${submitted ? "cursor-default" : "cursor-pointer"}`}
             >
               <div className="flex items-start gap-3">
-                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-xs font-semibold text-slate-700">
+                <span className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-slate-200 bg-white text-[11px] font-semibold text-slate-700">
                   {String.fromCharCode(65 + optionIndex)}
                 </span>
                 <span className="leading-6">{option}</span>
@@ -75,13 +75,13 @@ export default function QuestionCard({
         })}
       </div>
 
-      <div className="mt-4 flex flex-col gap-3 border-t border-slate-200 pt-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-3 flex flex-col gap-2 border-t border-slate-200 pt-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap gap-3">
           {submitted ? (
             <button
               type="button"
               onClick={() => setShowExplanation((value) => !value)}
-              className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slatebrand-300 hover:bg-white"
+              className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slatebrand-300 hover:bg-white"
             >
               {showExplanation ? "Hide Answer" : "Show Answer"}
             </button>
@@ -90,7 +90,7 @@ export default function QuestionCard({
             type="button"
             onClick={onPrevious}
             disabled={index === 0}
-            className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slatebrand-300 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slatebrand-300 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
           >
             Previous
           </button>
@@ -98,7 +98,7 @@ export default function QuestionCard({
             type="button"
             onClick={onNext}
             disabled={index === total - 1}
-            className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slatebrand-300 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slatebrand-300 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
           >
             Next
           </button>
@@ -106,7 +106,7 @@ export default function QuestionCard({
 
         {submitted ? (
           <div
-            className={`rounded-xl px-4 py-2.5 text-sm font-medium ${
+            className={`rounded-lg px-3 py-2 text-sm font-medium ${
               isCorrect
                 ? "border border-emerald-200 bg-emerald-50 text-emerald-700"
                 : "border border-rose-200 bg-rose-50 text-rose-700"
@@ -118,11 +118,11 @@ export default function QuestionCard({
       </div>
 
       {submitted && showExplanation ? (
-        <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-700">
+        <div className="mt-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm leading-6 text-slate-700">
           <p className="font-semibold text-slate-900">Answer</p>
-          <p className="mt-2">{question.correctAnswer}</p>
-          <p className="mt-3 font-semibold text-slate-900">Explanation</p>
-          <p className="mt-2">{question.explanation}</p>
+          <p className="mt-1.5">{question.correctAnswer}</p>
+          <p className="mt-2.5 font-semibold text-slate-900">Explanation</p>
+          <p className="mt-1.5">{question.explanation}</p>
         </div>
       ) : null}
     </article>

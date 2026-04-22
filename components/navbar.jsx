@@ -12,12 +12,10 @@ import { SITE_NAVIGATION, isNavigationActive } from "../lib/site-navigation";
 import SmartSearchDropdown from "./SmartSearchDropdown";
 
 const headerCategories = [
-  { label: "Subjects", href: "/#subjects" },
-  { label: "Previous Papers", href: "/#previous-papers" },
-  { label: "MCQs", href: "/#mcqs" },
-  { label: "Notes", href: "/#notes" },
-  { label: "Formulas", href: "/#formulas" },
-  { label: "Mock Tests", href: "/#mock-tests" },
+  { label: "Subjects", href: "/subjects" },
+  { label: "MCQs", href: "/mcqs" },
+  { label: "Notes", href: "/notes" },
+  { label: "Mock Tests", href: "/mock-tests" },
 ];
 
 export default function Navbar({
@@ -125,10 +123,10 @@ export default function Navbar({
   return (
     <header className="sticky top-0 z-30 border-b border-blue-200/20 bg-[linear-gradient(180deg,#1743b0_0%,#123792_100%)] text-white shadow-[0_18px_40px_rgba(12,35,101,0.28)]">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-center gap-4 py-4">
-          <Link href="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/20 bg-white/10 shadow-sm">
-              <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <div className="flex flex-wrap items-center gap-3 py-2.5">
+          <Link href="/" className="flex items-center gap-2.5">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 bg-white/10">
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
                   d="M12 2 20 6.5v11L12 22l-8-4.5v-11L12 2Z"
                   stroke="currentColor"
@@ -139,20 +137,20 @@ export default function Navbar({
               </svg>
             </span>
             <div>
-              <p className="text-3xl font-extrabold tracking-tight">ECEHub</p>
-              <p className="text-xs uppercase tracking-[0.25em] text-blue-100">
-                Learn · Practice · Solve
+              <p className="text-xl font-semibold tracking-tight">ECEHub</p>
+              <p className="text-[9px] uppercase tracking-[0.16em] text-blue-100">
+                Learn | Practice | Solve
               </p>
             </div>
           </Link>
 
-          <div ref={searchRef} className="relative min-w-[260px] flex-1">
+          <div ref={searchRef} className="relative min-w-[220px] flex-1">
             <form
               onSubmit={handleSearchSubmit}
-              className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/95 px-4 py-3 text-sm text-slate-900 shadow-[0_12px_28px_rgba(7,18,60,0.16)]"
+              className="flex items-center gap-2 rounded-lg border border-white/15 bg-white/95 px-3 py-1.5 text-sm text-slate-900 shadow-[0_12px_28px_rgba(7,18,60,0.16)]"
             >
               <svg
-                className="h-5 w-5 flex-none text-slate-400"
+                className="h-4 w-4 flex-none text-slate-400"
                 viewBox="0 0 20 20"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -172,7 +170,7 @@ export default function Navbar({
                 onChange={(event) => handleSearchChange(event.target.value)}
                 onFocus={() => setIsSearchOpen(true)}
                 placeholder={searchPlaceholder}
-                className="w-full bg-transparent text-[15px] outline-none placeholder:text-slate-400"
+                className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
               />
             </form>
 
@@ -187,12 +185,12 @@ export default function Navbar({
           </div>
 
           <div className="ml-auto hidden items-center gap-3 md:flex">
-            <Link href="/admin" className="text-base font-semibold text-white transition hover:text-blue-100">
+            <Link href="/admin" className="text-sm font-medium text-white transition hover:text-blue-100">
               Login
             </Link>
             <Link
               href="/learn"
-              className="rounded-2xl border border-white/25 bg-white px-5 py-3 text-base font-semibold text-[#123792] shadow-sm transition hover:bg-blue-50"
+              className="rounded-lg border border-white/25 bg-white px-3 py-1.5 text-sm font-medium text-[#123792] transition hover:bg-blue-50"
             >
               Sign Up
             </Link>
@@ -200,21 +198,18 @@ export default function Navbar({
         </div>
 
         <div className="border-t border-white/15">
-          <nav className="flex items-center gap-2 overflow-x-auto py-3">
+          <nav className="flex items-center gap-2 overflow-x-auto py-2">
             {headerCategories.map((item) => {
-              const isHashLink = item.href.startsWith("/#");
-              const isActive = isHashLink
-                ? router.asPath === item.href || (router.pathname === "/" && item.label === "Subjects")
-                : isNavigationActive(router.pathname, item.href.split("?")[0]);
+              const isActive = isNavigationActive(router.pathname, item.href);
 
               return (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition ${
+                  className={`whitespace-nowrap rounded-md px-2.5 py-1 text-xs font-medium transition ${
                     isActive
                       ? "bg-white/16 text-white shadow-[inset_0_-3px_0_0_#63d985]"
-                      : "text-blue-100 hover:bg-white/10 hover:text-white"
+                      : "border border-white/10 text-blue-100 hover:bg-white/10 hover:text-white"
                   }`}
                 >
                   {item.label}

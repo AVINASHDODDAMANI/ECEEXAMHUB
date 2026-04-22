@@ -1,43 +1,63 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
-import EmptyState from "../../../components/EmptyState";
+import { useMemo } from "react";
 import Layout from "../../../components/layout";
-import PreviousYearQuestionCard from "../../../components/PreviousYearQuestionCard";
-import QuestionCard from "../../../components/QuestionCard";
-import TopicSectionCard from "../../../components/TopicSectionCard";
 import seedQuestions from "../../../data/questions";
-import { fetchQuestions } from "../../../lib/api-client";
 import {
   buildTopicKey,
   getLearningTopic,
   getReadyLearningTopics,
   getRelatedLearningTopics,
-  getTopicQuestionFilters,
-  getTopicQuestionSummary,
   getTopicQuestions,
 } from "../../../lib/learning-utils";
-import { hasQuestionTag } from "../../../lib/question-utils";
 import { useLearningProgress } from "../../../lib/use-learning-progress";
 
-const defaultSectionState = {
-  explanation: true,
-  pyqs: true,
-  practice: true,
-  important: true,
-};
+function NotesSection({ id, title, description, children }) {
+  return (
+    <section
+      id={id}
+      className="scroll-mt-28 rounded-[1rem] border border-slate-200 bg-white p-4 shadow-sm"
+    >
+      <div className="border-b border-slate-200 pb-3">
+        <h2 className="text-lg font-semibold text-slate-900">{title}</h2>
+        {description ? (
+          <p className="mt-1 text-sm leading-6 text-slate-600">{description}</p>
+        ) : null}
+      </div>
+      <div className="mt-4">{children}</div>
+    </section>
+  );
+}
 
-export default function LearningTopicPage({ topic, initialQuestions }) {
-  const router = useRouter();
-  const [questions, setQuestions] = useState(initialQuestions);
-  const [loadingQuestions, setLoadingQuestions] = useState(true);
-  const [questionError, setQuestionError] = useState("");
-  const [practiceIndex, setPracticeIndex] = useState(0);
-  const [sectionState, setSectionState] = useState(defaultSectionState);
+function BulletList({ items = [], tone = "plain" }) {
+  if (!items.length) {
+    return null;
+  }
+
+  const toneClassName =
+    tone === "soft"
+      ? "border-slate-200 bg-slate-50"
+      : tone === "warm"
+      ? "border-amber-100 bg-amber-50/60"
+      : "border-slate-200 bg-white";
+
+  return (
+    <div className="grid gap-2">
+      {items.map((item) => (
+        <div
+          key={item}
+          className={`rounded-lg border px-3 py-2 text-sm leading-6 text-slate-700 ${toneClassName}`}
+        >
+          {item}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default function LearningTopicPage({ topic }) {
   const {
     progressMap,
     revisionMap,
-    progressStats,
     setTopicCompleted,
     setTopicSavedForRevision,
   } = useLearningProgress();
@@ -45,117 +65,18 @@ export default function LearningTopicPage({ topic, initialQuestions }) {
   const topicKey = buildTopicKey(topic.subjectSlug, topic.slug);
   const isCompleted = Boolean(progressMap[topicKey]);
   const isSavedForRevision = Boolean(revisionMap[topicKey]);
-  const subjectProgress = progressStats.subjects.find(
-    (subject) => subject.slug === topic.subjectSlug
-  );
   const relatedTopics = useMemo(
     () => getRelatedLearningTopics(topic.relatedTopics || []),
     [topic.relatedTopics]
   );
-  const topicQuestions = useMemo(
-    () => getTopicQuestions(questions, topic.subjectSlug, topic.slug),
-    [questions, topic.slug, topic.subjectSlug]
-  );
-  const questionSummary = useMemo(
-    () => getTopicQuestionSummary(topicQuestions),
-    [topicQuestions]
-  );
-  const importantQuestions = useMemo(
-    () => topicQuestions.filter((question) => hasQuestionTag(question, "important")),
-    [topicQuestions]
-  );
-  const activePracticeQuestion = topicQuestions[practiceIndex] || null;
+
   const sectionLinks = [
-    { id: "explanation", label: "Theory" },
-    { id: "pyqs", label: "PYQs" },
-    { id: "practice", label: "Practice" },
-    { id: "important", label: "Important" },
+    { id: "overview", label: "Overview" },
+    { id: "concepts", label: "Concepts" },
+    { id: "formulas", label: "Formulas" },
+    { id: "examples", label: "Examples" },
+    { id: "revision", label: "Revision" },
   ];
-
-  useEffect(() => {
-    setPracticeIndex(0);
-  }, [topicQuestions.length]);
-
-  useEffect(() => {
-    let mounted = true;
-    const controller = new AbortController();
-
-    async function loadQuestions() {
-      setLoadingQuestions(true);
-      setQuestionError("");
-
-      try {
-        const topicFilters = getTopicQuestionFilters(topic.subjectSlug, topic.slug);
-        const latestQuestions = await fetchQuestions(topicFilters, {
-          signal: controller.signal,
-        });
-
-        if (mounted) {
-          setQuestions(latestQuestions);
-        }
-      } catch (error) {
-        if (mounted && error.name !== "AbortError") {
-          setQuestionError(error.message || "Unable to refresh topic questions.");
-        }
-      } finally {
-        if (mounted) {
-          setLoadingQuestions(false);
-        }
-      }
-    }
-
-    loadQuestions();
-
-    return () => {
-      mounted = false;
-      controller.abort();
-    };
-  }, [topic.slug, topic.subjectSlug]);
-
-  useEffect(() => {
-    if (!router.isReady) {
-      return;
-    }
-
-    const hash = router.asPath.split("#")[1];
-
-    if (!hash || !(hash in defaultSectionState)) {
-      return;
-    }
-
-    setSectionState((currentValue) => ({
-      ...currentValue,
-      [hash]: true,
-    }));
-
-    window.setTimeout(() => {
-      document.getElementById(hash)?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 80);
-  }, [router.asPath, router.isReady]);
-
-  function toggleSection(sectionId) {
-    setSectionState((currentValue) => ({
-      ...currentValue,
-      [sectionId]: !currentValue[sectionId],
-    }));
-  }
-
-  function jumpToSection(sectionId) {
-    setSectionState((currentValue) => ({
-      ...currentValue,
-      [sectionId]: true,
-    }));
-
-    window.setTimeout(() => {
-      document.getElementById(sectionId)?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 80);
-  }
 
   function toggleCompletedState() {
     setTopicCompleted(topic.subjectSlug, topic.slug, !isCompleted);
@@ -168,446 +89,295 @@ export default function LearningTopicPage({ topic, initialQuestions }) {
   return (
     <Layout
       title={`ECEExamHub | ${topic.title}`}
-      description={`${topic.title} learning page with explanations, formulas, PYQs, practice, and important questions for ${topic.subjectName}.`}
+      description={`${topic.title} notes page with concepts, formulas, examples, and revision guidance for ${topic.subjectName}.`}
     >
-      <div className="pb-12">
-        <section className="grid gap-6">
-          <div className="grid gap-6">
-            <div className="rounded-[2rem] bg-slatebrand-900 p-6 text-white shadow-panel">
-              <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-slatebrand-300">
-                <Link href="/learn" className="transition hover:text-white">
-                  Learn
-                </Link>
-                <span>/</span>
-                <span>{topic.subjectName}</span>
-                <span>/</span>
-                <span>{topic.chapterTitle}</span>
-              </div>
+      <div className="mx-auto max-w-5xl pb-12">
+        <section className="rounded-[1rem] border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+            <Link href="/learn" className="transition hover:text-slate-900">
+              Learn
+            </Link>
+            <span>/</span>
+            <span>{topic.subjectName}</span>
+            <span>/</span>
+            <span>{topic.chapterTitle}</span>
+          </div>
 
-              <h1 className="mt-3 max-w-3xl text-3xl font-semibold leading-tight sm:text-4xl">
+          <div className="mt-3 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div className="max-w-3xl">
+              <h1 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
                 {topic.title}
               </h1>
-              <p className="mt-3 max-w-3xl text-sm leading-6 text-slatebrand-100">
-                {topic.summary}
-              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{topic.summary}</p>
 
-              <div className="mt-4 flex flex-wrap gap-2">
-                <span className="rounded-full border border-slatebrand-700 bg-slatebrand-800/70 px-3 py-1 text-xs font-medium text-white">
+              <div className="mt-3 flex flex-wrap gap-2 text-[11px] text-slate-600">
+                <span className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1">
                   {topic.subjectName}
                 </span>
-                <span className="rounded-full border border-slatebrand-700 bg-slatebrand-800/70 px-3 py-1 text-xs font-medium text-white">
+                <span className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1">
                   {topic.subjectWeightage}
                 </span>
-                <span className="rounded-full border border-slatebrand-700 bg-slatebrand-800/70 px-3 py-1 text-xs font-medium text-white">
+                <span className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1">
                   {topic.estimatedTime}
                 </span>
-                <span className="rounded-full border border-slatebrand-700 bg-slatebrand-800/70 px-3 py-1 text-xs font-medium text-white">
-                  {questionSummary.total} linked question{questionSummary.total === 1 ? "" : "s"}
-                </span>
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={toggleCompletedState}
-                  className={`rounded-lg px-3 py-2 text-xs font-semibold transition ${
-                    isCompleted
-                      ? "bg-emerald-100 text-emerald-900 hover:bg-emerald-200"
-                      : "bg-accent-500 text-slate-950 hover:bg-accent-300"
-                  }`}
-                >
-                  {isCompleted ? "Completed" : "Mark as Completed"}
-                </button>
-                <button
-                  type="button"
-                  onClick={toggleRevisionState}
-                  className={`rounded-lg border px-3 py-2 text-xs font-semibold transition ${
-                    isSavedForRevision
-                      ? "border-amber-200 bg-amber-50 text-amber-900 hover:bg-amber-100"
-                      : "border-slatebrand-700 text-white hover:bg-slatebrand-800"
-                  }`}
-                >
-                  {isSavedForRevision ? "Saved for Revision" : "Save for Revision"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => jumpToSection("explanation")}
-                  className="rounded-lg border border-slatebrand-700 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slatebrand-800"
-                >
-                  Open Theory Notes
-                </button>
               </div>
             </div>
 
-            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-              <div className="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                  Subject progress
-                </p>
-                <p className="mt-1 text-2xl font-semibold text-slate-900">
-                  {subjectProgress?.completionPercent || 0}%
-                </p>
-                <div className="mt-2 h-1.5 rounded-full bg-slate-100">
-                  <div
-                    className="h-1.5 rounded-full bg-gradient-to-r from-slatebrand-600 to-accent-500"
-                    style={{ width: `${subjectProgress?.completionPercent || 0}%` }}
-                  />
-                </div>
-              </div>
-
-              <div className="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                  Exams covered
-                </p>
-                <p className="mt-1 text-sm font-semibold text-slate-900">
-                  {questionSummary.exams.length ? questionSummary.exams.join(" | ") : "Adding soon"}
-                </p>
-                <p className="mt-1 text-xs text-slate-600">
-                  Years: {questionSummary.years.length ? questionSummary.years.join(", ") : "Pending"}
-                </p>
-              </div>
-
-              <div className="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                  Important questions
-                </p>
-                <p className="mt-1 text-2xl font-semibold text-slate-900">
-                  {questionSummary.importantCount}
-                </p>
-                <p className="mt-1 text-xs text-slate-600">
-                  Priority revision signals
-                </p>
-              </div>
-
-              <div className="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm">
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
-                  Exam insight
-                </p>
-                <p className="mt-1 text-xs leading-5 text-slate-700 line-clamp-3">{topic.insightSummary}</p>
-              </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={toggleCompletedState}
+                className={`rounded-lg px-3 py-2 text-sm font-medium transition ${
+                  isCompleted
+                    ? "border border-emerald-200 bg-emerald-50 text-emerald-800"
+                    : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
+                }`}
+              >
+                {isCompleted ? "Completed" : "Mark Complete"}
+              </button>
+              <button
+                type="button"
+                onClick={toggleRevisionState}
+                className={`rounded-lg px-3 py-2 text-sm font-medium transition ${
+                  isSavedForRevision
+                    ? "border border-amber-200 bg-amber-50 text-amber-800"
+                    : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
+                }`}
+              >
+                {isSavedForRevision ? "Saved" : "Save for Revision"}
+              </button>
             </div>
           </div>
 
+          <div className="mt-4 flex flex-wrap gap-2">
+            {sectionLinks.map((section) => (
+              <a
+                key={section.id}
+                href={`#${section.id}`}
+                className="rounded-md border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:bg-white"
+              >
+                {section.label}
+              </a>
+            ))}
+          </div>
         </section>
 
-        <section className="mt-4 flex flex-wrap gap-2">
-          {sectionLinks.map((section) => (
-            <button
-              key={section.id}
-              type="button"
-              onClick={() => jumpToSection(section.id)}
-              className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slatebrand-300 hover:text-slatebrand-900"
-            >
-              {section.label}
-            </button>
-          ))}
-        </section>
-
-        <section className="mt-6 grid gap-4">
-          <TopicSectionCard
-            id="explanation"
-            eyebrow="Theory First"
-            title="Understand the topic before solving questions"
-            description="Start with concept notes, formulas, common mistakes, and quick revision so the theory is easy to find and retain."
-            open={sectionState.explanation}
-            onToggle={() => toggleSection("explanation")}
-            actions={
-              <span className="rounded-full bg-slatebrand-100 px-4 py-2 text-sm font-semibold text-slatebrand-700">
-                Theory notes
-              </span>
-            }
+        <div className="mt-6 grid gap-4">
+          <NotesSection
+            id="overview"
+            title="Topic Overview"
+            description="Start here for the big picture before memorizing formulas or steps."
           >
-            <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-              <article className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-                  Concept Notes
+            <div className="grid gap-3">
+              {(topic.overview || []).map((paragraph) => (
+                <p
+                  key={paragraph}
+                  className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-7 text-slate-700"
+                >
+                  {paragraph}
                 </p>
-                <div className="mt-5 space-y-4">
-                  {topic.overview.map((paragraph) => (
-                    <p key={paragraph} className="text-sm leading-8 text-slate-700">
-                      {paragraph}
-                    </p>
+              ))}
+            </div>
+
+            {(topic.subtopics || []).length ? (
+              <div className="mt-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  Subtopics Covered
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {topic.subtopics.map((subtopic) => (
+                    <span
+                      key={subtopic}
+                      className="rounded-md border border-slate-200 bg-white px-2.5 py-1 text-xs text-slate-600"
+                    >
+                      {subtopic}
+                    </span>
                   ))}
                 </div>
-              </article>
+              </div>
+            ) : null}
+          </NotesSection>
 
-              <div className="grid gap-6">
-                <article className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-                    Learning Goals
-                  </p>
-                  <div className="mt-4 grid gap-3">
-                    {topic.learningGoals.map((goal) => (
-                      <div key={goal} className="rounded-2xl bg-white px-4 py-4">
-                        <p className="text-sm leading-7 text-slate-700">{goal}</p>
-                      </div>
-                    ))}
-                  </div>
-                </article>
+          <NotesSection
+            id="concepts"
+            title="Core Concepts"
+            description="Read these ideas in plain language and use them as your understanding checklist."
+          >
+            <div className="grid gap-4 lg:grid-cols-2">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  Learning Goals
+                </p>
+                <div className="mt-2">
+                  <BulletList items={topic.learningGoals || []} tone="soft" />
+                </div>
+              </div>
 
-                <article className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-                    Key Concepts
-                  </p>
-                  <div className="mt-4 grid gap-3">
-                    {topic.keyConcepts.map((concept) => (
-                      <div key={concept} className="rounded-2xl bg-white px-4 py-4">
-                        <p className="text-sm leading-7 text-slate-700">{concept}</p>
-                      </div>
-                    ))}
-                  </div>
-                </article>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  Key Concepts
+                </p>
+                <div className="mt-2">
+                  <BulletList items={topic.keyConcepts || []} tone="soft" />
+                </div>
               </div>
             </div>
 
-            <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
-              <article className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-                  Key Formulas
+            {(topic.concepts || []).length ? (
+              <div className="mt-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  Quick Concept Map
                 </p>
-                <div className="mt-5 grid gap-4">
-                  {topic.formulas.map((formula) => (
-                    <div key={formula.label} className="rounded-2xl bg-white p-4">
-                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-                        {formula.label}
-                      </p>
-                      <p className="mt-3 text-lg font-semibold text-slate-900">
-                        {formula.expression}
-                      </p>
-                      <p className="mt-3 text-sm leading-7 text-slate-600">{formula.note}</p>
-                    </div>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {topic.concepts.map((concept) => (
+                    <span
+                      key={concept}
+                      className="rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-700"
+                    >
+                      {concept}
+                    </span>
                   ))}
                 </div>
-              </article>
+              </div>
+            ) : null}
+          </NotesSection>
 
-              <article className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-                  Example Problems
-                </p>
-                <div className="mt-5 grid gap-4">
-                  {topic.examples.map((example) => (
-                    <div key={example.title} className="rounded-2xl bg-white p-4">
-                      <h3 className="text-lg font-semibold text-slate-900">{example.title}</h3>
-                      <p className="mt-3 text-sm leading-7 text-slate-700">{example.prompt}</p>
-                      <div className="mt-4 space-y-2">
-                        {example.steps.map((step, index) => (
-                          <p key={step} className="text-sm leading-7 text-slate-600">
-                            {index + 1}. {step}
-                          </p>
-                        ))}
-                      </div>
-                      <div className="mt-4 rounded-2xl bg-slate-50 px-4 py-4">
-                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-                          Answer
-                        </p>
-                        <p className="mt-2 text-sm leading-7 text-slate-700">{example.answer}</p>
-                      </div>
-                    </div>
-                  ))}
+          <NotesSection
+            id="formulas"
+            title="Formulas and Meaning"
+            description="Keep formulas close to their meaning so they are easier to remember and apply."
+          >
+            <div className="grid gap-3">
+              {(topic.formulas || []).map((formula) => (
+                <div
+                  key={formula.label}
+                  className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+                >
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                    {formula.label}
+                  </p>
+                  <p className="mt-2 rounded-md border border-slate-200 bg-white px-3 py-2 text-base font-semibold text-slate-900">
+                    {formula.expression}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{formula.note}</p>
                 </div>
-              </article>
+              ))}
             </div>
+          </NotesSection>
 
-            <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
-              <article className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
+          <NotesSection
+            id="examples"
+            title="Worked Examples"
+            description="Use these solved examples to see how the concept is applied step by step."
+          >
+            <div className="grid gap-4">
+              {(topic.examples || []).map((example) => (
+                <article
+                  key={example.title}
+                  className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+                >
+                  <h3 className="text-base font-semibold text-slate-900">{example.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{example.prompt}</p>
+                  <div className="mt-3 grid gap-2">
+                    {example.steps.map((step, index) => (
+                      <div
+                        key={step}
+                        className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-700"
+                      >
+                        <span className="font-semibold text-slate-900">{index + 1}.</span> {step}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-3 rounded-md border border-slate-200 bg-white px-3 py-2">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                      Answer
+                    </p>
+                    <p className="mt-1 text-sm leading-6 text-slate-700">{example.answer}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </NotesSection>
+
+          <NotesSection
+            id="revision"
+            title="Revision and Exam Focus"
+            description="Use this block for last-minute revision, common traps, and exam-oriented reading."
+          >
+            <div className="grid gap-4 lg:grid-cols-2">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
                   Common Mistakes
                 </p>
-                <div className="mt-4 grid gap-3">
-                  {(topic.commonMistakes || []).map((item) => (
-                    <div key={item} className="rounded-2xl bg-white px-4 py-4">
-                      <p className="text-sm leading-7 text-slate-700">{item}</p>
-                    </div>
-                  ))}
+                <div className="mt-2">
+                  <BulletList items={topic.commonMistakes || []} tone="warm" />
                 </div>
-              </article>
+              </div>
 
-              <div className="grid gap-6">
-                <article className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-                    Exam Pointers
-                  </p>
-                  <div className="mt-4 grid gap-3">
-                    {(topic.examPointers || []).map((item) => (
-                      <div key={item} className="rounded-2xl bg-white px-4 py-4">
-                        <p className="text-sm leading-7 text-slate-700">{item}</p>
-                      </div>
-                    ))}
-                  </div>
-                </article>
-
-                <article className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slatebrand-500">
-                    Two-Minute Revision
-                  </p>
-                  <div className="mt-4 grid gap-3">
-                    {(topic.quickRevision || []).map((item) => (
-                      <div key={item} className="rounded-2xl bg-white px-4 py-4">
-                        <p className="text-sm leading-7 text-slate-700">{item}</p>
-                      </div>
-                    ))}
-                  </div>
-                </article>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  Exam Pointers
+                </p>
+                <div className="mt-2">
+                  <BulletList items={topic.examPointers || []} tone="soft" />
+                </div>
               </div>
             </div>
-          </TopicSectionCard>
 
-          <TopicSectionCard
-            id="pyqs"
-            eyebrow="Previous Year Questions"
-            title="See how exams ask this topic"
-            description="Review topic-linked PYQs in one place so you can understand exam style before attempting more practice."
-            open={sectionState.pyqs}
-            onToggle={() => toggleSection("pyqs")}
-            actions={
-              <span className="rounded-full bg-orange-50 px-4 py-2 text-sm font-semibold text-orange-700">
-                {questionSummary.total} PYQ-linked items
-              </span>
-            }
-          >
-            <div className="grid gap-5">
-              {topicQuestions.length ? (
-                topicQuestions.map((question) => (
-                  <PreviousYearQuestionCard
-                    key={question._id}
-                    question={question}
-                    showTopicMeta={false}
-                  />
-                ))
-              ) : (
-                <EmptyState
-                  title="No solved PYQs are linked yet"
-                  message="The explanation layer is ready. Add topic-matched questions and this section will populate automatically."
-                />
-              )}
-            </div>
-          </TopicSectionCard>
-
-          <TopicSectionCard
-            id="practice"
-            eyebrow="Practice Questions"
-            title="Try the topic yourself"
-            description="Solve one question at a time. As soon as you click an option, the right answer turns green and a wrong pick turns red."
-            open={sectionState.practice}
-            onToggle={() => toggleSection("practice")}
-            actions={
-              <span className="rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700">
-                {loadingQuestions ? "Refreshing set..." : `${questionSummary.total} available`}
-              </span>
-            }
-          >
-            {questionError ? (
-              <div className="rounded-3xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-                {questionError}
+            {(topic.quickRevision || []).length ? (
+              <div className="mt-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  Quick Revision
+                </p>
+                <div className="mt-2">
+                  <BulletList items={topic.quickRevision} tone="soft" />
+                </div>
               </div>
             ) : null}
 
-            <div className="mt-1">
-              {activePracticeQuestion ? (
-                <QuestionCard
-                  key={`${activePracticeQuestion._id}-${practiceIndex}`}
-                  question={activePracticeQuestion}
-                  index={practiceIndex}
-                  total={topicQuestions.length}
-                  onNext={() =>
-                    setPracticeIndex((value) => Math.min(value + 1, topicQuestions.length - 1))
-                  }
-                  onPrevious={() => setPracticeIndex((value) => Math.max(value - 1, 0))}
-                />
-              ) : (
-                <EmptyState
-                  title="Practice questions are still being added"
-                  message="This topic already has the learning structure. Add or sync more questions and they will appear here automatically."
-                />
-              )}
-            </div>
-          </TopicSectionCard>
-
-          <TopicSectionCard
-            id="important"
-            eyebrow="Important Questions"
-            title="Revise the highest-priority questions"
-            description="Use this short set when you want a faster revision loop before moving back to full PYQs or practice."
-            open={sectionState.important}
-            onToggle={() => toggleSection("important")}
-            actions={
-              <span className="rounded-full bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700">
-                {importantQuestions.length} important item{importantQuestions.length === 1 ? "" : "s"}
-              </span>
-            }
-          >
-            {importantQuestions.length ? (
-              <div className="grid gap-4">
-                {importantQuestions.map((question) => (
-                  <div
-                    key={`important-${question._id}`}
-                    className="rounded-3xl border border-amber-200 bg-amber-50 p-5"
-                  >
-                    <p className="text-sm font-semibold text-amber-800">
-                      {(question.exam || []).join(" | ")} | {question.year}
-                    </p>
-                    <p className="mt-3 text-sm leading-7 text-slate-700">{question.question}</p>
-                    <p className="mt-4 text-xs uppercase tracking-[0.2em] text-slate-500">
-                      Review signal: important topic checkpoint
-                    </p>
-                  </div>
-                ))}
+            {topic.insightSummary ? (
+              <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  Exam Insight
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{topic.insightSummary}</p>
               </div>
-            ) : (
-              <EmptyState
-                title="Important-topic tagging is ready"
-                message="As soon as more tagged questions are added, this revision list will update automatically."
-              />
-            )}
-          </TopicSectionCard>
-        </section>
+            ) : null}
+          </NotesSection>
+        </div>
 
         {relatedTopics.length ? (
-          <section className="mt-8 rounded-[2rem] border border-white/60 bg-white/90 p-6 shadow-panel">
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slatebrand-500">
-              Related Topics
+          <section className="mt-6 rounded-[1rem] border border-slate-200 bg-white p-4 shadow-sm">
+            <h2 className="text-lg font-semibold text-slate-900">Related Topics</h2>
+            <p className="mt-1 text-sm leading-6 text-slate-600">
+              Continue with the next topic once these notes feel clear.
             </p>
-            <h2 className="mt-2 text-2xl font-semibold text-slate-900">
-              Continue the chapter journey
-            </h2>
-            <div className="mt-6 grid gap-4 lg:grid-cols-2">
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
               {relatedTopics.map((relatedTopic) => (
                 <div
                   key={`${relatedTopic.subjectSlug}-${relatedTopic.slug}`}
-                  className="rounded-3xl border border-slate-200 bg-slate-50 p-5 transition hover:-translate-y-0.5 hover:border-slatebrand-300"
+                  className="rounded-lg border border-slate-200 bg-slate-50 p-4"
                 >
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-slatebrand-700">
+                  <div className="flex flex-wrap items-center gap-2 text-[11px] text-slate-500">
+                    <span className="rounded-md border border-slate-200 bg-white px-2 py-1">
                       {relatedTopic.subjectName}
                     </span>
-                    <span
-                      className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] ${
-                        relatedTopic.status === "ready"
-                          ? "bg-emerald-100 text-emerald-700"
-                          : "bg-amber-100 text-amber-800"
-                      }`}
-                    >
-                      {relatedTopic.status === "ready" ? "Ready" : "Roadmap"}
+                    <span className="rounded-md border border-slate-200 bg-white px-2 py-1">
+                      {relatedTopic.chapterTitle}
                     </span>
                   </div>
-                  <h3 className="mt-4 text-xl font-semibold text-slate-900">
+                  <h3 className="mt-2 text-base font-semibold text-slate-900">
                     {relatedTopic.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">
+                  <p className="mt-1.5 text-sm leading-6 text-slate-600">
                     {relatedTopic.summary}
                   </p>
-                  {relatedTopic.status === "ready" ? (
-                    <Link
-                      href={`/learn/${relatedTopic.subjectSlug}/${relatedTopic.slug}`}
-                      className="mt-5 inline-flex rounded-2xl bg-slatebrand-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slatebrand-800"
-                    >
-                      Open Related Topic
-                    </Link>
-                  ) : (
-                    <p className="mt-5 text-sm text-slate-500">
-                      Learning structure is prepared and content expansion is next.
-                    </p>
-                  )}
+                  <Link
+                    href={`/learn/${relatedTopic.subjectSlug}/${relatedTopic.slug}`}
+                    className="mt-3 inline-flex rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                  >
+                    Open Topic
+                  </Link>
                 </div>
               ))}
             </div>
