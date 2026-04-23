@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import { examDirectory } from "../data/exam-directory";
+import { previousPaperDirectory } from "../data/previous-paper-directory";
 import seedQuestions from "../data/questions";
 import { subjectDirectory } from "../data/subject-directory";
 import { fetchQuestions } from "../lib/api-client";
@@ -14,9 +16,9 @@ import SmartSearchDropdown from "./SmartSearchDropdown";
 
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/subjects", label: "Subjects", hasDropdown: true },
-  { href: "/learn", label: "Study Materials" },
-  { href: "/previous-year", label: "Previous Papers" },
+  { href: "/subjects", label: "Subjects", dropdownType: "subjects" },
+  { href: "/ece-exams", label: "ECE Exams", dropdownType: "exams" },
+  { href: "/previous-year", label: "Previous Papers", dropdownType: "papers" },
   { href: "/notes", label: "Notes" },
   { href: "/mcqs", label: "MCQs" },
   { href: "/practice", label: "Practice" },
@@ -49,8 +51,9 @@ export default function Navbar({
   const hasSearch = typeof onSearchChange === "function";
   const [localSearch, setLocalSearch] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileSubjectsOpen, setIsMobileSubjectsOpen] = useState(false);
+  const [isMobileExamsOpen, setIsMobileExamsOpen] = useState(false);
+  const [isMobilePapersOpen, setIsMobilePapersOpen] = useState(false);
   const [searchQuestions, setSearchQuestions] = useState(seedQuestions);
   const searchRef = useRef(null);
   const resolvedSearchValue = hasSearch ? searchValue : localSearch;
@@ -117,9 +120,55 @@ export default function Navbar({
 
   useEffect(() => {
     setIsSearchOpen(false);
-    setIsMobileMenuOpen(false);
     setIsMobileSubjectsOpen(false);
+    setIsMobileExamsOpen(false);
+    setIsMobilePapersOpen(false);
   }, [router.asPath]);
+
+  function getDropdownConfig(type) {
+    if (type === "subjects") {
+      return {
+        eyebrow: "Core Subjects",
+        title: "Explore all ECE subjects from one place",
+        actionHref: "/subjects",
+        actionLabel: "Open Subjects Page",
+        items: subjectDirectory.map((subject) => ({
+          key: subject.title,
+          href: subject.href,
+          title: `${subject.id}. ${subject.title}`,
+          description: subject.description,
+        })),
+      };
+    }
+
+    if (type === "papers") {
+      return {
+        eyebrow: "Previous Papers",
+        title: "Browse major previous-paper collections by exam",
+        actionHref: "/previous-year",
+        actionLabel: "Open Previous Papers",
+        items: previousPaperDirectory.map((paper) => ({
+          key: paper.title,
+          href: paper.href,
+          title: paper.title,
+          description: paper.meta,
+        })),
+      };
+    }
+
+    return {
+      eyebrow: "ECE Exams",
+      title: "Explore all major ECE exam categories",
+      actionHref: "/ece-exams",
+      actionLabel: "Open Exams Page",
+      items: examDirectory.map((exam) => ({
+        key: exam.title,
+        href: exam.href,
+        title: exam.title,
+        description: exam.shortDescription,
+      })),
+    };
+  }
 
   function handleSearchChange(value) {
     if (hasSearch) {
@@ -147,53 +196,29 @@ export default function Navbar({
 
   return (
     <header className="sticky top-0 z-40 border-b border-portal-200 bg-white shadow-[0_10px_30px_rgba(16,47,96,0.08)]">
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-start justify-between gap-3">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-3 py-3 sm:px-6 sm:py-4 lg:px-8">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-start gap-3">
             <Link href="/" className="flex min-w-0 items-center gap-3">
-              <BrandIcon />
+              <span className="scale-[0.9] sm:scale-100">
+                <BrandIcon />
+              </span>
               <div className="min-w-0">
-                <p className="truncate text-xl font-extrabold tracking-tight text-portal-600 sm:text-[2rem]">
+                <p className="truncate text-[1.05rem] font-extrabold tracking-tight text-portal-600 sm:text-[2rem]">
                   ECE EXAM GUIDE
                 </p>
-                <p className="text-sm text-slate-500 sm:text-base">
+                <p className="text-[11px] leading-4 text-slate-500 sm:text-base">
                   Your Guide to ECE Exams & Learning
                 </p>
               </div>
             </Link>
-
-            <button
-              type="button"
-              onClick={() => setIsMobileMenuOpen((value) => !value)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-portal-50 text-portal-700 transition hover:bg-portal-100 lg:hidden"
-              aria-label="Toggle navigation"
-              aria-expanded={isMobileMenuOpen}
-            >
-              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                {isMobileMenuOpen ? (
-                  <path
-                    d="M6 6l12 12M18 6L6 18"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                ) : (
-                  <path
-                    d="M4 7h16M4 12h16M4 17h16"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                )}
-              </svg>
-            </button>
           </div>
 
-          <div className="flex items-center gap-3 lg:w-full lg:max-w-[480px] lg:justify-end">
+          <div className="flex items-center gap-3 lg:w-full lg:max-w-[420px] lg:justify-end">
             <div ref={searchRef} className="relative w-full">
               <form
                 onSubmit={handleSearchSubmit}
-                className="flex items-center gap-3 rounded-xl border border-portal-200 bg-white px-4 py-3 text-sm shadow-sm"
+                className="flex items-center gap-2 rounded-xl border border-portal-200 bg-white px-3 py-2 text-sm shadow-sm"
               >
                 <input
                   type="search"
@@ -201,11 +226,11 @@ export default function Navbar({
                   onChange={(event) => handleSearchChange(event.target.value)}
                   onFocus={() => setIsSearchOpen(true)}
                   placeholder={searchPlaceholder}
-                  className="w-full bg-transparent text-base text-slate-700 outline-none placeholder:text-slate-400"
+                  className="w-full bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400 sm:text-base"
                 />
                 <button
                   type="submit"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-portal-700 transition hover:bg-portal-50"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-full text-portal-700 transition hover:bg-portal-50"
                   aria-label="Search"
                 >
                   <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -234,17 +259,19 @@ export default function Navbar({
       </div>
 
       <div className="bg-portal-600 text-white">
-        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
-          <nav className="hidden items-center gap-1 overflow-x-auto lg:flex">
+        <div className="mx-auto max-w-[1440px] px-2 sm:px-6 lg:px-8">
+          <nav className="flex items-center gap-1 overflow-x-auto whitespace-nowrap py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:py-0">
             {navItems.map((item) => {
               const isActive = isNavigationActive(router.pathname, item.href);
 
-              if (item.hasDropdown) {
+              if (item.dropdownType) {
+                const dropdown = getDropdownConfig(item.dropdownType);
+
                 return (
                   <div key={item.href} className="group relative">
                     <Link
                       href={item.href}
-                      className={`relative inline-flex items-center gap-2 whitespace-nowrap px-4 py-3 text-sm font-semibold transition ${
+                      className={`relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold transition sm:px-4 sm:py-3 sm:text-sm ${
                         isActive ? "text-white" : "text-blue-100 hover:text-white"
                       }`}
                     >
@@ -268,30 +295,30 @@ export default function Navbar({
                         <div className="mb-4 flex items-center justify-between gap-3">
                           <div>
                             <p className="text-xs font-bold uppercase tracking-[0.18em] text-portal-600">
-                              Core Subjects
+                              {dropdown.eyebrow}
                             </p>
                             <h3 className="mt-1 text-lg font-bold text-slate-900">
-                              Explore all ECE subjects from one place
+                              {dropdown.title}
                             </h3>
                           </div>
                           <Link
-                            href="/subjects"
+                            href={dropdown.actionHref}
                             className="rounded-full border border-portal-200 bg-portal-50 px-3 py-1.5 text-xs font-bold text-portal-700 transition hover:bg-white"
                           >
-                            Open Subjects Page
+                            {dropdown.actionLabel}
                           </Link>
                         </div>
 
                         <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                          {subjectDirectory.map((subject) => (
+                          {dropdown.items.map((dropdownItem) => (
                             <Link
-                              key={subject.title}
-                              href={subject.href}
+                              key={dropdownItem.key}
+                              href={dropdownItem.href}
                               className="rounded-xl border border-portal-200 bg-[#f8fbff] px-4 py-3 transition hover:border-portal-300 hover:bg-white"
                             >
-                              <p className="text-sm font-bold text-slate-900">{subject.id}. {subject.title}</p>
+                              <p className="text-sm font-bold text-slate-900">{dropdownItem.title}</p>
                               <p className="mt-1 text-xs leading-5 text-slate-600">
-                                {subject.description}
+                                {dropdownItem.description}
                               </p>
                             </Link>
                           ))}
@@ -306,7 +333,7 @@ export default function Navbar({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative whitespace-nowrap px-4 py-3 text-sm font-semibold transition ${
+                  className={`relative whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold transition sm:px-4 sm:py-3 sm:text-sm ${
                     isActive ? "text-white" : "text-blue-100 hover:text-white"
                   }`}
                 >
@@ -318,77 +345,6 @@ export default function Navbar({
               );
             })}
           </nav>
-
-          {isMobileMenuOpen ? (
-            <div className="grid gap-2 py-3 lg:hidden">
-              {navItems.map((item) => {
-                const isActive = isNavigationActive(router.pathname, item.href);
-
-                if (item.hasDropdown) {
-                  return (
-                    <div key={item.href} className="rounded-lg border border-white/10">
-                      <button
-                        type="button"
-                        onClick={() => setIsMobileSubjectsOpen((value) => !value)}
-                        className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm font-semibold transition ${
-                          isActive
-                            ? "bg-white text-portal-700"
-                            : "text-blue-50 hover:bg-white/10"
-                        }`}
-                      >
-                        <span>{item.label}</span>
-                        <svg className={`h-4 w-4 transition ${isMobileSubjectsOpen ? "rotate-180" : ""}`} viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                          <path
-                            d="M5 7.5 10 12.5l5-5"
-                            stroke="currentColor"
-                            strokeWidth="1.7"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </button>
-
-                      {isMobileSubjectsOpen ? (
-                        <div className="grid gap-2 border-t border-white/10 p-3">
-                          <Link
-                            href="/subjects"
-                            className="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-portal-700"
-                          >
-                            Open Subjects Page
-                          </Link>
-                          <div className="grid gap-2 sm:grid-cols-2">
-                            {subjectDirectory.map((subject) => (
-                              <Link
-                                key={subject.title}
-                                href={subject.href}
-                                className="rounded-lg border border-white/10 bg-white/10 px-3 py-2 text-sm text-blue-50"
-                              >
-                                {subject.id}. {subject.title}
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
-                      ) : null}
-                    </div>
-                  );
-                }
-
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${
-                      isActive
-                        ? "bg-white text-portal-700"
-                        : "border border-white/10 text-blue-50 hover:bg-white/10"
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </div>
-          ) : null}
         </div>
       </div>
 
