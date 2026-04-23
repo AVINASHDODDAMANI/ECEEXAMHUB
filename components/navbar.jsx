@@ -54,8 +54,10 @@ export default function Navbar({
   const [isMobileSubjectsOpen, setIsMobileSubjectsOpen] = useState(false);
   const [isMobileExamsOpen, setIsMobileExamsOpen] = useState(false);
   const [isMobilePapersOpen, setIsMobilePapersOpen] = useState(false);
+  const [showMobileNavHint, setShowMobileNavHint] = useState(true);
   const [searchQuestions, setSearchQuestions] = useState(seedQuestions);
   const searchRef = useRef(null);
+  const mobileNavRef = useRef(null);
   const resolvedSearchValue = hasSearch ? searchValue : localSearch;
   const deferredQuery = useDeferredValue(resolvedSearchValue.trim());
   const searchIndex = useMemo(
@@ -124,6 +126,25 @@ export default function Navbar({
     setIsMobileExamsOpen(false);
     setIsMobilePapersOpen(false);
   }, [router.asPath]);
+
+  useEffect(() => {
+    const navElement = mobileNavRef.current;
+
+    if (!navElement) {
+      return undefined;
+    }
+
+    function handleScroll() {
+      if (navElement.scrollLeft > 24) {
+        setShowMobileNavHint(false);
+      }
+    }
+
+    navElement.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      navElement.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   function getDropdownConfig(type) {
     if (type === "subjects") {
@@ -214,11 +235,11 @@ export default function Navbar({
             </Link>
           </div>
 
-          <div className="flex items-center gap-3 lg:w-full lg:max-w-[420px] lg:justify-end">
+          <div className="flex items-center gap-3 lg:w-full lg:max-w-[380px] lg:justify-end">
             <div ref={searchRef} className="relative w-full">
               <form
                 onSubmit={handleSearchSubmit}
-                className="flex items-center gap-2 rounded-xl border border-portal-200 bg-white px-3 py-2 text-sm shadow-sm"
+                className="flex items-center gap-2 rounded-xl border border-portal-200 bg-white px-3 py-1.5 text-sm shadow-sm"
               >
                 <input
                   type="search"
@@ -226,11 +247,11 @@ export default function Navbar({
                   onChange={(event) => handleSearchChange(event.target.value)}
                   onFocus={() => setIsSearchOpen(true)}
                   placeholder={searchPlaceholder}
-                  className="w-full bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400 sm:text-base"
+                  className="w-full bg-transparent text-[13px] text-slate-700 outline-none placeholder:text-slate-400 sm:text-base"
                 />
                 <button
                   type="submit"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-full text-portal-700 transition hover:bg-portal-50"
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-full text-portal-700 transition hover:bg-portal-50 sm:h-8 sm:w-8"
                   aria-label="Search"
                 >
                   <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -260,7 +281,38 @@ export default function Navbar({
 
       <div className="bg-portal-600 text-white">
         <div className="mx-auto max-w-[1440px] px-2 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-1 overflow-x-auto whitespace-nowrap py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:py-0">
+          <div className="flex items-center justify-between gap-3 px-1 pt-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-blue-100 lg:hidden">
+            <span>Swipe left to see more sections</span>
+            <span className={`transition ${showMobileNavHint ? "opacity-100" : "opacity-0"}`}>
+              ←
+            </span>
+          </div>
+
+          <nav
+            ref={mobileNavRef}
+            className="flex items-center gap-1 overflow-x-auto whitespace-nowrap py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:py-0 lg:overflow-visible"
+          >
+            {navItems.map((item) => {
+              const isActive = isNavigationActive(router.pathname, item.href);
+
+              return (
+                <Link
+                  key={`mobile-${item.href}`}
+                  href={item.href}
+                  className={`relative whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold transition lg:hidden ${
+                    isActive ? "bg-white/10 text-white" : "text-blue-100 hover:text-white"
+                  }`}
+                >
+                  {item.label}
+                  {isActive ? (
+                    <span className="absolute inset-x-3 bottom-0 h-[3px] rounded-full bg-[#f4c542]" />
+                  ) : null}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <nav className="hidden items-center gap-1 overflow-x-auto whitespace-nowrap py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex lg:py-0">
             {navItems.map((item) => {
               const isActive = isNavigationActive(router.pathname, item.href);
 
