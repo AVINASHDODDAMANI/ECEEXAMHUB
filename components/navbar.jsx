@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import seedQuestions from "../data/questions";
+import { subjectDirectory } from "../data/subject-directory";
 import { fetchQuestions } from "../lib/api-client";
 import {
   buildSmartSearchIndex,
@@ -11,23 +12,45 @@ import {
 import { SITE_NAVIGATION, isNavigationActive } from "../lib/site-navigation";
 import SmartSearchDropdown from "./SmartSearchDropdown";
 
-const headerCategories = [
-  { label: "Subjects", href: "/subjects" },
-  { label: "MCQs", href: "/mcqs" },
-  { label: "Notes", href: "/notes" },
-  { label: "Mock Tests", href: "/mock-tests" },
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/subjects", label: "Subjects", hasDropdown: true },
+  { href: "/learn", label: "Study Materials" },
+  { href: "/previous-year", label: "Previous Papers" },
+  { href: "/notes", label: "Notes" },
+  { href: "/mcqs", label: "MCQs" },
+  { href: "/practice", label: "Practice" },
+  { href: "/insights", label: "Insights" },
 ];
+
+function BrandIcon() {
+  return (
+    <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-portal-50 text-portal-600 shadow-sm">
+      <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="7" y="7" width="10" height="10" rx="1.8" stroke="currentColor" strokeWidth="1.9" />
+        <path
+          d="M4 9V7m0 10v-2m16-8V7m0 10v-2M9 4H7m10 0h-2M9 20H7m10 0h-2M4 12H2m20 0h-2"
+          stroke="currentColor"
+          strokeWidth="1.9"
+          strokeLinecap="round"
+        />
+      </svg>
+    </span>
+  );
+}
 
 export default function Navbar({
   searchValue,
   onSearchChange,
-  searchPlaceholder = "Search Signals and Systems, Networks, formulas...",
+  searchPlaceholder = "Search topics, exams...",
   searchTarget = "/learn",
 }) {
   const router = useRouter();
   const hasSearch = typeof onSearchChange === "function";
   const [localSearch, setLocalSearch] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileSubjectsOpen, setIsMobileSubjectsOpen] = useState(false);
   const [searchQuestions, setSearchQuestions] = useState(seedQuestions);
   const searchRef = useRef(null);
   const resolvedSearchValue = hasSearch ? searchValue : localSearch;
@@ -94,6 +117,8 @@ export default function Navbar({
 
   useEffect(() => {
     setIsSearchOpen(false);
+    setIsMobileMenuOpen(false);
+    setIsMobileSubjectsOpen(false);
   }, [router.asPath]);
 
   function handleSearchChange(value) {
@@ -121,124 +146,259 @@ export default function Navbar({
   }
 
   return (
-    <header className="sticky top-0 z-30 border-b border-blue-200/20 bg-[linear-gradient(180deg,#1743b0_0%,#123792_100%)] text-white shadow-[0_18px_40px_rgba(12,35,101,0.28)]">
-      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-center gap-3 py-2.5">
-          <Link href="/" className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 bg-white/10">
-              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M12 2 20 6.5v11L12 22l-8-4.5v-11L12 2Z"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinejoin="round"
-                />
-                <path d="M8.5 8.5h7v7h-7z" stroke="currentColor" strokeWidth="1.8" />
-              </svg>
-            </span>
-            <div>
-              <p className="text-xl font-semibold tracking-tight">ECEHub</p>
-              <p className="text-[9px] uppercase tracking-[0.16em] text-blue-100">
-                Learn | Practice | Solve
-              </p>
-            </div>
-          </Link>
+    <header className="sticky top-0 z-40 border-b border-portal-200 bg-white shadow-[0_10px_30px_rgba(16,47,96,0.08)]">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-start justify-between gap-3">
+            <Link href="/" className="flex min-w-0 items-center gap-3">
+              <BrandIcon />
+              <div className="min-w-0">
+                <p className="truncate text-xl font-extrabold tracking-tight text-portal-600 sm:text-[2rem]">
+                  ECE EXAM GUIDE
+                </p>
+                <p className="text-sm text-slate-500 sm:text-base">
+                  Your Guide to ECE Exams & Learning
+                </p>
+              </div>
+            </Link>
 
-          <div ref={searchRef} className="relative min-w-[220px] flex-1">
-            <form
-              onSubmit={handleSearchSubmit}
-              className="flex items-center gap-2 rounded-lg border border-white/15 bg-white/95 px-3 py-1.5 text-sm text-slate-900 shadow-[0_12px_28px_rgba(7,18,60,0.16)]"
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen((value) => !value)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-portal-50 text-portal-700 transition hover:bg-portal-100 lg:hidden"
+              aria-label="Toggle navigation"
+              aria-expanded={isMobileMenuOpen}
             >
-              <svg
-                className="h-4 w-4 flex-none text-slate-400"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  d="M14.167 14.167L17.5 17.5M15.833 9.167A6.667 6.667 0 1 1 2.5 9.167a6.667 6.667 0 0 1 13.333 0Z"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                {isMobileMenuOpen ? (
+                  <path
+                    d="M6 6l12 12M18 6L6 18"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                ) : (
+                  <path
+                    d="M4 7h16M4 12h16M4 17h16"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                )}
               </svg>
-              <input
-                type="search"
-                value={resolvedSearchValue}
-                onChange={(event) => handleSearchChange(event.target.value)}
-                onFocus={() => setIsSearchOpen(true)}
-                placeholder={searchPlaceholder}
-                className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
-              />
-            </form>
-
-            {shouldShowDropdown ? (
-              <SmartSearchDropdown
-                query={deferredQuery}
-                groupedResults={groupedResults}
-                suggestions={suggestions}
-                onSelect={() => setIsSearchOpen(false)}
-              />
-            ) : null}
+            </button>
           </div>
 
-          <div className="ml-auto hidden items-center gap-3 md:flex">
-            <Link href="/admin" className="text-sm font-medium text-white transition hover:text-blue-100">
-              Login
-            </Link>
-            <Link
-              href="/learn"
-              className="rounded-lg border border-white/25 bg-white px-3 py-1.5 text-sm font-medium text-[#123792] transition hover:bg-blue-50"
-            >
-              Sign Up
-            </Link>
+          <div className="flex items-center gap-3 lg:w-full lg:max-w-[480px] lg:justify-end">
+            <div ref={searchRef} className="relative w-full">
+              <form
+                onSubmit={handleSearchSubmit}
+                className="flex items-center gap-3 rounded-xl border border-portal-200 bg-white px-4 py-3 text-sm shadow-sm"
+              >
+                <input
+                  type="search"
+                  value={resolvedSearchValue}
+                  onChange={(event) => handleSearchChange(event.target.value)}
+                  onFocus={() => setIsSearchOpen(true)}
+                  placeholder={searchPlaceholder}
+                  className="w-full bg-transparent text-base text-slate-700 outline-none placeholder:text-slate-400"
+                />
+                <button
+                  type="submit"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-portal-700 transition hover:bg-portal-50"
+                  aria-label="Search"
+                >
+                  <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path
+                      d="M14.167 14.167L17.5 17.5M15.833 9.167A6.667 6.667 0 1 1 2.5 9.167a6.667 6.667 0 0 1 13.333 0Z"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              </form>
+
+              {shouldShowDropdown ? (
+                <SmartSearchDropdown
+                  query={deferredQuery}
+                  groupedResults={groupedResults}
+                  suggestions={suggestions}
+                  onSelect={() => setIsSearchOpen(false)}
+                />
+              ) : null}
+            </div>
           </div>
         </div>
+      </div>
 
-        <div className="border-t border-white/15">
-          <nav className="flex items-center gap-2 overflow-x-auto py-2">
-            {headerCategories.map((item) => {
+      <div className="bg-portal-600 text-white">
+        <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
+          <nav className="hidden items-center gap-1 overflow-x-auto lg:flex">
+            {navItems.map((item) => {
               const isActive = isNavigationActive(router.pathname, item.href);
+
+              if (item.hasDropdown) {
+                return (
+                  <div key={item.href} className="group relative">
+                    <Link
+                      href={item.href}
+                      className={`relative inline-flex items-center gap-2 whitespace-nowrap px-4 py-3 text-sm font-semibold transition ${
+                        isActive ? "text-white" : "text-blue-100 hover:text-white"
+                      }`}
+                    >
+                      {item.label}
+                      <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path
+                          d="M5 7.5 10 12.5l5-5"
+                          stroke="currentColor"
+                          strokeWidth="1.7"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      {isActive ? (
+                        <span className="absolute inset-x-4 bottom-0 h-[3px] rounded-full bg-[#f4c542]" />
+                      ) : null}
+                    </Link>
+
+                    <div className="pointer-events-none absolute left-0 top-full z-50 w-[760px] max-w-[calc(100vw-4rem)] translate-y-2 opacity-0 transition duration-150 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
+                      <div className="rounded-2xl border border-portal-200 bg-white p-5 text-slate-900 shadow-[0_24px_80px_rgba(15,23,42,0.18)]">
+                        <div className="mb-4 flex items-center justify-between gap-3">
+                          <div>
+                            <p className="text-xs font-bold uppercase tracking-[0.18em] text-portal-600">
+                              Core Subjects
+                            </p>
+                            <h3 className="mt-1 text-lg font-bold text-slate-900">
+                              Explore all ECE subjects from one place
+                            </h3>
+                          </div>
+                          <Link
+                            href="/subjects"
+                            className="rounded-full border border-portal-200 bg-portal-50 px-3 py-1.5 text-xs font-bold text-portal-700 transition hover:bg-white"
+                          >
+                            Open Subjects Page
+                          </Link>
+                        </div>
+
+                        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                          {subjectDirectory.map((subject) => (
+                            <Link
+                              key={subject.title}
+                              href={subject.href}
+                              className="rounded-xl border border-portal-200 bg-[#f8fbff] px-4 py-3 transition hover:border-portal-300 hover:bg-white"
+                            >
+                              <p className="text-sm font-bold text-slate-900">{subject.id}. {subject.title}</p>
+                              <p className="mt-1 text-xs leading-5 text-slate-600">
+                                {subject.description}
+                              </p>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
 
               return (
                 <Link
-                  key={item.label}
+                  key={item.href}
                   href={item.href}
-                  className={`whitespace-nowrap rounded-md px-2.5 py-1 text-xs font-medium transition ${
-                    isActive
-                      ? "bg-white/16 text-white shadow-[inset_0_-3px_0_0_#63d985]"
-                      : "border border-white/10 text-blue-100 hover:bg-white/10 hover:text-white"
+                  className={`relative whitespace-nowrap px-4 py-3 text-sm font-semibold transition ${
+                    isActive ? "text-white" : "text-blue-100 hover:text-white"
                   }`}
                 >
                   {item.label}
+                  {isActive ? (
+                    <span className="absolute inset-x-4 bottom-0 h-[3px] rounded-full bg-[#f4c542]" />
+                  ) : null}
                 </Link>
               );
             })}
           </nav>
+
+          {isMobileMenuOpen ? (
+            <div className="grid gap-2 py-3 lg:hidden">
+              {navItems.map((item) => {
+                const isActive = isNavigationActive(router.pathname, item.href);
+
+                if (item.hasDropdown) {
+                  return (
+                    <div key={item.href} className="rounded-lg border border-white/10">
+                      <button
+                        type="button"
+                        onClick={() => setIsMobileSubjectsOpen((value) => !value)}
+                        className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm font-semibold transition ${
+                          isActive
+                            ? "bg-white text-portal-700"
+                            : "text-blue-50 hover:bg-white/10"
+                        }`}
+                      >
+                        <span>{item.label}</span>
+                        <svg className={`h-4 w-4 transition ${isMobileSubjectsOpen ? "rotate-180" : ""}`} viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                          <path
+                            d="M5 7.5 10 12.5l5-5"
+                            stroke="currentColor"
+                            strokeWidth="1.7"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </button>
+
+                      {isMobileSubjectsOpen ? (
+                        <div className="grid gap-2 border-t border-white/10 p-3">
+                          <Link
+                            href="/subjects"
+                            className="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-portal-700"
+                          >
+                            Open Subjects Page
+                          </Link>
+                          <div className="grid gap-2 sm:grid-cols-2">
+                            {subjectDirectory.map((subject) => (
+                              <Link
+                                key={subject.title}
+                                href={subject.href}
+                                className="rounded-lg border border-white/10 bg-white/10 px-3 py-2 text-sm text-blue-50"
+                              >
+                                {subject.id}. {subject.title}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      ) : null}
+                    </div>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${
+                      isActive
+                        ? "bg-white text-portal-700"
+                        : "border border-white/10 text-blue-50 hover:bg-white/10"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
+          ) : null}
         </div>
-
-        <nav className="hidden">
-          {SITE_NAVIGATION.map((item) => {
-            const isActive = isNavigationActive(router.pathname, item.href);
-
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition ${
-                  isActive
-                    ? "bg-white text-slate-950"
-                    : "bg-slate-900 text-slate-300 hover:text-white"
-                }`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
       </div>
+
+      <nav className="hidden">
+        {SITE_NAVIGATION.map((item) => (
+          <Link key={item.href} href={item.href}>
+            {item.label}
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }

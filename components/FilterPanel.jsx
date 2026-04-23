@@ -1,9 +1,9 @@
 export default function FilterPanel({ title, controls }) {
   return (
-    <section className="rounded-[1.6rem] border border-slate-200 bg-white p-4 shadow-[0_14px_34px_rgba(15,23,42,0.08)]">
+    <section className="rounded-2xl border border-portal-200 bg-white p-4 shadow-portal sm:p-5">
       <div className="mb-3 flex items-center justify-between gap-3">
-        <h2 className="text-base font-semibold text-slate-900">{title}</h2>
-        <span className="rounded-full bg-accent-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-accent-700">
+        <h2 className="text-lg font-bold text-slate-900">{title}</h2>
+        <span className="rounded-full border border-portal-200 bg-portal-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-portal-700">
           Filters
         </span>
       </div>

@@ -4,15 +4,15 @@ export default function ProgressOverview({ progressStats, compact = false }) {
     : progressStats.subjects;
 
   return (
-    <section className={`rounded-[2rem] border border-white/60 bg-white/90 shadow-panel ${
+    <section className={`rounded-2xl border border-portal-200 bg-white shadow-portal ${
       compact ? "p-4" : "p-6"
     }`}>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slatebrand-500">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-portal-600">
             Progress Tracking
           </p>
-          <h2 className={`mt-2 font-semibold text-slate-900 ${compact ? "text-xl" : "text-2xl"}`}>
+          <h2 className={`mt-2 font-bold text-slate-900 ${compact ? "text-xl" : "text-2xl"}`}>
             GATE syllabus completion: {progressStats.completionPercent}%
           </h2>
           <p className={`mt-3 max-w-2xl text-sm text-slate-600 ${compact ? "leading-6" : "leading-7"}`}>
@@ -21,18 +21,18 @@ export default function ProgressOverview({ progressStats, compact = false }) {
           </p>
         </div>
         {!compact ? (
-          <div className="rounded-3xl bg-slatebrand-900 px-5 py-4 text-white">
-            <p className="text-sm uppercase tracking-[0.2em] text-slatebrand-300">
+          <div className="rounded-2xl border border-portal-200 bg-portal-50 px-5 py-4">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-portal-600">
               Exam Focus
             </p>
-            <p className="mt-2 text-lg font-semibold">Learn + PYQ + Practice</p>
+            <p className="mt-2 text-lg font-bold text-slate-900">Learn + PYQ + Practice</p>
           </div>
         ) : null}
       </div>
 
       <div className="mt-5 h-3 rounded-full bg-slate-100">
         <div
-          className="h-3 rounded-full bg-gradient-to-r from-slatebrand-600 to-accent-500"
+          className="h-3 rounded-full bg-gradient-to-r from-portal-600 to-[#f4c542]"
           style={{ width: `${progressStats.completionPercent}%` }}
         />
       </div>
@@ -41,16 +41,16 @@ export default function ProgressOverview({ progressStats, compact = false }) {
         {visibleSubjects.map((subject) => (
           <div
             key={subject.slug}
-            className="rounded-3xl border border-slate-200 bg-slate-50 p-4"
+            className="rounded-2xl border border-portal-200 bg-[#f8fbff] p-4"
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-semibold text-slate-900">{subject.name}</p>
+                <p className="font-bold text-slate-900">{subject.name}</p>
                 <p className="mt-1 text-xs uppercase tracking-[0.2em] text-slate-500">
                   {subject.weightage}
                 </p>
               </div>
-              <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slatebrand-700">
+              <span className="rounded-full border border-portal-200 bg-white px-3 py-1 text-xs font-bold text-portal-700">
                 {subject.completionPercent}%
               </span>
             </div>

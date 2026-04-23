@@ -6,19 +6,30 @@
 
 :root {
   color-scheme: light;
+  --portal-blue: #154a96;
+  --portal-blue-dark: #123b79;
+  --portal-blue-soft: #eef5ff;
+  --portal-line: #d7e4f6;
+  --portal-text: #1e293b;
+  --portal-muted: #5b6472;
+  --portal-gold: #f4c542;
+  --portal-green: #137d46;
+  --portal-surface: #ffffff;
+  --portal-shell: #f5f7fb;
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--portal-shell);
 }
 
 body {
-  @apply text-slate-900;
+  @apply antialiased;
+  color: var(--portal-text);
   background:
-    radial-gradient(circle at top left, rgba(77, 98, 151, 0.14), transparent 30%),
-    radial-gradient(circle at top right, rgba(255, 207, 125, 0.22), transparent 28%),
-    linear-gradient(180deg, #f7f8fc 0%, #eff3fb 100%);
+    linear-gradient(180deg, #f8fbff 0%, #f5f7fb 36%, #f5f7fb 100%);
   font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  min-width: 320px;
 }
 
 * {
@@ -39,4 +50,17 @@ button {
 
 a {
   color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+#__next {
+  min-height: 100vh;
 }

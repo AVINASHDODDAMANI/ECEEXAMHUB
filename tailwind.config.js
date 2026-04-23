@@ -8,6 +8,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        portal: {
+          50: "#f7fbff",
+          100: "#eef5ff",
+          200: "#d7e4f6",
+          300: "#adc3e6",
+          400: "#6d93cf",
+          500: "#2f66c7",
+          600: "#154a96",
+          700: "#123b79",
+          800: "#102f60",
+          900: "#0b2145",
+        },
         slatebrand: {
           50: "#f6f7fb",
           100: "#eceff8",
@@ -29,6 +41,7 @@ module.exports = {
       },
       boxShadow: {
         panel: "0 20px 45px rgba(15, 23, 42, 0.08)",
+        portal: "0 10px 30px rgba(16, 47, 96, 0.08)",
       },
       backgroundImage: {
         mesh:

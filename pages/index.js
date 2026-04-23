@@ -1,23 +1,63 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Layout from "../components/layout";
-import HeroSection from "../components/HeroSection";
 import seedQuestions from "../data/questions";
-import { getLearningSubjects, getReadyLearningTopics } from "../lib/learning-utils";
+import { getAllLearningTopics, getLearningSubjects, getReadyLearningTopics } from "../lib/learning-utils";
 import { useLearningProgress } from "../lib/use-learning-progress";
 import { fetchQuestions } from "../lib/api-client";
 
-const heroActions = [
-  { label: "Open Subjects", href: "/subjects", variant: "primary" },
-  { label: "Open Mock Tests", href: "/mock-tests", variant: "secondary" },
-];
+function Panel({ title, titleTone = "text-portal-700", children, action }) {
+  return (
+    <section className="rounded-2xl border border-portal-200 bg-white p-5 shadow-portal">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className={`text-2xl font-bold tracking-tight ${titleTone}`}>{title}</h2>
+        {action || null}
+      </div>
+      <div className="mt-4">{children}</div>
+    </section>
+  );
+}
 
-const examTags = ["GATE", "ISRO", "BEL", "BARC"];
+function FeatureIcon({ type }) {
+  if (type === "book") {
+    return (
+      <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 6.5A2.5 2.5 0 0 1 7.5 4H19v15H7.5A2.5 2.5 0 0 0 5 21V6.5Z" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M5 6.5A2.5 2.5 0 0 1 7.5 4H19v15H7.5A2.5 2.5 0 0 0 5 21V6.5Zm0 0V20" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (type === "document") {
+    return (
+      <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M8 3h6l5 5v13H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M14 3v5h5" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (type === "clipboard") {
+    return (
+      <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M9 4h6l1 2h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2l1-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M9 12h6M9 16h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0ZM4 20a8 8 0 0 1 16 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export default function Home() {
   const [questions, setQuestions] = useState(seedQuestions);
   const learningSubjects = getLearningSubjects();
   const readyTopics = getReadyLearningTopics();
+  const allTopics = getAllLearningTopics();
   const { progressStats } = useLearningProgress();
 
   useEffect(() => {
@@ -43,87 +83,287 @@ export default function Home() {
     };
   }, []);
 
-  const heroStats = [
-    { label: "Questions", value: String(questions.length).padStart(2, "0") },
-    { label: "Ready Topics", value: String(progressStats.totalTopics).padStart(2, "0") },
-    { label: "Completion", value: `${progressStats.completionPercent}%` },
+  const popularTopics = useMemo(
+    () =>
+      allTopics.slice(0, 12).map((topic) => ({
+        label: topic.title,
+        href:
+          topic.status === "ready"
+            ? `/learn/${topic.subjectSlug}/${topic.slug}`
+            : `/learn?search=${encodeURIComponent(topic.title)}`,
+      })),
+    [allTopics]
+  );
+
+  const latestArticles = [
+    {
+      date: "May 12, 2026",
+      title: "GATE ECE 2027: Syllabus, Exam Pattern & Preparation Tips",
+      href: "/learn?search=GATE",
+    },
+    {
+      date: "May 8, 2026",
+      title: "Important Topics in Digital Signal Processing",
+      href: "/learn?search=Digital",
+    },
+    {
+      date: "May 5, 2026",
+      title: "Network Theorems with Solved Examples",
+      href: "/learn?search=Networks",
+    },
+    {
+      date: "Apr 30, 2026",
+      title: "Latest ECE Interview Questions for Core Companies",
+      href: "/practice?search=important",
+    },
   ];
 
-  const homepageSections = [
+  const examLinks = [
+    { label: "GATE ECE", href: "/previous-year?exam=GATE" },
+    { label: "ESE (IES)", href: "/learn" },
+    { label: "PSU Exams (EC)", href: "/previous-year?exam=BEL" },
+    { label: "RRB JE (EC)", href: "/practice" },
+    { label: "UPSC ECE", href: "/learn?search=communication" },
+    { label: "University Semester Exams", href: "/subjects" },
+  ];
+
+  const studyMaterials = [
+    { label: "Notes", href: "/notes" },
+    { label: "Previous Year Papers", href: "/previous-year" },
+    { label: "Important Questions", href: "/practice?search=important" },
+    { label: "MCQs", href: "/mcqs" },
+    { label: "Formula Sheet", href: "/learn?search=formula" },
+    { label: "Textbooks Style Topics", href: "/learn" },
+  ];
+
+  const previousPaperGroups = [
+    { label: "GATE ECE", href: "/previous-year?exam=GATE" },
+    { label: "ESE (IES)", href: "/previous-year" },
+    { label: "PSU Exams", href: "/previous-year?exam=BEL" },
+    { label: "University Exams", href: "/subjects" },
+  ];
+
+  const highlights = [
     {
-      title: "Subjects",
-      value: `${learningSubjects.length}`,
-      detail: "subject tracks",
-      description: "Open only the subject section and move into chapter-wise learning from there.",
-      href: "/subjects",
-      cardClassName:
-        "border-blue-200/70 bg-[linear-gradient(180deg,#ffffff_0%,#eef4ff_100%)] hover:border-blue-300",
-      badgeClassName:
-        "bg-blue-100 text-blue-700 group-hover:bg-blue-600 group-hover:text-white",
+      icon: "book",
+      title: "Well Explained",
+      description: "Concise and easy to understand topics",
     },
     {
-      title: "MCQs",
-      value: `${questions.length}`,
-      detail: "question cards",
-      description: "Open the MCQ page separately with options, answers, explanations, and exam tags.",
-      href: "/mcqs",
-      cardClassName:
-        "border-cyan-200/70 bg-[linear-gradient(180deg,#ffffff_0%,#eefcfb_100%)] hover:border-cyan-300",
-      badgeClassName:
-        "bg-cyan-100 text-cyan-700 group-hover:bg-cyan-600 group-hover:text-white",
+      icon: "document",
+      title: "Exam Focused",
+      description: "Important questions, PYQs, and patterns",
     },
     {
-      title: "Notes",
-      value: `${readyTopics.length}`,
-      detail: "ready notes",
-      description: "Open only the notes library with all topic-wise notes in one place.",
-      href: "/notes",
-      cardClassName:
-        "border-amber-200/70 bg-[linear-gradient(180deg,#ffffff_0%,#fff7eb_100%)] hover:border-amber-300",
-      badgeClassName:
-        "bg-amber-100 text-amber-700 group-hover:bg-amber-500 group-hover:text-white",
+      icon: "clipboard",
+      title: "Updated Regularly",
+      description: "Latest syllabus and exam-oriented practice",
     },
     {
-      title: "Mock Tests",
-      value: "03",
-      detail: "mock sets",
-      description: "Open only the mock test section with revision-focused mock question sets.",
-      href: "/mock-tests",
-      cardClassName:
-        "border-emerald-200/70 bg-[linear-gradient(180deg,#ffffff_0%,#ecfdf5_100%)] hover:border-emerald-300",
-      badgeClassName:
-        "bg-emerald-100 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white",
+      icon: "people",
+      title: "For All ECE Students",
+      description: "Semester exams to competitive exam revision",
     },
   ];
 
   return (
-    <Layout title="ECEExamHub | Home" pageClassName="pt-5">
-      <div className="mx-auto max-w-6xl">
-        <HeroSection stats={heroStats} actions={heroActions} examTags={examTags} />
-
-        <section className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {homepageSections.map((section) => (
-            <Link
-              key={section.title}
-              href={section.href}
-              className={`group rounded-lg border p-3.5 shadow-sm transition hover:-translate-y-1 ${section.cardClassName}`}
-            >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                {section.title}
+    <Layout title="ECE Exam Guide | Home" pageClassName="py-5">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_360px]">
+        <div className="space-y-6">
+          <section className="rounded-2xl border border-portal-200 bg-gradient-to-r from-[#f7fbff] to-[#eef5ff] p-5 shadow-portal sm:p-6">
+            <div className="max-w-4xl">
+              <h1 className="text-3xl font-bold tracking-tight text-portal-700 sm:text-4xl">
+                Welcome to ECE Exam Guide
+              </h1>
+              <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
+                Your one-stop platform for Electronics and Communication Engineering exam
+                preparation. Find notes, important questions, previous year papers, MCQs,
+                and revision-ready learning paths that work cleanly on mobile phones,
+                tablets, and laptops.
               </p>
-              <div className="mt-2 flex items-end justify-between gap-3">
-                <div>
-                  <p className="text-xl font-semibold tracking-tight text-slate-900">{section.value}</p>
-                  <p className="text-xs text-slate-500">{section.detail}</p>
+            </div>
+
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              {highlights.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-2xl border border-portal-200 bg-white/80 p-4"
+                >
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full border border-portal-200 bg-portal-50 text-portal-600">
+                    <FeatureIcon type={item.icon} />
+                  </div>
+                  <h2 className="mt-4 text-lg font-bold text-portal-700">{item.title}</h2>
+                  <p className="mt-2 text-sm leading-7 text-slate-600">{item.description}</p>
                 </div>
-                <span className={`rounded-md px-2 py-1 text-[11px] font-medium transition ${section.badgeClassName}`}>
-                  Open
-                </span>
-              </div>
-              <p className="mt-1.5 text-sm leading-5 text-slate-600">{section.description}</p>
+              ))}
+            </div>
+          </section>
+
+          <Panel title="Popular Topics" titleTone="text-green-700">
+            <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2 xl:grid-cols-4">
+              {popularTopics.map((topic) => (
+                <Link
+                  key={topic.label}
+                  href={topic.href}
+                  className="flex items-center gap-3 text-base font-medium text-slate-700 transition hover:text-portal-700"
+                >
+                  <span className="text-xl text-green-700">›</span>
+                  <span>{topic.label}</span>
+                </Link>
+              ))}
+            </div>
+          </Panel>
+
+          <Panel
+            title="Latest Articles"
+            titleTone="text-orange-600"
+            action={
+              <Link href="/learn" className="text-sm font-bold text-orange-500 transition hover:text-orange-600">
+                View all
+              </Link>
+            }
+          >
+            <div className="divide-y divide-portal-100">
+              {latestArticles.map((article) => (
+                <Link
+                  key={article.title}
+                  href={article.href}
+                  className="grid gap-2 py-4 transition first:pt-0 hover:text-portal-700 sm:grid-cols-[140px_minmax(0,1fr)]"
+                >
+                  <span className="text-sm text-slate-500">{article.date}</span>
+                  <span className="text-base font-medium text-slate-800">{article.title}</span>
+                </Link>
+              ))}
+            </div>
+          </Panel>
+
+          <Panel
+            title="Previous Year Papers"
+            titleTone="text-violet-700"
+            action={
+              <Link href="/previous-year" className="text-sm font-bold text-violet-600 transition hover:text-violet-700">
+                View all
+              </Link>
+            }
+          >
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              {previousPaperGroups.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="flex items-center gap-3 rounded-2xl border border-violet-200 bg-violet-50 px-4 py-4 font-semibold text-slate-800 transition hover:border-violet-300 hover:bg-white"
+                >
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-200 bg-white text-violet-600">
+                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M8 3h6l5 5v13H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+                      <path d="M14 3v5h5M9 13h6M9 17h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                    </svg>
+                  </span>
+                  <span>{item.label}</span>
+                </Link>
+              ))}
+            </div>
+          </Panel>
+        </div>
+
+        <aside className="space-y-6">
+          <Panel
+            title="ECE Exams"
+            action={
+              <span className="rounded-full border border-portal-200 bg-portal-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-portal-700">
+                {learningSubjects.length} subjects
+              </span>
+            }
+          >
+            <div className="grid gap-3">
+              {examLinks.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="flex items-center gap-3 text-lg font-medium text-portal-700 transition hover:text-portal-800"
+                >
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-portal-50 text-portal-600">
+                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M3.5 7.5 10 4l6.5 3.5L10 11 3.5 7.5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                      <path d="M5.5 10.5v2L10 15l4.5-2.5v-2" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                  <span className="text-base">{item.label}</span>
+                </Link>
+              ))}
+            </div>
+
+            <Link
+              href="/subjects"
+              className="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-portal-200 bg-[#f8fbff] px-4 py-3 text-base font-bold text-portal-700 transition hover:bg-white"
+            >
+              View all exams
             </Link>
-          ))}
-        </section>
+          </Panel>
+
+          <Panel title="Study Materials" titleTone="text-green-700">
+            <div className="grid gap-3">
+              {studyMaterials.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="flex items-center gap-3 text-base font-medium text-portal-700 transition hover:text-portal-800"
+                >
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-green-200 bg-green-50 text-green-700">
+                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M5 2.5h7l3 3V16a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 16V4A1.5 1.5 0 0 1 5.5 2.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+                      <path d="M12 2.5V6h3" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                  <span>{item.label}</span>
+                </Link>
+              ))}
+            </div>
+          </Panel>
+
+          <section className="rounded-2xl border border-orange-200 bg-orange-50 p-5 shadow-portal">
+            <h2 className="text-2xl font-bold tracking-tight text-orange-700">Stay Updated</h2>
+            <p className="mt-3 text-base leading-7 text-slate-600">
+              Get the latest exam updates and study resources.
+            </p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-[minmax(0,1fr)_112px] lg:grid-cols-1 xl:grid-cols-[minmax(0,1fr)_112px]">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="rounded-xl border border-orange-200 bg-white px-4 py-3 text-base outline-none transition focus:border-orange-400"
+              />
+              <button
+                type="button"
+                className="rounded-xl bg-orange-500 px-4 py-3 text-base font-bold text-white transition hover:bg-orange-600"
+              >
+                Subscribe
+              </button>
+            </div>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+              <div className="rounded-xl border border-orange-200 bg-white px-4 py-3">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+                  Questions
+                </p>
+                <p className="mt-2 text-2xl font-bold text-orange-600">{questions.length}</p>
+              </div>
+              <div className="rounded-xl border border-orange-200 bg-white px-4 py-3">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+                  Ready Topics
+                </p>
+                <p className="mt-2 text-2xl font-bold text-orange-600">{readyTopics.length}</p>
+              </div>
+              <div className="rounded-xl border border-orange-200 bg-white px-4 py-3">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+                  Completion
+                </p>
+                <p className="mt-2 text-2xl font-bold text-orange-600">
+                  {progressStats.completionPercent}%
+                </p>
+              </div>
+            </div>
+          </section>
+        </aside>
       </div>
     </Layout>
   );
