@@ -8,12 +8,14 @@ import { fetchQuestions } from "../lib/api-client";
 
 function Panel({ title, titleTone = "text-portal-700", children, action }) {
   return (
-    <section className="rounded-2xl border border-portal-200 bg-white p-5 shadow-portal">
+    <section className="rounded-2xl border border-portal-200 bg-white p-4 shadow-portal sm:p-5">
       <div className="flex items-center justify-between gap-3">
-        <h2 className={`text-2xl font-bold tracking-tight ${titleTone}`}>{title}</h2>
+        <h2 className={`text-[1.35rem] font-bold tracking-tight ${titleTone} sm:text-2xl`}>
+          {title}
+        </h2>
         {action || null}
       </div>
-      <div className="mt-4">{children}</div>
+      <div className="mt-3 sm:mt-4">{children}</div>
     </section>
   );
 }
@@ -21,7 +23,7 @@ function Panel({ title, titleTone = "text-portal-700", children, action }) {
 function FeatureIcon({ type }) {
   if (type === "book") {
     return (
-      <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <svg className="h-6 w-6 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M5 6.5A2.5 2.5 0 0 1 7.5 4H19v15H7.5A2.5 2.5 0 0 0 5 21V6.5Z" stroke="currentColor" strokeWidth="1.8" />
         <path d="M5 6.5A2.5 2.5 0 0 1 7.5 4H19v15H7.5A2.5 2.5 0 0 0 5 21V6.5Zm0 0V20" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
       </svg>
@@ -30,7 +32,7 @@ function FeatureIcon({ type }) {
 
   if (type === "document") {
     return (
-      <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <svg className="h-6 w-6 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M8 3h6l5 5v13H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
         <path d="M14 3v5h5" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
       </svg>
@@ -39,7 +41,7 @@ function FeatureIcon({ type }) {
 
   if (type === "clipboard") {
     return (
-      <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <svg className="h-6 w-6 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M9 4h6l1 2h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2l1-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
         <path d="M9 12h6M9 16h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
@@ -47,7 +49,7 @@ function FeatureIcon({ type }) {
   }
 
   return (
-    <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg className="h-6 w-6 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0ZM4 20a8 8 0 0 1 16 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -167,15 +169,15 @@ export default function Home() {
   ];
 
   return (
-    <Layout title="ECE Exam Guide | Home" pageClassName="py-5">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_360px]">
-        <div className="space-y-6">
-          <section className="rounded-2xl border border-portal-200 bg-gradient-to-r from-[#f7fbff] to-[#eef5ff] p-5 shadow-portal sm:p-6">
+    <Layout title="ECE Exam Guide | Home" pageClassName="py-3 sm:py-5">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-[minmax(0,2fr)_360px]">
+        <div className="space-y-4 sm:space-y-6">
+          <section className="rounded-2xl border border-portal-200 bg-gradient-to-r from-[#f7fbff] to-[#eef5ff] p-4 shadow-portal sm:p-6">
             <div className="max-w-4xl">
-              <h1 className="text-3xl font-bold tracking-tight text-portal-700 sm:text-4xl">
+              <h1 className="text-[2rem] font-bold tracking-tight text-portal-700 sm:text-4xl">
                 Welcome to ECE Exam Guide
               </h1>
-              <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 sm:mt-4 sm:text-base sm:leading-8">
                 Your one-stop platform for Electronics and Communication Engineering exam
                 preparation. Find notes, important questions, previous year papers, MCQs,
                 and revision-ready learning paths that work cleanly on mobile phones,
@@ -183,31 +185,35 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-4 grid gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4">
               {highlights.map((item) => (
                 <div
                   key={item.title}
-                  className="rounded-2xl border border-portal-200 bg-white/80 p-4"
+                  className="rounded-xl border border-portal-200 bg-white/80 p-3.5 sm:rounded-2xl sm:p-4"
                 >
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full border border-portal-200 bg-portal-50 text-portal-600">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full border border-portal-200 bg-portal-50 text-portal-600 sm:h-14 sm:w-14">
                     <FeatureIcon type={item.icon} />
                   </div>
-                  <h2 className="mt-4 text-lg font-bold text-portal-700">{item.title}</h2>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">{item.description}</p>
+                  <h2 className="mt-3 text-base font-bold text-portal-700 sm:mt-4 sm:text-lg">
+                    {item.title}
+                  </h2>
+                  <p className="mt-1.5 text-xs leading-6 text-slate-600 sm:mt-2 sm:text-sm sm:leading-7">
+                    {item.description}
+                  </p>
                 </div>
               ))}
             </div>
           </section>
 
           <Panel title="Popular Topics" titleTone="text-green-700">
-            <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="grid gap-x-4 gap-y-2.5 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-4 xl:grid-cols-4">
               {popularTopics.map((topic) => (
                 <Link
                   key={topic.label}
                   href={topic.href}
-                  className="flex items-center gap-3 text-base font-medium text-slate-700 transition hover:text-portal-700"
+                  className="flex items-center gap-2.5 text-sm font-medium text-slate-700 transition hover:text-portal-700 sm:gap-3 sm:text-base"
                 >
-                  <span className="text-xl text-green-700">›</span>
+                  <span className="text-base text-green-700 sm:text-xl">{">"}</span>
                   <span>{topic.label}</span>
                 </Link>
               ))}
@@ -218,7 +224,10 @@ export default function Home() {
             title="Latest Articles"
             titleTone="text-orange-600"
             action={
-              <Link href="/learn" className="text-sm font-bold text-orange-500 transition hover:text-orange-600">
+              <Link
+                href="/learn"
+                className="text-xs font-bold text-orange-500 transition hover:text-orange-600 sm:text-sm"
+              >
                 View all
               </Link>
             }
@@ -228,10 +237,10 @@ export default function Home() {
                 <Link
                   key={article.title}
                   href={article.href}
-                  className="grid gap-2 py-4 transition first:pt-0 hover:text-portal-700 sm:grid-cols-[140px_minmax(0,1fr)]"
+                  className="grid gap-1.5 py-3 transition first:pt-0 hover:text-portal-700 sm:grid-cols-[140px_minmax(0,1fr)] sm:gap-2 sm:py-4"
                 >
-                  <span className="text-sm text-slate-500">{article.date}</span>
-                  <span className="text-base font-medium text-slate-800">{article.title}</span>
+                  <span className="text-xs text-slate-500 sm:text-sm">{article.date}</span>
+                  <span className="text-sm font-medium text-slate-800 sm:text-base">{article.title}</span>
                 </Link>
               ))}
             </div>
@@ -241,19 +250,22 @@ export default function Home() {
             title="Previous Year Papers"
             titleTone="text-violet-700"
             action={
-              <Link href="/previous-year" className="text-sm font-bold text-violet-600 transition hover:text-violet-700">
+              <Link
+                href="/previous-year"
+                className="text-xs font-bold text-violet-600 transition hover:text-violet-700 sm:text-sm"
+              >
                 View all
               </Link>
             }
           >
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4">
               {previousPaperGroups.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="flex items-center gap-3 rounded-2xl border border-violet-200 bg-violet-50 px-4 py-4 font-semibold text-slate-800 transition hover:border-violet-300 hover:bg-white"
+                  className="flex items-center gap-3 rounded-xl border border-violet-200 bg-violet-50 px-3 py-3 text-sm font-semibold text-slate-800 transition hover:border-violet-300 hover:bg-white sm:rounded-2xl sm:px-4 sm:py-4 sm:text-base"
                 >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-200 bg-white text-violet-600">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-violet-200 bg-white text-violet-600 sm:h-10 sm:w-10 sm:rounded-xl">
                     <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                       <path d="M8 3h6l5 5v13H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
                       <path d="M14 3v5h5M9 13h6M9 17h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
@@ -266,21 +278,21 @@ export default function Home() {
           </Panel>
         </div>
 
-        <aside className="space-y-6">
+        <aside className="space-y-4 sm:space-y-6">
           <Panel
             title="ECE Exams"
             action={
-              <span className="rounded-full border border-portal-200 bg-portal-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-portal-700">
+              <span className="rounded-full border border-portal-200 bg-portal-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-portal-700 sm:px-3 sm:text-xs">
                 {learningSubjects.length} subjects
               </span>
             }
           >
-            <div className="grid gap-3">
+            <div className="grid gap-2.5 sm:gap-3">
               {examLinks.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="flex items-center gap-3 text-lg font-medium text-portal-700 transition hover:text-portal-800"
+                  className="flex items-center gap-3 text-sm font-medium text-portal-700 transition hover:text-portal-800 sm:text-lg"
                 >
                   <span className="flex h-8 w-8 items-center justify-center rounded-full bg-portal-50 text-portal-600">
                     <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -288,26 +300,26 @@ export default function Home() {
                       <path d="M5.5 10.5v2L10 15l4.5-2.5v-2" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
                     </svg>
                   </span>
-                  <span className="text-base">{item.label}</span>
+                  <span className="text-sm sm:text-base">{item.label}</span>
                 </Link>
               ))}
             </div>
 
             <Link
               href="/subjects"
-              className="mt-6 inline-flex w-full items-center justify-center rounded-xl border border-portal-200 bg-[#f8fbff] px-4 py-3 text-base font-bold text-portal-700 transition hover:bg-white"
+              className="mt-4 inline-flex w-full items-center justify-center rounded-xl border border-portal-200 bg-[#f8fbff] px-4 py-2.5 text-sm font-bold text-portal-700 transition hover:bg-white sm:mt-6 sm:py-3 sm:text-base"
             >
               View all exams
             </Link>
           </Panel>
 
           <Panel title="Study Materials" titleTone="text-green-700">
-            <div className="grid gap-3">
+            <div className="grid gap-2.5 sm:gap-3">
               {studyMaterials.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="flex items-center gap-3 text-base font-medium text-portal-700 transition hover:text-portal-800"
+                  className="flex items-center gap-3 text-sm font-medium text-portal-700 transition hover:text-portal-800 sm:text-base"
                 >
                   <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-green-200 bg-green-50 text-green-700">
                     <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -321,43 +333,45 @@ export default function Home() {
             </div>
           </Panel>
 
-          <section className="rounded-2xl border border-orange-200 bg-orange-50 p-5 shadow-portal">
-            <h2 className="text-2xl font-bold tracking-tight text-orange-700">Stay Updated</h2>
-            <p className="mt-3 text-base leading-7 text-slate-600">
+          <section className="rounded-2xl border border-orange-200 bg-orange-50 p-4 shadow-portal sm:p-5">
+            <h2 className="text-[1.35rem] font-bold tracking-tight text-orange-700 sm:text-2xl">
+              Stay Updated
+            </h2>
+            <p className="mt-2.5 text-sm leading-6 text-slate-600 sm:mt-3 sm:text-base sm:leading-7">
               Get the latest exam updates and study resources.
             </p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-[minmax(0,1fr)_112px] lg:grid-cols-1 xl:grid-cols-[minmax(0,1fr)_112px]">
+            <div className="mt-4 grid gap-2.5 sm:mt-5 sm:gap-3 sm:grid-cols-[minmax(0,1fr)_112px] lg:grid-cols-1 xl:grid-cols-[minmax(0,1fr)_112px]">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="rounded-xl border border-orange-200 bg-white px-4 py-3 text-base outline-none transition focus:border-orange-400"
+                className="rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-orange-400 sm:py-3 sm:text-base"
               />
               <button
                 type="button"
-                className="rounded-xl bg-orange-500 px-4 py-3 text-base font-bold text-white transition hover:bg-orange-600"
+                className="rounded-xl bg-orange-500 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-orange-600 sm:py-3 sm:text-base"
               >
                 Subscribe
               </button>
             </div>
 
-            <div className="mt-5 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-              <div className="rounded-xl border border-orange-200 bg-white px-4 py-3">
+            <div className="mt-4 grid gap-2.5 sm:mt-5 sm:gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+              <div className="rounded-xl border border-orange-200 bg-white px-3.5 py-3 sm:px-4">
                 <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
                   Questions
                 </p>
-                <p className="mt-2 text-2xl font-bold text-orange-600">{questions.length}</p>
+                <p className="mt-1.5 text-xl font-bold text-orange-600 sm:mt-2 sm:text-2xl">{questions.length}</p>
               </div>
-              <div className="rounded-xl border border-orange-200 bg-white px-4 py-3">
+              <div className="rounded-xl border border-orange-200 bg-white px-3.5 py-3 sm:px-4">
                 <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
                   Ready Topics
                 </p>
-                <p className="mt-2 text-2xl font-bold text-orange-600">{readyTopics.length}</p>
+                <p className="mt-1.5 text-xl font-bold text-orange-600 sm:mt-2 sm:text-2xl">{readyTopics.length}</p>
               </div>
-              <div className="rounded-xl border border-orange-200 bg-white px-4 py-3">
+              <div className="rounded-xl border border-orange-200 bg-white px-3.5 py-3 sm:px-4">
                 <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
                   Completion
                 </p>
-                <p className="mt-2 text-2xl font-bold text-orange-600">
+                <p className="mt-1.5 text-xl font-bold text-orange-600 sm:mt-2 sm:text-2xl">
                   {progressStats.completionPercent}%
                 </p>
               </div>

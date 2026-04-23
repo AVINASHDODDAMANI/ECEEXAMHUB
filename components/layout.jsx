@@ -9,7 +9,7 @@ export default function Layout({
   searchValue = "",
   onSearchChange,
   hideNavbar = false,
-  pageClassName = "py-4",
+  pageClassName = "py-3 sm:py-4",
 }) {
   return (
     <>
@@ -25,7 +25,7 @@ export default function Layout({
       <div className="min-h-screen bg-[#f5f7fb]">
         <div className="relative z-10">
           {!hideNavbar && <Navbar searchValue={searchValue} onSearchChange={onSearchChange} />}
-          <main className={`mx-auto w-full max-w-[1440px] px-4 pb-10 ${pageClassName} sm:px-6 lg:px-8`}>
+          <main className={`mx-auto w-full max-w-[1440px] px-3 pb-8 ${pageClassName} sm:px-6 sm:pb-10 lg:px-8`}>
             {children}
           </main>
           <Footer />

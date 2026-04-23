@@ -21,6 +21,7 @@
 html {
   scroll-behavior: smooth;
   background: var(--portal-shell);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -30,10 +31,14 @@ body {
     linear-gradient(180deg, #f8fbff 0%, #f5f7fb 36%, #f5f7fb 100%);
   font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
   min-width: 320px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-y: auto;
 }
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 ::selection {
