@@ -68,13 +68,13 @@ export default function EceExamsPage() {
   return (
     <Layout title="ECE Exam Guide | ECE Exams">
       <div className="mx-auto max-w-[1440px]">
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,2.1fr)_400px]">
+        <div>
           <div className="space-y-6">
             <div className="mb-1 flex items-center gap-2 border-b border-portal-100 pb-4 text-sm text-slate-500">
               <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">
                 Home
               </Link>
-              <span>›</span>
+              <span aria-hidden="true">&gt;</span>
               <span className="font-medium text-slate-700">ECE Exams</span>
             </div>
 
@@ -95,8 +95,7 @@ export default function EceExamsPage() {
                     Find everything you need to crack top ECE competitive exams.
                   </p>
                   <p className="mt-1 text-base leading-8 text-slate-600">
-                    Syllabus, Previous Papers, Important Topics, MCQs and Preparation Resources
-                    all in one place.
+                    Syllabus, previous papers, important topics, MCQs, and preparation resources.
                   </p>
                 </div>
               </div>
@@ -128,7 +127,7 @@ export default function EceExamsPage() {
                       className="mt-4 inline-flex items-center gap-2 text-base font-bold text-portal-600 transition hover:text-portal-700"
                     >
                       Explore
-                      <span aria-hidden="true">→</span>
+                      <span aria-hidden="true">-&gt;</span>
                     </Link>
                   </article>
                 ))}
@@ -144,12 +143,12 @@ export default function EceExamsPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold tracking-tight text-portal-700">
-                    Everything in one place
+                    Quick exam resources
                   </p>
                   <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-base text-slate-600">
                     {examResources.map((resource) => (
                       <span key={resource} className="flex items-center gap-2">
-                        <span className="text-portal-500">•</span>
+                        <span className="text-portal-500" aria-hidden="true">-</span>
                         <span>{resource}</span>
                       </span>
                     ))}
@@ -159,53 +158,6 @@ export default function EceExamsPage() {
             </section>
           </div>
 
-          <aside className="space-y-4">
-            <section className="rounded-2xl border border-portal-200 bg-white p-5 shadow-portal">
-              <h2 className="text-2xl font-bold tracking-tight text-portal-700">ECE Exams</h2>
-              <div className="mt-4 border-t border-portal-100 pt-2">
-                {examDirectory.map((exam) => (
-                  <Link
-                    key={exam.title}
-                    href={exam.href}
-                    className="flex items-start gap-4 border-b border-portal-100 py-4 last:border-b-0 hover:bg-[#f8fbff]"
-                  >
-                    <div
-                      className={`flex h-14 w-14 flex-none items-center justify-center rounded-full border ${exam.accent.bg} ${exam.accent.border} ${exam.accent.text}`}
-                    >
-                      <ExamIcon type={exam.icon} />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className={`text-lg font-bold ${exam.accent.text}`}>{exam.title}</p>
-                      <p className="mt-1 text-base leading-7 text-slate-600">
-                        {exam.shortDescription}
-                      </p>
-                    </div>
-                    <span className="pt-2 text-xl text-slate-400">›</span>
-                  </Link>
-                ))}
-              </div>
-            </section>
-
-            <section className="rounded-2xl border border-blue-200 bg-blue-50 p-5 shadow-portal">
-              <h2 className="text-2xl font-bold tracking-tight text-portal-700">Stay Updated</h2>
-              <p className="mt-3 text-base leading-7 text-slate-600">
-                Get latest exam updates, notifications and study resources on your email.
-              </p>
-              <div className="mt-5 grid gap-3 sm:grid-cols-[minmax(0,1fr)_112px] xl:grid-cols-[minmax(0,1fr)_112px]">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="rounded-xl border border-blue-200 bg-white px-4 py-3 text-base outline-none transition focus:border-portal-400"
-                />
-                <button
-                  type="button"
-                  className="rounded-xl bg-portal-700 px-4 py-3 text-base font-bold text-white transition hover:bg-portal-800"
-                >
-                  Subscribe
-                </button>
-              </div>
-            </section>
-          </aside>
         </div>
       </div>
     </Layout>

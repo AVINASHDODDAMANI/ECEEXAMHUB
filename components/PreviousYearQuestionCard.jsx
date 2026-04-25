@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CircuitDiagram from "./CircuitDiagram";
 import { formatQuestionTag, hasQuestionTag } from "../lib/question-utils";
 
 export default function PreviousYearQuestionCard({
@@ -25,7 +26,7 @@ export default function PreviousYearQuestionCard({
 
   return (
     <article
-      className={`rounded-lg border bg-white p-3 shadow-sm ${
+      className={`rounded-lg border bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(15,23,42,0.1)] ${
         isImportant ? "border-amber-200" : "border-slate-200"
       }`}
     >
@@ -53,6 +54,10 @@ export default function PreviousYearQuestionCard({
         <div className="rounded-md bg-slate-100 px-2 py-1 text-[11px] font-medium text-slate-600">
           Year {question.year}
         </div>
+      </div>
+
+      <div className="mt-3 max-w-[560px]">
+        <CircuitDiagram question={question} />
       </div>
 
       <p className="mt-3 text-sm leading-6 text-slate-800">{question.question}</p>

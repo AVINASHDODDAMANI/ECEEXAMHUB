@@ -1,132 +1,63 @@
 import Link from "next/link";
 import Layout from "../components/layout";
-import PageBanner from "../components/PageBanner";
-import { getLearningSubjects } from "../lib/learning-utils";
-import { useLearningProgress } from "../lib/use-learning-progress";
+import { subjectDirectory } from "../data/subject-directory";
+import { getSubjectSlug } from "../data/subject-theory-roadmaps";
+
+function NotesTopicIcon() {
+  return (
+    <span className="flex h-11 w-11 flex-none items-center justify-center rounded-lg border border-portal-200 bg-portal-50 text-portal-700">
+      <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M5 2.5h7l3 3V16A1.5 1.5 0 0 1 13.5 17.5h-8A1.5 1.5 0 0 1 4 16V4A1.5 1.5 0 0 1 5.5 2.5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+        <path d="M12 2.5V6h3M7 10h6M7 13h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </span>
+  );
+}
 
 export default function NotesPage() {
-  const learningSubjects = getLearningSubjects();
-  const { progressStats } = useLearningProgress();
-  const readyNotesCount = learningSubjects.reduce(
-    (subjectTotal, subject) =>
-      subjectTotal +
-      subject.chapters.reduce(
-        (chapterTotal, chapter) =>
-          chapterTotal + chapter.topics.filter((topic) => topic.status === "ready").length,
-        0
-      ),
-    0
-  );
-
   return (
-    <Layout title="ECEExamHub | Notes">
-      <div className="mx-auto max-w-6xl">
-        <PageBanner
-          eyebrow="Notes"
-          title="Notes Library"
-          description="Read quick theory notes, topic summaries, and revision-ready concepts."
-          metrics={[
-            { label: "Ready Notes", value: String(readyNotesCount) },
-            { label: "Completion", value: `${progressStats.completionPercent}%` },
-            { label: "View", value: "Separate" },
-          ]}
-        />
+    <Layout title="ECEExamHub | Notes" pageClassName="py-3">
+      <div className="mx-auto max-w-[1200px]">
+        <div className="mb-5 flex items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500">
+          <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">
+            Home
+          </Link>
+          <span className="text-slate-300" aria-hidden="true">/</span>
+          <span className="font-medium text-slate-700">Notes</span>
+        </div>
 
-        <section className="mt-6 grid gap-4">
-          {learningSubjects.map((subject) => {
-            const subjectProgress = progressStats.subjects.find((item) => item.slug === subject.slug);
-            const readyChapters = subject.chapters
-              .map((chapter) => ({
-                ...chapter,
-                topics: chapter.topics.filter((topic) => topic.status === "ready"),
-              }))
-              .filter((chapter) => chapter.topics.length > 0);
+        <section className="rounded-xl border border-portal-200 bg-white p-5 shadow-portal">
+          <h1 className="text-3xl font-bold tracking-tight text-portal-700 sm:text-4xl">
+            Notes
+          </h1>
+        </section>
 
-            if (!readyChapters.length) {
-              return null;
-            }
+        <section className="mt-5">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+            Topic Names
+          </h2>
 
-            return (
-              <article
-                key={subject.slug}
-                className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {subjectDirectory.map((subject) => (
+              <Link
+                key={subject.title}
+                href={`/notes/${getSubjectSlug(subject.title)}`}
+                className="group rounded-xl border border-portal-300 bg-white p-4 shadow-portal transition-all duration-300 hover:-translate-y-1 hover:border-portal-400 hover:shadow-[0_14px_30px_rgba(15,23,42,0.11)]"
               >
-                <div className="flex flex-col gap-3 border-b border-slate-200 pb-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-700">
-                      {subject.weightage}
+                <div className="flex items-center gap-3">
+                  <NotesTopicIcon />
+                  <div className="min-w-0">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-slate-600">
+                      Topic {String(subject.id).padStart(2, "0")}
                     </p>
-                    <h2 className="mt-1 text-xl font-semibold text-slate-900">{subject.name}</h2>
-                    <p className="mt-1.5 text-sm leading-6 text-slate-600">
-                      {subject.description}
-                    </p>
-                  </div>
-                  <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600">
-                    {subjectProgress?.totalTopics || 0} ready topics
+                    <h3 className="mt-1 text-base font-bold leading-6 text-slate-950 group-hover:text-portal-700">
+                      {subject.title}
+                    </h3>
                   </div>
                 </div>
-
-                <div className="mt-4 grid gap-4">
-                  {readyChapters.map((chapter) => (
-                    <section
-                      key={`${subject.slug}-${chapter.slug}`}
-                      className="rounded-lg border border-slate-200 bg-slate-50 p-4"
-                    >
-                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                          <h3 className="text-base font-semibold text-slate-900">
-                            {chapter.title}
-                          </h3>
-                          <p className="mt-1 text-sm text-slate-500">
-                            {chapter.topics.length} note topic{chapter.topics.length === 1 ? "" : "s"}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="mt-3 grid gap-3">
-                        {chapter.topics.map((topic) => (
-                          <div
-                            key={`${subject.slug}-${chapter.slug}-${topic.slug}`}
-                            className="rounded-lg border border-slate-200 bg-white px-3 py-3"
-                          >
-                            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                              <div className="min-w-0">
-                                <h4 className="text-sm font-semibold text-slate-900">
-                                  {topic.title}
-                                </h4>
-                                <p className="mt-1 text-sm leading-6 text-slate-600">
-                                  {topic.summary}
-                                </p>
-                                {(topic.subtopics || []).length ? (
-                                  <div className="mt-2 flex flex-wrap gap-2">
-                                    {topic.subtopics.slice(0, 4).map((subtopic) => (
-                                      <span
-                                        key={`${topic.slug}-${subtopic}`}
-                                        className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1 text-[11px] text-slate-600"
-                                      >
-                                        {subtopic}
-                                      </span>
-                                    ))}
-                                  </div>
-                                ) : null}
-                              </div>
-
-                              <Link
-                                href={`/learn/${subject.slug}/${topic.slug}`}
-                                className="inline-flex rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-sm font-medium text-amber-700 transition hover:bg-amber-500 hover:text-white"
-                              >
-                                View Notes
-                              </Link>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </section>
-                  ))}
-                </div>
-              </article>
-            );
-          })}
+              </Link>
+            ))}
+          </div>
         </section>
       </div>
     </Layout>

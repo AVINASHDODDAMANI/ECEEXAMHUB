@@ -97,29 +97,6 @@ export default function Home() {
     [allTopics]
   );
 
-  const latestArticles = [
-    {
-      date: "May 12, 2026",
-      title: "GATE ECE 2027: Syllabus, Exam Pattern & Preparation Tips",
-      href: "/learn?search=GATE",
-    },
-    {
-      date: "May 8, 2026",
-      title: "Important Topics in Digital Signal Processing",
-      href: "/learn?search=Digital",
-    },
-    {
-      date: "May 5, 2026",
-      title: "Network Theorems with Solved Examples",
-      href: "/learn?search=Networks",
-    },
-    {
-      date: "Apr 30, 2026",
-      title: "Latest ECE Interview Questions for Core Companies",
-      href: "/practice?search=important",
-    },
-  ];
-
   const examLinks = [
     { label: "GATE ECE", href: "/previous-year?exam=GATE" },
     { label: "ESE (IES)", href: "/learn" },
@@ -178,10 +155,8 @@ export default function Home() {
                 Welcome to ECE Exam Guide
               </h1>
               <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 sm:mt-4 sm:text-base sm:leading-8">
-                Your one-stop platform for Electronics and Communication Engineering exam
-                preparation. Find notes, important questions, previous year papers, MCQs,
-                and revision-ready learning paths that work cleanly on mobile phones,
-                tablets, and laptops.
+                Find notes, important questions, previous year papers, MCQs, and
+                revision-ready learning paths for Electronics and Communication Engineering.
               </p>
             </div>
 
@@ -215,32 +190,6 @@ export default function Home() {
                 >
                   <span className="text-base text-green-700 sm:text-xl">{">"}</span>
                   <span>{topic.label}</span>
-                </Link>
-              ))}
-            </div>
-          </Panel>
-
-          <Panel
-            title="Latest Articles"
-            titleTone="text-orange-600"
-            action={
-              <Link
-                href="/learn"
-                className="text-xs font-bold text-orange-500 transition hover:text-orange-600 sm:text-sm"
-              >
-                View all
-              </Link>
-            }
-          >
-            <div className="divide-y divide-portal-100">
-              {latestArticles.map((article) => (
-                <Link
-                  key={article.title}
-                  href={article.href}
-                  className="grid gap-1.5 py-3 transition first:pt-0 hover:text-portal-700 sm:grid-cols-[140px_minmax(0,1fr)] sm:gap-2 sm:py-4"
-                >
-                  <span className="text-xs text-slate-500 sm:text-sm">{article.date}</span>
-                  <span className="text-sm font-medium text-slate-800 sm:text-base">{article.title}</span>
                 </Link>
               ))}
             </div>
@@ -335,25 +284,8 @@ export default function Home() {
 
           <section className="rounded-2xl border border-orange-200 bg-orange-50 p-4 shadow-portal sm:p-5">
             <h2 className="text-[1.35rem] font-bold tracking-tight text-orange-700 sm:text-2xl">
-              Stay Updated
+              Study Progress
             </h2>
-            <p className="mt-2.5 text-sm leading-6 text-slate-600 sm:mt-3 sm:text-base sm:leading-7">
-              Get the latest exam updates and study resources.
-            </p>
-            <div className="mt-4 grid gap-2.5 sm:mt-5 sm:gap-3 sm:grid-cols-[minmax(0,1fr)_112px] lg:grid-cols-1 xl:grid-cols-[minmax(0,1fr)_112px]">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-orange-400 sm:py-3 sm:text-base"
-              />
-              <button
-                type="button"
-                className="rounded-xl bg-orange-500 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-orange-600 sm:py-3 sm:text-base"
-              >
-                Subscribe
-              </button>
-            </div>
-
             <div className="mt-4 grid gap-2.5 sm:mt-5 sm:gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
               <div className="rounded-xl border border-orange-200 bg-white px-3.5 py-3 sm:px-4">
                 <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">

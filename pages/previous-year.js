@@ -6,7 +6,6 @@ import Layout from "../components/layout";
 import PreviousYearQuestionCard from "../components/PreviousYearQuestionCard";
 import {
   previousPaperBenefits,
-  previousPaperDirectory,
   previousPaperQuickLinks,
 } from "../data/previous-paper-directory";
 import { fetchFilters, fetchQuestions } from "../lib/api-client";
@@ -295,7 +294,7 @@ export default function PreviousYearPage() {
               <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">
                 Home
               </Link>
-              <span>›</span>
+              <span aria-hidden="true">&gt;</span>
               <span className="font-medium text-slate-700">Previous Papers</span>
             </div>
 
@@ -339,32 +338,6 @@ export default function PreviousYearPage() {
                   <p className="mt-1 text-lg font-bold text-slate-900">With Solutions</p>
                   <p className="mt-1 text-sm text-slate-600">Detailed explanations</p>
                 </div>
-              </div>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900">Browse by Exam</h2>
-              <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                {previousPaperDirectory.map((paper) => (
-                  <Link
-                    key={paper.title}
-                    href={paper.href}
-                    className="group flex items-center gap-4 rounded-2xl border border-portal-200 bg-white px-4 py-4 shadow-portal transition hover:-translate-y-0.5 hover:border-portal-300"
-                  >
-                    <div
-                      className={`flex h-14 w-14 flex-none items-center justify-center rounded-full border ${paper.accent.bg} ${paper.accent.border} ${paper.accent.text}`}
-                    >
-                      <PreviousPaperIcon type={paper.icon} />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-xl font-bold text-slate-900">{paper.title}</p>
-                      <p className="mt-1 text-sm text-slate-600">{paper.meta}</p>
-                    </div>
-                    <span className="text-2xl text-slate-400 transition group-hover:text-portal-700">
-                      ›
-                    </span>
-                  </Link>
-                ))}
               </div>
             </section>
 
@@ -421,7 +394,7 @@ export default function PreviousYearPage() {
                   </table>
                   <div className="mt-4 text-center">
                     <a href="#results" className="text-base font-bold text-portal-600 transition hover:text-portal-700">
-                      View all papers →
+                      View all papers -&gt;
                     </a>
                   </div>
                 </div>
@@ -565,7 +538,7 @@ export default function PreviousYearPage() {
                     className="flex items-center justify-between gap-3 text-base text-slate-700 transition hover:text-portal-700"
                   >
                     <span>{item.label}</span>
-                    <span className="text-xl text-slate-400">›</span>
+                    <span className="text-xl text-slate-400" aria-hidden="true">&gt;</span>
                   </Link>
                 ))}
               </div>

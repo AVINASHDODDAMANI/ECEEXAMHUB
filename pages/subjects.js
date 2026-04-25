@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Layout from "../components/layout";
-import { subjectDirectory, subjectResources } from "../data/subject-directory";
+import { subjectDirectory } from "../data/subject-directory";
+import { getSubjectSlug } from "../data/subject-theory-roadmaps";
 
 function SubjectIcon({ type }) {
   const common = "h-8 w-8";
@@ -93,133 +94,53 @@ function SubjectIcon({ type }) {
   );
 }
 
-function ResourceIcon() {
-  return (
-    <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <path d="M5 2.5h7l3 3V16A1.5 1.5 0 0 1 13.5 17.5h-8A1.5 1.5 0 0 1 4 16V4A1.5 1.5 0 0 1 5.5 2.5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-      <path d="M12 2.5V6h3" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 export default function SubjectsPage() {
   return (
     <Layout title="ECE Exam Guide | Subjects">
       <div className="mx-auto max-w-[1440px]">
-        <div className="mb-5 flex items-center gap-2 border-b border-portal-100 pb-4 text-sm text-slate-500">
+        <div className="mb-5 flex items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500">
           <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">
             Home
           </Link>
-          <span>›</span>
+          <span className="text-slate-300" aria-hidden="true">/</span>
           <span className="font-medium text-slate-700">Subjects</span>
         </div>
 
-        <section className="rounded-2xl border border-portal-200 bg-white p-5 shadow-portal sm:p-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full border border-portal-200 bg-portal-50 text-portal-600">
-              <svg className="h-10 w-10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M5 6.5A2.5 2.5 0 0 1 7.5 4H19v15H7.5A2.5 2.5 0 0 0 5 21V6.5Z" stroke="currentColor" strokeWidth="1.9" />
-                <path d="M5 6.5A2.5 2.5 0 0 1 7.5 4H19v15H7.5A2.5 2.5 0 0 0 5 21V6.5Zm0 0V20" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round" />
-              </svg>
-            </div>
-
-            <div className="max-w-4xl">
-              <h1 className="text-3xl font-bold tracking-tight text-portal-700 sm:text-4xl">
-                Subjects
-              </h1>
-              <p className="mt-3 text-base leading-8 text-slate-600">
-                Explore all core and advanced subjects of Electronics and Communication Engineering.
-              </p>
-              <p className="mt-1 text-base leading-8 text-slate-600">
-                Click on any subject to access Notes, PYQs, MCQs, Formula Sheets, Important Questions and more.
-              </p>
-            </div>
-          </div>
+        <section className="rounded-xl border border-portal-200 bg-white p-5 shadow-portal">
+          <h1 className="text-3xl font-bold tracking-tight text-portal-700 sm:text-4xl">
+            Subjects
+          </h1>
         </section>
 
-        <section className="mt-5 rounded-2xl border border-blue-200 bg-blue-50 px-5 py-4 shadow-portal">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-blue-700">
-              <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.6" />
-                <path d="M10 8v4m0-6h.01" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-lg font-bold text-portal-700">All study resources in one place!</p>
-              <p className="mt-1 text-base leading-7 text-slate-600">
-                Each subject page includes Notes, Previous Year Questions, MCQs, Formula Sheets,
-                Important Questions and more to help you prepare better.
-              </p>
-            </div>
-          </div>
-        </section>
+        <section className="mt-5">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+            Core Subjects
+          </h2>
 
-        <section className="mt-8">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900">Core Subjects</h2>
-          <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {subjectDirectory.map((subject) => (
-              <article
+              <Link
                 key={subject.title}
-                className="rounded-2xl border border-portal-200 bg-white p-5 shadow-portal transition hover:-translate-y-0.5 hover:border-portal-300"
+                href={`/subjects/${getSubjectSlug(subject.title)}`}
+                className="group rounded-xl border border-portal-300 bg-white p-4 shadow-portal transition-all duration-300 hover:-translate-y-1 hover:border-portal-400 hover:shadow-[0_14px_30px_rgba(15,23,42,0.11)]"
               >
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+                <div className="flex items-center gap-3">
                   <div
-                    className={`flex h-16 w-16 flex-none items-center justify-center rounded-full border ${subject.accent.bg} ${subject.accent.border} ${subject.accent.text}`}
+                    className={`flex h-12 w-12 flex-none items-center justify-center rounded-lg border ${subject.accent.bg} ${subject.accent.border} ${subject.accent.text}`}
                   >
                     <SubjectIcon type={subject.icon} />
                   </div>
-
                   <div className="min-w-0">
-                    <h3 className="text-[1.1rem] font-bold leading-7 text-slate-900">
-                      {subject.id}. {subject.title}
-                    </h3>
-                    <p className="mt-2 text-base leading-8 text-slate-600">
-                      {subject.description}
+                    <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-slate-600">
+                      Subject {String(subject.id).padStart(2, "0")}
                     </p>
-                    <Link
-                      href={subject.href}
-                      className="mt-4 inline-flex items-center gap-2 text-base font-bold text-portal-600 transition hover:text-portal-700"
-                    >
-                      Explore
-                      <span aria-hidden="true">→</span>
-                    </Link>
+                    <h3 className="mt-1 text-base font-bold leading-6 text-slate-950 group-hover:text-portal-700">
+                      {subject.title}
+                    </h3>
                   </div>
                 </div>
-              </article>
+              </Link>
             ))}
-          </div>
-        </section>
-
-        <section className="mt-6 rounded-2xl border border-green-200 bg-green-50 p-4 shadow-portal">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
-            <div className="flex items-center gap-3 lg:min-w-[280px]">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-green-200 bg-white text-green-700">
-                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M5 6.5A2.5 2.5 0 0 1 7.5 4H19v15H7.5A2.5 2.5 0 0 0 5 21V6.5Z" stroke="currentColor" strokeWidth="1.8" />
-                  <path d="M5 6.5A2.5 2.5 0 0 1 7.5 4H19v15H7.5A2.5 2.5 0 0 0 5 21V6.5Zm0 0V20" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-                </svg>
-              </div>
-              <p className="text-lg font-bold text-slate-900">
-                More resources inside each subject:
-              </p>
-            </div>
-
-            <div className="grid flex-1 gap-3 md:grid-cols-2 xl:grid-cols-5">
-              {subjectResources.map((resource) => (
-                <Link
-                  key={resource.label}
-                  href={resource.href}
-                  className={`flex items-center gap-3 rounded-xl border ${resource.border} ${resource.bg} px-4 py-3 text-sm font-semibold ${resource.color} transition hover:bg-white`}
-                >
-                  <ResourceIcon />
-                  <span>{resource.label}</span>
-                </Link>
-              ))}
-              <div className="flex items-center px-2 text-sm font-medium text-slate-600">
-                and more...
-              </div>
-            </div>
           </div>
         </section>
       </div>

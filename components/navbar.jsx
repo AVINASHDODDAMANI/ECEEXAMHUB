@@ -11,7 +11,7 @@ import {
   getGroupedSmartSearchResults,
   getSearchSuggestions,
 } from "../lib/smart-search";
-import { SITE_NAVIGATION, isNavigationActive } from "../lib/site-navigation";
+import { isNavigationActive } from "../lib/site-navigation";
 import SmartSearchDropdown from "./SmartSearchDropdown";
 
 const navItems = [
@@ -24,6 +24,10 @@ const navItems = [
   { href: "/practice", label: "Practice" },
   { href: "/insights", label: "Insights" },
 ];
+
+const activeNavClass =
+  "bg-white/15 text-white shadow-[inset_0_-4px_0_#f4c542,0_0_18px_rgba(244,197,66,0.22)]";
+const inactiveNavClass = "text-blue-100 hover:bg-white/10 hover:text-white";
 
 function BrandIcon() {
   return (
@@ -51,13 +55,11 @@ export default function Navbar({
   const hasSearch = typeof onSearchChange === "function";
   const [localSearch, setLocalSearch] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isMobileSubjectsOpen, setIsMobileSubjectsOpen] = useState(false);
-  const [isMobileExamsOpen, setIsMobileExamsOpen] = useState(false);
-  const [isMobilePapersOpen, setIsMobilePapersOpen] = useState(false);
-  const [showMobileNavHint, setShowMobileNavHint] = useState(true);
+  const [showMobileScrollCue, setShowMobileScrollCue] = useState(true);
   const [searchQuestions, setSearchQuestions] = useState(seedQuestions);
   const searchRef = useRef(null);
   const mobileNavRef = useRef(null);
+  const mobileNavItemRefs = useRef({});
   const resolvedSearchValue = hasSearch ? searchValue : localSearch;
   const deferredQuery = useDeferredValue(resolvedSearchValue.trim());
   const searchIndex = useMemo(
@@ -73,6 +75,26 @@ export default function Navbar({
     [deferredQuery]
   );
   const shouldShowDropdown = isSearchOpen && deferredQuery.length >= 2;
+
+  function centerMobileNavItem(href, behavior = "smooth") {
+    const navElement = mobileNavRef.current;
+    const activeElement = mobileNavItemRefs.current[href];
+
+    if (!navElement || !activeElement || typeof window === "undefined") {
+      return;
+    }
+
+    const nextScrollLeft =
+      activeElement.offsetLeft -
+      navElement.clientWidth / 2 +
+      activeElement.offsetWidth / 2;
+    const maxScrollLeft = navElement.scrollWidth - navElement.clientWidth;
+
+    navElement.scrollTo({
+      left: Math.max(0, Math.min(nextScrollLeft, maxScrollLeft)),
+      behavior,
+    });
+  }
 
   useEffect(() => {
     let mounted = true;
@@ -122,29 +144,65 @@ export default function Navbar({
 
   useEffect(() => {
     setIsSearchOpen(false);
-    setIsMobileSubjectsOpen(false);
-    setIsMobileExamsOpen(false);
-    setIsMobilePapersOpen(false);
   }, [router.asPath]);
 
   useEffect(() => {
     const navElement = mobileNavRef.current;
 
-    if (!navElement) {
+    if (!navElement || typeof window === "undefined") {
       return undefined;
     }
 
-    function handleScroll() {
-      if (navElement.scrollLeft > 24) {
-        setShowMobileNavHint(false);
-      }
+    function updateScrollCue() {
+      const remainingScroll =
+        navElement.scrollWidth - navElement.clientWidth - navElement.scrollLeft;
+      setShowMobileScrollCue(remainingScroll > 12);
     }
 
-    navElement.addEventListener("scroll", handleScroll, { passive: true });
+    updateScrollCue();
+    navElement.addEventListener("scroll", updateScrollCue, { passive: true });
+    window.addEventListener("resize", updateScrollCue);
+
     return () => {
-      navElement.removeEventListener("scroll", handleScroll);
+      navElement.removeEventListener("scroll", updateScrollCue);
+      window.removeEventListener("resize", updateScrollCue);
     };
   }, []);
+
+  useEffect(() => {
+    const navElement = mobileNavRef.current;
+
+    if (!navElement || typeof window === "undefined" || window.innerWidth >= 1024) {
+      return undefined;
+    }
+
+    const activeItem = navItems.find((item) =>
+      isNavigationActive(router.pathname, item.href)
+    );
+
+    if (!activeItem) {
+      return undefined;
+    }
+
+    const activeElement = mobileNavItemRefs.current[activeItem.href];
+
+    if (!activeElement) {
+      return undefined;
+    }
+
+    const animationFrameId = window.requestAnimationFrame(() => {
+      centerMobileNavItem(activeItem.href);
+    });
+
+    const timeoutId = window.setTimeout(() => {
+      centerMobileNavItem(activeItem.href, "auto");
+    }, 180);
+
+    return () => {
+      window.cancelAnimationFrame(animationFrameId);
+      window.clearTimeout(timeoutId);
+    };
+  }, [router.asPath, router.pathname]);
 
   function getDropdownConfig(type) {
     if (type === "subjects") {
@@ -281,36 +339,53 @@ export default function Navbar({
 
       <div className="bg-portal-600 text-white">
         <div className="mx-auto max-w-[1440px] px-2 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between gap-3 px-1 pt-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-blue-100 lg:hidden">
-            <span>Swipe left to see more sections</span>
-            <span className={`transition ${showMobileNavHint ? "opacity-100" : "opacity-0"}`}>
-              ←
-            </span>
+          <div className="relative lg:hidden">
+            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 flex items-center pr-1">
+              <div
+                className={`flex h-full items-center bg-gradient-to-l from-portal-600 via-portal-600/90 to-transparent pl-8 pr-2 text-white transition ${
+                  showMobileScrollCue ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path
+                    d="M7 5.5 11.5 10 7 14.5M11 5.5 15.5 10 11 14.5"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <nav
+              ref={mobileNavRef}
+              className="flex items-center gap-1 overflow-x-auto whitespace-nowrap py-1.5 pr-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {navItems.map((item) => {
+                const isActive = isNavigationActive(router.pathname, item.href);
+
+                return (
+                  <Link
+                    key={`mobile-${item.href}`}
+                    href={item.href}
+                    ref={(element) => {
+                      mobileNavItemRefs.current[item.href] = element;
+                    }}
+                    onClick={() => centerMobileNavItem(item.href)}
+                    className={`relative whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold transition ${
+                      isActive ? activeNavClass : inactiveNavClass
+                    }`}
+                  >
+                    {item.label}
+                    {isActive ? (
+                      <span className="absolute inset-x-3 bottom-0 h-1 rounded-full bg-[#f4c542]" />
+                    ) : null}
+                  </Link>
+                );
+              })}
+            </nav>
           </div>
-
-          <nav
-            ref={mobileNavRef}
-            className="flex items-center gap-1 overflow-x-auto whitespace-nowrap py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:py-0 lg:overflow-visible"
-          >
-            {navItems.map((item) => {
-              const isActive = isNavigationActive(router.pathname, item.href);
-
-              return (
-                <Link
-                  key={`mobile-${item.href}`}
-                  href={item.href}
-                  className={`relative whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold transition lg:hidden ${
-                    isActive ? "bg-white/10 text-white" : "text-blue-100 hover:text-white"
-                  }`}
-                >
-                  {item.label}
-                  {isActive ? (
-                    <span className="absolute inset-x-3 bottom-0 h-[3px] rounded-full bg-[#f4c542]" />
-                  ) : null}
-                </Link>
-              );
-            })}
-          </nav>
 
           <nav className="hidden items-center gap-1 overflow-x-auto whitespace-nowrap py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex lg:py-0">
             {navItems.map((item) => {
@@ -324,7 +399,7 @@ export default function Navbar({
                     <Link
                       href={item.href}
                       className={`relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold transition sm:px-4 sm:py-3 sm:text-sm ${
-                        isActive ? "text-white" : "text-blue-100 hover:text-white"
+                        isActive ? activeNavClass : inactiveNavClass
                       }`}
                     >
                       {item.label}
@@ -338,7 +413,7 @@ export default function Navbar({
                         />
                       </svg>
                       {isActive ? (
-                        <span className="absolute inset-x-4 bottom-0 h-[3px] rounded-full bg-[#f4c542]" />
+                        <span className="absolute inset-x-4 bottom-0 h-1 rounded-full bg-[#f4c542]" />
                       ) : null}
                     </Link>
 
@@ -386,12 +461,12 @@ export default function Navbar({
                   key={item.href}
                   href={item.href}
                   className={`relative whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold transition sm:px-4 sm:py-3 sm:text-sm ${
-                    isActive ? "text-white" : "text-blue-100 hover:text-white"
+                    isActive ? activeNavClass : inactiveNavClass
                   }`}
                 >
                   {item.label}
                   {isActive ? (
-                    <span className="absolute inset-x-4 bottom-0 h-[3px] rounded-full bg-[#f4c542]" />
+                    <span className="absolute inset-x-4 bottom-0 h-1 rounded-full bg-[#f4c542]" />
                   ) : null}
                 </Link>
               );
@@ -399,14 +474,6 @@ export default function Navbar({
           </nav>
         </div>
       </div>
-
-      <nav className="hidden">
-        {SITE_NAVIGATION.map((item) => (
-          <Link key={item.href} href={item.href}>
-            {item.label}
-          </Link>
-        ))}
-      </nav>
     </header>
   );
 }
