@@ -46,13 +46,10 @@ export default function QuestionCard({
               type="button"
               key={`${optionIndex}-${option}`}
               onClick={() => {
-                if (submitted) {
-                  return;
-                }
+                if (submitted) return;
 
                 setSelectedOption(option);
                 setSubmitted(true);
-                setShowExplanation(false);
               }}
               className={`w-full rounded-lg border px-3 py-2.5 text-left text-sm font-medium transition ${
                 showCorrect

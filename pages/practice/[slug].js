@@ -158,19 +158,17 @@ export default function PracticeExamPage({ section }) {
               <PracticeSkeleton />
             </div>
           ) : practiceQuestions.length ? (
-            <div className="max-h-[calc(100vh-230px)] overflow-y-auto">
-              <div className="divide-y divide-portal-100">
-                {practiceQuestions.map((question, index) => (
-                  <PracticeQuestionBlock
-                    key={question._id}
-                    question={question}
-                    index={index}
-                    total={practiceQuestions.length}
-                    selectedAnswer={selectedAnswers[question._id] || ""}
-                    onSelect={handleAnswer}
-                  />
-                ))}
-              </div>
+            <div className="divide-y divide-portal-100">
+              {practiceQuestions.map((question, index) => (
+                <PracticeQuestionBlock
+                  key={question._id}
+                  question={question}
+                  index={index}
+                  total={practiceQuestions.length}
+                  selectedAnswer={selectedAnswers[question._id] || ""}
+                  onSelect={handleAnswer}
+                />
+              ))}
             </div>
           ) : (
             <div className="p-4">

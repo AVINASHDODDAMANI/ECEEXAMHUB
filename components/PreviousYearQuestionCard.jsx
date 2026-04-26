@@ -15,13 +15,9 @@ export default function PreviousYearQuestionCard({
   const isCorrect = submitted && selectedOption === question.correctAnswer;
 
   function handleOptionSelect(option) {
-    if (submitted) {
-      return;
-    }
-
+    if (submitted) return;
     setSelectedOption(option);
     setSubmitted(true);
-    setShowExplanation(false);
   }
 
   return (
