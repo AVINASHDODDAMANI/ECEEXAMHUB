@@ -341,22 +341,16 @@ export default function Navbar({
                 <BrandIcon />
               </span>
               <div className="min-w-0">
-                <p className="truncate text-[1.05rem] font-extrabold tracking-tight text-portal-600 sm:text-[2rem]">
+                <p className="truncate text-[1rem] font-extrabold tracking-tight text-portal-600 sm:text-[2rem]">
                   ECE EXAM GUIDE
                 </p>
-                <p className="text-[11px] leading-4 text-slate-500 sm:text-base">
+                <p className="text-[10px] leading-4 text-slate-500 sm:text-base">
                   Your Guide to ECE Exams & Learning
                 </p>
               </div>
             </Link>
 
             <div className="flex items-center gap-2 lg:hidden">
-              <HeaderActionButton primary ariaLabel="Create">
-                <PlusIcon />
-              </HeaderActionButton>
-              <HeaderActionButton badge="47" ariaLabel="Messages">
-                <MessageIcon />
-              </HeaderActionButton>
               <HeaderActionButton ariaLabel="More">
                 <DotsVerticalIcon />
               </HeaderActionButton>
@@ -367,7 +361,7 @@ export default function Navbar({
             <div ref={searchRef} className="relative w-full">
               <form
                 onSubmit={handleSearchSubmit}
-                className="flex items-center gap-2 rounded-[18px] border border-portal-200 bg-white px-4 py-2.5 text-sm shadow-[0_10px_30px_rgba(15,23,42,0.06)]"
+                className="flex items-center gap-2 rounded-[16px] border border-portal-200 bg-white px-3.5 py-2 text-sm shadow-[0_10px_30px_rgba(15,23,42,0.06)] sm:px-4 sm:py-2.5"
               >
                 <input
                   type="search"
@@ -379,7 +373,7 @@ export default function Navbar({
                 />
                 <button
                   type="submit"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-portal-700 transition hover:bg-portal-50"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-full text-portal-700 transition hover:bg-portal-50 sm:h-9 sm:w-9"
                   aria-label="Search"
                 >
                   <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -421,10 +415,10 @@ export default function Navbar({
 
       <div className="bg-portal-600 text-white">
         <div className="mx-auto max-w-[1440px] px-2 sm:px-6 lg:px-8">
-          <div className="relative lg:hidden">
-            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 flex items-center pr-1">
-              <div
-                className={`flex h-full items-center bg-gradient-to-l from-portal-600 via-portal-600/90 to-transparent pl-8 pr-2 text-white transition ${
+            <div className="relative lg:hidden">
+              <div className="pointer-events-none absolute inset-y-0 right-0 z-10 flex items-center pr-1">
+                <div
+                  className={`flex h-full items-center bg-gradient-to-l from-portal-600 via-portal-600/90 to-transparent pl-8 pr-2 text-white transition ${
                   showMobileScrollCue ? "opacity-100" : "opacity-0"
                 }`}
               >
@@ -440,12 +434,12 @@ export default function Navbar({
               </div>
             </div>
 
-            <nav
-              ref={mobileNavRef}
-              className="flex items-center gap-1 overflow-x-auto whitespace-nowrap py-1.5 pr-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-            >
-              {navItems.map((item) => {
-                const isActive = isNavigationActive(router.pathname, item.href);
+              <nav
+                ref={mobileNavRef}
+                className="flex items-center gap-1.5 overflow-x-auto whitespace-nowrap py-2 pr-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              >
+                {navItems.map((item) => {
+                  const isActive = isNavigationActive(router.pathname, item.href);
 
                 return (
                   <Link
@@ -455,7 +449,7 @@ export default function Navbar({
                       mobileNavItemRefs.current[item.href] = element;
                     }}
                     onClick={() => centerMobileNavItem(item.href)}
-                    className={`relative whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold transition ${
+                    className={`relative whitespace-nowrap rounded-xl px-3 py-2 text-[13px] font-semibold transition ${
                       isActive ? activeNavClass : inactiveNavClass
                     }`}
                   >

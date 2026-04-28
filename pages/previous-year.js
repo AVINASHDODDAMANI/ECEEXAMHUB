@@ -1209,7 +1209,7 @@ export default function PreviousYearPage() {
       pageClassName="py-5 sm:py-6"
     >
       <div className="mx-auto max-w-[1440px] space-y-6">
-        <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+        <div className="hidden flex-wrap items-center gap-2 text-sm text-slate-500 sm:flex">
           <Link
             href="/"
             className="inline-flex items-center gap-2 font-medium text-slate-500 transition hover:text-portal-700"
@@ -1224,13 +1224,13 @@ export default function PreviousYearPage() {
         </div>
 
         <section className="overflow-hidden rounded-[30px] border border-[#e2e9f7] bg-white shadow-[0_18px_60px_rgba(17,43,92,0.08)]">
-          <div className="space-y-6 p-4 sm:p-6">
+          <div className="space-y-5 p-3 sm:space-y-6 sm:p-6">
             <section className="space-y-4">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">Select Exam</h1>
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center gap-2 rounded-[16px] border border-[#dfe7f6] bg-white px-4 py-3 text-sm font-semibold text-portal-700 shadow-sm transition hover:border-portal-300"
+                  className="inline-flex items-center justify-center gap-2 self-start rounded-[16px] border border-[#dfe7f6] bg-white px-4 py-3 text-sm font-semibold text-portal-700 shadow-sm transition hover:border-portal-300 sm:self-auto"
                   title="Saved paper downloads will appear here once file downloads are added"
                 >
                   <UiIcon type="folder" className="h-4 w-4" />
@@ -1248,9 +1248,39 @@ export default function PreviousYearPage() {
                   <UiIcon type="chevron-left" className="h-5 w-5" />
                 </button>
 
+                <div className="grid grid-cols-2 gap-3 sm:hidden">
+                  {featuredCards.map((card) => (
+                    <button
+                      key={`mobile-${card.key}`}
+                      type="button"
+                      onClick={() => handleExamCardSelect(card)}
+                      className={`rounded-[18px] border bg-white p-3 text-left shadow-sm transition ${
+                        card.isSelected
+                          ? "border-portal-500 ring-1 ring-portal-500"
+                          : "border-[#e3eaf7]"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <ExamLogoBadge type={card.logo} />
+                        <span
+                          className={`inline-flex h-5 w-5 items-center justify-center rounded-full ${
+                            card.isSelected
+                              ? "bg-portal-600 text-white"
+                              : "bg-slate-100 text-transparent"
+                          }`}
+                        >
+                          <UiIcon type="check" className="h-3 w-3" />
+                        </span>
+                      </div>
+                      <h2 className="mt-3 text-base font-bold text-slate-900">{card.title}</h2>
+                      <p className="mt-1 text-xs leading-5 text-slate-600">{card.subtitle}</p>
+                    </button>
+                  ))}
+                </div>
+
                 <div
                   ref={examRailRef}
-                  className="flex gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                  className="hidden gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex"
                 >
                   {featuredCards.map((card) => (
                     <button
@@ -1299,8 +1329,8 @@ export default function PreviousYearPage() {
               id="filters"
               className="rounded-[24px] border border-[#e6edf9] bg-[#fbfdff] p-3 sm:p-4"
             >
-              <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_180px]">
-                <FilterTile label="Year" icon="calendar">
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_180px]">
+                <FilterTile label="Year" icon="calendar" className="order-1">
                   <SelectControl
                     value={filterForm.year}
                     onChange={(event) => handleFilterChange("year", event.target.value)}
@@ -1314,7 +1344,7 @@ export default function PreviousYearPage() {
                   </SelectControl>
                 </FilterTile>
 
-                <FilterTile label="Subject / Paper" icon="document">
+                <FilterTile label="Subject / Paper" icon="document" className="order-3 col-span-2 md:col-span-1 md:order-2">
                   <SelectControl
                     value={filterForm.subject}
                     onChange={(event) => handleFilterChange("subject", event.target.value)}
@@ -1327,7 +1357,7 @@ export default function PreviousYearPage() {
                   </SelectControl>
                 </FilterTile>
 
-                <FilterTile label="Type" icon="layers">
+                <FilterTile label="Type" icon="layers" className="order-2 md:order-3">
                   <SelectControl
                     value={filterForm.paperType}
                     onChange={(event) => handleFilterChange("paperType", event.target.value)}
@@ -1343,7 +1373,7 @@ export default function PreviousYearPage() {
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="inline-flex items-center justify-center gap-2 rounded-[18px] border border-[#dfe7f6] bg-white px-4 py-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-portal-300 hover:text-portal-700"
+                  className="order-4 col-span-2 inline-flex items-center justify-center gap-2 rounded-[18px] border border-[#dfe7f6] bg-white px-4 py-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-portal-300 hover:text-portal-700 md:col-span-2 xl:col-span-1"
                 >
                   <UiIcon type="refresh" className="h-4 w-4" />
                   Reset Filters
@@ -1493,7 +1523,7 @@ export default function PreviousYearPage() {
                     </table>
                   </div>
 
-                  <div className="grid gap-4 p-4 sm:p-6 lg:hidden">
+                  <div className="grid gap-3 p-3 sm:p-6 lg:hidden">
                     {paginatedPapers.map((paper) => {
                       const hasSolutions = paper.solvedCount > 0;
                       const previewHref = buildPaperHref(
@@ -1506,15 +1536,15 @@ export default function PreviousYearPage() {
                       return (
                         <article
                           key={paper.id}
-                          className="rounded-[20px] border border-[#e6edf9] bg-white p-4 shadow-sm"
+                          className="rounded-[18px] border border-[#e6edf9] bg-white p-3.5 shadow-sm"
                         >
                           <div className="flex items-start justify-between gap-3">
                             <div>
                               <p className="text-sm font-bold text-portal-600">{paper.year}</p>
-                              <h3 className="mt-1 text-lg font-bold text-slate-900">
+                              <h3 className="mt-1 text-base font-bold leading-6 text-slate-900">
                                 {getPaperRoleLabel(paper.exam)}
                               </h3>
-                              <p className="mt-2 text-sm leading-6 text-slate-600">
+                              <p className="mt-1.5 text-sm leading-6 text-slate-600">
                                 {formatSubjectSummary(paper.subjects)}
                               </p>
                             </div>
@@ -1523,7 +1553,19 @@ export default function PreviousYearPage() {
                             </span>
                           </div>
 
-                          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                          <div className="mt-4 flex flex-wrap gap-2">
+                            <span
+                              className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+                                hasSolutions
+                                  ? "bg-emerald-50 text-emerald-700"
+                                  : "bg-slate-100 text-slate-600"
+                              }`}
+                            >
+                              {hasSolutions ? "Solutions Available" : "Limited Solutions"}
+                            </span>
+                          </div>
+
+                          <div className="mt-4 grid grid-cols-2 gap-3">
                             <div>
                               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                                 Questions
@@ -1545,10 +1587,10 @@ export default function PreviousYearPage() {
                             </div>
                           </div>
 
-                          <div className="mt-5 flex flex-wrap gap-2">
+                          <div className="mt-5 grid grid-cols-2 gap-2">
                             <Link
                               href={previewHref}
-                              className="inline-flex items-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-3 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
+                              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-3 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
                             >
                               <UiIcon type="eye" className="h-4 w-4" />
                               View
@@ -1556,17 +1598,10 @@ export default function PreviousYearPage() {
                             <button
                               type="button"
                               title="Download files will appear here once paper PDFs are added"
-                              className="inline-flex items-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-3 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
+                              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-3 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
                             >
                               <UiIcon type="download" className="h-4 w-4" />
                               Download
-                            </button>
-                            <button
-                              type="button"
-                              aria-label="More options"
-                              className="inline-flex h-[46px] w-[46px] items-center justify-center rounded-xl border border-[#dfe7f6] bg-white text-slate-500 transition hover:border-portal-300 hover:text-portal-700"
-                            >
-                              <UiIcon type="dots-vertical" className="h-4 w-4" />
                             </button>
                           </div>
                         </article>
@@ -1654,14 +1689,14 @@ export default function PreviousYearPage() {
             <section className="overflow-hidden rounded-[24px] border border-[#e6edf9] bg-white">
               <div className="grid divide-y divide-[#edf1f8] md:grid-cols-3 md:divide-x md:divide-y-0">
                 {supportHighlights.map((item) => (
-                  <article key={item.title} className="p-5">
+                  <article key={item.title} className="p-4 sm:p-5">
                     <div className="flex items-start gap-4">
                       <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#f4f8ff] text-portal-600">
                         <UiIcon type={item.icon} className="h-5 w-5" />
                       </span>
                       <div>
-                        <h3 className="text-xl font-bold text-slate-900">{item.title}</h3>
-                        <p className="mt-2 text-sm leading-7 text-slate-600">{item.description}</p>
+                        <h3 className="text-lg font-bold text-slate-900 sm:text-xl">{item.title}</h3>
+                        <p className="mt-2 text-sm leading-6 sm:leading-7 text-slate-600">{item.description}</p>
                       </div>
                     </div>
                   </article>
