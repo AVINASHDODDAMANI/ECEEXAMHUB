@@ -45,6 +45,64 @@ function BrandIcon() {
   );
 }
 
+function PlusIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M12 5v14M5 12h14"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function MessageIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M8 6h8a4 4 0 0 1 4 4v4a4 4 0 0 1-4 4h-5l-4 3v-3H8a4 4 0 0 1-4-4v-4a4 4 0 0 1 4-4Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function DotsVerticalIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="5.5" r="1.6" fill="currentColor" />
+      <circle cx="12" cy="12" r="1.6" fill="currentColor" />
+      <circle cx="12" cy="18.5" r="1.6" fill="currentColor" />
+    </svg>
+  );
+}
+
+function HeaderActionButton({ children, badge, primary = false, ariaLabel }) {
+  return (
+    <button
+      type="button"
+      aria-label={ariaLabel}
+      className={`relative inline-flex h-11 w-11 items-center justify-center rounded-full border transition ${
+        primary
+          ? "border-portal-600 bg-portal-600 text-white shadow-[0_14px_30px_rgba(21,74,150,0.24)]"
+          : "border-portal-200 bg-white text-portal-700 hover:border-portal-300"
+      }`}
+    >
+      {children}
+      {badge ? (
+        <span className="absolute -right-1 -top-1 inline-flex min-w-[20px] items-center justify-center rounded-full border border-white bg-white px-1.5 py-0.5 text-[10px] font-bold text-portal-700 shadow-sm">
+          {badge}
+        </span>
+      ) : null}
+    </button>
+  );
+}
+
 export default function Navbar({
   searchValue,
   onSearchChange,
@@ -276,8 +334,8 @@ export default function Navbar({
   return (
     <header className="sticky top-0 z-40 border-b border-portal-200 bg-white shadow-[0_10px_30px_rgba(16,47,96,0.08)]">
       <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-3 py-3 sm:px-6 sm:py-4 lg:px-8">
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-start gap-3">
+        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[auto_minmax(340px,1fr)_auto] lg:items-center lg:gap-6">
+          <div className="flex items-start justify-between gap-3">
             <Link href="/" className="flex min-w-0 items-center gap-3">
               <span className="scale-[0.9] sm:scale-100">
                 <BrandIcon />
@@ -291,13 +349,25 @@ export default function Navbar({
                 </p>
               </div>
             </Link>
+
+            <div className="flex items-center gap-2 lg:hidden">
+              <HeaderActionButton primary ariaLabel="Create">
+                <PlusIcon />
+              </HeaderActionButton>
+              <HeaderActionButton badge="47" ariaLabel="Messages">
+                <MessageIcon />
+              </HeaderActionButton>
+              <HeaderActionButton ariaLabel="More">
+                <DotsVerticalIcon />
+              </HeaderActionButton>
+            </div>
           </div>
 
-          <div className="flex items-center gap-3 lg:w-full lg:max-w-[380px] lg:justify-end">
+          <div className="flex items-center gap-3 lg:justify-self-center lg:w-full lg:max-w-[560px]">
             <div ref={searchRef} className="relative w-full">
               <form
                 onSubmit={handleSearchSubmit}
-                className="flex items-center gap-2 rounded-xl border border-portal-200 bg-white px-3 py-1.5 text-sm shadow-sm"
+                className="flex items-center gap-2 rounded-[18px] border border-portal-200 bg-white px-4 py-2.5 text-sm shadow-[0_10px_30px_rgba(15,23,42,0.06)]"
               >
                 <input
                   type="search"
@@ -309,7 +379,7 @@ export default function Navbar({
                 />
                 <button
                   type="submit"
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-full text-portal-700 transition hover:bg-portal-50 sm:h-8 sm:w-8"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-portal-700 transition hover:bg-portal-50"
                   aria-label="Search"
                 >
                   <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -333,6 +403,18 @@ export default function Navbar({
                 />
               ) : null}
             </div>
+          </div>
+
+          <div className="hidden items-center justify-end gap-3 lg:flex">
+            <HeaderActionButton primary ariaLabel="Create">
+              <PlusIcon />
+            </HeaderActionButton>
+            <HeaderActionButton badge="47" ariaLabel="Messages">
+              <MessageIcon />
+            </HeaderActionButton>
+            <HeaderActionButton ariaLabel="More">
+              <DotsVerticalIcon />
+            </HeaderActionButton>
           </div>
         </div>
       </div>

@@ -192,6 +192,13 @@ function PracticeQuestionBlock({
   onSelect,
 }) {
   const hasAnswered = Boolean(selectedAnswer);
+  const [showExplanation, setShowExplanation] = useState(false);
+
+  useEffect(() => {
+    if (!hasAnswered) {
+      setShowExplanation(false);
+    }
+  }, [hasAnswered, question._id]);
 
   return (
     <article className="scroll-mt-28 bg-white p-4 sm:p-5">
@@ -258,9 +265,20 @@ function PracticeQuestionBlock({
             Answer: {question.correctAnswer}
           </p>
           {question.explanation ? (
-            <p className="mt-2 text-sm leading-6 text-slate-700">
-              {question.explanation}
-            </p>
+            <>
+              <button
+                type="button"
+                onClick={() => setShowExplanation((current) => !current)}
+                className="mt-3 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-portal-300 hover:text-portal-700"
+              >
+                {showExplanation ? "Hide Explanation" : "Show Explanation"}
+              </button>
+              {showExplanation ? (
+                <p className="mt-3 text-sm leading-6 text-slate-700">
+                  {question.explanation}
+                </p>
+              ) : null}
+            </>
           ) : null}
         </div>
       ) : null}
