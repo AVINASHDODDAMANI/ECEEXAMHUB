@@ -813,10 +813,12 @@ function PreviousPaperIcon({ type }) {
   return <UiIcon type="document" className={common} />;
 }
 
-function ExamLogoBadge({ type }) {
+function ExamLogoBadge({ type, className = "" }) {
   if (type === "bel") {
     return (
-      <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[#d7e5ff] bg-white text-[#1e63ff]">
+      <span
+        className={`flex h-14 w-14 items-center justify-center rounded-full border border-[#d7e5ff] bg-white text-[#1e63ff] ${className}`}
+      >
         <span className="text-lg font-black tracking-tight">BEL</span>
       </span>
     );
@@ -824,7 +826,9 @@ function ExamLogoBadge({ type }) {
 
   if (type === "isro") {
     return (
-      <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[#ffe0cf] bg-white text-[#ff7b2f]">
+      <span
+        className={`flex h-14 w-14 items-center justify-center rounded-full border border-[#ffe0cf] bg-white text-[#ff7b2f] ${className}`}
+      >
         <span className="text-sm font-black tracking-tight">ISRO</span>
       </span>
     );
@@ -832,7 +836,9 @@ function ExamLogoBadge({ type }) {
 
   if (type === "gate-mark") {
     return (
-      <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[#dbeedb] bg-white text-[#1f9a56]">
+      <span
+        className={`flex h-14 w-14 items-center justify-center rounded-full border border-[#dbeedb] bg-white text-[#1f9a56] ${className}`}
+      >
         <span className="text-lg font-black tracking-tight">GATE</span>
       </span>
     );
@@ -840,7 +846,9 @@ function ExamLogoBadge({ type }) {
 
   if (type === "psu") {
     return (
-      <span className="flex h-14 w-14 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500">
+      <span
+        className={`flex h-14 w-14 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 ${className}`}
+      >
         <PreviousPaperIcon type="government" />
       </span>
     );
@@ -848,7 +856,9 @@ function ExamLogoBadge({ type }) {
 
   if (type === "ies") {
     return (
-      <span className="flex h-14 w-14 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500">
+      <span
+        className={`flex h-14 w-14 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 ${className}`}
+      >
         <PreviousPaperIcon type="document" />
       </span>
     );
@@ -856,7 +866,9 @@ function ExamLogoBadge({ type }) {
 
   if (type === "drdo") {
     return (
-      <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[#d9e6ff] bg-white text-[#2a5cc8]">
+      <span
+        className={`flex h-14 w-14 items-center justify-center rounded-full border border-[#d9e6ff] bg-white text-[#2a5cc8] ${className}`}
+      >
         <span className="text-xs font-black tracking-[0.12em]">DRDO</span>
       </span>
     );
@@ -864,7 +876,9 @@ function ExamLogoBadge({ type }) {
 
   if (type === "iocl") {
     return (
-      <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[#ffd6c1] bg-white">
+      <span
+        className={`flex h-14 w-14 items-center justify-center rounded-full border border-[#ffd6c1] bg-white ${className}`}
+      >
         <span className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-[#f17c2e] text-[10px] font-black tracking-[0.14em] text-[#1f54c6]">
           IOCL
         </span>
@@ -873,7 +887,9 @@ function ExamLogoBadge({ type }) {
   }
 
   return (
-    <span className="flex h-14 w-14 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500">
+    <span
+      className={`flex h-14 w-14 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 ${className}`}
+    >
       <UiIcon type="document" className="h-6 w-6" />
     </span>
   );
@@ -882,15 +898,15 @@ function ExamLogoBadge({ type }) {
 function FilterTile({ label, icon, children, className = "" }) {
   return (
     <div
-      className={`rounded-[18px] border border-[#e4eaf6] bg-white px-4 py-3 shadow-[0_10px_30px_rgba(15,23,42,0.04)] ${className}`}
+      className={`rounded-[16px] border border-[#e4eaf6] bg-white px-3 py-2.5 shadow-[0_10px_30px_rgba(15,23,42,0.04)] sm:rounded-[18px] sm:px-4 sm:py-3 ${className}`}
     >
-      <div className="flex items-start gap-3">
-        <span className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#f4f8ff] text-portal-600">
-          <UiIcon type={icon} className="h-5 w-5" />
+      <div className="flex items-start gap-2.5 sm:gap-3">
+        <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#f4f8ff] text-portal-600 sm:mt-1 sm:h-9 sm:w-9 sm:rounded-xl">
+          <UiIcon type={icon} className="h-4 w-4 sm:h-5 sm:w-5" />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-medium text-slate-500">{label}</p>
-          <div className="mt-1">{children}</div>
+          <p className="text-xs font-medium text-slate-500 sm:text-sm">{label}</p>
+          <div className="mt-0.5 sm:mt-1">{children}</div>
         </div>
       </div>
     </div>
@@ -903,12 +919,12 @@ function SelectControl({ value, onChange, children, className = "" }) {
       <select
         value={value}
         onChange={onChange}
-        className="w-full appearance-none bg-transparent py-1 pr-8 text-base font-semibold text-slate-900 outline-none"
+        className="w-full appearance-none bg-transparent py-0.5 pr-7 text-sm font-semibold text-slate-900 outline-none sm:py-1 sm:pr-8 sm:text-base"
       >
         {children}
       </select>
       <span className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-slate-400">
-        <UiIcon type="chevron-down" className="h-4 w-4" />
+        <UiIcon type="chevron-down" className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
       </span>
     </div>
   );
@@ -1227,50 +1243,50 @@ export default function PreviousYearPage() {
           <div className="space-y-5 p-3 sm:space-y-6 sm:p-6">
             <section className="space-y-4">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">Select Exam</h1>
+                <h1 className="text-lg font-bold text-slate-900 sm:text-2xl">Select Exam</h1>
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center gap-2 self-start rounded-[16px] border border-[#dfe7f6] bg-white px-4 py-3 text-sm font-semibold text-portal-700 shadow-sm transition hover:border-portal-300 sm:self-auto"
+                  className="inline-flex items-center justify-center gap-2 self-start rounded-[14px] border border-[#dfe7f6] bg-white px-3 py-2.5 text-xs font-semibold text-portal-700 shadow-sm transition hover:border-portal-300 sm:self-auto sm:rounded-[16px] sm:px-4 sm:py-3 sm:text-sm"
                   title="Saved paper downloads will appear here once file downloads are added"
                 >
-                  <UiIcon type="folder" className="h-4 w-4" />
+                  <UiIcon type="folder" className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   My Downloads
                 </button>
               </div>
 
               <div className="lg:hidden">
                 <div className="-mx-1 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                  <div
-                    className="flex min-w-[980px] gap-3 px-1"
-                  >
+                  <div className="flex min-w-[840px] gap-2.5 px-1 sm:min-w-[980px] sm:gap-3">
                     {featuredCards.map((card) => (
                       <button
                         key={`mobile-${card.key}`}
                         type="button"
                         onClick={() => handleExamCardSelect(card)}
-                        className={`group min-w-[176px] rounded-[20px] border bg-white p-4 text-left shadow-[0_12px_32px_rgba(15,23,42,0.04)] transition ${
+                        className={`group min-w-[148px] rounded-[18px] border bg-white p-3 text-left shadow-[0_12px_32px_rgba(15,23,42,0.04)] transition sm:min-w-[176px] sm:rounded-[20px] sm:p-4 ${
                           card.isSelected
                             ? "border-portal-500 ring-1 ring-portal-500"
                             : "border-[#e3eaf7] hover:border-portal-300"
                         }`}
                       >
-                        <div className="flex items-start justify-between gap-3">
-                          <ExamLogoBadge type={card.logo} />
+                        <div className="flex items-start justify-between gap-2.5 sm:gap-3">
+                          <ExamLogoBadge type={card.logo} className="scale-[0.88] sm:scale-100" />
                           <span
-                            className={`inline-flex h-6 w-6 items-center justify-center rounded-full ${
+                            className={`inline-flex h-5 w-5 items-center justify-center rounded-full sm:h-6 sm:w-6 ${
                               card.isSelected
                                 ? "bg-portal-600 text-white"
                                 : "bg-slate-100 text-transparent"
                             }`}
                           >
-                            <UiIcon type="check" className="h-3.5 w-3.5" />
+                            <UiIcon type="check" className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                           </span>
                         </div>
 
-                        <h2 className="mt-4 text-[1.35rem] font-bold tracking-tight text-slate-900">
+                        <h2 className="mt-3 text-[1.05rem] font-bold tracking-tight text-slate-900 sm:mt-4 sm:text-[1.35rem]">
                           {card.title}
                         </h2>
-                        <p className="mt-2 text-sm leading-7 text-slate-600">{card.subtitle}</p>
+                        <p className="mt-1.5 text-xs leading-5 text-slate-600 sm:mt-2 sm:text-sm sm:leading-7">
+                          {card.subtitle}
+                        </p>
                       </button>
                     ))}
                   </div>
@@ -1336,10 +1352,10 @@ export default function PreviousYearPage() {
 
             <section
               id="filters"
-              className="rounded-[24px] border border-[#e6edf9] bg-[#fbfdff] p-3 sm:p-4"
+              className="rounded-[24px] border border-[#e6edf9] bg-[#fbfdff] p-2.5 sm:p-4"
             >
               <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="grid min-w-[980px] grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_180px] gap-3">
+                <div className="grid min-w-[760px] grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_150px] gap-2.5 sm:min-w-[980px] sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_180px] sm:gap-3">
                   <FilterTile label="Year" icon="calendar">
                     <SelectControl
                       value={filterForm.year}
@@ -1383,9 +1399,9 @@ export default function PreviousYearPage() {
                   <button
                     type="button"
                     onClick={handleResetFilters}
-                    className="inline-flex items-center justify-center gap-2 rounded-[18px] border border-[#dfe7f6] bg-white px-4 py-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-portal-300 hover:text-portal-700"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-[16px] border border-[#dfe7f6] bg-white px-3 py-3 text-xs font-semibold text-slate-700 shadow-sm transition hover:border-portal-300 hover:text-portal-700 sm:gap-2 sm:rounded-[18px] sm:px-4 sm:py-4 sm:text-sm"
                   >
-                    <UiIcon type="refresh" className="h-4 w-4" />
+                    <UiIcon type="refresh" className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     Reset Filters
                   </button>
                 </div>
@@ -1396,7 +1412,7 @@ export default function PreviousYearPage() {
                   {activeFilterBadges.map((badge) => (
                     <span
                       key={badge}
-                      className="rounded-full border border-[#dfe7f6] bg-white px-3 py-1.5 text-sm font-medium text-slate-700"
+                      className="rounded-full border border-[#dfe7f6] bg-white px-2.5 py-1 text-xs font-medium text-slate-700 sm:px-3 sm:py-1.5 sm:text-sm"
                     >
                       {badge}
                     </span>
@@ -1409,19 +1425,19 @@ export default function PreviousYearPage() {
               id="paper-library"
               className="overflow-hidden rounded-[24px] border border-[#e6edf9] bg-white"
             >
-              <div className="border-b border-[#e9eef8] px-4 py-4 sm:px-6">
+              <div className="border-b border-[#e9eef8] px-4 py-3 sm:px-6 sm:py-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-sm font-semibold text-slate-500">Current Selection</p>
-                    <p className="mt-1 text-lg font-bold text-slate-900">
+                    <p className="text-xs font-semibold text-slate-500 sm:text-sm">Current Selection</p>
+                    <p className="mt-1 text-base font-bold text-slate-900 sm:text-lg">
                       {formatCurrentSelection(activeFilters)}
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full border border-[#dfe7f6] bg-[#f7faff] px-3 py-1.5 text-sm font-semibold text-portal-700">
+                    <span className="rounded-full border border-[#dfe7f6] bg-[#f7faff] px-2.5 py-1 text-xs font-semibold text-portal-700 sm:px-3 sm:py-1.5 sm:text-sm">
                       {visiblePapers.length} papers
                     </span>
-                    <span className="rounded-full border border-[#dfe7f6] bg-white px-3 py-1.5 text-sm font-semibold text-slate-600">
+                    <span className="rounded-full border border-[#dfe7f6] bg-white px-2.5 py-1 text-xs font-semibold text-slate-600 sm:px-3 sm:py-1.5 sm:text-sm">
                       Latest {latestYear}
                     </span>
                   </div>
