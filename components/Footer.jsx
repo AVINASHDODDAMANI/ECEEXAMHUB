@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandLogo } from "./BrandIdentity";
 
 const footerGroups = [
   {
@@ -44,9 +45,12 @@ export default function Footer() {
     <footer className="mt-12 border-t border-portal-200 bg-white">
       <div className="mx-auto grid max-w-[1440px] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.9fr_0.8fr] lg:px-8">
         <div>
-          <p className="text-2xl font-extrabold tracking-tight text-portal-600">
-            ECE EXAM GUIDE
-          </p>
+          <BrandLogo
+            className="max-w-full"
+            markClassName="h-14 w-14 sm:h-16 sm:w-16"
+            titleClassName="text-[1.75rem] sm:text-[2.2rem]"
+            taglineClassName="text-[10px] sm:text-[11px]"
+          />
           <p className="mt-3 max-w-md text-sm leading-7 text-slate-600">
             Learn ECE topics, revise formulas, browse previous year papers, and
             practice exam-focused questions.

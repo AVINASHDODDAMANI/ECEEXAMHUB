@@ -1209,7 +1209,7 @@ export default function PreviousYearPage() {
       pageClassName="py-5 sm:py-6"
     >
       <div className="mx-auto max-w-[1440px] space-y-6">
-        <div className="hidden flex-wrap items-center gap-2 text-sm text-slate-500 sm:flex">
+        <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
           <Link
             href="/"
             className="inline-flex items-center gap-2 font-medium text-slate-500 transition hover:text-portal-700"
@@ -1238,49 +1238,58 @@ export default function PreviousYearPage() {
                 </button>
               </div>
 
-              <div className="grid items-center gap-3 lg:grid-cols-[44px_minmax(0,1fr)_44px]">
+              <div className="lg:hidden">
+                <div className="-mx-1 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  <div
+                    className="flex min-w-[980px] gap-3 px-1"
+                  >
+                    {featuredCards.map((card) => (
+                      <button
+                        key={`mobile-${card.key}`}
+                        type="button"
+                        onClick={() => handleExamCardSelect(card)}
+                        className={`group min-w-[176px] rounded-[20px] border bg-white p-4 text-left shadow-[0_12px_32px_rgba(15,23,42,0.04)] transition ${
+                          card.isSelected
+                            ? "border-portal-500 ring-1 ring-portal-500"
+                            : "border-[#e3eaf7] hover:border-portal-300"
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <ExamLogoBadge type={card.logo} />
+                          <span
+                            className={`inline-flex h-6 w-6 items-center justify-center rounded-full ${
+                              card.isSelected
+                                ? "bg-portal-600 text-white"
+                                : "bg-slate-100 text-transparent"
+                            }`}
+                          >
+                            <UiIcon type="check" className="h-3.5 w-3.5" />
+                          </span>
+                        </div>
+
+                        <h2 className="mt-4 text-[1.35rem] font-bold tracking-tight text-slate-900">
+                          {card.title}
+                        </h2>
+                        <p className="mt-2 text-sm leading-7 text-slate-600">{card.subtitle}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="hidden items-center gap-3 lg:grid lg:grid-cols-[44px_minmax(0,1fr)_44px]">
                 <button
                   type="button"
                   onClick={() => scrollExamRail(-1)}
-                  className="hidden h-11 w-11 items-center justify-center rounded-2xl border border-[#dfe7f6] bg-white text-slate-500 shadow-sm transition hover:border-portal-300 hover:text-portal-700 lg:inline-flex"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-[#dfe7f6] bg-white text-slate-500 shadow-sm transition hover:border-portal-300 hover:text-portal-700"
                   aria-label="Scroll previous exams"
                 >
                   <UiIcon type="chevron-left" className="h-5 w-5" />
                 </button>
 
-                <div className="grid grid-cols-2 gap-3 sm:hidden">
-                  {featuredCards.map((card) => (
-                    <button
-                      key={`mobile-${card.key}`}
-                      type="button"
-                      onClick={() => handleExamCardSelect(card)}
-                      className={`rounded-[18px] border bg-white p-3 text-left shadow-sm transition ${
-                        card.isSelected
-                          ? "border-portal-500 ring-1 ring-portal-500"
-                          : "border-[#e3eaf7]"
-                      }`}
-                    >
-                      <div className="flex items-start justify-between gap-2">
-                        <ExamLogoBadge type={card.logo} />
-                        <span
-                          className={`inline-flex h-5 w-5 items-center justify-center rounded-full ${
-                            card.isSelected
-                              ? "bg-portal-600 text-white"
-                              : "bg-slate-100 text-transparent"
-                          }`}
-                        >
-                          <UiIcon type="check" className="h-3 w-3" />
-                        </span>
-                      </div>
-                      <h2 className="mt-3 text-base font-bold text-slate-900">{card.title}</h2>
-                      <p className="mt-1 text-xs leading-5 text-slate-600">{card.subtitle}</p>
-                    </button>
-                  ))}
-                </div>
-
                 <div
                   ref={examRailRef}
-                  className="hidden gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex"
+                  className="flex gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                 >
                   {featuredCards.map((card) => (
                     <button
@@ -1317,7 +1326,7 @@ export default function PreviousYearPage() {
                 <button
                   type="button"
                   onClick={() => scrollExamRail(1)}
-                  className="hidden h-11 w-11 items-center justify-center rounded-2xl border border-[#dfe7f6] bg-white text-slate-500 shadow-sm transition hover:border-portal-300 hover:text-portal-700 lg:inline-flex"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-[#dfe7f6] bg-white text-slate-500 shadow-sm transition hover:border-portal-300 hover:text-portal-700"
                   aria-label="Scroll next exams"
                 >
                   <UiIcon type="chevron-right" className="h-5 w-5" />
@@ -1329,55 +1338,57 @@ export default function PreviousYearPage() {
               id="filters"
               className="rounded-[24px] border border-[#e6edf9] bg-[#fbfdff] p-3 sm:p-4"
             >
-              <div className="grid grid-cols-2 gap-3 md:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_180px]">
-                <FilterTile label="Year" icon="calendar" className="order-1">
-                  <SelectControl
-                    value={filterForm.year}
-                    onChange={(event) => handleFilterChange("year", event.target.value)}
-                  >
-                    <option value="">All Years</option>
-                    {filterOptions.years.map((item) => (
-                      <option key={item} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </SelectControl>
-                </FilterTile>
+              <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="grid min-w-[980px] grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_180px] gap-3">
+                  <FilterTile label="Year" icon="calendar">
+                    <SelectControl
+                      value={filterForm.year}
+                      onChange={(event) => handleFilterChange("year", event.target.value)}
+                    >
+                      <option value="">All Years</option>
+                      {filterOptions.years.map((item) => (
+                        <option key={item} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </SelectControl>
+                  </FilterTile>
 
-                <FilterTile label="Subject / Paper" icon="document" className="order-3 col-span-2 md:col-span-1 md:order-2">
-                  <SelectControl
-                    value={filterForm.subject}
-                    onChange={(event) => handleFilterChange("subject", event.target.value)}
-                  >
-                    {filterOptions.subjects.map((item) => (
-                      <option key={item} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </SelectControl>
-                </FilterTile>
+                  <FilterTile label="Subject / Paper" icon="document">
+                    <SelectControl
+                      value={filterForm.subject}
+                      onChange={(event) => handleFilterChange("subject", event.target.value)}
+                    >
+                      {filterOptions.subjects.map((item) => (
+                        <option key={item} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </SelectControl>
+                  </FilterTile>
 
-                <FilterTile label="Type" icon="layers" className="order-2 md:order-3">
-                  <SelectControl
-                    value={filterForm.paperType}
-                    onChange={(event) => handleFilterChange("paperType", event.target.value)}
-                  >
-                    {paperTypeOptions.map((item) => (
-                      <option key={item} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </SelectControl>
-                </FilterTile>
+                  <FilterTile label="Type" icon="layers">
+                    <SelectControl
+                      value={filterForm.paperType}
+                      onChange={(event) => handleFilterChange("paperType", event.target.value)}
+                    >
+                      {paperTypeOptions.map((item) => (
+                        <option key={item} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </SelectControl>
+                  </FilterTile>
 
-                <button
-                  type="button"
-                  onClick={handleResetFilters}
-                  className="order-4 col-span-2 inline-flex items-center justify-center gap-2 rounded-[18px] border border-[#dfe7f6] bg-white px-4 py-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-portal-300 hover:text-portal-700 md:col-span-2 xl:col-span-1"
-                >
-                  <UiIcon type="refresh" className="h-4 w-4" />
-                  Reset Filters
-                </button>
+                  <button
+                    type="button"
+                    onClick={handleResetFilters}
+                    className="inline-flex items-center justify-center gap-2 rounded-[18px] border border-[#dfe7f6] bg-white px-4 py-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-portal-300 hover:text-portal-700"
+                  >
+                    <UiIcon type="refresh" className="h-4 w-4" />
+                    Reset Filters
+                  </button>
+                </div>
               </div>
 
               {activeFilterBadges.length ? (
@@ -1430,248 +1441,164 @@ export default function PreviousYearPage() {
                 </div>
               ) : visiblePapers.length ? (
                 <>
-                  <div className="hidden overflow-x-auto lg:block">
-                    <table className="min-w-full text-left">
-                      <thead className="bg-[#fbfcff] text-sm text-slate-500">
-                        <tr>
-                          <th className="px-6 py-4 font-bold">Year</th>
-                          <th className="px-6 py-4 font-bold">Paper / Post</th>
-                          <th className="px-6 py-4 font-bold">Type</th>
-                          <th className="px-6 py-4 font-bold">Solutions</th>
-                          <th className="px-6 py-4 font-bold">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {paginatedPapers.map((paper, index) => {
-                          const hasSolutions = paper.solvedCount > 0;
-                          const previewHref = buildPaperHref(
-                            paper,
-                            activeFilters,
-                            search,
-                            "question-bank"
-                          );
+                  <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="min-w-[980px]">
+                      <table className="min-w-full text-left">
+                        <thead className="bg-[#fbfcff] text-sm text-slate-500">
+                          <tr>
+                            <th className="px-6 py-4 font-bold">Year</th>
+                            <th className="px-6 py-4 font-bold">Paper / Post</th>
+                            <th className="px-6 py-4 font-bold">Type</th>
+                            <th className="px-6 py-4 font-bold">Solutions</th>
+                            <th className="px-6 py-4 font-bold">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {paginatedPapers.map((paper, index) => {
+                            const hasSolutions = paper.solvedCount > 0;
+                            const previewHref = buildPaperHref(
+                              paper,
+                              activeFilters,
+                              search,
+                              "question-bank"
+                            );
 
-                          return (
-                            <tr
-                              key={paper.id}
-                              className={
-                                index === paginatedPapers.length - 1
-                                  ? ""
-                                  : "border-b border-[#edf1f8]"
-                              }
-                            >
-                              <td className="px-6 py-5 align-top">
-                                <span className="text-lg font-bold text-portal-600">
-                                  {paper.year}
-                                </span>
-                              </td>
-                              <td className="px-6 py-5 align-top">
-                                <p className="text-base font-semibold text-slate-900">
-                                  {getPaperRoleLabel(paper.exam)}
-                                </p>
-                                <p className="mt-1 text-sm text-slate-500">
-                                  {formatSubjectSummary(paper.subjects)} | {paper.questionCount}{" "}
-                                  questions
-                                </p>
-                              </td>
-                              <td className="px-6 py-5 align-top">
-                                <p className="text-sm font-semibold text-slate-700">
-                                  {paper.paperType}
-                                </p>
-                              </td>
-                              <td className="px-6 py-5 align-top">
-                                <span
-                                  className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-                                    hasSolutions
-                                      ? "bg-emerald-50 text-emerald-700"
-                                      : "bg-slate-100 text-slate-600"
-                                  }`}
-                                >
-                                  {hasSolutions ? "Available" : "Limited"}
-                                </span>
-                              </td>
-                              <td className="px-6 py-5 align-top">
-                                <div className="flex items-center gap-3">
-                                  <Link
-                                    href={previewHref}
-                                    className="inline-flex items-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-2.5 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
+                            return (
+                              <tr
+                                key={paper.id}
+                                className={
+                                  index === paginatedPapers.length - 1
+                                    ? ""
+                                    : "border-b border-[#edf1f8]"
+                                }
+                              >
+                                <td className="px-6 py-5 align-top">
+                                  <span className="text-lg font-bold text-portal-600">
+                                    {paper.year}
+                                  </span>
+                                </td>
+                                <td className="px-6 py-5 align-top">
+                                  <p className="text-base font-semibold text-slate-900">
+                                    {getPaperRoleLabel(paper.exam)}
+                                  </p>
+                                  <p className="mt-1 text-sm text-slate-500">
+                                    {formatSubjectSummary(paper.subjects)} | {paper.questionCount}{" "}
+                                    questions
+                                  </p>
+                                </td>
+                                <td className="px-6 py-5 align-top">
+                                  <p className="text-sm font-semibold text-slate-700">
+                                    {paper.paperType}
+                                  </p>
+                                </td>
+                                <td className="px-6 py-5 align-top">
+                                  <span
+                                    className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+                                      hasSolutions
+                                        ? "bg-emerald-50 text-emerald-700"
+                                        : "bg-slate-100 text-slate-600"
+                                    }`}
                                   >
-                                    <UiIcon type="eye" className="h-4 w-4" />
-                                    View
-                                  </Link>
-                                  <button
-                                    type="button"
-                                    title="Download files will appear here once paper PDFs are added"
-                                    className="inline-flex items-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-2.5 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
-                                  >
-                                    <UiIcon type="download" className="h-4 w-4" />
-                                    Download
-                                  </button>
-                                  <button
-                                    type="button"
-                                    aria-label="More options"
-                                    className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#dfe7f6] bg-white text-slate-500 transition hover:border-portal-300 hover:text-portal-700"
-                                  >
-                                    <UiIcon type="dots-vertical" className="h-4 w-4" />
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
+                                    {hasSolutions ? "Available" : "Limited"}
+                                  </span>
+                                </td>
+                                <td className="px-6 py-5 align-top">
+                                  <div className="flex items-center gap-3">
+                                    <Link
+                                      href={previewHref}
+                                      className="inline-flex items-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-2.5 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
+                                    >
+                                      <UiIcon type="eye" className="h-4 w-4" />
+                                      View
+                                    </Link>
+                                    <button
+                                      type="button"
+                                      title="Download files will appear here once paper PDFs are added"
+                                      className="inline-flex items-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-2.5 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
+                                    >
+                                      <UiIcon type="download" className="h-4 w-4" />
+                                      Download
+                                    </button>
+                                    <button
+                                      type="button"
+                                      aria-label="More options"
+                                      className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#dfe7f6] bg-white text-slate-500 transition hover:border-portal-300 hover:text-portal-700"
+                                    >
+                                      <UiIcon type="dots-vertical" className="h-4 w-4" />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
 
-                  <div className="grid gap-3 p-3 sm:p-6 lg:hidden">
-                    {paginatedPapers.map((paper) => {
-                      const hasSolutions = paper.solvedCount > 0;
-                      const previewHref = buildPaperHref(
-                        paper,
-                        activeFilters,
-                        search,
-                        "question-bank"
-                      );
+                      <div className="border-t border-[#edf1f8] px-4 py-4 sm:px-6">
+                        <div className="flex items-center justify-between gap-4">
+                          <p className="text-sm text-slate-600">
+                            Showing {pageStart} to {pageEnd} of {visiblePapers.length} papers
+                          </p>
 
-                      return (
-                        <article
-                          key={paper.id}
-                          className="rounded-[18px] border border-[#e6edf9] bg-white p-3.5 shadow-sm"
-                        >
-                          <div className="flex items-start justify-between gap-3">
-                            <div>
-                              <p className="text-sm font-bold text-portal-600">{paper.year}</p>
-                              <h3 className="mt-1 text-base font-bold leading-6 text-slate-900">
-                                {getPaperRoleLabel(paper.exam)}
-                              </h3>
-                              <p className="mt-1.5 text-sm leading-6 text-slate-600">
-                                {formatSubjectSummary(paper.subjects)}
-                              </p>
-                            </div>
-                            <span className="rounded-full border border-[#dfe7f6] bg-[#f7faff] px-3 py-1 text-xs font-semibold text-slate-700">
-                              {paper.paperType}
-                            </span>
-                          </div>
-
-                          <div className="mt-4 flex flex-wrap gap-2">
-                            <span
-                              className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-                                hasSolutions
-                                  ? "bg-emerald-50 text-emerald-700"
-                                  : "bg-slate-100 text-slate-600"
-                              }`}
-                            >
-                              {hasSolutions ? "Solutions Available" : "Limited Solutions"}
-                            </span>
-                          </div>
-
-                          <div className="mt-4 grid grid-cols-2 gap-3">
-                            <div>
-                              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                                Questions
-                              </p>
-                              <p className="mt-1 text-sm text-slate-700">{paper.questionCount}</p>
-                            </div>
-                            <div>
-                              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                                Solutions
-                              </p>
-                              <p className="mt-1 text-sm text-slate-700">
-                                {hasSolutions
-                                  ? `${getSolvedPercentage(
-                                      paper.solvedCount,
-                                      paper.questionCount
-                                    )}% available`
-                                  : "Limited"}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="mt-5 grid grid-cols-2 gap-2">
-                            <Link
-                              href={previewHref}
-                              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-3 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
-                            >
-                              <UiIcon type="eye" className="h-4 w-4" />
-                              View
-                            </Link>
-                            <button
-                              type="button"
-                              title="Download files will appear here once paper PDFs are added"
-                              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-3 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
-                            >
-                              <UiIcon type="download" className="h-4 w-4" />
-                              Download
-                            </button>
-                          </div>
-                        </article>
-                      );
-                    })}
-                  </div>
-
-                  <div className="border-t border-[#edf1f8] px-4 py-4 sm:px-6">
-                    <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-                      <p className="text-sm text-slate-600">
-                        Showing {pageStart} to {pageEnd} of {visiblePapers.length} papers
-                      </p>
-
-                      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                        {totalPages > 1 ? (
-                          <div className="flex items-center gap-2">
-                            <PaginationButton
-                              onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
-                              disabled={currentPage === 1}
-                            >
-                              <UiIcon type="chevron-left" className="h-4 w-4" />
-                            </PaginationButton>
-
-                            {paginationItems.map((item) =>
-                              typeof item === "number" ? (
+                          <div className="flex items-center gap-6">
+                            {totalPages > 1 ? (
+                              <div className="flex items-center gap-2">
                                 <PaginationButton
-                                  key={item}
-                                  active={item === currentPage}
-                                  onClick={() => setCurrentPage(item)}
+                                  onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+                                  disabled={currentPage === 1}
                                 >
-                                  {item}
+                                  <UiIcon type="chevron-left" className="h-4 w-4" />
                                 </PaginationButton>
-                              ) : (
-                                <span key={item} className="px-1 text-slate-400">
-                                  ...
+
+                                {paginationItems.map((item) =>
+                                  typeof item === "number" ? (
+                                    <PaginationButton
+                                      key={item}
+                                      active={item === currentPage}
+                                      onClick={() => setCurrentPage(item)}
+                                    >
+                                      {item}
+                                    </PaginationButton>
+                                  ) : (
+                                    <span key={item} className="px-1 text-slate-400">
+                                      ...
+                                    </span>
+                                  )
+                                )}
+
+                                <PaginationButton
+                                  onClick={() =>
+                                    setCurrentPage((page) => Math.min(totalPages, page + 1))
+                                  }
+                                  disabled={currentPage === totalPages}
+                                >
+                                  <UiIcon type="chevron-right" className="h-4 w-4" />
+                                </PaginationButton>
+                              </div>
+                            ) : null}
+
+                            <label className="flex items-center gap-3 text-sm text-slate-600">
+                              <span>Show</span>
+                              <span className="relative inline-flex items-center rounded-xl border border-[#dfe7f6] bg-white px-3 py-2">
+                                <select
+                                  value={pageSize}
+                                  onChange={(event) => setPageSize(Number(event.target.value))}
+                                  className="appearance-none bg-transparent pr-6 font-semibold text-slate-700 outline-none"
+                                >
+                                  {[8, 12, 16].map((option) => (
+                                    <option key={option} value={option}>
+                                      {option}
+                                    </option>
+                                  ))}
+                                </select>
+                                <span className="pointer-events-none absolute right-3 text-slate-400">
+                                  <UiIcon type="chevron-down" className="h-4 w-4" />
                                 </span>
-                              )
-                            )}
-
-                            <PaginationButton
-                              onClick={() =>
-                                setCurrentPage((page) => Math.min(totalPages, page + 1))
-                              }
-                              disabled={currentPage === totalPages}
-                            >
-                              <UiIcon type="chevron-right" className="h-4 w-4" />
-                            </PaginationButton>
+                              </span>
+                              <span>per page</span>
+                            </label>
                           </div>
-                        ) : null}
-
-                        <label className="flex items-center gap-3 text-sm text-slate-600">
-                          <span>Show</span>
-                          <span className="relative inline-flex items-center rounded-xl border border-[#dfe7f6] bg-white px-3 py-2">
-                            <select
-                              value={pageSize}
-                              onChange={(event) => setPageSize(Number(event.target.value))}
-                              className="appearance-none bg-transparent pr-6 font-semibold text-slate-700 outline-none"
-                            >
-                              {[8, 12, 16].map((option) => (
-                                <option key={option} value={option}>
-                                  {option}
-                                </option>
-                              ))}
-                            </select>
-                            <span className="pointer-events-none absolute right-3 text-slate-400">
-                              <UiIcon type="chevron-down" className="h-4 w-4" />
-                            </span>
-                          </span>
-                          <span>per page</span>
-                        </label>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1687,9 +1614,10 @@ export default function PreviousYearPage() {
             </section>
 
             <section className="overflow-hidden rounded-[24px] border border-[#e6edf9] bg-white">
-              <div className="grid divide-y divide-[#edf1f8] md:grid-cols-3 md:divide-x md:divide-y-0">
+              <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="grid min-w-[980px] grid-cols-3 divide-x divide-[#edf1f8]">
                 {supportHighlights.map((item) => (
-                  <article key={item.title} className="p-4 sm:p-5">
+                    <article key={item.title} className="p-4 sm:p-5">
                     <div className="flex items-start gap-4">
                       <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#f4f8ff] text-portal-600">
                         <UiIcon type={item.icon} className="h-5 w-5" />
@@ -1701,6 +1629,7 @@ export default function PreviousYearPage() {
                     </div>
                   </article>
                 ))}
+                </div>
               </div>
             </section>
 

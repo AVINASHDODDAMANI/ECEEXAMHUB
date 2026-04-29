@@ -1,0 +1,56 @@
+<svg width="980" height="250" viewBox="0 0 980 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="eceExamOrange" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF8E0A"/>
+      <stop offset="100%" stop-color="#FF5B00"/>
+    </linearGradient>
+    <filter id="eceShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#10254D" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <g transform="translate(8 10)">
+    <g filter="url(#eceShadow)" transform="translate(0 8)">
+      <path d="M34 94C47 39 98 2 156 2c29 0 56 8 79 23" stroke="#0D2A66" stroke-width="8" stroke-linecap="round"/>
+      <path d="M240 28c22 16 39 40 46 68" stroke="url(#eceExamOrange)" stroke-width="8" stroke-linecap="round"/>
+      <path d="M46 171c16 24 40 43 67 53" stroke="#0D2A66" stroke-width="8" stroke-linecap="round"/>
+      <path d="M196 226c33-11 62-34 81-65" stroke="url(#eceExamOrange)" stroke-width="8" stroke-linecap="round"/>
+
+      <path d="M53 109h37l24 22" stroke="#0D2A66" stroke-width="5.2" stroke-linecap="round"/>
+      <path d="M61 75h26l15 13" stroke="#0D2A66" stroke-width="5.2" stroke-linecap="round"/>
+      <circle cx="48" cy="109" r="7" stroke="#0D2A66" stroke-width="5"/>
+      <circle cx="57" cy="75" r="7" stroke="#0D2A66" stroke-width="5"/>
+
+      <path d="M268 109h-37l-24 22" stroke="url(#eceExamOrange)" stroke-width="5.2" stroke-linecap="round"/>
+      <path d="M259 75h-26l-15 13" stroke="url(#eceExamOrange)" stroke-width="5.2" stroke-linecap="round"/>
+      <circle cx="273" cy="109" r="7" stroke="url(#eceExamOrange)" stroke-width="5"/>
+      <circle cx="264" cy="75" r="7" stroke="url(#eceExamOrange)" stroke-width="5"/>
+
+      <rect x="116" y="40" width="90" height="90" rx="18" stroke="#0D2A66" stroke-width="8"/>
+      <path d="M144 85h12l9-26 15 55 12-28h20" stroke="#FF6B00" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M136 21v19m24-19v19m24-19v19m24-19v19M136 130v18m24-18v18m24-18v18m24-18v18M97 59h19m-19 26h19m-19 26h19M206 59h19m-19 26h19m-19 26h19" stroke="#0D2A66" stroke-width="5" stroke-linecap="round"/>
+
+      <path d="M79 184c23-17 49-26 82-26 32 0 58 9 81 26l12 35c-30-6-61-10-93-10s-63 4-93 10l11-35Z" fill="#0D2A66"/>
+      <path d="M161 160v64M85 185c25-16 51-24 76-24 26 0 52 8 77 24" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M78 219c27-6 55-9 83-9s56 3 84 9" stroke="#FF6B00" stroke-width="4.5" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g transform="translate(328 54)">
+    <text x="0" y="68" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="900" letter-spacing="2">
+      <tspan fill="#0D2A66">ECE </tspan>
+      <tspan fill="url(#eceExamOrange)">EXAM </tspan>
+      <tspan fill="#0D2A66">GUIDE</tspan>
+    </text>
+
+    <g transform="translate(0 108)" fill="#102860" stroke="#102860" stroke-linecap="round">
+      <circle cx="7" cy="12" r="5" stroke-width="3"/>
+      <path d="M18 12h72" stroke-width="3"/>
+      <text x="112" y="20" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" letter-spacing="5" fill="#102860" stroke="none">
+        YOUR GUIDE TO ECE EXAMS &amp; LEARNING
+      </text>
+      <path d="M641 12h72" stroke="url(#eceExamOrange)" stroke-width="3"/>
+      <circle cx="724" cy="12" r="5" stroke="url(#eceExamOrange)" stroke-width="3"/>
+    </g>
+  </g>
+</svg>

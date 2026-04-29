@@ -12,6 +12,7 @@ import {
   getSearchSuggestions,
 } from "../lib/smart-search";
 import { isNavigationActive } from "../lib/site-navigation";
+import { BrandLogo } from "./BrandIdentity";
 import SmartSearchDropdown from "./SmartSearchDropdown";
 
 const navItems = [
@@ -28,22 +29,6 @@ const navItems = [
 const activeNavClass =
   "bg-white/15 text-white shadow-[inset_0_-4px_0_#f4c542,0_0_18px_rgba(244,197,66,0.22)]";
 const inactiveNavClass = "text-blue-100 hover:bg-white/10 hover:text-white";
-
-function BrandIcon() {
-  return (
-    <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-portal-50 text-portal-600 shadow-sm">
-      <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <rect x="7" y="7" width="10" height="10" rx="1.8" stroke="currentColor" strokeWidth="1.9" />
-        <path
-          d="M4 9V7m0 10v-2m16-8V7m0 10v-2M9 4H7m10 0h-2M9 20H7m10 0h-2M4 12H2m20 0h-2"
-          stroke="currentColor"
-          strokeWidth="1.9"
-          strokeLinecap="round"
-        />
-      </svg>
-    </span>
-  );
-}
 
 function PlusIcon() {
   return (
@@ -87,7 +72,7 @@ function HeaderActionButton({ children, badge, primary = false, ariaLabel }) {
     <button
       type="button"
       aria-label={ariaLabel}
-      className={`relative inline-flex h-11 w-11 items-center justify-center rounded-full border transition ${
+      className={`relative inline-flex h-10 w-10 items-center justify-center rounded-full border transition sm:h-11 sm:w-11 ${
         primary
           ? "border-portal-600 bg-portal-600 text-white shadow-[0_14px_30px_rgba(21,74,150,0.24)]"
           : "border-portal-200 bg-white text-portal-700 hover:border-portal-300"
@@ -95,7 +80,7 @@ function HeaderActionButton({ children, badge, primary = false, ariaLabel }) {
     >
       {children}
       {badge ? (
-        <span className="absolute -right-1 -top-1 inline-flex min-w-[20px] items-center justify-center rounded-full border border-white bg-white px-1.5 py-0.5 text-[10px] font-bold text-portal-700 shadow-sm">
+        <span className="absolute -right-1 -top-1 inline-flex min-w-[18px] items-center justify-center rounded-full border border-white bg-white px-1.5 py-0.5 text-[9px] font-bold text-portal-700 shadow-sm sm:min-w-[20px] sm:text-[10px]">
           {badge}
         </span>
       ) : null}
@@ -335,22 +320,23 @@ export default function Navbar({
     <header className="sticky top-0 z-40 border-b border-portal-200 bg-white shadow-[0_10px_30px_rgba(16,47,96,0.08)]">
       <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-3 py-3 sm:px-6 sm:py-4 lg:px-8">
         <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[auto_minmax(340px,1fr)_auto] lg:items-center lg:gap-6">
-          <div className="flex items-start justify-between gap-3">
-            <Link href="/" className="flex min-w-0 items-center gap-3">
-              <span className="scale-[0.9] sm:scale-100">
-                <BrandIcon />
-              </span>
-              <div className="min-w-0">
-                <p className="truncate text-[1rem] font-extrabold tracking-tight text-portal-600 sm:text-[2rem]">
-                  ECE EXAM GUIDE
-                </p>
-                <p className="text-[10px] leading-4 text-slate-500 sm:text-base">
-                  Your Guide to ECE Exams & Learning
-                </p>
-              </div>
+          <div className="flex items-center justify-between gap-3">
+            <Link href="/" className="min-w-0 flex-1">
+              <BrandLogo
+                className="max-w-[250px] sm:max-w-[360px]"
+                markClassName="h-[3.15rem] w-[3.15rem] sm:h-14 sm:w-14"
+                titleClassName="text-[1.15rem] sm:text-[2rem]"
+                taglineClassName="text-[9px] sm:text-[11px]"
+              />
             </Link>
 
-            <div className="flex items-center gap-2 lg:hidden">
+            <div className="flex shrink-0 items-center gap-1.5 sm:gap-2 lg:hidden">
+              <HeaderActionButton primary ariaLabel="Create">
+                <PlusIcon />
+              </HeaderActionButton>
+              <HeaderActionButton badge="47" ariaLabel="Messages">
+                <MessageIcon />
+              </HeaderActionButton>
               <HeaderActionButton ariaLabel="More">
                 <DotsVerticalIcon />
               </HeaderActionButton>
