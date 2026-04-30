@@ -1254,43 +1254,39 @@ export default function PreviousYearPage() {
                 </button>
               </div>
 
-              <div className="lg:hidden">
-                <div className="-mx-1 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                  <div className="flex min-w-[840px] gap-2.5 px-1 sm:min-w-[980px] sm:gap-3">
-                    {featuredCards.map((card) => (
-                      <button
-                        key={`mobile-${card.key}`}
-                        type="button"
-                        onClick={() => handleExamCardSelect(card)}
-                        className={`group min-w-[148px] rounded-[18px] border bg-white p-3 text-left shadow-[0_12px_32px_rgba(15,23,42,0.04)] transition sm:min-w-[176px] sm:rounded-[20px] sm:p-4 ${
+              <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:hidden">
+                {featuredCards.map((card) => (
+                  <button
+                    key={`mobile-${card.key}`}
+                    type="button"
+                    onClick={() => handleExamCardSelect(card)}
+                    className={`group flex min-h-[154px] w-full flex-col rounded-[18px] border bg-white p-3 text-left shadow-[0_12px_32px_rgba(15,23,42,0.04)] transition sm:min-h-[176px] sm:rounded-[20px] sm:p-4 ${
+                      card.isSelected
+                        ? "border-portal-500 ring-1 ring-portal-500"
+                        : "border-[#e3eaf7] hover:border-portal-300"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2.5 sm:gap-3">
+                      <ExamLogoBadge type={card.logo} className="scale-[0.88] sm:scale-100" />
+                      <span
+                        className={`inline-flex h-5 w-5 items-center justify-center rounded-full sm:h-6 sm:w-6 ${
                           card.isSelected
-                            ? "border-portal-500 ring-1 ring-portal-500"
-                            : "border-[#e3eaf7] hover:border-portal-300"
+                            ? "bg-portal-600 text-white"
+                            : "bg-slate-100 text-transparent"
                         }`}
                       >
-                        <div className="flex items-start justify-between gap-2.5 sm:gap-3">
-                          <ExamLogoBadge type={card.logo} className="scale-[0.88] sm:scale-100" />
-                          <span
-                            className={`inline-flex h-5 w-5 items-center justify-center rounded-full sm:h-6 sm:w-6 ${
-                              card.isSelected
-                                ? "bg-portal-600 text-white"
-                                : "bg-slate-100 text-transparent"
-                            }`}
-                          >
-                            <UiIcon type="check" className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                          </span>
-                        </div>
+                        <UiIcon type="check" className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                      </span>
+                    </div>
 
-                        <h2 className="mt-3 text-[1.05rem] font-bold tracking-tight text-slate-900 sm:mt-4 sm:text-[1.35rem]">
-                          {card.title}
-                        </h2>
-                        <p className="mt-1.5 text-xs leading-5 text-slate-600 sm:mt-2 sm:text-sm sm:leading-7">
-                          {card.subtitle}
-                        </p>
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                    <h2 className="mt-3 text-[1rem] font-bold tracking-tight text-slate-900 sm:mt-4 sm:text-[1.35rem]">
+                      {card.title}
+                    </h2>
+                    <p className="mt-1.5 text-[11px] leading-4 text-slate-600 sm:mt-2 sm:text-sm sm:leading-7">
+                      {card.subtitle}
+                    </p>
+                  </button>
+                ))}
               </div>
 
               <div className="hidden items-center gap-3 lg:grid lg:grid-cols-[44px_minmax(0,1fr)_44px]">
@@ -1354,57 +1350,55 @@ export default function PreviousYearPage() {
               id="filters"
               className="rounded-[24px] border border-[#e6edf9] bg-[#fbfdff] p-2.5 sm:p-4"
             >
-              <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="grid min-w-[760px] grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_150px] gap-2.5 sm:min-w-[980px] sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_180px] sm:gap-3">
-                  <FilterTile label="Year" icon="calendar">
-                    <SelectControl
-                      value={filterForm.year}
-                      onChange={(event) => handleFilterChange("year", event.target.value)}
-                    >
-                      <option value="">All Years</option>
-                      {filterOptions.years.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </SelectControl>
-                  </FilterTile>
-
-                  <FilterTile label="Subject / Paper" icon="document">
-                    <SelectControl
-                      value={filterForm.subject}
-                      onChange={(event) => handleFilterChange("subject", event.target.value)}
-                    >
-                      {filterOptions.subjects.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </SelectControl>
-                  </FilterTile>
-
-                  <FilterTile label="Type" icon="layers">
-                    <SelectControl
-                      value={filterForm.paperType}
-                      onChange={(event) => handleFilterChange("paperType", event.target.value)}
-                    >
-                      {paperTypeOptions.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </SelectControl>
-                  </FilterTile>
-
-                  <button
-                    type="button"
-                    onClick={handleResetFilters}
-                    className="inline-flex items-center justify-center gap-1.5 rounded-[16px] border border-[#dfe7f6] bg-white px-3 py-3 text-xs font-semibold text-slate-700 shadow-sm transition hover:border-portal-300 hover:text-portal-700 sm:gap-2 sm:rounded-[18px] sm:px-4 sm:py-4 sm:text-sm"
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_180px] sm:gap-3">
+                <FilterTile label="Year" icon="calendar">
+                  <SelectControl
+                    value={filterForm.year}
+                    onChange={(event) => handleFilterChange("year", event.target.value)}
                   >
-                    <UiIcon type="refresh" className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                    Reset Filters
-                  </button>
-                </div>
+                    <option value="">All Years</option>
+                    {filterOptions.years.map((item) => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </SelectControl>
+                </FilterTile>
+
+                <FilterTile label="Subject / Paper" icon="document">
+                  <SelectControl
+                    value={filterForm.subject}
+                    onChange={(event) => handleFilterChange("subject", event.target.value)}
+                  >
+                    {filterOptions.subjects.map((item) => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </SelectControl>
+                </FilterTile>
+
+                <FilterTile label="Type" icon="layers">
+                  <SelectControl
+                    value={filterForm.paperType}
+                    onChange={(event) => handleFilterChange("paperType", event.target.value)}
+                  >
+                    {paperTypeOptions.map((item) => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </SelectControl>
+                </FilterTile>
+
+                <button
+                  type="button"
+                  onClick={handleResetFilters}
+                  className="inline-flex items-center justify-center gap-1.5 rounded-[16px] border border-[#dfe7f6] bg-white px-3 py-3 text-xs font-semibold text-slate-700 shadow-sm transition hover:border-portal-300 hover:text-portal-700 sm:gap-2 sm:rounded-[18px] sm:px-4 sm:py-4 sm:text-sm"
+                >
+                  <UiIcon type="refresh" className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  Reset Filters
+                </button>
               </div>
 
               {activeFilterBadges.length ? (
@@ -1457,7 +1451,133 @@ export default function PreviousYearPage() {
                 </div>
               ) : visiblePapers.length ? (
                 <>
-                  <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  <div className="grid gap-3 p-4 sm:p-5 lg:hidden">
+                    {paginatedPapers.map((paper) => {
+                      const hasSolutions = paper.solvedCount > 0;
+                      const previewHref = buildPaperHref(
+                        paper,
+                        activeFilters,
+                        search,
+                        "question-bank"
+                      );
+
+                      return (
+                        <article
+                          key={paper.id}
+                          className="rounded-[20px] border border-[#e4eaf6] bg-[#fbfdff] p-4 shadow-[0_10px_30px_rgba(15,23,42,0.04)]"
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <div>
+                              <span className="inline-flex rounded-full bg-[#eef5ff] px-3 py-1 text-xs font-bold text-portal-700">
+                                {paper.year}
+                              </span>
+                              <p className="mt-3 text-base font-bold text-slate-900">
+                                {getPaperRoleLabel(paper.exam)}
+                              </p>
+                            </div>
+                            <span
+                              className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+                                hasSolutions
+                                  ? "bg-emerald-50 text-emerald-700"
+                                  : "bg-slate-100 text-slate-600"
+                              }`}
+                            >
+                              {hasSolutions ? "Available" : "Limited"}
+                            </span>
+                          </div>
+
+                          <p className="mt-2 text-sm leading-6 text-slate-600">
+                            {formatSubjectSummary(paper.subjects)} | {paper.questionCount} questions
+                          </p>
+
+                          <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
+                            <div className="rounded-xl border border-[#e4eaf6] bg-white px-3 py-2">
+                              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                                Type
+                              </p>
+                              <p className="mt-1 font-semibold text-slate-800">{paper.paperType}</p>
+                            </div>
+                            <div className="rounded-xl border border-[#e4eaf6] bg-white px-3 py-2">
+                              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                                Questions
+                              </p>
+                              <p className="mt-1 font-semibold text-slate-800">{paper.questionCount}</p>
+                            </div>
+                          </div>
+
+                          <div className="mt-4 grid grid-cols-2 gap-2">
+                            <Link
+                              href={previewHref}
+                              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-3 py-2.5 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
+                            >
+                              <UiIcon type="eye" className="h-4 w-4" />
+                              View
+                            </Link>
+                            <button
+                              type="button"
+                              title="Download files will appear here once paper PDFs are added"
+                              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-3 py-2.5 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
+                            >
+                              <UiIcon type="download" className="h-4 w-4" />
+                              Download
+                            </button>
+                          </div>
+                        </article>
+                      );
+                    })}
+
+                    <div className="rounded-[20px] border border-[#e4eaf6] bg-white p-4 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">
+                      <div className="flex flex-col gap-4">
+                        <p className="text-sm text-slate-600">
+                          Showing {pageStart} to {pageEnd} of {visiblePapers.length} papers
+                        </p>
+
+                        {totalPages > 1 ? (
+                          <div className="flex items-center justify-between gap-2">
+                            <PaginationButton
+                              onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+                              disabled={currentPage === 1}
+                            >
+                              <UiIcon type="chevron-left" className="h-4 w-4" />
+                            </PaginationButton>
+
+                            <span className="text-sm font-semibold text-slate-700">
+                              Page {currentPage} of {totalPages}
+                            </span>
+
+                            <PaginationButton
+                              onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
+                              disabled={currentPage === totalPages}
+                            >
+                              <UiIcon type="chevron-right" className="h-4 w-4" />
+                            </PaginationButton>
+                          </div>
+                        ) : null}
+
+                        <label className="flex items-center justify-between gap-3 text-sm text-slate-600">
+                          <span>Show per page</span>
+                          <span className="relative inline-flex items-center rounded-xl border border-[#dfe7f6] bg-white px-3 py-2">
+                            <select
+                              value={pageSize}
+                              onChange={(event) => setPageSize(Number(event.target.value))}
+                              className="appearance-none bg-transparent pr-6 font-semibold text-slate-700 outline-none"
+                            >
+                              {[8, 12, 16].map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                            <span className="pointer-events-none absolute right-3 text-slate-400">
+                              <UiIcon type="chevron-down" className="h-4 w-4" />
+                            </span>
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="hidden overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:block">
                     <div className="min-w-[980px]">
                       <table className="min-w-full text-left">
                         <thead className="bg-[#fbfcff] text-sm text-slate-500">
@@ -1630,8 +1750,7 @@ export default function PreviousYearPage() {
             </section>
 
             <section className="overflow-hidden rounded-[24px] border border-[#e6edf9] bg-white">
-              <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="grid min-w-[980px] grid-cols-3 divide-x divide-[#edf1f8]">
+              <div className="grid divide-y divide-[#edf1f8] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
                 {supportHighlights.map((item) => (
                     <article key={item.title} className="p-4 sm:p-5">
                     <div className="flex items-start gap-4">
@@ -1645,7 +1764,6 @@ export default function PreviousYearPage() {
                     </div>
                   </article>
                 ))}
-                </div>
               </div>
             </section>
 
