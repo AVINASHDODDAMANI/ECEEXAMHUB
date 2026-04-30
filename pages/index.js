@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import Layout from "../components/layout";
+import { examDirectory } from "../data/exam-directory";
 import seedQuestions from "../data/questions";
-import { getAllLearningTopics, getLearningSubjects, getReadyLearningTopics } from "../lib/learning-utils";
+import { getAllLearningTopics, getReadyLearningTopics } from "../lib/learning-utils";
 import { useLearningProgress } from "../lib/use-learning-progress";
 import { fetchQuestions } from "../lib/api-client";
 
@@ -57,7 +58,6 @@ function FeatureIcon({ type }) {
 
 export default function Home() {
   const [questions, setQuestions] = useState(seedQuestions);
-  const learningSubjects = getLearningSubjects();
   const readyTopics = getReadyLearningTopics();
   const allTopics = getAllLearningTopics();
   const { progressStats } = useLearningProgress();
@@ -98,12 +98,12 @@ export default function Home() {
   );
 
   const examLinks = [
-    { label: "GATE ECE", href: "/previous-year?exam=GATE" },
-    { label: "ESE (IES)", href: "/learn" },
-    { label: "PSU Exams (EC)", href: "/previous-year?exam=BEL" },
-    { label: "RRB JE (EC)", href: "/practice" },
-    { label: "UPSC ECE", href: "/learn?search=communication" },
-    { label: "University Semester Exams", href: "/subjects" },
+    { label: "GATE ECE", href: "/ece-exams#gate-ece" },
+    { label: "ESE / IES", href: "/ece-exams#ese-ies" },
+    { label: "PSU Exams", href: "/ece-exams#psu-exams" },
+    { label: "SSC JE Guide", href: "/ece-exams#ssc-je-ece" },
+    { label: "RRB JE Guide", href: "/ece-exams#rrb-je-electronics" },
+    { label: "State AE / JE", href: "/ece-exams#state-ae-je" },
   ];
 
   const studyMaterials = [
@@ -112,7 +112,7 @@ export default function Home() {
     { label: "Important Questions", href: "/practice?search=important" },
     { label: "MCQs", href: "/mcqs" },
     { label: "Formula Sheet", href: "/learn?search=formula" },
-    { label: "Textbooks Style Topics", href: "/learn" },
+    { label: "Concept Revision", href: "/learn" },
   ];
 
   const previousPaperGroups = [
@@ -125,23 +125,23 @@ export default function Home() {
   const highlights = [
     {
       icon: "book",
-      title: "Well Explained",
-      description: "Concise and easy to understand topics",
+      title: "Structured Learning",
+      description: "Clear subject-wise coverage for core ECE preparation",
     },
     {
       icon: "document",
-      title: "Exam Focused",
-      description: "Important questions, PYQs, and patterns",
+      title: "Previous Papers",
+      description: "Exam-wise and year-wise paper access for focused revision",
     },
     {
       icon: "clipboard",
-      title: "Updated Regularly",
-      description: "Latest syllabus and exam-oriented practice",
+      title: "Practice Ready",
+      description: "MCQs, important questions, and revision-first practice",
     },
     {
       icon: "people",
-      title: "For All ECE Students",
-      description: "Semester exams to competitive exam revision",
+      title: "Progress Tracking",
+      description: "Track completion across learning topics and practice",
     },
   ];
 
@@ -151,12 +151,15 @@ export default function Home() {
         <div className="space-y-4 sm:space-y-6">
           <section className="rounded-2xl border border-portal-200 bg-gradient-to-r from-[#f7fbff] to-[#eef5ff] p-4 shadow-portal sm:p-6">
             <div className="max-w-4xl">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-portal-600">
+                ECE Preparation Platform
+              </p>
               <h1 className="text-[2rem] font-bold tracking-tight text-portal-700 sm:text-4xl">
-                Welcome to ECE Exam Guide
+                ECE notes, previous papers, and practice in one focused workspace
               </h1>
               <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 sm:mt-4 sm:text-base sm:leading-8">
-                Find notes, important questions, previous year papers, MCQs, and
-                revision-ready learning paths for Electronics and Communication Engineering.
+                Access structured subject notes, exam-wise previous papers, topic practice,
+                and revision resources built for Electronics and Communication Engineering.
               </p>
             </div>
 
@@ -188,7 +191,7 @@ export default function Home() {
                   href={topic.href}
                   className="flex items-center gap-2.5 text-sm font-medium text-slate-700 transition hover:text-portal-700 sm:gap-3 sm:text-base"
                 >
-                  <span className="text-base text-green-700 sm:text-xl">{">"}</span>
+                  <span className="h-2 w-2 rounded-full bg-green-700" />
                   <span>{topic.label}</span>
                 </Link>
               ))}
@@ -232,7 +235,7 @@ export default function Home() {
             title="ECE Exams"
             action={
               <span className="rounded-full border border-portal-200 bg-portal-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-portal-700 sm:px-3 sm:text-xs">
-                {learningSubjects.length} subjects
+                {examDirectory.length} guides
               </span>
             }
           >
@@ -255,10 +258,10 @@ export default function Home() {
             </div>
 
             <Link
-              href="/subjects"
+              href="/ece-exams"
               className="mt-4 inline-flex w-full items-center justify-center rounded-xl border border-portal-200 bg-[#f8fbff] px-4 py-2.5 text-sm font-bold text-portal-700 transition hover:bg-white sm:mt-6 sm:py-3 sm:text-base"
             >
-              View all exams
+              Open exam guides
             </Link>
           </Panel>
 

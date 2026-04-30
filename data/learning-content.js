@@ -375,7 +375,7 @@ const learningSubjects = [
             summary:
               "Revise superposition, Thevenin, Norton, maximum power transfer, and source transformation.",
             estimatedTime: "45 min",
-            status: "roadmap",
+            status: "ready",
             concepts: ["Thevenin equivalent", "Norton equivalent", "Maximum power transfer"],
             subtopics: [
               "Superposition theorem",
@@ -390,7 +390,7 @@ const learningSubjects = [
             summary:
               "Build strong equation-solving habits for DC and AC network problems.",
             estimatedTime: "35 min",
-            status: "roadmap",
+            status: "ready",
             concepts: ["Node voltage", "Mesh current", "Dependent source"],
             subtopics: [
               "Node voltage method",
@@ -426,7 +426,7 @@ const learningSubjects = [
             summary:
               "Learn Z, Y, h, and ABCD parameter conversions for quick numerical problem solving.",
             estimatedTime: "40 min",
-            status: "roadmap",
+            status: "ready",
             concepts: ["Parameter conversion", "Reciprocity", "Symmetry"],
             subtopics: [
               "Z and Y parameters",
@@ -447,7 +447,7 @@ const learningSubjects = [
             summary:
               "Solve RC and RL switching problems using initial and final conditions.",
             estimatedTime: "35 min",
-            status: "roadmap",
+            status: "ready",
             concepts: ["Time constant", "Natural response", "Forced response"],
             subtopics: [
               "RC transient",
@@ -1264,6 +1264,278 @@ const topicLibrary = {
       "Resonance questions are compact and formula-friendly, which makes them high-confidence marks once the physical picture is clear.",
     relatedTopics: [
       { subjectSlug: "networks", topicSlug: "two-port-networks" },
+    ],
+  },
+  "networks/network-theorems-topic": {
+    learningGoals: [
+      "Understand why linear network theorems simplify complex circuits without changing terminal behavior.",
+      "Move confidently between original circuits and equivalent two-terminal representations.",
+      "Use theorem selection as a speed tool in exam problem solving.",
+    ],
+    overview: [
+      "Network theorems are powerful because they let you replace a complicated linear circuit by a simpler form while preserving the same external response at selected terminals. This is why the subject feels elegant once the theory is clear.",
+      "Thevenin and Norton theorems describe the same network in voltage-source and current-source language. Superposition explains how each independent source contributes separately in a linear circuit, while maximum power transfer shows how load selection affects delivered power.",
+      "These results are not separate tricks. They all come from the same foundations: linearity, source behavior, and equivalent terminal characteristics.",
+    ],
+    formulas: [
+      {
+        label: "Thevenin voltage",
+        expression: "Vth = open-circuit voltage at the terminals",
+        note: "Find the terminal voltage with the load removed.",
+      },
+      {
+        label: "Norton current",
+        expression: "In = short-circuit current at the terminals",
+        note: "Find the current when the output terminals are shorted.",
+      },
+      {
+        label: "Maximum power transfer",
+        expression: "Pmax = Vth^2 / (4Rth)",
+        note: "For DC resistive networks, maximum power occurs when RL = Rth.",
+      },
+    ],
+    keyConcepts: [
+      "Thevenin and Norton equivalents are interchangeable views of the same linear two-terminal network.",
+      "Superposition is applied to voltage and current responses, not directly to power.",
+      "Equivalent resistance is easy with independent sources suppressed, but dependent sources require extra care.",
+      "Source transformation is a fast bridge between voltage-source and current-source forms.",
+    ],
+    examples: [
+      {
+        title: "Finding the correct Norton relation",
+        prompt: "A circuit has Thevenin equivalent Vth and Rth. How do you write the Norton current?",
+        steps: [
+          "Recall that Thevenin and Norton forms must produce the same terminal behavior.",
+          "Use the relation between equivalent voltage source and current source.",
+          "Divide the Thevenin voltage by the equivalent resistance.",
+        ],
+        answer: "The Norton current is In = Vth / Rth.",
+      },
+    ],
+    examPointers: [
+      "If the question asks for a load-side view, think immediately in terms of terminal equivalence.",
+      "Use source suppression only when the network has independent sources alone.",
+      "For maximum power transfer, separate the condition from the power formula so you do not mix the two steps.",
+    ],
+    commonMistakes: [
+      "Adding powers under superposition instead of recomputing power from the final voltage or current.",
+      "Turning off dependent sources while finding equivalent resistance.",
+      "Forgetting that open-circuit voltage and short-circuit current are terminal quantities, not random branch quantities.",
+    ],
+    quickRevision: [
+      "Vth is the open-circuit voltage and In is the short-circuit current.",
+      "Thevenin and Norton are equivalent if Rth = Rn and Vth = In Rth.",
+      "For resistive DC networks, maximum power transfer occurs when RL equals Rth.",
+    ],
+    insightSummary:
+      "Network theorems reward conceptual clarity. Once the terminal viewpoint becomes natural, many long circuits shrink into one- or two-step problems.",
+    relatedTopics: [
+      { subjectSlug: "networks", topicSlug: "nodal-and-mesh-analysis" },
+      { subjectSlug: "networks", topicSlug: "two-port-networks" },
+    ],
+  },
+  "networks/nodal-and-mesh-analysis": {
+    learningGoals: [
+      "Convert circuits into systematic equations using node voltages or mesh currents.",
+      "Choose the faster method based on source placement and circuit structure.",
+      "Handle supernodes, supermeshes, and dependent sources without losing equation consistency.",
+    ],
+    overview: [
+      "Nodal and mesh analysis are core analytical methods in Network Analysis. They replace intuition-based guessing with a repeatable equation-writing process that works even when direct circuit reduction is inconvenient.",
+      "Nodal analysis is built around unknown node voltages and current balance at each essential node. Mesh analysis is built around unknown loop currents and voltage balance around each mesh in a planar circuit.",
+      "Once the method is chosen properly, the circuit becomes a set of simultaneous equations. This is why strong theory here gives direct power in both DC and AC circuit questions.",
+    ],
+    formulas: [
+      {
+        label: "KCL foundation",
+        expression: "Sum of currents leaving or entering a node = 0",
+        note: "Write all branch currents using node-voltage differences over impedance or resistance.",
+      },
+      {
+        label: "KVL foundation",
+        expression: "Algebraic sum of voltages around a mesh = 0",
+        note: "Choose one loop direction and stay consistent with signs.",
+      },
+      {
+        label: "Resistive branch current",
+        expression: "I = (Va - Vb) / R",
+        note: "This simple relation drives most nodal equations in resistive circuits.",
+      },
+    ],
+    keyConcepts: [
+      "Nodal analysis usually becomes efficient when current sources are present.",
+      "Mesh analysis is often neat when voltage sources define clear planar loops.",
+      "A supernode is formed when a voltage source connects two non-reference nodes.",
+      "A supermesh is formed when a current source lies between adjacent meshes.",
+    ],
+    examples: [
+      {
+        title: "Choosing the faster method",
+        prompt: "A planar circuit contains several current sources connected to essential nodes. Which method is usually the better first choice?",
+        steps: [
+          "Check whether the sources align naturally with current-balance equations.",
+          "Notice that current sources fit directly into nodal equations.",
+          "Prefer the method with fewer unknowns and fewer source conversions.",
+        ],
+        answer: "Nodal analysis is usually the better first choice.",
+      },
+    ],
+    examPointers: [
+      "Count unknowns before starting. The better method is often the one with fewer equations.",
+      "In AC circuits, write impedances first and then apply the same nodal or mesh framework.",
+      "When signs become confusing, rewrite one equation carefully instead of adjusting all equations blindly.",
+    ],
+    commonMistakes: [
+      "Changing current directions or voltage polarities midway through the solution.",
+      "Forgetting the extra constraint equation that comes with a supernode or a supermesh.",
+      "Writing resistor current in the wrong order as (Vb - Va) / R after already assuming the opposite direction.",
+    ],
+    quickRevision: [
+      "Nodal uses node voltages and KCL; mesh uses loop currents and KVL.",
+      "Supernode comes with a voltage relation; supermesh comes with a current relation.",
+      "The best method is the one that makes equation writing shortest and cleanest.",
+    ],
+    insightSummary:
+      "This topic is where Network Analysis becomes algorithmic. Good equation discipline here improves speed across transients, AC analysis, and theorem verification.",
+    relatedTopics: [
+      { subjectSlug: "networks", topicSlug: "network-theorems-topic" },
+      { subjectSlug: "networks", topicSlug: "first-order-transients" },
+    ],
+  },
+  "networks/two-port-networks": {
+    learningGoals: [
+      "Understand how two-port parameters describe input-output behavior of a network compactly.",
+      "Recognize when Z, Y, h, or ABCD parameters are the natural choice.",
+      "Use reciprocity and symmetry conditions as quick theory checks in exam questions.",
+    ],
+    overview: [
+      "A two-port network is a model for circuits that interact through an input port and an output port. Instead of solving the internal network every time, you summarize its behavior with parameter sets.",
+      "This is especially useful in cascaded systems, amplifier models, filters, and transmission-related networks. The theory matters because it gives a compact language for interconnection.",
+      "Different parameter sets are chosen based on which variables are easier to measure or constrain. Once you see the physical meaning of open-circuit and short-circuit conditions, the formulas become far easier to remember.",
+    ],
+    formulas: [
+      {
+        label: "Z-parameter idea",
+        expression: "V1 = z11 I1 + z12 I2 and V2 = z21 I1 + z22 I2",
+        note: "Useful when port currents are natural independent variables.",
+      },
+      {
+        label: "Y-parameter idea",
+        expression: "I1 = y11 V1 + y12 V2 and I2 = y21 V1 + y22 V2",
+        note: "Useful when port voltages are natural independent variables.",
+      },
+      {
+        label: "Reciprocity condition for Z parameters",
+        expression: "z12 = z21",
+        note: "A quick theory check for reciprocal networks.",
+      },
+    ],
+    keyConcepts: [
+      "Open-circuit and short-circuit test conditions define many parameter entries.",
+      "Reciprocity expresses mutual interchange behavior between ports.",
+      "Symmetry means the network looks electrically balanced from both sides under the given parameter set.",
+      "ABCD parameters are especially convenient for cascaded two-port networks.",
+    ],
+    examples: [
+      {
+        title: "Checking reciprocity quickly",
+        prompt: "A two-port network has z12 not equal to z21. What can you conclude immediately?",
+        steps: [
+          "Recall the reciprocity condition in the Z-parameter set.",
+          "Compare the transfer terms from one port to the other.",
+          "Use the mismatch to classify the network property.",
+        ],
+        answer: "The network is not reciprocal under the given description.",
+      },
+    ],
+    examPointers: [
+      "Link each parameter family to the test condition used to find it, not just the symbol.",
+      "For short conceptual questions, reciprocity and symmetry conditions often solve the problem before any matrix conversion.",
+      "In cascade networks, ABCD thinking is often cleaner than repeatedly using Z or Y forms.",
+    ],
+    commonMistakes: [
+      "Memorizing parameter tables without connecting them to open-circuit or short-circuit conditions.",
+      "Mixing reciprocity and symmetry as if they mean the same property.",
+      "Using the wrong independent variables when writing a chosen parameter form.",
+    ],
+    quickRevision: [
+      "Z parameters relate voltages to currents, while Y parameters relate currents to voltages.",
+      "Reciprocity for Z parameters means z12 equals z21.",
+      "Two-port theory is a compact description of input-output behavior, not just a formula table.",
+    ],
+    insightSummary:
+      "Two-port networks may seem abstract at first, but they become much easier when treated as a language for describing interconnected blocks rather than as isolated matrix formulas.",
+    relatedTopics: [
+      { subjectSlug: "networks", topicSlug: "resonance" },
+      { subjectSlug: "networks", topicSlug: "network-theorems-topic" },
+    ],
+  },
+  "networks/first-order-transients": {
+    learningGoals: [
+      "Understand how capacitors and inductors create time-dependent responses after switching.",
+      "Use initial value, final value, and time constant ideas to sketch or solve first-order behavior quickly.",
+      "Distinguish natural response from forced response in RC and RL circuits.",
+    ],
+    overview: [
+      "First-order transients describe how a circuit changes from one steady state to another after a switching action. Because energy storage elements cannot change their key variables instantaneously, the response unfolds over time instead of jumping immediately.",
+      "In an RC circuit, capacitor voltage is continuous. In an RL circuit, inductor current is continuous. This single physical statement explains a large fraction of transient-theory questions.",
+      "The topic becomes easy when you organize each problem into initial condition, final condition, and the exponential transition between them.",
+    ],
+    formulas: [
+      {
+        label: "General first-order form",
+        expression: "x(t) = xf + (x0 - xf) e^(-t / tau)",
+        note: "Use it for capacitor voltage, inductor current, or any first-order state variable.",
+      },
+      {
+        label: "RC time constant",
+        expression: "tau = RC",
+        note: "Applies when the capacitor sees an equivalent resistance R.",
+      },
+      {
+        label: "RL time constant",
+        expression: "tau = L / R",
+        note: "Applies when the inductor sees an equivalent resistance R.",
+      },
+    ],
+    keyConcepts: [
+      "Capacitor voltage cannot change abruptly unless the current becomes impulsive.",
+      "Inductor current cannot change abruptly unless the voltage becomes impulsive.",
+      "Natural response comes from stored energy, while forced response depends on external excitation.",
+      "After about five time constants, the circuit is effectively at its new steady state.",
+    ],
+    examples: [
+      {
+        title: "Identify the continuous variable",
+        prompt: "Immediately after switching in an RC circuit, which quantity must remain continuous?",
+        steps: [
+          "Recall the physical storage variable of the capacitor.",
+          "Connect capacitor charge continuity to the measured electrical variable.",
+          "Use that continuity rule before writing the transient expression.",
+        ],
+        answer: "Capacitor voltage must remain continuous.",
+      },
+    ],
+    examPointers: [
+      "Find the initial and final values before writing the exponential response.",
+      "Replace the rest of the circuit by the equivalent resistance seen by the storage element when computing the time constant.",
+      "When the question is conceptual, continuity rules often give the answer before any algebra is needed.",
+    ],
+    commonMistakes: [
+      "Starting directly with the exponential equation without finding the final steady-state value.",
+      "Using the full circuit resistance instead of the equivalent resistance seen by the capacitor or inductor.",
+      "Confusing capacitor-current continuity with capacitor-voltage continuity, or the corresponding RL rule.",
+    ],
+    quickRevision: [
+      "RC: capacitor voltage is continuous and tau equals RC.",
+      "RL: inductor current is continuous and tau equals L over R.",
+      "Most first-order responses are initial-to-final exponential transitions.",
+    ],
+    insightSummary:
+      "Transient theory becomes much less intimidating once you trust the continuity rules and the initial-final-time-constant framework.",
+    relatedTopics: [
+      { subjectSlug: "networks", topicSlug: "nodal-and-mesh-analysis" },
+      { subjectSlug: "networks", topicSlug: "resonance" },
     ],
   },
   "control-systems/time-response": {

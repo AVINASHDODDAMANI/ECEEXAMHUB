@@ -38,7 +38,7 @@ export function BrandLogo({
           <p
             className={`mt-1 hidden truncate font-semibold uppercase tracking-[0.16em] text-[#20386f] sm:block ${taglineClassName}`.trim()}
           >
-            Your Guide to ECE Exams &amp; Learning
+            ECE Preparation, PYQs &amp; Revision Resources
           </p>
         ) : null}
       </div>

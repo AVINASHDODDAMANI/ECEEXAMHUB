@@ -76,13 +76,13 @@ const supportHighlights = [
     icon: "filter",
   },
   {
-    title: "Download Papers",
-    description: "Download papers for offline practice",
-    icon: "download",
+    title: "Exam-wise Library",
+    description: "Open papers by exam, year and paper type",
+    icon: "folder",
   },
   {
-    title: "Solution Available",
-    description: "Detailed solutions for better understanding",
+    title: "Solutions Available",
+    description: "Detailed solutions wherever explanations are available",
     icon: "document",
   },
 ];
@@ -1242,16 +1242,11 @@ export default function PreviousYearPage() {
         <section className="overflow-hidden rounded-[30px] border border-[#e2e9f7] bg-white shadow-[0_18px_60px_rgba(17,43,92,0.08)]">
           <div className="space-y-5 p-3 sm:space-y-6 sm:p-6">
             <section className="space-y-4">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-col gap-2">
                 <h1 className="text-lg font-bold text-slate-900 sm:text-2xl">Select Exam</h1>
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center gap-2 self-start rounded-[14px] border border-[#dfe7f6] bg-white px-3 py-2.5 text-xs font-semibold text-portal-700 shadow-sm transition hover:border-portal-300 sm:self-auto sm:rounded-[16px] sm:px-4 sm:py-3 sm:text-sm"
-                  title="Saved paper downloads will appear here once file downloads are added"
-                >
-                  <UiIcon type="folder" className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                  My Downloads
-                </button>
+                <p className="text-sm text-slate-600">
+                  Choose an exam family to open a focused previous-paper library.
+                </p>
               </div>
 
               <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:hidden">
@@ -1260,7 +1255,7 @@ export default function PreviousYearPage() {
                     key={`mobile-${card.key}`}
                     type="button"
                     onClick={() => handleExamCardSelect(card)}
-                    className={`group flex min-h-[154px] w-full flex-col rounded-[18px] border bg-white p-3 text-left shadow-[0_12px_32px_rgba(15,23,42,0.04)] transition sm:min-h-[176px] sm:rounded-[20px] sm:p-4 ${
+                    className={`group flex min-h-[110px] w-full flex-col rounded-[16px] border bg-white p-3 text-left shadow-[0_12px_32px_rgba(15,23,42,0.04)] transition sm:min-h-[126px] sm:rounded-[18px] sm:p-3.5 ${
                       card.isSelected
                         ? "border-portal-500 ring-1 ring-portal-500"
                         : "border-[#e3eaf7] hover:border-portal-300"
@@ -1279,12 +1274,9 @@ export default function PreviousYearPage() {
                       </span>
                     </div>
 
-                    <h2 className="mt-3 text-[1rem] font-bold tracking-tight text-slate-900 sm:mt-4 sm:text-[1.35rem]">
+                    <h2 className="mt-2.5 text-[0.95rem] font-bold tracking-tight text-slate-900 sm:mt-3 sm:text-[1.1rem]">
                       {card.title}
                     </h2>
-                    <p className="mt-1.5 text-[11px] leading-4 text-slate-600 sm:mt-2 sm:text-sm sm:leading-7">
-                      {card.subtitle}
-                    </p>
                   </button>
                 ))}
               </div>
@@ -1308,7 +1300,7 @@ export default function PreviousYearPage() {
                       key={card.key}
                       type="button"
                       onClick={() => handleExamCardSelect(card)}
-                      className={`group min-w-[176px] snap-start rounded-[20px] border bg-white p-4 text-left shadow-[0_12px_32px_rgba(15,23,42,0.04)] transition ${
+                      className={`group min-w-[132px] snap-start rounded-[18px] border bg-white p-3 text-left shadow-[0_12px_32px_rgba(15,23,42,0.04)] transition ${
                         card.isSelected
                           ? "border-portal-500 ring-1 ring-portal-500"
                           : "border-[#e3eaf7] hover:border-portal-300"
@@ -1327,10 +1319,9 @@ export default function PreviousYearPage() {
                         </span>
                       </div>
 
-                      <h2 className="mt-4 text-[1.35rem] font-bold tracking-tight text-slate-900">
+                      <h2 className="mt-3 text-[1.05rem] font-bold tracking-tight text-slate-900">
                         {card.title}
                       </h2>
-                      <p className="mt-2 text-sm leading-7 text-slate-600">{card.subtitle}</p>
                     </button>
                   ))}
                 </div>
@@ -1505,22 +1496,14 @@ export default function PreviousYearPage() {
                             </div>
                           </div>
 
-                          <div className="mt-4 grid grid-cols-2 gap-2">
+                          <div className="mt-4">
                             <Link
                               href={previewHref}
-                              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-3 py-2.5 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
+                              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-3 py-2.5 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
                             >
                               <UiIcon type="eye" className="h-4 w-4" />
-                              View
+                              Open Paper
                             </Link>
-                            <button
-                              type="button"
-                              title="Download files will appear here once paper PDFs are added"
-                              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-3 py-2.5 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
-                            >
-                              <UiIcon type="download" className="h-4 w-4" />
-                              Download
-                            </button>
                           </div>
                         </article>
                       );
@@ -1645,23 +1628,8 @@ export default function PreviousYearPage() {
                                       className="inline-flex items-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-2.5 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
                                     >
                                       <UiIcon type="eye" className="h-4 w-4" />
-                                      View
+                                      Open Paper
                                     </Link>
-                                    <button
-                                      type="button"
-                                      title="Download files will appear here once paper PDFs are added"
-                                      className="inline-flex items-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-2.5 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
-                                    >
-                                      <UiIcon type="download" className="h-4 w-4" />
-                                      Download
-                                    </button>
-                                    <button
-                                      type="button"
-                                      aria-label="More options"
-                                      className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[#dfe7f6] bg-white text-slate-500 transition hover:border-portal-300 hover:text-portal-700"
-                                    >
-                                      <UiIcon type="dots-vertical" className="h-4 w-4" />
-                                    </button>
                                   </div>
                                 </td>
                               </tr>

@@ -1,19 +1,17 @@
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { examDirectory } from "../data/exam-directory";
 import { previousPaperDirectory } from "../data/previous-paper-directory";
-import seedQuestions from "../data/questions";
 import { subjectDirectory } from "../data/subject-directory";
-import { fetchQuestions } from "../lib/api-client";
-import {
-  buildSmartSearchIndex,
-  getGroupedSmartSearchResults,
-  getSearchSuggestions,
-} from "../lib/smart-search";
 import { isNavigationActive } from "../lib/site-navigation";
 import { BrandLogo } from "./BrandIdentity";
-import SmartSearchDropdown from "./SmartSearchDropdown";
+
+const SmartSearchDropdown = dynamic(() => import("./SmartSearchDropdown"), {
+  loading: () => null,
+  ssr: false,
+});
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -26,72 +24,17 @@ const navItems = [
   { href: "/insights", label: "Insights" },
 ];
 
-const activeNavClass =
-  "bg-white/15 text-white shadow-[inset_0_-4px_0_#f4c542,0_0_18px_rgba(244,197,66,0.22)]";
-const inactiveNavClass = "text-blue-100 hover:bg-white/10 hover:text-white";
-
-function PlusIcon() {
-  return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M12 5v14M5 12h14"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function MessageIcon() {
-  return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M8 6h8a4 4 0 0 1 4 4v4a4 4 0 0 1-4 4h-5l-4 3v-3H8a4 4 0 0 1-4-4v-4a4 4 0 0 1 4-4Z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function DotsVerticalIcon() {
-  return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="5.5" r="1.6" fill="currentColor" />
-      <circle cx="12" cy="12" r="1.6" fill="currentColor" />
-      <circle cx="12" cy="18.5" r="1.6" fill="currentColor" />
-    </svg>
-  );
-}
-
-function HeaderActionButton({ children, badge, primary = false, ariaLabel }) {
-  return (
-    <button
-      type="button"
-      aria-label={ariaLabel}
-      className={`relative inline-flex h-10 w-10 items-center justify-center rounded-full border transition sm:h-11 sm:w-11 ${
-        primary
-          ? "border-portal-600 bg-portal-600 text-white shadow-[0_14px_30px_rgba(21,74,150,0.24)]"
-          : "border-portal-200 bg-white text-portal-700 hover:border-portal-300"
-      }`}
-    >
-      {children}
-      {badge ? (
-        <span className="absolute -right-1 -top-1 inline-flex min-w-[18px] items-center justify-center rounded-full border border-white bg-white px-1.5 py-0.5 text-[9px] font-bold text-portal-700 shadow-sm sm:min-w-[20px] sm:text-[10px]">
-          {badge}
-        </span>
-      ) : null}
-    </button>
-  );
-}
+const activeNavClass = "bg-white/14 text-white shadow-[inset_0_-2px_0_rgba(255,255,255,0.96)]";
+const inactiveNavClass = "text-blue-100/95 hover:bg-white/8 hover:text-white";
+const utilityLinks = [
+  { href: "/subjects", label: "Browse Subjects" },
+  { href: "/previous-year", label: "Previous Papers" },
+];
 
 export default function Navbar({
   searchValue,
   onSearchChange,
-  searchPlaceholder = "Search topics, exams...",
+  searchPlaceholder = "Search subjects, topics, papers...",
   searchTarget = "/learn",
 }) {
   const router = useRouter();
@@ -99,25 +42,87 @@ export default function Navbar({
   const [localSearch, setLocalSearch] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [showMobileScrollCue, setShowMobileScrollCue] = useState(true);
-  const [searchQuestions, setSearchQuestions] = useState(seedQuestions);
+  const [searchQuestions, setSearchQuestions] = useState([]);
+  const [searchRuntime, setSearchRuntime] = useState(null);
+  const [isSearchBooting, setIsSearchBooting] = useState(false);
   const searchRef = useRef(null);
   const mobileNavRef = useRef(null);
   const mobileNavItemRefs = useRef({});
+  const isMountedRef = useRef(true);
+  const searchRuntimePromiseRef = useRef(null);
+  const hasFetchedRemoteQuestionsRef = useRef(false);
   const resolvedSearchValue = hasSearch ? searchValue : localSearch;
   const deferredQuery = useDeferredValue(resolvedSearchValue.trim());
-  const searchIndex = useMemo(
-    () => buildSmartSearchIndex(searchQuestions),
-    [searchQuestions]
-  );
+  const searchIndex = useMemo(() => {
+    if (!searchRuntime) {
+      return [];
+    }
+
+    return searchRuntime.buildSmartSearchIndex(searchQuestions);
+  }, [searchQuestions, searchRuntime]);
   const groupedResults = useMemo(
-    () => getGroupedSmartSearchResults(deferredQuery, searchIndex),
-    [deferredQuery, searchIndex]
+    () =>
+      searchRuntime && deferredQuery.length >= 2
+        ? searchRuntime.getGroupedSmartSearchResults(deferredQuery, searchIndex)
+        : [],
+    [deferredQuery, searchIndex, searchRuntime]
   );
   const suggestions = useMemo(
-    () => getSearchSuggestions(deferredQuery),
-    [deferredQuery]
+    () =>
+      searchRuntime && deferredQuery.length >= 2
+        ? searchRuntime.getSearchSuggestions(deferredQuery)
+        : [],
+    [deferredQuery, searchRuntime]
   );
-  const shouldShowDropdown = isSearchOpen && deferredQuery.length >= 2;
+  const shouldShowDropdown =
+    isSearchOpen && deferredQuery.length >= 2 && Boolean(searchRuntime);
+  const shouldShowSearchLoading =
+    isSearchOpen && deferredQuery.length >= 2 && isSearchBooting && !searchRuntime;
+
+  async function ensureSearchRuntime() {
+    if (searchRuntimePromiseRef.current) {
+      return searchRuntimePromiseRef.current;
+    }
+
+    if (isMountedRef.current) {
+      setIsSearchBooting(true);
+    }
+
+    searchRuntimePromiseRef.current = Promise.all([
+      import("../data/questions"),
+      import("../lib/api-client"),
+      import("../lib/smart-search"),
+    ])
+      .then(([questionsModule, apiClientModule, smartSearchModule]) => {
+        const nextRuntime = {
+          seedQuestions: questionsModule.default || [],
+          fetchQuestions: apiClientModule.fetchQuestions,
+          buildSmartSearchIndex: smartSearchModule.buildSmartSearchIndex,
+          getGroupedSmartSearchResults: smartSearchModule.getGroupedSmartSearchResults,
+          getSearchSuggestions: smartSearchModule.getSearchSuggestions,
+        };
+
+        if (isMountedRef.current) {
+          setSearchRuntime(nextRuntime);
+          setSearchQuestions((currentValue) =>
+            currentValue.length ? currentValue : nextRuntime.seedQuestions
+          );
+        }
+
+        return nextRuntime;
+      })
+      .catch((error) => {
+        searchRuntimePromiseRef.current = null;
+        throw error;
+      })
+      .finally(() => {
+        if (isMountedRef.current) {
+          setIsSearchBooting(false);
+        }
+      });
+
+    return searchRuntimePromiseRef.current;
+  }
 
   function centerMobileNavItem(href, behavior = "smooth") {
     const navElement = mobileNavRef.current;
@@ -140,27 +145,49 @@ export default function Navbar({
   }
 
   useEffect(() => {
-    let mounted = true;
-    const controller = new AbortController();
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
-    async function refreshQuestionPool() {
+  useEffect(() => {
+    if (!isSearchOpen && deferredQuery.length < 2) {
+      return undefined;
+    }
+
+    const controller = new AbortController();
+    let isCancelled = false;
+
+    async function warmSearch() {
+      const runtime = await ensureSearchRuntime();
+
+      if (
+        isCancelled ||
+        hasFetchedRemoteQuestionsRef.current ||
+        !runtime?.fetchQuestions
+      ) {
+        return;
+      }
+
+      hasFetchedRemoteQuestionsRef.current = true;
+
       try {
-        const latestQuestions = await fetchQuestions({}, { signal: controller.signal });
-        if (mounted && latestQuestions.length) {
+        const latestQuestions = await runtime.fetchQuestions({}, { signal: controller.signal });
+        if (!isCancelled && latestQuestions.length && isMountedRef.current) {
           setSearchQuestions(latestQuestions);
         }
       } catch {
-        // Seed data already keeps the search responsive offline.
+        hasFetchedRemoteQuestionsRef.current = false;
       }
     }
 
-    refreshQuestionPool();
+    warmSearch();
 
     return () => {
-      mounted = false;
+      isCancelled = true;
       controller.abort();
     };
-  }, []);
+  }, [deferredQuery.length, isSearchOpen]);
 
   useEffect(() => {
     if (hasSearch) {
@@ -279,10 +306,10 @@ export default function Navbar({
     }
 
     return {
-      eyebrow: "ECE Exams",
-      title: "Explore all major ECE exam categories",
+      eyebrow: "Exam Guides",
+      title: "Open exam-wise guidance, stages, cutoffs, and strategy",
       actionHref: "/ece-exams",
-      actionLabel: "Open Exams Page",
+      actionLabel: "Open Exam Guides",
       items: examDirectory.map((exam) => ({
         key: exam.title,
         href: exam.href,
@@ -300,6 +327,12 @@ export default function Navbar({
     }
 
     setIsSearchOpen(true);
+    void ensureSearchRuntime();
+  }
+
+  function handleSearchFocus() {
+    setIsSearchOpen(true);
+    void ensureSearchRuntime();
   }
 
   function handleSearchSubmit(event) {
@@ -317,49 +350,41 @@ export default function Navbar({
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-portal-200 bg-white shadow-[0_10px_30px_rgba(16,47,96,0.08)]">
+    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-3 py-3 sm:px-6 sm:py-4 lg:px-8">
         <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[auto_minmax(340px,1fr)_auto] lg:items-center lg:gap-6">
           <div className="flex items-center justify-between gap-3">
             <Link href="/" className="min-w-0 flex-1">
               <BrandLogo
-                className="max-w-[250px] sm:max-w-[360px]"
-                markClassName="h-[3.15rem] w-[3.15rem] sm:h-14 sm:w-14"
-                titleClassName="text-[1.15rem] sm:text-[2rem]"
+                className="max-w-[250px] sm:max-w-[340px]"
+                markClassName="h-[3rem] w-[3rem] sm:h-14 sm:w-14"
+                titleClassName="text-[1.05rem] sm:text-[1.85rem]"
                 taglineClassName="text-[9px] sm:text-[11px]"
               />
             </Link>
 
-            <div className="flex shrink-0 items-center gap-1.5 sm:gap-2 lg:hidden">
-              <HeaderActionButton primary ariaLabel="Create">
-                <PlusIcon />
-              </HeaderActionButton>
-              <HeaderActionButton badge="47" ariaLabel="Messages">
-                <MessageIcon />
-              </HeaderActionButton>
-              <HeaderActionButton ariaLabel="More">
-                <DotsVerticalIcon />
-              </HeaderActionButton>
-            </div>
+            <span className="rounded-full border border-portal-200 bg-[#f8fbff] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-portal-700 lg:hidden">
+              ECE Prep Hub
+            </span>
           </div>
 
           <div className="flex items-center gap-3 lg:justify-self-center lg:w-full lg:max-w-[560px]">
             <div ref={searchRef} className="relative w-full">
               <form
                 onSubmit={handleSearchSubmit}
-                className="flex items-center gap-2 rounded-[16px] border border-portal-200 bg-white px-3.5 py-2 text-sm shadow-[0_10px_30px_rgba(15,23,42,0.06)] sm:px-4 sm:py-2.5"
+                className="flex items-center gap-2 rounded-[16px] border border-slate-200 bg-white px-3.5 py-2 text-sm shadow-[0_12px_32px_rgba(15,23,42,0.08)] sm:px-4 sm:py-2.5"
               >
                 <input
                   type="search"
                   value={resolvedSearchValue}
                   onChange={(event) => handleSearchChange(event.target.value)}
-                  onFocus={() => setIsSearchOpen(true)}
+                  onFocus={handleSearchFocus}
                   placeholder={searchPlaceholder}
                   className="w-full bg-transparent text-[13px] text-slate-700 outline-none placeholder:text-slate-400 sm:text-base"
                 />
                 <button
                   type="submit"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-full text-portal-700 transition hover:bg-portal-50 sm:h-9 sm:w-9"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-full text-portal-700 transition hover:bg-slate-100 sm:h-9 sm:w-9"
                   aria-label="Search"
                 >
                   <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -382,29 +407,40 @@ export default function Navbar({
                   onSelect={() => setIsSearchOpen(false)}
                 />
               ) : null}
+
+              {shouldShowSearchLoading ? (
+                <div className="absolute left-0 right-0 top-full z-50 mt-3 rounded-2xl border border-portal-200 bg-white px-4 py-5 text-left shadow-[0_24px_80px_rgba(15,23,42,0.14)]">
+                  <p className="text-sm font-semibold text-slate-900">
+                    Preparing search...
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-slate-600">
+                    Loading concepts, PYQs, and practice suggestions.
+                  </p>
+                </div>
+              ) : null}
             </div>
           </div>
 
-          <div className="hidden items-center justify-end gap-3 lg:flex">
-            <HeaderActionButton primary ariaLabel="Create">
-              <PlusIcon />
-            </HeaderActionButton>
-            <HeaderActionButton badge="47" ariaLabel="Messages">
-              <MessageIcon />
-            </HeaderActionButton>
-            <HeaderActionButton ariaLabel="More">
-              <DotsVerticalIcon />
-            </HeaderActionButton>
+          <div className="hidden items-center justify-end gap-2 lg:flex">
+            {utilityLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-portal-300 hover:text-portal-700"
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="bg-portal-600 text-white">
+      <div className="bg-[linear-gradient(135deg,#103a78_0%,#0f4b9b_100%)] text-white">
         <div className="mx-auto max-w-[1440px] px-2 sm:px-6 lg:px-8">
-            <div className="relative lg:hidden">
-              <div className="pointer-events-none absolute inset-y-0 right-0 z-10 flex items-center pr-1">
-                <div
-                  className={`flex h-full items-center bg-gradient-to-l from-portal-600 via-portal-600/90 to-transparent pl-8 pr-2 text-white transition ${
+          <div className="relative lg:hidden">
+            <div className="pointer-events-none absolute inset-y-0 right-0 z-10 flex items-center pr-1">
+              <div
+                className={`flex h-full items-center bg-gradient-to-l from-[#0f4b9b] via-[#0f4b9b]/90 to-transparent pl-8 pr-2 text-white transition ${
                   showMobileScrollCue ? "opacity-100" : "opacity-0"
                 }`}
               >
@@ -420,12 +456,12 @@ export default function Navbar({
               </div>
             </div>
 
-              <nav
-                ref={mobileNavRef}
-                className="flex items-center gap-1.5 overflow-x-auto whitespace-nowrap py-2 pr-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-              >
-                {navItems.map((item) => {
-                  const isActive = isNavigationActive(router.pathname, item.href);
+            <nav
+              ref={mobileNavRef}
+              className="flex items-center gap-1.5 overflow-x-auto whitespace-nowrap py-2 pr-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {navItems.map((item) => {
+                const isActive = isNavigationActive(router.pathname, item.href);
 
                 return (
                   <Link
@@ -441,7 +477,7 @@ export default function Navbar({
                   >
                     {item.label}
                     {isActive ? (
-                      <span className="absolute inset-x-3 bottom-0 h-1 rounded-full bg-[#f4c542]" />
+                      <span className="absolute inset-x-3 bottom-0 h-0.5 rounded-full bg-white" />
                     ) : null}
                   </Link>
                 );
@@ -475,12 +511,12 @@ export default function Navbar({
                         />
                       </svg>
                       {isActive ? (
-                        <span className="absolute inset-x-4 bottom-0 h-1 rounded-full bg-[#f4c542]" />
+                        <span className="absolute inset-x-4 bottom-0 h-0.5 rounded-full bg-white" />
                       ) : null}
                     </Link>
 
                     <div className="pointer-events-none absolute left-0 top-full z-50 w-[760px] max-w-[calc(100vw-4rem)] translate-y-2 opacity-0 transition duration-150 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
-                      <div className="rounded-2xl border border-portal-200 bg-white p-5 text-slate-900 shadow-[0_24px_80px_rgba(15,23,42,0.18)]">
+                      <div className="rounded-2xl border border-slate-200 bg-white p-5 text-slate-900 shadow-[0_24px_80px_rgba(15,23,42,0.18)]">
                         <div className="mb-4 flex items-center justify-between gap-3">
                           <div>
                             <p className="text-xs font-bold uppercase tracking-[0.18em] text-portal-600">
@@ -528,7 +564,7 @@ export default function Navbar({
                 >
                   {item.label}
                   {isActive ? (
-                    <span className="absolute inset-x-4 bottom-0 h-1 rounded-full bg-[#f4c542]" />
+                    <span className="absolute inset-x-4 bottom-0 h-0.5 rounded-full bg-white" />
                   ) : null}
                 </Link>
               );

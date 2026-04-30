@@ -3,21 +3,22 @@ import { BrandLogo } from "./BrandIdentity";
 
 const footerGroups = [
   {
-    title: "Exam Sections",
+    title: "Explore",
     links: [
+      { label: "Home", href: "/" },
       { label: "Subjects", href: "/subjects" },
+      { label: "ECE Exams", href: "/ece-exams" },
       { label: "Previous Papers", href: "/previous-year" },
-      { label: "Notes", href: "/notes" },
-      { label: "MCQs", href: "/mcqs" },
     ],
   },
   {
-    title: "Learning",
+    title: "Practice",
     links: [
       { label: "Study Materials", href: "/learn" },
+      { label: "Notes", href: "/notes" },
+      { label: "MCQs", href: "/mcqs" },
       { label: "Practice Zone", href: "/practice" },
       { label: "Mock Tests", href: "/mock-tests" },
-      { label: "Insights", href: "/insights" },
     ],
   },
   {
@@ -30,20 +31,22 @@ const footerGroups = [
     ],
   },
   {
-    title: "Contact",
+    title: "Platform",
     links: [
-      { label: "About", href: "/" },
-      { label: "Contact", href: "/" },
-      { label: "Resources", href: "/notes" },
-      { label: "Support", href: "/practice" },
+      { label: "Question Bank", href: "/previous-year#question-bank" },
+      { label: "Insights", href: "/insights" },
+      { label: "Revision Topics", href: "/learn" },
+      { label: "Subject Library", href: "/subjects" },
     ],
   },
 ];
 
+const footerHighlights = ["Structured Notes", "Previous Papers", "Practice Sets", "MCQs"];
+
 export default function Footer() {
   return (
-    <footer className="mt-12 border-t border-portal-200 bg-white">
-      <div className="mx-auto grid max-w-[1440px] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.2fr_0.8fr_0.8fr_0.9fr_0.8fr] lg:px-8">
+    <footer className="mt-12 border-t border-slate-200 bg-white/95 backdrop-blur">
+      <div className="mx-auto grid max-w-[1440px] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.25fr_repeat(4,minmax(0,1fr))] lg:px-8">
         <div>
           <BrandLogo
             className="max-w-full"
@@ -52,9 +55,19 @@ export default function Footer() {
             taglineClassName="text-[10px] sm:text-[11px]"
           />
           <p className="mt-3 max-w-md text-sm leading-7 text-slate-600">
-            Learn ECE topics, revise formulas, browse previous year papers, and
-            practice exam-focused questions.
+            Focused preparation for Electronics and Communication Engineering with
+            subject-wise learning, previous papers, and exam-oriented practice.
           </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {footerHighlights.map((item) => (
+              <span
+                key={item}
+                className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
 
         {footerGroups.map((group) => (
@@ -71,15 +84,18 @@ export default function Footer() {
         ))}
       </div>
 
-      <div className="border-t border-portal-200 bg-[#f8fbff]">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-2 px-4 py-4 text-sm text-slate-500 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-          <p>&copy; 2026 ECE Exam Guide.</p>
+      <div className="border-t border-slate-200 bg-[#f8fafc]">
+        <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-4 py-4 text-sm text-slate-500 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+          <p>&copy; 2026 ECE Exam Guide. Structured preparation for ECE students.</p>
           <div className="flex gap-4">
-            <Link href="/" className="transition hover:text-portal-700">
-              Privacy
+            <Link href="/subjects" className="transition hover:text-portal-700">
+              Subjects
             </Link>
-            <Link href="/" className="transition hover:text-portal-700">
-              Terms
+            <Link href="/previous-year" className="transition hover:text-portal-700">
+              Previous Papers
+            </Link>
+            <Link href="/insights" className="transition hover:text-portal-700">
+              Insights
             </Link>
           </div>
         </div>

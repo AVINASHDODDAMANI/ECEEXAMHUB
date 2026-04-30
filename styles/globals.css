@@ -28,8 +28,10 @@ body {
   @apply antialiased;
   color: var(--portal-text);
   background:
-    linear-gradient(180deg, #f8fbff 0%, #f5f7fb 36%, #f5f7fb 100%);
+    radial-gradient(circle at top, rgba(21, 74, 150, 0.08), transparent 30%),
+    linear-gradient(180deg, #f8fbff 0%, #f4f7fb 44%, #eef2f8 100%);
   font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  line-height: 1.5;
   min-width: 320px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -58,6 +60,11 @@ a {
   text-decoration: none;
 }
 
+:focus-visible {
+  outline: 2px solid rgba(21, 74, 150, 0.35);
+  outline-offset: 2px;
+}
+
 img,
 svg,
 video,
@@ -67,5 +74,6 @@ canvas {
 }
 
 #__next {
+  position: relative;
   min-height: 100vh;
 }
