@@ -87,31 +87,25 @@ function SidebarCard({ title, children }) {
   );
 }
 
-function OverviewCard({ item, tone = "blue" }) {
-  const toneClassName =
-    tone === "emerald"
-      ? "border-emerald-200 bg-emerald-50/70"
-      : tone === "amber"
-      ? "border-amber-200 bg-amber-50/75"
-      : "border-portal-200 bg-portal-50/70";
-
+function OverviewRow({ item }) {
   return (
-    <article className={`rounded-[24px] border p-4 ${toneClassName}`}>
-      <h2 className="text-lg font-bold text-slate-900">{item.title}</h2>
+    <article className="py-5 first:pt-0 last:pb-0">
+      <h2 className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+        {item.title}
+      </h2>
+
       {item.description ? (
-        <p className="mt-2 text-sm leading-7 text-slate-700">{item.description}</p>
+        <p className="mt-2 text-base leading-8 text-slate-700">{item.description}</p>
       ) : null}
       {item.points?.length ? (
-        <div className="mt-4 grid gap-2">
+        <ul className="mt-3 grid gap-2 text-sm leading-7 text-slate-700 sm:grid-cols-2 sm:text-base">
           {item.points.map((point) => (
-            <div
-              key={point}
-              className="rounded-xl border border-white/80 bg-white/90 px-3 py-2 text-sm leading-6 text-slate-700"
-            >
-              {point}
-            </div>
+            <li key={point} className="flex gap-3">
+              <span className="mt-3 h-2 w-2 flex-none rounded-full bg-portal-600" />
+              <span>{point}</span>
+            </li>
           ))}
-        </div>
+        </ul>
       ) : null}
     </article>
   );
@@ -313,10 +307,12 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
     "A structured roadmap that moves from fundamentals to exam-level analysis and problem solving.";
   const notesHref = `/notes/${getSubjectSlug(subject.title)}`;
   const [activeConceptIndex, setActiveConceptIndex] = useState(0);
+  const [quizSelections, setQuizSelections] = useState({});
   const { progressStats, isReady } = useLearningProgress();
 
   useEffect(() => {
     setActiveConceptIndex(0);
+    setQuizSelections({});
   }, [subject.title]);
 
   if (!theoryKnowledge || !chapterMeta) {
@@ -361,6 +357,7 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
 
   const concepts = theoryKnowledge.concepts || [];
   const activeConcept = concepts[activeConceptIndex] || concepts[0];
+  const activeTeaching = activeConcept?.teaching || {};
   const subjectProgress = progressStats.subjects.find(
     (item) => item.slug === learningMeta.learningSubjectSlug
   );
@@ -371,11 +368,24 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
     activeConcept?.formulas?.length > 0
       ? activeConcept.formulas.slice(0, 3)
       : concepts.flatMap((concept) => concept.formulas || []).slice(0, 3);
-  const chapterOutline = concepts.map((concept, index) => ({
-    number: String(index + 1).padStart(2, "0"),
-    title: concept.shortTitle,
-    detail: concept.title,
-  }));
+  const activeIntuition =
+    activeTeaching.intuition?.length ? activeTeaching.intuition : [activeConcept.summary];
+  const activeExplanation =
+    activeTeaching.explanation?.length ? activeTeaching.explanation : activeConcept.paragraphs || [];
+  const activeInterpretation =
+    activeTeaching.interpretation?.length ? activeTeaching.interpretation : activeConcept.learnPoints || [];
+  const activeWorkedExample = activeTeaching.workedExample || null;
+  const activeQuiz = activeTeaching.quiz || null;
+  const activeCommonMistake =
+    activeTeaching.commonMistake ||
+    theoryKnowledge.commonMistakes?.[activeConceptIndex] ||
+    theoryKnowledge.commonMistakes?.[0] ||
+    "";
+  const activeRealLifeInsight =
+    activeTeaching.realLifeInsight || chapterMeta.studyTip;
+  const selectedQuizIndex = quizSelections[activeConcept?.slug];
+  const isQuizAnswered = typeof selectedQuizIndex === "number";
+  const isQuizCorrect = isQuizAnswered && selectedQuizIndex === activeQuiz?.correctIndex;
 
   function getConceptStatus(index) {
     if (index < activeConceptIndex) {
@@ -549,14 +559,15 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
           </aside>
 
           <main className="min-w-0">
-            <section className="grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
+            <section className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+              <div className="divide-y divide-slate-200">
               {theoryKnowledge.overviewCards.map((item, index) => (
-                <OverviewCard
+                <OverviewRow
                   key={item.title}
                   item={item}
-                  tone={index === 1 ? "emerald" : index === 2 ? "amber" : "blue"}
                 />
               ))}
+              </div>
             </section>
 
             <section
@@ -598,27 +609,43 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
                 </div>
               </div>
 
-              <div className="mt-5 grid gap-5 xl:grid-cols-[1.02fr_0.98fr]">
-                <div>
-                  <h3 className="text-lg font-bold text-slate-900">Concept Explanation</h3>
-                  <div className="mt-4 grid gap-3">
-                    {activeConcept.paragraphs.map((paragraph) => (
-                      <p
-                        key={paragraph}
-                        className="text-sm leading-7 text-slate-700 sm:text-base"
-                      >
-                        {paragraph}
-                      </p>
-                    ))}
+              <div className="mt-5 grid gap-5 xl:grid-cols-[1.05fr_0.95fr]">
+                <div className="grid gap-5">
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900">Intuition</h3>
+                    <div className="mt-3 grid gap-3">
+                      {activeIntuition.map((line, index) => (
+                        <div
+                          key={`${activeConcept.slug}-intuition-${index}`}
+                          className="rounded-2xl border border-emerald-200 bg-emerald-50/75 px-4 py-3 text-sm leading-7 text-slate-700"
+                        >
+                          {line}
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4">
-                    <p className="text-sm font-bold text-emerald-800">What You Must Understand</p>
-                    <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                      {activeConcept.learnPoints.map((point) => (
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900">Simple Explanation</h3>
+                    <div className="mt-3 space-y-3">
+                      {activeExplanation.map((line, index) => (
+                        <p
+                          key={`${activeConcept.slug}-explanation-${index}`}
+                          className="text-sm leading-7 text-slate-700 sm:text-base"
+                        >
+                          {line}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900">Interpretation</h3>
+                    <div className="mt-3 grid gap-2">
+                      {activeInterpretation.map((point) => (
                         <div
-                          key={`${activeConcept.slug}-learn-${point}`}
-                          className="rounded-xl border border-white/80 bg-white px-3 py-2 text-sm leading-6 text-slate-700"
+                          key={`${activeConcept.slug}-interpretation-${point}`}
+                          className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm leading-6 text-slate-700"
                         >
                           {point}
                         </div>
@@ -627,37 +654,151 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
                   </div>
                 </div>
 
-                <div className="rounded-[24px] border border-slate-200 bg-[linear-gradient(180deg,#f8fbff,#eff5ff)] p-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-portal-700">
-                    Circuit Diagram
-                  </p>
-                  <div className="mt-3 overflow-hidden rounded-2xl border border-white/80 bg-white">
-                    <NetworkTheoryDiagram type={activeConcept.diagram} />
+                <div className="grid gap-5">
+                  <div className="rounded-[24px] border border-slate-200 bg-[linear-gradient(180deg,#f8fbff,#eff5ff)] p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-portal-700">
+                      Circuit Diagram
+                    </p>
+                    <div className="mt-3 overflow-hidden rounded-2xl border border-white/80 bg-white">
+                      <NetworkTheoryDiagram type={activeConcept.diagram} />
+                    </div>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">
+                      {activeConcept.diagramNote}
+                    </p>
                   </div>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">
-                    {activeConcept.diagramNote}
+
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900">Key Relation</h3>
+                    <div className="mt-3 grid gap-3">
+                      {activeConcept.formulas.map((formula) => (
+                        <div
+                          key={`${formula.label}-${formula.expression}`}
+                          className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
+                        >
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                            {formula.label}
+                          </p>
+                          <p className="mt-2 text-base font-bold text-slate-900 sm:text-lg">
+                            {formula.expression}
+                          </p>
+                          <p className="mt-2 text-sm leading-6 text-slate-600">{formula.note}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {activeWorkedExample ? (
+                <div className="mt-6 rounded-[24px] border border-portal-200 bg-portal-50/60 p-4">
+                  <h3 className="text-lg font-bold text-slate-900">Worked Example</h3>
+                  <p className="mt-3 text-sm font-semibold leading-7 text-slate-900 sm:text-base">
+                    {activeWorkedExample.prompt}
+                  </p>
+                  <div className="mt-4 grid gap-3">
+                    {activeWorkedExample.steps?.map((step, index) => (
+                      <div
+                        key={`${activeConcept.slug}-worked-step-${index}`}
+                        className="rounded-xl border border-white/80 bg-white px-4 py-3 text-sm leading-6 text-slate-700"
+                      >
+                        {step}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 rounded-xl border border-portal-200 bg-white px-4 py-3">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-portal-700">
+                      Final Answer
+                    </p>
+                    <p className="mt-2 text-sm font-semibold leading-6 text-slate-900 sm:text-base">
+                      {activeWorkedExample.result}
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+
+              {activeQuiz ? (
+                <div className="mt-6 rounded-[24px] border border-slate-200 bg-white p-4">
+                  <h3 className="text-lg font-bold text-slate-900">Quick Quiz</h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+                    {activeQuiz.question}
+                  </p>
+                  <div className="mt-4 grid gap-3">
+                    {activeQuiz.options.map((option, optionIndex) => {
+                      const optionLetter = String.fromCharCode(65 + optionIndex);
+                      const isSelected = selectedQuizIndex === optionIndex;
+                      const isCorrectOption = optionIndex === activeQuiz.correctIndex;
+                      const optionClassName = isSelected
+                        ? isCorrectOption
+                          ? "border-emerald-300 bg-emerald-50 text-emerald-800"
+                          : "border-amber-300 bg-amber-50 text-amber-800"
+                        : "border-slate-200 bg-slate-50/70 text-slate-700 hover:bg-slate-50";
+
+                      return (
+                        <button
+                          key={`${activeConcept.slug}-quiz-${option}`}
+                          type="button"
+                          onClick={() =>
+                            setQuizSelections((currentValue) => ({
+                              ...currentValue,
+                              [activeConcept.slug]: optionIndex,
+                            }))
+                          }
+                          className={`flex w-full items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm font-medium transition ${optionClassName}`}
+                        >
+                          <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full border border-current/15 bg-white text-xs font-bold">
+                            {optionLetter}
+                          </span>
+                          <span className="flex-1">{option}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div
+                    className={`mt-4 rounded-xl border px-4 py-3 ${
+                      isQuizAnswered
+                        ? isQuizCorrect
+                          ? "border-emerald-200 bg-emerald-50/70"
+                          : "border-amber-200 bg-amber-50/75"
+                        : "border-slate-200 bg-slate-50/80"
+                    }`}
+                  >
+                    <p className="text-sm font-bold text-slate-900">
+                      {isQuizAnswered ? (isQuizCorrect ? "Correct" : "Try Again") : "Answer Guide"}
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">
+                      {isQuizAnswered
+                        ? activeQuiz.explanation
+                        : "Choose one option to check your understanding of this concept."}
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+
+              <div className="mt-6 grid gap-4 lg:grid-cols-2">
+                <div className="rounded-[24px] border border-amber-200 bg-amber-50/75 p-4">
+                  <h3 className="text-lg font-bold text-slate-900">Common Mistake</h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+                    {activeCommonMistake}
+                  </p>
+                </div>
+
+                <div className="rounded-[24px] border border-emerald-200 bg-emerald-50/70 p-4">
+                  <h3 className="text-lg font-bold text-slate-900">Real-Life Insight</h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+                    {activeRealLifeInsight}
                   </p>
                 </div>
               </div>
 
-              <div className="mt-5">
-                <h3 className="text-lg font-bold text-slate-900">Important Relations</h3>
-                <div className="mt-4 grid gap-3 lg:grid-cols-2">
-                  {activeConcept.formulas.map((formula) => (
-                    <div
-                      key={`${formula.label}-${formula.expression}`}
-                      className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
-                    >
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">
-                        {formula.label}
-                      </p>
-                      <p className="mt-2 text-base font-bold text-slate-900">
-                        {formula.expression}
-                      </p>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">{formula.note}</p>
-                    </div>
-                  ))}
-                </div>
+              <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3">
+                <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-portal-700">
+                  Next Step
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  {activeConceptIndex === concepts.length - 1
+                    ? "Finish this chapter, then move to practice questions to reinforce the theory."
+                    : `Next Concept -> ${concepts[activeConceptIndex + 1]?.shortTitle}`}
+                </p>
               </div>
 
               <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -686,38 +827,6 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
               </div>
             </section>
 
-            <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900">
-                Chapter Structure
-              </h2>
-              <p className="mt-2 text-sm leading-7 text-slate-600 sm:text-base">
-                The chapter moves from basic electrical quantities to systematic solving methods,
-                equivalent circuits, AC behavior, and transient response.
-              </p>
-
-              <div className="mt-5 grid gap-3 sm:grid-cols-2 2xl:grid-cols-3">
-                {chapterOutline.map((item) => (
-                  <div
-                    key={`${item.number}-${item.title}`}
-                    className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3"
-                  >
-                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
-                      {item.number}
-                    </p>
-                    <p className="mt-1 text-sm font-semibold leading-5 text-slate-900">
-                      {item.title}
-                    </p>
-                    <p className="mt-1 text-xs leading-5 text-slate-500">{item.detail}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-5 grid gap-3 lg:grid-cols-2">
-                {steps.map((step, index) => (
-                  <StudyFlowCard key={step.title} step={step} index={index} />
-                ))}
-              </div>
-            </section>
           </main>
 
           <aside className="min-w-0">
