@@ -1075,7 +1075,7 @@ function ProfessionalChargeCircuitGuide() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-3">
+        <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:static md:z-auto md:shadow-none">
           <svg viewBox="0 0 900 440" className="h-auto w-full" role="img" aria-label="Animated DC circuit explaining charge current and voltage">
             <defs>
               <linearGradient id="proVoltageGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -1429,7 +1429,7 @@ function PowerEnergyGuide() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-3">
+        <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:static md:z-auto md:shadow-none">
           <svg viewBox="0 0 900 460" className="h-auto w-full" role="img" aria-label="Animated circuit showing power flow and energy accumulation">
             <defs>
               <marker id="powerArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
@@ -1524,6 +1524,461 @@ function PowerEnergyGuide() {
   );
 }
 
+function PassiveActiveGuide() {
+  const steps = [
+    {
+      id: 1,
+      title: "Source Activation",
+      label: "Active source supplies energy",
+      text: "The battery starts the circuit by supplying electrical energy.",
+      detail:
+        "An active element can deliver energy to the network. In this circuit, the battery creates the electrical push that allows current and energy transfer to begin.",
+      note: "Active source: supplies energy",
+    },
+    {
+      id: 2,
+      title: "Energy Flow",
+      label: "Energy flows through the circuit",
+      text: "Energy particles follow the wire path continuously.",
+      detail:
+        "After the circuit path is complete, energy is transferred through the conductors. The moving particles trace the same closed path as the wire, so the flow is easy to follow.",
+      note: "Energy transfer follows the closed path",
+    },
+    {
+      id: 3,
+      title: "Resistor Response",
+      label: "Electrical energy is converted into heat",
+      text: "The resistor absorbs energy and dissipates it as heat.",
+      detail:
+        "A resistor is passive because it cannot create energy. It absorbs electrical energy from the circuit and converts that energy into heat.",
+      note: "Resistor: energy is dissipated",
+    },
+    {
+      id: 4,
+      title: "Capacitor Response",
+      label: "Energy is stored in an electric field",
+      text: "Charge builds between the plates and releases smoothly.",
+      detail:
+        "A capacitor is passive because it stores energy temporarily. Charge separation between its plates creates an electric field, then the stored energy can be released back to the circuit.",
+      note: "Capacitor: electric-field storage",
+    },
+    {
+      id: 5,
+      title: "Inductor Response",
+      label: "Energy is stored in a magnetic field",
+      text: "Current through the coil creates a magnetic field.",
+      detail:
+        "An inductor is passive because it stores energy only when current flows through it. The coil creates a magnetic field that grows and collapses with current changes.",
+      note: "Inductor: magnetic-field storage",
+    },
+    {
+      id: 6,
+      title: "Energy Distribution",
+      label: "Energy is distributed throughout the circuit",
+      text: "The supplied energy reaches each passive element.",
+      detail:
+        "The active source supplies energy, and the passive elements decide what happens to it: the resistor uses it, the capacitor stores it electrically, and the inductor stores it magnetically.",
+      note: "Source supplies; passive elements respond",
+    },
+  ];
+
+  return (
+    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <style>{`
+        .pa-component {
+          opacity: 0;
+          animation: paComponentFade 18s ease-in-out infinite;
+        }
+
+        .pa-source {
+          animation-delay: 0.4s;
+        }
+
+        .pa-resistor {
+          animation-delay: 1s;
+        }
+
+        .pa-capacitor {
+          animation-delay: 1.25s;
+        }
+
+        .pa-inductor {
+          animation-delay: 1.5s;
+        }
+
+        .pa-drawn-wire {
+          stroke-dasharray: 1780;
+          stroke-dashoffset: 1780;
+          animation: paDrawCircuit 18s ease-in-out infinite;
+        }
+
+        .pa-source-pulse {
+          animation: paSourcePulse 18s ease-in-out infinite;
+        }
+
+        .pa-energy-particle {
+          filter: url(#paPulseGlow);
+          opacity: 0;
+          animation: paFlowVisible 18s ease-in-out infinite;
+        }
+
+        .pa-resistor-heat {
+          opacity: 0;
+          animation: paHeatVisible 18s ease-in-out infinite, paHeatPulse 1.8s ease-in-out infinite;
+        }
+
+        .pa-capacitor-fill {
+          transform-origin: 518px 155px;
+          transform: scaleY(0);
+          opacity: 0;
+          animation: paCapacitorFill 18s ease-in-out infinite;
+        }
+
+        .pa-capacitor-field {
+          opacity: 0;
+          animation: paCapacitorField 18s ease-in-out infinite;
+        }
+
+        .pa-inductor-wave-one {
+          transform-origin: 654px 155px;
+          opacity: 0;
+          animation: paRippleOne 18s ease-in-out infinite;
+        }
+
+        .pa-inductor-wave-two {
+          transform-origin: 654px 155px;
+          opacity: 0;
+          animation: paRippleTwo 18s ease-in-out infinite;
+        }
+
+        .pa-distribution {
+          opacity: 0;
+          animation: paDistributionVisible 18s ease-in-out infinite;
+        }
+
+        .pa-stage-card {
+          opacity: 0.42;
+          transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .pa-stage-1 { animation: paStageOne 18s linear infinite; }
+        .pa-stage-2 { animation: paStageTwo 18s linear infinite; }
+        .pa-stage-3 { animation: paStageThree 18s linear infinite; }
+        .pa-stage-4 { animation: paStageFour 18s linear infinite; }
+        .pa-stage-5 { animation: paStageFive 18s linear infinite; }
+        .pa-stage-6 { animation: paStageSix 18s linear infinite; }
+
+        @keyframes paComponentFade {
+          0%, 4% { opacity: 0; transform: translateY(4px); }
+          10%, 100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes paDrawCircuit {
+          0% { stroke-dashoffset: 1780; }
+          18%, 100% { stroke-dashoffset: 0; }
+        }
+
+        @keyframes paSourcePulse {
+          0%, 8% { filter: drop-shadow(0 0 0 rgba(37, 99, 235, 0)); }
+          13%, 100% { filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.28)); }
+        }
+
+        @keyframes paFlowVisible {
+          0%, 20% { opacity: 0; }
+          27%, 100% { opacity: 0.95; }
+        }
+
+        @keyframes paHeatVisible {
+          0%, 34% { opacity: 0; }
+          41%, 100% { opacity: 0.9; }
+        }
+
+        @keyframes paHeatPulse {
+          0%, 100% { stroke-opacity: 0.24; }
+          50% { stroke-opacity: 0.78; }
+        }
+
+        @keyframes paCapacitorFill {
+          0%, 49% { transform: scaleY(0); opacity: 0; }
+          58% { transform: scaleY(1); opacity: 0.86; }
+          72% { transform: scaleY(0.25); opacity: 0.46; }
+          86%, 100% { transform: scaleY(0.9); opacity: 0.82; }
+        }
+
+        @keyframes paCapacitorField {
+          0%, 49% { opacity: 0; }
+          58% { opacity: 0.46; }
+          72% { opacity: 0.18; }
+          86%, 100% { opacity: 0.42; }
+        }
+
+        @keyframes paRippleOne {
+          0%, 64% { opacity: 0; transform: scale(0.78); }
+          72% { opacity: 0.48; transform: scale(0.9); }
+          90%, 100% { opacity: 0; transform: scale(1.28); }
+        }
+
+        @keyframes paRippleTwo {
+          0%, 68% { opacity: 0; transform: scale(0.82); }
+          78% { opacity: 0.38; transform: scale(1); }
+          96%, 100% { opacity: 0; transform: scale(1.38); }
+        }
+
+        @keyframes paDistributionVisible {
+          0%, 82% { opacity: 0; stroke-dashoffset: 0; }
+          88%, 100% { opacity: 1; stroke-dashoffset: -120; }
+        }
+
+        @keyframes paStageOne {
+          0%, 16% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          19%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes paStageTwo {
+          0%, 16% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          19%, 32% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          35%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes paStageThree {
+          0%, 32% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          35%, 48% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          51%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes paStageFour {
+          0%, 48% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          51%, 64% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          67%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes paStageFive {
+          0%, 64% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          67%, 82% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          85%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes paStageSix {
+          0%, 82% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          85%, 100% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .pa-drawn-wire,
+          .pa-source-pulse,
+          .pa-resistor-heat,
+          .pa-capacitor-fill,
+          .pa-capacitor-field,
+          .pa-inductor-wave-one,
+          .pa-inductor-wave-two,
+          .pa-distribution,
+          .pa-stage-card {
+            animation: none;
+          }
+
+          .pa-drawn-wire {
+            stroke-dashoffset: 0;
+          }
+
+          .pa-component,
+          .pa-energy-particle,
+          .pa-resistor-heat,
+          .pa-capacitor-fill,
+          .pa-capacitor-field,
+          .pa-distribution {
+            opacity: 1;
+          }
+        }
+      `}</style>
+
+      <h4 className="text-center text-lg font-extrabold uppercase tracking-wide text-[#071b58] sm:text-2xl">
+        3. Passive and Active Elements
+      </h4>
+      <p className="mx-auto mt-3 max-w-3xl rounded-xl border border-blue-300 bg-blue-50 px-4 py-2 text-center text-sm font-bold text-blue-800">
+        Active elements supply energy. Passive elements absorb, store, release, or dissipate that energy.
+      </p>
+
+      <div className="mt-5 grid gap-4 border-t border-slate-200 pt-4">
+        <div>
+          <h5 className="text-base font-bold text-slate-900">Passive and Active Elements</h5>
+          <div className="mt-3 grid gap-3 text-sm leading-6 text-slate-700">
+            <div className="rounded-lg border border-blue-200 bg-blue-50/70 p-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-blue-700">
+                Step 1
+              </p>
+              <h6 className="mt-1 text-sm font-bold text-slate-950">Active Element Supplies</h6>
+              <p className="mt-1.5">
+                The battery is the active element. It provides the voltage and energy
+                needed to make the circuit operate.
+              </p>
+              <p className="mt-2 rounded-md border border-blue-200 bg-white px-3 py-2 font-semibold text-blue-800">
+                Active source supplies energy.
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-orange-200 bg-orange-50/70 p-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-orange-700">
+                Step 2
+              </p>
+              <h6 className="mt-1 text-sm font-bold text-slate-950">Passive Elements Respond</h6>
+              <p className="mt-1.5">
+                The resistor, capacitor, and inductor do not generate energy. They absorb,
+                dissipate, store, or release the supplied energy.
+              </p>
+              <p className="mt-2 rounded-md border border-orange-200 bg-white px-3 py-2 font-semibold text-orange-800">
+                Passive elements use or store energy.
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-emerald-200 bg-emerald-50/70 p-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-700">
+                Step 3
+              </p>
+              <h6 className="mt-1 text-sm font-bold text-slate-950">Energy Is Distributed</h6>
+              <p className="mt-1.5">
+                Energy flows from the source through the complete circuit path and reaches
+                each passive element in sequence.
+              </p>
+              <p className="mt-2 rounded-md border border-emerald-200 bg-white px-3 py-2 font-semibold text-emerald-800">
+                Source to resistor, capacitor, and inductor.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:static md:z-auto md:shadow-none">
+          <svg viewBox="0 0 900 460" className="h-auto w-full" role="img" aria-label="Animated circuit showing passive and active elements">
+            <defs>
+              <filter id="paPulseGlow" x="-80%" y="-80%" width="260%" height="260%">
+                <feGaussianBlur stdDeviation="2.5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="paHeatGlow" x="-80%" y="-150%" width="260%" height="400%">
+                <feGaussianBlur stdDeviation="5" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            <rect x="20" y="24" width="860" height="405" rx="18" fill="#ffffff" stroke="#e2e8f0" />
+            <path
+              className="pa-drawn-wire"
+              d="M145 230V155H760V305H145V260"
+              fill="none"
+              stroke="#111827"
+              strokeWidth="5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+
+            <g className="pa-component pa-source">
+              <rect className="pa-source-pulse" x="103" y="190" width="84" height="70" rx="10" fill="#ffffff" stroke="#111827" strokeWidth="4" />
+              <path d="M128 210h34M145 196v30M128 244h34" stroke="#111827" strokeWidth="4" strokeLinecap="round" />
+              <text x="102" y="176" fill="#111827" fontSize="15" fontWeight="800">Battery</text>
+              <text x="196" y="214" fill="#2563eb" fontSize="14" fontWeight="900">Active source</text>
+              <text x="196" y="234" fill="#2563eb" fontSize="13" fontWeight="700">supplies energy</text>
+            </g>
+
+            <g className="pa-component pa-resistor">
+              <path className="pa-resistor-heat" d="M315 155h18l12-20 22 40 22-40 22 40 22-40 12 20h18" fill="none" stroke="#f97316" strokeWidth="16" strokeLinecap="round" strokeLinejoin="round" filter="url(#paHeatGlow)" />
+              <path d="M315 155h18l12-20 22 40 22-40 22 40 22-40 12 20h18" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+              <text x="352" y="205" fill="#9a3412" fontSize="14" fontWeight="900">Heat loss</text>
+            </g>
+
+            <g className="pa-component pa-capacitor">
+              <rect className="pa-capacitor-field" x="504" y="137" width="24" height="36" rx="7" fill="#bfdbfe" />
+              <rect className="pa-capacitor-fill" x="509" y="139" width="14" height="32" rx="5" fill="#2563eb" opacity="0.82" />
+              <path d="M500 132v46M530 132v46" stroke="#111827" strokeWidth="5" strokeLinecap="round" />
+              <text x="482" y="205" fill="#1d4ed8" fontSize="14" fontWeight="900">Electric field</text>
+            </g>
+
+            <g className="pa-component pa-inductor">
+              <circle className="pa-inductor-wave-one" cx="654" cy="155" r="34" fill="none" stroke="#10b981" strokeWidth="3" />
+              <circle className="pa-inductor-wave-two" cx="654" cy="155" r="44" fill="none" stroke="#10b981" strokeWidth="2" />
+              <path d="M610 155c8-20 20 20 28 0s20 20 28 0 20 20 28 0" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" />
+              <text x="612" y="205" fill="#047857" fontSize="14" fontWeight="900">Magnetic field</text>
+            </g>
+
+            <g>
+              <circle className="pa-energy-particle" r="6.5" fill="#2563eb">
+                <animateMotion dur="8.5s" repeatCount="indefinite" path="M145 260V305H760V155H694H610H530H500H463H315H145V230" />
+              </circle>
+              <circle className="pa-energy-particle" r="6.5" fill="#22c55e">
+                <animateMotion dur="8.5s" begin="-2.8s" repeatCount="indefinite" path="M145 260V305H760V155H694H610H530H500H463H315H145V230" />
+              </circle>
+              <circle className="pa-energy-particle" r="6.5" fill="#60a5fa">
+                <animateMotion dur="8.5s" begin="-5.6s" repeatCount="indefinite" path="M145 260V305H760V155H694H610H530H500H463H315H145V230" />
+              </circle>
+            </g>
+
+            <g className="pa-distribution">
+              <path d="M183 296C250 355 345 370 450 352C562 332 646 346 721 297" fill="none" stroke="#22c55e" strokeWidth="4" strokeLinecap="round" strokeDasharray="8 12" />
+              <text x="277" y="382" fill="#047857" fontSize="15" fontWeight="900">Energy is distributed throughout the circuit</text>
+            </g>
+          </svg>
+        </div>
+
+        <div className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
+          {steps.map((step) => (
+            <div
+              key={step.id}
+              className={`pa-stage-card pa-stage-${step.id} rounded-lg border border-slate-200 bg-white px-3 py-2.5 shadow-sm`}
+            >
+              <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-portal-700">
+                Step {step.id}: {step.title}
+              </p>
+              <p className="mt-1 text-xs leading-5 text-slate-600">{step.detail}</p>
+              <p className="mt-2 rounded-md bg-white px-2 py-1 text-xs font-bold text-slate-800">
+                {step.note}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4">
+          <h6 className="text-sm font-extrabold text-slate-950">Where the formulas come from</h6>
+          <div className="mt-3 grid gap-3 text-sm leading-6 text-slate-700 lg:grid-cols-3">
+            <div className="rounded-lg border border-orange-200 bg-white p-3">
+              <p className="font-bold text-orange-800">Resistor power</p>
+              <p className="mt-2 font-mono text-sm font-bold text-orange-700">P = V I, V = I R</p>
+              <p className="mt-1 font-mono text-sm font-bold text-orange-700">So, P = I^2 R</p>
+              <p className="mt-2 text-xs leading-5 text-slate-600">
+                This is power dissipated as heat. P is power in watts, I is current in amperes,
+                and R is resistance in ohms.
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-blue-200 bg-white p-3">
+              <p className="font-bold text-blue-800">Capacitor stored energy</p>
+              <p className="mt-2 font-mono text-sm font-bold text-blue-700">q = C V</p>
+              <p className="mt-1 font-mono text-sm font-bold text-blue-700">E = 1/2 C V^2</p>
+              <p className="mt-2 text-xs leading-5 text-slate-600">
+                While charging, voltage rises from 0 to V, so average voltage is V/2.
+                Energy = charge x average voltage = CV x V/2.
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-emerald-200 bg-white p-3">
+              <p className="font-bold text-emerald-800">Inductor stored energy</p>
+              <p className="mt-2 font-mono text-sm font-bold text-emerald-700">v = L di/dt</p>
+              <p className="mt-1 font-mono text-sm font-bold text-emerald-700">E = 1/2 L I^2</p>
+              <p className="mt-2 text-xs leading-5 text-slate-600">
+                Energy builds as current rises from 0 to I. L is inductance in henrys,
+                and I is current in amperes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function OverviewRow({ item }) {
   return (
     <article className="py-5 first:pt-0 last:pb-0">
@@ -1560,6 +2015,8 @@ function OverviewRow({ item }) {
                   <ProfessionalChargeCircuitGuide />
                 ) : conceptIndex === 1 ? (
                   <PowerEnergyGuide />
+                ) : conceptIndex === 2 ? (
+                  <PassiveActiveGuide />
                 ) : (
                   <>
                     <h4 className="text-base font-bold text-slate-900">
