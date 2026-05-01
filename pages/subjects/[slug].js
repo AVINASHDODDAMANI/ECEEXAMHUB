@@ -424,7 +424,7 @@ function ChargeCurrentVoltageInfographic() {
 
       <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,1fr)_290px]">
         <div className="min-w-0 overflow-x-auto">
-          <svg viewBox="0 0 760 360" className="h-auto w-[720px] max-w-none md:w-full" role="img" aria-label="Charge current and voltage circuit explanation">
+          <svg viewBox="0 0 760 360" className="h-auto w-full max-w-full" role="img" aria-label="Charge current and voltage circuit explanation">
             <defs>
               <linearGradient id="batteryBody" x1="0" x2="0" y1="0" y2="1">
                 <stop offset="0%" stopColor="#d7932b" />
@@ -704,7 +704,7 @@ function StepAnimatedCircuitGuide() {
 
         <div className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50/60 p-2 shadow-sm sm:p-3">
           <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
-          <svg viewBox="0 0 760 430" className="h-auto w-[720px] max-w-none md:w-full" role="img" aria-label="Step by step animated circuit guide">
+          <svg viewBox="0 0 760 430" className="h-auto w-full max-w-full" role="img" aria-label="Step by step animated circuit guide">
           <defs>
             <linearGradient id="guideBattery" x1="0" x2="0" y1="0" y2="1">
               <stop offset="0%" stopColor="#d7932b" />
@@ -1100,7 +1100,7 @@ function ProfessionalChargeCircuitGuide() {
 
         <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
           <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
-          <svg viewBox="0 0 900 440" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated DC circuit explaining charge current and voltage">
+          <svg viewBox="0 0 900 440" className="h-auto w-full max-w-full" role="img" aria-label="Animated DC circuit explaining charge current and voltage">
             <defs>
               <linearGradient id="proVoltageGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#ef4444" stopOpacity="0.42" />
@@ -1456,7 +1456,7 @@ function PowerEnergyGuide() {
 
         <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
           <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
-          <svg viewBox="0 0 900 460" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated circuit showing power flow and energy accumulation">
+          <svg viewBox="0 0 900 460" className="h-auto w-full max-w-full" role="img" aria-label="Animated circuit showing power flow and energy accumulation">
             <defs>
               <marker id="powerArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
                 <path d="M0 0 10 5 0 10Z" fill="#059669" />
@@ -1875,7 +1875,7 @@ function PassiveActiveGuide() {
 
         <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
           <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
-          <svg viewBox="0 0 900 460" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated circuit showing passive and active elements">
+          <svg viewBox="0 0 900 460" className="h-auto w-full max-w-full" role="img" aria-label="Animated circuit showing passive and active elements">
             <defs>
               <filter id="paPulseGlow" x="-80%" y="-80%" width="260%" height="260%">
                 <feGaussianBlur stdDeviation="2.5" result="blur" />
@@ -2213,9 +2213,110 @@ function LinearNonLinearGuide() {
           </div>
         </div>
 
-        <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
+        <div className="grid gap-4 md:hidden">
+          <div className="rounded-2xl border border-blue-200 bg-blue-50/50 p-3">
+            <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-blue-700">
+              Linear element
+            </p>
+            <div className="mt-3 rounded-xl border border-blue-100 bg-white p-2">
+              <svg viewBox="0 0 360 300" className="h-auto w-full" role="img" aria-label="Linear element straight line graph">
+                <defs>
+                  <marker id="lnMobileLinearArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
+                    <path d="M0 0 10 5 0 10Z" fill="#111827" />
+                  </marker>
+                  <filter id="lnMobileLinearGlow" x="-80%" y="-80%" width="260%" height="260%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                <rect x="12" y="14" width="336" height="266" rx="18" fill="#ffffff" stroke="#dbeafe" />
+                <text x="34" y="46" fill="#0f172a" fontSize="16" fontWeight="900">Linear element</text>
+                <text x="34" y="69" fill="#1d4ed8" fontSize="13" fontWeight="800">V and I rise together</text>
+                <g transform="translate(56 240)">
+                  <path d="M0 0H245M0 0V-160" fill="none" stroke="#111827" strokeWidth="4" strokeLinecap="round" markerEnd="url(#lnMobileLinearArrow)" />
+                  <text x="202" y="30" fill="#111827" fontSize="13" fontWeight="900">Voltage</text>
+                  <text x="-28" y="-169" fill="#111827" fontSize="13" fontWeight="900">Current</text>
+                  <path d="M22 -18L220 -142" fill="none" stroke="#2563eb" strokeWidth="6" strokeLinecap="round" />
+                  <circle cx="142" cy="-93" r="8" fill="#2563eb" filter="url(#lnMobileLinearGlow)" />
+                  <text x="82" y="-150" fill="#1d4ed8" fontSize="14" fontWeight="900">Straight-line V-I graph</text>
+                  <text x="98" y="-58" fill="#1d4ed8" fontSize="13" fontWeight="800">proportional response</text>
+                </g>
+              </svg>
+            </div>
+            <div className="mt-3 grid gap-2.5">
+              {stepPairs.map((step) => (
+                <div
+                  key={`mobile-linear-${step.number}`}
+                  className={`ln-stage-card ln-stage-pair-${step.number} rounded-lg border border-blue-100 bg-white px-3 py-2.5 shadow-sm`}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-portal-700">
+                    Step {step.number}: {step.linearTitle}
+                  </p>
+                  <p className="mt-1 text-xs leading-5 text-slate-600">{step.linearText}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-orange-200 bg-orange-50/50 p-3">
+            <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-orange-700">
+              Non-linear element
+            </p>
+            <div className="mt-3 rounded-xl border border-orange-100 bg-white p-2">
+              <svg viewBox="0 0 360 300" className="h-auto w-full" role="img" aria-label="Non-linear element curved graph">
+                <defs>
+                  <marker id="lnMobileNonLinearArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
+                    <path d="M0 0 10 5 0 10Z" fill="#111827" />
+                  </marker>
+                  <filter id="lnMobileNonLinearGlow" x="-80%" y="-80%" width="260%" height="260%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                <rect x="12" y="14" width="336" height="266" rx="18" fill="#ffffff" stroke="#fed7aa" />
+                <text x="34" y="46" fill="#0f172a" fontSize="16" fontWeight="900">Non-linear element</text>
+                <text x="34" y="69" fill="#c2410c" fontSize="13" fontWeight="800">low first, sharp later</text>
+                <g transform="translate(56 240)">
+                  <path d="M0 0H245M0 0V-160" fill="none" stroke="#111827" strokeWidth="4" strokeLinecap="round" markerEnd="url(#lnMobileNonLinearArrow)" />
+                  <text x="202" y="30" fill="#111827" fontSize="13" fontWeight="900">Voltage</text>
+                  <text x="-28" y="-169" fill="#111827" fontSize="13" fontWeight="900">Current</text>
+                  <rect x="22" y="-22" width="112" height="17" rx="9" fill="#fed7aa" opacity="0.72" />
+                  <path d="M20 -8C88 -8 124 -10 148 -26C176 -45 193 -86 222 -146" fill="none" stroke="#f97316" strokeWidth="6" strokeLinecap="round" />
+                  <g transform="translate(148 -26)">
+                    <circle r="13" fill="#fb923c" filter="url(#lnMobileNonLinearGlow)" />
+                    <circle r="5" fill="#ffffff" />
+                  </g>
+                  <path d="M148 -26v44" stroke="#c2410c" strokeWidth="2.5" strokeDasharray="5 6" />
+                  <text x="96" y="35" fill="#c2410c" fontSize="13" fontWeight="900">turn-on point</text>
+                  <text x="82" y="-150" fill="#c2410c" fontSize="14" fontWeight="900">Curved V-I graph</text>
+                </g>
+              </svg>
+            </div>
+            <div className="mt-3 grid gap-2.5">
+              {stepPairs.map((step) => (
+                <div
+                  key={`mobile-non-linear-${step.number}`}
+                  className={`ln-stage-card ln-stage-pair-${step.number} rounded-lg border border-orange-100 bg-white px-3 py-2.5 shadow-sm`}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-orange-700">
+                    Step {step.number}: {step.nonLinearTitle}
+                  </p>
+                  <p className="mt-1 text-xs leading-5 text-slate-600">{step.nonLinearText}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="hidden min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3 md:block">
           <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
-          <svg viewBox="0 0 900 460" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated graph comparing linear and non-linear elements">
+          <svg viewBox="0 0 900 460" className="h-auto w-full max-w-full" role="img" aria-label="Animated graph comparing linear and non-linear elements">
             <defs>
               <marker id="lnArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
                 <path d="M0 0 10 5 0 10Z" fill="#111827" />
@@ -2267,7 +2368,7 @@ function LinearNonLinearGuide() {
           </div>
         </div>
 
-        <div className="grid gap-3 lg:grid-cols-2">
+        <div className="hidden gap-3 md:grid lg:grid-cols-2">
           <div className="grid gap-2.5">
             <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-blue-700">
               Linear element
@@ -2541,7 +2642,7 @@ function BilateralUnilateralGuide() {
 
         <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
           <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
-          <svg viewBox="0 0 900 460" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated circuit comparing bilateral and unilateral elements">
+          <svg viewBox="0 0 900 460" className="h-auto w-full max-w-full" role="img" aria-label="Animated circuit comparing bilateral and unilateral elements">
             <defs>
               <marker id="buGreenArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
                 <path d="M0 0 10 5 0 10Z" fill="#059669" />
