@@ -1,65 +1,109 @@
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../components/layout";
 import { examDirectory } from "../data/exam-directory";
 import seedQuestions from "../data/questions";
-import { getAllLearningTopics, getReadyLearningTopics } from "../lib/learning-utils";
+import { getReadyLearningTopics } from "../lib/learning-utils";
 import { useLearningProgress } from "../lib/use-learning-progress";
 import { fetchQuestions } from "../lib/api-client";
 
-function Panel({ title, titleTone = "text-portal-700", children, action }) {
+function IconBadge({ children, tone = "blue" }) {
+  const tones = {
+    blue: "border-blue-200 bg-blue-50 text-blue-700",
+    green: "border-emerald-200 bg-emerald-50 text-emerald-700",
+    orange: "border-orange-200 bg-orange-50 text-orange-700",
+    violet: "border-violet-200 bg-violet-50 text-violet-700",
+    cyan: "border-cyan-200 bg-cyan-50 text-cyan-700",
+  };
+
   return (
-    <section className="rounded-2xl border border-portal-200 bg-white p-4 shadow-portal sm:p-5">
-      <div className="flex items-center justify-between gap-3">
-        <h2 className={`text-[1.35rem] font-bold tracking-tight ${titleTone} sm:text-2xl`}>
-          {title}
-        </h2>
-        {action || null}
-      </div>
-      <div className="mt-3 sm:mt-4">{children}</div>
-    </section>
+    <span className={`flex h-11 w-11 items-center justify-center rounded-xl border ${tones[tone]}`}>
+      {children}
+    </span>
   );
 }
 
-function FeatureIcon({ type }) {
+function SimpleIcon({ type }) {
+  const common = {
+    className: "h-5 w-5",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    "aria-hidden": true,
+  };
+
   if (type === "book") {
     return (
-      <svg className="h-6 w-6 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M5 6.5A2.5 2.5 0 0 1 7.5 4H19v15H7.5A2.5 2.5 0 0 0 5 21V6.5Z" stroke="currentColor" strokeWidth="1.8" />
-        <path d="M5 6.5A2.5 2.5 0 0 1 7.5 4H19v15H7.5A2.5 2.5 0 0 0 5 21V6.5Zm0 0V20" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <svg {...common}>
+        <path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v16H7.5A2.5 2.5 0 0 0 5 21V5.5Z" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M5 5.5V21M9 7h6M9 11h6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
     );
   }
 
-  if (type === "document") {
+  if (type === "practice") {
     return (
-      <svg className="h-6 w-6 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M8 3h6l5 5v13H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-        <path d="M14 3v5h5" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <svg {...common}>
+        <path d="M8 4h8l2 3v13H6V7l2-3Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M9 12h6M9 16h4M8 4v3h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
     );
   }
 
-  if (type === "clipboard") {
+  if (type === "chart") {
     return (
-      <svg className="h-6 w-6 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M9 4h6l1 2h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2l1-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-        <path d="M9 12h6M9 16h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <svg {...common}>
+        <path d="M5 19V5M5 19h14M9 16v-5M13 16V8M17 16v-8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  if (type === "target") {
+    return (
+      <svg {...common}>
+        <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.8" />
+        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M12 2v3M22 12h-3M12 22v-3M2 12h3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  if (type === "paper") {
+    return (
+      <svg {...common}>
+        <path d="M7 3h7l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M14 3v5h4M8 13h7M8 17h5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
     );
   }
 
   return (
-    <svg className="h-6 w-6 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0ZM4 20a8 8 0 0 1 16 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    <svg {...common}>
+      <path d="M12 3 4 7l8 4 8-4-8-4ZM4 12l8 4 8-4M4 17l8 4 8-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
+  );
+}
+
+function SectionTitle({ eyebrow, title, description }) {
+  return (
+    <div className="mx-auto max-w-3xl text-center">
+      {eyebrow ? (
+        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-portal-600">
+          {eyebrow}
+        </p>
+      ) : null}
+      <h2 className="mt-1 text-xl font-bold tracking-tight text-slate-950 sm:text-2xl">
+        {title}
+      </h2>
+      {description ? (
+        <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
+      ) : null}
+    </div>
   );
 }
 
 export default function Home() {
   const [questions, setQuestions] = useState(seedQuestions);
   const readyTopics = getReadyLearningTopics();
-  const allTopics = getAllLearningTopics();
   const { progressStats } = useLearningProgress();
 
   useEffect(() => {
@@ -85,234 +129,257 @@ export default function Home() {
     };
   }, []);
 
-  const popularTopics = useMemo(
-    () =>
-      allTopics.slice(0, 12).map((topic) => ({
-        label: topic.title,
-        href:
-          topic.status === "ready"
-            ? `/learn/${topic.subjectSlug}/${topic.slug}`
-            : `/learn?search=${encodeURIComponent(topic.title)}`,
-      })),
-    [allTopics]
-  );
-
-  const examLinks = [
-    { label: "GATE ECE", href: "/ece-exams#gate-ece" },
-    { label: "ESE / IES", href: "/ece-exams#ese-ies" },
-    { label: "PSU Exams", href: "/ece-exams#psu-exams" },
-    { label: "SSC JE Guide", href: "/ece-exams#ssc-je-ece" },
-    { label: "RRB JE Guide", href: "/ece-exams#rrb-je-electronics" },
-    { label: "State AE / JE", href: "/ece-exams#state-ae-je" },
+  const offerCards = [
+    ["book", "Concept-Based Theory", "Detailed theory with examples, diagrams, formulas, and exam-focused notes.", "blue"],
+    ["practice", "Topic-Wise Practice", "MCQs and important questions after each topic to strengthen concepts.", "green"],
+    ["paper", "Previous Year Papers", "GATE, ESE, PSU, and university papers organized year-wise and subject-wise.", "orange"],
+    ["target", "Revision Support", "Quick summaries, formula sheets, and focused revision resources.", "violet"],
+    ["chart", "Progress Tracking", "Track completed topics, attempted practice, and overall preparation progress.", "cyan"],
   ];
 
-  const studyMaterials = [
-    { label: "Notes", href: "/notes" },
-    { label: "Previous Year Papers", href: "/previous-year" },
-    { label: "Important Questions", href: "/practice?search=important" },
-    { label: "MCQs", href: "/mcqs" },
-    { label: "Formula Sheet", href: "/learn?search=formula" },
-    { label: "Concept Revision", href: "/learn" },
+  const subjects = [
+    "Analog Electronics",
+    "Digital Electronics",
+    "Signals & Systems",
+    "Control Systems",
+    "Communication Systems",
+    "Electromagnetics",
+    "Network Theory",
+    "Microprocessors",
   ];
 
-  const previousPaperGroups = [
-    { label: "GATE ECE", href: "/previous-year?exam=GATE" },
-    { label: "ESE (IES)", href: "/previous-year" },
-    { label: "PSU Exams", href: "/previous-year?exam=BEL" },
-    { label: "University Exams", href: "/subjects" },
-  ];
-
-  const highlights = [
-    {
-      icon: "book",
-      title: "Structured Learning",
-      description: "Clear subject-wise coverage for core ECE preparation",
-    },
-    {
-      icon: "document",
-      title: "Previous Papers",
-      description: "Exam-wise and year-wise paper access for focused revision",
-    },
-    {
-      icon: "clipboard",
-      title: "Practice Ready",
-      description: "MCQs, important questions, and revision-first practice",
-    },
-    {
-      icon: "people",
-      title: "Progress Tracking",
-      description: "Track completion across learning topics and practice",
-    },
+  const resources = [
+    ["Theory", "/subjects"],
+    ["MCQs", "/mcqs"],
+    ["Previous Papers", "/previous-year"],
+    ["Revision Notes", "/notes"],
+    ["Practice", "/practice"],
+    ["Exam Guides", "/ece-exams"],
   ];
 
   return (
-    <Layout title="ECE Exam Guide | Home" pageClassName="py-3 sm:py-5">
-      <div className="grid gap-4 sm:gap-6 lg:grid-cols-[minmax(0,2fr)_360px]">
-        <div className="space-y-4 sm:space-y-6">
-          <section className="rounded-2xl border border-portal-200 bg-gradient-to-r from-[#f7fbff] to-[#eef5ff] p-4 shadow-portal sm:p-6">
-            <div className="max-w-4xl">
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-portal-600">
-                ECE Preparation Platform
-              </p>
-              <h1 className="text-[2rem] font-bold tracking-tight text-portal-700 sm:text-4xl">
-                ECE notes, previous papers, and practice in one focused workspace
-              </h1>
-              <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 sm:mt-4 sm:text-base sm:leading-8">
-                Access structured subject notes, exam-wise previous papers, topic practice,
-                and revision resources built for Electronics and Communication Engineering.
-              </p>
+    <Layout title="ECE Exam Guide | Home" pageClassName="py-0">
+      <div className="space-y-7 pb-8">
+        <section className="grid gap-6 pt-8 lg:grid-cols-[minmax(0,1fr)_520px] lg:items-center">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-portal-600">
+              Complete ECE Preparation
+            </p>
+            <h1 className="mt-3 max-w-3xl text-4xl font-extrabold tracking-tight text-slate-950 sm:text-5xl">
+              Learn ECE Concepts.
+              <span className="block text-emerald-600">Practice Smart.</span>
+              <span className="block text-orange-600">Crack Exams.</span>
+            </h1>
+            <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
+              Detailed theory, topic-wise practice, previous year papers, and smart
+              revision tools for Electronics and Communication Engineering aspirants.
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                href="/subjects"
+                className="inline-flex items-center justify-center rounded-xl bg-portal-700 px-5 py-3 text-sm font-bold text-white shadow-[0_14px_28px_rgba(21,74,150,0.22)] transition hover:bg-portal-800"
+              >
+                Start Learning Now
+                <span className="ml-2">-&gt;</span>
+              </Link>
+              <Link
+                href="/learn"
+                className="inline-flex items-center justify-center rounded-xl border border-portal-300 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
+              >
+                Explore Theory
+                <span className="ml-2">-&gt;</span>
+              </Link>
             </div>
 
-            <div className="mt-4 grid gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4">
-              {highlights.map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-xl border border-portal-200 bg-white/80 p-3.5 sm:rounded-2xl sm:p-4"
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full border border-portal-200 bg-portal-50 text-portal-600 sm:h-14 sm:w-14">
-                    <FeatureIcon type={item.icon} />
-                  </div>
-                  <h2 className="mt-3 text-base font-bold text-portal-700 sm:mt-4 sm:text-lg">
-                    {item.title}
-                  </h2>
-                  <p className="mt-1.5 text-xs leading-6 text-slate-600 sm:mt-2 sm:text-sm sm:leading-7">
-                    {item.description}
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              {[
+                ["Concept Based", "Learning"],
+                ["Exam Focused", "Content"],
+                ["Topic-Wise", "Practice"],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-xl border border-slate-200 bg-white/80 px-4 py-3 shadow-sm">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                    {label}
                   </p>
+                  <p className="mt-1 text-sm font-bold text-slate-900">{value}</p>
                 </div>
               ))}
             </div>
-          </section>
+          </div>
 
-          <Panel title="Popular Topics" titleTone="text-green-700">
-            <div className="grid gap-x-4 gap-y-2.5 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-4 xl:grid-cols-4">
-              {popularTopics.map((topic) => (
-                <Link
-                  key={topic.label}
-                  href={topic.href}
-                  className="flex items-center gap-2.5 text-sm font-medium text-slate-700 transition hover:text-portal-700 sm:gap-3 sm:text-base"
-                >
-                  <span className="h-2 w-2 rounded-full bg-green-700" />
-                  <span>{topic.label}</span>
-                </Link>
-              ))}
+          <div className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_22px_70px_rgba(15,23,42,0.10)]">
+            <div className="grid gap-4 md:grid-cols-[1fr_220px] md:items-center">
+              <div>
+                <h2 className="text-xl font-extrabold text-portal-800">
+                  Your Complete ECE Learning Workspace
+                </h2>
+                <div className="mt-4 grid gap-3">
+                  {[
+                    ["Learn Theory", "Detailed explanations from basics to advanced."],
+                    ["Practice", "MCQs and important questions with solutions."],
+                    ["Revise Smart", "Quick notes, formulas, and summaries."],
+                    ["Track Progress", "Monitor learning and improve consistently."],
+                  ].map(([title, text], index) => (
+                    <div key={title} className="flex gap-3">
+                      <IconBadge tone={["blue", "green", "orange", "violet"][index]}>
+                        <SimpleIcon type={index === 1 ? "practice" : index === 3 ? "chart" : "book"} />
+                      </IconBadge>
+                      <div>
+                        <p className="text-sm font-bold text-slate-900">{title}</p>
+                        <p className="text-xs leading-5 text-slate-600">{text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-slate-50 p-4">
+                <div className="rounded-xl border border-blue-200 bg-white p-3 shadow-sm">
+                  <div className="h-24 rounded-lg border border-blue-100 bg-blue-50" />
+                  <div className="mt-3 grid gap-2">
+                    <div className="h-2 rounded-full bg-blue-200" />
+                    <div className="h-2 w-2/3 rounded-full bg-blue-100" />
+                  </div>
+                </div>
+                <div className="mt-4 rounded-xl border border-emerald-200 bg-white p-3">
+                  <p className="text-xs font-bold text-emerald-700">Ready Topics</p>
+                  <p className="mt-1 text-3xl font-extrabold text-slate-950">{readyTopics.length}</p>
+                </div>
+              </div>
             </div>
-          </Panel>
+          </div>
+        </section>
 
-          <Panel
-            title="Previous Year Papers"
-            titleTone="text-violet-700"
-            action={
+        <section>
+          <SectionTitle
+            title="What This Platform Offers"
+            description="Everything you need to learn, practice, revise, and measure your ECE preparation."
+          />
+          <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            {offerCards.map(([icon, title, text, tone]) => (
+              <article key={title} className="rounded-xl border border-slate-200 bg-white p-5 text-center shadow-sm">
+                <div className="mx-auto flex justify-center">
+                  <IconBadge tone={tone}>
+                    <SimpleIcon type={icon} />
+                  </IconBadge>
+                </div>
+                <h3 className="mt-4 text-sm font-extrabold text-portal-800">{title}</h3>
+                <p className="mt-2 text-xs leading-6 text-slate-600">{text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <SectionTitle
+            title="Theory Subjects"
+            description="Learn every core ECE subject with structured concepts and examples."
+          />
+          <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {subjects.map((subject, index) => (
               <Link
-                href="/previous-year"
-                className="text-xs font-bold text-violet-600 transition hover:text-violet-700 sm:text-sm"
+                key={subject}
+                href="/subjects"
+                className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:border-portal-300 hover:bg-portal-50"
               >
-                View all
+                <IconBadge tone={["blue", "green", "violet", "cyan"][index % 4]}>
+                  <SimpleIcon type={index % 2 === 0 ? "book" : "target"} />
+                </IconBadge>
+                <span>
+                  <span className="block text-sm font-bold text-slate-900">{subject}</span>
+                  <span className="text-xs font-semibold text-portal-700">Learn all concepts -&gt;</span>
+                </span>
               </Link>
-            }
-          >
-            <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4">
-              {previousPaperGroups.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="flex items-center gap-3 rounded-xl border border-violet-200 bg-violet-50 px-3 py-3 text-sm font-semibold text-slate-800 transition hover:border-violet-300 hover:bg-white sm:rounded-2xl sm:px-4 sm:py-4 sm:text-base"
-                >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-violet-200 bg-white text-violet-600 sm:h-10 sm:w-10 sm:rounded-xl">
-                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M8 3h6l5 5v13H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-                      <path d="M14 3v5h5M9 13h6M9 17h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                    </svg>
-                  </span>
-                  <span>{item.label}</span>
-                </Link>
-              ))}
-            </div>
-          </Panel>
-        </div>
+            ))}
+          </div>
+        </section>
 
-        <aside className="space-y-4 sm:space-y-6">
-          <Panel
-            title="ECE Exams"
-            action={
-              <span className="rounded-full border border-portal-200 bg-portal-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-portal-700 sm:px-3 sm:text-xs">
-                {examDirectory.length} guides
-              </span>
-            }
-          >
-            <div className="grid gap-2.5 sm:gap-3">
-              {examLinks.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="flex items-center gap-3 text-sm font-medium text-portal-700 transition hover:text-portal-800 sm:text-lg"
-                >
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-portal-50 text-portal-600">
-                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                      <path d="M3.5 7.5 10 4l6.5 3.5L10 11 3.5 7.5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-                      <path d="M5.5 10.5v2L10 15l4.5-2.5v-2" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                  <span className="text-sm sm:text-base">{item.label}</span>
-                </Link>
-              ))}
+        <section className="rounded-2xl border border-slate-200 bg-gradient-to-r from-white to-blue-50 p-5 shadow-sm">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h2 className="text-lg font-extrabold text-portal-800">
+                All Study Resources in One Place
+              </h2>
+              <p className="mt-1 text-sm leading-6 text-slate-600">
+                Access every core resource quickly from one clean workspace.
+              </p>
             </div>
-
             <Link
-              href="/ece-exams"
-              className="mt-4 inline-flex w-full items-center justify-center rounded-xl border border-portal-200 bg-[#f8fbff] px-4 py-2.5 text-sm font-bold text-portal-700 transition hover:bg-white sm:mt-6 sm:py-3 sm:text-base"
+              href="/learn"
+              className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-4 py-2.5 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
             >
-              Open exam guides
+              Browse All Resources
             </Link>
-          </Panel>
+          </div>
+          <div className="mt-5 grid gap-3 md:grid-cols-3 xl:grid-cols-6">
+            {resources.map(([label, href], index) => (
+              <Link key={label} href={href} className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:border-portal-300">
+                <IconBadge tone={["blue", "green", "violet", "orange", "cyan"][index % 5]}>
+                  <SimpleIcon type={index === 1 ? "practice" : index === 2 ? "paper" : "book"} />
+                </IconBadge>
+                <p className="mt-3 text-sm font-bold text-slate-900">{label}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
 
-          <Panel title="Study Materials" titleTone="text-green-700">
-            <div className="grid gap-2.5 sm:gap-3">
-              {studyMaterials.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="flex items-center gap-3 text-sm font-medium text-portal-700 transition hover:text-portal-800 sm:text-base"
-                >
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-green-200 bg-green-50 text-green-700">
-                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                      <path d="M5 2.5h7l3 3V16a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 16V4A1.5 1.5 0 0 1 5.5 2.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-                      <path d="M12 2.5V6h3" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                  <span>{item.label}</span>
-                </Link>
+        <section className="grid gap-5 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)]">
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <h2 className="text-lg font-extrabold text-portal-800">Your Study Progress</h2>
+                <p className="mt-1 text-sm text-slate-600">Keep going. Consistency is the real advantage.</p>
+              </div>
+              <Link href="/learn" className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-bold text-portal-700">
+                Go to Dashboard -&gt;
+              </Link>
+            </div>
+            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+              {[
+                ["Topics Completed", `${progressStats.completedTopics || 0} / ${readyTopics.length}`],
+                ["Questions Available", questions.length],
+                ["Overall Progress", `${progressStats.completionPercent}%`],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                  <p className="text-xs font-semibold text-slate-500">{label}</p>
+                  <p className="mt-2 text-2xl font-extrabold text-slate-950">{value}</p>
+                </div>
               ))}
             </div>
-          </Panel>
+          </div>
 
-          <section className="rounded-2xl border border-orange-200 bg-orange-50 p-4 shadow-portal sm:p-5">
-            <h2 className="text-[1.35rem] font-bold tracking-tight text-orange-700 sm:text-2xl">
-              Study Progress
-            </h2>
-            <div className="mt-4 grid gap-2.5 sm:mt-5 sm:gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-              <div className="rounded-xl border border-orange-200 bg-white px-3.5 py-3 sm:px-4">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-                  Questions
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <h2 className="text-lg font-extrabold text-portal-800">Why Students Choose Us</h2>
+            <div className="mt-4 grid gap-3 text-sm leading-6 text-slate-700">
+              {[
+                "Detailed theory for every concept",
+                "Topic-wise learning and practice",
+                "Covers GATE, ESE, PSU, and university exams",
+                `Updated guides across ${examDirectory.length} exam paths`,
+              ].map((item) => (
+                <p key={item} className="flex gap-2">
+                  <span className="mt-1.5 h-4 w-4 rounded-full border border-emerald-300 bg-emerald-50" />
+                  <span>{item}</span>
                 </p>
-                <p className="mt-1.5 text-xl font-bold text-orange-600 sm:mt-2 sm:text-2xl">{questions.length}</p>
-              </div>
-              <div className="rounded-xl border border-orange-200 bg-white px-3.5 py-3 sm:px-4">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-                  Ready Topics
-                </p>
-                <p className="mt-1.5 text-xl font-bold text-orange-600 sm:mt-2 sm:text-2xl">{readyTopics.length}</p>
-              </div>
-              <div className="rounded-xl border border-orange-200 bg-white px-3.5 py-3 sm:px-4">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-                  Completion
-                </p>
-                <p className="mt-1.5 text-xl font-bold text-orange-600 sm:mt-2 sm:text-2xl">
-                  {progressStats.completionPercent}%
-                </p>
-              </div>
+              ))}
             </div>
-          </section>
-        </aside>
+          </div>
+        </section>
+
+        <section className="rounded-2xl bg-gradient-to-r from-portal-800 to-blue-700 px-5 py-6 text-white shadow-[0_18px_40px_rgba(21,74,150,0.26)]">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h2 className="text-2xl font-extrabold">Start Your ECE Success Journey Today</h2>
+              <p className="mt-2 text-sm leading-6 text-blue-100">
+                Learn concepts in detail, practice with confidence, and prepare with a focused plan.
+              </p>
+            </div>
+            <Link href="/subjects" className="rounded-xl bg-white px-5 py-3 text-center text-sm font-extrabold text-portal-800 transition hover:bg-blue-50">
+              Start Learning Now -&gt;
+            </Link>
+          </div>
+        </section>
       </div>
     </Layout>
   );

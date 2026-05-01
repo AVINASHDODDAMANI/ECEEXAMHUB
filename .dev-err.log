@@ -1,3 +1,93 @@
 ⚠ Slow filesystem detected. The benchmark took 891ms. If C:\Users\Doddamani\Desktop\ECEXEAMHUB\.next/dev is a network drive, consider moving it to a local folder.
 See more: https://nextjs.org/docs/app/guides/local-development
 [browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+ReferenceError: BASIC_CONCEPT_EXPLANATIONS is not defined
+    at OverviewRow (pages\subjects\[slug].js:381:14)
+  379 |           </h3>
+  380 |           <div className="mt-3 grid gap-4">
+> 381 |             {BASIC_CONCEPT_EXPLANATIONS.map((concept, conceptIndex) => (
+      |              ^
+  382 |               <section key={concept.title}>
+  383 |                 <h4 className="text-sm font-bold text-slate-900">
+  384 |                   {conceptIndex + 1}. {concept.title}
+⨯ ReferenceError: BASIC_CONCEPT_EXPLANATIONS is not defined
+    at OverviewRow (pages\subjects\[slug].js:381:14)
+  379 |           </h3>
+  380 |           <div className="mt-3 grid gap-4">
+> 381 |             {BASIC_CONCEPT_EXPLANATIONS.map((concept, conceptIndex) => (
+      |              ^
+  382 |               <section key={concept.title}>
+  383 |                 <h4 className="text-sm font-bold text-slate-900">
+  384 |                   {conceptIndex + 1}. {concept.title}
+⨯ ReferenceError: BASIC_CONCEPT_EXPLANATIONS is not defined
+    at OverviewRow (pages\subjects\[slug].js:381:14)
+  379 |           </h3>
+  380 |           <div className="mt-3 grid gap-4">
+> 381 |             {BASIC_CONCEPT_EXPLANATIONS.map((concept, conceptIndex) => (
+      |              ^
+  382 |               <section key={concept.title}>
+  383 |                 <h4 className="text-sm font-bold text-slate-900">
+  384 |                   {conceptIndex + 1}. {concept.title} {
+  page: '/subjects/network-analysis'
+}
+ReferenceError: BASIC_CONCEPT_EXPLANATIONS is not defined
+    at OverviewRow (pages\subjects\[slug].js:381:14)
+  379 |           </h3>
+  380 |           <div className="mt-3 grid gap-4">
+> 381 |             {BASIC_CONCEPT_EXPLANATIONS.map((concept, conceptIndex) => (
+      |              ^
+  382 |               <section key={concept.title}>
+  383 |                 <h4 className="text-sm font-bold text-slate-900">
+  384 |                   {conceptIndex + 1}. {concept.title}
+⨯ ReferenceError: BASIC_CONCEPT_EXPLANATIONS is not defined
+    at OverviewRow (pages\subjects\[slug].js:381:14)
+  379 |           </h3>
+  380 |           <div className="mt-3 grid gap-4">
+> 381 |             {BASIC_CONCEPT_EXPLANATIONS.map((concept, conceptIndex) => (
+      |              ^
+  382 |               <section key={concept.title}>
+  383 |                 <h4 className="text-sm font-bold text-slate-900">
+  384 |                   {conceptIndex + 1}. {concept.title}
+⨯ ReferenceError: BASIC_CONCEPT_EXPLANATIONS is not defined
+    at OverviewRow (pages\subjects\[slug].js:381:14)
+  379 |           </h3>
+  380 |           <div className="mt-3 grid gap-4">
+> 381 |             {BASIC_CONCEPT_EXPLANATIONS.map((concept, conceptIndex) => (
+      |              ^
+  382 |               <section key={concept.title}>
+  383 |                 <h4 className="text-sm font-bold text-slate-900">
+  384 |                   {conceptIndex + 1}. {concept.title} {
+  page: '/subjects/network-analysis'
+}
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[browser] Uncaught ReferenceError: BASIC_CONCEPT_EXPLANATIONS is not defined
+    at OverviewRow (pages/subjects/[slug].js:380:64)
+  378 |             Fundamental Electrical Concepts
+  379 |           </h3>
+> 380 |           <p className="mt-2 text-sm leading-6 text-slate-600">
+      |                                                                ^
+  381 |             These ideas form the base of Network Analysis. Learn them first, then KCL,
+  382 |             KVL, and circuit theorems become much easier to understand.
+  383 |           </p>
+[browser] 'ReferenceError: BASIC_CONCEPT_EXPLANATIONS is not defined\n' +
+  '    at OverviewRow (pages/subjects/[slug].js:381:14)\n' +
+  '    at Set.forEach (<anonymous>)\n' +
+  '  379 |           </h3>\n' +
+  '  380 |           <p className="mt-2 text-sm leading-6 text-slate-600">\n' +
+  '> 381 |             These ideas form the base of Network Analysis. Learn them first, then KCL,\n' +
+  '      |              ^\n' +
+  '  382 |             KVL, and circuit theorems become much easier to understand.\n' +
+  '  383 |           </p>\n' +
+  '  384 |           <div className="mt-4 divide-y divide-slate-200">'
+
+The above error occurred in the <OverviewRow> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, PagesDevOverlayErrorBoundary.
+ (<anonymous>)
+Error [PageNotFoundError]: Cannot find module for page: /index
+    at ignore-listed frames {
+  code: 'ENOENT'
+}
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
