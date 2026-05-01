@@ -702,8 +702,8 @@ function StepAnimatedCircuitGuide() {
           </div>
         </div>
 
-        <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-slate-50/60 p-3 shadow-sm md:static md:z-auto md:shadow-none">
-          <div className="overflow-x-auto">
+        <div className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50/60 p-2 shadow-sm sm:p-3">
+          <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
           <svg viewBox="0 0 760 430" className="h-auto w-[720px] max-w-none md:w-full" role="img" aria-label="Step by step animated circuit guide">
           <defs>
             <linearGradient id="guideBattery" x1="0" x2="0" y1="0" y2="1">
@@ -1098,8 +1098,8 @@ function ProfessionalChargeCircuitGuide() {
           </div>
         </div>
 
-        <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:static md:z-auto md:shadow-none">
-          <div className="overflow-x-auto">
+        <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
+          <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
           <svg viewBox="0 0 900 440" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated DC circuit explaining charge current and voltage">
             <defs>
               <linearGradient id="proVoltageGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -1454,8 +1454,8 @@ function PowerEnergyGuide() {
           </div>
         </div>
 
-        <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:static md:z-auto md:shadow-none">
-          <div className="overflow-x-auto">
+        <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
+          <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
           <svg viewBox="0 0 900 460" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated circuit showing power flow and energy accumulation">
             <defs>
               <marker id="powerArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
@@ -1873,8 +1873,8 @@ function PassiveActiveGuide() {
           </div>
         </div>
 
-        <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:static md:z-auto md:shadow-none">
-          <div className="overflow-x-auto">
+        <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
+          <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
           <svg viewBox="0 0 900 460" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated circuit showing passive and active elements">
             <defs>
               <filter id="paPulseGlow" x="-80%" y="-80%" width="260%" height="260%">
@@ -2213,8 +2213,8 @@ function LinearNonLinearGuide() {
           </div>
         </div>
 
-        <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:static md:z-auto md:shadow-none">
-          <div className="overflow-x-auto">
+        <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
+          <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
           <svg viewBox="0 0 900 460" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated graph comparing linear and non-linear elements">
             <defs>
               <marker id="lnArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
@@ -2539,8 +2539,8 @@ function BilateralUnilateralGuide() {
           </div>
         </div>
 
-        <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:static md:z-auto md:shadow-none">
-          <div className="overflow-x-auto">
+        <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
+          <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
           <svg viewBox="0 0 900 460" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated circuit comparing bilateral and unilateral elements">
             <defs>
               <marker id="buGreenArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
