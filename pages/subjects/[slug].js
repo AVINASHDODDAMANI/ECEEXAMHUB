@@ -3498,7 +3498,7 @@ export default function SubjectTheoryPage({
             </p>
           </section>
 
-          <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+          <section className="mt-5">
             <BasicConceptGuideContent withIntro={false} />
           </section>
 
