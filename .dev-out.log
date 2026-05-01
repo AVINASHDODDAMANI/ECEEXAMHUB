@@ -10,3 +10,16 @@
 Creating turbopack project { dir: 'C:\\Users\\Doddamani\\Desktop\\ECEXEAMHUB', testMode: true }
 
 ○ Compiling / ...
+ GET / 304 in 56s (next.js: 56s, application-code: 238ms)
+ GET /subjects/network-analysis 200 in 51s (next.js: 50s, generate-params: 1981ms, application-code: 475ms)
+○ Compiling /api/questions ...
+ GET /api/questions 200 in 16.1s (next.js: 16.1s, application-code: 63ms)
+○ Compiling /subjects ...
+ GET /_next/data/development/subjects/network-analysis.json?slug=network-analysis 200 in 729ms (next.js: 89ms, generate-params: 16ms, application-code: 640ms)
+✓ Compiled in 545ms
+ GET /subjects/network-analysis 200 in 1250ms (next.js: 744ms, generate-params: 14ms, application-code: 506ms)
+✓ Compiled in 469ms
+ GET /subjects/network-analysis 200 in 937ms (next.js: 190ms, generate-params: 17ms, application-code: 747ms)
+✓ Compiled in 530ms
+ GET /subjects/network-analysis 200 in 810ms (next.js: 164ms, generate-params: 17ms, application-code: 647ms)
+ GET /subjects/network-analysis 200 in 1199ms (next.js: 97ms, generate-params: 50ms, application-code: 1102ms)
