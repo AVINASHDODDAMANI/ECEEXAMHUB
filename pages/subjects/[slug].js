@@ -426,7 +426,7 @@ function ChargeCurrentVoltageInfographic() {
 
       <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,1fr)_290px]">
         <div className="min-w-0 overflow-x-auto">
-          <svg viewBox="0 0 760 360" className="h-auto w-full max-w-full" role="img" aria-label="Charge current and voltage circuit explanation">
+          <svg viewBox="0 0 760 360" className="mx-auto h-auto w-full max-w-full md:w-[82%]" role="img" aria-label="Charge current and voltage circuit explanation">
             <defs>
               <linearGradient id="batteryBody" x1="0" x2="0" y1="0" y2="1">
                 <stop offset="0%" stopColor="#d7932b" />
@@ -704,9 +704,9 @@ function StepAnimatedCircuitGuide() {
           </div>
         </div>
 
-        <div className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50/60 p-2 shadow-sm sm:p-3">
-          <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
-          <svg viewBox="0 0 760 430" className="h-auto w-full max-w-full" role="img" aria-label="Step by step animated circuit guide">
+        <div className="min-w-0 overflow-x-auto overscroll-x-contain">
+          <div className="max-w-full overflow-x-auto overscroll-x-contain">
+          <svg viewBox="0 0 760 430" className="mx-auto h-auto w-full max-w-full md:w-[82%]" role="img" aria-label="Step by step animated circuit guide">
           <defs>
             <linearGradient id="guideBattery" x1="0" x2="0" y1="0" y2="1">
               <stop offset="0%" stopColor="#d7932b" />
@@ -1100,9 +1100,9 @@ function ProfessionalChargeCircuitGuide() {
           </div>
         </div>
 
-        <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
-          <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
-          <svg viewBox="0 0 900 440" className="h-auto w-full max-w-full" role="img" aria-label="Animated DC circuit explaining charge current and voltage">
+        <div className="min-w-0 overflow-x-auto overscroll-x-contain">
+          <div className="max-w-full overflow-x-auto overscroll-x-contain">
+          <svg viewBox="0 0 900 440" className="mx-auto h-auto w-full max-w-full md:w-[82%]" role="img" aria-label="Animated DC circuit explaining charge current and voltage">
             <defs>
               <linearGradient id="proVoltageGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#ef4444" stopOpacity="0.42" />
@@ -1456,9 +1456,9 @@ function PowerEnergyGuide() {
           </div>
         </div>
 
-        <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
-          <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
-          <svg viewBox="0 0 900 460" className="h-auto w-full max-w-full" role="img" aria-label="Animated circuit showing power flow and energy accumulation">
+        <div className="min-w-0 overflow-x-auto overscroll-x-contain">
+          <div className="max-w-full overflow-x-auto overscroll-x-contain">
+          <svg viewBox="0 0 900 460" className="mx-auto h-auto w-full max-w-full md:w-[82%]" role="img" aria-label="Animated circuit showing power flow and energy accumulation">
             <defs>
               <marker id="powerArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
                 <path d="M0 0 10 5 0 10Z" fill="#059669" />
@@ -1875,9 +1875,9 @@ function PassiveActiveGuide() {
           </div>
         </div>
 
-        <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
-          <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
-          <svg viewBox="0 0 900 460" className="h-auto w-full max-w-full" role="img" aria-label="Animated circuit showing passive and active elements">
+        <div className="min-w-0 overflow-x-auto overscroll-x-contain">
+          <div className="max-w-full overflow-x-auto overscroll-x-contain">
+          <svg viewBox="0 0 900 460" className="mx-auto h-auto w-full max-w-full md:w-[82%]" role="img" aria-label="Animated circuit showing passive and active elements">
             <defs>
               <filter id="paPulseGlow" x="-80%" y="-80%" width="260%" height="260%">
                 <feGaussianBlur stdDeviation="2.5" result="blur" />
@@ -2220,8 +2220,8 @@ function LinearNonLinearGuide() {
             <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-blue-700">
               Linear element
             </p>
-            <div className="mt-3 rounded-xl border border-blue-100 bg-white p-2">
-              <svg viewBox="0 0 360 300" className="h-auto w-full" role="img" aria-label="Linear element straight line graph">
+            <div className="mt-3 overflow-x-auto overscroll-x-contain">
+              <svg viewBox="0 0 360 300" className="mx-auto h-auto w-full md:w-[82%]" role="img" aria-label="Linear element straight line graph">
                 <defs>
                   <marker id="lnMobileLinearArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
                     <path d="M0 0 10 5 0 10Z" fill="#111827" />
@@ -2267,8 +2267,8 @@ function LinearNonLinearGuide() {
             <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-orange-700">
               Non-linear element
             </p>
-            <div className="mt-3 rounded-xl border border-orange-100 bg-white p-2">
-              <svg viewBox="0 0 360 300" className="h-auto w-full" role="img" aria-label="Non-linear element curved graph">
+            <div className="mt-3 overflow-x-auto overscroll-x-contain">
+              <svg viewBox="0 0 360 300" className="mx-auto h-auto w-full md:w-[82%]" role="img" aria-label="Non-linear element curved graph">
                 <defs>
                   <marker id="lnMobileNonLinearArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
                     <path d="M0 0 10 5 0 10Z" fill="#111827" />
@@ -2316,9 +2316,9 @@ function LinearNonLinearGuide() {
           </div>
         </div>
 
-        <div className="hidden min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3 md:block">
-          <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
-          <svg viewBox="0 0 900 460" className="h-auto w-full max-w-full" role="img" aria-label="Animated graph comparing linear and non-linear elements">
+        <div className="hidden min-w-0 overflow-x-auto overscroll-x-contain md:block">
+          <div className="max-w-full overflow-x-auto overscroll-x-contain">
+          <svg viewBox="0 0 900 460" className="mx-auto h-auto w-full max-w-full md:w-[82%]" role="img" aria-label="Animated graph comparing linear and non-linear elements">
             <defs>
               <marker id="lnArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
                 <path d="M0 0 10 5 0 10Z" fill="#111827" />
@@ -2647,8 +2647,8 @@ function BilateralUnilateralGuide() {
             <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-blue-700">
               Bilateral element
             </p>
-            <div className="mt-3 rounded-xl border border-blue-100 bg-white p-2">
-              <svg viewBox="0 0 360 240" className="h-auto w-full" role="img" aria-label="Bilateral element current flow in both directions">
+            <div className="mt-3 overflow-x-auto overscroll-x-contain">
+              <svg viewBox="0 0 360 240" className="mx-auto h-auto w-full md:w-[82%]" role="img" aria-label="Bilateral element current flow in both directions">
                 <defs>
                   <marker id="buMobileBlueArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
                     <path d="M0 0 10 5 0 10Z" fill="#2563eb" />
@@ -2699,8 +2699,8 @@ function BilateralUnilateralGuide() {
             <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-orange-700">
               Unilateral element
             </p>
-            <div className="mt-3 rounded-xl border border-orange-100 bg-white p-2">
-              <svg viewBox="0 0 360 240" className="h-auto w-full" role="img" aria-label="Unilateral element forward flow and reverse blocking">
+            <div className="mt-3 overflow-x-auto overscroll-x-contain">
+              <svg viewBox="0 0 360 240" className="mx-auto h-auto w-full md:w-[82%]" role="img" aria-label="Unilateral element forward flow and reverse blocking">
                 <defs>
                   <marker id="buMobileGreenArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
                     <path d="M0 0 10 5 0 10Z" fill="#059669" />
@@ -2753,9 +2753,9 @@ function BilateralUnilateralGuide() {
           </div>
         </div>
 
-        <div className="hidden min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3 md:block">
-          <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
-          <svg viewBox="0 0 900 460" className="h-auto w-full max-w-full" role="img" aria-label="Animated circuit comparing bilateral and unilateral elements">
+        <div className="hidden min-w-0 overflow-x-auto overscroll-x-contain md:block">
+          <div className="max-w-full overflow-x-auto overscroll-x-contain">
+          <svg viewBox="0 0 900 460" className="mx-auto h-auto w-full max-w-full md:w-[82%]" role="img" aria-label="Animated circuit comparing bilateral and unilateral elements">
             <defs>
               <marker id="buGreenArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
                 <path d="M0 0 10 5 0 10Z" fill="#059669" />

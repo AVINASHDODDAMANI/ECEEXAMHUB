@@ -1,6 +1,6 @@
 function OpAmpDifferentiatorDiagram() {
   return (
-    <svg viewBox="0 0 520 220" className="h-auto w-full" role="img" aria-label="Op-amp differentiator circuit">
+    <svg viewBox="0 0 520 220" className="h-auto w-full md:w-[78%]" role="img" aria-label="Op-amp differentiator circuit">
       <rect width="520" height="220" rx="16" fill="#f8fbff" />
       <path d="M42 110h72" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
       <text x="28" y="104" fill="#475569" fontSize="15" fontWeight="700">Vin</text>
@@ -25,7 +25,7 @@ function OpAmpDifferentiatorDiagram() {
 
 function SeriesRlcDiagram() {
   return (
-    <svg viewBox="0 0 520 220" className="h-auto w-full" role="img" aria-label="Series RLC circuit">
+    <svg viewBox="0 0 520 220" className="h-auto w-full md:w-[78%]" role="img" aria-label="Series RLC circuit">
       <rect width="520" height="220" rx="16" fill="#f8fbff" />
       <circle cx="74" cy="112" r="28" fill="#ffffff" stroke="#154a96" strokeWidth="4" />
       <path d="M64 112c8-18 14 18 22 0s14 18 22 0" fill="none" stroke="#154a96" strokeWidth="2.5" strokeLinecap="round" />
