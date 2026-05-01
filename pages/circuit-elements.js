@@ -260,7 +260,7 @@ export default function CircuitElementsPage() {
             href="/circuit-laws"
             className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
           >
-            Circuit Laws
+            Next Circuit Laws
           </Link>
         </div>
       </div>

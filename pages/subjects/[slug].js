@@ -2974,6 +2974,40 @@ function BasicConceptGuideContent({ withIntro = true }) {
   );
 }
 
+function NetworkOverviewPanel({ overviewCards = [] }) {
+  return (
+    <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        {overviewCards.map((item) => (
+          <article
+            key={item.title}
+            className={item.points?.length ? "lg:col-span-2" : ""}
+          >
+            <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+              {item.title}
+            </h2>
+            {item.description ? (
+              <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+                {item.description}
+              </p>
+            ) : null}
+            {item.points?.length ? (
+              <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+                {item.points.map((point) => (
+                  <li key={point} className="flex gap-2">
+                    <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function OverviewRow({ item }) {
   return (
     <article className="py-5 first:pt-0 last:pb-0">
@@ -3479,7 +3513,7 @@ export default function SubjectTheoryPage({
               href="/circuit-elements"
               className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
             >
-              Circuit Elements
+              Next Circuit Elements
             </Link>
           </div>
         </div>
@@ -3515,8 +3549,11 @@ export default function SubjectTheoryPage({
   return (
     <Layout title={`ECE Exam Guide | ${subject.title}`} pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1500px] pb-24 xl:pb-0">
-        <nav aria-label="Breadcrumb" className="mb-5 pt-1">
-          <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-4 flex items-start justify-between gap-3 pt-1"
+        >
+          <ol className="flex min-w-0 flex-wrap items-center gap-2 text-sm text-slate-500">
             <li>
               <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
                 Home
@@ -3533,37 +3570,33 @@ export default function SubjectTheoryPage({
             </li>
             <li className="text-slate-300">/</li>
             <li>
-              <span className="rounded-full bg-portal-50 px-3 py-1 font-semibold text-portal-700">
+              <span className="font-semibold text-portal-700">
                 {subject.title}
               </span>
             </li>
           </ol>
+          <NetworkTopicMenu
+            concepts={concepts}
+            activeIndex={activeConceptIndex}
+            onSelectTopic={selectRoadmapTopic}
+          />
         </nav>
 
-        <section className="rounded-2xl border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-2.5 shadow-panel sm:p-3">
-          <div className="grid gap-3 xl:grid-cols-[1.28fr_0.82fr]">
+        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+          <div className="grid gap-5 xl:grid-cols-[1fr_360px]">
             <div className="min-w-0">
               <div className="min-w-0 flex-1">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="inline-flex rounded-full border border-portal-200 bg-white px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-portal-700 sm:px-2.5 sm:py-1 sm:text-[10px] sm:tracking-[0.16em]">
-                      Subject Theory
-                    </p>
-                    <h1 className="mt-1 text-xl font-bold tracking-tight text-slate-900 sm:mt-2 sm:text-3xl">
-                      {subject.title}
-                    </h1>
-                  </div>
-                  <NetworkTopicMenu
-                    concepts={concepts}
-                    activeIndex={activeConceptIndex}
-                    onSelectTopic={selectRoadmapTopic}
-                  />
-                </div>
-                <p className="mt-1 text-xs leading-5 text-slate-600 sm:mt-1.5 sm:text-sm sm:leading-6">
+                <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
+                  ECE Core Chapter
+                </p>
+                <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+                  {subject.title}
+                </h1>
+                <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-700 sm:text-base">
                   {chapterMeta.subtitle}
                 </p>
 
-                <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4 sm:gap-2">
+                <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
                   <HeroMetric label="Estimated Time" value={chapterMeta.estimatedTime} />
                   <HeroMetric label="Difficulty" value={chapterMeta.difficulty} />
                   <HeroMetric label="Concepts" value={`${concepts.length} Detailed Topics`} />
@@ -3572,108 +3605,78 @@ export default function SubjectTheoryPage({
               </div>
             </div>
 
-            <div className="grid gap-2.5">
-              <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+            <div className="grid gap-3 rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <div>
                 <div className="flex items-center justify-between gap-3">
-                  <h2 className="text-base font-bold text-slate-900">Your Progress</h2>
+                  <h2 className="text-sm font-bold text-slate-950">Study Progress</h2>
                   <span className="text-xs font-semibold text-slate-500">
                     {isReady ? `${completionPercent}% Completed` : "Loading..."}
                   </span>
                 </div>
-                <div className="mt-3 h-1.5 rounded-full bg-slate-100">
+                <div className="mt-3 h-2 rounded-full bg-white">
                   <div
-                    className="h-1.5 rounded-full bg-gradient-to-r from-emerald-500 to-portal-600 transition-all"
+                    className="h-2 rounded-full bg-gradient-to-r from-emerald-500 to-portal-600 transition-all"
                     style={{ width: `${completionPercent}%` }}
                   />
                 </div>
-                <div className="mt-2.5 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-xs font-medium text-slate-600">
-                    {completedTopics} / {readyTopics} ready topics completed
-                  </p>
-                  <Link
-                    href={learningMeta.continueHref || subject.href}
-                    className="inline-flex justify-center rounded-lg bg-portal-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-portal-700"
-                  >
-                    {completionPercent > 0 ? "Continue Learning" : "Start Learning"}
-                  </Link>
-                </div>
+                <p className="mt-2 text-xs font-medium text-slate-600">
+                  {completedTopics} / {readyTopics} ready topics completed
+                </p>
               </div>
 
-              <div className="grid gap-2.5 sm:grid-cols-2">
+              <Link
+                href={learningMeta.continueHref || subject.href}
+                className="inline-flex justify-center rounded-xl bg-portal-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-portal-700"
+              >
+                {completionPercent > 0 ? "Continue Learning" : "Start Learning"}
+              </Link>
+
+              <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
                 <Link
                   href={notesHref}
-                  className="inline-flex justify-center rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                  className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
                 >
-                  Open Notes View
+                  Notes
                 </Link>
                 <Link
                   href={`/practice?search=${encodeURIComponent(subject.search)}`}
-                  className="inline-flex justify-center rounded-lg border border-portal-200 bg-white px-3 py-2.5 text-xs font-semibold text-portal-700 transition hover:bg-portal-50"
+                  className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-3 py-2.5 text-xs font-bold text-portal-700 transition hover:bg-portal-50"
                 >
-                  Practice Questions
+                  Practice
                 </Link>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1fr)_290px]">
-          <aside className="hidden xl:block xl:order-2">
-            <div className="xl:sticky xl:top-24">
-              <div className="grid gap-4">
-                <SidebarCard title="Exam Focus">
-                  <div className="grid gap-2">
-                    {chapterMeta.examFocus.map((item) => (
-                      <div
-                        key={item}
-                        className="rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-2 text-sm font-medium text-slate-700"
-                      >
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </SidebarCard>
+        {isConceptIntroPage ? (
+          <div className="mt-5">
+            <NetworkOverviewPanel overviewCards={theoryKnowledge.overviewCards} />
+          </div>
+        ) : null}
 
-                <SidebarCard title="Study Flow">
-                  <div className="grid gap-2">
-                    {steps.map((step, index) => (
-                      <div
-                        key={step.title}
-                        className="rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-3"
-                      >
-                        <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
-                          Module {String(index + 1).padStart(2, "0")}
-                        </p>
-                        <p className="mt-1 text-sm font-semibold leading-5 text-slate-900">
-                          {step.title}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </SidebarCard>
-              </div>
-            </div>
-          </aside>
-
-          <main className="min-w-0 xl:order-1">
-            <section className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
-              <div className="divide-y divide-slate-200">
-              {theoryKnowledge.overviewCards.map((item, index) => (
-                <OverviewRow
-                  key={item.title}
-                  item={item}
-                />
-              ))}
-              </div>
-            </section>
+        <section className="mt-5">
+          <main className="min-w-0">
+            {!isConceptIntroPage ? (
+              <section className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+                <div className="divide-y divide-slate-200">
+                {theoryKnowledge.overviewCards.map((item, index) => (
+                  <OverviewRow
+                    key={item.title}
+                    item={item}
+                  />
+                ))}
+                </div>
+              </section>
+            ) : null}
 
             {isConceptIntroPage ? (
               <div className="mt-5 flex justify-end">
                 <Link
-                  href="/circuit-elements"
+                  href="/basic-concepts"
                   className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
                 >
-                  Circuit Elements
+                  Next Basic Concepts
                 </Link>
               </div>
             ) : null}
@@ -3927,56 +3930,6 @@ export default function SubjectTheoryPage({
 
           </main>
 
-          <aside className="min-w-0">
-            <div className="grid gap-4 xl:sticky xl:top-24">
-              <SidebarCard title="Key Concepts">
-                <div className="grid gap-2">
-                  {chapterMeta.keyConcepts.map((concept) => (
-                    <div
-                      key={concept}
-                      className="rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-2 text-sm font-medium text-slate-700"
-                    >
-                      {concept}
-                    </div>
-                  ))}
-                </div>
-              </SidebarCard>
-
-              <SidebarCard title="Formula Preview">
-                <FormulaPreview formulas={activeFormulaPreview} />
-              </SidebarCard>
-
-              <SidebarCard title="Study Tips">
-                <div className="grid gap-2">
-                  {theoryKnowledge.studyTips.slice(0, 4).map((tip) => (
-                    <div
-                      key={tip}
-                      className="rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-3 text-sm leading-6 text-slate-700"
-                    >
-                      {tip}
-                    </div>
-                  ))}
-                </div>
-              </SidebarCard>
-
-              <SidebarCard title="Common Mistakes">
-                <div className="grid gap-2">
-                  {theoryKnowledge.commonMistakes.slice(0, 3).map((mistake) => (
-                    <div
-                      key={mistake}
-                      className="rounded-xl border border-amber-200 bg-amber-50/70 px-3 py-3 text-sm leading-6 text-slate-700"
-                    >
-                      {mistake}
-                    </div>
-                  ))}
-                </div>
-              </SidebarCard>
-
-              <SidebarCard title="Study Tip">
-                <p className="text-sm leading-7 text-slate-700">{chapterMeta.studyTip}</p>
-              </SidebarCard>
-            </div>
-          </aside>
         </section>
       </div>
 

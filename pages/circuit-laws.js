@@ -265,10 +265,10 @@ export default function CircuitLawsPage() {
             Circuit Elements
           </Link>
           <Link
-            href="/subjects/network-analysis"
+            href="/network-theorems"
             className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
           >
-            Network Analysis
+            Next Network Theorems
           </Link>
         </div>
       </div>

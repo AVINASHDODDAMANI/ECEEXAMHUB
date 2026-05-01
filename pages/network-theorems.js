@@ -399,7 +399,7 @@ export default function NetworkTheoremsPage() {
             href="/subjects/network-analysis"
             className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
           >
-            Network Analysis
+            Finish Network Analysis
           </Link>
         </div>
       </div>
