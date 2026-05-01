@@ -308,16 +308,17 @@ export const subjectTheoryKnowledge = {
         diagramNote:
           "A source drives current through a resistor. This is the simplest picture from which voltage drop, current direction, and power absorption are explained.",
         summary:
-          "This is the starting point of the chapter. Before solving any circuit, you must know what the basic electrical quantities mean and how their signs are chosen.",
+          "Circuit variables are the basic language used to describe an electrical network. Voltage tells how much electrical potential difference exists between two points, current tells how charge is moving through a branch, and power tells whether an element is absorbing or delivering energy. Sign convention connects these quantities to a chosen current direction and voltage polarity, so every equation has a clear physical meaning.",
         teaching: {
           intuition: [
-            "Think of voltage as the push and current as the motion it creates.",
-            "Resistance tells you how hard it is for that motion to happen.",
+            "Voltage, current, power, and energy are not just formulas; they describe what is happening inside each branch of a circuit.",
+            "A circuit cannot be solved reliably until current direction, voltage polarity, and element behavior are defined consistently.",
           ],
           explanation: [
-            "Before solving, choose a current direction and a voltage polarity.",
-            "Those references decide how you read signs in V = IR and p = vi.",
-            "Once the references are fixed, every branch quantity gets a clear meaning.",
+            "Start by marking a reference direction for current in each important branch. The reference direction is your assumed direction for analysis; it does not have to be the actual direction.",
+            "Next, mark voltage polarity across each element. The selected polarity tells you which terminal is treated as positive while writing equations.",
+            "Use the passive sign convention to connect voltage, current, and power. If current enters the positive terminal of an element, p = vi represents absorbed power.",
+            "If a calculated current, voltage, or power comes out negative, it does not mean the solution is wrong. It means the actual direction or energy flow is opposite to the reference you selected.",
           ],
           interpretation: [
             "For the same resistor, more voltage means more current.",

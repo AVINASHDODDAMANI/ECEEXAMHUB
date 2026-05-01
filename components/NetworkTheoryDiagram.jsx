@@ -1,7 +1,6 @@
 function DiagramFrame({ children, label }) {
   return (
     <svg viewBox="0 0 560 260" className="h-auto w-full" role="img" aria-label={label}>
-      <rect x="8" y="8" width="544" height="244" rx="24" fill="#f8fbff" stroke="#d7e4f6" strokeWidth="2" />
       {children}
     </svg>
   );
