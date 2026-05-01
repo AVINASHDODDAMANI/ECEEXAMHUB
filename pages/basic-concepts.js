@@ -8,5 +8,6 @@ export default SubjectTheoryPage;
 export function getStaticProps() {
   return getSubjectTheoryProps("network-analysis", {
     initialActiveConceptIndex: NETWORK_ROUTE_ACTIVE_INDEX["/basic-concepts"],
+    standaloneTopicPage: "basic-concepts",
   });
 }

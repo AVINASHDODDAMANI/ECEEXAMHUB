@@ -176,12 +176,14 @@ export const NETWORK_TOPIC_ROUTES = {
   "Basic Concepts": "/basic-concepts",
   "Circuit Elements": "/circuit-elements",
   "Circuit Laws": "/circuit-laws",
+  "Network Theorems": "/network-theorems",
 };
 
 export const NETWORK_ROUTE_ACTIVE_INDEX = {
   "/basic-concepts": 0,
   "/circuit-elements": 1,
   "/circuit-laws": 2,
+  "/network-theorems": 3,
 };
 
 const BASIC_CONCEPT_GUIDE = [
@@ -2640,7 +2642,118 @@ function BilateralUnilateralGuide() {
           </div>
         </div>
 
-        <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3">
+        <div className="grid gap-4 md:hidden">
+          <div className="rounded-2xl border border-blue-200 bg-blue-50/50 p-3">
+            <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-blue-700">
+              Bilateral element
+            </p>
+            <div className="mt-3 rounded-xl border border-blue-100 bg-white p-2">
+              <svg viewBox="0 0 360 240" className="h-auto w-full" role="img" aria-label="Bilateral element current flow in both directions">
+                <defs>
+                  <marker id="buMobileBlueArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
+                    <path d="M0 0 10 5 0 10Z" fill="#2563eb" />
+                  </marker>
+                  <filter id="buMobileBlueGlow" x="-80%" y="-80%" width="260%" height="260%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                <rect x="12" y="14" width="336" height="206" rx="18" fill="#ffffff" stroke="#dbeafe" />
+                <text x="32" y="47" fill="#0f172a" fontSize="16" fontWeight="900">Bilateral element</text>
+                <text x="32" y="70" fill="#1d4ed8" fontSize="13" fontWeight="800">same behavior both ways</text>
+                <g transform="translate(45 126)">
+                  <path d="M0 0H270" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" />
+                  <path d="M98 0h16l10-16 19 32 19-32 19 32 10-16h16" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+                  <text x="112" y="-38" fill="#111827" fontSize="14" fontWeight="900">Resistor</text>
+                  <path d="M18 -34H92" stroke="#2563eb" strokeWidth="4" strokeLinecap="round" markerEnd="url(#buMobileBlueArrow)" />
+                  <path d="M252 34H178" stroke="#2563eb" strokeWidth="4" strokeLinecap="round" markerEnd="url(#buMobileBlueArrow)" />
+                  <text x="54" y="67" fill="#1d4ed8" fontSize="13" fontWeight="900">left to right = right to left</text>
+                  <circle className="bu-forward-dot" r="7" fill="#2563eb" filter="url(#buMobileBlueGlow)">
+                    <animateMotion dur="5.5s" repeatCount="indefinite" path="M0 0H270" />
+                  </circle>
+                  <circle className="bu-bilateral-reverse-dot" r="7" fill="#60a5fa" filter="url(#buMobileBlueGlow)">
+                    <animateMotion dur="5.5s" begin="-2.75s" repeatCount="indefinite" path="M270 0H0" />
+                  </circle>
+                </g>
+              </svg>
+            </div>
+            <div className="mt-3 grid gap-2.5">
+              {stepPairs.map((step) => (
+                <div
+                  key={`mobile-bilateral-${step.number}`}
+                  className={`bu-stage-card bu-stage-pair-${step.number} rounded-lg border border-blue-100 bg-white px-3 py-2.5 shadow-sm`}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-portal-700">
+                    Step {step.number}: {step.bilateralTitle}
+                  </p>
+                  <p className="mt-1 text-xs leading-5 text-slate-600">{step.bilateralText}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-orange-200 bg-orange-50/50 p-3">
+            <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-orange-700">
+              Unilateral element
+            </p>
+            <div className="mt-3 rounded-xl border border-orange-100 bg-white p-2">
+              <svg viewBox="0 0 360 240" className="h-auto w-full" role="img" aria-label="Unilateral element forward flow and reverse blocking">
+                <defs>
+                  <marker id="buMobileGreenArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
+                    <path d="M0 0 10 5 0 10Z" fill="#059669" />
+                  </marker>
+                  <filter id="buMobileOrangeGlow" x="-80%" y="-80%" width="260%" height="260%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                <rect x="12" y="14" width="336" height="206" rx="18" fill="#ffffff" stroke="#fed7aa" />
+                <text x="32" y="47" fill="#0f172a" fontSize="16" fontWeight="900">Unilateral element</text>
+                <text x="32" y="70" fill="#c2410c" fontSize="13" fontWeight="800">forward allowed, reverse blocked</text>
+                <g transform="translate(45 126)">
+                  <path d="M0 0H270" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" />
+                  <path d="M112 -28L166 0L112 28Z" fill="#ffffff" stroke="#111827" strokeWidth="5" strokeLinejoin="round" />
+                  <path d="M174 -30V30" stroke="#111827" strokeWidth="5" strokeLinecap="round" />
+                  <text x="108" y="-40" fill="#111827" fontSize="14" fontWeight="900">Diode</text>
+                  <path d="M18 -34H102" stroke="#059669" strokeWidth="4" strokeLinecap="round" markerEnd="url(#buMobileGreenArrow)" />
+                  <text x="24" y="-50" fill="#047857" fontSize="13" fontWeight="900">forward flow</text>
+                  <g className="bu-diode-block" transform="translate(222 0)">
+                    <circle r="23" fill="#fee2e2" stroke="#dc2626" strokeWidth="4" />
+                    <path d="M-10 -10L10 10M10 -10L-10 10" stroke="#dc2626" strokeWidth="4" strokeLinecap="round" />
+                  </g>
+                  <text className="bu-diode-block" x="142" y="67" fill="#dc2626" fontSize="13" fontWeight="900">reverse current blocked</text>
+                  <circle className="bu-forward-dot" r="7" fill="#10b981" filter="url(#buMobileOrangeGlow)">
+                    <animateMotion dur="5.5s" repeatCount="indefinite" path="M0 0H170" />
+                  </circle>
+                  <circle className="bu-blocked-dot" r="7" fill="#fb923c" filter="url(#buMobileOrangeGlow)">
+                    <animateMotion dur="5.5s" begin="-2.75s" repeatCount="indefinite" path="M270 0H190" />
+                  </circle>
+                </g>
+              </svg>
+            </div>
+            <div className="mt-3 grid gap-2.5">
+              {stepPairs.map((step) => (
+                <div
+                  key={`mobile-unilateral-${step.number}`}
+                  className={`bu-stage-card bu-stage-pair-${step.number} rounded-lg border border-orange-100 bg-white px-3 py-2.5 shadow-sm`}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-orange-700">
+                    Step {step.number}: {step.unilateralTitle}
+                  </p>
+                  <p className="mt-1 text-xs leading-5 text-slate-600">{step.unilateralText}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="hidden min-w-0 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm sm:p-3 md:block">
           <div className="max-w-full overflow-x-auto overscroll-x-contain rounded-xl">
           <svg viewBox="0 0 900 460" className="h-auto w-full max-w-full" role="img" aria-label="Animated circuit comparing bilateral and unilateral elements">
             <defs>
@@ -2712,7 +2825,7 @@ function BilateralUnilateralGuide() {
           </div>
         </div>
 
-        <div className="grid gap-3 lg:grid-cols-2">
+        <div className="hidden gap-3 md:grid lg:grid-cols-2">
           <div className="grid gap-2.5">
             <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-blue-700">
               Bilateral element
@@ -2779,6 +2892,88 @@ function BilateralUnilateralGuide() {
   );
 }
 
+function BasicConceptGuideContent({ withIntro = true }) {
+  return (
+    <div
+      id="fundamental-electrical-concepts"
+      className={withIntro ? "mt-5 scroll-mt-40 border-t border-slate-200 pt-4" : "scroll-mt-40"}
+    >
+      {withIntro ? (
+        <>
+          <h3 className="text-sm font-bold uppercase tracking-[0.08em] text-slate-900">
+            Fundamental Electrical Concepts
+          </h3>
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            These ideas form the base of Network Analysis. Learn them first, then KCL,
+            KVL, and circuit theorems become much easier to understand.
+          </p>
+        </>
+      ) : null}
+      <div className={withIntro ? "mt-4 divide-y divide-slate-200" : "divide-y divide-slate-200"}>
+        {BASIC_CONCEPT_GUIDE.map((concept, conceptIndex) => (
+          <section key={concept.title} className="py-5 first:pt-0 last:pb-0">
+            {conceptIndex === 0 ? (
+              <ProfessionalChargeCircuitGuide />
+            ) : conceptIndex === 1 ? (
+              <PowerEnergyGuide />
+            ) : conceptIndex === 2 ? (
+              <PassiveActiveGuide />
+            ) : conceptIndex === 3 ? (
+              <LinearNonLinearGuide />
+            ) : conceptIndex === 4 ? (
+              <BilateralUnilateralGuide />
+            ) : (
+              <>
+                <h4 className="text-base font-bold text-slate-900">
+                  {conceptIndex + 1}. {concept.title}
+                </h4>
+                <div className="mt-3 grid gap-4">
+                  {concept.sections.map((section) => (
+                    <div key={section.heading}>
+                      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                        <h5 className="text-sm font-bold text-slate-900">{section.heading}</h5>
+                        {section.formula ? (
+                          <code className="rounded-md bg-slate-100 px-2 py-1 text-xs font-bold text-portal-700">
+                            {section.formula}
+                          </code>
+                        ) : null}
+                      </div>
+                      <p className="mt-2 text-sm leading-6 text-slate-700">{section.body}</p>
+                      {section.points?.length ? (
+                        <ul className="mt-2 grid gap-1.5 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+                          {section.points.map((point) => (
+                            <li key={point} className="flex gap-2">
+                              <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                              <span>{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+                      {section.keyIdea ? (
+                        <p className="mt-2 text-sm font-semibold leading-6 text-slate-800">
+                          Key idea: {section.keyIdea}
+                        </p>
+                      ) : null}
+                      {section.animation ? (
+                        <p className="mt-2 text-xs font-semibold uppercase tracking-[0.08em] text-slate-500">
+                          Animation idea:{" "}
+                          <span className="font-medium normal-case tracking-normal text-slate-600">
+                            {section.animation}
+                          </span>
+                        </p>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </section>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function OverviewRow({ item }) {
   return (
     <article className="py-5 first:pt-0 last:pb-0">
@@ -2800,79 +2995,7 @@ function OverviewRow({ item }) {
         </ul>
       ) : null}
       {item.title === "What Will You Learn?" ? (
-        <div
-          id="fundamental-electrical-concepts"
-          className="mt-5 scroll-mt-40 border-t border-slate-200 pt-4"
-        >
-          <h3 className="text-sm font-bold uppercase tracking-[0.08em] text-slate-900">
-            Fundamental Electrical Concepts
-          </h3>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
-            These ideas form the base of Network Analysis. Learn them first, then KCL,
-            KVL, and circuit theorems become much easier to understand.
-          </p>
-          <div className="mt-4 divide-y divide-slate-200">
-            {BASIC_CONCEPT_GUIDE.map((concept, conceptIndex) => (
-              <section key={concept.title} className="py-5 first:pt-0 last:pb-0">
-                {conceptIndex === 0 ? (
-                  <ProfessionalChargeCircuitGuide />
-                ) : conceptIndex === 1 ? (
-                  <PowerEnergyGuide />
-                ) : conceptIndex === 2 ? (
-                  <PassiveActiveGuide />
-                ) : conceptIndex === 3 ? (
-                  <LinearNonLinearGuide />
-                ) : conceptIndex === 4 ? (
-                  <BilateralUnilateralGuide />
-                ) : (
-                  <>
-                    <h4 className="text-base font-bold text-slate-900">
-                      {conceptIndex + 1}. {concept.title}
-                    </h4>
-                    <div className="mt-3 grid gap-4">
-                      {concept.sections.map((section) => (
-                        <div key={section.heading}>
-                          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                            <h5 className="text-sm font-bold text-slate-900">{section.heading}</h5>
-                            {section.formula ? (
-                              <code className="rounded-md bg-slate-100 px-2 py-1 text-xs font-bold text-portal-700">
-                                {section.formula}
-                              </code>
-                            ) : null}
-                          </div>
-                          <p className="mt-2 text-sm leading-6 text-slate-700">{section.body}</p>
-                          {section.points?.length ? (
-                            <ul className="mt-2 grid gap-1.5 text-sm leading-6 text-slate-700 sm:grid-cols-2">
-                              {section.points.map((point) => (
-                                <li key={point} className="flex gap-2">
-                                  <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
-                                  <span>{point}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          ) : null}
-                          {section.keyIdea ? (
-                            <p className="mt-2 text-sm font-semibold leading-6 text-slate-800">
-                              Key idea: {section.keyIdea}
-                            </p>
-                          ) : null}
-                          {section.animation ? (
-                            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.08em] text-slate-500">
-                              Animation idea:{" "}
-                              <span className="font-medium normal-case tracking-normal text-slate-600">
-                                {section.animation}
-                              </span>
-                            </p>
-                          ) : null}
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </section>
-            ))}
-          </div>
-        </div>
+        <BasicConceptGuideContent />
       ) : null}
     </article>
   );
@@ -2962,7 +3085,6 @@ function NetworkTopicList({ compact = false, concepts = [], activeIndex = 0, onS
               key={group.title}
               href={routeHref}
               className={className}
-              onClick={() => onSelectTopic?.(targetIndex, NETWORK_TOPIC_TARGET_ANCHORS[group.title])}
             >
               {content}
             </Link>
@@ -3039,6 +3161,52 @@ function MobileConceptRoadmap({ concepts, activeIndex, onSelectTopic }) {
         ) : null}
       </div>
     </section>
+  );
+}
+
+function NetworkTopicMenu({ concepts, activeIndex, onSelectTopic }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function selectTopic(index, anchorId) {
+    onSelectTopic(index, anchorId);
+    setIsOpen(false);
+  }
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open Network Analysis topics"
+        aria-expanded={isOpen}
+        aria-controls="network-topic-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="network-topic-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(20rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <NetworkTopicList
+            compact
+            concepts={concepts}
+            activeIndex={activeIndex}
+            onSelectTopic={selectTopic}
+          />
+        </div>
+      ) : null}
+    </div>
   );
 }
 
@@ -3151,6 +3319,7 @@ export default function SubjectTheoryPage({
   steps,
   learningMeta,
   initialActiveConceptIndex = 0,
+  standaloneTopicPage = "",
 }) {
   const theoryKnowledge = subjectTheoryKnowledge[subject.title] || null;
   const chapterMeta = SUBJECT_META[subject.title] || null;
@@ -3246,6 +3415,78 @@ export default function SubjectTheoryPage({
   const isQuizAnswered = typeof selectedQuizIndex === "number";
   const isQuizCorrect = isQuizAnswered && selectedQuizIndex === activeQuiz?.correctIndex;
 
+  if (standaloneTopicPage === "basic-concepts") {
+    return (
+      <Layout title="ECE Exam Guide | Basic Concepts" pageClassName="py-3 sm:py-4">
+        <div className="mx-auto max-w-[1200px] pb-24">
+          <nav aria-label="Breadcrumb" className="mb-5 pt-1">
+            <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
+              <li>
+                <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
+                  Home
+                </Link>
+              </li>
+              <li className="text-slate-300">/</li>
+              <li>
+                <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
+                  Subjects
+                </Link>
+              </li>
+              <li className="text-slate-300">/</li>
+              <li>
+                <Link
+                  href="/subjects/network-analysis"
+                  className="font-medium text-slate-600 transition hover:text-portal-700"
+                >
+                  Network Analysis
+                </Link>
+              </li>
+              <li className="text-slate-300">/</li>
+              <li>
+                <span className="rounded-full bg-portal-50 px-3 py-1 font-semibold text-portal-700">
+                  Basic Concepts
+                </span>
+              </li>
+            </ol>
+          </nav>
+
+          <section className="rounded-[30px] border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-5 shadow-panel sm:p-6">
+            <p className="inline-flex rounded-full border border-portal-200 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
+              Network Analysis
+            </p>
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              Basic Concepts
+            </h1>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-700 sm:text-base">
+              These are the base ideas that make circuits readable: charge, current,
+              voltage, power, energy, and element behavior. The original diagrams and
+              step-by-step explanations are kept below in a cleaner page flow.
+            </p>
+          </section>
+
+          <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+            <BasicConceptGuideContent withIntro={false} />
+          </section>
+
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <Link
+              href="/subjects/network-analysis"
+              className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-50"
+            >
+              Network Analysis
+            </Link>
+            <Link
+              href="/circuit-elements"
+              className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
+            >
+              Circuit Elements
+            </Link>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
   function getConceptStatus(index) {
     if (index < activeConceptIndex) {
       return "review";
@@ -3303,12 +3544,21 @@ export default function SubjectTheoryPage({
           <div className="grid gap-3 xl:grid-cols-[1.28fr_0.82fr]">
             <div className="min-w-0">
               <div className="min-w-0 flex-1">
-                <p className="inline-flex rounded-full border border-portal-200 bg-white px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-portal-700 sm:px-2.5 sm:py-1 sm:text-[10px] sm:tracking-[0.16em]">
-                  Subject Theory
-                </p>
-                <h1 className="mt-1 text-xl font-bold tracking-tight text-slate-900 sm:mt-2 sm:text-3xl">
-                  {subject.title}
-                </h1>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="inline-flex rounded-full border border-portal-200 bg-white px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-portal-700 sm:px-2.5 sm:py-1 sm:text-[10px] sm:tracking-[0.16em]">
+                      Subject Theory
+                    </p>
+                    <h1 className="mt-1 text-xl font-bold tracking-tight text-slate-900 sm:mt-2 sm:text-3xl">
+                      {subject.title}
+                    </h1>
+                  </div>
+                  <NetworkTopicMenu
+                    concepts={concepts}
+                    activeIndex={activeConceptIndex}
+                    onSelectTopic={selectRoadmapTopic}
+                  />
+                </div>
                 <p className="mt-1 text-xs leading-5 text-slate-600 sm:mt-1.5 sm:text-sm sm:leading-6">
                   {chapterMeta.subtitle}
                 </p>
@@ -3367,24 +3617,10 @@ export default function SubjectTheoryPage({
           </div>
         </section>
 
-        <MobileConceptRoadmap
-          concepts={concepts}
-          activeIndex={activeConceptIndex}
-          onSelectTopic={selectRoadmapTopic}
-        />
-
-        <section className="mt-5 grid gap-5 xl:grid-cols-[270px_minmax(0,1fr)_290px]">
-          <aside className="hidden xl:block">
+        <section className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1fr)_290px]">
+          <aside className="hidden xl:block xl:order-2">
             <div className="xl:sticky xl:top-24">
-              <SidebarCard title="Learning Roadmap">
-                <NetworkTopicList
-                  concepts={concepts}
-                  activeIndex={activeConceptIndex}
-                  onSelectTopic={selectRoadmapTopic}
-                />
-              </SidebarCard>
-
-              <div className="mt-4 grid gap-4">
+              <div className="grid gap-4">
                 <SidebarCard title="Exam Focus">
                   <div className="grid gap-2">
                     {chapterMeta.examFocus.map((item) => (
@@ -3419,7 +3655,7 @@ export default function SubjectTheoryPage({
             </div>
           </aside>
 
-          <main className="min-w-0">
+          <main className="min-w-0 xl:order-1">
             <section className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
               <div className="divide-y divide-slate-200">
               {theoryKnowledge.overviewCards.map((item, index) => (
@@ -3430,6 +3666,17 @@ export default function SubjectTheoryPage({
               ))}
               </div>
             </section>
+
+            {isConceptIntroPage ? (
+              <div className="mt-5 flex justify-end">
+                <Link
+                  href="/circuit-elements"
+                  className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
+                >
+                  Circuit Elements
+                </Link>
+              </div>
+            ) : null}
 
             {!isConceptIntroPage ? (
             <section
