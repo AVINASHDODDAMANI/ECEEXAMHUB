@@ -350,19 +350,19 @@ const BASIC_CONCEPT_SUMMARY = [
 
 function SubjectTheoryIcon() {
   return (
-    <span className="flex h-16 w-16 flex-none items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#0f3270,#154a96)] text-white shadow-[0_14px_30px_rgba(15,50,112,0.24)]">
-      <svg className="h-8 w-8" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path
-          d="M4 7h16M4 17h16M7 4v16M17 4v16"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-        />
-        <circle cx="7" cy="7" r="1.6" fill="currentColor" />
-        <circle cx="17" cy="7" r="1.6" fill="currentColor" />
-        <circle cx="12" cy="12" r="1.6" fill="currentColor" />
-        <circle cx="7" cy="17" r="1.6" fill="currentColor" />
-        <circle cx="17" cy="17" r="1.6" fill="currentColor" />
+    <span className="flex h-12 w-12 flex-none items-center justify-center rounded-2xl border border-blue-100 bg-white text-portal-700 shadow-[0_10px_24px_rgba(15,50,112,0.14)] sm:h-16 sm:w-16">
+      <svg className="h-9 w-9 sm:h-12 sm:w-12" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M14 22a23 23 0 0 1 37 0" stroke="#1476d4" strokeWidth="4" strokeLinecap="round" />
+        <path d="M12 42a23 23 0 0 0 38 5" stroke="#062b57" strokeWidth="4" strokeLinecap="round" />
+        <path d="M19 25 31 18 44 25M18 28l4 15 16 7 16-18M24 43l14-11M38 50l-4-18M44 25l-10 7M50 36l-12-4" stroke="#062b57" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="18" cy="27" r="4.3" fill="#062b57" />
+        <circle cx="31" cy="17" r="4.3" fill="#062b57" />
+        <circle cx="48" cy="27" r="4.3" fill="#1476d4" />
+        <circle cx="24" cy="43" r="4.1" fill="#1476d4" />
+        <circle cx="39" cy="50" r="4.1" fill="#062b57" />
+        <circle cx="34" cy="32" r="6.2" fill="#1476d4" />
+        <circle cx="34" cy="32" r="12" stroke="#062b57" strokeWidth="4" />
+        <path d="M43 41 52 50" stroke="#062b57" strokeWidth="6" strokeLinecap="round" />
       </svg>
     </span>
   );
@@ -370,11 +370,11 @@ function SubjectTheoryIcon() {
 
 function HeroMetric({ label, value }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-sm">
-      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+    <div className="rounded-lg border border-slate-200 bg-white px-2.5 py-2 shadow-sm sm:rounded-xl sm:px-3 sm:py-2.5">
+      <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-slate-500 sm:text-[10px] sm:tracking-[0.14em]">
         {label}
       </p>
-      <p className="mt-1 text-xs font-bold text-slate-900 sm:text-sm">{value}</p>
+      <p className="mt-0.5 text-xs font-bold leading-5 text-slate-900 sm:mt-1 sm:text-sm">{value}</p>
     </div>
   );
 }
@@ -817,6 +817,15 @@ function StepAnimatedCircuitGuide() {
 }
 
 function ProfessionalChargeCircuitGuide() {
+  const steps = [
+    ["1", "Circuit Formation", "The circuit path is created first, connecting the battery and wire into a complete loop. The positive and negative terminals are clearly identified."],
+    ["2", "Charge Appearance", "Blue particles represent electrons, the tiny moving charges that carry electricity through the wire."],
+    ["3", "Voltage Effect", "The battery creates a voltage difference, which acts like a push that sets the charges in motion."],
+    ["4", "Current Flow", "Electrons start moving from the negative terminal toward the positive terminal, creating a steady flow called current."],
+    ["5", "Conventional Current", "A red arrow shows the assumed direction of current from positive to negative, used for circuit analysis."],
+    ["6", "Energy Use", "As charges pass through the resistor, electrical energy is converted into heat, shown by a soft pulsing effect."],
+  ];
+
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <style>{`
@@ -834,7 +843,6 @@ function ProfessionalChargeCircuitGuide() {
         .pro-resistor {
           opacity: 0;
           animation: proFadeIn 24s linear infinite;
-          animation-delay: -4s;
         }
 
         .pro-static-charge {
@@ -858,14 +866,8 @@ function ProfessionalChargeCircuitGuide() {
         }
 
         .pro-label {
-          opacity: 0;
-          animation: proLabelFade 24s linear infinite;
+          opacity: 1;
         }
-
-        .label-charge { animation-delay: 0s; }
-        .label-electron { animation-delay: 0s; }
-        .label-conventional { animation-delay: 0s; }
-        .label-voltage { animation-delay: 0s; }
 
         .pro-terminal-hot {
           animation: proTerminalPulse 1.8s ease-in-out infinite;
@@ -876,40 +878,46 @@ function ProfessionalChargeCircuitGuide() {
           animation: proResistorPulse 1.8s ease-in-out infinite, proResistorVisible 24s linear infinite;
         }
 
+        .pro-stage-card {
+          opacity: 0.42;
+          transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .pro-stage-1 { animation: proStageOne 24s linear infinite; }
+        .pro-stage-2 { animation: proStageTwo 24s linear infinite; }
+        .pro-stage-3 { animation: proStageThree 24s linear infinite; }
+        .pro-stage-4 { animation: proStageFour 24s linear infinite; }
+        .pro-stage-5 { animation: proStageFive 24s linear infinite; }
+        .pro-stage-6 { animation: proStageSix 24s linear infinite; }
+
         @keyframes proWireDraw {
           0% { stroke-dashoffset: 1400; opacity: 1; }
-          14%, 100% { stroke-dashoffset: 0; opacity: 1; }
+          16%, 100% { stroke-dashoffset: 0; opacity: 1; }
         }
 
         @keyframes proFadeIn {
-          0%, 16% { opacity: 0; }
-          22%, 100% { opacity: 1; }
+          0%, 80% { opacity: 0; }
+          84%, 100% { opacity: 1; }
         }
 
         @keyframes proStaticCharge {
-          0%, 18% { opacity: 0; }
-          23%, 34% { opacity: 1; }
-          39%, 100% { opacity: 0; }
-        }
-
-        @keyframes proMovingCharge {
-          0%, 32% { opacity: 0; }
-          38%, 100% { opacity: 1; }
+          0%, 16% { opacity: 0; }
+          19%, 100% { opacity: 1; }
         }
 
         @keyframes proVoltage {
-          0%, 45% { opacity: 0; }
+          0%, 32% { opacity: 0; }
+          35%, 100% { opacity: 1; }
+        }
+
+        @keyframes proMovingCharge {
+          0%, 48% { opacity: 0; }
           51%, 100% { opacity: 1; }
         }
 
         @keyframes proConventionalCurrent {
-          0%, 55% { opacity: 0; transform: translateX(-14px); }
-          61%, 100% { opacity: 0.72; transform: translateX(0); }
-        }
-
-        @keyframes proLabelFade {
-          0%, 18% { opacity: 0; transform: translateY(6px); }
-          24%, 100% { opacity: 1; transform: translateY(0); }
+          0%, 64% { opacity: 0; transform: translateX(-14px); }
+          67%, 100% { opacity: 0.72; transform: translateX(0); }
         }
 
         @keyframes proTerminalPulse {
@@ -918,13 +926,47 @@ function ProfessionalChargeCircuitGuide() {
         }
 
         @keyframes proResistorVisible {
-          0%, 66% { opacity: 0; }
-          72%, 100% { opacity: 1; }
+          0%, 80% { opacity: 0; }
+          84%, 100% { opacity: 1; }
         }
 
         @keyframes proResistorPulse {
           0%, 100% { stroke-opacity: 0.28; }
           50% { stroke-opacity: 0.85; }
+        }
+
+        @keyframes proStageOne {
+          0%, 16% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          19%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes proStageTwo {
+          0%, 16% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          19%, 32% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          35%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes proStageThree {
+          0%, 32% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          35%, 48% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          51%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes proStageFour {
+          0%, 48% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          51%, 64% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          67%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes proStageFive {
+          0%, 64% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          67%, 80% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          83%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes proStageSix {
+          0%, 80% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          84%, 100% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
         }
       `}</style>
 
@@ -937,24 +979,99 @@ function ProfessionalChargeCircuitGuide() {
 
       <div className="mt-5 grid gap-4 border-t border-slate-200 pt-4">
         <div>
-          <h5 className="text-base font-bold text-slate-900">Theory Explanation</h5>
+          <h5 className="text-base font-bold text-slate-900">
+            Electric Charge, Current, and Voltage
+          </h5>
           <div className="mt-2 grid gap-3 text-sm leading-7 text-slate-700">
-            <p>
-              Electric charge is the basic electrical property carried by particles such
-              as electrons. In a metal wire, electrons are the moving charges. When a
-              complete path exists, these charges can move around the circuit.
-            </p>
-            <p>
-              Current is the flow of electric charge. Electron flow is from the negative
-              terminal of the battery toward the positive terminal. Conventional current
-              is shown from positive to negative, which is the reference direction used
-              in most circuit analysis.
-            </p>
-            <p>
-              Voltage is the potential difference created by the battery. It produces
-              the electrical push that drives charge through the circuit. When the
-              resistor is added, electrical energy is used in the resistor.
-            </p>
+            <div className="rounded-xl border border-blue-200 bg-blue-50/60 p-4">
+              <h6 className="text-sm font-bold text-slate-950">Electric Charge (Q)</h6>
+              <p className="mt-2">
+                Electricity begins with charge, the basic property that allows particles
+                to interact electrically. In conductors, electrons carry negative charge
+                and are free to move when the circuit is closed.
+              </p>
+              <ul className="mt-3 grid gap-2 text-sm leading-6">
+                <li className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 font-semibold text-emerald-800">
+                  A negative charge means excess electrons.
+                </li>
+                <li className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 font-semibold text-emerald-800">
+                  A positive charge means a lack of electrons.
+                </li>
+              </ul>
+              <p className="mt-3 font-semibold text-slate-900">
+                When a complete path is available, these electrons start moving, and
+                this movement creates electricity.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-slate-200 bg-white p-4">
+              <h6 className="text-sm font-bold text-slate-950">Electric Current (I)</h6>
+              <p className="mt-2">
+                Electric current describes how fast charge moves through a circuit. It
+                is not a separate substance; it is the organized motion of electrons
+                through the wire.
+              </p>
+              <ul className="mt-3 grid gap-2 text-sm leading-6">
+                <li className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 font-semibold text-emerald-800">
+                  Electrons physically move from the negative terminal to the positive terminal.
+                </li>
+                <li className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 font-semibold text-emerald-800">
+                  For analysis, conventional current is taken from positive to negative.
+                </li>
+              </ul>
+              <p className="mt-3 font-semibold text-slate-900">
+                Current is the motion of charge, not a material that gets used up.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-4">
+              <h6 className="text-sm font-bold text-slate-950">Voltage (V)</h6>
+              <p className="mt-2">
+                Voltage causes charge to move. It represents the energy difference
+                between two points, created by a source such as a battery.
+              </p>
+              <ul className="mt-3 grid gap-2 text-sm leading-6">
+                <li className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 font-semibold text-emerald-800">
+                  The positive terminal has higher potential.
+                </li>
+                <li className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 font-semibold text-emerald-800">
+                  The negative terminal has lower potential.
+                </li>
+              </ul>
+              <p className="mt-3">
+                This difference pushes electrons through the circuit, much like pressure
+                pushes water through a pipe. When a component such as a resistor is
+                added, part of this electrical energy is converted into heat.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-blue-200 bg-blue-50/60 p-4">
+              <h6 className="text-sm font-bold text-slate-950">Charge Relation</h6>
+              <p className="mt-2">
+                Electric charge represents the quantity of electricity transferred in a
+                circuit.
+              </p>
+              <p className="mt-3 text-sm font-bold text-slate-900">Formula:</p>
+              <p className="mt-1 font-mono text-base font-bold text-portal-700">Q = I x t</p>
+              <p className="mt-3 text-sm font-bold text-slate-900">Where:</p>
+              <ul className="mt-2 grid gap-2 text-sm leading-6">
+                <li className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 font-semibold text-emerald-800">
+                  Q = Charge, measured in coulombs (C)
+                </li>
+                <li className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 font-semibold text-emerald-800">
+                  I = Current, measured in amperes (A)
+                </li>
+                <li className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 font-semibold text-emerald-800">
+                  t = Time, measured in seconds (s)
+                </li>
+              </ul>
+              <p className="mt-3">
+                <span className="font-bold text-slate-900">Meaning: </span>
+                If current flows for a certain time, a definite amount of charge is
+                transferred through the circuit. More current or more time means more
+                charge has moved.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -991,7 +1108,7 @@ function ProfessionalChargeCircuitGuide() {
             <rect x="20" y="25" width="860" height="385" rx="22" fill="#ffffff" stroke="#e2e8f0" />
 
             <g id="step-1-circuit-formation">
-              <path className="pro-wire" d="M132 172V112H350M500 112H760V330H132V252" />
+              <path className="pro-wire" d="M132 172V112H760V330H132V252" />
               <rect x="92" y="172" width="80" height="80" rx="12" fill="#ffffff" stroke="#111827" strokeWidth="4" />
               <path d="M116 194h32M132 178v32M118 232h28" stroke="#111827" strokeWidth="4" strokeLinecap="round" />
               <text x="80" y="155" fill="#111827" fontSize="15" fontWeight="800">Battery</text>
@@ -999,14 +1116,26 @@ function ProfessionalChargeCircuitGuide() {
               <text x="180" y="252" fill="#1d4ed8" fontSize="24" fontWeight="900">-</text>
             </g>
 
-            <g id="step-5-resistor" className="pro-resistor">
-              <path className="pro-resistor-glow" d="M350 112h20l12-20 24 40 24-40 24 40 24-40 12 20h10" fill="none" stroke="#f59e0b" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" filter="url(#proResistorGlowFilter)" />
+            <g id="step-6-energy-use" className="pro-resistor">
+              <path
+                className="pro-resistor-glow"
+                d="M350 112h20l12-20 24 40 24-40 24 40 24-40 12 20h10"
+                fill="none"
+                stroke="#f59e0b"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                filter="url(#proResistorGlowFilter)"
+              />
               <path d="M350 112h20l12-20 24 40 24-40 24 40 24-40 12 20h10" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
               <text x="397" y="76" fill="#111827" fontSize="17" fontWeight="900">Resistor (R)</text>
               <text x="382" y="154" fill="#92400e" fontSize="13" fontWeight="800">energy is used here</text>
             </g>
 
-            <g id="step-2-charge-appearance" className="pro-static-charge">
+            <g
+              id="step-2-charge-appearance"
+              className="pro-static-charge"
+            >
               {[260, 610, 710].map((x) => (
                 <g key={`pro-static-top-${x}`}>
                   <circle cx={x} cy="112" r="9" fill="#2563eb" filter="url(#proElectronGlow)" />
@@ -1024,7 +1153,10 @@ function ProfessionalChargeCircuitGuide() {
               </text>
             </g>
 
-            <g id="step-3-electron-flow" className="pro-moving-charge">
+            <g
+              id="step-4-current-flow"
+              className="pro-moving-charge"
+            >
               <circle r="6" fill="#1d4ed8" filter="url(#proElectronGlow)">
                 <animateMotion dur="11s" repeatCount="indefinite" path="M132 252V330H760V112H500H350H132V172" />
               </circle>
@@ -1040,8 +1172,11 @@ function ProfessionalChargeCircuitGuide() {
               </text>
             </g>
 
-            <g id="step-4-voltage-effect" className="pro-voltage-layer">
-              <path d="M132 172V112H350M500 112H760V330H132V252" fill="none" stroke="url(#proVoltageGradient)" strokeWidth="15" strokeLinecap="round" strokeLinejoin="round" />
+            <g
+              id="step-3-voltage-effect"
+              className="pro-voltage-layer"
+            >
+              <path d="M132 172V112H760V330H132V252" fill="none" stroke="url(#proVoltageGradient)" strokeWidth="15" strokeLinecap="round" strokeLinejoin="round" />
               <circle className="pro-terminal-hot" cx="186" cy="176" r="20" fill="#ef4444" />
               <circle cx="186" cy="252" r="16" fill="#2563eb" opacity="0.28" />
               <text x="205" y="174" fill="#dc2626" fontSize="13" fontWeight="900">High potential</text>
@@ -1051,7 +1186,10 @@ function ProfessionalChargeCircuitGuide() {
               </text>
             </g>
 
-            <g id="step-5-conventional-current" className="pro-current-arrow">
+            <g
+              id="step-5-conventional-current"
+              className="pro-current-arrow"
+            >
               <path d="M300 245H555" stroke="#dc2626" strokeWidth="3" markerEnd="url(#proRedArrow)" />
               <text className="pro-label label-conventional" x="330" y="235" fill="#dc2626" fontSize="15" fontWeight="900">
                 Conventional current (+ to -)
@@ -1067,22 +1205,319 @@ function ProfessionalChargeCircuitGuide() {
           </svg>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {[
-            ["1", "Circuit Formation", "Wires and battery are drawn first. The battery terminals are marked clearly."],
-            ["2", "Charge Appearance", "Blue dots appear on the wire. They represent electrons, which carry negative charge."],
-            ["3", "Voltage Effect", "The positive terminal glows as high potential and the negative terminal stays lower intensity."],
-            ["4", "Current Flow", "Blue dots move slowly around the circuit from negative to positive as electron flow."],
-            ["5", "Conventional Current", "A subtle red arrow shows the analysis direction from positive to negative."],
-            ["6", "Energy Use", "The resistor pulses softly to show where electrical energy is used."],
-          ].map(([number, title, text]) => (
-            <div key={number} className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-              <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-portal-700">
+        <div className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
+          {steps.map(([number, title, text]) => (
+            <div
+              key={number}
+              className={`pro-stage-card pro-stage-${number} rounded-lg border border-slate-200 bg-white px-3 py-2.5 shadow-sm`}
+            >
+              <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-portal-700">
                 Step {number}: {title}
               </p>
-              <p className="mt-1.5 text-sm leading-6 text-slate-600">{text}</p>
+              <p className="mt-1 text-xs leading-5 text-slate-600">{text}</p>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PowerEnergyGuide() {
+  const steps = [
+    ["1", "Power Generation", "The source provides voltage and current, creating electrical power in the circuit."],
+    ["2", "Power Flow", "Electrical power moves through the circuit along with current."],
+    ["3", "Power Use", "When current passes through a component like a resistor, power is absorbed."],
+    ["4", "Energy Conversion", "The absorbed power is converted into other forms such as heat or light."],
+    ["5", "Energy Over Time", "As time passes, energy continues to accumulate based on power usage."],
+    ["6", "Total Energy", "The total energy used depends on how long the circuit operates."],
+  ];
+
+  return (
+    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <style>{`
+        .power-flow-dot {
+          opacity: 0;
+          filter: url(#powerFlowGlow);
+          animation: powerFlowVisible 18s ease-in-out infinite;
+        }
+
+        .power-wire {
+          stroke-dasharray: 1700;
+          stroke-dashoffset: 1700;
+          animation: powerWireDraw 18s ease-in-out infinite;
+        }
+
+        .power-flow-guide {
+          opacity: 0;
+          stroke-dasharray: 8 12;
+          animation: powerFlowGuide 18s linear infinite;
+        }
+
+        .power-resistor-glow {
+          opacity: 0;
+          animation: powerGlowVisible 18s ease-in-out infinite, powerGlowPulse 2s ease-in-out infinite;
+        }
+
+        .energy-bar {
+          transform-origin: 270px 344px;
+          transform: scaleX(0);
+          animation: energyFill 18s cubic-bezier(0.42, 0, 0.2, 1) infinite;
+        }
+
+        .power-stage-card {
+          opacity: 0.42;
+          transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .power-stage-1 { animation: powerStageOne 18s linear infinite; }
+        .power-stage-2 { animation: powerStageTwo 18s linear infinite; }
+        .power-stage-3 { animation: powerStageThree 18s linear infinite; }
+        .power-stage-4 { animation: powerStageFour 18s linear infinite; }
+        .power-stage-5 { animation: powerStageFive 18s linear infinite; }
+        .power-stage-6 { animation: powerStageSix 18s linear infinite; }
+
+        @keyframes powerWireDraw {
+          0% { stroke-dashoffset: 1700; opacity: 1; }
+          22%, 100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+
+        @keyframes powerFlowVisible {
+          0%, 23% { opacity: 0; }
+          30%, 100% { opacity: 1; }
+        }
+
+        @keyframes powerFlowGuide {
+          0%, 23% { opacity: 0; stroke-dashoffset: 0; }
+          30% { opacity: 0.45; stroke-dashoffset: 0; }
+          100% { opacity: 0.45; stroke-dashoffset: -180; }
+        }
+
+        @keyframes powerGlowVisible {
+          0%, 30% { opacity: 0; }
+          36%, 100% { opacity: 0.9; }
+        }
+
+        @keyframes powerGlowPulse {
+          0%, 100% { stroke-opacity: 0.24; }
+          50% { stroke-opacity: 0.62; }
+        }
+
+        @keyframes energyFill {
+          0%, 58% { transform: scaleX(0); }
+          78% { transform: scaleX(0.58); }
+          100% { transform: scaleX(1); }
+        }
+
+        @keyframes powerStageOne {
+          0%, 16% { opacity: 1; transform: translateY(-1px); border-color: #059669; background-color: #ecfdf5; }
+          19%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes powerStageTwo {
+          0%, 16% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          19%, 32% { opacity: 1; transform: translateY(-1px); border-color: #059669; background-color: #ecfdf5; }
+          35%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes powerStageThree {
+          0%, 32% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          35%, 48% { opacity: 1; transform: translateY(-1px); border-color: #059669; background-color: #ecfdf5; }
+          51%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes powerStageFour {
+          0%, 48% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          51%, 64% { opacity: 1; transform: translateY(-1px); border-color: #059669; background-color: #ecfdf5; }
+          67%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes powerStageFive {
+          0%, 64% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          67%, 82% { opacity: 1; transform: translateY(-1px); border-color: #059669; background-color: #ecfdf5; }
+          85%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes powerStageSix {
+          0%, 82% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          85%, 100% { opacity: 1; transform: translateY(-1px); border-color: #059669; background-color: #ecfdf5; }
+        }
+      `}</style>
+
+      <h4 className="text-center text-lg font-extrabold uppercase tracking-wide text-[#071b58] sm:text-2xl">
+        2. Power and Energy
+      </h4>
+      <p className="mx-auto mt-3 max-w-3xl rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-2 text-center text-sm font-bold text-emerald-800">
+        Power shows how fast electrical energy is used, while energy shows how much is used over time.
+      </p>
+
+      <div className="mt-5 grid gap-4 border-t border-slate-200 pt-4">
+        <div>
+          <h5 className="text-base font-bold text-slate-900">Power and Energy</h5>
+          <div className="mt-3 grid gap-3 text-sm leading-6 text-slate-700">
+          <div className="rounded-lg border border-emerald-200 bg-emerald-50/70 p-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-700">
+              Step 1
+            </p>
+            <h6 className="mt-1 text-sm font-bold text-slate-950">Electric Power (P)</h6>
+            <p className="mt-1.5 text-sm leading-6 text-slate-700">
+              Power tells how quickly electrical energy is converted or transferred in a
+              circuit. It shows the rate at which a device uses energy.
+            </p>
+            <p className="mt-2 rounded-lg border border-white bg-white px-3 py-1.5 font-mono text-sm font-bold text-emerald-700">
+              P = V I
+            </p>
+            <ul className="mt-2 grid gap-1.5 text-sm leading-6">
+              {["P = Power, measured in watts (W)", "V = Voltage, measured in volts (V)", "I = Current, measured in amperes (A)"].map((item) => (
+                <li key={item} className="rounded-md border border-emerald-200 bg-white px-3 py-1.5 font-semibold text-emerald-800">
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-2 text-sm leading-6 text-slate-700">
+              More voltage or more current means more power. A heater uses electrical
+              power and converts it into heat.
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-amber-200 bg-amber-50/70 p-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-amber-700">
+              Step 2
+            </p>
+            <h6 className="mt-1 text-sm font-bold text-slate-950">Electrical Energy (E)</h6>
+            <p className="mt-1.5 text-sm leading-6 text-slate-700">
+              Energy is the total amount of electrical work done over time. It increases
+              when power is used for a longer duration.
+            </p>
+            <p className="mt-2 rounded-lg border border-white bg-white px-3 py-1.5 font-mono text-sm font-bold text-amber-700">
+              E = P x t
+            </p>
+            <ul className="mt-2 grid gap-1.5 text-sm leading-6">
+              {["E = Energy, measured in joules (J)", "P = Power, measured in watts (W)", "t = Time, measured in seconds (s)"].map((item) => (
+                <li key={item} className="rounded-md border border-amber-200 bg-white px-3 py-1.5 font-semibold text-amber-800">
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-2 text-sm leading-6 text-slate-700">
+              Power is the rate of energy use. Energy is the total amount used, which is
+              why electricity bills measure energy in kilowatt-hours.
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-blue-200 bg-blue-50/70 p-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-blue-700">
+              Step 3
+            </p>
+            <h6 className="mt-1 text-sm font-bold text-slate-950">Putting It Together</h6>
+            <p className="mt-1.5 text-sm leading-6 text-slate-700">
+              Voltage pushes charge and current moves charge. Power tells how fast
+              energy is being used, and energy tells the total amount used over time.
+            </p>
+            <div className="mt-2 grid gap-1.5 text-sm leading-6">
+              <p className="rounded-md border border-blue-200 bg-white px-3 py-1.5 font-semibold text-blue-800">
+                Power = speed of energy use.
+              </p>
+              <p className="rounded-md border border-blue-200 bg-white px-3 py-1.5 font-semibold text-blue-800">
+                Energy = total usage over time.
+              </p>
+              <p className="rounded-md border border-blue-200 bg-white px-3 py-1.5 font-semibold text-blue-800">
+                Higher power or longer time means more energy consumed.
+              </p>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-3">
+          <svg viewBox="0 0 900 460" className="h-auto w-full" role="img" aria-label="Animated circuit showing power flow and energy accumulation">
+            <defs>
+              <marker id="powerArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
+                <path d="M0 0 10 5 0 10Z" fill="#059669" />
+              </marker>
+              <filter id="powerGlowFilter" x="-80%" y="-150%" width="260%" height="400%">
+                <feGaussianBlur stdDeviation="6" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="powerFlowGlow" x="-80%" y="-80%" width="260%" height="260%">
+                <feGaussianBlur stdDeviation="2.4" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <linearGradient id="energyMeterGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#16a34a" />
+                <stop offset="70%" stopColor="#22c55e" />
+                <stop offset="100%" stopColor="#86efac" />
+              </linearGradient>
+            </defs>
+            <rect x="20" y="25" width="860" height="405" rx="22" fill="#ffffff" stroke="#e2e8f0" />
+
+            <rect x="65" y="58" width="185" height="52" rx="14" fill="#f8fafc" stroke="#cbd5e1" />
+            <text x="86" y="80" fill="#0f172a" fontSize="13" fontWeight="800">Source creates</text>
+            <text x="86" y="99" fill="#047857" fontSize="15" fontWeight="900">P = V x I</text>
+
+            <rect x="365" y="58" width="180" height="52" rx="14" fill="#fffbeb" stroke="#fde68a" />
+            <text x="388" y="80" fill="#0f172a" fontSize="13" fontWeight="800">Load absorbs</text>
+            <text x="388" y="99" fill="#b45309" fontSize="15" fontWeight="900">power as heat</text>
+
+            <rect x="635" y="58" width="190" height="52" rx="14" fill="#eff6ff" stroke="#bfdbfe" />
+            <text x="656" y="80" fill="#0f172a" fontSize="13" fontWeight="800">Time accumulates</text>
+            <text x="656" y="99" fill="#1d4ed8" fontSize="15" fontWeight="900">E = P x t</text>
+
+            <path className="power-wire" d="M150 225V150H750V295H150V252" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+            <rect x="108" y="188" width="84" height="64" rx="12" fill="#ffffff" stroke="#111827" strokeWidth="4" />
+            <path d="M132 206h34M150 194v30M132 235h34" stroke="#111827" strokeWidth="4" strokeLinecap="round" />
+            <text x="106" y="174" fill="#111827" fontSize="15" fontWeight="800">Battery source</text>
+            <text x="200" y="202" fill="#dc2626" fontSize="20" fontWeight="900">V</text>
+            <text x="201" y="238" fill="#059669" fontSize="16" fontWeight="900">I</text>
+
+            <path className="power-resistor-glow" d="M378 150h20l12-20 24 40 24-40 24 40 24-40 12 20h24" fill="none" stroke="#f59e0b" strokeWidth="16" strokeLinecap="round" strokeLinejoin="round" filter="url(#powerGlowFilter)" />
+            <path d="M378 150h20l12-20 24 40 24-40 24 40 24-40 12 20h24" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+            <text x="407" y="203" fill="#111827" fontSize="16" fontWeight="900">Resistor / Load</text>
+            <path d="M455 184v-24" stroke="#b45309" strokeWidth="2.5" strokeLinecap="round" />
+
+            <path className="power-flow-guide" d="M250 128H650" stroke="#059669" strokeWidth="4" strokeLinecap="round" markerEnd="url(#powerArrow)" />
+            <text className="power-flow-dot" x="366" y="120" fill="#047857" fontSize="15" fontWeight="900">power travels with current</text>
+            <circle className="power-flow-dot" r="6.5" fill="#10b981">
+              <animateMotion dur="10.5s" repeatCount="indefinite" path="M150 252V295H750V150H542H378H150V225" />
+            </circle>
+            <circle className="power-flow-dot" r="6.5" fill="#34d399">
+              <animateMotion dur="10.5s" begin="-3.5s" repeatCount="indefinite" path="M150 252V295H750V150H542H378H150V225" />
+            </circle>
+            <circle className="power-flow-dot" r="6.5" fill="#6ee7b7">
+              <animateMotion dur="10.5s" begin="-7s" repeatCount="indefinite" path="M150 252V295H750V150H542H378H150V225" />
+            </circle>
+
+            <text x="155" y="348" fill="#0f172a" fontSize="14" fontWeight="900">Energy meter</text>
+            <rect x="270" y="332" width="430" height="24" rx="12" fill="#f1f5f9" stroke="#cbd5e1" />
+            <rect className="energy-bar" x="270" y="332" width="430" height="24" rx="12" fill="url(#energyMeterGradient)" />
+            <text x="370" y="382" fill="#0f172a" fontSize="14" fontWeight="900">total energy used increases with time</text>
+            <text x="716" y="350" fill="#047857" fontSize="13" fontWeight="900">time</text>
+          </svg>
+        </div>
+
+        <div className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
+          {steps.map(([number, title, text]) => (
+            <div
+              key={number}
+              className={`power-stage-card power-stage-${number} rounded-lg border border-slate-200 bg-white px-3 py-2.5 shadow-sm`}
+            >
+              <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-emerald-700">
+                Step {number}: {title}
+              </p>
+              <p className="mt-1 text-xs leading-5 text-slate-600">{text}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="rounded-xl border border-blue-200 bg-blue-50/70 px-4 py-3 text-sm font-semibold leading-7 text-slate-800">
+          Voltage pushes charge, current moves it, power shows how fast energy is used,
+          and energy tells how much is consumed over time.
         </div>
       </div>
     </section>
@@ -1123,6 +1558,8 @@ function OverviewRow({ item }) {
               <section key={concept.title} className="py-5 first:pt-0 last:pb-0">
                 {conceptIndex === 0 ? (
                   <ProfessionalChargeCircuitGuide />
+                ) : conceptIndex === 1 ? (
+                  <PowerEnergyGuide />
                 ) : (
                   <>
                     <h4 className="text-base font-bold text-slate-900">
@@ -1523,22 +1960,21 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
           </ol>
         </nav>
 
-        <section className="rounded-3xl border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-3 shadow-panel sm:p-4">
-          <div className="grid gap-4 xl:grid-cols-[1.28fr_0.82fr]">
-            <div className="flex flex-col gap-3 md:flex-row md:items-start">
-              <SubjectTheoryIcon />
+        <section className="rounded-2xl border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-2.5 shadow-panel sm:p-3">
+          <div className="grid gap-3 xl:grid-cols-[1.28fr_0.82fr]">
+            <div className="min-w-0">
               <div className="min-w-0 flex-1">
-                <p className="inline-flex rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-portal-700">
+                <p className="inline-flex rounded-full border border-portal-200 bg-white px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-portal-700 sm:px-2.5 sm:py-1 sm:text-[10px] sm:tracking-[0.16em]">
                   Subject Theory
                 </p>
-                <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                <h1 className="mt-1 text-xl font-bold tracking-tight text-slate-900 sm:mt-2 sm:text-3xl">
                   {subject.title}
                 </h1>
-                <p className="mt-1.5 text-sm leading-6 text-slate-600">
+                <p className="mt-1 text-xs leading-5 text-slate-600 sm:mt-1.5 sm:text-sm sm:leading-6">
                   {chapterMeta.subtitle}
                 </p>
 
-                <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-4 sm:gap-2">
                   <HeroMetric label="Estimated Time" value={chapterMeta.estimatedTime} />
                   <HeroMetric label="Difficulty" value={chapterMeta.difficulty} />
                   <HeroMetric label="Concepts" value={`${concepts.length} Detailed Topics`} />
