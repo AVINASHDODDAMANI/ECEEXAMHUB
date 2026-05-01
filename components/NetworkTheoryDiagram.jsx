@@ -9,19 +9,219 @@ function DiagramFrame({ children, label }) {
 function BasicCircuitDiagram() {
   return (
     <DiagramFrame label="Basic source and resistor circuit for voltage current and power">
-      <circle cx="90" cy="130" r="28" fill="#ffffff" stroke="#154a96" strokeWidth="4" />
-      <path d="M82 118v24M98 118v24M75 130h30" stroke="#154a96" strokeWidth="3" strokeLinecap="round" />
-      <text x="64" y="182" fill="#475569" fontSize="15" fontWeight="700">Vs</text>
-      <path d="M118 130h78" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
-      <path d="M196 130h16m8-18v36m0-18h22m8-18v36m0-18h22m8-18v36" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
-      <text x="240" y="100" fill="#475569" fontSize="15" fontWeight="700">R</text>
-      <path d="M302 130h128v56H90v-28" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M148 92h70" stroke="#154a96" strokeWidth="3" strokeLinecap="round" />
-      <path d="M218 92l-12 -8m12 8l-12 8" stroke="#154a96" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-      <text x="166" y="76" fill="#154a96" fontSize="15" fontWeight="700">I</text>
-      <text x="200" y="164" fill="#475569" fontSize="15" fontWeight="700">Current through resistor</text>
-      <text x="346" y="116" fill="#475569" fontSize="15" fontWeight="700">V = IR</text>
-      <text x="334" y="206" fill="#154a96" fontSize="15" fontWeight="700">Power relation: p = vi</text>
+      <defs>
+        <filter id="basic-current-glow" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <filter id="basic-resistor-glow" x="-30%" y="-80%" width="160%" height="260%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <linearGradient id="basic-voltage-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#1d4ed8" stopOpacity="0.85" />
+          <stop offset="60%" stopColor="#60a5fa" stopOpacity="0.45" />
+          <stop offset="100%" stopColor="#94a3b8" stopOpacity="0.25" />
+        </linearGradient>
+        <marker
+          id="basic-current-arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="8"
+          refY="5"
+          orient="auto"
+          markerUnits="strokeWidth"
+        >
+          <path d="M0 0 10 5 0 10Z" fill="#154a96" />
+        </marker>
+        <marker
+          id="basic-voltage-arrow"
+          markerWidth="8"
+          markerHeight="8"
+          refX="7"
+          refY="4"
+          orient="auto"
+          markerUnits="strokeWidth"
+        >
+          <path d="M0 0 8 4 0 8Z" fill="#64748b" />
+        </marker>
+      </defs>
+
+      <style>{`
+        .basic-wire {
+          fill: none;
+          stroke: #111827;
+          stroke-width: 3.8;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+
+        .basic-current-dot {
+          fill: #1d4ed8;
+          filter: url(#basic-current-glow);
+        }
+
+        .basic-resistor-energy {
+          stroke: url(#basic-voltage-gradient);
+          stroke-width: 6;
+          stroke-linecap: round;
+          opacity: 0.42;
+          filter: url(#basic-resistor-glow);
+          animation: basicResistorPulse 1.8s ease-in-out infinite;
+        }
+
+        .basic-drop-line {
+          stroke: url(#basic-voltage-gradient);
+          stroke-width: 2.5;
+          stroke-linecap: round;
+          stroke-dasharray: 7 8;
+          animation: basicVoltageDrop 4.8s linear infinite;
+        }
+
+        .basic-arrow-slide {
+          animation: basicArrowSlide 1.2s ease-out both;
+        }
+
+        .basic-fade-label {
+          opacity: 0;
+          animation: basicFadeIn 0.8s ease-out forwards;
+        }
+
+        .basic-fade-label.delay-one {
+          animation-delay: 0.35s;
+        }
+
+        .basic-fade-label.delay-two {
+          animation-delay: 0.75s;
+        }
+
+        @keyframes basicResistorPulse {
+          0%, 100% { opacity: 0.25; }
+          50% { opacity: 0.6; }
+        }
+
+        @keyframes basicVoltageDrop {
+          from { stroke-dashoffset: 0; }
+          to { stroke-dashoffset: -32; }
+        }
+
+        @keyframes basicArrowSlide {
+          from { transform: translateX(-28px); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes basicFadeIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
+      <path id="basic-current-path" d="M86 112V88H192H278H326V202H86V152" fill="none" />
+
+      <path className="basic-wire" d="M86 152V202H326V88H278" />
+      <path className="basic-wire" d="M192 88H86V112" />
+
+      <circle cx="86" cy="132" r="20" fill="#ffffff" stroke="#154a96" strokeWidth="3.5" />
+      <path d="M86 116v10M86 139v10M76 126h20" stroke="#154a96" strokeWidth="2.8" strokeLinecap="round" />
+      <text x="48" y="136" fill="#154a96" fontSize="16" fontWeight="700">Vs</text>
+      <text x="102" y="104" fill="#154a96" fontSize="15" fontWeight="800">+</text>
+      <text x="103" y="167" fill="#64748b" fontSize="17" fontWeight="800">-</text>
+
+      <path
+        className="basic-resistor-energy"
+        d="M192 88h12l8-15 16 30 16-30 16 30 16-30 8 15h12"
+        fill="none"
+      />
+      <path
+        d="M192 88h12l8-15 16 30 16-30 16 30 16-30 8 15h12"
+        fill="none"
+        stroke="#1e293b"
+        strokeWidth="3.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <text x="235" y="58" fill="#0f172a" fontSize="16" fontWeight="800">R</text>
+
+      <g className="basic-arrow-slide">
+        <path
+          d="M158 43H286"
+          stroke="#154a96"
+          strokeWidth="2.7"
+          strokeLinecap="round"
+          markerEnd="url(#basic-current-arrow)"
+        />
+        <text x="142" y="48" fill="#154a96" fontSize="16" fontWeight="800">I</text>
+        <text x="198" y="30" fill="#475569" fontSize="12.5" fontWeight="700">clockwise current</text>
+        <path
+          d="M298 39c16 5 25 17 25 33"
+          fill="none"
+          stroke="#154a96"
+          strokeWidth="2.3"
+          strokeLinecap="round"
+        />
+        <path
+          d="M323 72l-7-9m7 9l7-9"
+          stroke="#154a96"
+          strokeWidth="2.3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+
+      <circle className="basic-current-dot" r="4.5">
+        <animateMotion dur="7s" repeatCount="indefinite" path="M86 112V88H192H278H326V202H86V152" />
+      </circle>
+      <circle className="basic-current-dot" r="4.5">
+        <animateMotion
+          dur="7s"
+          begin="-2.33s"
+          repeatCount="indefinite"
+          path="M86 112V88H192H278H326V202H86V152"
+        />
+      </circle>
+      <circle className="basic-current-dot" r="4.5">
+        <animateMotion
+          dur="7s"
+          begin="-4.66s"
+          repeatCount="indefinite"
+          path="M86 112V88H192H278H326V202H86V152"
+        />
+      </circle>
+
+      <circle cx="62" cy="229" r="4.5" fill="#1d4ed8" filter="url(#basic-current-glow)" />
+      <text x="74" y="233" fill="#475569" fontSize="12" fontWeight="700">
+        moving blue dots show current
+      </text>
+
+      <path
+        className="basic-drop-line"
+        d="M196 124h96"
+      />
+      <text x="194" y="145" fill="#154a96" fontSize="14" fontWeight="800">+</text>
+      <text x="286" y="145" fill="#64748b" fontSize="16" fontWeight="800">-</text>
+      <text x="214" y="147" fill="#64748b" fontSize="11.5" fontWeight="700">voltage drop</text>
+
+      <g className="basic-fade-label delay-one">
+        <text x="382" y="72" fill="#0f172a" fontSize="15" fontWeight="700">Ohm's law</text>
+        <text x="382" y="98" fill="#154a96" fontSize="20" fontWeight="800">V = IR</text>
+      </g>
+      <g className="basic-fade-label delay-two">
+        <text x="382" y="140" fill="#0f172a" fontSize="15" fontWeight="700">Power absorbed</text>
+        <text x="382" y="166" fill="#154a96" fontSize="20" fontWeight="800">P = VI</text>
+      </g>
+      <path d="M368 44V214" stroke="#e2e8f0" strokeWidth="2" />
+      <text x="382" y="196" fill="#64748b" fontSize="12.5" fontWeight="600">
+        Current enters the + side,
+      </text>
+      <text x="382" y="214" fill="#64748b" fontSize="12.5" fontWeight="600">
+        so the resistor absorbs power.
+      </text>
     </DiagramFrame>
   );
 }

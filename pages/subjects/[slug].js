@@ -45,6 +45,111 @@ const SUBJECT_META = {
   },
 };
 
+const NETWORK_ANALYSIS_TOPIC_GROUPS = [
+  {
+    title: "Basic Concepts",
+    topics: [
+      "Electric charge, current, voltage",
+      "Power and energy",
+      "Passive vs active elements",
+      "Linear and non-linear elements",
+      "Bilateral and unilateral elements",
+    ],
+  },
+  {
+    title: "Circuit Elements",
+    topics: [
+      "Resistors, capacitors, inductors",
+      "Independent and dependent sources",
+      "Source transformation",
+    ],
+  },
+  {
+    title: "Circuit Laws",
+    topics: ["Ohm's Law", "Kirchhoff's Current Law (KCL)", "Kirchhoff's Voltage Law (KVL)"],
+  },
+  {
+    title: "Network Theorems",
+    topics: [
+      "Superposition Theorem",
+      "Thevenin's Theorem",
+      "Norton's Theorem",
+      "Maximum Power Transfer Theorem",
+      "Reciprocity Theorem",
+      "Millman's Theorem",
+      "Compensation Theorem",
+    ],
+  },
+  {
+    title: "DC Circuit Analysis",
+    topics: [
+      "Series and parallel circuits",
+      "Mesh analysis",
+      "Nodal analysis",
+      "Star-Delta (Y-Delta) transformation",
+    ],
+  },
+  {
+    title: "AC Fundamentals",
+    topics: ["Sinusoidal signals", "Phase and phasors", "RMS, average values", "Complex impedance"],
+  },
+  {
+    title: "AC Circuit Analysis",
+    topics: [
+      "RL, RC, RLC circuits",
+      "Series and parallel resonance",
+      "Power in AC circuits: real, reactive, apparent",
+      "Power factor",
+    ],
+  },
+  {
+    title: "Transient Analysis",
+    topics: [
+      "First-order circuits: RC, RL",
+      "Second-order circuits: RLC",
+      "Natural and forced response",
+      "Time constants",
+    ],
+  },
+  {
+    title: "Network Topology",
+    topics: ["Graph theory basics", "Trees, branches, nodes, loops", "Tie-set and cut-set matrices"],
+  },
+  {
+    title: "Laplace Transform Methods",
+    topics: [
+      "Laplace transform basics",
+      "Circuit analysis using Laplace",
+      "Transfer function",
+      "Initial and final value theorems",
+    ],
+  },
+  {
+    title: "Frequency Domain Analysis",
+    topics: ["Frequency response", "Bode plots", "Resonance and bandwidth"],
+  },
+  {
+    title: "Two-Port Networks",
+    topics: ["Z, Y, h, ABCD parameters", "Interconnections of two-port networks"],
+  },
+  {
+    title: "Filters",
+    topics: [
+      "Low-pass and high-pass filters",
+      "Band-pass and band-stop filters",
+      "Active and passive filters",
+    ],
+  },
+  {
+    title: "Network Functions",
+    topics: ["Poles and zeros", "Stability", "Transfer function behavior"],
+  },
+  {
+    title: "Advanced Topics",
+    topics: ["Fourier series and transforms", "Network synthesis", "State-space analysis"],
+  },
+];
+
 function SubjectTheoryIcon() {
   return (
     <span className="flex h-16 w-16 flex-none items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#0f3270,#154a96)] text-white shadow-[0_14px_30px_rgba(15,50,112,0.24)]">
@@ -144,6 +249,28 @@ function ConceptRoadmapItem({ concept, index, isActive, status, onClick }) {
   );
 }
 
+function NetworkTopicList({ compact = false }) {
+  return (
+    <div className={compact ? "grid gap-3" : "grid gap-3"}>
+      {NETWORK_ANALYSIS_TOPIC_GROUPS.map((group, index) => (
+        <section key={group.title} className="border-b border-slate-200 pb-3 last:border-b-0 last:pb-0">
+          <h3 className="text-xs font-bold leading-5 text-slate-900">
+            {index + 1}. {group.title}
+          </h3>
+          <ul className="mt-1.5 grid gap-1 text-xs leading-5 text-slate-600">
+            {group.topics.map((topic) => (
+              <li key={`${group.title}-${topic}`} className="flex gap-2">
+                <span className="mt-2 h-1 w-1 flex-none rounded-full bg-portal-500" />
+                <span>{topic}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  );
+}
+
 function MobileConceptRoadmap({ concepts, activeIndex, setActiveIndex }) {
   const [isRoadmapOpen, setIsRoadmapOpen] = useState(false);
 
@@ -165,7 +292,7 @@ function MobileConceptRoadmap({ concepts, activeIndex, setActiveIndex }) {
           <span className="min-w-0">
             <span className="block text-sm font-bold text-slate-900">Learning Roadmap</span>
             <span className="mt-0.5 block truncate text-xs leading-5 text-slate-500">
-              Each concept builds toward full circuit analysis.
+              Complete Network Analysis topic list.
             </span>
           </span>
           <span className="flex h-9 w-9 flex-none items-center justify-center rounded-lg border border-slate-200 text-portal-700">
@@ -182,46 +309,8 @@ function MobileConceptRoadmap({ concepts, activeIndex, setActiveIndex }) {
 
         {isRoadmapOpen ? (
           <div id="mobile-concept-roadmap" className="border-t border-slate-200 px-3 py-3">
-            <div className="mb-2 flex items-center justify-between">
-              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-portal-700">
-                Chapter Concepts
-              </p>
-              <span className="text-xs font-medium text-slate-500">
-                {activeIndex + 1} / {concepts.length}
-              </span>
-            </div>
-            <div className="grid gap-2">
-              {concepts.map((concept, index) => (
-                <button
-                  key={concept.slug}
-                  type="button"
-                  onClick={() => selectConcept(index)}
-                  className={`flex items-start gap-3 rounded-xl px-3 py-2.5 text-left transition ${
-                    index === activeIndex
-                      ? "bg-portal-50 text-portal-800"
-                      : "bg-slate-50 text-slate-700 hover:bg-slate-100"
-                  }`}
-                >
-                  <span
-                    className={`mt-0.5 flex h-6 w-6 flex-none items-center justify-center rounded-md text-[10px] font-bold ${
-                      index === activeIndex
-                        ? "bg-portal-600 text-white"
-                        : "bg-white text-slate-600"
-                    }`}
-                  >
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-semibold leading-5">
-                      {concept.shortTitle}
-                    </span>
-                    <span className="mt-0.5 block text-xs leading-5 text-slate-500">
-                      {concept.title}
-                    </span>
-                  </span>
-                </button>
-              ))}
-            </div>
+            <NetworkTopicList compact />
+
           </div>
         ) : null}
       </div>
@@ -541,21 +630,7 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
           <aside className="hidden xl:block">
             <div className="xl:sticky xl:top-24">
               <SidebarCard title="Learning Roadmap">
-                <p className="text-sm leading-6 text-slate-600">
-                  Each concept builds toward full circuit analysis.
-                </p>
-                <div className="mt-4 grid gap-2">
-                  {concepts.map((concept, index) => (
-                    <ConceptRoadmapItem
-                      key={concept.slug}
-                      concept={concept}
-                      index={index}
-                      isActive={index === activeConceptIndex}
-                      status={getConceptStatus(index)}
-                      onClick={() => setActiveConceptIndex(index)}
-                    />
-                  ))}
-                </div>
+                <NetworkTopicList />
               </SidebarCard>
 
               <div className="mt-4 grid gap-4">

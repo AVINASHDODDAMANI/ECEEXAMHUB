@@ -6,6 +6,7 @@
 - Local:         http://localhost:3050
 - Network:       http://10.165.207.174:3050
 - Environments: .env.local
-✓ Ready in 1815ms
+✓ Ready in 4.5s
 Creating turbopack project { dir: 'C:\\Users\\Doddamani\\Desktop\\ECEXEAMHUB', testMode: true }
 
+○ Compiling / ...
