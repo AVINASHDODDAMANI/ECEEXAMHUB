@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Layout from "../../components/layout";
 import NetworkTheoryDiagram from "../../components/NetworkTheoryDiagram";
@@ -149,6 +150,39 @@ const NETWORK_ANALYSIS_TOPIC_GROUPS = [
     topics: ["Fourier series and transforms", "Network synthesis", "State-space analysis"],
   },
 ];
+
+const NETWORK_TOPIC_TARGET_SLUGS = {
+  "Circuit Elements": "circuit-variables",
+  "Circuit Laws": "kirchhoff-laws",
+  "Network Theorems": "network-theorems",
+  "DC Circuit Analysis": "systematic-solving",
+  "AC Fundamentals": "ac-analysis",
+  "AC Circuit Analysis": "ac-analysis",
+  "Transient Analysis": "transient-response",
+  "Network Topology": "graph-theory",
+  "Laplace Transform Methods": "transient-response",
+  "Frequency Domain Analysis": "ac-analysis",
+  "Two-Port Networks": "two-port-networks",
+  Filters: "ac-analysis",
+  "Network Functions": "ac-analysis",
+  "Advanced Topics": "special-networks",
+};
+
+const NETWORK_TOPIC_TARGET_ANCHORS = {
+  "Basic Concepts": "fundamental-electrical-concepts",
+};
+
+export const NETWORK_TOPIC_ROUTES = {
+  "Basic Concepts": "/basic-concepts",
+  "Circuit Elements": "/circuit-elements",
+  "Circuit Laws": "/circuit-laws",
+};
+
+export const NETWORK_ROUTE_ACTIVE_INDEX = {
+  "/basic-concepts": 0,
+  "/circuit-elements": 1,
+  "/circuit-laws": 2,
+};
 
 const BASIC_CONCEPT_GUIDE = [
   {
@@ -335,19 +369,6 @@ const BASIC_CONCEPT_GUIDE = [
   },
 ];
 
-const BASIC_CONCEPT_SUMMARY = [
-  ["Current", "Moving glowing dots"],
-  ["Voltage", "Gradient with polarity signs"],
-  ["Power", "Pulsing or glowing resistor"],
-  ["Energy", "Time-based growth meter"],
-  ["Passive", "Absorb or store energy animation"],
-  ["Active", "Source energy emission"],
-  ["Linear", "Straight-line graph"],
-  ["Non-linear", "Curved response graph"],
-  ["Bilateral", "Same behavior both directions"],
-  ["Unilateral", "One-way flow block"],
-];
-
 function SubjectTheoryIcon() {
   return (
     <span className="flex h-12 w-12 flex-none items-center justify-center rounded-2xl border border-blue-100 bg-white text-portal-700 shadow-[0_10px_24px_rgba(15,50,112,0.14)] sm:h-16 sm:w-16">
@@ -402,8 +423,8 @@ function ChargeCurrentVoltageInfographic() {
       </div>
 
       <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,1fr)_290px]">
-        <div className="min-w-0">
-          <svg viewBox="0 0 760 360" className="h-auto w-full" role="img" aria-label="Charge current and voltage circuit explanation">
+        <div className="min-w-0 overflow-x-auto">
+          <svg viewBox="0 0 760 360" className="h-auto w-[720px] max-w-none md:w-full" role="img" aria-label="Charge current and voltage circuit explanation">
             <defs>
               <linearGradient id="batteryBody" x1="0" x2="0" y1="0" y2="1">
                 <stop offset="0%" stopColor="#d7932b" />
@@ -681,8 +702,9 @@ function StepAnimatedCircuitGuide() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-3">
-          <svg viewBox="0 0 760 430" className="h-auto w-full" role="img" aria-label="Step by step animated circuit guide">
+        <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-slate-50/60 p-3 shadow-sm md:static md:z-auto md:shadow-none">
+          <div className="overflow-x-auto">
+          <svg viewBox="0 0 760 430" className="h-auto w-[720px] max-w-none md:w-full" role="img" aria-label="Step by step animated circuit guide">
           <defs>
             <linearGradient id="guideBattery" x1="0" x2="0" y1="0" y2="1">
               <stop offset="0%" stopColor="#d7932b" />
@@ -788,6 +810,7 @@ function StepAnimatedCircuitGuide() {
             </text>
           </g>
           </svg>
+          </div>
         </div>
 
         <aside className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
@@ -1076,7 +1099,8 @@ function ProfessionalChargeCircuitGuide() {
         </div>
 
         <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:static md:z-auto md:shadow-none">
-          <svg viewBox="0 0 900 440" className="h-auto w-full" role="img" aria-label="Animated DC circuit explaining charge current and voltage">
+          <div className="overflow-x-auto">
+          <svg viewBox="0 0 900 440" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated DC circuit explaining charge current and voltage">
             <defs>
               <linearGradient id="proVoltageGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#ef4444" stopOpacity="0.42" />
@@ -1203,6 +1227,7 @@ function ProfessionalChargeCircuitGuide() {
               </text>
             </g>
           </svg>
+          </div>
         </div>
 
         <div className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
@@ -1430,7 +1455,8 @@ function PowerEnergyGuide() {
         </div>
 
         <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:static md:z-auto md:shadow-none">
-          <svg viewBox="0 0 900 460" className="h-auto w-full" role="img" aria-label="Animated circuit showing power flow and energy accumulation">
+          <div className="overflow-x-auto">
+          <svg viewBox="0 0 900 460" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated circuit showing power flow and energy accumulation">
             <defs>
               <marker id="powerArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
                 <path d="M0 0 10 5 0 10Z" fill="#059669" />
@@ -1499,6 +1525,7 @@ function PowerEnergyGuide() {
             <text x="370" y="382" fill="#0f172a" fontSize="14" fontWeight="900">total energy used increases with time</text>
             <text x="716" y="350" fill="#047857" fontSize="13" fontWeight="900">time</text>
           </svg>
+          </div>
         </div>
 
         <div className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
@@ -1804,7 +1831,7 @@ function PassiveActiveGuide() {
           <div className="mt-3 grid gap-3 text-sm leading-6 text-slate-700">
             <div className="rounded-lg border border-blue-200 bg-blue-50/70 p-3">
               <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-blue-700">
-                Step 1
+                Active Type
               </p>
               <h6 className="mt-1 text-sm font-bold text-slate-950">Active Element Supplies</h6>
               <p className="mt-1.5">
@@ -1818,7 +1845,7 @@ function PassiveActiveGuide() {
 
             <div className="rounded-lg border border-orange-200 bg-orange-50/70 p-3">
               <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-orange-700">
-                Step 2
+                Passive Type
               </p>
               <h6 className="mt-1 text-sm font-bold text-slate-950">Passive Elements Respond</h6>
               <p className="mt-1.5">
@@ -1832,7 +1859,7 @@ function PassiveActiveGuide() {
 
             <div className="rounded-lg border border-emerald-200 bg-emerald-50/70 p-3">
               <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-700">
-                Step 3
+                Energy Behavior
               </p>
               <h6 className="mt-1 text-sm font-bold text-slate-950">Energy Is Distributed</h6>
               <p className="mt-1.5">
@@ -1847,7 +1874,8 @@ function PassiveActiveGuide() {
         </div>
 
         <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:static md:z-auto md:shadow-none">
-          <svg viewBox="0 0 900 460" className="h-auto w-full" role="img" aria-label="Animated circuit showing passive and active elements">
+          <div className="overflow-x-auto">
+          <svg viewBox="0 0 900 460" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated circuit showing passive and active elements">
             <defs>
               <filter id="paPulseGlow" x="-80%" y="-80%" width="260%" height="260%">
                 <feGaussianBlur stdDeviation="2.5" result="blur" />
@@ -1921,6 +1949,7 @@ function PassiveActiveGuide() {
               <text x="277" y="382" fill="#047857" fontSize="15" fontWeight="900">Energy is distributed throughout the circuit</text>
             </g>
           </svg>
+          </div>
         </div>
 
         <div className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
@@ -1979,6 +2008,676 @@ function PassiveActiveGuide() {
   );
 }
 
+function LinearNonLinearGuide() {
+  const stepPairs = [
+    {
+      number: "1",
+      linearTitle: "Apply Voltage",
+      linearText: "Voltage is applied across the linear element.",
+      nonLinearTitle: "Apply Voltage",
+      nonLinearText: "Voltage is applied across the non-linear element.",
+    },
+    {
+      number: "2",
+      linearTitle: "Steady Response",
+      linearText: "Current increases steadily as voltage increases.",
+      nonLinearTitle: "Low Current Start",
+      nonLinearText: "Current remains very low at first, even as voltage increases.",
+    },
+    {
+      number: "3",
+      linearTitle: "Straight-Line Behavior",
+      linearText: "The V-I relation stays proportional at every operating point.",
+      nonLinearTitle: "Turn-On Region",
+      nonLinearText: "After a certain voltage, current rises sharply and behavior changes.",
+    },
+  ];
+
+  return (
+    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <style>{`
+        .ln-axis {
+          stroke-dasharray: 720;
+          stroke-dashoffset: 720;
+          animation: lnAxisDraw 18s ease-in-out infinite;
+        }
+
+        .ln-linear-line {
+          stroke-dasharray: 410;
+          stroke-dashoffset: 410;
+          animation: lnLinearDraw 18s ease-in-out infinite;
+        }
+
+        .ln-curve {
+          stroke-dasharray: 560;
+          stroke-dashoffset: 560;
+          animation: lnCurveDraw 18s ease-in-out infinite;
+        }
+
+        .ln-linear-point {
+          opacity: 0;
+          animation: lnLinearPoint 18s ease-in-out infinite;
+        }
+
+        .ln-turn-on {
+          opacity: 0;
+          animation: lnTurnOn 18s ease-in-out infinite, lnPulse 1.8s ease-in-out infinite;
+        }
+
+        .ln-low-region {
+          opacity: 0;
+          animation: lnLowRegion 18s ease-in-out infinite;
+        }
+
+        .ln-stage-card {
+          opacity: 0.42;
+          transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .ln-stage-pair-1 { animation: lnStagePairOne 18s linear infinite; }
+        .ln-stage-pair-2 { animation: lnStagePairTwo 18s linear infinite; }
+        .ln-stage-pair-3 { animation: lnStagePairThree 18s linear infinite; }
+
+        @keyframes lnAxisDraw {
+          0% { stroke-dashoffset: 720; }
+          16%, 100% { stroke-dashoffset: 0; }
+        }
+
+        @keyframes lnLinearDraw {
+          0%, 18% { stroke-dashoffset: 410; opacity: 0; }
+          28%, 100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+
+        @keyframes lnCurveDraw {
+          0%, 55% { stroke-dashoffset: 560; opacity: 0; }
+          76%, 100% { stroke-dashoffset: 0; opacity: 1; }
+        }
+
+        @keyframes lnLinearPoint {
+          0%, 25% { opacity: 0; transform: translate(0, 0); }
+          36% { opacity: 1; transform: translate(55px, -42px); }
+          47%, 100% { opacity: 1; transform: translate(110px, -84px); }
+        }
+
+        @keyframes lnLowRegion {
+          0%, 50% { opacity: 0; }
+          58%, 100% { opacity: 0.36; }
+        }
+
+        @keyframes lnTurnOn {
+          0%, 66% { opacity: 0; }
+          74%, 100% { opacity: 1; }
+        }
+
+        @keyframes lnPulse {
+          0%, 100% { transform: scale(0.96); }
+          50% { transform: scale(1.08); }
+        }
+
+        @keyframes lnStagePairOne {
+          0%, 28% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          34%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes lnStagePairTwo {
+          0%, 28% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          34%, 62% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          68%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes lnStagePairThree {
+          0%, 62% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          68%, 100% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .ln-axis,
+          .ln-linear-line,
+          .ln-curve,
+          .ln-linear-point,
+          .ln-turn-on,
+          .ln-low-region,
+          .ln-stage-card {
+            animation: none;
+          }
+
+          .ln-axis,
+          .ln-linear-line,
+          .ln-curve {
+            stroke-dashoffset: 0;
+          }
+
+          .ln-linear-point,
+          .ln-turn-on,
+          .ln-low-region {
+            opacity: 1;
+          }
+        }
+      `}</style>
+
+      <h4 className="text-center text-lg font-extrabold uppercase tracking-wide text-[#071b58] sm:text-2xl">
+        4. Linear and Non-Linear Elements
+      </h4>
+      <p className="mx-auto mt-3 max-w-3xl rounded-xl border border-blue-300 bg-blue-50 px-4 py-2 text-center text-sm font-bold text-blue-800">
+        Some elements respond in a simple proportional way. Others change behavior depending on operating conditions.
+      </p>
+
+      <div className="mt-5 grid gap-4 border-t border-slate-200 pt-4">
+        <div>
+          <h5 className="text-base font-bold text-slate-900">Linear and Non-Linear Elements</h5>
+          <div className="mt-3 grid gap-3 text-sm leading-6 text-slate-700">
+            <div className="rounded-lg border border-blue-200 bg-blue-50/70 p-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-blue-700">Linear Type</p>
+              <h6 className="mt-1 text-sm font-bold text-slate-950">Linear Elements</h6>
+              <p className="mt-1.5">
+                A linear element behaves in a direct and proportional way. If voltage
+                doubles, current also doubles, as long as resistance is constant.
+              </p>
+              <p className="mt-2 rounded-md border border-blue-200 bg-white px-3 py-2 font-mono text-sm font-bold text-blue-800">
+                V = I R
+              </p>
+              <p className="mt-2 rounded-md border border-blue-200 bg-white px-3 py-2 font-semibold text-blue-800">
+                The output follows the input in a straight and predictable manner.
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-orange-200 bg-orange-50/70 p-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-orange-700">Non-Linear Type</p>
+              <h6 className="mt-1 text-sm font-bold text-slate-950">Non-Linear Elements</h6>
+              <p className="mt-1.5">
+                A non-linear element does not follow one fixed proportional relation.
+                Small voltage may produce almost no current, but after turn-on the current
+                can rise sharply.
+              </p>
+              <p className="mt-2 rounded-md border border-orange-200 bg-white px-3 py-2 font-semibold text-orange-800">
+                The response depends on the operating condition.
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-emerald-200 bg-emerald-50/70 p-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-700">Graph Comparison</p>
+              <h6 className="mt-1 text-sm font-bold text-slate-950">Putting It Together</h6>
+              <p className="mt-1.5">
+                A straight V-I graph means proportional behavior. A curved V-I graph means
+                the element behaves differently in different regions.
+              </p>
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                <p className="rounded-md border border-emerald-200 bg-white px-3 py-2 font-semibold text-emerald-800">
+                  Linear: straight line
+                </p>
+                <p className="rounded-md border border-emerald-200 bg-white px-3 py-2 font-semibold text-emerald-800">
+                  Non-linear: curved response
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:static md:z-auto md:shadow-none">
+          <div className="overflow-x-auto">
+          <svg viewBox="0 0 900 460" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated graph comparing linear and non-linear elements">
+            <defs>
+              <marker id="lnArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
+                <path d="M0 0 10 5 0 10Z" fill="#111827" />
+              </marker>
+              <filter id="lnPointGlow" x="-80%" y="-80%" width="260%" height="260%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            <rect x="20" y="24" width="860" height="405" rx="18" fill="#ffffff" stroke="#e2e8f0" />
+
+            <rect x="70" y="58" width="230" height="54" rx="14" fill="#eff6ff" stroke="#bfdbfe" />
+            <text x="92" y="81" fill="#0f172a" fontSize="14" fontWeight="800">Linear element</text>
+            <text x="92" y="101" fill="#1d4ed8" fontSize="15" fontWeight="900">V and I rise together</text>
+
+            <rect x="600" y="58" width="230" height="54" rx="14" fill="#fff7ed" stroke="#fed7aa" />
+            <text x="622" y="81" fill="#0f172a" fontSize="14" fontWeight="800">Non-linear element</text>
+            <text x="622" y="101" fill="#c2410c" fontSize="15" fontWeight="900">low first, sharp later</text>
+
+            <g transform="translate(95 330)">
+              <path className="ln-axis" d="M0 0H270M0 0V-220" fill="none" stroke="#111827" strokeWidth="4" strokeLinecap="round" markerEnd="url(#lnArrow)" />
+              <text x="250" y="32" fill="#111827" fontSize="14" fontWeight="900">Voltage</text>
+              <text x="-22" y="-222" fill="#111827" fontSize="14" fontWeight="900">Current</text>
+              <path className="ln-linear-line" d="M20 -18L238 -186" fill="none" stroke="#2563eb" strokeWidth="6" strokeLinecap="round" />
+              <circle className="ln-linear-point" cx="42" cy="-34" r="8" fill="#2563eb" filter="url(#lnPointGlow)" />
+              <text x="70" y="-198" fill="#1d4ed8" fontSize="15" fontWeight="900">Straight-line V-I graph</text>
+              <text x="92" y="-76" fill="#1d4ed8" fontSize="13" fontWeight="800">proportional</text>
+            </g>
+
+            <g transform="translate(535 330)">
+              <path className="ln-axis" d="M0 0H270M0 0V-220" fill="none" stroke="#111827" strokeWidth="4" strokeLinecap="round" markerEnd="url(#lnArrow)" />
+              <text x="250" y="32" fill="#111827" fontSize="14" fontWeight="900">Voltage</text>
+              <text x="-22" y="-222" fill="#111827" fontSize="14" fontWeight="900">Current</text>
+              <rect className="ln-low-region" x="20" y="-22" width="128" height="18" rx="9" fill="#fed7aa" />
+              <path className="ln-curve" d="M18 -8C88 -8 126 -10 154 -26C181 -42 199 -90 226 -184" fill="none" stroke="#f97316" strokeWidth="6" strokeLinecap="round" />
+              <g className="ln-turn-on" transform="translate(154 -26)">
+                <circle r="13" fill="#fb923c" filter="url(#lnPointGlow)" />
+                <circle r="5" fill="#ffffff" />
+              </g>
+              <path d="M154 -26v44" stroke="#c2410c" strokeWidth="2.5" strokeDasharray="5 6" />
+              <text x="102" y="36" fill="#c2410c" fontSize="13" fontWeight="900">turn-on point</text>
+              <text x="58" y="-198" fill="#c2410c" fontSize="15" fontWeight="900">Curved V-I graph</text>
+            </g>
+          </svg>
+          </div>
+        </div>
+
+        <div className="grid gap-3 lg:grid-cols-2">
+          <div className="grid gap-2.5">
+            <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-blue-700">
+              Linear element
+            </p>
+            {stepPairs.map((step) => (
+              <div
+                key={`linear-${step.number}`}
+                className={`ln-stage-card ln-stage-pair-${step.number} rounded-lg border border-slate-200 bg-white px-3 py-2.5 shadow-sm`}
+              >
+                <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-portal-700">
+                  Step {step.number}: {step.linearTitle}
+                </p>
+                <p className="mt-1 text-xs leading-5 text-slate-600">{step.linearText}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid gap-2.5">
+            <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-orange-700">
+              Non-linear element
+            </p>
+            {stepPairs.map((step) => (
+              <div
+                key={`non-linear-${step.number}`}
+                className={`ln-stage-card ln-stage-pair-${step.number} rounded-lg border border-slate-200 bg-white px-3 py-2.5 shadow-sm`}
+              >
+                <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-orange-700">
+                  Step {step.number}: {step.nonLinearTitle}
+                </p>
+                <p className="mt-1 text-xs leading-5 text-slate-600">{step.nonLinearText}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4">
+          <h6 className="text-sm font-extrabold text-slate-950">Formula and examples</h6>
+          <div className="mt-3 grid gap-3 text-sm leading-6 text-slate-700 lg:grid-cols-3">
+            <div className="rounded-lg border border-blue-200 bg-white p-3">
+              <p className="font-bold text-blue-800">Ohm's law</p>
+              <p className="mt-2 font-mono text-sm font-bold text-blue-700">V = I R</p>
+              <p className="mt-2 text-xs leading-5 text-slate-600">
+                V is voltage, I is current, and R is resistance. If R stays constant,
+                voltage and current remain proportional.
+              </p>
+            </div>
+            <div className="rounded-lg border border-orange-200 bg-white p-3">
+              <p className="font-bold text-orange-800">Non-linear examples</p>
+              <p className="mt-2 text-xs font-semibold leading-5 text-slate-600">
+                Diode, transistor, and semiconductor junctions.
+              </p>
+              <p className="mt-2 text-xs leading-5 text-slate-600">
+                These devices do not keep one constant V-I ratio across all operating regions.
+              </p>
+            </div>
+            <div className="rounded-lg border border-emerald-200 bg-white p-3">
+              <p className="font-bold text-emerald-800">Final concept</p>
+              <p className="mt-2 text-xs leading-5 text-slate-600">
+                Linear elements are predictable. Non-linear elements change their response
+                depending on voltage, current, temperature, or bias.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BilateralUnilateralGuide() {
+  const stepPairs = [
+    {
+      number: "1",
+      bilateralTitle: "Apply Current",
+      bilateralText: "Current is applied to the bilateral element.",
+      unilateralTitle: "Apply Current",
+      unilateralText: "Current is applied to the unilateral element.",
+    },
+    {
+      number: "2",
+      bilateralTitle: "Same Flow Both Ways",
+      bilateralText: "Current can flow normally from left to right and right to left.",
+      unilateralTitle: "Forward Flow",
+      unilateralText: "Current flows easily only in the allowed forward direction.",
+    },
+    {
+      number: "3",
+      bilateralTitle: "Symmetry",
+      bilateralText: "Reversing current direction does not change the behavior.",
+      unilateralTitle: "Reverse Blocking",
+      unilateralText: "Reverse current is reduced or blocked because direction matters.",
+    },
+  ];
+
+  return (
+    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <style>{`
+        .bu-path {
+          stroke-dasharray: 720;
+          stroke-dashoffset: 720;
+          animation: buPathDraw 18s ease-in-out infinite;
+        }
+
+        .bu-forward-dot {
+          opacity: 0;
+          filter: url(#buGlow);
+          animation: buForwardVisible 18s ease-in-out infinite;
+        }
+
+        .bu-bilateral-reverse-dot {
+          opacity: 0;
+          filter: url(#buGlow);
+          animation: buBilateralReverseVisible 18s ease-in-out infinite;
+        }
+
+        .bu-blocked-dot {
+          opacity: 0;
+          filter: url(#buGlow);
+          animation: buBlockedDotVisible 18s ease-in-out infinite;
+        }
+
+        .bu-diode-block {
+          opacity: 0;
+          animation: buBlockVisible 18s ease-in-out infinite, buBlockPulse 1.8s ease-in-out infinite;
+        }
+
+        .bu-symmetry {
+          opacity: 0;
+          animation: buSymmetryVisible 18s ease-in-out infinite;
+        }
+
+        .bu-stage-card {
+          opacity: 0.42;
+          transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .bu-stage-pair-1 { animation: buStagePairOne 18s linear infinite; }
+        .bu-stage-pair-2 { animation: buStagePairTwo 18s linear infinite; }
+        .bu-stage-pair-3 { animation: buStagePairThree 18s linear infinite; }
+
+        @keyframes buPathDraw {
+          0% { stroke-dashoffset: 720; }
+          18%, 100% { stroke-dashoffset: 0; }
+        }
+
+        @keyframes buForwardVisible {
+          0%, 18% { opacity: 0; }
+          26%, 100% { opacity: 1; }
+        }
+
+        @keyframes buBilateralReverseVisible {
+          0%, 36% { opacity: 0; }
+          44%, 100% { opacity: 0.82; }
+        }
+
+        @keyframes buBlockedDotVisible {
+          0%, 68% { opacity: 0; }
+          76%, 86% { opacity: 0.82; }
+          92%, 100% { opacity: 0.18; }
+        }
+
+        @keyframes buSymmetryVisible {
+          0%, 66% { opacity: 0; }
+          74%, 100% { opacity: 1; }
+        }
+
+        @keyframes buBlockVisible {
+          0%, 66% { opacity: 0; }
+          74%, 100% { opacity: 1; }
+        }
+
+        @keyframes buBlockPulse {
+          0%, 100% { transform: scale(0.96); }
+          50% { transform: scale(1.06); }
+        }
+
+        @keyframes buStagePairOne {
+          0%, 28% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          34%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes buStagePairTwo {
+          0%, 28% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          34%, 62% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+          68%, 100% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+        }
+
+        @keyframes buStagePairThree {
+          0%, 62% { opacity: 0.42; transform: translateY(0); border-color: #e2e8f0; background-color: #ffffff; }
+          68%, 100% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .bu-path,
+          .bu-forward-dot,
+          .bu-bilateral-reverse-dot,
+          .bu-blocked-dot,
+          .bu-diode-block,
+          .bu-symmetry,
+          .bu-stage-card {
+            animation: none;
+          }
+
+          .bu-path {
+            stroke-dashoffset: 0;
+          }
+
+          .bu-forward-dot,
+          .bu-bilateral-reverse-dot,
+          .bu-blocked-dot,
+          .bu-diode-block,
+          .bu-symmetry {
+            opacity: 1;
+          }
+        }
+      `}</style>
+
+      <h4 className="text-center text-lg font-extrabold uppercase tracking-wide text-[#071b58] sm:text-2xl">
+        5. Bilateral and Unilateral Elements
+      </h4>
+      <p className="mx-auto mt-3 max-w-3xl rounded-xl border border-blue-300 bg-blue-50 px-4 py-2 text-center text-sm font-bold text-blue-800">
+        Bilateral elements behave the same both ways. Unilateral elements depend on direction.
+      </p>
+
+      <div className="mt-5 grid gap-4 border-t border-slate-200 pt-4">
+        <div>
+          <h5 className="text-base font-bold text-slate-900">Bilateral and Unilateral Elements</h5>
+          <div className="mt-3 grid gap-3 text-sm leading-6 text-slate-700">
+            <div className="rounded-lg border border-blue-200 bg-blue-50/70 p-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-blue-700">Bilateral Type</p>
+              <h6 className="mt-1 text-sm font-bold text-slate-950">Bilateral Elements</h6>
+              <p className="mt-1.5">
+                A bilateral element works the same even when current direction is reversed.
+                It does not care which way current flows through it.
+              </p>
+              <p className="mt-2 rounded-md border border-blue-200 bg-white px-3 py-2 font-semibold text-blue-800">
+                Same response in both directions.
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-orange-200 bg-orange-50/70 p-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-orange-700">Unilateral Type</p>
+              <h6 className="mt-1 text-sm font-bold text-slate-950">Unilateral Elements</h6>
+              <p className="mt-1.5">
+                A unilateral element behaves differently when direction is reversed.
+                Current may flow easily one way and become restricted or blocked the other way.
+              </p>
+              <p className="mt-2 rounded-md border border-orange-200 bg-white px-3 py-2 font-semibold text-orange-800">
+                Direction and polarity matter.
+              </p>
+            </div>
+
+            <div className="rounded-lg border border-emerald-200 bg-emerald-50/70 p-3">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-700">Direction Comparison</p>
+              <h6 className="mt-1 text-sm font-bold text-slate-950">Putting It Together</h6>
+              <p className="mt-1.5">
+                Bilateral elements are symmetrical. Unilateral elements are asymmetrical
+                and are useful for control, switching, and rectification.
+              </p>
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                <p className="rounded-md border border-emerald-200 bg-white px-3 py-2 font-semibold text-emerald-800">
+                  Bilateral: no direction effect
+                </p>
+                <p className="rounded-md border border-emerald-200 bg-white px-3 py-2 font-semibold text-emerald-800">
+                  Unilateral: direction-dependent
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="sticky top-16 z-20 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:static md:z-auto md:shadow-none">
+          <div className="overflow-x-auto">
+          <svg viewBox="0 0 900 460" className="h-auto w-[760px] max-w-none md:w-full" role="img" aria-label="Animated circuit comparing bilateral and unilateral elements">
+            <defs>
+              <marker id="buGreenArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
+                <path d="M0 0 10 5 0 10Z" fill="#059669" />
+              </marker>
+              <marker id="buBlueArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
+                <path d="M0 0 10 5 0 10Z" fill="#2563eb" />
+              </marker>
+              <filter id="buGlow" x="-80%" y="-80%" width="260%" height="260%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            <rect x="20" y="24" width="860" height="405" rx="18" fill="#ffffff" stroke="#e2e8f0" />
+
+            <rect x="70" y="58" width="255" height="54" rx="14" fill="#eff6ff" stroke="#bfdbfe" />
+            <text x="92" y="81" fill="#0f172a" fontSize="14" fontWeight="800">Bilateral element</text>
+            <text x="92" y="101" fill="#1d4ed8" fontSize="15" fontWeight="900">same behavior both ways</text>
+
+            <rect x="585" y="58" width="255" height="54" rx="14" fill="#fff7ed" stroke="#fed7aa" />
+            <text x="607" y="81" fill="#0f172a" fontSize="14" fontWeight="800">Unilateral element</text>
+            <text x="607" y="101" fill="#c2410c" fontSize="15" fontWeight="900">forward allowed, reverse blocked</text>
+
+            <g transform="translate(90 230)">
+              <path className="bu-path" d="M0 0H270" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" />
+              <path d="M105 0h18l10-16 20 32 20-32 20 32 10-16h18" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+              <text x="115" y="-45" fill="#111827" fontSize="15" fontWeight="900">Resistor</text>
+              <path className="bu-symmetry" d="M35 -42H105" stroke="#2563eb" strokeWidth="4" strokeLinecap="round" markerEnd="url(#buBlueArrow)" />
+              <path className="bu-symmetry" d="M235 42H165" stroke="#2563eb" strokeWidth="4" strokeLinecap="round" markerEnd="url(#buBlueArrow)" />
+              <text className="bu-symmetry" x="48" y="68" fill="#1d4ed8" fontSize="14" fontWeight="900">same response after reversal</text>
+              <circle className="bu-forward-dot" r="7" fill="#2563eb">
+                <animateMotion dur="5.5s" repeatCount="indefinite" path="M0 0H270" />
+              </circle>
+              <circle className="bu-bilateral-reverse-dot" r="7" fill="#60a5fa">
+                <animateMotion dur="5.5s" begin="-2.75s" repeatCount="indefinite" path="M270 0H0" />
+              </circle>
+            </g>
+
+            <g transform="translate(545 230)">
+              <path className="bu-path" d="M0 0H270" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" />
+              <path d="M118 -28L172 0L118 28Z" fill="#ffffff" stroke="#111827" strokeWidth="5" strokeLinejoin="round" />
+              <path d="M180 -30V30" stroke="#111827" strokeWidth="5" strokeLinecap="round" />
+              <text x="112" y="-50" fill="#111827" fontSize="15" fontWeight="900">Diode</text>
+              <path d="M35 -42H116" stroke="#059669" strokeWidth="4" strokeLinecap="round" markerEnd="url(#buGreenArrow)" />
+              <text x="36" y="-58" fill="#047857" fontSize="14" fontWeight="900">forward flow</text>
+              <g className="bu-diode-block" transform="translate(222 0)">
+                <circle r="24" fill="#fee2e2" stroke="#dc2626" strokeWidth="4" />
+                <path d="M-10 -10L10 10M10 -10L-10 10" stroke="#dc2626" strokeWidth="4" strokeLinecap="round" />
+              </g>
+              <text className="bu-diode-block" x="150" y="68" fill="#dc2626" fontSize="14" fontWeight="900">reverse blocked</text>
+              <circle className="bu-forward-dot" r="7" fill="#10b981">
+                <animateMotion dur="5.5s" repeatCount="indefinite" path="M0 0H175" />
+              </circle>
+              <circle className="bu-blocked-dot" r="7" fill="#fb923c">
+                <animateMotion dur="5.5s" begin="-2.75s" repeatCount="indefinite" path="M270 0H190" />
+              </circle>
+            </g>
+
+            <rect x="265" y="355" width="370" height="36" rx="12" fill="#f8fafc" stroke="#cbd5e1" />
+            <text x="286" y="378" fill="#0f172a" fontSize="14" fontWeight="900">
+              Direction decides whether behavior stays same or changes.
+            </text>
+          </svg>
+          </div>
+        </div>
+
+        <div className="grid gap-3 lg:grid-cols-2">
+          <div className="grid gap-2.5">
+            <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-blue-700">
+              Bilateral element
+            </p>
+            {stepPairs.map((step) => (
+              <div
+                key={`bilateral-${step.number}`}
+                className={`bu-stage-card bu-stage-pair-${step.number} rounded-lg border border-slate-200 bg-white px-3 py-2.5 shadow-sm`}
+              >
+                <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-portal-700">
+                  Step {step.number}: {step.bilateralTitle}
+                </p>
+                <p className="mt-1 text-xs leading-5 text-slate-600">{step.bilateralText}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid gap-2.5">
+            <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-orange-700">
+              Unilateral element
+            </p>
+            {stepPairs.map((step) => (
+              <div
+                key={`unilateral-${step.number}`}
+                className={`bu-stage-card bu-stage-pair-${step.number} rounded-lg border border-slate-200 bg-white px-3 py-2.5 shadow-sm`}
+              >
+                <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-orange-700">
+                  Step {step.number}: {step.unilateralTitle}
+                </p>
+                <p className="mt-1 text-xs leading-5 text-slate-600">{step.unilateralText}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4">
+          <h6 className="text-sm font-extrabold text-slate-950">Examples and behavior</h6>
+          <div className="mt-3 grid gap-3 text-sm leading-6 text-slate-700 lg:grid-cols-3">
+            <div className="rounded-lg border border-blue-200 bg-white p-3">
+              <p className="font-bold text-blue-800">Bilateral examples</p>
+              <p className="mt-2 text-xs leading-5 text-slate-600">
+                Resistor, inductor, and capacitor. Their resistance or impedance is the
+                same for either current direction in ideal circuit analysis.
+              </p>
+            </div>
+            <div className="rounded-lg border border-orange-200 bg-white p-3">
+              <p className="font-bold text-orange-800">Unilateral examples</p>
+              <p className="mt-2 text-xs leading-5 text-slate-600">
+                Diode and transistor. Their behavior depends on polarity, biasing, and
+                allowed current direction.
+              </p>
+            </div>
+            <div className="rounded-lg border border-emerald-200 bg-white p-3">
+              <p className="font-bold text-emerald-800">Final concept</p>
+              <p className="mt-2 text-xs leading-5 text-slate-600">
+                Bilateral elements treat current direction equally. Unilateral elements
+                control or restrict current based on direction.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function OverviewRow({ item }) {
   return (
     <article className="py-5 first:pt-0 last:pb-0">
@@ -2000,7 +2699,10 @@ function OverviewRow({ item }) {
         </ul>
       ) : null}
       {item.title === "What Will You Learn?" ? (
-        <div className="mt-5 border-t border-slate-200 pt-4">
+        <div
+          id="fundamental-electrical-concepts"
+          className="mt-5 scroll-mt-40 border-t border-slate-200 pt-4"
+        >
           <h3 className="text-sm font-bold uppercase tracking-[0.08em] text-slate-900">
             Fundamental Electrical Concepts
           </h3>
@@ -2017,6 +2719,10 @@ function OverviewRow({ item }) {
                   <PowerEnergyGuide />
                 ) : conceptIndex === 2 ? (
                   <PassiveActiveGuide />
+                ) : conceptIndex === 3 ? (
+                  <LinearNonLinearGuide />
+                ) : conceptIndex === 4 ? (
+                  <BilateralUnilateralGuide />
                 ) : (
                   <>
                     <h4 className="text-base font-bold text-slate-900">
@@ -2065,17 +2771,6 @@ function OverviewRow({ item }) {
               </section>
             ))}
           </div>
-          <div className="mt-5 border-t border-slate-200 pt-4">
-            <h4 className="text-sm font-bold text-slate-900">Interactive Summary</h4>
-            <div className="mt-3 grid gap-x-4 gap-y-2 text-sm sm:grid-cols-2">
-              {BASIC_CONCEPT_SUMMARY.map(([concept, visual]) => (
-                <div key={concept} className="flex items-start justify-between gap-3 border-b border-slate-100 pb-2">
-                  <span className="font-semibold text-slate-800">{concept}</span>
-                  <span className="text-right text-slate-600">{visual}</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       ) : null}
     </article>
@@ -2115,67 +2810,129 @@ function ConceptRoadmapItem({ concept, index, isActive, status, onClick }) {
   );
 }
 
-function NetworkTopicList({ compact = false }) {
+function NetworkTopicList({ compact = false, concepts = [], activeIndex = 0, onSelectTopic }) {
+  const router = useRouter();
+
+  function getTopicTargetIndex(title) {
+    if (NETWORK_TOPIC_TARGET_ANCHORS[title]) {
+      return 0;
+    }
+
+    const targetSlug = NETWORK_TOPIC_TARGET_SLUGS[title];
+    const conceptIndex = concepts.findIndex((concept) => concept.slug === targetSlug);
+    return conceptIndex >= 0 ? conceptIndex + 1 : 1;
+  }
+
+  function handleTopicSelect(title) {
+    if (!onSelectTopic) {
+      return;
+    }
+
+    onSelectTopic(getTopicTargetIndex(title), NETWORK_TOPIC_TARGET_ANCHORS[title]);
+  }
+
   return (
-    <div className={compact ? "grid gap-3" : "grid gap-3"}>
-      {NETWORK_ANALYSIS_TOPIC_GROUPS.map((group, index) => (
-        <section key={group.title} className="border-b border-slate-200 pb-3 last:border-b-0 last:pb-0">
-          <h3 className="text-xs font-bold leading-5 text-slate-900">
-            {index + 1}. {group.title}
-          </h3>
-          <ul className="mt-1.5 grid gap-1 text-xs leading-5 text-slate-600">
-            {group.topics.map((topic) => (
-              <li key={`${group.title}-${topic}`} className="flex gap-2">
-                <span className="mt-2 h-1 w-1 flex-none rounded-full bg-portal-500" />
-                <span>{topic}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+    <div className={compact ? "grid gap-2.5" : "grid gap-2.5"}>
+      {NETWORK_ANALYSIS_TOPIC_GROUPS.map((group, index) => {
+        const targetIndex = getTopicTargetIndex(group.title);
+        const routeHref = NETWORK_TOPIC_ROUTES[group.title];
+        const isActive = activeIndex === targetIndex;
+        const className = `flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition ${
+          isActive || router.pathname === routeHref
+            ? "border-portal-300 bg-portal-50 shadow-sm"
+            : "border-slate-200 bg-slate-50/80 hover:border-portal-200 hover:bg-white"
+        }`;
+        const content = (
+          <>
+            <span
+              className={`flex h-7 w-7 flex-none items-center justify-center rounded-lg text-[11px] font-black shadow-sm ${
+                isActive || router.pathname === routeHref ? "bg-portal-600 text-white" : "bg-white text-portal-700"
+              }`}
+            >
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className="text-sm font-bold leading-5 text-slate-900">{group.title}</span>
+          </>
+        );
+
+        if (routeHref) {
+          return (
+            <Link
+              key={group.title}
+              href={routeHref}
+              className={className}
+              onClick={() => onSelectTopic?.(targetIndex, NETWORK_TOPIC_TARGET_ANCHORS[group.title])}
+            >
+              {content}
+            </Link>
+          );
+        }
+
+        return (
+          <button
+            key={group.title}
+            type="button"
+            onClick={() => handleTopicSelect(group.title)}
+            className={className}
+          >
+            {content}
+          </button>
+        );
+      })}
     </div>
   );
 }
 
-function MobileConceptRoadmap({ concepts, activeIndex, setActiveIndex }) {
+function MobileConceptRoadmap({ concepts, activeIndex, onSelectTopic }) {
   const [isRoadmapOpen, setIsRoadmapOpen] = useState(false);
 
-  function selectConcept(index) {
-    setActiveIndex(index);
+  function selectTopic(index) {
+    onSelectTopic(index);
     setIsRoadmapOpen(false);
   }
 
   return (
     <section id="subject-roadmap" className="mt-5 scroll-mt-40 xl:hidden">
-      <div className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <div className="rounded-2xl border border-portal-200 bg-white shadow-[0_16px_34px_rgba(15,50,112,0.12)]">
         <button
           type="button"
           onClick={() => setIsRoadmapOpen((currentValue) => !currentValue)}
-          className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
+          className="flex w-full items-center justify-between gap-3 rounded-2xl bg-gradient-to-r from-portal-50 via-white to-blue-50 px-4 py-3 text-left"
           aria-expanded={isRoadmapOpen}
           aria-controls="mobile-concept-roadmap"
         >
-          <span className="min-w-0">
-            <span className="block text-sm font-bold text-slate-900">Learning Roadmap</span>
-            <span className="mt-0.5 block truncate text-xs leading-5 text-slate-500">
-              Complete Network Analysis topic list.
+          <span className="flex min-w-0 items-center gap-3">
+            <span className="flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-portal-600 text-white shadow-[0_10px_20px_rgba(18,59,121,0.24)]">
+              {isRoadmapOpen ? (
+                <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+                </svg>
+              ) : (
+                <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+                </svg>
+              )}
+            </span>
+            <span className="min-w-0">
+              <span className="block text-sm font-black text-slate-950">Learning Roadmap</span>
+              <span className="mt-0.5 block truncate text-xs font-semibold leading-5 text-portal-700">
+                Main Network Analysis topics
+              </span>
             </span>
           </span>
-          <span className="flex h-9 w-9 flex-none items-center justify-center rounded-lg border border-slate-200 text-portal-700">
-            <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-              <path
-                d="M4 6h12M4 10h12M4 14h12"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-              />
-            </svg>
+          <span className="flex flex-none items-center gap-2 rounded-full border border-portal-200 bg-white px-3 py-1.5 text-xs font-bold text-portal-700 shadow-sm">
+            {isRoadmapOpen ? "Close" : "Open"}
           </span>
         </button>
 
         {isRoadmapOpen ? (
           <div id="mobile-concept-roadmap" className="border-t border-slate-200 px-3 py-3">
-            <NetworkTopicList compact />
+            <NetworkTopicList
+              compact
+              concepts={concepts}
+              activeIndex={activeIndex}
+              onSelectTopic={selectTopic}
+            />
 
           </div>
         ) : null}
@@ -2288,7 +3045,12 @@ function FallbackSubjectPage({ subject, steps, totalConcepts, subjectSummary }) 
   );
 }
 
-export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
+export default function SubjectTheoryPage({
+  subject,
+  steps,
+  learningMeta,
+  initialActiveConceptIndex = 0,
+}) {
   const theoryKnowledge = subjectTheoryKnowledge[subject.title] || null;
   const chapterMeta = SUBJECT_META[subject.title] || null;
   const totalConcepts = steps.reduce((count, step) => count + step.points.length, 0);
@@ -2296,14 +3058,18 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
     subject.description ||
     "A structured roadmap that moves from fundamentals to exam-level analysis and problem solving.";
   const notesHref = `/notes/${getSubjectSlug(subject.title)}`;
-  const [activeConceptIndex, setActiveConceptIndex] = useState(0);
+  const [activeConceptIndex, setActiveConceptIndex] = useState(initialActiveConceptIndex);
   const [quizSelections, setQuizSelections] = useState({});
   const { progressStats, isReady } = useLearningProgress();
 
   useEffect(() => {
-    setActiveConceptIndex(0);
+    setActiveConceptIndex(initialActiveConceptIndex);
     setQuizSelections({});
-  }, [subject.title]);
+  }, [initialActiveConceptIndex, subject.title]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [initialActiveConceptIndex]);
 
   if (!theoryKnowledge || !chapterMeta) {
     return (
@@ -2346,7 +3112,9 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
   }
 
   const concepts = theoryKnowledge.concepts || [];
-  const activeConcept = concepts[activeConceptIndex] || concepts[0];
+  const isConceptIntroPage = activeConceptIndex === 0;
+  const activeConceptDataIndex = isConceptIntroPage ? 0 : activeConceptIndex - 1;
+  const activeConcept = concepts[activeConceptDataIndex] || concepts[0];
   const activeTeaching = activeConcept?.teaching || {};
   const subjectProgress = progressStats.subjects.find(
     (item) => item.slug === learningMeta.learningSubjectSlug
@@ -2368,7 +3136,7 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
   const activeQuiz = activeTeaching.quiz || null;
   const activeCommonMistake =
     activeTeaching.commonMistake ||
-    theoryKnowledge.commonMistakes?.[activeConceptIndex] ||
+    theoryKnowledge.commonMistakes?.[activeConceptDataIndex] ||
     theoryKnowledge.commonMistakes?.[0] ||
     "";
   const activeRealLifeInsight =
@@ -2387,6 +3155,19 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
     }
 
     return "next";
+  }
+
+  function selectRoadmapTopic(index, anchorId = "subject-concept") {
+    setActiveConceptIndex(index);
+
+    if (typeof window !== "undefined") {
+      window.requestAnimationFrame(() => {
+        document.getElementById(anchorId)?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      });
+    }
   }
 
   return (
@@ -2488,14 +3269,18 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
         <MobileConceptRoadmap
           concepts={concepts}
           activeIndex={activeConceptIndex}
-          setActiveIndex={setActiveConceptIndex}
+          onSelectTopic={selectRoadmapTopic}
         />
 
         <section className="mt-5 grid gap-5 xl:grid-cols-[270px_minmax(0,1fr)_290px]">
           <aside className="hidden xl:block">
             <div className="xl:sticky xl:top-24">
               <SidebarCard title="Learning Roadmap">
-                <NetworkTopicList />
+                <NetworkTopicList
+                  concepts={concepts}
+                  activeIndex={activeConceptIndex}
+                  onSelectTopic={selectRoadmapTopic}
+                />
               </SidebarCard>
 
               <div className="mt-4 grid gap-4">
@@ -2545,25 +3330,31 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
               </div>
             </section>
 
+            {!isConceptIntroPage ? (
             <section
               id="subject-concept"
               className="mt-5 scroll-mt-40 bg-white"
             >
               <div className="px-3 pb-4 sm:px-5 lg:px-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-portal-700">
-                  Concept {String(activeConceptIndex + 1).padStart(2, "0")}
-                </p>
-                <h2 className="mt-1 max-w-3xl text-base font-semibold leading-snug text-slate-950 sm:text-lg">
-                  {activeConcept.title}
-                </h2>
-                <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700">
-                  {activeConcept.summary}
-                </p>
-                <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700">
-                  In this topic, first understand what each quantity represents, then learn how to assign direction and polarity before writing equations. A negative answer is not a failure; it simply tells you that the actual direction is opposite to the reference direction chosen at the start.
-                </p>
+                {isConceptIntroPage ? (
+                  null
+                ) : (
+                  <>
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-portal-700">
+                      Concept {String(activeConceptIndex).padStart(2, "0")}
+                    </p>
+                    <h2 className="mt-1 max-w-3xl text-base font-semibold leading-snug text-slate-950 sm:text-lg">
+                      {activeConcept.title}
+                    </h2>
+                    <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700">
+                      {activeConcept.summary}
+                    </p>
+                  </>
+                )}
               </div>
 
+              {isConceptIntroPage ? null : (
+              <>
               <div className="grid gap-5 border-t border-slate-200 px-3 pt-4 sm:px-5 lg:px-6">
                 <div className="grid gap-4">
                   <div>
@@ -2620,7 +3411,7 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
                     <h3 className="text-sm font-bold uppercase tracking-[0.08em] text-slate-900">
                       Circuit Diagram
                     </h3>
-                    <div className="mt-2 max-w-2xl overflow-hidden">
+                    <div className="mt-2 max-w-2xl overflow-x-auto">
                       <NetworkTheoryDiagram type={activeConcept.diagram} />
                     </div>
                     <p className="mt-2 text-xs leading-5 text-slate-600">
@@ -2751,11 +3542,13 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
                   Next Step
                 </p>
                 <p className="mt-2 text-sm leading-6 text-slate-700">
-                  {activeConceptIndex === concepts.length - 1
+                  {activeConceptIndex === concepts.length
                     ? "Finish this chapter, then move to practice questions to reinforce the theory."
-                    : `Next Concept -> ${concepts[activeConceptIndex + 1]?.shortTitle}`}
+                    : `Next Concept -> ${concepts[activeConceptIndex]?.shortTitle}`}
                 </p>
               </div>
+              </>
+              )}
 
               <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <button
@@ -2770,18 +3563,19 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
                   type="button"
                   onClick={() =>
                     setActiveConceptIndex((currentValue) =>
-                      Math.min(currentValue + 1, concepts.length - 1)
+                      Math.min(currentValue + 1, concepts.length)
                     )
                   }
-                  disabled={activeConceptIndex === concepts.length - 1}
+                  disabled={activeConceptIndex === concepts.length}
                   className="rounded-xl bg-portal-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-portal-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {activeConceptIndex === concepts.length - 1
+                  {activeConceptIndex === concepts.length
                     ? "Last Concept"
-                    : `Next: ${concepts[activeConceptIndex + 1]?.shortTitle}`}
+                    : `Next: ${concepts[activeConceptIndex]?.shortTitle}`}
                 </button>
               </div>
             </section>
+            ) : null}
 
           </main>
 
@@ -2840,18 +3634,18 @@ export default function SubjectTheoryPage({ subject, steps, learningMeta }) {
 
       <div className="fixed bottom-3 left-3 right-3 z-20 rounded-[24px] border border-slate-200 bg-white/95 p-2 shadow-[0_18px_40px_rgba(15,23,42,0.16)] backdrop-blur xl:hidden">
         <div className="grid grid-cols-4 gap-2">
-          <a
-            href="#subject-roadmap"
+          <Link
+            href="/basic-concepts"
             className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             Roadmap
-          </a>
-          <a
-            href="#subject-concept"
+          </Link>
+          <Link
+            href="/circuit-elements"
             className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             Theory
-          </a>
+          </Link>
           <Link
             href={notesHref}
             className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
@@ -2879,9 +3673,9 @@ export function getStaticPaths() {
   };
 }
 
-export function getStaticProps({ params }) {
+export function getSubjectTheoryProps(subjectSlug, extraProps = {}) {
   const subject = subjectDirectory.find(
-    (item) => getSubjectSlug(item.title) === params.slug
+    (item) => getSubjectSlug(item.title) === subjectSlug
   );
   const learningSubjectSlug = SUBJECT_TO_LEARNING_SLUG[subject.title] || "";
   const learningSubject = learningSubjectSlug ? getLearningSubject(learningSubjectSlug) : null;
@@ -2905,6 +3699,11 @@ export function getStaticProps({ params }) {
         readyTopics: readyTopics.length,
         continueHref: readyTopics[0]?.href || subject.href,
       },
+      ...extraProps,
     },
   };
+}
+
+export function getStaticProps({ params }) {
+  return getSubjectTheoryProps(params.slug);
 }
