@@ -243,50 +243,51 @@ const circuitElementSections = [
   {
     title: "Dependent Source",
     intro:
-      "A dependent source is an ideal controlled-source model whose value depends on another voltage or current.",
+      "A dependent source is an ideal controlled source whose output voltage or current depends on another voltage or current elsewhere in the circuit.",
     breakdown: [
-      "It defines an output voltage or current using a controlling voltage or current elsewhere in the circuit.",
-      "It is an ideal model used for transistors, op-amps, amplifiers, and controlled devices.",
-      "The control signal only sets the output relation; practical output power must come from a supply.",
+      "It is a circuit element whose value is controlled by a separate circuit variable, not by its own terminals alone.",
+      "Dependent sources model transistors, op-amps, amplifiers, and other active devices.",
+      "The control signal sets the output relation, while the actual output power comes from an external supply.",
     ],
     formula: "VCVS: Vout = A Vin",
     formulaMeaning: [
-      "This diagram shows only one type: voltage-controlled voltage source.",
-      "Vin and Vout are measured with the marked reference polarities.",
-      "Other dependent-source types are VCCS, CCVS, and CCCS.",
-      "A is the voltage gain, not a source of energy by itself.",
+      "This is one ideal example: a voltage-controlled voltage source.",
+      "Vout is the output voltage produced by the dependent source.",
+      "Vin is the controlling input voltage measured in a different part of the circuit.",
+      "A is the gain factor; it defines the relationship, not the energy source.",
+      "There are four dependent source types: VCVS, VCCS, CCVS, and CCCS.",
     ],
-    keyIdea: "A dependent source controls voltage or current; it does not generate energy by itself.",
+    keyIdea: "A dependent source is controlled by another circuit variable and relies on external power to deliver output energy.",
     animation:
-      "Show one VCVS model: Vin controls the value and polarity of Vout, while practical output power is supplied by the amplifier's power rails.",
+      "Show a VCVS model where Vin controls the output voltage relation and the amplifier power rails supply the actual energy.",
     visualSteps: [
       {
         label: "Step 1",
-        title: "Input Signal Appears",
+        title: "Control Signal Defined",
         color: "blue",
         text:
-          "A controlling input voltage Vin is defined with a clear reference polarity.",
+          "A small voltage or current elsewhere in the circuit is identified as the controlling variable.",
       },
       {
         label: "Step 2",
-        title: "Control Signal Links The Circuit",
+        title: "Control Relation Only",
         color: "amber",
         text:
-          "The dashed line is a control relation only. It is not a wire carrying output power.",
+          "The dashed line shows a mathematical control relation. It is not a physical path for output power.",
       },
       {
         label: "Step 3",
-        title: "Output Source Responds",
+        title: "Output Follows The Control",
         color: "orange",
         text:
-          "This is a VCVS example: Vout is defined as A times Vin using the marked output polarity.",
+          "The dependent source sets its output voltage or current based on the input control signal and gain factor.",
       },
       {
         label: "Step 4",
-        title: "Supply Provides Output Power",
+        title: "External Supply Delivers Energy",
         color: "slate",
         text:
-          "The controlled source sets the output relation. In a real amplifier, supply rails provide the output power.",
+          "The source itself does not create energy. The extra output power comes from an external power supply.",
       },
     ],
   },
