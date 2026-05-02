@@ -47,7 +47,8 @@ export default function Navbar({
   const [searchQuestions, setSearchQuestions] = useState([]);
   const [searchRuntime, setSearchRuntime] = useState(null);
   const [isSearchBooting, setIsSearchBooting] = useState(false);
-  const searchRef = useRef(null);
+  const desktopSearchRef = useRef(null);
+  const mobileSearchRef = useRef(null);
   const mobileNavRef = useRef(null);
   const mobileNavItemRefs = useRef({});
   const isMountedRef = useRef(true);
@@ -203,7 +204,10 @@ export default function Navbar({
 
   useEffect(() => {
     function handlePointerDown(event) {
-      if (!searchRef.current?.contains(event.target)) {
+      const isInsideDesktopSearch = desktopSearchRef.current?.contains(event.target);
+      const isInsideMobileSearch = mobileSearchRef.current?.contains(event.target);
+
+      if (!isInsideDesktopSearch && !isInsideMobileSearch) {
         setIsSearchOpen(false);
       }
     }
@@ -333,15 +337,66 @@ export default function Navbar({
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-3 py-3 sm:px-6 sm:py-4 lg:px-8">
         <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[auto_minmax(340px,1fr)_auto] lg:items-center lg:gap-6">
-          <div className="flex items-center justify-between gap-3">
-            <Link href="/" className="min-w-0 flex-1">
+          <div className="grid grid-cols-[auto_minmax(118px,1fr)_auto] items-center gap-2 lg:flex lg:justify-between lg:gap-3">
+            <Link href="/" className="min-w-0">
               <BrandLogo
-                className="max-w-[250px] sm:max-w-[340px]"
-                markClassName="h-[3rem] w-[3rem] sm:h-14 sm:w-14"
-                titleClassName="text-[1.05rem] sm:text-[1.85rem]"
+                className="max-w-[138px] sm:max-w-[250px] lg:max-w-[340px]"
+                markClassName="h-9 w-9 sm:h-[3rem] sm:w-[3rem] lg:h-14 lg:w-14"
+                titleClassName="text-[0.84rem] sm:text-[1.05rem] lg:text-[1.85rem]"
                 taglineClassName="text-[9px] sm:text-[11px]"
               />
             </Link>
+
+            <div ref={mobileSearchRef} className="relative min-w-0 lg:hidden">
+              <form
+                onSubmit={handleSearchSubmit}
+                className="flex h-10 items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 text-sm shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+              >
+                <input
+                  type="search"
+                  value={resolvedSearchValue}
+                  onChange={(event) => handleSearchChange(event.target.value)}
+                  onFocus={handleSearchFocus}
+                  placeholder="Search"
+                  className="min-w-0 flex-1 bg-transparent text-[13px] font-medium text-slate-800 outline-none placeholder:text-slate-400"
+                />
+                <button
+                  type="submit"
+                  className="inline-flex h-7 w-7 flex-none items-center justify-center rounded-lg text-portal-700 transition hover:bg-slate-100"
+                  aria-label="Search"
+                >
+                  <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path
+                      d="M14.167 14.167L17.5 17.5M15.833 9.167A6.667 6.667 0 1 1 2.5 9.167a6.667 6.667 0 0 1 13.333 0Z"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              </form>
+
+              {shouldShowDropdown ? (
+                <SmartSearchDropdown
+                  query={deferredQuery}
+                  groupedResults={groupedResults}
+                  suggestions={suggestions}
+                  onSelect={() => setIsSearchOpen(false)}
+                />
+              ) : null}
+
+              {shouldShowSearchLoading ? (
+                <div className="absolute left-0 right-0 top-full z-50 mt-3 rounded-2xl border border-portal-200 bg-white px-4 py-5 text-left shadow-[0_24px_80px_rgba(15,23,42,0.14)]">
+                  <p className="text-sm font-semibold text-slate-900">
+                    Preparing search...
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-slate-600">
+                    Loading concepts, PYQs, and practice suggestions.
+                  </p>
+                </div>
+              ) : null}
+            </div>
 
             <button
               type="button"
@@ -371,8 +426,8 @@ export default function Navbar({
             </button>
           </div>
 
-          <div className="flex items-center gap-3 lg:justify-self-center lg:w-full lg:max-w-[560px]">
-            <div ref={searchRef} className="relative w-full">
+          <div className="hidden items-center gap-3 lg:flex lg:justify-self-center lg:w-full lg:max-w-[560px]">
+            <div ref={desktopSearchRef} className="relative w-full">
               <form
                 onSubmit={handleSearchSubmit}
                 className="flex items-center gap-2 rounded-[16px] border border-slate-200 bg-white px-3.5 py-2 text-sm shadow-[0_12px_32px_rgba(15,23,42,0.08)] sm:px-4 sm:py-2.5"
