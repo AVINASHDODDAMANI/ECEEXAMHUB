@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import Layout from "../components/layout";
 
 const circuitElementSections = [
@@ -341,63 +342,65 @@ const circuitElementSections = [
 
 function ElementCard({ section, index }) {
   return (
-    <article className="rounded-[22px] border border-slate-200 bg-white p-3 shadow-[0_14px_34px_rgba(15,23,42,0.06)] sm:p-4">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-        <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-portal-600 text-sm font-black text-white shadow-[0_10px_24px_rgba(20,118,212,0.22)]">
+    <article className="rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_10px_26px_rgba(15,23,42,0.05)] sm:p-3">
+      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-start">
+        <span className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-portal-600 text-xs font-black text-white shadow-[0_8px_18px_rgba(20,118,212,0.2)]">
           {String(index + 1).padStart(2, "0")}
         </span>
         <div className="min-w-0 flex-1">
-          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">{section.title}</h2>
-          <p className="mt-1.5 text-sm font-medium leading-6 text-slate-800 sm:text-base">
+          <h2 className="text-base font-black tracking-tight text-slate-950 sm:text-lg">{section.title}</h2>
+          <p className="mt-1 text-sm font-semibold leading-5 text-slate-800">
             {section.intro}
           </p>
 
-          <div className="mt-3 grid gap-3">
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
+          <div className="mt-2.5 grid gap-2 lg:grid-cols-[minmax(0,1fr)_240px]">
+            <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-2.5">
+              <h3 className="text-[10px] font-black uppercase tracking-[0.1em] text-slate-500">
                 Professional Explanation
               </h3>
-              <ul className="mt-2 grid gap-1.5 text-sm font-medium leading-6 text-slate-800">
+              <ul className="mt-1.5 grid gap-1 text-[13px] font-semibold leading-5 text-slate-800 sm:grid-cols-3 lg:grid-cols-1">
                 {section.breakdown.map((point) => (
-                  <li key={point} className="flex gap-2">
-                    <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                  <li key={point} className="flex gap-1.5">
+                    <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
                     <span>{point}</span>
                   </li>
                 ))}
               </ul>
-
-              <div className="mt-3 rounded-xl border border-portal-100 bg-portal-50/60 p-3 shadow-sm">
-                <p className="text-xs font-bold uppercase tracking-[0.12em] text-portal-700">
-                  Formula
-                </p>
-                <p className="mt-2 rounded-lg bg-white px-3 py-2 font-mono text-base font-bold text-slate-950">
-                  {section.formula}
-                </p>
-                <ul className="mt-2 grid gap-1 text-xs font-semibold leading-5 text-slate-800">
-                  {section.formulaMeaning.map((line) => (
-                    <li key={line}>{line}</li>
-                  ))}
-                </ul>
-              </div>
             </div>
 
+            <div className="rounded-xl border border-portal-100 bg-portal-50/70 p-2.5 shadow-sm">
+              <p className="text-[10px] font-black uppercase tracking-[0.1em] text-portal-700">
+                Formula
+              </p>
+              <p className="mt-1.5 rounded-lg bg-white px-2.5 py-1.5 font-mono text-sm font-black text-slate-950">
+                {section.formula}
+              </p>
+              <ul className="mt-1.5 grid gap-0.5 text-[12px] font-semibold leading-4 text-slate-800">
+                {section.formulaMeaning.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-2.5">
             <CircuitElementMotionDiagram title={section.title} steps={section.visualSteps} />
           </div>
 
-          <div className="mt-3 grid gap-2 md:grid-cols-2">
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50/70 p-3 shadow-sm">
-              <p className="text-xs font-bold uppercase tracking-[0.12em] text-emerald-700">
+          <div className="mt-2.5 grid gap-2 md:grid-cols-2">
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50/70 p-2.5 shadow-sm">
+              <p className="text-[10px] font-black uppercase tracking-[0.1em] text-emerald-700">
                 Key Idea
               </p>
-              <p className="mt-1.5 text-sm font-semibold leading-6 text-emerald-950">
+              <p className="mt-1 text-[13px] font-bold leading-5 text-emerald-950">
                 {section.keyIdea}
               </p>
             </div>
-            <div className="rounded-xl border border-blue-200 bg-blue-50/70 p-3 shadow-sm">
-              <p className="text-xs font-bold uppercase tracking-[0.12em] text-blue-700">
+            <div className="rounded-xl border border-blue-200 bg-blue-50/70 p-2.5 shadow-sm">
+              <p className="text-[10px] font-black uppercase tracking-[0.1em] text-blue-700">
                 How To Visualize
               </p>
-              <p className="mt-1.5 text-sm font-semibold leading-6 text-slate-800">{section.animation}</p>
+              <p className="mt-1 text-[13px] font-bold leading-5 text-slate-800">{section.animation}</p>
             </div>
           </div>
         </div>
@@ -407,6 +410,8 @@ function ElementCard({ section, index }) {
 }
 
 function CircuitElementMotionDiagram({ title, steps = [] }) {
+  const [activeStep, setActiveStep] = useState(1);
+  const totalSteps = Math.min(steps.length || 4, 4);
   const isResistor = title === "Resistor";
   const isCapacitor = title === "Capacitor";
   const isInductor = title === "Inductor";
@@ -415,8 +420,22 @@ function CircuitElementMotionDiagram({ title, steps = [] }) {
   const isDependentSource = title === "Dependent Source";
   const isTransformation = title === "Source Transformation";
 
+  useEffect(() => {
+    if (totalSteps <= 1) {
+      return undefined;
+    }
+
+    const timer = window.setInterval(() => {
+      setActiveStep((currentStep) =>
+        currentStep >= totalSteps ? 1 : currentStep + 1
+      );
+    }, 6200);
+
+    return () => window.clearInterval(timer);
+  }, [totalSteps]);
+
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
       <style>{`
         .ce-wire {
           fill: none;
@@ -431,127 +450,118 @@ function CircuitElementMotionDiagram({ title, steps = [] }) {
         }
 
         .ce-resistor-glow {
-          animation: cePulse 2.8s ease-in-out infinite;
+          animation: cePulse 4.2s ease-in-out infinite;
         }
 
         .ce-cap-plate {
-          animation: cePlateCharge 4.2s ease-in-out infinite;
+          animation: cePlateCharge 6.4s ease-in-out infinite;
         }
 
         .ce-field {
-          animation: ceField 4.2s ease-in-out infinite;
+          animation: ceField 6.4s ease-in-out infinite;
         }
 
         .ce-magnetic-ring-one {
-          animation: ceRingOne 4.6s ease-in-out infinite;
+          animation: ceRingOne 7s ease-in-out infinite;
         }
 
         .ce-magnetic-ring-two {
-          animation: ceRingTwo 4.6s ease-in-out infinite;
+          animation: ceRingTwo 7s ease-in-out infinite;
         }
 
         .ce-source-push {
-          animation: cePush 3.8s ease-in-out infinite;
+          animation: cePush 6s ease-in-out infinite;
         }
 
         .ce-control-signal {
           stroke-dasharray: 9 9;
-          animation: ceDash 2.2s linear infinite;
+          animation: ceDash 3.6s linear infinite;
         }
 
         .ce-transform-left {
-          animation: ceTransformLeft 8s ease-in-out infinite;
+          animation: none;
         }
 
         .ce-transform-right {
-          animation: ceTransformRight 8s ease-in-out infinite;
+          animation: none;
         }
 
         .ce-voltage-drop {
-          animation: ceVoltageDrop 4s ease-in-out infinite;
+          animation: ceVoltageDrop 6.2s ease-in-out infinite;
         }
 
         .ce-heat-line {
-          animation: ceHeatRise 3.2s ease-in-out infinite;
+          animation: ceHeatRise 5.2s ease-in-out infinite;
         }
 
         .ce-resistor-atom {
-          animation: ceAtomVibrate 1s ease-in-out infinite;
+          animation: ceAtomVibrate 1.8s ease-in-out infinite;
         }
 
         .ce-collision-flash {
-          animation: ceCollisionFlash 3.8s ease-in-out infinite;
+          animation: ceCollisionFlash 6s ease-in-out infinite;
         }
 
         .ce-energy-pulse {
           stroke-dasharray: 26 18;
-          animation: ceEnergyPulse 3s linear infinite;
+          animation: ceEnergyPulse 5s linear infinite;
         }
-
-        .ce-badge-step {
-          opacity: 0;
-          animation-duration: 28s;
-          animation-iteration-count: infinite;
-          animation-timing-function: linear;
-        }
-
-        .ce-badge-step-1 { animation-name: ceBadgeStepOne; }
-        .ce-badge-step-2 { animation-name: ceBadgeStepTwo; }
-        .ce-badge-step-3 { animation-name: ceBadgeStepThree; }
-        .ce-badge-step-4 { animation-name: ceBadgeStepFour; }
 
         .ce-guide-card {
-          opacity: 0.86;
           transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
         }
-
-        .ce-guide-card-1 { animation: ceGuideCardOne 28s linear infinite; }
-        .ce-guide-card-2 { animation: ceGuideCardTwo 28s linear infinite; }
-        .ce-guide-card-3 { animation: ceGuideCardThree 28s linear infinite; }
-        .ce-guide-card-4 { animation: ceGuideCardFour 28s linear infinite; }
 
         .ce-stage-1,
         .ce-stage-2,
         .ce-stage-3,
         .ce-stage-4 {
           opacity: 0;
+          transition: opacity 0.35s ease;
         }
 
-        .ce-stage-1 { animation: ceStageOne 28s linear infinite; }
-        .ce-stage-2 { animation: ceStageTwo 28s linear infinite; }
-        .ce-stage-3 { animation: ceStageThree 28s linear infinite; }
-        .ce-stage-4 { animation: ceStageFour 28s linear infinite; }
+        .ce-step-1 .ce-stage-1,
+        .ce-step-2 .ce-stage-1,
+        .ce-step-2 .ce-stage-2,
+        .ce-step-3 .ce-stage-1,
+        .ce-step-3 .ce-stage-2,
+        .ce-step-3 .ce-stage-3,
+        .ce-step-4 .ce-stage-1,
+        .ce-step-4 .ce-stage-2,
+        .ce-step-4 .ce-stage-3,
+        .ce-step-4 .ce-stage-4 {
+          opacity: 1;
+        }
 
         .ce-cap-current {
-          animation: ceCapCurrent 7s ease-in-out infinite;
+          animation: ceCapCurrent 10.5s ease-in-out infinite;
         }
 
         .ce-cap-charge-meter {
           transform-origin: 150px 270px;
-          animation: ceCapMeter 7s ease-in-out infinite;
+          animation: ceCapMeter 10.5s ease-in-out infinite;
         }
 
         .ce-inductor-current-meter {
           transform-origin: 150px 270px;
-          animation: ceInductorMeter 7s ease-in-out infinite;
+          animation: ceInductorMeter 10.5s ease-in-out infinite;
         }
 
         .ce-back-emf {
-          animation: ceBackEmf 7s ease-in-out infinite;
+          animation: ceBackEmf 10.5s ease-in-out infinite;
         }
 
         .ce-variable-load {
-          animation: ceVariableLoad 5.5s ease-in-out infinite;
+          animation: ceVariableLoad 8.5s ease-in-out infinite;
         }
 
         .ce-vout-meter {
           transform-origin: 430px 270px;
-          animation: ceVariableMeter 5.5s ease-in-out infinite;
+          animation: ceVariableMeter 8.5s ease-in-out infinite;
         }
 
         .ce-fixed-meter {
           transform-origin: 150px 270px;
-          animation: ceFixedMeter 5.5s ease-in-out infinite;
+          animation: ceFixedMeter 8.5s ease-in-out infinite;
         }
 
         @keyframes cePulse {
@@ -590,16 +600,6 @@ function CircuitElementMotionDiagram({ title, steps = [] }) {
           to { stroke-dashoffset: -36; }
         }
 
-        @keyframes ceTransformLeft {
-          0%, 42% { opacity: 1; transform: translateX(0); }
-          55%, 100% { opacity: 0.22; transform: translateX(-8px); }
-        }
-
-        @keyframes ceTransformRight {
-          0%, 42% { opacity: 0.22; transform: translateX(8px); }
-          55%, 100% { opacity: 1; transform: translateX(0); }
-        }
-
         @keyframes ceVoltageDrop {
           0%, 100% { opacity: 0.28; }
           50% { opacity: 0.88; }
@@ -625,75 +625,6 @@ function CircuitElementMotionDiagram({ title, steps = [] }) {
 
         @keyframes ceEnergyPulse {
           to { stroke-dashoffset: -88; }
-        }
-
-        @keyframes ceBadgeStepOne {
-          0%, 22% { opacity: 1; transform: translateY(0); }
-          26%, 100% { opacity: 0; transform: translateY(3px); }
-        }
-
-        @keyframes ceBadgeStepTwo {
-          0%, 24% { opacity: 0; transform: translateY(3px); }
-          28%, 48% { opacity: 1; transform: translateY(0); }
-          52%, 100% { opacity: 0; transform: translateY(3px); }
-        }
-
-        @keyframes ceBadgeStepThree {
-          0%, 50% { opacity: 0; transform: translateY(3px); }
-          54%, 74% { opacity: 1; transform: translateY(0); }
-          78%, 100% { opacity: 0; transform: translateY(3px); }
-        }
-
-        @keyframes ceBadgeStepFour {
-          0%, 76% { opacity: 0; transform: translateY(3px); }
-          80%, 100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes ceGuideCardOne {
-          0%, 23% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
-          27%, 100% { opacity: 0.86; transform: translateY(0); border-color: #cbd5e1; background-color: #ffffff; }
-        }
-
-        @keyframes ceGuideCardTwo {
-          0%, 25% { opacity: 0.86; transform: translateY(0); border-color: #cbd5e1; background-color: #ffffff; }
-          29%, 48% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
-          52%, 100% { opacity: 0.86; transform: translateY(0); border-color: #cbd5e1; background-color: #ffffff; }
-        }
-
-        @keyframes ceGuideCardThree {
-          0%, 51% { opacity: 0.86; transform: translateY(0); border-color: #cbd5e1; background-color: #ffffff; }
-          55%, 73% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
-          77%, 100% { opacity: 0.86; transform: translateY(0); border-color: #cbd5e1; background-color: #ffffff; }
-        }
-
-        @keyframes ceGuideCardFour {
-          0%, 76% { opacity: 0.86; transform: translateY(0); border-color: #cbd5e1; background-color: #ffffff; }
-          80%, 94% { opacity: 1; transform: translateY(-1px); border-color: #2563eb; background-color: #eff6ff; }
-          98%, 100% { opacity: 0.86; transform: translateY(0); border-color: #cbd5e1; background-color: #ffffff; }
-        }
-
-        @keyframes ceStageOne {
-          0%, 5% { opacity: 0; }
-          8%, 94% { opacity: 1; }
-          98%, 100% { opacity: 0; }
-        }
-
-        @keyframes ceStageTwo {
-          0%, 25% { opacity: 0; }
-          29%, 94% { opacity: 1; }
-          98%, 100% { opacity: 0; }
-        }
-
-        @keyframes ceStageThree {
-          0%, 51% { opacity: 0; }
-          55%, 94% { opacity: 1; }
-          98%, 100% { opacity: 0; }
-        }
-
-        @keyframes ceStageFour {
-          0%, 76% { opacity: 0; }
-          80%, 94% { opacity: 1; }
-          98%, 100% { opacity: 0; }
         }
 
         @keyframes ceCapCurrent {
@@ -732,18 +663,18 @@ function CircuitElementMotionDiagram({ title, steps = [] }) {
         }
       `}</style>
 
-      <h4 className="text-center text-lg font-extrabold uppercase tracking-wide text-[#071b58] sm:text-2xl">
+      <h4 className="text-center text-sm font-black uppercase tracking-wide text-[#071b58] sm:text-base">
         Animated Circuit View: {title}
       </h4>
-      <p className="mx-auto mt-3 max-w-3xl rounded-xl border border-blue-300 bg-blue-50 px-4 py-2 text-center text-sm font-bold text-blue-700">
-        Watch one circuit action at a time, then match it with the highlighted step below.
+      <p className="mx-auto mt-2 max-w-3xl rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-center text-xs font-bold leading-5 text-blue-700">
+        Follow the circuit action to see how this element changes current, voltage, and energy flow.
       </p>
 
-      <div className="mt-5 grid gap-4 border-t border-slate-200 pt-4">
+      <div className="mt-3 grid gap-2.5 border-t border-slate-200 pt-3">
         <div className="min-w-0 overflow-x-auto overscroll-x-contain">
           <svg
             viewBox="0 0 640 330"
-            className="mx-auto h-auto w-full max-w-full md:w-[68%]"
+            className="mx-auto h-auto w-full max-w-full md:w-[62%]"
             role="img"
             aria-label={`${title} animated circuit diagram`}
           >
@@ -758,30 +689,32 @@ function CircuitElementMotionDiagram({ title, steps = [] }) {
               <marker id="ceArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
                 <path d="M0 0 10 5 0 10Z" fill="#dc2626" />
               </marker>
-              <marker id="ceGreenArrow" markerWidth="10" markerHeight="10" refX="8.5" refY="5" orient="auto">
-                <path d="M0 0 10 5 0 10Z" fill="#059669" />
+              <marker id="ceGreenArrow" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto">
+                <path d="M0 0 6 3 0 6Z" fill="#059669" />
               </marker>
             </defs>
 
             <rect x="18" y="18" width="604" height="294" rx="22" fill="#ffffff" stroke="#e2e8f0" />
 
-            {isTransformation ? (
-              <SourceTransformationScene />
-            ) : isDependentSource ? (
-              <DependentSourceScene />
-            ) : (
-              <StandardElementScene
-                isResistor={isResistor}
-                isCapacitor={isCapacitor}
-                isInductor={isInductor}
-                isVoltageSource={isVoltageSource}
-                isCurrentSource={isCurrentSource}
-              />
-            )}
+            <g className={`ce-step-${activeStep}`}>
+              {isTransformation ? (
+                <SourceTransformationScene />
+              ) : isDependentSource ? (
+                <DependentSourceScene />
+              ) : (
+                <StandardElementScene
+                  isResistor={isResistor}
+                  isCapacitor={isCapacitor}
+                  isInductor={isInductor}
+                  isVoltageSource={isVoltageSource}
+                  isCurrentSource={isCurrentSource}
+                />
+              )}
+            </g>
           </svg>
         </div>
 
-        <CircuitAnimationStepCards steps={steps} />
+        <CircuitAnimationStepCards steps={steps} activeStep={activeStep} />
       </div>
     </div>
   );
@@ -801,24 +734,29 @@ function getCompactStepTitle(title = "") {
     .replace("Equivalent Source Form", "Equivalent Form");
 }
 
-function CircuitAnimationStepCards({ steps = [] }) {
+function CircuitAnimationStepCards({ steps = [], activeStep = 1 }) {
   const displaySteps = steps.slice(0, 4);
+  const visibleSteps = displaySteps.slice(0, activeStep);
 
   if (!displaySteps.length) {
     return null;
   }
 
   return (
-    <div className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-4">
-      {displaySteps.map((step, index) => (
+    <div className="grid gap-1.5 sm:grid-cols-2 xl:grid-cols-4">
+      {visibleSteps.map((step, index) => (
         <div
           key={`${step.label}-${step.title}`}
-          className={`ce-guide-card ce-guide-card-${index + 1} rounded-lg border border-slate-300 bg-white px-3 py-2.5 shadow-sm`}
+          className={`ce-guide-card rounded-md border px-2.5 py-2 shadow-sm ${
+            activeStep === index + 1
+              ? "border-portal-600 bg-blue-50"
+              : "border-slate-300 bg-white"
+          }`}
         >
-          <p className="text-[10px] font-black uppercase tracking-[0.08em] text-portal-800">
+          <p className="text-[9px] font-black uppercase tracking-[0.06em] text-portal-800">
             Step {getStepNumber(step.label, index)}: {getCompactStepTitle(step.title)}
           </p>
-          <p className="mt-1 text-xs font-bold leading-5 text-slate-950">
+          <p className="mt-0.5 text-[11px] font-bold leading-4 text-slate-950">
             {step.text}
           </p>
         </div>
@@ -827,18 +765,44 @@ function CircuitAnimationStepCards({ steps = [] }) {
   );
 }
 
-function MovingCharges({ path, count = 3, color = "#2563eb", duration = 6 }) {
-  const slowedDuration = duration * 1.8;
-
+function MovingCharges({ path, count = 3, color = "#2563eb", duration = 9 }) {
   return (
     <>
       {Array.from({ length: count }).map((_, index) => (
         <circle key={`charge-${index}`} className="ce-charge" r="6" fill={color}>
           <animateMotion
-            dur={`${slowedDuration}s`}
-            begin={`-${(slowedDuration / count) * index}s`}
+            dur={`${duration}s`}
+            begin={`-${(duration / count) * index}s`}
             repeatCount="indefinite"
             path={path}
+          />
+        </circle>
+      ))}
+    </>
+  );
+}
+
+function ResistorOpposedCharges({ path, count = 4, duration = 15 }) {
+  return (
+    <>
+      {Array.from({ length: count }).map((_, index) => (
+        <circle key={`opposed-charge-${index}`} className="ce-charge" r="6" fill="#2563eb">
+          <animateMotion
+            dur={`${duration}s`}
+            begin={`-${(duration / count) * index}s`}
+            repeatCount="indefinite"
+            path={path}
+            calcMode="linear"
+            keyPoints="0;0.72;0.92;1"
+            keyTimes="0;0.48;0.9;1"
+          />
+          <animate
+            attributeName="r"
+            values="6;6;4.8;6"
+            keyTimes="0;0.48;0.9;1"
+            dur={`${duration}s`}
+            begin={`-${(duration / count) * index}s`}
+            repeatCount="indefinite"
           />
         </circle>
       ))}
@@ -900,7 +864,7 @@ function MeterBar({ x, y, width = 140, label, fill = "#2563eb", className = "" }
 
 function ResistorWorkingScene() {
   const electronPath = "M118 225V238H525V92H430H275H118V155";
-  const resistorPath = "M275 92H292L302 76L322 110L342 76L362 110L382 76L402 110L412 92H430";
+  const resistorPath = "M430 92H412L402 110L382 76L362 110L342 76L322 110L302 76L292 92H275";
 
   return (
     <g>
@@ -943,18 +907,24 @@ function ResistorWorkingScene() {
         />
       ))}
       <g className="ce-stage-1">
-        <MovingCharges path={electronPath} count={5} duration={5.8} />
+        <ResistorOpposedCharges path={electronPath} count={5} duration={16} />
       </g>
       {[0, 1, 2].map((index) => (
-        <circle key={`slow-resistor-electron-${index}`} className="ce-stage-3 ce-charge" r="6" fill="#2563eb">
+        <circle key={`zigzag-resistor-electron-${index}`} className="ce-stage-3 ce-charge" r="6" fill="#2563eb">
           <animateMotion
-            dur="13s"
-            begin={`-${index * 4.3}s`}
+            dur="12s"
+            begin={`-${index * 4}s`}
             repeatCount="indefinite"
             path={resistorPath}
           />
         </circle>
       ))}
+      <g className="ce-stage-3">
+        <path d="M302 72V112M342 72V112M382 72V112" stroke="#dc2626" strokeWidth="3" strokeLinecap="round" opacity="0.72" />
+        <path d="M392 128H356" fill="none" stroke="#dc2626" strokeWidth="3" strokeLinecap="round" markerEnd="url(#ceArrow)" />
+        <path d="M338 128H302" fill="none" stroke="#dc2626" strokeWidth="3" strokeLinecap="round" markerEnd="url(#ceArrow)" />
+        <text x="282" y="150" fill="#b91c1c" fontSize="12" fontWeight="900">opposition slows current and creates heat</text>
+      </g>
       {[310, 354, 397].map((x, index) => (
         <circle
           key={`collision-${x}`}
@@ -988,7 +958,7 @@ function CapacitorWorkingScene() {
       <text className="ce-stage-2 ce-cap-plate" x="292" y="48" fill="#dc2626" fontSize="22" fontWeight="900">+</text>
       <text className="ce-stage-2 ce-cap-plate" x="385" y="48" fill="#2563eb" fontSize="22" fontWeight="900">-</text>
       <g className="ce-stage-1">
-        <MovingCharges path="M118 225V238H525V92H390" count={3} duration={4} color="#2563eb" />
+        <MovingCharges path="M118 225V238H525V92H390" count={3} duration={7} color="#2563eb" />
       </g>
       <g className="ce-stage-1 ce-cap-current">
         <path d="M250 142H322" stroke="#dc2626" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceArrow)" />
@@ -1013,7 +983,7 @@ function InductorWorkingScene() {
         <circle className="ce-magnetic-ring-two" cx="0" cy="0" r="58" fill="none" stroke="#10b981" strokeWidth="2" />
       </g>
       <g className="ce-stage-1">
-        <MovingCharges path="M118 225V238H525V92H405H288H118V155" count={4} duration={6} color="#059669" />
+        <MovingCharges path="M118 225V238H525V92H405H288H118V155" count={4} duration={9.5} color="#059669" />
       </g>
       <g className="ce-stage-3 ce-back-emf">
         <path d="M430 145H284" stroke="#dc2626" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceArrow)" />
@@ -1036,7 +1006,7 @@ function VoltageSourceWorkingScene() {
       <path className="ce-wire" d="M158 165H285V92H510V238H285V165" />
       <path className="ce-stage-3 ce-variable-load" d="M510 92v18l-18 10 36 20-36 20 36 20-36 20 18 10v28" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
       <g className="ce-stage-2">
-        <MovingCharges path="M158 165H285V92H510V238H285V165" count={4} duration={6} color="#2563eb" />
+        <MovingCharges path="M158 165H285V92H510V238H285V165" count={4} duration={9.5} color="#2563eb" />
         <path className="ce-source-push" d="M185 68H472" stroke="#059669" strokeWidth="5" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
       </g>
       <g className="ce-stage-4">
@@ -1058,7 +1028,7 @@ function CurrentSourceWorkingScene() {
       <path className="ce-wire" d="M158 165H285V92H510V238H285V165" />
       <path className="ce-stage-3 ce-variable-load" d="M510 92v18l-18 10 36 20-36 20 36 20-36 20 18 10v28" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
       <g className="ce-stage-2">
-        <MovingCharges path="M158 165H285V92H510V238H285V165" count={6} duration={5.5} color="#059669" />
+        <MovingCharges path="M158 165H285V92H510V238H285V165" count={6} duration={9} color="#059669" />
       </g>
       <g className="ce-stage-2">
         <MeterBar x={230} y={268} label="I remains fixed" fill="#059669" className="ce-fixed-meter" />
@@ -1166,7 +1136,7 @@ function DependentSourceScene() {
       <g className="ce-stage-4">
         <path className="ce-wire" d="M415 132H535V238H280V132H285" />
         <path className="ce-variable-load" d="M535 132v18l-18 10 36 20-36 20 18 10v28" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-        <MovingCharges path="M415 132H535V238H280V132H285" count={5} color="#7c3aed" duration={5.5} />
+        <MovingCharges path="M415 132H535V238H280V132H285" count={5} color="#7c3aed" duration={9} />
         <MeterBar x={405} y={270} width={140} label="controlled output" fill="#7c3aed" className="ce-vout-meter" />
       </g>
     </g>
@@ -1184,7 +1154,7 @@ function SourceTransformationScene() {
         <path className="ce-wire" d="M160 145H205" />
         <path d="M205 145h12l8-14 16 28 16-28 16 28 8-14h12" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
         <path className="ce-wire" d="M100 145H70V235H315V145H293" />
-        <MovingCharges path="M100 145H70V235H315V145H293" count={2} duration={5.5} />
+        <MovingCharges path="M100 145H70V235H315V145H293" count={2} duration={9} />
       </g>
 
       <path className="ce-stage-2" d="M300 155H365" stroke="#059669" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
@@ -1196,7 +1166,7 @@ function SourceTransformationScene() {
         <path d="M445 165V126" stroke="#059669" strokeWidth="5" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
         <path className="ce-wire" d="M475 145H535V235H385V145H415" />
         <path d="M535 112v12l14 8-28 16 28 16-28 16 14 8v12" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-        <MovingCharges path="M475 145H535V235H385V145H415" count={3} color="#059669" duration={5} />
+        <MovingCharges path="M475 145H535V235H385V145H415" count={3} color="#059669" duration={8.5} />
       </g>
 
       <rect className="ce-stage-4" x="155" y="268" width="350" height="34" rx="10" fill="#f8fafc" stroke="#cbd5e1" />
