@@ -177,6 +177,7 @@ export const NETWORK_TOPIC_ROUTES = {
   "Circuit Elements": "/circuit-elements",
   "Circuit Laws": "/circuit-laws",
   "Network Theorems": "/network-theorems",
+  "DC Circuit Analysis": "/dc-circuit-analysis",
 };
 
 export const NETWORK_ROUTE_ACTIVE_INDEX = {
@@ -184,6 +185,7 @@ export const NETWORK_ROUTE_ACTIVE_INDEX = {
   "/circuit-elements": 1,
   "/circuit-laws": 2,
   "/network-theorems": 3,
+  "/dc-circuit-analysis": 4,
 };
 
 const BASIC_CONCEPT_GUIDE = [
@@ -2896,14 +2898,16 @@ function BasicConceptGuideContent({ withIntro = true }) {
   return (
     <div
       id="fundamental-electrical-concepts"
-      className={withIntro ? "mt-5 scroll-mt-40 border-t border-slate-200 pt-4" : "scroll-mt-40"}
+      className={`basic-concept-guide-content ${
+        withIntro ? "mt-5 scroll-mt-40 border-t border-slate-200 pt-4" : "scroll-mt-40"
+      }`}
     >
       {withIntro ? (
         <>
           <h3 className="text-sm font-bold uppercase tracking-[0.08em] text-slate-900">
             Fundamental Electrical Concepts
           </h3>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
+          <p className="mt-2 text-sm font-medium leading-6 text-slate-800">
             These ideas form the base of Network Analysis. Learn them first, then KCL,
             KVL, and circuit theorems become much easier to understand.
           </p>
@@ -3484,36 +3488,61 @@ export default function SubjectTheoryPage({
             </ol>
           </nav>
 
-          <section className="rounded-[30px] border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-5 shadow-panel sm:p-6">
+          <section className="rounded-[24px] border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-4 shadow-panel sm:p-5">
             <p className="inline-flex rounded-full border border-portal-200 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
-              Network Analysis
+              Network Analysis / Basic Concepts
             </p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Basic Concepts
+              Understand Electric Current in 2 minutes with visual explanation
             </h1>
-            <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-700 sm:text-base">
-              These are the base ideas that make circuits readable: charge, current,
-              voltage, power, energy, and element behavior. The original diagrams and
-              step-by-step explanations are kept below in a cleaner page flow.
+            <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-800 sm:text-base">
+              You will learn how charge moves, how current is defined, why voltage
+              creates the push, and how power and energy appear inside a circuit.
             </p>
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+              <Link
+                href="/mcqs/network-analysis"
+                className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
+              >
+                Try MCQs
+              </Link>
+              <Link
+                href="/notes/network-analysis"
+                className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
+              >
+                Download Notes
+              </Link>
+              <Link
+                href="/circuit-elements"
+                className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
+              >
+                Next Topic
+              </Link>
+            </div>
           </section>
 
           <section className="mt-5">
             <BasicConceptGuideContent withIntro={false} />
           </section>
 
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
             <Link
-              href="/subjects/network-analysis"
-              className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-50"
+              href="/mcqs/network-analysis"
+              className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
             >
-              Network Analysis
+              Try MCQs
+            </Link>
+            <Link
+              href="/notes/network-analysis"
+              className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
+            >
+              Download Notes
             </Link>
             <Link
               href="/circuit-elements"
-              className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
+              className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
             >
-              Next Circuit Elements
+              Next Topic
             </Link>
           </div>
         </div>

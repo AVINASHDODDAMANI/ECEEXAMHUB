@@ -77,3 +77,44 @@ canvas {
   position: relative;
   min-height: 100vh;
 }
+
+.basic-concept-guide-content > div > section {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.basic-concept-guide-content section.rounded-2xl {
+  padding: 0.875rem;
+}
+
+.basic-concept-guide-content .stage-card,
+.basic-concept-guide-content .pro-stage-card,
+.basic-concept-guide-content .power-stage-card,
+.basic-concept-guide-content .pa-stage-card,
+.basic-concept-guide-content .ln-stage-card,
+.basic-concept-guide-content .bu-stage-card {
+  padding: 0.625rem 0.75rem;
+  opacity: 0.96 !important;
+}
+
+.basic-concept-guide-content .stage-card p:last-child,
+.basic-concept-guide-content .pro-stage-card p:last-child,
+.basic-concept-guide-content .power-stage-card p:last-child,
+.basic-concept-guide-content .pa-stage-card p:nth-child(2),
+.basic-concept-guide-content .ln-stage-card p:last-child,
+.basic-concept-guide-content .bu-stage-card p:last-child {
+  color: #334155;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .basic-concept-guide-content > div > section {
+    padding-top: 0.875rem;
+    padding-bottom: 0.875rem;
+  }
+
+  .basic-concept-guide-content section.rounded-2xl {
+    border-radius: 1rem;
+    padding: 0.75rem;
+  }
+}
