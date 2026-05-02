@@ -6,49 +6,49 @@ const circuitElementSections = [
   {
     title: "Resistor",
     intro:
-      "A resistor opposes current flow and converts part of the electrical energy into heat.",
+      "A resistor sets the overall current in a circuit and converts electrical energy into heat.",
     breakdown: [
-      "It controls how much current can pass through a branch.",
+      "In a series branch, the same current flows through every element.",
       "It is used for current limiting, voltage division, biasing, and protection.",
-      "A larger resistance makes the current flow weaker for the same voltage.",
+      "A larger resistance gives a smaller circuit current for the same applied voltage.",
     ],
     formula: "V = IR",
     formulaMeaning: [
-      "V is the voltage across the resistor.",
-      "I is the current through it.",
+      "V is the reference voltage across the resistor.",
+      "I is the reference current through it.",
       "R is the resistance value.",
     ],
-    keyIdea: "A resistor controls current by using up energy as heat.",
+    keyIdea: "A resistor does not consume current locally; it causes voltage drop and heat loss while setting the branch current.",
     animation:
-      "Show electrons moving normally in the wire, then slower with zig-zag collision motion inside the resistor. Heat waves grow as electrical energy is dissipated.",
+      "Show the same branch current through the whole loop, a voltage drop across the resistor, stronger scattering in the resistive material, and heat produced by energy dissipation.",
     visualSteps: [
       {
         label: "Step 1",
         title: "Electron Flow",
         color: "blue",
         text:
-          "Blue particles represent electrons, the tiny moving charges that travel through the wire when the circuit is complete.",
+          "Blue dots show charge moving around the closed circuit. In this series loop, the same current passes before and after the resistor.",
       },
       {
         label: "Step 2",
-        title: "Power Flow / Energy Transfer",
+        title: "Voltage Drop / Field Energy",
         color: "amber",
         text:
-          "The continuous yellow pulse represents current flow and energy transfer through the resistor region. It is shown as a glowing flow, not as a particle.",
+          "The + and - marks across the resistor show voltage drop. Electrical energy is used in the resistor, not current.",
       },
       {
         label: "Step 3",
-        title: "Collision Effect",
+        title: "Resistive Material",
         color: "slate",
         text:
-          "Inside the resistor, electrons interact with atoms of the material. The zig-zag motion and small flashes show these collisions.",
+          "The resistor material causes stronger scattering of charge motion than an ideal wire.",
       },
       {
         label: "Step 4",
         title: "Heat Loss",
         color: "orange",
         text:
-          "Because of these collisions, electrical energy is converted into heat. The orange heat waves show power dissipated in the resistor.",
+          "The voltage drop and current mean power is dissipated: p = vi. That electrical energy is converted mainly into heat.",
       },
     ],
   },
@@ -243,49 +243,50 @@ const circuitElementSections = [
   {
     title: "Dependent Source",
     intro:
-      "A dependent source is controlled by another voltage or current somewhere in the circuit.",
+      "A dependent source is an ideal controlled-source model whose value depends on another voltage or current.",
     breakdown: [
-      "It connects one part of the circuit to another part.",
-      "It is useful for modeling transistors, amplifiers, and controlled devices.",
-      "A small input can control a larger output, which is the basic idea behind amplification.",
+      "It defines an output voltage or current using a controlling voltage or current elsewhere in the circuit.",
+      "It is an ideal model used for transistors, op-amps, amplifiers, and controlled devices.",
+      "The control signal only sets the output relation; practical output power must come from a supply.",
     ],
-    formula: "Vout = A Vin",
+    formula: "VCVS: Vout = A Vin",
     formulaMeaning: [
-      "Vout is the output voltage.",
-      "Vin is the controlling input voltage.",
-      "A is the gain.",
+      "This diagram shows only one type: voltage-controlled voltage source.",
+      "Vin and Vout are measured with the marked reference polarities.",
+      "Other dependent-source types are VCCS, CCVS, and CCCS.",
+      "A is the voltage gain, not a source of energy by itself.",
     ],
-    keyIdea: "A dependent source lets one circuit quantity control another.",
+    keyIdea: "A dependent source controls voltage or current; it does not generate energy by itself.",
     animation:
-      "Show a small input signal controlling a brighter and larger output path.",
+      "Show one VCVS model: Vin controls the value and polarity of Vout, while practical output power is supplied by the amplifier's power rails.",
     visualSteps: [
       {
         label: "Step 1",
         title: "Input Signal Appears",
         color: "blue",
         text:
-          "A small controlling voltage or current is applied at the input.",
+          "A controlling input voltage Vin is defined with a clear reference polarity.",
       },
       {
         label: "Step 2",
         title: "Control Signal Links The Circuit",
         color: "amber",
         text:
-          "The dashed control path shows that one circuit quantity controls another source.",
+          "The dashed line is a control relation only. It is not a wire carrying output power.",
       },
       {
         label: "Step 3",
         title: "Output Source Responds",
         color: "orange",
         text:
-          "The dependent source produces an output based on the input and gain.",
+          "This is a VCVS example: Vout is defined as A times Vin using the marked output polarity.",
       },
       {
         label: "Step 4",
-        title: "Larger Output Is Delivered",
+        title: "Supply Provides Output Power",
         color: "slate",
         text:
-          "The output path shows controlled energy delivery, which is the basic idea behind amplification.",
+          "The controlled source sets the output relation. In a real amplifier, supply rails provide the output power.",
       },
     ],
   },
@@ -503,12 +504,20 @@ function CircuitElementMotionDiagram({ title, steps = [] }) {
         }
 
         .ce-energy-pulse {
-          stroke-dasharray: 26 18;
-          animation: ceEnergyPulse 5s linear infinite;
+          animation: none;
+        }
+
+        .ce-field-transfer {
+          opacity: 0.72;
         }
 
         .ce-guide-card {
-          transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+          transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .ce-guide-card-active {
+          box-shadow: 0 8px 20px rgba(21, 74, 150, 0.14);
+          transform: translateY(-1px);
         }
 
         .ce-stage-1,
@@ -623,10 +632,6 @@ function CircuitElementMotionDiagram({ title, steps = [] }) {
           56% { opacity: 0; transform: scale(0.8); }
         }
 
-        @keyframes ceEnergyPulse {
-          to { stroke-dashoffset: -88; }
-        }
-
         @keyframes ceCapCurrent {
           0%, 16% { opacity: 1; }
           62%, 100% { opacity: 0; }
@@ -667,7 +672,7 @@ function CircuitElementMotionDiagram({ title, steps = [] }) {
         Animated Circuit View: {title}
       </h4>
       <p className="mx-auto mt-2 max-w-3xl rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-center text-xs font-bold leading-5 text-blue-700">
-        Follow the circuit action to see how this element changes current, voltage, and energy flow.
+        Follow the moving charge, the marked voltage polarity, and the energy effect shown for each element.
       </p>
 
       <div className="mt-3 grid gap-2.5 border-t border-slate-200 pt-3">
@@ -692,6 +697,9 @@ function CircuitElementMotionDiagram({ title, steps = [] }) {
               <marker id="ceGreenArrow" markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto">
                 <path d="M0 0 6 3 0 6Z" fill="#059669" />
               </marker>
+              <marker id="cePurpleArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                <path d="M0 0 8 4 0 8Z" fill="#7c3aed" />
+              </marker>
             </defs>
 
             <rect x="18" y="18" width="604" height="294" rx="22" fill="#ffffff" stroke="#e2e8f0" />
@@ -714,7 +722,11 @@ function CircuitElementMotionDiagram({ title, steps = [] }) {
           </svg>
         </div>
 
-        <CircuitAnimationStepCards steps={steps} activeStep={activeStep} />
+        <CircuitAnimationStepCards
+          steps={steps}
+          activeStep={activeStep}
+          onSelectStep={setActiveStep}
+        />
       </div>
     </div>
   );
@@ -734,9 +746,8 @@ function getCompactStepTitle(title = "") {
     .replace("Equivalent Source Form", "Equivalent Form");
 }
 
-function CircuitAnimationStepCards({ steps = [], activeStep = 1 }) {
+function CircuitAnimationStepCards({ steps = [], activeStep = 1, onSelectStep }) {
   const displaySteps = steps.slice(0, 4);
-  const visibleSteps = displaySteps.slice(0, activeStep);
 
   if (!displaySteps.length) {
     return null;
@@ -744,23 +755,31 @@ function CircuitAnimationStepCards({ steps = [], activeStep = 1 }) {
 
   return (
     <div className="grid gap-1.5 sm:grid-cols-2 xl:grid-cols-4">
-      {visibleSteps.map((step, index) => (
-        <div
-          key={`${step.label}-${step.title}`}
-          className={`ce-guide-card rounded-md border px-2.5 py-2 shadow-sm ${
-            activeStep === index + 1
-              ? "border-portal-600 bg-blue-50"
-              : "border-slate-300 bg-white"
-          }`}
-        >
-          <p className="text-[9px] font-black uppercase tracking-[0.06em] text-portal-800">
-            Step {getStepNumber(step.label, index)}: {getCompactStepTitle(step.title)}
-          </p>
-          <p className="mt-0.5 text-[11px] font-bold leading-4 text-slate-950">
-            {step.text}
-          </p>
-        </div>
-      ))}
+      {displaySteps.map((step, index) => {
+        const stepNumber = index + 1;
+        const isActive = activeStep === stepNumber;
+
+        return (
+          <button
+            type="button"
+            key={`${step.label}-${step.title}`}
+            onClick={() => onSelectStep?.(stepNumber)}
+            aria-pressed={isActive}
+            className={`ce-guide-card rounded-md border px-2.5 py-2 text-left shadow-sm ${
+              isActive
+                ? "ce-guide-card-active border-portal-600 bg-blue-50"
+                : "border-slate-300 bg-white"
+            }`}
+          >
+            <p className="text-[9px] font-black uppercase tracking-[0.06em] text-portal-800">
+              Step {getStepNumber(step.label, index)}: {getCompactStepTitle(step.title)}
+            </p>
+            <p className="mt-0.5 text-[11px] font-bold leading-4 text-slate-950">
+              {step.text}
+            </p>
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -782,27 +801,16 @@ function MovingCharges({ path, count = 3, color = "#2563eb", duration = 9 }) {
   );
 }
 
-function ResistorOpposedCharges({ path, count = 4, duration = 15 }) {
+function ResistorCurrentDots({ path, count = 4, duration = 18 }) {
   return (
     <>
       {Array.from({ length: count }).map((_, index) => (
-        <circle key={`opposed-charge-${index}`} className="ce-charge" r="6" fill="#2563eb">
+        <circle key={`resistor-current-dot-${index}`} className="ce-charge" r="6" fill="#2563eb">
           <animateMotion
             dur={`${duration}s`}
             begin={`-${(duration / count) * index}s`}
             repeatCount="indefinite"
             path={path}
-            calcMode="linear"
-            keyPoints="0;0.72;0.92;1"
-            keyTimes="0;0.48;0.9;1"
-          />
-          <animate
-            attributeName="r"
-            values="6;6;4.8;6"
-            keyTimes="0;0.48;0.9;1"
-            dur={`${duration}s`}
-            begin={`-${(duration / count) * index}s`}
-            repeatCount="indefinite"
           />
         </circle>
       ))}
@@ -863,85 +871,103 @@ function MeterBar({ x, y, width = 140, label, fill = "#2563eb", className = "" }
 }
 
 function ResistorWorkingScene() {
-  const electronPath = "M118 225V238H525V92H430H275H118V155";
-  const resistorPath = "M430 92H412L402 110L382 76L362 110L342 76L322 110L302 76L292 92H275";
+  const loopPath = "M118 225V248H530V92H430H275H118V155";
+  const resistorPath = "M430 92H411L401 112L381 72L361 112L341 72L321 112L301 72L291 92H275";
 
   return (
     <g>
-      <BatterySymbol />
-      <path className="ce-wire" d="M118 155V92H525V238H118V225" />
-      <path className="ce-wire" d="M156 190H118" />
-      <text x="178" y="160" fill="#dc2626" fontSize="20" fontWeight="900">+</text>
-      <text x="178" y="228" fill="#2563eb" fontSize="20" fontWeight="900">-</text>
-      <path className="ce-stage-2 ce-voltage-drop" d="M255 92H438" stroke="#fbbf24" strokeWidth="16" strokeLinecap="round" opacity="0.36" />
-      <path
-        className="ce-stage-2 ce-energy-pulse"
-        d="M245 126H455"
-        fill="none"
-        stroke="#f59e0b"
-        strokeWidth="8"
-        strokeLinecap="round"
-        markerEnd="url(#ceGreenArrow)"
-      />
-      <path
-        className="ce-stage-4 ce-resistor-glow"
-        d="M275 92h18l10-18 20 36 20-36 20 36 20-36 10 18h18"
-        fill="none"
-        stroke="#f59e0b"
-        strokeWidth="13"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        filter="url(#ceGlow)"
-      />
-      <path d="M275 92h18l10-18 20 36 20-36 20 36 20-36 10 18h18" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-      <text x="312" y="61" fill="#111827" fontSize="14" fontWeight="900">Resistor (R)</text>
-      <path className="ce-stage-1" d="M492 108H430" stroke="#1d4ed8" strokeWidth="3" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
-      {[302, 324, 348, 371, 395].map((x, index) => (
-        <circle
-          key={`resistor-atom-${x}`}
-          className="ce-stage-3 ce-resistor-atom"
-          cx={x}
-          cy={index % 2 ? 104 : 82}
-          r="4.5"
-          fill="#94a3b8"
-        />
-      ))}
       <g className="ce-stage-1">
-        <ResistorOpposedCharges path={electronPath} count={5} duration={16} />
-      </g>
-      {[0, 1, 2].map((index) => (
-        <circle key={`zigzag-resistor-electron-${index}`} className="ce-stage-3 ce-charge" r="6" fill="#2563eb">
-          <animateMotion
-            dur="12s"
-            begin={`-${index * 4}s`}
-            repeatCount="indefinite"
-            path={resistorPath}
-          />
-        </circle>
-      ))}
-      <g className="ce-stage-3">
-        <path d="M302 72V112M342 72V112M382 72V112" stroke="#dc2626" strokeWidth="3" strokeLinecap="round" opacity="0.72" />
-        <path d="M392 128H356" fill="none" stroke="#dc2626" strokeWidth="3" strokeLinecap="round" markerEnd="url(#ceArrow)" />
-        <path d="M338 128H302" fill="none" stroke="#dc2626" strokeWidth="3" strokeLinecap="round" markerEnd="url(#ceArrow)" />
-        <text x="282" y="150" fill="#b91c1c" fontSize="12" fontWeight="900">opposition slows current and creates heat</text>
-      </g>
-      {[310, 354, 397].map((x, index) => (
-        <circle
-          key={`collision-${x}`}
-          className="ce-stage-3 ce-collision-flash"
-          cx={x}
-          cy={index === 1 ? 75 : 108}
-          r="9"
-          fill="#f97316"
-          filter="url(#ceGlow)"
-          style={{ animationDelay: `${index * 0.55}s` }}
+        <BatterySymbol x={82} y={156} />
+        <path className="ce-wire" d="M118 156V92H275" />
+        <path className="ce-wire" d="M430 92H530V248H118V226" />
+        <path className="ce-wire" d="M158 191H118" />
+        <path
+          d="M275 92h18l10-20 20 40 20-40 20 40 20-40 10 20h18"
+          fill="none"
+          stroke="#111827"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
-      ))}
-      <path className="ce-stage-4 ce-heat-line" d="M315 58C306 43 322 38 313 24" fill="none" stroke="#f59e0b" strokeWidth="4" strokeLinecap="round" />
-      <path className="ce-stage-4 ce-heat-line" d="M350 58C341 43 357 38 348 24" fill="none" stroke="#f59e0b" strokeWidth="4" strokeLinecap="round" style={{ animationDelay: "0.25s" }} />
-      <path className="ce-stage-4 ce-heat-line" d="M385 58C376 43 392 38 383 24" fill="none" stroke="#f59e0b" strokeWidth="4" strokeLinecap="round" style={{ animationDelay: "0.5s" }} />
-      <circle cx="450" cy="268" r="5" fill="#2563eb" filter="url(#ceGlow)" />
-      <path d="M470 288C465 282 476 281 471 275" fill="none" stroke="#f97316" strokeWidth="2.4" strokeLinecap="round" />
+        <text x="321" y="132" fill="#111827" fontSize="14" fontWeight="900">R</text>
+        <path d="M238 45H322" stroke="#dc2626" strokeWidth="3.5" strokeLinecap="round" markerEnd="url(#ceArrow)" />
+        <rect x="58" y="32" width="134" height="26" rx="8" fill="#fff1f2" stroke="#fecdd3" />
+        <text x="70" y="50" fill="#dc2626" fontSize="11" fontWeight="900">current direction</text>
+        <path d="M456 111H430" stroke="#2563eb" strokeWidth="3" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
+        <path d="M272 111H246" stroke="#2563eb" strokeWidth="3" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
+        <rect x="438" y="128" width="106" height="25" rx="8" fill="#eff6ff" stroke="#bfdbfe" />
+        <text x="451" y="145" fill="#1d4ed8" fontSize="11" fontWeight="900">same current</text>
+        <ResistorCurrentDots path={loopPath} count={6} duration={15} />
+      </g>
+
+      <g className="ce-stage-2">
+        <path className="ce-voltage-drop" d="M276 144H430" stroke="#fbbf24" strokeWidth="17" strokeLinecap="round" opacity="0.34" />
+        <path d="M282 143C316 165 390 165 424 143" fill="none" stroke="#f59e0b" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
+        <text x="268" y="78" fill="#dc2626" fontSize="20" fontWeight="900">+</text>
+        <text x="430" y="78" fill="#2563eb" fontSize="20" fontWeight="900">-</text>
+        <rect x="58" y="270" width="166" height="38" rx="10" fill="#fffbeb" stroke="#fde68a" />
+        <text x="72" y="287" fill="#b45309" fontSize="11" fontWeight="900">voltage drop across R</text>
+        <text x="72" y="302" fill="#b45309" fontSize="10" fontWeight="800">field energy converts here</text>
+      </g>
+
+      <g className="ce-stage-3">
+        <rect x="286" y="62" width="132" height="60" rx="16" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="2" opacity="0.82" />
+        {[304, 328, 352, 376, 400].map((x, index) => (
+          <circle
+            key={`resistor-lattice-${x}`}
+            className="ce-resistor-atom"
+            cx={x}
+            cy={index % 2 ? 102 : 82}
+            r="5"
+            fill="#64748b"
+          />
+        ))}
+        {[0, 1, 2].map((index) => (
+          <circle key={`resistor-scatter-${index}`} className="ce-charge" r="5" fill="#2563eb">
+            <animateMotion
+              dur="7s"
+              begin={`-${index * 2.25}s`}
+              repeatCount="indefinite"
+              path={resistorPath}
+            />
+          </circle>
+        ))}
+        {[310, 354, 397].map((x, index) => (
+          <circle
+            key={`collision-${x}`}
+            className="ce-collision-flash"
+            cx={x}
+            cy={index === 1 ? 76 : 108}
+            r="9"
+            fill="#f97316"
+            filter="url(#ceGlow)"
+            style={{ animationDelay: `${index * 0.55}s` }}
+          />
+        ))}
+        <rect x="238" y="270" width="172" height="38" rx="10" fill="#f8fafc" stroke="#cbd5e1" />
+        <text x="252" y="287" fill="#475569" fontSize="11" fontWeight="900">resistive material</text>
+        <text x="252" y="302" fill="#475569" fontSize="10" fontWeight="800">scatters moving charge</text>
+      </g>
+
+      <g className="ce-stage-4">
+        <path
+          className="ce-resistor-glow"
+          d="M275 92h18l10-20 20 40 20-40 20 40 20-40 10 20h18"
+          fill="none"
+          stroke="#f59e0b"
+          strokeWidth="16"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          filter="url(#ceGlow)"
+        />
+        <path className="ce-heat-line" d="M306 56C296 39 315 34 305 18" fill="none" stroke="#f97316" strokeWidth="4" strokeLinecap="round" />
+        <path className="ce-heat-line" d="M342 56C332 39 351 34 341 18" fill="none" stroke="#f97316" strokeWidth="4" strokeLinecap="round" style={{ animationDelay: "0.22s" }} />
+        <path className="ce-heat-line" d="M378 56C368 39 387 34 377 18" fill="none" stroke="#f97316" strokeWidth="4" strokeLinecap="round" style={{ animationDelay: "0.44s" }} />
+        <path className="ce-heat-line" d="M414 56C404 39 423 34 413 18" fill="none" stroke="#f97316" strokeWidth="4" strokeLinecap="round" style={{ animationDelay: "0.66s" }} />
+        <rect x="424" y="270" width="156" height="38" rx="10" fill="#fff7ed" stroke="#fdba74" />
+        <text x="438" y="287" fill="#9a3412" fontSize="11" fontWeight="900">heat loss: p = vi</text>
+        <text x="438" y="302" fill="#9a3412" fontSize="10" fontWeight="800">thermal energy</text>
+      </g>
     </g>
   );
 }
@@ -949,22 +975,46 @@ function ResistorWorkingScene() {
 function CapacitorWorkingScene() {
   return (
     <g>
-      <BatterySymbol />
-      <path className="ce-wire" d="M118 155V92H300" />
-      <path className="ce-wire" d="M390 92H525V238H118V225" />
-      <path className="ce-wire" d="M156 190H118" />
-      <path d="M318 52V132M374 52V132" stroke="#111827" strokeWidth="7" strokeLinecap="round" />
-      <path className="ce-stage-3 ce-field" d="M330 64H362M330 82H362M330 100H362M330 118H362" stroke="#2563eb" strokeWidth="3" strokeLinecap="round" />
-      <text className="ce-stage-2 ce-cap-plate" x="292" y="48" fill="#dc2626" fontSize="22" fontWeight="900">+</text>
-      <text className="ce-stage-2 ce-cap-plate" x="385" y="48" fill="#2563eb" fontSize="22" fontWeight="900">-</text>
       <g className="ce-stage-1">
-        <MovingCharges path="M118 225V238H525V92H390" count={3} duration={7} color="#2563eb" />
+        <BatterySymbol x={82} y={156} />
+        <path className="ce-wire" d="M118 156V92H304" />
+        <path className="ce-wire" d="M386 92H530V248H118V226" />
+        <path className="ce-wire" d="M158 191H118" />
+        <path d="M320 48V136M370 48V136" stroke="#111827" strokeWidth="7" strokeLinecap="round" />
+        <text x="314" y="154" fill="#111827" fontSize="14" fontWeight="900">capacitor plates</text>
+        <path className="ce-cap-current" d="M238 44H310" stroke="#dc2626" strokeWidth="3.5" strokeLinecap="round" markerEnd="url(#ceArrow)" />
+        <text x="68" y="50" fill="#dc2626" fontSize="11" fontWeight="900">temporary charging current</text>
+        <MovingCharges path="M118 226V248H530V92H386" count={4} duration={8} color="#2563eb" />
+        <MovingCharges path="M118 156V92H304" count={3} duration={7} color="#2563eb" />
       </g>
-      <g className="ce-stage-1 ce-cap-current">
-        <path d="M250 142H322" stroke="#dc2626" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceArrow)" />
+
+      <g className="ce-stage-2">
+        {[60, 78, 96, 114].map((y) => (
+          <text key={`positive-plate-${y}`} className="ce-cap-plate" x="292" y={y} fill="#dc2626" fontSize="18" fontWeight="900">+</text>
+        ))}
+        {[60, 78, 96, 114].map((y) => (
+          <text key={`negative-plate-${y}`} className="ce-cap-plate" x="382" y={y} fill="#2563eb" fontSize="20" fontWeight="900">-</text>
+        ))}
+        <rect x="304" y="270" width="178" height="38" rx="10" fill="#eff6ff" stroke="#bfdbfe" />
+        <text x="318" y="287" fill="#1d4ed8" fontSize="11" fontWeight="900">charge collects on plates</text>
+        <text x="318" y="302" fill="#1d4ed8" fontSize="10" fontWeight="800">no charge crosses the gap</text>
       </g>
+
       <g className="ce-stage-3">
-        <MeterBar x={230} y={268} label="Capacitor voltage rises" fill="#2563eb" className="ce-cap-charge-meter" />
+        <rect x="326" y="54" width="38" height="76" rx="12" fill="#dbeafe" opacity="0.45" />
+        <path className="ce-field" d="M332 62H358M332 78H358M332 94H358M332 110H358M332 126H358" stroke="#2563eb" strokeWidth="3" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
+        <rect x="486" y="270" width="120" height="38" rx="10" fill="#ecfeff" stroke="#a5f3fc" />
+        <text x="500" y="287" fill="#0e7490" fontSize="11" fontWeight="900">electric field</text>
+        <text x="500" y="302" fill="#0e7490" fontSize="10" fontWeight="800">stored energy</text>
+        <MeterBar x={238} y={224} width={148} label="Vc rises" fill="#2563eb" className="ce-cap-charge-meter" />
+      </g>
+
+      <g className="ce-stage-4">
+        <path d="M286 176H404" stroke="#f97316" strokeWidth="4" strokeLinecap="round" />
+        <path d="M330 162l30 30M360 162l-30 30" stroke="#f97316" strokeWidth="4" strokeLinecap="round" />
+        <rect x="58" y="270" width="222" height="38" rx="10" fill="#fff7ed" stroke="#fdba74" />
+        <text x="72" y="287" fill="#9a3412" fontSize="11" fontWeight="900">DC steady state: open circuit</text>
+        <text x="72" y="302" fill="#9a3412" fontSize="10" fontWeight="800">charging current fades to zero</text>
       </g>
     </g>
   );
@@ -973,24 +1023,46 @@ function CapacitorWorkingScene() {
 function InductorWorkingScene() {
   return (
     <g>
-      <BatterySymbol />
-      <path className="ce-wire" d="M118 155V92H288" />
-      <path className="ce-wire" d="M405 92H525V238H118V225" />
-      <path className="ce-wire" d="M156 190H118" />
-      <path d="M288 92c8-28 24 28 34 0s24 28 34 0 24 28 34 0" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" />
-      <g className="ce-stage-2" transform="translate(350 93)">
-        <circle className="ce-magnetic-ring-one" cx="0" cy="0" r="42" fill="none" stroke="#10b981" strokeWidth="3" />
-        <circle className="ce-magnetic-ring-two" cx="0" cy="0" r="58" fill="none" stroke="#10b981" strokeWidth="2" />
-      </g>
       <g className="ce-stage-1">
-        <MovingCharges path="M118 225V238H525V92H405H288H118V155" count={4} duration={9.5} color="#059669" />
+        <BatterySymbol x={82} y={156} />
+        <path className="ce-wire" d="M118 156V92H286" />
+        <path className="ce-wire" d="M410 92H530V248H118V226" />
+        <path className="ce-wire" d="M158 191H118" />
+        <path d="M286 92c8-30 26 30 38 0s26 30 38 0 26 30 38 0" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" />
+        <text x="328" y="135" fill="#111827" fontSize="14" fontWeight="900">L</text>
+        <path d="M238 45H322" stroke="#059669" strokeWidth="3.5" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
+        <rect x="58" y="32" width="150" height="26" rx="8" fill="#ecfdf5" stroke="#bbf7d0" />
+        <text x="72" y="50" fill="#047857" fontSize="11" fontWeight="900">current starts rising</text>
+        <MovingCharges path="M118 226V248H530V92H410H286H118V156" count={4} duration={10.5} color="#059669" />
+        <MeterBar x={238} y={224} width={148} label="current ramps up" fill="#10b981" className="ce-inductor-current-meter" />
       </g>
-      <g className="ce-stage-3 ce-back-emf">
-        <path d="M430 145H284" stroke="#dc2626" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceArrow)" />
-        <text x="316" y="170" fill="#dc2626" fontSize="12" fontWeight="900">back EMF</text>
+
+      <g className="ce-stage-2">
+        <g transform="translate(348 92)">
+          <circle className="ce-magnetic-ring-one" cx="0" cy="0" r="43" fill="none" stroke="#10b981" strokeWidth="3" />
+          <circle className="ce-magnetic-ring-two" cx="0" cy="0" r="62" fill="none" stroke="#10b981" strokeWidth="2.4" />
+          <circle cx="0" cy="0" r="78" fill="none" stroke="#10b981" strokeWidth="1.8" opacity="0.2" />
+        </g>
+        <rect x="58" y="270" width="180" height="38" rx="10" fill="#ecfdf5" stroke="#bbf7d0" />
+        <text x="72" y="287" fill="#047857" fontSize="11" fontWeight="900">magnetic field grows</text>
+        <text x="72" y="302" fill="#047857" fontSize="10" fontWeight="800">energy stores around coil</text>
       </g>
+
+      <g className="ce-stage-3">
+        <path className="ce-back-emf" d="M432 156H284" stroke="#dc2626" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceArrow)" />
+        <text x="424" y="142" fill="#dc2626" fontSize="16" fontWeight="900">+</text>
+        <text x="276" y="142" fill="#2563eb" fontSize="16" fontWeight="900">-</text>
+        <rect x="254" y="270" width="164" height="38" rx="10" fill="#fff1f2" stroke="#fecdd3" />
+        <text x="268" y="287" fill="#be123c" fontSize="11" fontWeight="900">back EMF opposes</text>
+        <text x="268" y="302" fill="#be123c" fontSize="10" fontWeight="800">rapid current change</text>
+      </g>
+
       <g className="ce-stage-4">
-        <MeterBar x={230} y={268} label="Inductor current ramps up" fill="#10b981" className="ce-inductor-current-meter" />
+        <path d="M238 176H462" stroke="#10b981" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
+        <text x="470" y="181" fill="#047857" fontSize="12" fontWeight="900">steady I</text>
+        <rect x="432" y="270" width="150" height="38" rx="10" fill="#f0fdf4" stroke="#86efac" />
+        <text x="446" y="287" fill="#166534" fontSize="11" fontWeight="900">steady current</text>
+        <text x="446" y="302" fill="#166534" fontSize="10" fontWeight="800">stored field remains</text>
       </g>
     </g>
   );
@@ -999,21 +1071,36 @@ function InductorWorkingScene() {
 function VoltageSourceWorkingScene() {
   return (
     <g>
-      <circle cx="120" cy="165" r="38" fill="#eff6ff" stroke="#111827" strokeWidth="4" />
-      <text x="106" y="158" fill="#dc2626" fontSize="23" fontWeight="900">+</text>
-      <text x="110" y="187" fill="#2563eb" fontSize="23" fontWeight="900">-</text>
-      <text className="ce-stage-1" x="84" y="110" fill="#0f172a" fontSize="14" fontWeight="900">V source</text>
-      <path className="ce-wire" d="M158 165H285V92H510V238H285V165" />
-      <path className="ce-stage-3 ce-variable-load" d="M510 92v18l-18 10 36 20-36 20 36 20-36 20 18 10v28" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+      <g className="ce-stage-1">
+        <circle cx="120" cy="165" r="38" fill="#eff6ff" stroke="#111827" strokeWidth="4" />
+        <text x="106" y="158" fill="#dc2626" fontSize="23" fontWeight="900">+</text>
+        <text x="110" y="187" fill="#2563eb" fontSize="23" fontWeight="900">-</text>
+        <path className="ce-wire" d="M158 165H285V92H510V238H285V165" />
+        <text x="82" y="110" fill="#0f172a" fontSize="14" fontWeight="900">ideal V source</text>
+        <rect x="58" y="270" width="154" height="38" rx="10" fill="#eff6ff" stroke="#bfdbfe" />
+        <text x="72" y="287" fill="#1d4ed8" fontSize="11" fontWeight="900">terminal voltage set</text>
+        <text x="72" y="302" fill="#1d4ed8" fontSize="10" fontWeight="800">V = constant</text>
+      </g>
+
       <g className="ce-stage-2">
         <MovingCharges path="M158 165H285V92H510V238H285V165" count={4} duration={9.5} color="#2563eb" />
-        <path className="ce-source-push" d="M185 68H472" stroke="#059669" strokeWidth="5" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
+        <path className="ce-source-push" d="M204 58H472" stroke="#059669" strokeWidth="5" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
+        <rect x="226" y="270" width="154" height="38" rx="10" fill="#ecfdf5" stroke="#bbf7d0" />
+        <text x="240" y="287" fill="#047857" fontSize="11" fontWeight="900">electrical push</text>
+        <text x="240" y="302" fill="#047857" fontSize="10" fontWeight="800">charges move in loop</text>
       </g>
-      <g className="ce-stage-4">
-        <MeterBar x={230} y={268} label="V remains 12 V" fill="#2563eb" className="ce-fixed-meter" />
-      </g>
+
       <g className="ce-stage-3">
-        <MeterBar x={405} y={268} width={120} label="I changes with load" fill="#f59e0b" className="ce-vout-meter" />
+        <path className="ce-variable-load" d="M510 92v18l-18 10 36 20-36 20 36 20-36 20 18 10v28" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M468 132H528" stroke="#f59e0b" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
+        <MeterBar x={392} y={270} width={126} label="I changes with load" fill="#f59e0b" className="ce-vout-meter" />
+      </g>
+
+      <g className="ce-stage-4">
+        <MeterBar x={238} y={222} width={148} label="V stays fixed" fill="#2563eb" className="ce-fixed-meter" />
+        <rect x="532" y="270" width="74" height="38" rx="10" fill="#eff6ff" stroke="#bfdbfe" />
+        <text x="544" y="287" fill="#1d4ed8" fontSize="11" fontWeight="900">fixed V</text>
+        <text x="544" y="302" fill="#1d4ed8" fontSize="10" fontWeight="800">12 V</text>
       </g>
     </g>
   );
@@ -1022,19 +1109,39 @@ function VoltageSourceWorkingScene() {
 function CurrentSourceWorkingScene() {
   return (
     <g>
-      <circle cx="120" cy="165" r="38" fill="#ecfdf5" stroke="#111827" strokeWidth="4" />
-      <path d="M120 190V138" stroke="#059669" strokeWidth="6" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
-      <text className="ce-stage-1" x="84" y="110" fill="#0f172a" fontSize="14" fontWeight="900">I source</text>
-      <path className="ce-wire" d="M158 165H285V92H510V238H285V165" />
-      <path className="ce-stage-3 ce-variable-load" d="M510 92v18l-18 10 36 20-36 20 36 20-36 20 18 10v28" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+      <g className="ce-stage-1">
+        <circle cx="120" cy="165" r="38" fill="#ecfdf5" stroke="#111827" strokeWidth="4" />
+        <path d="M120 190V138" stroke="#059669" strokeWidth="6" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
+        <path className="ce-wire" d="M158 165H285V92H510V238H285V165" />
+        <text x="82" y="110" fill="#0f172a" fontSize="14" fontWeight="900">ideal I source</text>
+        <rect x="58" y="270" width="154" height="38" rx="10" fill="#ecfdf5" stroke="#bbf7d0" />
+        <text x="72" y="287" fill="#047857" fontSize="11" fontWeight="900">current value set</text>
+        <text x="72" y="302" fill="#047857" fontSize="10" fontWeight="800">I = constant</text>
+      </g>
+
       <g className="ce-stage-2">
         <MovingCharges path="M158 165H285V92H510V238H285V165" count={6} duration={9} color="#059669" />
+        <path d="M206 58H472" stroke="#059669" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
+        <rect x="226" y="270" width="154" height="38" rx="10" fill="#f0fdf4" stroke="#86efac" />
+        <text x="240" y="287" fill="#166534" fontSize="11" fontWeight="900">constant flow</text>
+        <text x="240" y="302" fill="#166534" fontSize="10" fontWeight="800">equal dot spacing</text>
       </g>
-      <g className="ce-stage-2">
-        <MeterBar x={230} y={268} label="I remains fixed" fill="#059669" className="ce-fixed-meter" />
+
+      <g className="ce-stage-3">
+        <path className="ce-variable-load" d="M510 92v18l-18 10 36 20-36 20 36 20-36 20 18 10v28" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M538 104h34M538 238h34" stroke="#f59e0b" strokeWidth="3" strokeLinecap="round" />
+        <text x="548" y="91" fill="#b45309" fontSize="11" fontWeight="900">load changes</text>
+        <MeterBar x={392} y={270} width={126} label="I stays fixed" fill="#059669" className="ce-fixed-meter" />
       </g>
+
       <g className="ce-stage-4">
-        <MeterBar x={405} y={268} width={120} label="V adjusts" fill="#f59e0b" className="ce-vout-meter" />
+        <path d="M82 120h76M82 210h76" stroke="#f59e0b" strokeWidth="3.5" strokeLinecap="round" />
+        <text x="64" y="125" fill="#dc2626" fontSize="16" fontWeight="900">+</text>
+        <text x="64" y="215" fill="#2563eb" fontSize="16" fontWeight="900">-</text>
+        <MeterBar x={238} y={222} width={148} label="source V adjusts" fill="#f59e0b" className="ce-vout-meter" />
+        <rect x="532" y="270" width="74" height="38" rx="10" fill="#fff7ed" stroke="#fdba74" />
+        <text x="544" y="287" fill="#b45309" fontSize="11" fontWeight="900">V adjusts</text>
+        <text x="544" y="302" fill="#b45309" fontSize="10" fontWeight="800">limits</text>
       </g>
     </g>
   );
@@ -1116,28 +1223,45 @@ function DependentSourceScene() {
   return (
     <g>
       <g className="ce-stage-1">
-        <text x="82" y="62" fill="#0f172a" fontSize="14" fontWeight="900">input</text>
-        <circle cx="130" cy="145" r="30" fill="#eff6ff" stroke="#111827" strokeWidth="4" />
-        <text x="112" y="151" fill="#2563eb" fontSize="16" fontWeight="900">Vin</text>
-        <MeterBar x={70} y={210} width={125} label="small Vin" fill="#2563eb" className="ce-vout-meter" />
+        <rect x="56" y="72" width="170" height="142" rx="18" fill="#eff6ff" stroke="#bfdbfe" strokeWidth="2" />
+        <text x="82" y="98" fill="#0f172a" fontSize="13" fontWeight="900">input reference</text>
+        <circle cx="142" cy="145" r="31" fill="#ffffff" stroke="#111827" strokeWidth="4" />
+        <text x="124" y="151" fill="#2563eb" fontSize="16" fontWeight="900">Vin</text>
+        <path d="M172 126h24" stroke="#dc2626" strokeWidth="3" strokeLinecap="round" />
+        <path d="M184 114v24" stroke="#dc2626" strokeWidth="3" strokeLinecap="round" />
+        <path d="M88 166h24" stroke="#2563eb" strokeWidth="3" strokeLinecap="round" />
+        <text x="74" y="202" fill="#2563eb" fontSize="12" fontWeight="900">small control voltage</text>
       </g>
 
       <g className="ce-stage-2">
-        <path className="ce-control-signal" d="M176 145C232 88 282 90 328 132" fill="none" stroke="#7c3aed" strokeWidth="4" />
-        <text x="228" y="104" fill="#7c3aed" fontSize="13" fontWeight="900">control</text>
+        <path className="ce-control-signal" d="M214 145C264 86 320 86 370 132" fill="none" stroke="#7c3aed" strokeWidth="4" />
+        <rect x="238" y="64" width="140" height="34" rx="10" fill="#f5f3ff" stroke="#ddd6fe" />
+        <text x="252" y="85" fill="#7c3aed" fontSize="12" fontWeight="900">control relation only</text>
+        <text x="252" y="118" fill="#64748b" fontSize="11" fontWeight="800">no output power flows here</text>
       </g>
 
       <g className="ce-stage-3">
-        <polygon points="350,96 415,132 350,168 285,132" fill="#f5f3ff" stroke="#111827" strokeWidth="4" />
-        <text x="325" y="128" fill="#7c3aed" fontSize="13" fontWeight="900">Vout</text>
-        <text x="329" y="147" fill="#7c3aed" fontSize="13" fontWeight="900">= A Vin</text>
+        <polygon points="426,90 498,132 426,174 354,132" fill="#f5f3ff" stroke="#111827" strokeWidth="4" />
+        <text x="402" y="124" fill="#7c3aed" fontSize="14" fontWeight="900">VCVS</text>
+        <text x="384" y="145" fill="#7c3aed" fontSize="13" fontWeight="900">Vout = A Vin</text>
+        <path d="M498 112h35M498 152h35" stroke="#111827" strokeWidth="4" strokeLinecap="round" />
+        <text x="536" y="116" fill="#dc2626" fontSize="18" fontWeight="900">+</text>
+        <text x="536" y="158" fill="#2563eb" fontSize="18" fontWeight="900">-</text>
+        <rect x="338" y="198" width="224" height="34" rx="10" fill="#f8fafc" stroke="#cbd5e1" />
+        <text x="354" y="220" fill="#475569" fontSize="12" fontWeight="900">output polarity defines Vout</text>
       </g>
 
       <g className="ce-stage-4">
-        <path className="ce-wire" d="M415 132H535V238H280V132H285" />
-        <path className="ce-variable-load" d="M535 132v18l-18 10 36 20-36 20 18 10v28" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-        <MovingCharges path="M415 132H535V238H280V132H285" count={5} color="#7c3aed" duration={9} />
-        <MeterBar x={405} y={270} width={140} label="controlled output" fill="#7c3aed" className="ce-vout-meter" />
+        <path d="M426 68V44H520" stroke="#64748b" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M426 196V220H520" stroke="#64748b" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="526" y="49" fill="#dc2626" fontSize="13" fontWeight="900">+V supply</text>
+        <text x="526" y="225" fill="#2563eb" fontSize="13" fontWeight="900">-V supply</text>
+        <path className="ce-wire" d="M533 112H580V236H360V152H354" />
+        <path className="ce-variable-load" d="M580 112v16l-17 10 34 18-34 18 34 18-34 18 17 10v16" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M424 236H550" stroke="#7c3aed" strokeWidth="4" strokeLinecap="round" markerEnd="url(#cePurpleArrow)" />
+        <rect x="266" y="264" width="270" height="42" rx="12" fill="#f5f3ff" stroke="#ddd6fe" />
+        <text x="284" y="282" fill="#7c3aed" fontSize="12" fontWeight="900">supply rails provide real output power</text>
+        <text x="284" y="299" fill="#7c3aed" fontSize="11" fontWeight="800">Vin controls Vout; it does not power the load</text>
       </g>
     </g>
   );
@@ -1146,31 +1270,50 @@ function DependentSourceScene() {
 function SourceTransformationScene() {
   return (
     <g>
-      <g className="ce-stage-1 ce-transform-left">
-        <text x="76" y="62" fill="#0f172a" fontSize="14" fontWeight="900">Voltage source</text>
-        <circle cx="130" cy="145" r="30" fill="#eff6ff" stroke="#111827" strokeWidth="4" />
-        <text x="119" y="139" fill="#dc2626" fontSize="18" fontWeight="900">+</text>
-        <text x="122" y="164" fill="#2563eb" fontSize="18" fontWeight="900">-</text>
-        <path className="ce-wire" d="M160 145H205" />
-        <path d="M205 145h12l8-14 16 28 16-28 16 28 8-14h12" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-        <path className="ce-wire" d="M100 145H70V235H315V145H293" />
-        <MovingCharges path="M100 145H70V235H315V145H293" count={2} duration={9} />
+      <g className="ce-stage-1">
+        <rect x="54" y="56" width="230" height="170" rx="18" fill="#eff6ff" stroke="#bfdbfe" strokeWidth="2" />
+        <text x="76" y="82" fill="#0f172a" fontSize="13" fontWeight="900">original form</text>
+        <circle cx="116" cy="140" r="29" fill="#ffffff" stroke="#111827" strokeWidth="4" />
+        <text x="104" y="134" fill="#dc2626" fontSize="18" fontWeight="900">+</text>
+        <text x="107" y="159" fill="#2563eb" fontSize="18" fontWeight="900">-</text>
+        <text x="93" y="184" fill="#1d4ed8" fontSize="12" fontWeight="900">V</text>
+        <path className="ce-wire" d="M145 140H184" />
+        <path d="M184 140h12l8-14 16 28 16-28 16 28 8-14h16" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="222" y="116" fill="#0f172a" fontSize="13" fontWeight="900">R</text>
+        <path className="ce-wire" d="M86 140H70V210H272V140H260" />
+        <circle cx="272" cy="140" r="5" fill="#154a96" />
+        <circle cx="272" cy="210" r="5" fill="#154a96" />
+        <text x="246" y="242" fill="#154a96" fontSize="11" fontWeight="900">load terminals</text>
       </g>
 
-      <path className="ce-stage-2" d="M300 155H365" stroke="#059669" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
-      <text className="ce-stage-2" x="288" y="128" fill="#047857" fontSize="13" fontWeight="900">I = V / R</text>
-
-      <g className="ce-stage-3 ce-transform-right">
-        <text x="405" y="62" fill="#0f172a" fontSize="14" fontWeight="900">Current source</text>
-        <circle cx="445" cy="145" r="30" fill="#ecfdf5" stroke="#111827" strokeWidth="4" />
-        <path d="M445 165V126" stroke="#059669" strokeWidth="5" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
-        <path className="ce-wire" d="M475 145H535V235H385V145H415" />
-        <path d="M535 112v12l14 8-28 16 28 16-28 16 14 8v12" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-        <MovingCharges path="M475 145H535V235H385V145H415" count={3} color="#059669" duration={8.5} />
+      <g className="ce-stage-2">
+        <path d="M300 142H346" stroke="#059669" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
+        <rect x="282" y="170" width="92" height="42" rx="12" fill="#ecfdf5" stroke="#bbf7d0" />
+        <text x="296" y="187" fill="#047857" fontSize="12" fontWeight="900">convert</text>
+        <text x="296" y="204" fill="#047857" fontSize="12" fontWeight="900">I = V / R</text>
       </g>
 
-      <rect className="ce-stage-4" x="155" y="268" width="350" height="34" rx="10" fill="#f8fafc" stroke="#cbd5e1" />
-      <text className="ce-stage-4" x="218" y="289" fill="#0f172a" fontSize="12" fontWeight="900">same terminal V-I behavior</text>
+      <g className="ce-stage-3">
+        <rect x="378" y="56" width="208" height="170" rx="18" fill="#ecfdf5" stroke="#bbf7d0" strokeWidth="2" />
+        <text x="402" y="82" fill="#0f172a" fontSize="13" fontWeight="900">equivalent form</text>
+        <circle cx="438" cy="158" r="28" fill="#ffffff" stroke="#111827" strokeWidth="4" />
+        <path d="M438 177V139" stroke="#059669" strokeWidth="5" strokeLinecap="round" markerEnd="url(#ceGreenArrow)" />
+        <text x="426" y="204" fill="#047857" fontSize="12" fontWeight="900">I</text>
+        <path className="ce-wire" d="M466 158H552V210H394V158H410" />
+        <path className="ce-wire" d="M466 108H552V158" />
+        <path d="M552 108v12l14 8-28 16 28 16-28 16 14 8v12" fill="none" stroke="#111827" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="520" y="96" fill="#0f172a" fontSize="13" fontWeight="900">R</text>
+        <circle cx="552" cy="158" r="5" fill="#154a96" />
+        <circle cx="552" cy="210" r="5" fill="#154a96" />
+      </g>
+
+      <g className="ce-stage-4">
+        <path d="M272 140C344 244 480 244 552 158" fill="none" stroke="#154a96" strokeWidth="3" strokeLinecap="round" strokeDasharray="8 8" />
+        <path d="M272 210H552" fill="none" stroke="#154a96" strokeWidth="3" strokeLinecap="round" strokeDasharray="8 8" />
+        <rect x="174" y="270" width="292" height="38" rx="10" fill="#f8fafc" stroke="#cbd5e1" />
+        <text x="196" y="287" fill="#0f172a" fontSize="12" fontWeight="900">same external terminal V-I behavior</text>
+        <text x="196" y="302" fill="#475569" fontSize="10" fontWeight="800">the load cannot tell which internal form is used</text>
+      </g>
     </g>
   );
 }
@@ -1347,11 +1490,16 @@ export default function CircuitElementsPage() {
           </div>
         </section>
 
+        <LearningHookPanel />
+
         <section id="circuit-elements-list" className="mt-5 grid gap-3">
           {circuitElementSections.map((section, index) => (
             <ElementCard key={section.title} section={section} index={index} />
           ))}
         </section>
+
+        <CircuitElementsQuickSummary />
+        <ExamRetentionSection />
 
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
           <Link

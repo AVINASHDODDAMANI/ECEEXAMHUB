@@ -13,11 +13,13 @@ export default function QuestionCard({
 
   const isCorrect = submitted && selectedOption === question.correctAnswer;
 
+  const questionKey = question?._id || question?.id || question?.question || index;
+
   useEffect(() => {
     setSelectedOption("");
     setSubmitted(false);
     setShowExplanation(false);
-  }, [question._id]);
+  }, [questionKey]);
 
   return (
     <article className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm text-slate-900">
