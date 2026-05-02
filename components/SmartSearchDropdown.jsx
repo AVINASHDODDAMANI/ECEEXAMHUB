@@ -30,9 +30,13 @@ function highlightText(text = "", query = "") {
 }
 
 const groupAccent = {
+  Topics: "bg-blue-50 text-blue-700",
+  Subjects: "bg-violet-50 text-violet-700",
   Concepts: "bg-blue-50 text-blue-700",
+  MCQs: "bg-emerald-50 text-emerald-700",
   PYQs: "bg-orange-50 text-orange-700",
   Practice: "bg-emerald-50 text-emerald-700",
+  Notes: "bg-cyan-50 text-cyan-700",
 };
 
 export default function SmartSearchDropdown({
@@ -44,7 +48,7 @@ export default function SmartSearchDropdown({
   const hasResults = groupedResults.some((group) => group.items.length);
 
   return (
-    <div className="absolute left-0 right-0 top-full z-50 mt-3 overflow-hidden rounded-2xl border border-portal-200 bg-white text-left shadow-[0_24px_80px_rgba(15,23,42,0.14)]">
+    <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-portal-200 bg-white text-left shadow-[0_24px_80px_rgba(15,23,42,0.18)] transition duration-150">
       <div className="max-h-[28rem] overflow-y-auto p-3">
         {hasResults ? (
           groupedResults.map((group) => (
@@ -92,22 +96,27 @@ export default function SmartSearchDropdown({
             </section>
           ))
         ) : (
-          <div className="rounded-xl border border-dashed border-portal-200 bg-[#f8fbff] px-4 py-5">
+          <div className="rounded-xl border border-portal-200 bg-[#f8fbff] px-4 py-5">
             <p className="text-sm font-bold text-slate-900">
-              No direct matches for "{query}"
+              Try these results instead
             </p>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Try a topic name, subject, formula, or question keyword.
+              We could not find a perfect match for "{query}", but these pages are usually helpful.
             </p>
             {suggestions.length ? (
-              <div className="mt-4 flex flex-wrap gap-2">
+              <div className="mt-4 grid gap-2">
                 {suggestions.map((suggestion) => (
-                  <span
-                    key={suggestion}
-                    className="rounded-full border border-portal-200 bg-white px-3 py-1 text-xs font-bold text-portal-700"
+                  <Link
+                    key={`${suggestion.href}-${suggestion.label}`}
+                    href={suggestion.href}
+                    onClick={onSelect}
+                    className="flex items-center justify-between rounded-xl border border-portal-200 bg-white px-3 py-2 text-sm font-bold text-slate-800 transition hover:border-portal-300 hover:text-portal-700"
                   >
-                    {suggestion}
-                  </span>
+                    <span>{suggestion.label}</span>
+                    <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-portal-600">
+                      {suggestion.group}
+                    </span>
+                  </Link>
                 ))}
               </div>
             ) : null}

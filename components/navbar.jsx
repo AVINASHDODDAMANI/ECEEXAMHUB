@@ -37,7 +37,7 @@ export default function Navbar({
   searchValue,
   onSearchChange,
   searchPlaceholder = "Search subjects, topics, papers...",
-  searchTarget = "/learn",
+  searchTarget = "/search",
 }) {
   const router = useRouter();
   const hasSearch = typeof onSearchChange === "function";
@@ -73,9 +73,9 @@ export default function Navbar({
   const suggestions = useMemo(
     () =>
       searchRuntime && deferredQuery.length >= 2
-        ? searchRuntime.getSearchSuggestions(deferredQuery)
+        ? searchRuntime.getSearchSuggestions(deferredQuery, searchIndex)
         : [],
-    [deferredQuery, searchRuntime]
+    [deferredQuery, searchIndex, searchRuntime]
   );
   const shouldShowDropdown =
     isSearchOpen && deferredQuery.length >= 2 && Boolean(searchRuntime);
@@ -322,14 +322,12 @@ export default function Navbar({
   function handleSearchSubmit(event) {
     event.preventDefault();
 
-    if (hasSearch) {
-      return;
-    }
-
     const trimmedValue = resolvedSearchValue.trim();
     router.push({
       pathname: searchTarget,
-      query: trimmedValue ? { search: trimmedValue } : {},
+      query: trimmedValue
+        ? { [searchTarget === "/search" ? "q" : "search"]: trimmedValue }
+        : {},
     });
   }
 
@@ -337,12 +335,12 @@ export default function Navbar({
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-3 py-3 sm:px-6 sm:py-4 lg:px-8">
         <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[auto_minmax(340px,1fr)_auto] lg:items-center lg:gap-6">
-          <div className="grid grid-cols-[auto_minmax(118px,1fr)_auto] items-center gap-2 lg:flex lg:justify-between lg:gap-3">
+          <div className="grid grid-cols-[auto_minmax(136px,1fr)_auto] items-center gap-2 lg:flex lg:justify-between lg:gap-3">
             <Link href="/" className="min-w-0">
               <BrandLogo
-                className="max-w-[138px] sm:max-w-[250px] lg:max-w-[340px]"
+                className="max-w-[104px] sm:max-w-[250px] lg:max-w-[340px]"
                 markClassName="h-9 w-9 sm:h-[3rem] sm:w-[3rem] lg:h-14 lg:w-14"
-                titleClassName="text-[0.84rem] sm:text-[1.05rem] lg:text-[1.85rem]"
+                titleClassName="text-[0.72rem] sm:text-[1.05rem] lg:text-[1.85rem]"
                 taglineClassName="text-[9px] sm:text-[11px]"
               />
             </Link>
@@ -350,7 +348,7 @@ export default function Navbar({
             <div ref={mobileSearchRef} className="relative min-w-0 lg:hidden">
               <form
                 onSubmit={handleSearchSubmit}
-                className="flex h-10 items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 text-sm shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                className="flex h-10 items-center gap-2 rounded-full border border-slate-200/90 bg-slate-50 px-3 text-sm shadow-[0_8px_20px_rgba(15,23,42,0.06)] transition focus-within:border-portal-300 focus-within:bg-white focus-within:shadow-[0_10px_26px_rgba(21,74,150,0.12)]"
               >
                 <input
                   type="search"
@@ -358,11 +356,11 @@ export default function Navbar({
                   onChange={(event) => handleSearchChange(event.target.value)}
                   onFocus={handleSearchFocus}
                   placeholder="Search"
-                  className="min-w-0 flex-1 bg-transparent text-[13px] font-medium text-slate-800 outline-none placeholder:text-slate-400"
+                  className="min-w-0 flex-1 appearance-none border-0 bg-transparent p-0 text-[13px] font-medium text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none"
                 />
                 <button
                   type="submit"
-                  className="inline-flex h-7 w-7 flex-none items-center justify-center rounded-lg text-portal-700 transition hover:bg-slate-100"
+                  className="inline-flex flex-none items-center justify-center border-0 bg-transparent p-0 text-portal-700 outline-none transition hover:text-portal-800 focus-visible:outline-none"
                   aria-label="Search"
                 >
                   <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -430,7 +428,7 @@ export default function Navbar({
             <div ref={desktopSearchRef} className="relative w-full">
               <form
                 onSubmit={handleSearchSubmit}
-                className="flex items-center gap-2 rounded-[16px] border border-slate-200 bg-white px-3.5 py-2 text-sm shadow-[0_12px_32px_rgba(15,23,42,0.08)] sm:px-4 sm:py-2.5"
+                className="flex h-11 items-center gap-2 rounded-full border border-slate-200/90 bg-slate-50 px-4 text-sm shadow-[0_8px_22px_rgba(15,23,42,0.06)] transition focus-within:border-portal-300 focus-within:bg-white focus-within:shadow-[0_12px_30px_rgba(21,74,150,0.12)]"
               >
                 <input
                   type="search"
@@ -438,11 +436,11 @@ export default function Navbar({
                   onChange={(event) => handleSearchChange(event.target.value)}
                   onFocus={handleSearchFocus}
                   placeholder={searchPlaceholder}
-                  className="w-full bg-transparent text-[13px] text-slate-700 outline-none placeholder:text-slate-400 sm:text-base"
+                  className="min-w-0 flex-1 appearance-none border-0 bg-transparent p-0 text-base font-medium text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none"
                 />
                 <button
                   type="submit"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-full text-portal-700 transition hover:bg-slate-100 sm:h-9 sm:w-9"
+                  className="inline-flex flex-none items-center justify-center border-0 bg-transparent p-0 text-portal-700 outline-none transition hover:text-portal-800 focus-visible:outline-none"
                   aria-label="Search"
                 >
                   <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">

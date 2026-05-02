@@ -188,6 +188,13 @@ export const NETWORK_ROUTE_ACTIVE_INDEX = {
   "/dc-circuit-analysis": 4,
 };
 
+function toAnchorId(value = "") {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 const BASIC_CONCEPT_GUIDE = [
   {
     title: "Electric Charge, Current, and Voltage",
@@ -2915,7 +2922,11 @@ function BasicConceptGuideContent({ withIntro = true }) {
       ) : null}
       <div className={withIntro ? "mt-4 divide-y divide-slate-200" : "divide-y divide-slate-200"}>
         {BASIC_CONCEPT_GUIDE.map((concept, conceptIndex) => (
-          <section key={concept.title} className="py-5 first:pt-0 last:pb-0">
+          <section
+            key={concept.title}
+            id={`basic-concept-${toAnchorId(concept.title)}`}
+            className="scroll-mt-40 py-5 first:pt-0 last:pb-0"
+          >
             {conceptIndex === 0 ? (
               <ProfessionalChargeCircuitGuide />
             ) : conceptIndex === 1 ? (
@@ -3248,6 +3259,90 @@ function NetworkTopicMenu({ concepts, activeIndex, onSelectTopic }) {
   );
 }
 
+function BasicConceptSubtopicMenu({ topics = [] }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function scrollToTopic(title) {
+    const targetId = `basic-concept-${toAnchorId(title)}`;
+    document.getElementById(targetId)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+    setIsOpen(false);
+  }
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open Basic Concepts subtopics"
+        aria-expanded={isOpen}
+        aria-controls="basic-concepts-subtopic-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="basic-concepts-subtopic-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              Basic Concepts
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-5 text-slate-700">
+              Jump to the main topic and view its subtopics.
+            </p>
+          </div>
+
+          <div className="grid gap-2">
+            {topics.map((topic, index) => (
+              <button
+                key={topic.title}
+                type="button"
+                onClick={() => scrollToTopic(topic.title)}
+                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+              >
+                <span className="flex items-start gap-3">
+                  <span className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-white text-xs font-black text-portal-700 shadow-sm">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-black text-slate-950">
+                      {topic.title}
+                    </span>
+                    <span className="mt-2 grid gap-1">
+                      {topic.sections.map((section) => (
+                        <span
+                          key={`${topic.title}-${section.heading}`}
+                          className="block text-xs font-semibold leading-5 text-slate-700"
+                        >
+                          {section.heading}
+                        </span>
+                      ))}
+                    </span>
+                  </span>
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function FormulaPreview({ formulas = [] }) {
   if (!formulas.length) {
     return (
@@ -3457,7 +3552,10 @@ export default function SubjectTheoryPage({
     return (
       <Layout title="ECE Exam Guide | Basic Concepts" pageClassName="py-3 sm:py-4">
         <div className="mx-auto max-w-[1200px] pb-24">
-          <nav aria-label="Breadcrumb" className="mb-5 pt-1">
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-5 flex items-start justify-between gap-3 pt-1"
+          >
             <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
               <li>
                 <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
@@ -3486,6 +3584,7 @@ export default function SubjectTheoryPage({
                 </span>
               </li>
             </ol>
+            <BasicConceptSubtopicMenu topics={BASIC_CONCEPT_GUIDE} />
           </nav>
 
           <section className="rounded-[24px] border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-4 shadow-panel sm:p-5">
