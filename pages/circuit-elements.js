@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Layout from "../components/layout";
+import NetworkTopicMenu from "../components/NetworkTopicMenu";
 
 const circuitElementSections = [
   {
@@ -1456,6 +1457,7 @@ export default function CircuitElementsPage() {
               </span>
             </li>
           </ol>
+          <NetworkTopicMenu currentPath="/circuit-elements" />
         </nav>
 
         <section className="rounded-[24px] border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-4 shadow-panel sm:p-5">

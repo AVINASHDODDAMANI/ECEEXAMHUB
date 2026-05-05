@@ -44,6 +44,29 @@ const SUBJECT_META = {
     studyTip:
       "Start from circuit variables and laws, then move to solving methods, theorems, AC analysis, and transient response in that order.",
   },
+  "Analog Electronics": {
+    subtitle: "The chapter that explains how semiconductor devices process, amplify, and shape continuous-time signals.",
+    estimatedTime: "8-10 Hours",
+    difficulty: "Medium to High",
+    level: "Beginner to GATE Level",
+    keyConcepts: [
+      "PN Junction and Diodes",
+      "BJT and MOSFET Operation",
+      "Biasing and Q-Point",
+      "Small-Signal Amplifiers",
+      "Op-Amps and Filters",
+      "Frequency Response",
+    ],
+    examFocus: [
+      "Diode operating states and applications",
+      "BJT and MOSFET regions of operation",
+      "Biasing, transconductance, and gain",
+      "Ideal op-amp configurations",
+      "First-order filters and cutoff behavior",
+    ],
+    studyTip:
+      "Study analog electronics in this order: device operation, region identification, biasing, small-signal model, gain formulas, then frequency response and op-amp applications.",
+  },
 };
 
 const NETWORK_ANALYSIS_TOPIC_GROUPS = [
@@ -178,6 +201,15 @@ export const NETWORK_TOPIC_ROUTES = {
   "Circuit Laws": "/circuit-laws",
   "Network Theorems": "/network-theorems",
   "DC Circuit Analysis": "/dc-circuit-analysis",
+  "AC Fundamentals": "/ac-fundamentals",
+  "AC Circuit Analysis": "/ac-circuit-analysis",
+  "Transient Analysis": "/transient-analysis",
+  "Network Topology": "/network-topology",
+  "Laplace Transform Methods": "/laplace-transform-methods",
+  "Frequency Domain Analysis": "/frequency-domain-analysis",
+  "Two-Port Networks": "/two-port-networks",
+  Filters: "/filters",
+  "Network Functions": "/network-functions",
 };
 
 export const NETWORK_ROUTE_ACTIVE_INDEX = {
@@ -186,6 +218,15 @@ export const NETWORK_ROUTE_ACTIVE_INDEX = {
   "/circuit-laws": 2,
   "/network-theorems": 3,
   "/dc-circuit-analysis": 4,
+  "/ac-fundamentals": 5,
+  "/ac-circuit-analysis": 6,
+  "/transient-analysis": 7,
+  "/network-topology": 8,
+  "/laplace-transform-methods": 9,
+  "/frequency-domain-analysis": 10,
+  "/two-port-networks": 11,
+  "/filters": 12,
+  "/network-functions": 13,
 };
 
 function toAnchorId(value = "") {
@@ -3043,7 +3084,7 @@ function OverviewRow({ item }) {
           ))}
         </ul>
       ) : null}
-      {item.title === "What Will You Learn?" ? (
+      {item.showBasicConceptGuide ? (
         <BasicConceptGuideContent />
       ) : null}
     </article>
@@ -3259,6 +3300,132 @@ function NetworkTopicMenu({ concepts, activeIndex, onSelectTopic }) {
   );
 }
 
+function SubjectConceptMenu({ subjectTitle, concepts = [], activeIndex = 0, onSelectTopic }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function selectTopic(index) {
+    onSelectTopic(index);
+    setIsOpen(false);
+  }
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label={`Open ${subjectTitle} concepts`}
+        aria-expanded={isOpen}
+        aria-controls="subject-concept-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="subject-concept-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              {subjectTitle}
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-5 text-slate-700">
+              Jump to theory concepts and explanations.
+            </p>
+          </div>
+
+          <div className="grid gap-2.5">
+            <button
+              type="button"
+              onClick={() => selectTopic(0)}
+              className={`rounded-xl border p-3 text-left transition ${
+                activeIndex === 0
+                  ? "border-portal-300 bg-portal-50"
+                  : "border-slate-200 bg-[#f8fbff] hover:border-portal-300 hover:bg-white"
+              }`}
+            >
+              <span className="flex items-center gap-3">
+                <span className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-white text-xs font-black text-portal-700 shadow-sm">
+                  00
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-black text-slate-950">
+                    Overview
+                  </span>
+                  <span className="mt-1 block text-xs font-semibold text-slate-600">
+                    Start from subject basics
+                  </span>
+                </span>
+              </span>
+            </button>
+
+            {concepts.map((concept, index) => {
+              const href =
+                subjectTitle === "Analog Electronics" &&
+                concept.slug === "diodes-and-pn-junction"
+                  ? "/diodes"
+                  : "";
+              const className = `rounded-xl border p-3 text-left transition ${
+                activeIndex === index + 1
+                  ? "border-portal-300 bg-portal-50"
+                  : "border-slate-200 bg-[#f8fbff] hover:border-portal-300 hover:bg-white"
+              }`;
+              const content = (
+                <span className="flex items-center gap-3">
+                  <span className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-white text-xs font-black text-portal-700 shadow-sm">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-black text-slate-950">
+                      {concept.shortTitle}
+                    </span>
+                    <span className="mt-1 block text-xs font-semibold text-slate-600">
+                      {activeIndex === index + 1 ? "Current concept" : "Open concept"}
+                    </span>
+                  </span>
+                </span>
+              );
+
+              if (href) {
+                return (
+                  <Link
+                    key={concept.slug}
+                    href={href}
+                    onClick={() => setIsOpen(false)}
+                    className={className}
+                  >
+                    {content}
+                  </Link>
+                );
+              }
+
+              return (
+                <button
+                  key={concept.slug}
+                  type="button"
+                  onClick={() => selectTopic(index + 1)}
+                  className={className}
+                >
+                  {content}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function BasicConceptSubtopicMenu({ topics = [] }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -3397,6 +3564,604 @@ function StudyFlowCard({ step, index }) {
   );
 }
 
+function AnalogTopicCard({ title, intro, points, takeaway }) {
+  return (
+    <article className="rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+      <h3 className="text-xl font-bold tracking-tight text-slate-950">{title}</h3>
+      <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">{intro}</p>
+      <ul className="mt-4 grid gap-2 text-sm leading-6 text-slate-700">
+        {points.map((point) => (
+          <li key={`${title}-${point}`} className="flex gap-2">
+            <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+            <span>{point}</span>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3">
+        <p className="text-xs font-bold uppercase tracking-[0.12em] text-emerald-700">
+          Exam Takeaway
+        </p>
+        <p className="mt-1.5 text-sm font-semibold leading-6 text-emerald-950">{takeaway}</p>
+      </div>
+    </article>
+  );
+}
+
+function AnalogElectronicsSection() {
+  const analogTopics = [
+    {
+      title: "Diodes",
+      intro:
+        "A diode is the simplest semiconductor device built from a PN junction. It conducts strongly in forward bias and blocks current in reverse bias until breakdown, which makes it a natural one-way element in rectification and clipping circuits.",
+      points: [
+        "Forward bias reduces the depletion barrier and allows majority carrier flow.",
+        "Reverse bias widens the depletion region, so only a very small reverse saturation current flows.",
+        "Zener diodes are designed to operate safely in breakdown and are used in regulation.",
+        "Rectifier, clipper, clamper, and switching questions usually test operating region first and formula second.",
+      ],
+      takeaway:
+        "In exam problems, first decide whether the diode is ON, OFF, or in Zener breakdown before writing any circuit equation.",
+    },
+    {
+      title: "Transistors: BJT and MOSFET",
+      intro:
+        "Transistors are three-terminal control devices. A BJT is current-controlled in first approximation, while a MOSFET is voltage-controlled. Both are used as switches and amplifiers, but their biasing logic and small-signal parameters differ.",
+      points: [
+        "BJT regions: cutoff, active, and saturation. Amplifier action usually requires active region operation.",
+        "MOSFET regions: cutoff, triode, and saturation. Analog gain stages often use saturation region.",
+        "Common configurations such as CE, CB, CC and CS, CG, CD decide gain, input resistance, and output resistance.",
+        "Biasing fixes the Q-point so the output signal can swing without distortion.",
+      ],
+      takeaway:
+        "Always identify the region of operation before computing current, gain, or voltage swing.",
+    },
+    {
+      title: "Amplifiers",
+      intro:
+        "An amplifier uses DC supply energy to increase the amplitude of a small input signal without changing the information it carries. In analog electronics, we usually study voltage gain, current gain, power gain, input resistance, output resistance, and frequency response together.",
+      points: [
+        "CE and CS amplifiers give significant voltage gain with phase inversion.",
+        "Emitter follower and source follower give low output resistance and are used for buffering.",
+        "Midband gain is usually obtained from the small-signal model after DC bias is established.",
+        "At low and high frequencies, capacitors and parasitics modify gain, which creates bandwidth limits.",
+      ],
+      takeaway:
+        "Separate DC bias analysis from AC small-signal analysis; that split solves many amplifier questions cleanly.",
+    },
+    {
+      title: "Operational Amplifiers",
+      intro:
+        "An op-amp is a very high-gain differential amplifier used with feedback. In ideal analysis, it offers infinite input resistance, zero output resistance, and very high open-loop gain, which makes many linear circuits reduce to elegant algebra.",
+      points: [
+        "With negative feedback in linear operation, the two input terminals sit at nearly the same voltage.",
+        "Inverting amplifier gain is set by resistor ratio and introduces a 180 degree phase reversal.",
+        "Non-inverting amplifier gain preserves phase and offers very high input resistance.",
+        "Summing, integrator, differentiator, active filter, and comparator problems grow from these base configurations.",
+      ],
+      takeaway:
+        "For ideal op-amp circuits with negative feedback, start from virtual short and zero input current assumptions.",
+    },
+    {
+      title: "Filters",
+      intro:
+        "Filters are frequency-selective circuits that pass some frequency components and attenuate others. Even the simplest RC low-pass and high-pass circuits are important because they connect analog electronics to communication, control, and signal processing.",
+      points: [
+        "A low-pass filter passes slow variations and attenuates high-frequency components.",
+        "A high-pass filter blocks DC and low frequencies while allowing fast changes to pass.",
+        "Cutoff frequency in first-order RC filters is a recurring exam formula.",
+        "Active filters use op-amps to provide gain, buffering, and better control over frequency response.",
+      ],
+      takeaway:
+        "Remember both the physical meaning and the transfer function shape; GATE questions often test interpretation, not just formula recall.",
+    },
+  ];
+
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff,#f8fbff)] p-5 shadow-panel sm:p-6">
+      <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
+            Added Section
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+            Analog Electronics
+          </h2>
+          <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
+            Analog Electronics studies continuous-time signals and the devices that shape,
+            amplify, rectify, and filter them. For exam preparation, the subject becomes
+            easier when you move in this order: device physics, operating region, biasing,
+            small-signal model, gain, and frequency response.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">
+            High-Yield Focus
+          </p>
+          <p className="mt-1 text-sm font-semibold leading-6 text-slate-900">
+            Regions, biasing, gain, feedback, cutoff frequency
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-5 grid gap-4 lg:grid-cols-2">
+        {analogTopics.map((topic) => (
+          <AnalogTopicCard key={topic.title} {...topic} />
+        ))}
+      </div>
+
+      <section className="mt-5 rounded-[26px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+        <h3 className="text-xl font-bold tracking-tight text-slate-950">
+          How These Concepts Connect
+        </h3>
+        <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+          Diodes teach junction behavior and non-linearity. Transistors extend that idea
+          into controlled current or voltage devices. Amplifiers use properly biased
+          transistors to create gain. Op-amps package very high gain with feedback so we
+          can realize stable linear functions. Filters then use RC networks or op-amp based
+          circuits to shape signals in frequency.
+        </p>
+        <ul className="mt-4 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+          <li className="flex gap-2">
+            <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+            <span>Diode questions usually depend on piecewise region assumptions.</span>
+          </li>
+          <li className="flex gap-2">
+            <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+            <span>Transistor questions usually begin with bias and operating point.</span>
+          </li>
+          <li className="flex gap-2">
+            <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+            <span>Amplifier questions often split into midband gain and frequency response.</span>
+          </li>
+          <li className="flex gap-2">
+            <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+            <span>Op-amp questions reward quick use of ideal assumptions under feedback.</span>
+          </li>
+        </ul>
+      </section>
+    </section>
+  );
+}
+
+const DIODE_TOPIC_MENU = [
+  { title: "What Is a Diode?", detail: "Core idea, anode, cathode" },
+  { title: "PN Junction Formation", detail: "P-type, N-type, depletion region" },
+  { title: "Forward Bias", detail: "Barrier reduces and current flows" },
+  { title: "Reverse Bias", detail: "Barrier widens and current blocks" },
+  { title: "V-I Characteristic", detail: "Knee voltage and leakage region" },
+  { title: "Diode as a Rectifier", detail: "Half-wave and full-wave action" },
+  { title: "Breakdown and Parameters", detail: "Zener, avalanche, ratings" },
+  { title: "Important Diode Types", detail: "Rectifier, Zener, LED, and more" },
+  { title: "Final Summary", detail: "Quick revision ending" },
+];
+
+function DiodeTopicMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function scrollToTopic(title) {
+    const targetId = `diode-topic-${toAnchorId(title)}`;
+    document.getElementById(targetId)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+    setIsOpen(false);
+  }
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open Diodes topics"
+        aria-expanded={isOpen}
+        aria-controls="diodes-topic-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="diodes-topic-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              Diodes
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-5 text-slate-700">
+              Jump to any topic in this explanation.
+            </p>
+          </div>
+
+          <div className="grid gap-2">
+            {DIODE_TOPIC_MENU.map((topic, index) => (
+              <button
+                key={topic.title}
+                type="button"
+                onClick={() => scrollToTopic(topic.title)}
+                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+              >
+                <span className="flex items-start gap-3">
+                  <span className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-white text-xs font-black text-portal-700 shadow-sm">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-black text-slate-950">
+                      {topic.title}
+                    </span>
+                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
+                      {topic.detail}
+                    </span>
+                  </span>
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function DiodeDeepDiveContent() {
+  const diodeSections = [
+    {
+      title: "What Is a Diode?",
+      badge: "Core Idea",
+      paragraphs: [
+        "A diode is a two-terminal semiconductor device that allows current to flow easily in one direction and strongly opposes current in the opposite direction.",
+        "The two terminals are the anode and the cathode. In normal forward conduction, conventional current enters through the anode, passes through the junction, and leaves from the cathode.",
+      ],
+      points: [
+        "Anode is the positive-side terminal during normal forward bias.",
+        "Cathode is marked by the vertical line in the circuit symbol.",
+        "The diode behaves like a one-direction current controller, but only after the junction barrier is overcome.",
+      ],
+    },
+    {
+      title: "PN Junction Formation",
+      badge: "Device Physics",
+      paragraphs: [
+        "A diode is formed by joining p-type material, which has holes as majority carriers, with n-type material, which has electrons as majority carriers.",
+        "Immediately after joining, electrons diffuse from the n-side to the p-side and holes diffuse from the p-side to the n-side. Near the junction, this recombination leaves fixed ions behind, creating the depletion region.",
+      ],
+      points: [
+        "The depletion region has almost no free carriers.",
+        "It acts like an internal barrier against further diffusion.",
+        "The internal electric field is what gives the diode its directional behavior.",
+      ],
+    },
+    {
+      title: "Forward Bias",
+      badge: "Conduction Mode",
+      paragraphs: [
+        "In forward bias, the anode is connected to the positive terminal and the cathode to the negative terminal. The applied voltage weakens the internal barrier.",
+        "As the depletion region shrinks, electrons and holes cross the junction more easily. Current then rises rapidly after the practical cut-in voltage.",
+      ],
+      points: [
+        "Silicon diode forward drop is commonly approximated as 0.7 V.",
+        "Germanium diode forward drop is commonly approximated as 0.3 V.",
+        "Forward current must still be limited by a resistor or a circuit load.",
+      ],
+    },
+    {
+      title: "Reverse Bias",
+      badge: "Blocking Mode",
+      paragraphs: [
+        "In reverse bias, the anode is connected to the negative terminal and the cathode to the positive terminal. The external voltage strengthens the internal field.",
+        "The depletion region becomes wider, majority carriers are pulled away from the junction, and only a very small leakage current remains until breakdown.",
+      ],
+      points: [
+        "Ideal reverse current is treated as zero.",
+        "Practical reverse current is a tiny leakage current.",
+        "If reverse voltage becomes too large, breakdown can occur.",
+      ],
+    },
+    {
+      title: "V-I Characteristic",
+      badge: "Graph Reading",
+      paragraphs: [
+        "The diode current-voltage curve is almost flat in reverse bias, then rises sharply in forward bias after the knee voltage.",
+        "The exponential equation explains the real device behavior, while exam circuits often use ideal or constant-voltage models to simplify analysis.",
+      ],
+      points: [
+        "Forward region: current grows very fast after cut-in voltage.",
+        "Reverse region: current remains close to leakage level before breakdown.",
+        "Knee voltage is the practical point where conduction becomes significant.",
+      ],
+    },
+  ];
+
+  const diodeTypes = [
+    ["Rectifier diode", "Converts AC to pulsating DC in power supplies."],
+    ["Zener diode", "Operates in reverse breakdown for voltage regulation."],
+    ["LED", "Emits light when forward biased."],
+    ["Schottky diode", "Switches fast and has a lower forward drop."],
+    ["Photodiode", "Converts light energy into electrical current."],
+  ];
+
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-[0.95fr_1.05fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
+            Diodes / Complete Concept
+          </p>
+          <h3 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+            Step-by-Step Diode Explanation
+          </h3>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            Learn the diode from the inside out: PN junction formation, depletion
+            barrier, forward bias, reverse bias, V-I graph, rectifier action, breakdown,
+            and practical parameters.
+          </p>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
+              <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">
+                Main Rule
+              </p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-emerald-950">
+                Forward bias reduces the barrier and current flows. Reverse bias widens
+                the barrier and current is blocked.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-amber-200 bg-amber-50/80 p-4">
+              <p className="text-xs font-black uppercase tracking-[0.12em] text-amber-700">
+                Exam Habit
+              </p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-amber-950">
+                First decide ON, OFF, or breakdown. Only then write KVL and calculate
+                current.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <DiodeMotionDiagram />
+        </div>
+      </div>
+
+      <div className="mt-6 divide-y divide-slate-200">
+        {diodeSections.map((section, index) => (
+          <article
+            key={section.title}
+            id={`diode-topic-${toAnchorId(section.title)}`}
+            className="scroll-mt-40 py-5 first:pt-0 last:pb-0"
+          >
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+                  {section.badge}
+                </p>
+                <h4 className="text-lg font-bold tracking-tight text-slate-950">
+                  {section.title}
+                </h4>
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="grid gap-3 text-sm leading-7 text-slate-700 sm:text-base">
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+              <ul className="grid gap-2 rounded-2xl border border-slate-200 bg-slate-50/80 p-4 text-sm leading-6 text-slate-700">
+                {section.points.map((point) => (
+                  <li key={point} className="flex gap-2">
+                    <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <section
+          id="diode-topic-diode-as-a-rectifier"
+          className="scroll-mt-40 rounded-[24px] border border-slate-200 bg-slate-50/70 p-4 sm:p-5"
+        >
+          <h4 className="text-lg font-bold text-slate-950">Diode as a Rectifier</h4>
+          <p className="mt-3 text-sm leading-7 text-slate-700">
+            In a half-wave rectifier, the diode conducts during the positive half cycle
+            and blocks during the negative half cycle. In a full-wave rectifier, the
+            diode arrangement redirects both half cycles so the load current remains in
+            one direction.
+          </p>
+          <div className="mt-4 overflow-x-auto">
+            <RectifierMotionDiagram />
+          </div>
+        </section>
+
+        <section
+          id="diode-topic-breakdown-and-parameters"
+          className="scroll-mt-40 rounded-[24px] border border-slate-200 bg-slate-50/70 p-4 sm:p-5"
+        >
+          <h4 className="text-lg font-bold text-slate-950">Breakdown and Parameters</h4>
+          <p className="mt-3 text-sm leading-7 text-slate-700">
+            Zener breakdown occurs at lower reverse voltages due to a strong electric
+            field. Avalanche breakdown occurs at higher reverse voltages due to carrier
+            multiplication. Practical diode selection depends on forward voltage,
+            reverse breakdown voltage, current rating, and power rating.
+          </p>
+          <div className="mt-4 grid gap-2 text-sm leading-6 text-slate-700">
+            {[
+              ["Forward Voltage", "Minimum practical voltage needed for conduction."],
+              ["Breakdown Voltage", "Reverse voltage where large reverse current begins."],
+              ["Current Rating", "Maximum safe current through the diode."],
+              ["Power Rating", "Maximum heat the diode can safely dissipate."],
+            ].map(([label, detail]) => (
+              <div key={label} className="rounded-xl border border-white bg-white px-3 py-2">
+                <p className="font-bold text-slate-900">{label}</p>
+                <p className="mt-1 text-xs leading-5 text-slate-600">{detail}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <section
+        id="diode-topic-important-diode-types"
+        className="mt-5 scroll-mt-40 rounded-[24px] border border-slate-200 bg-white p-4 sm:p-5"
+      >
+        <h4 className="text-lg font-bold text-slate-950">Important Diode Types</h4>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {diodeTypes.map(([title, detail]) => (
+            <article
+              key={title}
+              className="rounded-2xl border border-slate-200 bg-[#f8fbff] p-4"
+            >
+              <p className="text-sm font-bold text-slate-950">{title}</p>
+              <p className="mt-2 text-sm leading-6 text-slate-700">{detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section
+        id="diode-topic-final-summary"
+        className="mt-5 scroll-mt-40 rounded-[24px] border border-portal-200 bg-portal-50/70 p-4 sm:p-5"
+      >
+        <h4 className="text-lg font-bold text-slate-950">Final Summary</h4>
+        <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+          A diode controls current direction because of the PN junction barrier. Forward
+          bias shrinks the depletion region and allows conduction; reverse bias widens it
+          and blocks current until breakdown. This single behavior creates rectifiers,
+          regulators, clippers, clampers, LED indicators, photodetectors, and many
+          protection circuits.
+        </p>
+      </section>
+    </section>
+  );
+}
+
+function DiodeMotionDiagram() {
+  return (
+    <svg viewBox="0 0 640 360" className="mx-auto h-auto w-[680px] max-w-none md:w-full" role="img" aria-label="Animated diode PN junction, biasing, and VI characteristic">
+      <defs>
+        <marker id="diode-motion-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+          <path d="M0 0 10 5 0 10Z" fill="#154a96" />
+        </marker>
+        <filter id="diode-dot-glow" x="-70%" y="-70%" width="240%" height="240%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <style>{`
+        .diode-flow-dot { fill: #1d4ed8; filter: url(#diode-dot-glow); }
+        .diode-hole-dot { fill: #f97316; filter: url(#diode-dot-glow); }
+        .diode-barrier { animation: diodeBarrierPulse 3.2s ease-in-out infinite; transform-origin: 246px 120px; }
+        .diode-curve { stroke-dasharray: 360; stroke-dashoffset: 360; animation: diodeDrawCurve 3.6s ease-out infinite; }
+        .diode-glow { animation: diodeCurrentGlow 1.7s ease-in-out infinite; }
+        @keyframes diodeBarrierPulse {
+          0%, 100% { transform: scaleX(1.18); opacity: 0.72; }
+          48% { transform: scaleX(0.62); opacity: 0.38; }
+        }
+        @keyframes diodeDrawCurve {
+          0% { stroke-dashoffset: 360; }
+          65%, 100% { stroke-dashoffset: 0; }
+        }
+        @keyframes diodeCurrentGlow {
+          0%, 100% { opacity: 0.25; }
+          50% { opacity: 0.78; }
+        }
+      `}</style>
+
+      <rect x="24" y="28" width="330" height="190" rx="22" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="46" y="60" fill="#0f172a" fontSize="18" fontWeight="800">PN junction animation</text>
+      <rect x="58" y="88" width="150" height="82" rx="14" fill="#fee2e2" stroke="#fecaca" />
+      <rect x="238" y="88" width="90" height="82" rx="14" fill="#dcfce7" stroke="#bbf7d0" />
+      <rect x="204" y="88" width="48" height="82" rx="14" className="diode-barrier" fill="#dbeafe" stroke="#bfdbfe" />
+      <text x="112" y="118" fill="#991b1b" fontSize="17" fontWeight="900">P</text>
+      <text x="268" y="118" fill="#166534" fontSize="17" fontWeight="900">N</text>
+      <text x="183" y="198" fill="#475569" fontSize="13" fontWeight="700">depletion barrier shrinks in forward bias</text>
+
+      <path id="electron-motion-path" d="M292 128H236H190H118" fill="none" />
+      <path id="hole-motion-path" d="M92 136H160H216H286" fill="none" />
+      <circle className="diode-flow-dot" r="5">
+        <animateMotion dur="3.1s" repeatCount="indefinite" path="M292 128H236H190H118" />
+      </circle>
+      <circle className="diode-flow-dot" r="5">
+        <animateMotion dur="3.1s" begin="-1.55s" repeatCount="indefinite" path="M292 128H236H190H118" />
+      </circle>
+      <circle className="diode-hole-dot" r="5">
+        <animateMotion dur="3.1s" begin="-0.8s" repeatCount="indefinite" path="M92 136H160H216H286" />
+      </circle>
+      <circle className="diode-hole-dot" r="5">
+        <animateMotion dur="3.1s" begin="-2.1s" repeatCount="indefinite" path="M92 136H160H216H286" />
+      </circle>
+
+      <rect x="24" y="240" width="330" height="92" rx="22" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="46" y="270" fill="#0f172a" fontSize="17" fontWeight="800">Forward-bias circuit</text>
+      <path d="M66 300h64M130 276v48M146 288v24M146 300h42" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+      <path d="M188 300l34-20v40l-34-20ZM222 280v40M222 300h62" fill="none" stroke="#1e293b" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
+      <path className="diode-glow" d="M70 300h208" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd="url(#diode-motion-arrow)" />
+      <text x="78" y="288" fill="#154a96" fontSize="15" fontWeight="800">+</text>
+      <text x="288" y="305" fill="#64748b" fontSize="15" fontWeight="800">current flows</text>
+
+      <rect x="384" y="28" width="226" height="304" rx="22" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="408" y="60" fill="#0f172a" fontSize="18" fontWeight="800">V-I characteristic</text>
+      <path d="M424 270H584M482 290V92" stroke="#94a3b8" strokeWidth="2.5" strokeLinecap="round" />
+      <text x="570" y="292" fill="#64748b" fontSize="12" fontWeight="700">V</text>
+      <text x="464" y="104" fill="#64748b" fontSize="12" fontWeight="700">I</text>
+      <path className="diode-curve" d="M428 272c30-2 46-3 54-3 26 0 42-2 54-13 16-15 22-50 28-138" fill="none" stroke="#154a96" strokeWidth="4" strokeLinecap="round" />
+      <path d="M482 270c-22 0-38-2-50-4" fill="none" stroke="#f97316" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="540" cy="246" r="5" fill="#f97316" />
+      <text x="492" y="238" fill="#f97316" fontSize="12" fontWeight="800">knee voltage</text>
+      <text x="416" y="310" fill="#475569" fontSize="12.5" fontWeight="700">Reverse leakage is almost flat; forward current rises fast.</text>
+    </svg>
+  );
+}
+
+function RectifierMotionDiagram() {
+  return (
+    <svg viewBox="0 0 520 180" className="h-auto w-[560px] max-w-none md:w-full" role="img" aria-label="Animated half wave rectifier waveform">
+      <style>{`
+        .rectifier-wave { stroke-dasharray: 420; stroke-dashoffset: 420; animation: rectifierWave 3s ease-in-out infinite; }
+        .rectifier-pulse { animation: rectifierPulse 1.4s ease-in-out infinite; }
+        @keyframes rectifierWave {
+          0% { stroke-dashoffset: 420; }
+          70%, 100% { stroke-dashoffset: 0; }
+        }
+        @keyframes rectifierPulse {
+          0%, 100% { opacity: 0.25; }
+          50% { opacity: 0.9; }
+        }
+      `}</style>
+      <rect x="12" y="18" width="496" height="144" rx="18" fill="#ffffff" stroke="#e2e8f0" />
+      <path d="M42 91h92" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+      <path d="M134 91l30-18v36l-30-18ZM164 73v36M164 91h50" fill="none" stroke="#1e293b" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
+      <path d="M214 91h16l8-13 12 26 12-26 12 26 8-13h28" fill="none" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="78" y="70" fill="#154a96" fontSize="14" fontWeight="800">AC in</text>
+      <text x="236" y="70" fill="#154a96" fontSize="14" fontWeight="800">load</text>
+      <path className="rectifier-pulse" d="M44 118c20-42 42-42 62 0" fill="none" stroke="#94a3b8" strokeWidth="3" strokeLinecap="round" />
+      <path className="rectifier-pulse" d="M106 118c20 42 42 42 62 0" fill="none" stroke="#cbd5e1" strokeWidth="3" strokeLinecap="round" />
+      <path d="M342 122H486M352 122c18-48 38-48 56 0M408 122c18-48 38-48 56 0" className="rectifier-wave" fill="none" stroke="#154a96" strokeWidth="4" strokeLinecap="round" />
+      <text x="350" y="54" fill="#0f172a" fontSize="15" fontWeight="800">Output</text>
+      <text x="340" y="146" fill="#475569" fontSize="12.5" fontWeight="700">Only positive half cycles pass.</text>
+    </svg>
+  );
+}
+
 function FallbackSubjectPage({ subject, steps, totalConcepts, subjectSummary }) {
   return (
     <>
@@ -3443,6 +4208,8 @@ function FallbackSubjectPage({ subject, steps, totalConcepts, subjectSummary }) 
           ))}
         </div>
       </section>
+
+      {subject.title === "Analog Electronics" ? <AnalogElectronicsSection /> : null}
     </>
   );
 }
@@ -3518,6 +4285,11 @@ export default function SubjectTheoryPage({
   const isConceptIntroPage = activeConceptIndex === 0;
   const activeConceptDataIndex = isConceptIntroPage ? 0 : activeConceptIndex - 1;
   const activeConcept = concepts[activeConceptDataIndex] || concepts[0];
+  const isExternalDiodeConcept =
+    subject.title === "Analog Electronics" &&
+    activeConcept?.slug === "diodes-and-pn-junction" &&
+    standaloneTopicPage !== "diodes";
+  const shouldShowInlineConcept = !isConceptIntroPage && !isExternalDiodeConcept;
   const activeTeaching = activeConcept?.teaching || {};
   const subjectProgress = progressStats.subjects.find(
     (item) => item.slug === learningMeta.learningSubjectSlug
@@ -3649,6 +4421,84 @@ export default function SubjectTheoryPage({
     );
   }
 
+  if (standaloneTopicPage === "diodes") {
+    return (
+      <Layout title="ECE Exam Guide | Diodes" pageClassName="py-3 sm:py-4">
+        <div className="mx-auto max-w-[1200px] pb-24">
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-5 flex items-start justify-between gap-3 pt-1"
+          >
+            <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
+              <li>
+                <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
+                  Home
+                </Link>
+              </li>
+              <li className="text-slate-300">/</li>
+              <li>
+                <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
+                  Subjects
+                </Link>
+              </li>
+              <li className="text-slate-300">/</li>
+              <li>
+                <Link
+                  href="/subjects/analog-electronics"
+                  className="font-medium text-slate-600 transition hover:text-portal-700"
+                >
+                  Analog Electronics
+                </Link>
+              </li>
+              <li className="text-slate-300">/</li>
+              <li>
+                <span className="rounded-full bg-portal-50 px-3 py-1 font-semibold text-portal-700">
+                  Diodes
+                </span>
+              </li>
+            </ol>
+            <DiodeTopicMenu />
+          </nav>
+
+          <section className="rounded-[24px] border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-4 shadow-panel sm:p-5">
+            <p className="inline-flex rounded-full border border-portal-200 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
+              Analog Electronics / Diodes
+            </p>
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              Diodes: PN Junction, Biasing, V-I Curve, and Rectifier Action
+            </h1>
+            <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-800 sm:text-base">
+              A complete visual explanation of how a diode conducts, blocks current,
+              enters breakdown, and works inside common analog circuits.
+            </p>
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+              <Link
+                href="/mcqs/analog-electronics"
+                className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
+              >
+                Try MCQs
+              </Link>
+              <Link
+                href="/notes/analog-electronics"
+                className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
+              >
+                Download Notes
+              </Link>
+              <Link
+                href="/subjects/analog-electronics"
+                className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
+              >
+                Back to Analog Electronics
+              </Link>
+            </div>
+          </section>
+
+          <DiodeDeepDiveContent />
+        </div>
+      </Layout>
+    );
+  }
+
   function getConceptStatus(index) {
     if (index < activeConceptIndex) {
       return "review";
@@ -3676,7 +4526,7 @@ export default function SubjectTheoryPage({
 
   return (
     <Layout title={`ECE Exam Guide | ${subject.title}`} pageClassName="py-3 sm:py-4">
-      <div className="mx-auto max-w-[1500px] pb-24 xl:pb-0">
+      <div id="subject-roadmap-top" className="mx-auto max-w-[1500px] scroll-mt-40 pb-24 xl:pb-0">
         <nav
           aria-label="Breadcrumb"
           className="mb-4 flex items-start justify-between gap-3 pt-1"
@@ -3703,11 +4553,20 @@ export default function SubjectTheoryPage({
               </span>
             </li>
           </ol>
-          <NetworkTopicMenu
-            concepts={concepts}
-            activeIndex={activeConceptIndex}
-            onSelectTopic={selectRoadmapTopic}
-          />
+          {subject.title === "Network Analysis" ? (
+            <NetworkTopicMenu
+              concepts={concepts}
+              activeIndex={activeConceptIndex}
+              onSelectTopic={selectRoadmapTopic}
+            />
+          ) : concepts.length ? (
+            <SubjectConceptMenu
+              subjectTitle={subject.title}
+              concepts={concepts}
+              activeIndex={activeConceptIndex}
+              onSelectTopic={selectRoadmapTopic}
+            />
+          ) : null}
         </nav>
 
         <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
@@ -3785,7 +4644,7 @@ export default function SubjectTheoryPage({
 
         <section className="mt-5">
           <main className="min-w-0">
-            {!isConceptIntroPage ? (
+            {shouldShowInlineConcept ? (
               <section className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
                 <div className="divide-y divide-slate-200">
                 {theoryKnowledge.overviewCards.map((item, index) => (
@@ -3800,16 +4659,33 @@ export default function SubjectTheoryPage({
 
             {isConceptIntroPage ? (
               <div className="mt-5 flex justify-end">
-                <Link
-                  href="/basic-concepts"
-                  className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
-                >
-                  Next Basic Concepts
-                </Link>
+                {subject.title === "Network Analysis" ? (
+                  <Link
+                    href="/basic-concepts"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
+                  >
+                    Next Basic Concepts
+                  </Link>
+                ) : subject.title === "Analog Electronics" ? (
+                  <Link
+                    href="/diodes"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
+                  >
+                    Diodes
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => selectRoadmapTopic(1)}
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
+                  >
+                    Start First Concept
+                  </button>
+                )}
               </div>
             ) : null}
 
-            {!isConceptIntroPage ? (
+            {shouldShowInlineConcept ? (
             <section
               id="subject-concept"
               className="mt-5 scroll-mt-40 bg-white"
@@ -4063,18 +4939,36 @@ export default function SubjectTheoryPage({
 
       <div className="fixed bottom-3 left-3 right-3 z-20 rounded-[24px] border border-slate-200 bg-white/95 p-2 shadow-[0_18px_40px_rgba(15,23,42,0.16)] backdrop-blur xl:hidden">
         <div className="grid grid-cols-4 gap-2">
-          <Link
-            href="/basic-concepts"
+          <button
+            type="button"
+            onClick={() => selectRoadmapTopic(0, "subject-roadmap-top")}
             className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             Roadmap
-          </Link>
-          <Link
-            href="/circuit-elements"
-            className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
-          >
-            Theory
-          </Link>
+          </button>
+          {subject.title === "Network Analysis" ? (
+            <Link
+              href="/circuit-elements"
+              className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Theory
+            </Link>
+          ) : subject.title === "Analog Electronics" ? (
+            <Link
+              href="/diodes"
+              className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Theory
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={() => selectRoadmapTopic(Math.max(activeConceptIndex, 1))}
+              className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Theory
+            </button>
+          )}
           <Link
             href={notesHref}
             className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"

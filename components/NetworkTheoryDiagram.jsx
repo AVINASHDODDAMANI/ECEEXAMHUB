@@ -413,6 +413,103 @@ function TransientDiagram() {
   );
 }
 
+function DiodeDiagram() {
+  return (
+    <DiagramFrame label="PN junction diode with forward bias and rectifier applications">
+      <path d="M74 130h88" stroke="#1e293b" strokeWidth="3.6" strokeLinecap="round" />
+      <path d="M162 92v76" stroke="#1e293b" strokeWidth="3.6" strokeLinecap="round" />
+      <path d="M162 130l58-38v76Z" fill="#dbeafe" stroke="#154a96" strokeWidth="3.6" strokeLinejoin="round" />
+      <path d="M220 92v76" stroke="#1e293b" strokeWidth="3.6" strokeLinecap="round" />
+      <path d="M220 130h72" stroke="#1e293b" strokeWidth="3.6" strokeLinecap="round" />
+      <path d="M84 94h112" stroke="#154a96" strokeWidth="2.8" strokeLinecap="round" />
+      <path d="M196 94l-10-7m10 7l-10 7" stroke="#154a96" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="86" y="84" fill="#154a96" fontSize="15" fontWeight="800">forward bias current</text>
+      <text x="134" y="184" fill="#475569" fontSize="14" fontWeight="700">anode</text>
+      <text x="210" y="184" fill="#475569" fontSize="14" fontWeight="700">cathode</text>
+      <circle cx="330" cy="104" r="18" fill="#ffffff" stroke="#154a96" strokeWidth="3.5" />
+      <path d="M318 104h24M330 92v24" stroke="#154a96" strokeWidth="2.8" strokeLinecap="round" />
+      <path d="M348 104h24m8-14v28m0-14h22" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+      <text x="308" y="146" fill="#475569" fontSize="13" fontWeight="700">Zener regulation</text>
+      <path d="M318 208c28-54 62-74 112-86" fill="none" stroke="#154a96" strokeWidth="3" strokeLinecap="round" />
+      <text x="332" y="222" fill="#154a96" fontSize="14" fontWeight="700">rectification and clipping</text>
+    </DiagramFrame>
+  );
+}
+
+function TransistorDiagram() {
+  return (
+    <DiagramFrame label="BJT and MOSFET analog operation diagram">
+      <circle cx="132" cy="124" r="34" fill="#ffffff" stroke="#154a96" strokeWidth="4" />
+      <path d="M98 124h-30M132 90V66M132 158v30" stroke="#1e293b" strokeWidth="3.2" strokeLinecap="round" />
+      <path d="M132 124h24M156 124l18-20M156 124l18 20" stroke="#1e293b" strokeWidth="3.2" strokeLinecap="round" />
+      <path d="M166 142l12 10" stroke="#154a96" strokeWidth="3" strokeLinecap="round" />
+      <path d="M172 154l-2-14 14 4" stroke="#154a96" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="112" y="54" fill="#154a96" fontSize="15" fontWeight="800">BJT</text>
+      <text x="40" y="128" fill="#475569" fontSize="13" fontWeight="700">base</text>
+      <text x="118" y="58" fill="#475569" fontSize="13" fontWeight="700">collector</text>
+      <text x="112" y="206" fill="#475569" fontSize="13" fontWeight="700">emitter</text>
+
+      <path d="M300 72v104M342 72v104" stroke="#1e293b" strokeWidth="3.2" strokeLinecap="round" />
+      <path d="M248 92h38M248 156h38" stroke="#1e293b" strokeWidth="3.2" strokeLinecap="round" />
+      <path d="M356 92h46M356 156h46" stroke="#1e293b" strokeWidth="3.2" strokeLinecap="round" />
+      <path d="M288 92v64h12" stroke="#154a96" strokeWidth="3" strokeLinecap="round" />
+      <path d="M288 156h12" stroke="#154a96" strokeWidth="3" strokeLinecap="round" />
+      <text x="286" y="54" fill="#154a96" fontSize="15" fontWeight="800">MOSFET</text>
+      <text x="210" y="96" fill="#475569" fontSize="13" fontWeight="700">gate</text>
+      <text x="408" y="96" fill="#475569" fontSize="13" fontWeight="700">drain</text>
+      <text x="404" y="160" fill="#475569" fontSize="13" fontWeight="700">source</text>
+      <text x="238" y="212" fill="#154a96" fontSize="14" fontWeight="700">BJT is current-driven, MOSFET is voltage-driven</text>
+    </DiagramFrame>
+  );
+}
+
+function AmplifierDiagram() {
+  return (
+    <DiagramFrame label="Common emitter or common source amplifier concept diagram">
+      <circle cx="88" cy="132" r="22" fill="#ffffff" stroke="#154a96" strokeWidth="4" />
+      <path d="M78 132c7-14 11 14 18 0s11 14 18 0" fill="none" stroke="#154a96" strokeWidth="2.5" strokeLinecap="round" />
+      <text x="56" y="176" fill="#475569" fontSize="14" fontWeight="700">vin</text>
+      <path d="M110 132h42" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+      <path d="M152 132h14l10-18 12 36 12-36 12 36 10-18h22" fill="none" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="190" y="100" fill="#475569" fontSize="14" fontWeight="700">bias and gain stage</text>
+      <path d="M244 132h48" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+      <path d="M292 82v100" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+      <path d="M292 82h30M292 182h30" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+      <path d="M322 82v100" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+      <path d="M322 132h46" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+      <path d="M368 132h48" stroke="#154a96" strokeWidth="3" strokeLinecap="round" />
+      <path d="M416 132l-10-7m10 7l-10 7" stroke="#154a96" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="372" y="118" fill="#154a96" fontSize="14" fontWeight="800">vout</text>
+      <text x="120" y="52" fill="#154a96" fontSize="15" fontWeight="800">small input controls larger output swing</text>
+      <path d="M98 60c28 0 42 16 42 44" fill="none" stroke="#94a3b8" strokeWidth="3" strokeLinecap="round" />
+      <path d="M372 196c18-46 40-66 80-80" fill="none" stroke="#154a96" strokeWidth="3" strokeLinecap="round" />
+      <text x="332" y="220" fill="#475569" fontSize="13" fontWeight="700">180 degree inversion in CE or CS stages</text>
+    </DiagramFrame>
+  );
+}
+
+function OpAmpFilterDiagram() {
+  return (
+    <DiagramFrame label="Operational amplifier and active filter concept diagram">
+      <path d="M124 82v100l96-50-96-50Z" fill="#ffffff" stroke="#154a96" strokeWidth="4" strokeLinejoin="round" />
+      <path d="M76 108h48M76 156h48M220 132h64" stroke="#1e293b" strokeWidth="3.2" strokeLinecap="round" />
+      <path d="M242 82h52v100h-52" fill="none" stroke="#1e293b" strokeWidth="3" strokeLinejoin="round" />
+      <path d="M242 102h18m10-18v36m0-18h18m8-18v36" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+      <path d="M242 162h18m8-24v48" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+      <text x="138" y="118" fill="#154a96" fontSize="16" fontWeight="800">-</text>
+      <text x="138" y="156" fill="#154a96" fontSize="16" fontWeight="800">+</text>
+      <text x="120" y="60" fill="#154a96" fontSize="15" fontWeight="800">op-amp with feedback</text>
+      <text x="256" y="76" fill="#475569" fontSize="13" fontWeight="700">R</text>
+      <text x="258" y="198" fill="#475569" fontSize="13" fontWeight="700">C</text>
+      <path d="M284 132h66" stroke="#154a96" strokeWidth="3" strokeLinecap="round" />
+      <path d="M350 132l-10-7m10 7l-10 7" stroke="#154a96" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="304" y="118" fill="#154a96" fontSize="14" fontWeight="800">filtered output</text>
+      <path d="M366 188c8-26 20-34 44-44 20-8 34-20 46-38" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" />
+      <text x="352" y="214" fill="#16a34a" fontSize="14" fontWeight="700">frequency shaping</text>
+    </DiagramFrame>
+  );
+}
+
 export default function NetworkTheoryDiagram({ type }) {
   if (type === "basic-circuit") {
     return <BasicCircuitDiagram />;
@@ -448,6 +545,22 @@ export default function NetworkTheoryDiagram({ type }) {
 
   if (type === "transient") {
     return <TransientDiagram />;
+  }
+
+  if (type === "diode") {
+    return <DiodeDiagram />;
+  }
+
+  if (type === "transistor") {
+    return <TransistorDiagram />;
+  }
+
+  if (type === "amplifier") {
+    return <AmplifierDiagram />;
+  }
+
+  if (type === "opamp-filter") {
+    return <OpAmpFilterDiagram />;
   }
 
   return null;

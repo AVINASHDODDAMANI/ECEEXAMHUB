@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { examDirectory } from "../data/exam-directory";
 import { previousPaperDirectory } from "../data/previous-paper-directory";
 import { subjectDirectory } from "../data/subject-directory";
+import { getSubjectSlug } from "../data/subject-theory-roadmaps";
 import { isNavigationActive } from "../lib/site-navigation";
 import { BrandLogo } from "./BrandIdentity";
 
@@ -267,7 +268,7 @@ export default function Navbar({
         actionLabel: "Open Subjects Page",
         items: subjectDirectory.map((subject) => ({
           key: subject.title,
-          href: subject.href,
+          href: `/subjects/${getSubjectSlug(subject.title)}`,
           title: `${subject.id}. ${subject.title}`,
           description: subject.description,
         })),
@@ -545,6 +546,25 @@ export default function Navbar({
                       </Link>
                     );
                   })}
+                </div>
+                <div className="mt-3 border-t border-slate-200 pt-3">
+                  <p className="px-1 text-[11px] font-black uppercase tracking-[0.14em] text-portal-700">
+                    Core Subjects
+                  </p>
+                  <div className="mt-2 grid max-h-[42vh] gap-2 overflow-y-auto pr-1">
+                    {subjectDirectory.map((subject) => (
+                      <Link
+                        key={`mobile-subject-${subject.title}`}
+                        href={`/subjects/${getSubjectSlug(subject.title)}`}
+                        className="rounded-xl border border-slate-200 bg-[#f8fbff] px-3 py-2.5 text-sm font-bold text-slate-800 transition hover:border-portal-200 hover:bg-white hover:text-portal-700"
+                      >
+                        <span className="block text-[10px] font-black uppercase tracking-[0.12em] text-slate-500">
+                          Subject {String(subject.id).padStart(2, "0")}
+                        </span>
+                        <span className="mt-0.5 block">{subject.title}</span>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
             ) : null}

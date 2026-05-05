@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Layout from "../components/layout";
+import NetworkTopicMenu from "../components/NetworkTopicMenu";
 
 const dcTopics = [
   {
@@ -262,7 +263,7 @@ export default function DcCircuitAnalysisPage() {
   return (
     <Layout title="ECE Exam Guide | DC Circuit Analysis" pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1200px] pb-24">
-        <nav aria-label="Breadcrumb" className="mb-5 pt-1">
+        <nav aria-label="Breadcrumb" className="mb-5 flex items-start justify-between gap-3 pt-1">
           <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
             <li>
               <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
@@ -291,6 +292,7 @@ export default function DcCircuitAnalysisPage() {
               </span>
             </li>
           </ol>
+          <NetworkTopicMenu currentPath="/dc-circuit-analysis" />
         </nav>
 
         <section className="rounded-[30px] border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-5 shadow-panel sm:p-6">
@@ -341,10 +343,10 @@ export default function DcCircuitAnalysisPage() {
             Network Theorems
           </Link>
           <Link
-            href="/subjects/network-analysis"
+            href="/ac-fundamentals"
             className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
           >
-            Finish Network Analysis
+            Next AC Fundamentals
           </Link>
         </div>
       </div>

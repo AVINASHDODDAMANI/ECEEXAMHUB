@@ -288,6 +288,7 @@ export const subjectTheoryKnowledge = {
       },
       {
         title: "What Will You Learn?",
+        showBasicConceptGuide: true,
         points: [
           "How voltage, current, power, and energy are defined inside a circuit.",
           "How to apply KCL, KVL, and Ohm's law with correct signs.",
@@ -1125,6 +1126,497 @@ export const subjectTheoryKnowledge = {
       "Finding Thevenin resistance incorrectly when dependent sources are present.",
       "Memorizing resonance formulas without understanding whether the circuit is series or parallel.",
       "Jumping into an exponential transient formula before finding the initial value and final value.",
+    ],
+  },
+  "Analog Electronics": {
+    overviewCards: [
+      {
+        title: "What Is Analog Electronics?",
+        description:
+          "Analog Electronics studies circuits that work with continuously varying voltages and currents. It explains how semiconductor devices such as diodes, BJTs, MOSFETs, and op-amps rectify, amplify, shape, and filter real-world signals.",
+      },
+      {
+        title: "Why Do We Study It?",
+        description:
+          "We study this chapter because most sensor interfaces, communication front ends, power supplies, audio stages, and control circuits depend on analog behavior. Once you can identify region of operation, bias a device correctly, and read gain or frequency response, many GATE problems become systematic instead of intimidating.",
+      },
+      {
+        title: "What Will You Learn?",
+        points: [
+          "How PN junction devices conduct, block, clip, and regulate.",
+          "How BJTs and MOSFETs operate in different regions and why biasing matters.",
+          "How small-signal amplifier gain is built from transconductance and load resistance.",
+          "How ideal op-amp rules simplify inverting and non-inverting circuits.",
+          "How low-pass and high-pass filters shape signals in frequency.",
+          "How exam problems connect device physics to circuit-level behavior.",
+        ],
+      },
+    ],
+    concepts: [
+      {
+        slug: "diodes-and-pn-junction",
+        title: "PN Junction Diodes: Working, Types, and Applications",
+        shortTitle: "Diodes",
+        diagram: "diode",
+        diagramNote:
+          "The left side shows forward-bias conduction through a PN junction and the right side hints at rectification and regulation use cases.",
+        summary:
+          "A diode is a two-terminal PN junction device whose behavior depends strongly on bias direction. In analog circuits, it is treated as a one-way element, a clipper, a clamper, a rectifier, or a reference element depending on the region of operation.",
+        teaching: {
+          intuition: [
+            "A PN junction behaves like a controllable barrier for charge carriers.",
+            "Forward bias lowers the barrier and reverse bias raises it, which creates asymmetric conduction.",
+          ],
+          explanation: [
+            "In forward bias, the depletion region shrinks and majority carriers cross the junction, producing large current after the cut-in region.",
+            "In reverse bias, the depletion region widens and only a tiny reverse saturation current flows until breakdown is reached.",
+            "Practical circuit solving often uses piecewise models such as ideal diode, constant drop model, or Zener breakdown model.",
+            "Different diode types are optimized for different analog jobs: rectification, regulation, switching, light emission, or signal detection.",
+          ],
+          interpretation: [
+            "Always decide first whether the diode is ON, OFF, or in breakdown.",
+            "Rectifier questions depend on conduction intervals, while regulator questions depend on breakdown operation.",
+            "A wrong region assumption can spoil the entire circuit solution even if later algebra is correct.",
+          ],
+          workedExample: {
+            prompt: "A silicon diode with 0.7 V forward drop is connected in series with a 1 kohm resistor to a 5 V source. Find the diode current when it is forward biased.",
+            steps: [
+              "Assume the diode is ON and takes approximately 0.7 V.",
+              "Voltage across the resistor = 5 - 0.7 = 4.3 V.",
+              "Current through the series path = 4.3 / 1000 = 4.3 mA.",
+            ],
+            result: "The forward current is approximately 4.3 mA.",
+          },
+          quiz: {
+            question: "Which diode is intentionally operated in reverse breakdown for voltage regulation?",
+            options: ["LED", "Photodiode", "Zener diode", "Tunnel diode"],
+            correctIndex: 2,
+            explanation: "A Zener diode is designed to operate safely in reverse breakdown and is widely used in regulation.",
+          },
+          commonMistake:
+            "Students write the exponential diode equation immediately even when the question clearly expects a simpler ON-OFF or constant-drop model.",
+          realLifeInsight:
+            "Power supplies, clipping networks, signal detectors, and over-voltage protectors all rely on choosing the right diode model for the operating region.",
+        },
+        paragraphs: [
+          "A PN junction is formed by joining p-type and n-type semiconductor regions. This creates a depletion region and an internal electric field that opposes free carrier diffusion at equilibrium.",
+          "When forward biased, the depletion barrier is reduced and current rises rapidly after the practical cut-in region. When reverse biased, the barrier widens and the junction blocks current except for a small leakage component.",
+          "Different diode families extend the same basic idea. Rectifier diodes handle power conversion, Zener diodes provide regulation, LEDs emit light, and photodiodes convert light into electrical response.",
+        ],
+        stepByStep: [
+          {
+            title: "Identify the bias condition",
+            detail:
+              "Check the polarity across the diode and decide whether the junction is forward biased, reverse biased, or operating in breakdown.",
+          },
+          {
+            title: "Choose the right diode model",
+            detail:
+              "Use ideal, constant-drop, or breakdown approximation based on the level of accuracy the question expects.",
+          },
+          {
+            title: "Write the surrounding circuit equation",
+            detail:
+              "After deciding the diode state, apply KVL or resistor relations to find current or voltage in the external circuit.",
+          },
+          {
+            title: "Verify the assumption",
+            detail:
+              "Check whether the solved current and voltage values are consistent with the region you assumed at the start.",
+          },
+        ],
+        learnPoints: [
+          "Diode problems are region-identification problems before they are algebra problems.",
+          "Silicon diodes are often approximated with a constant 0.7 V drop in hand analysis.",
+          "Zener behavior becomes useful only when reverse breakdown is intentionally reached and current is limited safely.",
+        ],
+        formulas: [
+          {
+            label: "Diode equation",
+            expression: "ID = IS (e^(VD / etaVT) - 1)",
+            note: "This is the full nonlinear relation, but many exam problems use simpler approximations.",
+          },
+          {
+            label: "Practical forward model",
+            expression: "VD approx 0.7 V for silicon",
+            note: "A constant-drop model is often enough for basic circuit analysis.",
+          },
+        ],
+      },
+      {
+        slug: "transistor-basics",
+        title: "Transistors: BJT and MOSFET Operation and Configurations",
+        shortTitle: "BJTs and MOSFETs",
+        diagram: "transistor",
+        diagramNote:
+          "The diagram contrasts a BJT current-control picture with a MOSFET voltage-control picture and highlights common amplifier configurations.",
+        summary:
+          "Transistors are three-terminal devices used for amplification and switching. BJT operation is governed by carrier injection and collector current control, while MOSFET operation is governed by electric field control of a channel.",
+        teaching: {
+          intuition: [
+            "A BJT uses a small base action to control a larger collector current.",
+            "A MOSFET uses gate voltage to create or strengthen a conductive channel between drain and source.",
+          ],
+          explanation: [
+            "BJTs operate in cutoff, active, and saturation regions; analog amplification usually needs active region.",
+            "MOSFETs operate in cutoff, triode, and saturation regions; analog gain stages usually use saturation region.",
+            "Common configurations such as CE and CS provide gain, while CC and CD are strong buffering configurations.",
+            "Biasing is used to place the device at a Q-point that allows undistorted small-signal motion around the operating point.",
+          ],
+          interpretation: [
+            "Region of operation is the first checkpoint in every transistor problem.",
+            "Configuration determines whether you get gain, buffering, phase inversion, or low output resistance.",
+            "A transistor without a stable bias point rarely behaves as the ideal amplifier the formula suggests.",
+          ],
+          workedExample: {
+            prompt: "A BJT has beta = 100 and IB = 20 uA in active region. Find the collector current.",
+            steps: [
+              "In active region, collector current is approximately beta times base current.",
+              "IC = 100 x 20 uA = 2000 uA.",
+              "Convert to milliampere: IC = 2 mA.",
+            ],
+            result: "The collector current is 2 mA.",
+          },
+          quiz: {
+            question: "Which MOSFET region is commonly used for analog voltage amplification?",
+            options: ["Cutoff", "Triode", "Saturation", "Breakdown"],
+            correctIndex: 2,
+            explanation: "MOSFET amplifiers are commonly biased in saturation so drain current becomes a controlled function of gate voltage.",
+          },
+          commonMistake:
+            "Students memorize region names but forget the inequalities that define them, so they place the transistor in the wrong model.",
+          realLifeInsight:
+            "The same transistor can act as a digital switch or as an analog gain element depending on how its operating point is set.",
+        },
+        paragraphs: [
+          "A BJT is a bipolar device in which both electrons and holes contribute to conduction. In active region, the base-emitter junction is forward biased and the base-collector junction is reverse biased, allowing the collector current to be controlled by base excitation.",
+          "A MOSFET is a field-effect device in which a gate voltage controls channel formation. Because the gate draws negligible steady-state current ideally, MOSFET circuits often offer very high input resistance.",
+          "The choice of configuration matters. Common-emitter and common-source stages are favored for gain, while emitter follower and source follower stages are favored for impedance matching and buffering.",
+        ],
+        stepByStep: [
+          {
+            title: "Find the operating region first",
+            detail:
+              "Use device voltages and bias conditions to decide whether the transistor is in cutoff, active, saturation, triode, or another region.",
+          },
+          {
+            title: "Apply the region-specific current relation",
+            detail:
+              "Once the region is known, choose the correct current equation or approximation instead of mixing formulas from different regions.",
+          },
+          {
+            title: "Check the circuit configuration",
+            detail:
+              "Recognize whether the circuit is CE, CC, CS, or another configuration because that determines gain sign and impedance behavior.",
+          },
+          {
+            title: "Verify the final condition",
+            detail:
+              "After solving, confirm that the resulting currents and voltages still satisfy the assumed operating region.",
+          },
+        ],
+        learnPoints: [
+          "Biasing and region selection come before small-signal gain formulas.",
+          "BJTs and MOSFETs are controlled differently, so their intuition and equations should not be mixed casually.",
+          "Configuration names are not labels only; they predict gain sign, impedance, and output swing behavior.",
+        ],
+        formulas: [
+          {
+            label: "BJT collector current",
+            expression: "IC approx beta IB",
+            note: "A useful active-region approximation in many hand calculations.",
+          },
+          {
+            label: "MOSFET saturation current",
+            expression: "ID = (1/2) kn (VGS - VT)^2",
+            note: "This square-law form is widely used in basic analog MOSFET analysis.",
+          },
+        ],
+      },
+      {
+        slug: "amplifier-fundamentals",
+        title: "Amplifiers: Types, Gain, and Basic Circuits",
+        shortTitle: "Amplifiers",
+        diagram: "amplifier",
+        diagramNote:
+          "A common-emitter or common-source stage turns a small input variation into a larger output variation using DC supply power.",
+        summary:
+          "An amplifier increases the amplitude of a useful signal by drawing energy from a DC supply. In analog electronics, the most exam-relevant ideas are biasing, midband gain, input-output resistance, and phase behavior.",
+        teaching: {
+          intuition: [
+            "A transistor amplifier does not create energy; it controls DC power flow so the output signal becomes larger.",
+            "Biasing sets the center point, and the small-signal model explains the motion around that center point.",
+          ],
+          explanation: [
+            "Voltage gain, current gain, and power gain describe different amplifier roles.",
+            "Midband analysis usually neglects coupling and bypass capacitor reactance and focuses on the small-signal equivalent circuit.",
+            "CE and CS stages usually invert phase, while emitter follower and source follower stages mainly buffer the signal.",
+            "Frequency response limits appear because real capacitors and device parasitics disturb the ideal midband behavior.",
+          ],
+          interpretation: [
+            "Without proper biasing, even a large theoretical gain formula is useless because distortion or clipping appears early.",
+            "Gain sign tells you whether the stage inverts phase.",
+            "Input resistance matters when connecting to weak sources and output resistance matters when driving loads.",
+          ],
+          workedExample: {
+            prompt: "A transistor stage has gm = 40 mS and collector resistor RC = 2 kohm. Estimate the voltage gain magnitude in midband.",
+            steps: [
+              "Use the common-emitter small-signal approximation Av approx -gm RC.",
+              "Convert transconductance: 40 mS = 0.04 S.",
+              "Av approx -(0.04)(2000) = -80.",
+            ],
+            result: "The approximate voltage gain is -80, indicating phase inversion.",
+          },
+          quiz: {
+            question: "Which amplifier configuration is commonly used as a voltage buffer with high input resistance and gain close to unity?",
+            options: ["Common-emitter", "Emitter follower", "Common-base", "Common-source"],
+            correctIndex: 1,
+            explanation: "The emitter follower offers high input resistance, low output resistance, and voltage gain close to one.",
+          },
+          commonMistake:
+            "Students jump to gain formulas without first checking the DC operating point, which makes the small-signal answer physically invalid.",
+          realLifeInsight:
+            "Audio preamps, sensor front ends, and RF blocks all rely on the same amplifier ideas: bias, gain, loading, and bandwidth.",
+        },
+        paragraphs: [
+          "A transistor amplifier uses a small input signal to modulate a larger current or voltage in the output path. The extra output energy comes from the DC supply, not from the input source alone.",
+          "In low-frequency hand analysis, the circuit is usually split into DC bias analysis and AC small-signal analysis. This is one of the most important workflows in analog electronics.",
+          "Amplifier types differ in purpose. Some are designed for large voltage gain, some for current gain, and some mainly for isolation between source and load. Good analog design chooses the stage according to the signal and impedance requirements.",
+        ],
+        stepByStep: [
+          {
+            title: "Fix the bias point",
+            detail:
+              "Determine the DC operating point and confirm that the transistor is in the desired amplification region before starting AC analysis.",
+          },
+          {
+            title: "Replace the device with its small-signal model",
+            detail:
+              "Use gm, rpi, or the appropriate equivalent model to describe how small signal changes move around the operating point.",
+          },
+          {
+            title: "Compute gain and impedances",
+            detail:
+              "Find voltage gain, input resistance, and output resistance from the small-signal circuit and interpret what each means physically.",
+          },
+          {
+            title: "Check signal swing and frequency limits",
+            detail:
+              "Make sure the stage can support the expected output swing and remember that real capacitors and parasitic effects limit bandwidth.",
+          },
+        ],
+        learnPoints: [
+          "The small-signal model is meaningful only around a valid DC operating point.",
+          "Midband formulas are approximations, not universal truths across all frequencies.",
+          "Loading by source and load resistances often changes the practical gain from the ideal isolated value.",
+        ],
+        formulas: [
+          {
+            label: "BJT transconductance",
+            expression: "gm = IC / VT",
+            note: "This connects the DC operating current to the small-signal gain mechanism.",
+          },
+          {
+            label: "Common-emitter voltage gain",
+            expression: "Av approx -gm RC",
+            note: "A standard midband approximation when emitter degeneration is neglected.",
+          },
+        ],
+      },
+      {
+        slug: "operational-amplifiers",
+        title: "Operational Amplifiers: Ideal Op-Amp and Core Configurations",
+        shortTitle: "Op-Amps",
+        diagram: "opamp-filter",
+        diagramNote:
+          "The op-amp block is shown with feedback paths that illustrate inverting, non-inverting, and active filter style thinking.",
+        summary:
+          "An operational amplifier is a very high-gain differential amplifier used with feedback to realize precise linear operations such as amplification, summing, integration, differentiation, and active filtering.",
+        teaching: {
+          intuition: [
+            "With strong negative feedback, the op-amp forces the two input terminals to nearly the same voltage in linear operation.",
+            "That one idea turns many apparently complex circuits into short resistor-ratio equations.",
+          ],
+          explanation: [
+            "Ideal op-amp assumptions are infinite input resistance, zero output resistance, and infinite open-loop gain.",
+            "Inverting configuration gives negative gain with magnitude set by a resistor ratio.",
+            "Non-inverting configuration preserves phase and offers very high input resistance to the source.",
+            "These base configurations also lead to summing amplifiers, integrators, differentiators, and active filters.",
+          ],
+          interpretation: [
+            "The virtual short rule works only when the op-amp is in linear operation with negative feedback.",
+            "A resistor ratio often determines gain more directly than the device internals.",
+            "Once you master the two basic amplifier forms, many larger op-amp circuits become pattern-recognition problems.",
+          ],
+          workedExample: {
+            prompt: "In an inverting op-amp, R1 = 2 kohm and Rf = 10 kohm. Find the closed-loop gain.",
+            steps: [
+              "Use the ideal inverting gain formula Av = -Rf / R1.",
+              "Substitute values: Av = -10 / 2.",
+              "Therefore Av = -5.",
+            ],
+            result: "The closed-loop voltage gain is -5.",
+          },
+          quiz: {
+            question: "Which ideal op-amp statement is valid during linear operation with negative feedback?",
+            options: ["Input currents are equal to load current", "The two input terminal voltages are nearly equal", "Output voltage is always zero", "Gain is always one"],
+            correctIndex: 1,
+            explanation: "With very large open-loop gain and negative feedback, the input terminal voltages become nearly equal in linear operation.",
+          },
+          commonMistake:
+            "Students apply the virtual short idea even in comparator-like circuits where the op-amp is not operating linearly with negative feedback.",
+          realLifeInsight:
+            "Measurement systems, active filters, waveform generators, and control circuits all use op-amp building blocks derived from the same two base configurations.",
+        },
+        paragraphs: [
+          "The ideal op-amp model is powerful because it simplifies many real circuits while still preserving the key relationships that matter in hand analysis. Its usefulness comes from very large open-loop gain combined with negative feedback.",
+          "In the inverting amplifier, the input signal enters through a resistor into the inverting node while the non-inverting node is usually grounded or biased. In the non-inverting amplifier, the signal is applied directly to the non-inverting input and the feedback network sets the gain.",
+          "Op-amps are not limited to amplification. With capacitors added in the feedback or input paths, they become integrators, differentiators, and active frequency-selective networks.",
+        ],
+        stepByStep: [
+          {
+            title: "Check for negative feedback and linear operation",
+            detail:
+              "Before using ideal op-amp shortcuts, confirm that the circuit is intended to operate in its linear region with feedback present.",
+          },
+          {
+            title: "Apply ideal input rules",
+            detail:
+              "Use zero input current and nearly equal terminal voltages when the circuit satisfies the assumptions.",
+          },
+          {
+            title: "Write resistor or capacitor relations around the feedback path",
+            detail:
+              "Convert the circuit into current-balance or impedance-ratio equations using the simplified node conditions.",
+          },
+          {
+            title: "Interpret the closed-loop function",
+            detail:
+              "Decide whether the circuit is inverting, non-inverting, summing, integrating, or filtering, then express the final transfer relation clearly.",
+          },
+        ],
+        learnPoints: [
+          "Ideal op-amp analysis is one of the biggest time savers in GATE-style circuit problems.",
+          "The feedback network, not the huge open-loop gain directly, usually determines the practical closed-loop behavior.",
+          "Always distinguish linear amplifier operation from comparator-like saturation behavior.",
+        ],
+        formulas: [
+          {
+            label: "Inverting gain",
+            expression: "Av = -Rf / R1",
+            note: "The negative sign indicates phase inversion.",
+          },
+          {
+            label: "Non-inverting gain",
+            expression: "Av = 1 + (Rf / R1)",
+            note: "This form preserves the input phase.",
+          },
+        ],
+      },
+      {
+        slug: "filters-and-frequency-response",
+        title: "Filters: Low-Pass, High-Pass, and Basic Frequency Response",
+        shortTitle: "Filters",
+        diagram: "opamp-filter",
+        diagramNote:
+          "The filter picture emphasizes that frequency-selective circuits pass one range more strongly than another and can be passive or op-amp based.",
+        summary:
+          "Filters shape signals in the frequency domain. Even first-order RC low-pass and high-pass circuits are high-yield because they connect time constants, cutoff frequency, waveform shaping, and op-amp based active design.",
+        teaching: {
+          intuition: [
+            "A filter does not react equally to every frequency; it prefers some and suppresses others.",
+            "The same capacitor that creates transient delay in time domain creates frequency selectivity in AC analysis.",
+          ],
+          explanation: [
+            "A low-pass filter passes low frequencies and attenuates high frequencies.",
+            "A high-pass filter blocks low frequencies and passes higher frequencies.",
+            "Cutoff frequency marks the transition region where gain begins to change significantly.",
+            "Active filters use op-amps to add gain and buffering while preserving desired frequency-selective behavior.",
+          ],
+          interpretation: [
+            "The transfer function shape matters as much as the cutoff formula.",
+            "Capacitor reactance is large at low frequency and small at high frequency, which explains both low-pass and high-pass behavior.",
+            "Exam questions often ask you to infer whether a circuit passes slow signals, fast changes, or AC only.",
+          ],
+          workedExample: {
+            prompt: "A first-order RC low-pass filter has R = 1 kohm and C = 0.1 uF. Find the cutoff frequency.",
+            steps: [
+              "Use fc = 1 / (2 pi RC).",
+              "RC = 1000 x 0.1 x 10^-6 = 10^-4 s.",
+              "fc approx 1 / (2 pi x 10^-4) approx 1591.5 Hz.",
+            ],
+            result: "The cutoff frequency is approximately 1.59 kHz.",
+          },
+          quiz: {
+            question: "Which first-order filter blocks DC and passes higher-frequency components?",
+            options: ["Low-pass", "High-pass", "Band-stop", "All-pass"],
+            correctIndex: 1,
+            explanation: "A high-pass filter suppresses DC and low-frequency content while allowing higher-frequency content to pass.",
+          },
+          commonMistake:
+            "Students memorize the cutoff formula but forget which output node corresponds to low-pass and which corresponds to high-pass behavior.",
+          realLifeInsight:
+            "Filters appear in audio tone control, communication receivers, anti-noise front ends, and sensor conditioning networks.",
+        },
+        paragraphs: [
+          "A low-pass filter allows slowly varying or low-frequency components to appear at the output while attenuating fast variations. A high-pass filter does the opposite and is useful when DC blocking or edge emphasis is needed.",
+          "In first-order RC filters, frequency response is closely tied to the capacitor reactance. Because capacitive reactance decreases as frequency increases, the location of the resistor and capacitor determines whether the network behaves as low-pass or high-pass.",
+          "Active filters extend the same ideas using op-amps. They provide gain, reduce loading effects, and make it easier to design accurate filter responses for analog signal processing.",
+        ],
+        stepByStep: [
+          {
+            title: "Identify the output node",
+            detail:
+              "The same RC network can behave differently depending on where the output is measured, so check the output location carefully first.",
+          },
+          {
+            title: "Use reactance intuition",
+            detail:
+              "At low frequency the capacitor behaves almost like an open circuit, while at high frequency it behaves more like a short. This predicts the passband behavior physically.",
+          },
+          {
+            title: "Compute the cutoff frequency",
+            detail:
+              "Use the first-order relation fc = 1 / (2 pi RC) and connect the number to the passband-transition behavior.",
+          },
+          {
+            title: "Interpret the response",
+            detail:
+              "State clearly whether the circuit passes low-frequency content, high-frequency content, or both in some limited region.",
+          },
+        ],
+        learnPoints: [
+          "Frequency response can often be reasoned quickly from capacitor behavior before any formal transfer function is written.",
+          "Cutoff frequency is a transition marker, not a hard wall.",
+          "Active filters combine op-amp ideas with RC selectivity to create more controllable analog blocks.",
+        ],
+        formulas: [
+          {
+            label: "First-order cutoff frequency",
+            expression: "fc = 1 / (2 pi RC)",
+            note: "A standard result for simple RC low-pass and high-pass filters.",
+          },
+          {
+            label: "Capacitive reactance",
+            expression: "XC = 1 / (wC)",
+            note: "This explains why the same capacitor behaves very differently at low and high frequency.",
+          },
+        ],
+      },
+    ],
+    studyTips: [
+      "Start every device problem by identifying the operating region before substituting formulas.",
+      "Separate DC bias analysis from AC small-signal analysis in transistor amplifiers.",
+      "Use ideal op-amp rules only when negative feedback and linear operation are clearly present.",
+      "For filter questions, check the output node first and then reason with capacitor reactance.",
+      "In GATE problems, concise region assumptions often save more time than long algebra.",
+    ],
+    commonMistakes: [
+      "Using the diode exponential equation when a simple ON-OFF approximation was intended.",
+      "Applying BJT or MOSFET formulas from the wrong operating region.",
+      "Calculating amplifier gain without first verifying the DC operating point.",
+      "Using virtual short assumptions in circuits that are actually acting as comparators.",
+      "Memorizing the cutoff formula without understanding whether the circuit is low-pass or high-pass.",
     ],
   },
 };
