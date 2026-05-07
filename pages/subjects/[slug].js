@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Head from "next/head";
 import Layout from "../../components/layout";
 import NetworkTheoryDiagram from "../../components/NetworkTheoryDiagram";
 import { subjectDirectory } from "../../data/subject-directory";
@@ -228,6 +229,1594 @@ export const NETWORK_ROUTE_ACTIVE_INDEX = {
   "/filters": 12,
   "/network-functions": 13,
 };
+
+const ANALOG_CHAPTERS = [
+  {
+    number: 1,
+    title: "Semiconductor Fundamentals",
+    slug: "semiconductor-fundamentals",
+    route: "/semiconductor-fundamentals",
+    summary:
+      "Build the device-physics base: materials, doping, carrier movement, depletion region, barrier potential, and PN-junction biasing.",
+    diagramMode: "pn",
+    examFocus: "PN junction formation, depletion region, barrier potential, forward and reverse bias.",
+    topics: [
+      { title: "Atomic Structure", subtopics: ["Conductors", "Semiconductors", "Insulators"] },
+      { title: "Semiconductor Materials", subtopics: ["Silicon", "Germanium"] },
+      { title: "Types of Semiconductors", subtopics: ["Intrinsic semiconductor", "Extrinsic semiconductor"] },
+      { title: "Doping", subtopics: ["P-type semiconductor", "N-type semiconductor"] },
+      { title: "PN Junction", subtopics: ["Depletion region", "Barrier potential", "Forward bias", "Reverse bias"] },
+    ],
+    workingSteps: [
+      "Pure silicon or germanium has limited free carriers at room temperature.",
+      "Doping adds controlled impurity atoms and creates majority carriers.",
+      "When P and N regions touch, electrons and holes diffuse and recombine near the junction.",
+      "The uncovered ions form the depletion region and create an internal barrier potential.",
+      "Forward bias lowers the barrier so current flows; reverse bias raises the barrier so current is blocked.",
+    ],
+  },
+  {
+    number: 2,
+    title: "Diodes and Applications",
+    slug: "diodes-and-applications",
+    route: "/diodes-and-applications",
+    legacyRoute: "/diodes",
+    summary:
+      "Learn diode V-I behavior, special diodes, rectifiers, filters, and Zener regulation as practical circuit blocks.",
+    diagramMode: "diode",
+    examFocus: "Diode ON/OFF state, rectifier output, ripple reduction, and Zener regulation.",
+    topics: [
+      { title: "PN Junction Diode Characteristics", subtopics: ["V-I characteristics", "Static resistance", "Dynamic resistance"] },
+      { title: "Special Diodes", subtopics: ["Zener diode", "LED", "Photodiode", "Schottky diode", "Varactor diode"] },
+      { title: "Rectifiers", subtopics: ["Half-wave rectifier", "Full-wave rectifier", "Bridge rectifier"] },
+      { title: "Filters", subtopics: ["Capacitor filter", "Inductor filter", "LC filter"] },
+      { title: "Voltage Regulators", subtopics: ["Zener regulator"] },
+    ],
+    workingSteps: [
+      "Apply the input polarity and decide whether the diode is forward biased, reverse biased, or in breakdown.",
+      "Replace the diode with the correct model: ideal switch, constant-voltage drop, or Zener clamp.",
+      "Trace current through the load only during the conducting interval.",
+      "For rectifiers, observe how one half-cycle or both half-cycles become unidirectional load current.",
+      "Add filters or Zener action to reduce ripple and hold the output voltage nearly constant.",
+    ],
+  },
+  {
+    number: 3,
+    title: "Bipolar Junction Transistor (BJT)",
+    slug: "bipolar-junction-transistor",
+    route: "/bipolar-junction-transistor",
+    legacyRoute: "/bjt-and-mosfet",
+    summary:
+      "Study BJT construction, current control, CE/CB/CC configurations, characteristics, biasing, and small-signal models.",
+    diagramMode: "bjt",
+    examFocus: "Operating region, current relations, bias stability, h-parameter small-signal analysis.",
+    topics: [
+      { title: "BJT Basics", subtopics: ["Construction", "Working principle", "Current components"] },
+      { title: "BJT Configurations", subtopics: ["CE configuration", "CB configuration", "CC configuration"] },
+      { title: "BJT Characteristics", subtopics: ["Input characteristics", "Output characteristics"] },
+      { title: "Biasing Circuits", subtopics: ["Fixed bias", "Voltage divider bias", "Stability factor"] },
+      { title: "Small Signal Analysis", subtopics: ["Hybrid model", "h-parameters"] },
+    ],
+    workingSteps: [
+      "Forward bias the emitter-base junction and reverse bias the collector-base junction for active operation.",
+      "A small base current controls a much larger collector current.",
+      "Choose CE, CB, or CC depending on gain, input resistance, and output resistance needs.",
+      "Set a stable Q-point using a bias network before applying the AC signal.",
+      "Replace the transistor by its small-signal model to calculate gain and resistance values.",
+    ],
+  },
+  {
+    number: 4,
+    title: "BJT Amplifiers",
+    slug: "bjt-amplifiers",
+    route: "/bjt-amplifiers",
+    legacyRoute: "/amplifiers",
+    summary:
+      "Connect BJT biasing to voltage gain, frequency response, multistage coupling, and power amplifier classes.",
+    diagramMode: "amplifier",
+    examFocus: "CE/CB/CC gain, bandwidth, coupling capacitors, and Class A/B/AB operation.",
+    topics: [
+      { title: "Single Stage Amplifiers", subtopics: ["CE amplifier", "CB amplifier", "CC amplifier"] },
+      { title: "Frequency Response", subtopics: ["Low-frequency response", "High-frequency response", "Bandwidth"] },
+      { title: "Multistage Amplifiers", subtopics: ["Cascaded gain", "Coupling methods", "Loading effect"] },
+      { title: "Power Amplifiers", subtopics: ["Class A", "Class B", "Class AB", "Push-pull amplifier"] },
+    ],
+    workingSteps: [
+      "Start with DC bias and fix the transistor in the active region.",
+      "Superimpose a small AC input on the bias point.",
+      "Collector current variation creates a larger voltage variation across the collector load.",
+      "Coupling and bypass capacitors shape the low-frequency response.",
+      "Device capacitances reduce high-frequency gain, creating a finite bandwidth.",
+    ],
+  },
+  {
+    number: 5,
+    title: "Field Effect Transistors (FET)",
+    slug: "field-effect-transistors",
+    route: "/field-effect-transistors",
+    summary:
+      "Understand JFET and MOSFET voltage-controlled behavior, biasing methods, characteristics, and amplifier use.",
+    diagramMode: "mosfet",
+    examFocus: "JFET/MOSFET regions, threshold voltage, drain current equations, and FET amplifier action.",
+    topics: [
+      { title: "JFET", subtopics: ["Construction", "Working", "Characteristics"] },
+      { title: "MOSFET", subtopics: ["Enhancement MOSFET", "Depletion MOSFET"] },
+      { title: "FET Biasing", subtopics: ["Gate bias", "Self bias", "Voltage divider bias"] },
+      { title: "FET Amplifiers", subtopics: ["Common source", "Common gate", "Common drain"] },
+    ],
+    workingSteps: [
+      "The gate voltage controls the channel without significant gate current.",
+      "In JFETs, reverse gate bias narrows the channel and controls drain current.",
+      "In enhancement MOSFETs, gate voltage above threshold creates the conducting channel.",
+      "Select cutoff, triode, or saturation equations from the operating condition.",
+      "Use the small-signal transconductance to calculate amplifier gain.",
+    ],
+  },
+  {
+    number: 6,
+    title: "Feedback Amplifiers",
+    slug: "feedback-amplifiers",
+    route: "/feedback-amplifiers",
+    summary:
+      "Learn how feedback samples output, returns a fraction to the input, stabilizes gain, and changes amplifier resistance.",
+    diagramMode: "feedback",
+    examFocus: "Negative feedback gain, bandwidth improvement, distortion reduction, and topology identification.",
+    topics: [
+      { title: "Concept of Feedback", subtopics: ["Open-loop gain", "Feedback factor", "Closed-loop gain"] },
+      { title: "Types of Feedback", subtopics: ["Voltage series", "Voltage shunt", "Current series", "Current shunt"] },
+      { title: "Advantages of Negative Feedback", subtopics: ["Gain stability", "Reduced distortion", "Increased bandwidth"] },
+    ],
+    workingSteps: [
+      "Sample either output voltage or output current.",
+      "Feed a fraction of the output signal back to the input.",
+      "For negative feedback, the returned signal opposes the input error.",
+      "The closed-loop gain becomes less sensitive to transistor parameter variation.",
+      "Bandwidth, linearity, and distortion performance usually improve.",
+    ],
+  },
+  {
+    number: 7,
+    title: "Oscillators",
+    slug: "oscillators",
+    route: "/oscillators",
+    summary:
+      "Study how positive feedback and frequency-selective networks create sustained sinusoidal oscillations.",
+    diagramMode: "oscillator",
+    examFocus: "Barkhausen criterion, RC phase shift, Wien bridge, Hartley, Colpitts, and crystal oscillators.",
+    topics: [
+      { title: "Barkhausen Criterion", subtopics: ["A beta = 1", "Loop gain", "Zero phase shift"] },
+      { title: "RC Oscillators", subtopics: ["Phase shift oscillator", "Wien bridge oscillator"] },
+      { title: "LC Oscillators", subtopics: ["Hartley oscillator", "Colpitts oscillator"] },
+      { title: "Crystal Oscillator", subtopics: ["Piezoelectric effect", "High stability", "Equivalent circuit"] },
+    ],
+    workingSteps: [
+      "Noise or a small disturbance starts a tiny signal in the circuit.",
+      "The amplifier increases the signal amplitude.",
+      "The feedback network returns a same-phase signal at only the selected frequency.",
+      "When loop gain magnitude is one and phase shift is zero, oscillation sustains.",
+      "Amplitude control prevents the waveform from growing without limit.",
+    ],
+  },
+  {
+    number: 8,
+    title: "Operational Amplifiers (Op-Amp)",
+    slug: "operational-amplifiers",
+    route: "/operational-amplifiers",
+    summary:
+      "Master ideal assumptions, practical parameters, linear op-amp circuits, comparators, and Schmitt triggers.",
+    diagramMode: "opamp",
+    examFocus: "Virtual short, zero input current, resistor-ratio gain, slew rate, CMRR, and comparator action.",
+    topics: [
+      { title: "Ideal Op-Amp Characteristics", subtopics: ["Infinite gain", "Infinite input resistance", "Zero output resistance"] },
+      { title: "Practical Op-Amp Parameters", subtopics: ["Slew rate", "CMRR", "Input offset voltage"] },
+      { title: "Op-Amp Configurations", subtopics: ["Inverting amplifier", "Non-inverting amplifier", "Voltage follower", "Summing amplifier", "Differentiator", "Integrator"] },
+      { title: "Comparator and Schmitt Trigger", subtopics: ["Open-loop comparison", "Hysteresis", "Threshold levels"] },
+    ],
+    workingSteps: [
+      "Check whether the circuit uses negative feedback or open-loop operation.",
+      "With negative feedback, assume virtual short and zero input current.",
+      "Write KCL at the input node and solve using resistor ratios.",
+      "For integrator and differentiator circuits, replace resistor/capacitor current with time-domain relation.",
+      "For comparator and Schmitt trigger, compare input with threshold and switch output state.",
+    ],
+  },
+  {
+    number: 9,
+    title: "Active Filters and Waveform Generators",
+    slug: "active-filters-waveform-generators",
+    route: "/active-filters-waveform-generators",
+    summary:
+      "Use op-amps with RC networks to select frequency bands and generate square or triangular waveforms.",
+    diagramMode: "filter",
+    examFocus: "Low-pass, high-pass, band-pass, band-stop response and op-amp waveform generation.",
+    topics: [
+      { title: "Active Filters", subtopics: ["Low-pass", "High-pass", "Band-pass", "Band-stop"] },
+      { title: "Waveform Generators", subtopics: ["Square wave generator", "Triangular wave generator"] },
+    ],
+    workingSteps: [
+      "RC networks make impedance depend on frequency.",
+      "The op-amp buffers or amplifies the selected frequency range.",
+      "Low-pass circuits pass slow changes; high-pass circuits pass fast changes.",
+      "Band-pass and band-stop responses combine cutoff actions.",
+      "Comparator plus integrator action can create square and triangular waveforms.",
+    ],
+  },
+  {
+    number: 10,
+    title: "Power Supplies",
+    slug: "power-supplies",
+    route: "/power-supplies",
+    summary:
+      "Connect rectification, filtering, regulation, IC regulators, and SMPS basics into practical DC power supplies.",
+    diagramMode: "supply",
+    examFocus: "Rectifier-filter-regulator chain, 78xx/79xx regulators, ripple, and SMPS block flow.",
+    topics: [
+      { title: "Regulated Power Supply", subtopics: ["Transformer", "Rectifier", "Filter", "Regulator"] },
+      { title: "IC Regulators", subtopics: ["78xx series", "79xx series"] },
+      { title: "SMPS Basics", subtopics: ["High-frequency switching", "Inductor energy transfer", "Feedback control"] },
+    ],
+    workingSteps: [
+      "Transformer changes AC level and provides isolation when needed.",
+      "Rectifier converts AC into pulsating DC.",
+      "Filter capacitor or LC network smooths the pulsating waveform.",
+      "Regulator keeps output voltage nearly constant despite load or input variation.",
+      "SMPS uses high-frequency switching and feedback for efficient regulated conversion.",
+    ],
+  },
+];
+
+const ANALOG_CHAPTER_ROUTES = ANALOG_CHAPTERS.reduce((routes, chapter) => {
+  routes[chapter.slug] = chapter.route;
+  return routes;
+}, {});
+
+const ANALOG_STANDALONE_PAGES = ANALOG_CHAPTERS.reduce((pages, chapter) => {
+  pages[`analog-${chapter.slug}`] = chapter;
+  return pages;
+}, {});
+
+const SEMICONDUCTOR_TOPIC_LESSONS = [
+  {
+    title: "Atomic Structure",
+    idea:
+      "Analog electronics begins inside the atom because every diode or transistor is controlled by how tightly electrons are held and how easily they can be moved.",
+    subtopics: [
+      {
+        name: "Conductors",
+        explanation:
+          "In a conductor, the outer electrons are weakly held. A small electric field can make many electrons drift together, so current flows easily. Metals behave this way because their atoms provide a large population of mobile electrons.",
+        steps: [
+          "A voltage source creates an electric field inside the material.",
+          "Free electrons feel force opposite to the electric field direction.",
+          "Because many carriers are already available, current rises with little delay.",
+          "The material mainly limits current through resistance, not through carrier shortage.",
+        ],
+        examLine:
+          "Think of a conductor as a material where carriers are already waiting; the circuit only has to push them.",
+      },
+      {
+        name: "Semiconductors",
+        explanation:
+          "A semiconductor sits between conductor and insulator. At low energy it has few free carriers, but heat, light, doping, or applied voltage can create enough carriers for controlled conduction.",
+        steps: [
+          "At room temperature, some covalent bonds break and create electron-hole pairs.",
+          "Electrons act as negative mobile carriers; holes act as positive mobile carriers.",
+          "Changing temperature or doping changes carrier concentration strongly.",
+          "This controllability is what makes diodes, BJTs, MOSFETs, and ICs possible.",
+        ],
+        examLine:
+          "A semiconductor is valuable not because it always conducts, but because its conduction can be controlled.",
+      },
+      {
+        name: "Insulators",
+        explanation:
+          "In an insulator, electrons are tightly bound to atoms. Normal circuit voltages cannot create enough mobile carriers, so current is extremely small unless breakdown occurs.",
+        steps: [
+          "Electrons remain locked in bonds under ordinary electric fields.",
+          "Very few free carriers are available for current.",
+          "The material blocks conduction and stores electric field energy.",
+          "At very high voltage, breakdown may create a sudden unwanted current path.",
+        ],
+        examLine:
+          "In analog device questions, oxide layers and depletion regions often behave like controlled insulating barriers.",
+      },
+    ],
+  },
+  {
+    title: "Semiconductor Materials",
+    idea:
+      "Silicon and germanium are useful because each atom forms four covalent bonds, creating a crystal where carrier movement can be predicted and controlled.",
+    subtopics: [
+      {
+        name: "Silicon",
+        explanation:
+          "Silicon is the main practical semiconductor because it is thermally stable, abundant, and forms a strong native oxide. Its typical PN-junction forward drop is approximated as 0.7 V in many circuit problems.",
+        steps: [
+          "Each silicon atom shares four valence electrons with neighboring atoms.",
+          "Thermal energy creates a small number of electron-hole pairs.",
+          "Doping can raise electron or hole concentration by many orders of magnitude.",
+          "Silicon dioxide helps make MOSFET gates and integrated circuits reliable.",
+        ],
+        examLine:
+          "Use 0.7 V as the common silicon diode drop unless the problem states another model.",
+      },
+      {
+        name: "Germanium",
+        explanation:
+          "Germanium also has four valence electrons, but it has a smaller energy gap than silicon. That means it conducts more easily but also has more leakage current and weaker temperature performance.",
+        steps: [
+          "Its covalent crystal is similar in idea to silicon.",
+          "Lower band gap means carriers are generated more easily.",
+          "Forward conduction starts at a smaller voltage, often approximated as 0.3 V.",
+          "Higher leakage makes it less common in modern mainstream IC design.",
+        ],
+        examLine:
+          "Use 0.3 V for a germanium diode in simple piecewise-linear circuit questions.",
+      },
+    ],
+  },
+  {
+    title: "Types of Semiconductors",
+    idea:
+      "The word intrinsic means pure behavior. The word extrinsic means intentionally modified behavior. Most real analog devices use extrinsic semiconductor regions.",
+    subtopics: [
+      {
+        name: "Intrinsic semiconductor",
+        explanation:
+          "An intrinsic semiconductor is ideally pure. Electrons and holes are generated in equal numbers, so neither type dominates. Its conductivity is limited because the carrier population is small.",
+        steps: [
+          "Thermal energy breaks a few covalent bonds.",
+          "Every broken bond creates one free electron and one hole.",
+          "Electron concentration equals hole concentration.",
+          "Current is possible but weak compared with doped material.",
+        ],
+        examLine:
+          "Intrinsic material has equal electron and hole concentrations.",
+      },
+      {
+        name: "Extrinsic semiconductor",
+        explanation:
+          "An extrinsic semiconductor is doped with controlled impurity atoms. Doping deliberately makes one carrier type dominant, which gives circuit designers predictable P-type and N-type regions.",
+        steps: [
+          "A tiny amount of impurity is added to the pure crystal.",
+          "Donor atoms create extra electrons; acceptor atoms create extra holes.",
+          "Majority carriers dominate conduction.",
+          "Minority carriers still exist and become important in junction behavior.",
+        ],
+        examLine:
+          "Extrinsic material is where analog devices become engineerable rather than merely natural.",
+      },
+    ],
+  },
+  {
+    title: "Doping",
+    idea:
+      "Doping is not random impurity contamination; it is a controlled way of choosing which carrier will dominate a region.",
+    subtopics: [
+      {
+        name: "P-type semiconductor",
+        explanation:
+          "P-type material is made by adding trivalent acceptor atoms. These atoms create holes, so holes become majority carriers and electrons become minority carriers.",
+        steps: [
+          "A trivalent atom bonds with nearby silicon atoms but leaves one bond incomplete.",
+          "That incomplete bond behaves like a hole.",
+          "Neighboring electrons can move into the hole, making the hole appear to move.",
+          "Current in P-type material is mainly carried by holes.",
+        ],
+        examLine:
+          "P-type means positive majority carriers: holes.",
+      },
+      {
+        name: "N-type semiconductor",
+        explanation:
+          "N-type material is made by adding pentavalent donor atoms. Four electrons bond with silicon, while the fifth is loosely available for conduction.",
+        steps: [
+          "A pentavalent atom enters the silicon crystal.",
+          "Four valence electrons form normal covalent bonds.",
+          "The extra electron becomes a mobile carrier with little required energy.",
+          "Current in N-type material is mainly carried by electrons.",
+        ],
+        examLine:
+          "N-type means negative majority carriers: electrons.",
+      },
+    ],
+  },
+  {
+    title: "PN Junction",
+    idea:
+      "A PN junction is not just two materials touching. It creates an internal electric field, a depletion region, and a barrier that decides whether current can pass.",
+    subtopics: [
+      {
+        name: "Depletion region",
+        explanation:
+          "When P-type and N-type regions meet, electrons diffuse into the P-side and holes diffuse into the N-side. They recombine near the junction, leaving fixed ions that contain almost no mobile carriers.",
+        steps: [
+          "Electrons move from high concentration on the N-side toward the P-side.",
+          "Holes move from high concentration on the P-side toward the N-side.",
+          "Near the junction, electrons and holes recombine.",
+          "Fixed charged ions remain and form the depletion region.",
+        ],
+        examLine:
+          "The depletion region is depleted of mobile carriers, not depleted of charge.",
+      },
+      {
+        name: "Barrier potential",
+        explanation:
+          "The fixed ions create an internal electric field that opposes further diffusion. The voltage associated with this field is called barrier potential.",
+        steps: [
+          "Diffusion initially tries to keep moving carriers across the junction.",
+          "Fixed ions build an electric field pointing from N-side ions to P-side ions.",
+          "This field pushes carriers opposite to diffusion.",
+          "Equilibrium occurs when diffusion tendency and electric-field tendency balance.",
+        ],
+        examLine:
+          "Barrier potential is the junction's built-in opposition to free carrier crossing.",
+      },
+      {
+        name: "Forward bias",
+        explanation:
+          "In forward bias, the P-side is connected to positive and the N-side to negative. The external voltage weakens the junction barrier, so majority carriers can cross.",
+        steps: [
+          "Positive terminal pushes holes toward the junction.",
+          "Negative terminal pushes electrons toward the junction.",
+          "The depletion region becomes thinner.",
+          "After the practical turn-on voltage, current rises rapidly.",
+        ],
+        examLine:
+          "Forward bias reduces the barrier and permits strong majority-carrier current.",
+      },
+      {
+        name: "Reverse bias",
+        explanation:
+          "In reverse bias, the P-side is connected to negative and the N-side to positive. Majority carriers are pulled away from the junction, so the depletion region widens.",
+        steps: [
+          "Holes are pulled away from the P-side edge of the junction.",
+          "Electrons are pulled away from the N-side edge of the junction.",
+          "The depletion region becomes wider.",
+          "Only a tiny minority-carrier leakage current flows until breakdown.",
+        ],
+        examLine:
+          "Reverse bias widens the barrier and blocks normal majority-carrier current.",
+      },
+    ],
+  },
+];
+
+const DIODE_APPLICATION_TOPIC_LESSONS = [
+  {
+    title: "PN Junction Diode Characteristics",
+    idea:
+      "A diode is best understood as a junction-controlled gate. It does not simply pass current because voltage exists; it passes current only when the applied polarity reduces the junction barrier enough.",
+    subtopics: [
+      {
+        name: "V-I characteristics",
+        explanation:
+          "The V-I curve shows how diode current changes with diode voltage. In forward bias, current remains small until the junction barrier is overcome, then it rises sharply. In reverse bias, current remains nearly zero except for a small leakage current until breakdown.",
+        steps: [
+          "Apply a small forward voltage and notice that the depletion barrier is still strong.",
+          "Increase forward voltage near the cut-in region and majority carriers begin crossing the junction.",
+          "After practical turn-on, a small voltage increase produces a large current increase.",
+          "Reverse the polarity and the depletion region widens, so only leakage current flows.",
+          "If reverse voltage crosses breakdown rating, current rises suddenly and must be limited externally.",
+        ],
+        examLine:
+          "Read the diode state first: forward conduction, reverse blocking, or breakdown.",
+        visual: "vi",
+      },
+      {
+        name: "Static resistance",
+        explanation:
+          "Static resistance is the large-signal ratio of diode voltage to diode current at a chosen operating point. It tells you the average opposition seen from the origin to that point on the V-I curve.",
+        steps: [
+          "Choose the operating point on the diode curve.",
+          "Read the diode voltage at that point.",
+          "Read the diode current at that same point.",
+          "Compute the ratio V divided by I.",
+          "Use it only for that large-signal operating condition, not for tiny signal changes around the point.",
+        ],
+        examLine:
+          "Static resistance is point-to-origin resistance: Rdc = VD / ID.",
+        visual: "resistance",
+      },
+      {
+        name: "Dynamic resistance",
+        explanation:
+          "Dynamic resistance is the small-signal resistance around the operating point. It depends on the local slope of the V-I curve, so it becomes small when diode current is large.",
+        steps: [
+          "Set the diode DC operating point first.",
+          "Apply a tiny signal variation around that point.",
+          "Observe the small change in diode voltage.",
+          "Observe the corresponding small change in diode current.",
+          "Use the local ratio delta V divided by delta I for small-signal analysis.",
+        ],
+        examLine:
+          "Dynamic resistance is slope resistance around Q-point, not the full V/I ratio.",
+        visual: "resistance",
+      },
+    ],
+  },
+  {
+    title: "Special Diodes",
+    idea:
+      "Special diodes are not separate magic devices. They are PN or metal-semiconductor junctions shaped for a specific job: regulation, light emission, light sensing, fast switching, or voltage-controlled capacitance.",
+    subtopics: [
+      {
+        name: "Zener diode",
+        explanation:
+          "A Zener diode is designed to operate safely in reverse breakdown. When reverse voltage reaches the Zener value, it holds nearly constant voltage while current changes within a safe range.",
+        steps: [
+          "Connect the Zener in reverse bias across the load.",
+          "Use a series resistor to limit current.",
+          "As input voltage rises, Zener current increases instead of letting output rise much.",
+          "As load current changes, Zener current adjusts to help keep voltage constant.",
+          "Regulation fails if Zener current becomes too low or exceeds its rating.",
+        ],
+        examLine:
+          "A Zener regulator works only with reverse bias, current limiting, and current inside the valid range.",
+        visual: "zener",
+      },
+      {
+        name: "LED",
+        explanation:
+          "An LED converts carrier recombination energy into light. It must be forward biased, and current must be limited because after turn-on the diode current can rise quickly.",
+        steps: [
+          "Forward bias injects electrons and holes into the junction.",
+          "Carriers recombine inside the active region.",
+          "Part of the released energy appears as photons.",
+          "The semiconductor material decides the light color.",
+          "A resistor or driver circuit limits LED current safely.",
+        ],
+        examLine:
+          "LED brightness is mainly controlled by forward current, not by connecting it directly to a voltage source.",
+        visual: "led",
+      },
+      {
+        name: "Photodiode",
+        explanation:
+          "A photodiode converts light into current. It is commonly used in reverse bias so the depletion region is wide and light-generated carriers are swept quickly by the electric field.",
+        steps: [
+          "Reverse bias widens the depletion region.",
+          "Incoming light creates electron-hole pairs.",
+          "The junction electric field separates these carriers.",
+          "Carrier separation creates photocurrent.",
+          "More incident light produces more photocurrent within the linear range.",
+        ],
+        examLine:
+          "Photodiode current increases with light intensity, usually under reverse bias.",
+        visual: "photo",
+      },
+      {
+        name: "Schottky diode",
+        explanation:
+          "A Schottky diode uses a metal-semiconductor junction. Because it mainly involves majority carriers, it switches fast and usually has a lower forward voltage drop than a normal silicon PN diode.",
+        steps: [
+          "Forward bias lowers the metal-semiconductor barrier.",
+          "Majority carriers cross without the same stored-charge delay as a PN diode.",
+          "The diode turns off quickly when polarity changes.",
+          "Lower forward drop reduces conduction loss.",
+          "Reverse leakage is usually higher than a standard PN diode.",
+        ],
+        examLine:
+          "Schottky means fast switching and low forward drop, with leakage as a tradeoff.",
+        visual: "schottky",
+      },
+      {
+        name: "Varactor diode",
+        explanation:
+          "A varactor uses the depletion region as a voltage-controlled capacitor. Reverse bias changes depletion width, which changes capacitance.",
+        steps: [
+          "Operate the diode in reverse bias.",
+          "Increase reverse voltage to widen the depletion region.",
+          "A wider depletion region behaves like a larger plate separation.",
+          "Capacitance decreases as reverse voltage increases.",
+          "Tuned circuits use this changing capacitance to shift resonant frequency.",
+        ],
+        examLine:
+          "Varactor capacitance is controlled by reverse voltage.",
+        visual: "varactor",
+      },
+    ],
+  },
+  {
+    title: "Rectifiers",
+    idea:
+      "A rectifier does not create DC perfectly; it first converts alternating polarity into one-direction load current. Filtering and regulation are separate steps after rectification.",
+    subtopics: [
+      {
+        name: "Half-wave rectifier",
+        explanation:
+          "A half-wave rectifier uses one diode so only one half-cycle reaches the load. The other half-cycle is blocked, which makes the circuit simple but ripple-heavy.",
+        steps: [
+          "During the positive half-cycle, the diode is forward biased.",
+          "Current flows through the load in one direction.",
+          "During the negative half-cycle, the diode is reverse biased.",
+          "Load current becomes nearly zero for the blocked half-cycle.",
+          "The output is pulsating DC with large gaps.",
+        ],
+        examLine:
+          "Half-wave rectifier conducts for only one half of the input cycle.",
+        visual: "half",
+      },
+      {
+        name: "Full-wave rectifier",
+        explanation:
+          "A full-wave rectifier uses both half-cycles of the AC input. The load current direction remains the same during positive and negative half-cycles, improving average output and reducing ripple compared with half-wave rectification.",
+        steps: [
+          "During one half-cycle, one current path conducts through the load.",
+          "During the opposite half-cycle, another current path conducts.",
+          "The load current direction is kept unchanged.",
+          "Both halves of the input become useful output pulses.",
+          "Ripple frequency becomes twice the input frequency.",
+        ],
+        examLine:
+          "Full-wave rectification uses both half-cycles and doubles ripple frequency.",
+        visual: "full",
+      },
+      {
+        name: "Bridge rectifier",
+        explanation:
+          "A bridge rectifier uses four diodes to achieve full-wave rectification without needing a center-tapped transformer. In each half-cycle, two diodes conduct and two block.",
+        steps: [
+          "Positive half-cycle forward biases one diagonal pair of diodes.",
+          "Current passes through the load in the chosen direction.",
+          "Negative half-cycle forward biases the other diagonal pair.",
+          "Current again passes through the load in the same direction.",
+          "Two diode drops appear in the conducting path.",
+        ],
+        examLine:
+          "Bridge rectifier gives full-wave output, but two conducting diode drops are in series with the load.",
+        visual: "bridge",
+      },
+    ],
+  },
+  {
+    title: "Filters",
+    idea:
+      "A rectifier output is still a train of pulses. A filter reduces the pulse variation by storing energy when voltage is high and returning energy when voltage tries to fall.",
+    subtopics: [
+      {
+        name: "Capacitor filter",
+        explanation:
+          "A capacitor filter is connected across the load. It charges near the rectifier peak and discharges through the load between peaks, filling the gaps in the waveform.",
+        steps: [
+          "When rectifier output rises above capacitor voltage, the diode conducts.",
+          "The capacitor charges quickly near the peak.",
+          "When input falls, the diode turns off.",
+          "The capacitor discharges slowly through the load.",
+          "A larger capacitance or lighter load usually reduces ripple.",
+        ],
+        examLine:
+          "Capacitor filters smooth voltage by charging fast and discharging slowly.",
+        visual: "capacitor",
+      },
+      {
+        name: "Inductor filter",
+        explanation:
+          "An inductor filter is placed in series with the load. It opposes sudden current changes, so it tries to keep load current smoother.",
+        steps: [
+          "Rising current stores energy in the inductor magnetic field.",
+          "When current tries to fall, the inductor releases stored energy.",
+          "This action reduces sharp current changes.",
+          "The output current becomes smoother.",
+          "Inductor filters are more useful at higher load currents.",
+        ],
+        examLine:
+          "Inductor filters smooth current by resisting sudden current change.",
+        visual: "inductor",
+      },
+      {
+        name: "LC filter",
+        explanation:
+          "An LC filter combines current smoothing from the inductor and voltage smoothing from the capacitor. The pair attenuates ripple more strongly than either element alone.",
+        steps: [
+          "The inductor blocks rapid ripple current changes.",
+          "The capacitor shunts ripple voltage components across the load.",
+          "DC passes to the load more easily than AC ripple.",
+          "The output becomes smoother than with a single element.",
+          "Component values are chosen from load current, ripple target, and frequency.",
+        ],
+        examLine:
+          "LC filtering attacks ripple through both series opposition and shunt storage.",
+        visual: "lc",
+      },
+    ],
+  },
+  {
+    title: "Voltage Regulators",
+    idea:
+      "A regulator is the stage that tries to keep output constant after rectification and filtering have already reduced the waveform variation.",
+    subtopics: [
+      {
+        name: "Zener regulator",
+        explanation:
+          "A Zener regulator uses reverse breakdown as a voltage reference. The series resistor absorbs extra input voltage and limits current, while the Zener holds the load voltage close to its breakdown voltage.",
+        steps: [
+          "Filtered DC reaches the series resistor and Zener-load branch.",
+          "When voltage reaches Zener breakdown, the Zener conducts in reverse.",
+          "The load voltage becomes approximately equal to Zener voltage.",
+          "If input voltage rises, extra current mainly goes through the Zener.",
+          "If load current rises too much, Zener current may fall below regulation range.",
+        ],
+        examLine:
+          "For Zener regulation, always check minimum and maximum Zener current.",
+        visual: "zener",
+      },
+    ],
+  },
+];
+
+const BJT_TOPIC_LESSONS = [
+  {
+    title: "BJT Basics",
+    idea:
+      "A BJT is a three-layer current-control device. Its power comes from a small base action controlling a much larger collector-emitter current path.",
+    subtopics: [
+      {
+        name: "Construction",
+        explanation:
+          "A BJT is made as either NPN or PNP. The emitter is heavily doped to inject carriers, the base is very thin and lightly doped to let most carriers pass through, and the collector is moderately doped with a larger area so it can collect carriers and handle power.",
+        steps: [
+          "Emitter is designed as the carrier supplier.",
+          "Base is made thin so injected carriers do not mostly recombine there.",
+          "Collector is designed to collect carriers and withstand reverse voltage.",
+          "In NPN, electrons are the main transported carriers; in PNP, holes are.",
+          "The three regions create two junctions: emitter-base and collector-base.",
+        ],
+        examLine:
+          "Emitter injects, base controls, collector collects.",
+        visual: "construction",
+      },
+      {
+        name: "Working principle",
+        explanation:
+          "In active-region NPN operation, the emitter-base junction is forward biased and the collector-base junction is reverse biased. Electrons injected from the emitter cross the thin base, and the collector field sweeps most of them into the collector.",
+        steps: [
+          "Forward bias at emitter-base junction injects electrons from emitter to base.",
+          "Only a small fraction recombines inside the thin base.",
+          "That recombination creates the small base current.",
+          "Most electrons reach the collector-base depletion region.",
+          "The collector electric field sweeps them into the collector, creating collector current.",
+        ],
+        examLine:
+          "Small base current exists because a small part of injected carriers recombines in the base.",
+        visual: "working",
+      },
+      {
+        name: "Current components",
+        explanation:
+          "The emitter current splits into collector current and base current. In normal active operation, collector current is much larger than base current, so current gain becomes possible.",
+        steps: [
+          "Emitter current enters the transistor action as the supplied carrier stream.",
+          "A small portion contributes to base recombination current.",
+          "The larger portion becomes collector current.",
+          "For NPN, conventional current relation is IE = IC + IB.",
+          "Current gain is written as beta = IC / IB in common-emitter analysis.",
+        ],
+        examLine:
+          "Always start BJT current questions from IE = IC + IB and beta = IC / IB.",
+        visual: "currents",
+      },
+    ],
+  },
+  {
+    title: "BJT Configurations",
+    idea:
+      "The same transistor behaves differently depending on which terminal is common to input and output. Configuration decides gain, phase, and impedance behavior.",
+    subtopics: [
+      {
+        name: "CE configuration",
+        explanation:
+          "In common-emitter configuration, the emitter is common to input and output. It gives high voltage gain and current gain, but the output is phase inverted with respect to the input.",
+        steps: [
+          "Input is applied between base and emitter.",
+          "Output is taken between collector and emitter.",
+          "Small base signal controls collector current.",
+          "Collector resistor converts current variation into voltage variation.",
+          "When collector current increases, collector voltage falls, causing phase inversion.",
+        ],
+        examLine:
+          "CE is the main voltage amplifier configuration and gives 180 degree phase shift.",
+        visual: "ce",
+      },
+      {
+        name: "CB configuration",
+        explanation:
+          "In common-base configuration, the base is common. It has low input resistance, high output resistance, current gain slightly less than one, and no phase inversion.",
+        steps: [
+          "Input is applied at the emitter side.",
+          "Output is taken from the collector side.",
+          "Most emitter-injected carriers are collected by the collector.",
+          "Current gain is near but less than unity.",
+          "Voltage gain can be high because output resistance is high.",
+        ],
+        examLine:
+          "CB has current gain below one but useful high-frequency behavior.",
+        visual: "cb",
+      },
+      {
+        name: "CC configuration",
+        explanation:
+          "In common-collector configuration, the collector is common and output is taken from the emitter. It is also called emitter follower because output follows input with nearly unity voltage gain.",
+        steps: [
+          "Input is applied between base and collector reference.",
+          "Output is taken at the emitter.",
+          "Emitter voltage follows base voltage minus the base-emitter drop.",
+          "Voltage gain is close to one.",
+          "Low output resistance makes it useful as a buffer.",
+        ],
+        examLine:
+          "CC is used for impedance matching and buffering, not large voltage gain.",
+        visual: "cc",
+      },
+    ],
+  },
+  {
+    title: "BJT Characteristics",
+    idea:
+      "BJT characteristic curves are maps of device behavior. They show how input junction current starts and how collector current responds to collector voltage for different base currents.",
+    subtopics: [
+      {
+        name: "Input characteristics",
+        explanation:
+          "Input characteristics usually plot base current against base-emitter voltage for a CE transistor. The curve resembles a forward-biased diode because the base-emitter junction is forward biased in active operation.",
+        steps: [
+          "Increase base-emitter voltage gradually.",
+          "Below the practical turn-on region, base current remains small.",
+          "After the junction conducts, base current rises rapidly.",
+          "The curve looks diode-like because the input junction is a PN junction.",
+          "Input resistance is estimated from the local slope of this curve.",
+        ],
+        examLine:
+          "BJT CE input curve behaves like a forward-biased diode curve.",
+        visual: "input",
+      },
+      {
+        name: "Output characteristics",
+        explanation:
+          "Output characteristics plot collector current against collector-emitter voltage for different base currents. They reveal cutoff, active, and saturation behavior.",
+        steps: [
+          "Set a fixed base current.",
+          "Increase collector-emitter voltage and observe collector current.",
+          "At low VCE, the transistor is in saturation and IC depends strongly on VCE.",
+          "In active region, IC is mainly controlled by IB and only slightly by VCE.",
+          "With IB near zero, the transistor is in cutoff except for leakage.",
+        ],
+        examLine:
+          "Use output curves to identify cutoff, active region, and saturation before solving.",
+        visual: "output",
+      },
+    ],
+  },
+  {
+    title: "Biasing Circuits",
+    idea:
+      "Biasing is the art of placing the transistor at a useful DC operating point before any signal arrives. Without a stable Q-point, amplifier calculations are only decoration.",
+    subtopics: [
+      {
+        name: "Fixed bias",
+        explanation:
+          "Fixed bias uses a resistor from supply to base. It is simple, but Q-point depends strongly on beta, so two transistors with different beta can produce very different collector currents.",
+        steps: [
+          "Base resistor sets base current approximately from supply voltage.",
+          "Collector current is beta times base current.",
+          "Collector resistor creates collector voltage from that current.",
+          "If beta changes, collector current changes significantly.",
+          "This makes fixed bias weak for stable amplifier design.",
+        ],
+        examLine:
+          "Fixed bias is easy to calculate but poor in stability.",
+        visual: "fixed",
+      },
+      {
+        name: "Voltage divider bias",
+        explanation:
+          "Voltage divider bias uses two resistors to set base voltage and an emitter resistor to provide negative feedback. If collector current rises, emitter voltage rises, reducing effective base-emitter voltage and opposing the change.",
+        steps: [
+          "Divider resistors establish an approximate base voltage.",
+          "Emitter voltage becomes base voltage minus VBE.",
+          "Emitter resistor sets emitter current from emitter voltage.",
+          "Collector current becomes less dependent on beta.",
+          "The emitter resistor provides self-correction against temperature and beta changes.",
+        ],
+        examLine:
+          "Voltage divider bias is preferred because emitter feedback stabilizes Q-point.",
+        visual: "divider",
+      },
+      {
+        name: "Stability factor",
+        explanation:
+          "Stability factor measures how sensitive collector current is to leakage current, beta, or temperature-related changes. A smaller stability factor means the bias point is less likely to drift.",
+        steps: [
+          "Temperature rise increases leakage current.",
+          "Leakage can increase collector current.",
+          "Increased collector current can heat the transistor further.",
+          "Good biasing introduces feedback to oppose this drift.",
+          "Stability factor numerically expresses how strongly IC changes.",
+        ],
+        examLine:
+          "Lower stability factor means better thermal stability.",
+        visual: "stability",
+      },
+    ],
+  },
+  {
+    title: "Small Signal Analysis",
+    idea:
+      "Small-signal analysis separates the transistor into two lives: DC bias sets the operating point, and AC variations around that point are analyzed with a linear model.",
+    subtopics: [
+      {
+        name: "Hybrid model",
+        explanation:
+          "The hybrid model represents the transistor by small-signal parameters around the Q-point. It lets us replace the nonlinear transistor with a local linear circuit for gain and impedance calculations.",
+        steps: [
+          "Find the DC Q-point first.",
+          "Turn DC supplies into AC ground for small-signal analysis.",
+          "Replace coupling capacitors by shorts in midband analysis.",
+          "Replace the BJT by its small-signal hybrid model.",
+          "Solve the resulting linear circuit for gain and resistances.",
+        ],
+        examLine:
+          "Never start small-signal analysis before establishing the DC operating point.",
+        visual: "hybrid",
+      },
+      {
+        name: "h-parameters",
+        explanation:
+          "h-parameters describe input resistance, reverse voltage feedback, forward current gain, and output admittance. They are useful because BJT behavior can be represented as a two-port model for AC analysis.",
+        steps: [
+          "Treat the transistor as a two-port network.",
+          "Use h11 as input resistance with output shorted.",
+          "Use h21 as forward current gain.",
+          "Use h12 for reverse feedback, often small in simplified analysis.",
+          "Use h22 as output admittance for output resistance estimation.",
+        ],
+        examLine:
+          "For CE h-parameter questions, hfe is the familiar small-signal current gain.",
+        visual: "hparams",
+      },
+    ],
+  },
+];
+
+const BJT_AMPLIFIER_TOPIC_LESSONS = [
+  {
+    title: "Single Stage Amplifiers",
+    idea:
+      "A single-stage BJT amplifier is a controlled energy converter: a small input signal changes transistor current, and the DC supply plus load resistor turn that current change into a larger output voltage.",
+    subtopics: [
+      {
+        name: "CE amplifier",
+        explanation:
+          "The common-emitter amplifier is the main voltage-gain stage. The input is applied at the base, the output is taken at the collector, and the emitter is common to both. A small increase in base voltage increases collector current, which increases the drop across the collector resistor and pulls collector voltage downward.",
+        steps: [
+          "DC bias first places the transistor in active region.",
+          "The AC input slightly changes base-emitter voltage.",
+          "Collector current changes in step with the base-emitter variation.",
+          "The collector resistor converts current variation into voltage variation.",
+          "Output voltage is amplified and inverted because higher collector current lowers collector voltage.",
+        ],
+        examLine:
+          "CE gives high voltage gain with 180 degree phase inversion.",
+        visual: "ceamp",
+      },
+      {
+        name: "CB amplifier",
+        explanation:
+          "The common-base amplifier accepts input at the emitter and takes output from the collector. It has low input resistance, high output resistance, no phase inversion, and useful high-frequency behavior because the base is held at AC ground.",
+        steps: [
+          "Base is kept common for input and output signal reference.",
+          "Emitter input changes emitter current directly.",
+          "Most emitter current reaches the collector.",
+          "Collector load converts collector current change into output voltage.",
+          "Output remains in phase with input for voltage variation.",
+        ],
+        examLine:
+          "CB is not a current-gain stage; it is useful for voltage gain and high-frequency work.",
+        visual: "cbamp",
+      },
+      {
+        name: "CC amplifier",
+        explanation:
+          "The common-collector amplifier is also called an emitter follower. Output is taken from the emitter, so it follows the base signal with nearly unity voltage gain, high input resistance, and low output resistance.",
+        steps: [
+          "Input signal is applied at the base.",
+          "Emitter voltage follows base voltage approximately one VBE below it.",
+          "Voltage gain stays close to one.",
+          "The stage can supply more load current than the signal source alone.",
+          "It is used as a buffer between high-resistance source and low-resistance load.",
+        ],
+        examLine:
+          "CC is a buffer: high input resistance, low output resistance, nearly unity voltage gain.",
+        visual: "ccamp",
+      },
+    ],
+  },
+  {
+    title: "Frequency Response",
+    idea:
+      "An amplifier does not amplify every frequency equally. Its gain is shaped by coupling capacitors, bypass capacitors, transistor capacitances, and wiring parasitics.",
+    subtopics: [
+      {
+        name: "Low-frequency response",
+        explanation:
+          "At low frequency, coupling and bypass capacitors do not behave like perfect shorts. They create reactance that reduces signal transfer and lowers gain.",
+        steps: [
+          "Input coupling capacitor blocks part of the slow-changing signal.",
+          "Output coupling capacitor also loses voltage across its reactance.",
+          "Emitter bypass capacitor may fail to fully bypass emitter resistance.",
+          "Extra emitter degeneration reduces gain.",
+          "Gain rises as frequency increases and capacitive reactance decreases.",
+        ],
+        examLine:
+          "Low-frequency gain drop is mainly caused by external coupling and bypass capacitors.",
+        visual: "lowfreq",
+      },
+      {
+        name: "High-frequency response",
+        explanation:
+          "At high frequency, internal transistor capacitances and stray capacitances become important. They provide unwanted signal paths and reduce effective gain.",
+        steps: [
+          "Base-emitter and base-collector capacitances begin to conduct AC current.",
+          "Some input signal is shunted through capacitance instead of controlling transistor current.",
+          "The Miller effect can make base-collector capacitance appear larger at the input.",
+          "Gain begins to fall after the upper cutoff frequency.",
+          "Phase shift increases as the amplifier approaches high-frequency limits.",
+        ],
+        examLine:
+          "High-frequency gain drop is mainly caused by internal and stray capacitances.",
+        visual: "highfreq",
+      },
+      {
+        name: "Bandwidth",
+        explanation:
+          "Bandwidth is the useful frequency range between lower cutoff and upper cutoff. Inside this range, gain is approximately flat enough for normal signal amplification.",
+        steps: [
+          "Find midband gain where capacitors behave ideally for the intended range.",
+          "Locate lower cutoff frequency where gain falls by 3 dB from midband.",
+          "Locate upper cutoff frequency where gain again falls by 3 dB.",
+          "Bandwidth is fH minus fL.",
+          "A wider bandwidth means the amplifier can preserve faster signal variations.",
+        ],
+        examLine:
+          "Bandwidth = fH - fL, measured between the two 3 dB cutoff frequencies.",
+        visual: "bandwidth",
+      },
+    ],
+  },
+  {
+    title: "Multistage Amplifiers",
+    idea:
+      "When one amplifier stage cannot give enough gain, stages are cascaded. The price is loading: each stage becomes the next stage's source.",
+    subtopics: [
+      {
+        name: "Cascaded gain",
+        explanation:
+          "In a multistage amplifier, the output of one stage drives the input of the next. Overall voltage gain is the product of individual loaded gains, or the sum of gains when expressed in decibels.",
+        steps: [
+          "Bias each transistor stage separately.",
+          "Pass the AC signal from one collector or emitter output into the next stage.",
+          "Calculate each stage gain under loaded conditions.",
+          "Multiply voltage gains to get total gain.",
+          "In dB, add stage gains instead of multiplying ratios.",
+        ],
+        examLine:
+          "Overall gain is product of stage gains, but use loaded gain for each stage.",
+        visual: "cascade",
+      },
+      {
+        name: "Coupling methods",
+        explanation:
+          "Coupling decides how signal moves between stages while DC bias points remain controlled. RC coupling is common for voltage amplifiers, transformer coupling is used in some power/RF cases, and direct coupling passes DC as well as AC.",
+        steps: [
+          "RC coupling passes AC and blocks DC between stages.",
+          "Transformer coupling transfers AC energy magnetically and can match impedance.",
+          "Direct coupling connects stages without a capacitor or transformer.",
+          "Each method affects frequency response and bias interaction.",
+          "Choose coupling from signal frequency, gain need, and bias requirement.",
+        ],
+        examLine:
+          "RC coupling is common in small-signal voltage amplifiers because it isolates DC bias between stages.",
+        visual: "coupling",
+      },
+      {
+        name: "Loading effect",
+        explanation:
+          "Loading occurs when the next stage input resistance draws signal current from the previous stage. This reduces the actual output voltage of the previous stage and lowers total gain.",
+        steps: [
+          "Previous stage has an output resistance.",
+          "Next stage presents a finite input resistance.",
+          "Together they form a voltage divider.",
+          "The signal delivered to the next stage is less than unloaded output.",
+          "Buffer stages are used when loading must be reduced.",
+        ],
+        examLine:
+          "Do not multiply unloaded gains when stages load each other.",
+        visual: "loading",
+      },
+    ],
+  },
+  {
+    title: "Power Amplifiers",
+    idea:
+      "A power amplifier is judged less by voltage gain and more by how efficiently it delivers large signal power to the load without unacceptable distortion.",
+    subtopics: [
+      {
+        name: "Class A",
+        explanation:
+          "A Class A amplifier conducts for the full input cycle. It is very linear because the transistor never turns off during normal operation, but it wastes power because current flows even with no input signal.",
+        steps: [
+          "Bias the transistor near the middle of the active region.",
+          "The device conducts for all 360 degrees of the signal cycle.",
+          "Positive and negative signal swings remain within active operation.",
+          "Distortion is low if swing limits are not crossed.",
+          "Efficiency is low because DC power is continuously consumed.",
+        ],
+        examLine:
+          "Class A: best linearity, poorest efficiency, 360 degree conduction.",
+        visual: "classa",
+      },
+      {
+        name: "Class B",
+        explanation:
+          "A Class B amplifier conducts for half of the signal cycle. Two complementary devices are usually used in push-pull form so one handles positive half and the other handles negative half.",
+        steps: [
+          "Each device is biased near cutoff.",
+          "One device conducts during the positive half-cycle.",
+          "The other device conducts during the negative half-cycle.",
+          "Efficiency improves because each device rests for half the cycle.",
+          "Crossover distortion can appear near zero crossing.",
+        ],
+        examLine:
+          "Class B improves efficiency but suffers crossover distortion.",
+        visual: "classb",
+      },
+      {
+        name: "Class AB",
+        explanation:
+          "Class AB slightly biases both devices on near the zero crossing. This reduces crossover distortion while keeping efficiency better than Class A.",
+        steps: [
+          "Bias each device slightly above cutoff.",
+          "Both devices conduct a little around zero crossing.",
+          "Positive and negative halves transfer more smoothly.",
+          "Crossover distortion is reduced.",
+          "Efficiency sits between Class A and Class B.",
+        ],
+        examLine:
+          "Class AB is the practical compromise between Class A linearity and Class B efficiency.",
+        visual: "classab",
+      },
+      {
+        name: "Push-pull amplifier",
+        explanation:
+          "A push-pull amplifier uses two active devices working on opposite halves of the waveform. Their outputs combine at the load to reconstruct the full waveform with greater power capability.",
+        steps: [
+          "Input waveform is split into opposite drive signals or applied to complementary devices.",
+          "Upper device supplies current for one half-cycle.",
+          "Lower device supplies current for the other half-cycle.",
+          "Load receives both halves as one complete waveform.",
+          "Balanced operation reduces even-order distortion and improves power delivery.",
+        ],
+        examLine:
+          "Push-pull action lets two devices share the waveform and deliver higher output power.",
+        visual: "pushpull",
+      },
+    ],
+  },
+];
+
+const FET_TOPIC_LESSONS = [
+  {
+    title: "JFET",
+    idea:
+      "A JFET is a voltage-controlled channel device. The gate does not need normal forward current; instead, reverse gate bias changes the channel width and controls drain current.",
+    subtopics: [
+      {
+        name: "Construction",
+        explanation:
+          "A JFET has a conducting channel between source and drain, with gate regions forming reverse-biased PN junctions around that channel. In an n-channel JFET, electrons move from source to drain, and the gate voltage controls how much of the channel remains open.",
+        steps: [
+          "Source supplies carriers into the channel.",
+          "Drain collects carriers after they travel through the channel.",
+          "Gate PN junction is normally reverse biased.",
+          "Reverse bias creates depletion regions that enter the channel.",
+          "The available channel width decides drain current.",
+        ],
+        examLine:
+          "JFET gate controls current by changing channel width through depletion regions.",
+        visual: "jfet-construction",
+      },
+      {
+        name: "Working",
+        explanation:
+          "When drain-source voltage is applied, carriers flow through the channel. Making gate-source voltage more negative in an n-channel JFET widens the depletion region, narrows the channel, and reduces drain current.",
+        steps: [
+          "Apply VDS so carriers move from source to drain.",
+          "Keep gate reverse biased so gate current is almost zero.",
+          "Increase reverse gate bias to widen depletion regions.",
+          "The channel becomes narrower and current reduces.",
+          "At pinch-off or cutoff condition, current is strongly limited.",
+        ],
+        examLine:
+          "More reverse gate bias in an n-channel JFET means less drain current.",
+        visual: "jfet-working",
+      },
+      {
+        name: "Characteristics",
+        explanation:
+          "JFET output characteristics show drain current versus drain-source voltage for different gate-source voltages. Transfer characteristics show how drain current changes with gate-source voltage.",
+        steps: [
+          "At small VDS, the JFET behaves like a voltage-controlled resistor.",
+          "As VDS increases, the channel pinches near the drain side.",
+          "After pinch-off, drain current becomes almost constant.",
+          "Changing VGS shifts the current level.",
+          "Transfer curve links ID to VGS and is central to bias analysis.",
+        ],
+        examLine:
+          "JFET current is controlled by VGS; output curves reveal ohmic and saturation regions.",
+        visual: "jfet-characteristics",
+      },
+    ],
+  },
+  {
+    title: "MOSFET",
+    idea:
+      "A MOSFET uses an insulated gate. Since the gate is separated by oxide, gate current is ideally almost zero, and the electric field from gate voltage creates or modifies the channel.",
+    subtopics: [
+      {
+        name: "Enhancement MOSFET",
+        explanation:
+          "An enhancement MOSFET is normally OFF at zero gate-source voltage. A sufficient gate voltage creates an inversion channel, allowing drain current to flow.",
+        steps: [
+          "With VGS below threshold, no strong channel exists.",
+          "Increasing VGS attracts carriers near the oxide-semiconductor surface.",
+          "At threshold voltage, a usable conducting channel forms.",
+          "Applying VDS moves carriers from source to drain.",
+          "Further VGS increase strengthens the channel and increases drain current.",
+        ],
+        examLine:
+          "Enhancement MOSFET needs VGS above threshold to turn ON.",
+        visual: "enhancement",
+      },
+      {
+        name: "Depletion MOSFET",
+        explanation:
+          "A depletion MOSFET already has a channel at zero gate-source voltage. Gate voltage can deplete the channel and reduce current, or enhance it and increase current depending on polarity.",
+        steps: [
+          "At VGS = 0, the existing channel conducts.",
+          "A depletion-polarity gate voltage pushes carriers out of the channel.",
+          "Channel conductivity decreases and drain current falls.",
+          "An enhancement-polarity gate voltage attracts more carriers.",
+          "Channel conductivity increases and drain current rises.",
+        ],
+        examLine:
+          "Depletion MOSFET can conduct at VGS = 0; enhancement MOSFET normally cannot.",
+        visual: "depletion",
+      },
+    ],
+  },
+  {
+    title: "FET Biasing",
+    idea:
+      "FET biasing fixes the DC operating point using voltage control rather than base current control. The goal is stable drain current and enough signal swing.",
+    subtopics: [
+      {
+        name: "Gate bias",
+        explanation:
+          "Gate bias applies a fixed gate voltage to set the operating point. Because gate current is almost zero, the gate voltage can be established with high-value resistors, but device parameter variation may still move the drain current.",
+        steps: [
+          "Choose the desired drain current or operating region.",
+          "Apply a gate voltage through a high-resistance path.",
+          "Use the FET transfer relation to estimate drain current.",
+          "Set drain resistor or load to place drain voltage in the useful range.",
+          "Check that signal swing does not push the device into cutoff or triode unintentionally.",
+        ],
+        examLine:
+          "Gate current is almost zero, but FET drain current still depends strongly on device parameters.",
+        visual: "gate-bias",
+      },
+      {
+        name: "Self bias",
+        explanation:
+          "Self bias uses a source resistor so the source voltage rises with drain current. This automatically makes gate-source voltage oppose current increase, giving negative feedback.",
+        steps: [
+          "Gate is commonly referenced to ground through a large resistor.",
+          "Drain current flows through the source resistor.",
+          "Source voltage rises as current increases.",
+          "For n-channel devices, VGS becomes less positive or more negative.",
+          "That change reduces current and stabilizes the operating point.",
+        ],
+        examLine:
+          "Source resistor feedback is the stabilizing heart of self bias.",
+        visual: "self-bias",
+      },
+      {
+        name: "Voltage divider bias",
+        explanation:
+          "Voltage divider bias sets gate voltage using two resistors, while a source resistor adds feedback. It is widely used because it makes the Q-point less dependent on gate leakage and device spread.",
+        steps: [
+          "Divider resistors establish gate voltage.",
+          "Source resistor establishes source voltage from drain current.",
+          "The difference VG - VS sets gate-source voltage.",
+          "Drain current follows the FET transfer relation.",
+          "Source feedback corrects current drift and improves stability.",
+        ],
+        examLine:
+          "For FET divider bias, solve VG first, then VS, then VGS.",
+        visual: "divider-bias",
+      },
+    ],
+  },
+  {
+    title: "FET Amplifiers",
+    idea:
+      "A FET amplifier converts gate-voltage variation into drain-current variation. The load then converts that current variation into an output voltage.",
+    subtopics: [
+      {
+        name: "Common source",
+        explanation:
+          "The common-source amplifier is the FET counterpart of the BJT common-emitter amplifier. It provides voltage gain with phase inversion and high input resistance.",
+        steps: [
+          "Bias the FET in the saturation region.",
+          "Apply the AC input at the gate.",
+          "Gate-source voltage variation changes drain current.",
+          "Drain resistor converts current variation into voltage variation.",
+          "Output at the drain is amplified and inverted.",
+        ],
+        examLine:
+          "Common source gives voltage gain and 180 degree phase inversion.",
+        visual: "common-source",
+      },
+      {
+        name: "Common gate",
+        explanation:
+          "The common-gate amplifier has gate as AC reference, input at source, and output at drain. It has low input resistance and no phase inversion.",
+        steps: [
+          "Hold gate at AC ground.",
+          "Apply input at the source terminal.",
+          "Source voltage changes VGS and therefore drain current.",
+          "Drain load converts current variation into output voltage.",
+          "Output is not phase inverted in the same way as common source.",
+        ],
+        examLine:
+          "Common gate is useful for low input resistance and high-frequency applications.",
+        visual: "common-gate",
+      },
+      {
+        name: "Common drain",
+        explanation:
+          "The common-drain amplifier is also called a source follower. It has voltage gain close to one, high input resistance, and low output resistance, making it useful as a buffer.",
+        steps: [
+          "Apply input at the gate.",
+          "Take output from the source.",
+          "Source voltage follows gate voltage through the FET action.",
+          "Voltage gain remains slightly less than one.",
+          "The stage isolates a weak signal source from a heavier load.",
+        ],
+        examLine:
+          "Common drain is a source follower used for buffering.",
+        visual: "common-drain",
+      },
+    ],
+  },
+];
+
+const FEEDBACK_TOPIC_LESSONS = [
+  {
+    title: "Concept of Feedback",
+    idea:
+      "Feedback means the amplifier listens to its own output. A sampled portion of the output is returned to the input so the circuit can correct gain, distortion, bandwidth, or impedance behavior.",
+    subtopics: [
+      {
+        name: "Open-loop gain",
+        explanation:
+          "Open-loop gain is the gain of the amplifier before feedback is applied. It is usually high but sensitive to transistor parameters, temperature, supply variation, and frequency.",
+        steps: [
+          "Apply input directly to the amplifier.",
+          "The amplifier produces output according to its internal gain.",
+          "No output sample is returned to correct the input error.",
+          "Gain can vary when device parameters or temperature changes.",
+          "This high but uncontrolled gain becomes the raw material for feedback design.",
+        ],
+        examLine: "Open-loop gain is large, but it is not naturally stable.",
+        visual: "open-loop",
+      },
+      {
+        name: "Feedback factor",
+        explanation:
+          "Feedback factor is the fraction of output returned to the input. It is usually written as beta. The feedback network may be a resistor divider, RC network, transformer network, or another sampling path.",
+        steps: [
+          "Take a sample from the output side.",
+          "Scale that sample using the feedback network.",
+          "Return the scaled signal to the input comparison point.",
+          "The returned signal is beta times the output.",
+          "Changing beta changes closed-loop gain and stability behavior.",
+        ],
+        examLine: "Feedback factor beta tells how much output information returns to the input.",
+        visual: "feedback-factor",
+      },
+      {
+        name: "Closed-loop gain",
+        explanation:
+          "Closed-loop gain is the gain after feedback is applied. With negative feedback, it becomes more predictable and is often controlled mainly by the feedback network rather than the raw amplifier gain.",
+        steps: [
+          "Input signal and feedback signal meet at the summing point.",
+          "Negative feedback subtracts from the input to form an error signal.",
+          "The amplifier amplifies this smaller error signal.",
+          "Output adjusts until the feedback sample nearly matches the required input relation.",
+          "Closed-loop gain becomes stable when loop gain is high enough.",
+        ],
+        examLine: "For negative feedback, closed-loop gain is approximately set by the feedback network when A beta is large.",
+        visual: "closed-loop",
+      },
+    ],
+  },
+  {
+    title: "Types of Feedback",
+    idea:
+      "Feedback type is named by what is sampled at the output and how it is mixed at the input. Voltage or current can be sampled; series or shunt mixing can be used.",
+    subtopics: [
+      {
+        name: "Voltage series",
+        explanation:
+          "Voltage-series feedback samples output voltage and returns it in series with the input. It usually increases input resistance and decreases output resistance, making it common in voltage amplifiers.",
+        steps: [
+          "Sense output voltage across the load.",
+          "Feed a proportional voltage back to the input.",
+          "Mix feedback in series with the source signal.",
+          "Input resistance rises because the source sees series opposition.",
+          "Output resistance falls because output voltage is corrected by feedback.",
+        ],
+        examLine: "Voltage-series feedback is common for stable voltage gain.",
+        visual: "voltage-series",
+      },
+      {
+        name: "Voltage shunt",
+        explanation:
+          "Voltage-shunt feedback samples output voltage and returns current at the input node in shunt. It tends to reduce both input and output resistance.",
+        steps: [
+          "Sense output voltage from the load side.",
+          "Convert the sampled voltage into feedback current.",
+          "Inject feedback current at the input node.",
+          "Input node behaves as a low-resistance summing point.",
+          "Output voltage is controlled by the sampled feedback signal.",
+        ],
+        examLine: "Voltage-shunt feedback lowers input resistance and output resistance.",
+        visual: "voltage-shunt",
+      },
+      {
+        name: "Current series",
+        explanation:
+          "Current-series feedback samples output current and returns a series voltage to the input. It tends to increase both input and output resistance.",
+        steps: [
+          "Sense load or output current using a series element.",
+          "Convert current sample into a feedback voltage.",
+          "Insert that feedback voltage in series with the input.",
+          "Input resistance increases because of series mixing.",
+          "Output resistance increases because current sampling opposes load-current change.",
+        ],
+        examLine: "Current-series feedback is useful when controlled output current is desired.",
+        visual: "current-series",
+      },
+      {
+        name: "Current shunt",
+        explanation:
+          "Current-shunt feedback samples output current and returns a shunt current to the input. It tends to reduce input resistance and increase output resistance.",
+        steps: [
+          "Sense output current through a series sampling path.",
+          "Generate a proportional feedback current.",
+          "Mix that feedback current at the input node.",
+          "Input resistance falls due to shunt mixing.",
+          "Output resistance rises because output current is regulated.",
+        ],
+        examLine: "Current-shunt feedback is a current-control topology with shunt input mixing.",
+        visual: "current-shunt",
+      },
+    ],
+  },
+  {
+    title: "Advantages of Negative Feedback",
+    idea:
+      "Negative feedback trades some gain for better behavior. It makes the amplifier less dependent on imperfect devices and more dependent on the designed feedback network.",
+    subtopics: [
+      {
+        name: "Gain stability",
+        explanation:
+          "Negative feedback stabilizes gain because variations in amplifier gain are corrected by the feedback loop. If gain rises, feedback rises and reduces the error signal; if gain falls, feedback falls and allows more error drive.",
+        steps: [
+          "Amplifier gain tries to change due to temperature or device variation.",
+          "Output changes because of that gain shift.",
+          "Feedback sample changes in the same direction.",
+          "The input error is adjusted opposite to the gain shift.",
+          "Closed-loop gain remains much more stable than open-loop gain.",
+        ],
+        examLine: "Negative feedback desensitizes gain by the factor 1 + A beta.",
+        visual: "gain-stability",
+      },
+      {
+        name: "Reduced distortion",
+        explanation:
+          "Distortion means output is not a clean scaled copy of the input. Negative feedback compares output information with the input demand and forces the amplifier to correct nonlinear errors.",
+        steps: [
+          "Nonlinear amplifier action creates waveform error.",
+          "The distorted output is sampled by the feedback network.",
+          "Feedback returns an error-related signal to the input.",
+          "The amplifier drives in a direction that cancels part of the distortion.",
+          "Output waveform becomes closer to the intended shape.",
+        ],
+        examLine: "Negative feedback reduces distortion roughly by the same loop factor that stabilizes gain.",
+        visual: "distortion",
+      },
+      {
+        name: "Increased bandwidth",
+        explanation:
+          "Negative feedback lowers midband gain but extends the useful frequency range. The gain-bandwidth tradeoff means the amplifier gives less gain over a wider band.",
+        steps: [
+          "Without feedback, gain is high but falls sooner with frequency.",
+          "Negative feedback reduces midband gain.",
+          "The lower gain target remains accurate over a wider frequency range.",
+          "Lower cutoff may move downward and upper cutoff may move upward.",
+          "The usable bandwidth increases.",
+        ],
+        examLine: "Negative feedback reduces gain but increases bandwidth.",
+        visual: "bandwidth-feedback",
+      },
+    ],
+  },
+];
+
+const OSCILLATOR_QUICK_TOPICS = [
+  {
+    title: "Barkhausen Criterion",
+    detail:
+      "Oscillation is sustained when loop gain magnitude is unity and total phase shift around the loop is 0 degree or 360 degrees.",
+    formula: "$$ |A\\beta| = 1, \\quad \\angle A\\beta = 0^\\circ \\text{ or } 360^\\circ $$",
+  },
+  {
+    title: "RC Oscillators",
+    detail:
+      "RC oscillators use resistor-capacitor phase-shift or bridge networks to generate low and audio-frequency sine waves.",
+    formula: "$$ f = \\frac{1}{2\\pi RC\\sqrt{6}} \\text{ for a basic three-section RC phase-shift oscillator} $$",
+  },
+  {
+    title: "LC Oscillators",
+    detail:
+      "LC oscillators use energy exchange between an inductor magnetic field and capacitor electric field, making them useful at radio frequencies.",
+    formula: "$$ f_0 = \\frac{1}{2\\pi\\sqrt{LC}} $$",
+  },
+  {
+    title: "Crystal Oscillator",
+    detail:
+      "Crystal oscillators use the piezoelectric property of quartz to produce extremely stable frequency references.",
+    formula: "$$ f_s \\approx \\frac{1}{2\\pi\\sqrt{L_m C_m}} $$",
+  },
+];
+
+const OPAMP_QUICK_TOPICS = [
+  {
+    title: "Ideal Op-Amp Rule",
+    detail:
+      "With negative feedback, an ideal op-amp makes the input terminal voltages nearly equal while drawing zero input current.",
+    formula: "$$ V_+ \\approx V_-, \\quad I_+ = I_- = 0 $$",
+  },
+  {
+    title: "Inverting Amplifier",
+    detail:
+      "The input signal enters the inverting node through an input resistor, and feedback resistor controls closed-loop gain.",
+    formula: "$$ A_v = \\frac{V_o}{V_i} = -\\frac{R_f}{R_1} $$",
+  },
+  {
+    title: "Non-Inverting Amplifier",
+    detail:
+      "The input is applied to the non-inverting terminal, so output preserves phase and gain is set by the feedback divider.",
+    formula: "$$ A_v = 1 + \\frac{R_f}{R_1} $$",
+  },
+  {
+    title: "Slew Rate",
+    detail:
+      "Slew rate limits how fast the output voltage can change, so high-frequency large-amplitude signals may distort.",
+    formula: "$$ SR = \\max\\left(\\frac{dV_o}{dt}\\right) $$",
+  },
+];
 
 function toAnchorId(value = "") {
   return value
@@ -3373,6 +4962,12 @@ function SubjectConceptMenu({ subjectTitle, concepts = [], activeIndex = 0, onSe
                 subjectTitle === "Analog Electronics" &&
                 concept.slug === "diodes-and-pn-junction"
                   ? "/diodes"
+                  : subjectTitle === "Analog Electronics" &&
+                    concept.slug === "transistor-basics"
+                  ? "/bjt-and-mosfet"
+                  : subjectTitle === "Analog Electronics" &&
+                    concept.slug === "amplifier-fundamentals"
+                  ? "/amplifiers"
                   : "";
               const className = `rounded-xl border p-3 text-left transition ${
                 activeIndex === index + 1
@@ -3419,6 +5014,74 @@ function SubjectConceptMenu({ subjectTitle, concepts = [], activeIndex = 0, onSe
                 </button>
               );
             })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function AnalogChapterMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open Analog Electronics chapters"
+        aria-expanded={isOpen}
+        aria-controls="analog-chapter-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="analog-chapter-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(24rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              Analog Electronics Chapter Flow
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-5 text-slate-700">
+              Open a chapter page for circuit flow and animated step-by-step working.
+            </p>
+          </div>
+
+          <div className="grid gap-2">
+            {ANALOG_CHAPTERS.map((chapter) => (
+              <Link
+                key={chapter.slug}
+                href={chapter.route}
+                onClick={() => setIsOpen(false)}
+                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+              >
+                <span className="flex items-start gap-3">
+                  <span className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-white text-xs font-black text-portal-700 shadow-sm">
+                    {String(chapter.number).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-black text-slate-950">
+                      {chapter.title}
+                    </span>
+                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
+                      Circuit flow + animated working
+                    </span>
+                  </span>
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       ) : null}
@@ -3564,10 +5227,3080 @@ function StudyFlowCard({ step, index }) {
   );
 }
 
-function AnalogTopicCard({ title, intro, points, takeaway }) {
+function AnalogChapterMotionDiagram({ mode = "pn", title = "Analog circuit flow" }) {
+  return (
+    <svg viewBox="0 0 680 330" className="mx-auto h-auto w-[680px] max-w-none md:w-full" role="img" aria-label={`${title} animated circuit flow`}>
+      <defs>
+        <marker id={`analog-arrow-${mode}`} markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+          <path d="M0 0 10 5 0 10Z" fill="#154a96" />
+        </marker>
+      </defs>
+      <style>{`
+        .analog-flow { stroke-dasharray: 12 10; animation: analogFlow 1.15s linear infinite; }
+        .analog-pulse { animation: analogPulse 1.8s ease-in-out infinite; }
+        .analog-wave { stroke-dasharray: 360; stroke-dashoffset: 360; animation: analogWave 2.6s ease-in-out infinite; }
+        .analog-barrier { animation: analogBarrier 2.2s ease-in-out infinite; transform-origin: center; }
+        .analog-channel { animation: analogChannel 2s ease-in-out infinite; transform-origin: center; }
+        .analog-charge-a { animation: analogChargeA 2.6s linear infinite; }
+        .analog-charge-b { animation: analogChargeB 2.6s linear infinite; }
+        @keyframes analogFlow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -22; } }
+        @keyframes analogPulse { 0%,100% { opacity: .32; } 50% { opacity: .95; } }
+        @keyframes analogWave { 0% { stroke-dashoffset: 360; } 75%,100% { stroke-dashoffset: 0; } }
+        @keyframes analogBarrier { 0%,100% { transform: scaleX(1.15); opacity: .75; } 50% { transform: scaleX(.72); opacity: .35; } }
+        @keyframes analogChannel { 0%,100% { transform: scaleY(.28); opacity: .35; } 50% { transform: scaleY(1); opacity: .95; } }
+        @keyframes analogChargeA { 0% { transform: translateX(0); opacity: .2; } 20%,80% { opacity: 1; } 100% { transform: translateX(210px); opacity: .2; } }
+        @keyframes analogChargeB { 0% { transform: translateX(210px); opacity: .2; } 20%,80% { opacity: 1; } 100% { transform: translateX(0); opacity: .2; } }
+      `}</style>
+
+      <rect x="18" y="18" width="644" height="294" rx="24" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="42" y="56" fill="#0f172a" fontSize="19" fontWeight="900">{title}</text>
+
+      {mode === "pn" ? (
+        <>
+          <rect x="82" y="104" width="210" height="118" rx="18" fill="#fee2e2" stroke="#fecaca" strokeWidth="2" />
+          <rect x="388" y="104" width="210" height="118" rx="18" fill="#dbeafe" stroke="#bfdbfe" strokeWidth="2" />
+          <rect className="analog-barrier" x="294" y="94" width="92" height="138" rx="18" fill="#fef3c7" stroke="#f59e0b" strokeWidth="2" />
+          <text x="172" y="92" fill="#991b1b" fontSize="16" fontWeight="900">P-type holes</text>
+          <text x="452" y="92" fill="#154a96" fontSize="16" fontWeight="900">N-type electrons</text>
+          <text x="294" y="252" fill="#b45309" fontSize="14" fontWeight="900">depletion barrier breathes with bias</text>
+          {[0, 1, 2].map((item) => (
+            <circle key={`h-${item}`} className="analog-charge-a" cx={118 + item * 46} cy={140 + item * 24} r="8" fill="#dc2626" />
+          ))}
+          {[0, 1, 2].map((item) => (
+            <circle key={`e-${item}`} className="analog-charge-b" cx={420 + item * 46} cy={140 + item * 24} r="8" fill="#154a96" />
+          ))}
+        </>
+      ) : null}
+
+      {mode === "diode" ? (
+        <>
+          <circle cx="92" cy="166" r="28" fill="#eff6ff" stroke="#154a96" strokeWidth="4" />
+          <path d="M82 166c8-18 14 18 22 0s14 18 22 0" fill="none" stroke="#154a96" strokeWidth="2.5" strokeLinecap="round" />
+          <path d="M120 166h112M232 126v80l70-40-70-40ZM312 126v80M312 166h116" fill="none" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M428 136v60M448 136v60M448 166h98" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          <path d="M546 166v76H92V194" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+          <path className="analog-flow" d="M126 166h390" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#analog-arrow-${mode})`} />
+          <path className="analog-wave" d="M104 260c20-34 40-34 60 0s40 34 60 0 40-34 60 0 40 34 60 0 40-34 60 0" fill="none" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" />
+          <text x="236" y="106" fill="#154a96" fontSize="14" fontWeight="900">diode conducts only in forward interval</text>
+        </>
+      ) : null}
+
+      {["bjt", "amplifier"].includes(mode) ? (
+        <>
+          <path d="M164 156h86M250 98v128M250 122l92-56M250 196l92 56" fill="none" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          <path className="analog-pulse" d="M76 156h154" stroke="#154a96" strokeWidth="6" strokeLinecap="round" markerEnd={`url(#analog-arrow-${mode})`} />
+          <path className="analog-flow" d="M346 72c-32 64-32 122 0 178" stroke="#154a96" strokeWidth="5" fill="none" strokeLinecap="round" markerEnd={`url(#analog-arrow-${mode})`} />
+          <path className="analog-wave" d="M414 160c20-54 40-54 60 0s40 54 60 0 40-54 60 0" fill="none" stroke={mode === "amplifier" ? "#16a34a" : "#154a96"} strokeWidth="4" strokeLinecap="round" />
+          <text x="78" y="132" fill="#154a96" fontSize="14" fontWeight="900">small base signal</text>
+          <text x="410" y="238" fill="#154a96" fontSize="14" fontWeight="900">controlled collector output</text>
+        </>
+      ) : null}
+
+      {mode === "mosfet" ? (
+        <>
+          <path d="M280 86v160M326 86v160M172 130h84M172 202h84M350 130h130M350 202h130" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          <rect className="analog-channel" x="286" y="132" width="34" height="70" rx="9" fill="#16a34a" />
+          <path className="analog-pulse" d="M82 166h174" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#analog-arrow-${mode})`} />
+          <path className="analog-flow" d="M466 130v72" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#analog-arrow-${mode})`} />
+          <path className="analog-wave" d="M500 166c18-42 36-42 54 0s36 42 54 0" fill="none" stroke="#154a96" strokeWidth="4" strokeLinecap="round" />
+          <text x="92" y="142" fill="#154a96" fontSize="14" fontWeight="900">gate field controls channel</text>
+        </>
+      ) : null}
+
+      {["feedback", "oscillator", "opamp", "filter", "supply"].includes(mode) ? (
+        <>
+          <path d="M88 166h108" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          <path d="M196 116h130l64 50-64 50H196Z" fill="#eff6ff" stroke="#154a96" strokeWidth="4" strokeLinejoin="round" />
+          <text x="236" y="172" fill="#154a96" fontSize="18" fontWeight="900">
+            {mode === "opamp" ? "Op" : mode === "supply" ? "Reg" : mode === "filter" ? "H(s)" : mode === "oscillator" ? "A" : "A"}
+          </text>
+          <path className="analog-flow" d="M388 166h166" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#analog-arrow-${mode})`} />
+          <path className="analog-wave" d="M78 222c16-26 32-26 48 0s32 26 48 0 32-26 48 0" fill="none" stroke="#64748b" strokeWidth="3" strokeLinecap="round" />
+          <path className="analog-wave" d="M438 222c18-42 36-42 54 0s36 42 54 0" fill="none" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" />
+          <path d="M512 166v70H264V216" fill="none" stroke="#f97316" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" markerEnd={`url(#analog-arrow-${mode})`} />
+          <text x="286" y="264" fill="#f97316" fontSize="14" fontWeight="900">
+            {mode === "oscillator" ? "positive feedback sustains output" : mode === "supply" ? "feedback holds DC output" : "feedback or RC path shapes function"}
+          </text>
+          {mode === "filter" ? <path d="M420 106c34 72 80 72 118 0" fill="none" stroke="#f59e0b" strokeWidth="4" strokeLinecap="round" /> : null}
+        </>
+      ) : null}
+    </svg>
+  );
+}
+
+function AnalogChapterTopicCard({ topic, chapter, topicIndex }) {
+  return (
+    <article id={`analog-topic-${toAnchorId(topic.title)}`} className="scroll-mt-40 rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+          {chapter.number}.{topicIndex + 1}
+        </span>
+        <div className="min-w-0">
+          <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+            Topic
+          </p>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950">{topic.title}</h2>
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_0.9fr]">
+        <div className="grid gap-3">
+          {topic.subtopics.map((subtopic, subtopicIndex) => (
+            <div key={subtopic} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3">
+              <p className="text-sm font-bold text-slate-950">
+                {chapter.number}.{topicIndex + 1}.{subtopicIndex + 1} {subtopic}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-700">
+                Study this subtopic by asking what the input condition is, what device
+                region or circuit state is active, how current finds its path, and what
+                output quantity is produced. This keeps theory, numerical solving, and
+                interview explanation in one clean sequence.
+              </p>
+            </div>
+          ))}
+        </div>
+        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <AnalogChapterMotionDiagram mode={chapter.diagramMode} title={topic.title} />
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function SemiconductorSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
+  return (
+    <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+          1.{topicIndex + 1}.{subtopicIndex + 1}
+        </span>
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+            {lesson.title}
+          </p>
+          <h3 className="text-base font-bold tracking-tight text-slate-950">
+            {subtopic.name}
+          </h3>
+        </div>
+      </div>
+
+      <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+        {subtopic.explanation}
+      </p>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_0.95fr]">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+          <h4 className="text-sm font-bold text-slate-950">Step-by-step working</h4>
+          <ol className="mt-3 grid gap-2 text-sm leading-6 text-slate-700">
+            {subtopic.steps.map((step, index) => (
+              <li key={step} className="flex gap-3 rounded-xl border border-white bg-white px-3 py-2">
+                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-portal-50 text-xs font-black text-portal-700">
+                  {index + 1}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <AnalogChapterMotionDiagram mode="pn" title={subtopic.name} />
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3">
+        <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">
+          Remember
+        </p>
+        <p className="mt-1.5 text-sm font-semibold leading-6 text-emerald-950">
+          {subtopic.examLine}
+        </p>
+      </div>
+    </article>
+  );
+}
+
+function SemiconductorFundamentalsDeepDiveContent({ chapter }) {
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
+            Chapter 1 / Original Concept Builder
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+            Semiconductor Fundamentals
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            This chapter explains the hidden control mechanism behind analog devices.
+            Instead of memorizing terms, read it as a flow: atoms decide carrier
+            availability, materials decide energy needed for conduction, doping chooses
+            the majority carrier, and the PN junction converts that carrier control into
+            diode action.
+          </p>
+          <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">
+              GATE/PSU Lens
+            </p>
+            <p className="mt-2 text-sm font-semibold leading-6 text-emerald-950">
+              Master carrier type, depletion width, barrier potential, and bias direction.
+              These four ideas unlock diode, BJT, MOSFET, rectifier, and regulator problems.
+            </p>
+          </div>
+        </div>
+        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <AnalogChapterMotionDiagram mode="pn" title="Atomic control to PN junction flow" />
+        </div>
+      </div>
+
+      <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
+        <h2 className="text-lg font-bold tracking-tight text-slate-950">
+          Animated Working: From Atom to Junction
+        </h2>
+        <div className="mt-4 grid gap-3 lg:grid-cols-5">
+          {chapter.workingSteps.map((step, index) => (
+            <div key={step} className="rounded-2xl border border-white bg-white p-3 shadow-sm">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <p className="mt-3 text-sm font-semibold leading-6 text-slate-700">{step}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="mt-6 grid gap-5">
+        {SEMICONDUCTOR_TOPIC_LESSONS.map((lesson, topicIndex) => (
+          <section
+            key={lesson.title}
+            id={`analog-topic-${toAnchorId(lesson.title)}`}
+            className="scroll-mt-40 rounded-[26px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff,#f8fbff)] p-4 shadow-sm sm:p-5"
+          >
+            <div className="flex flex-wrap items-start gap-3">
+              <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+                1.{topicIndex + 1}
+              </span>
+              <div className="min-w-0">
+                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+                  Main Topic
+                </p>
+                <h2 className="text-xl font-bold tracking-tight text-slate-950">
+                  {lesson.title}
+                </h2>
+                <p className="mt-2 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
+                  {lesson.idea}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-4">
+              {lesson.subtopics.map((subtopic, subtopicIndex) => (
+                <SemiconductorSubtopicCard
+                  key={subtopic.name}
+                  lesson={lesson}
+                  topicIndex={topicIndex}
+                  subtopic={subtopic}
+                  subtopicIndex={subtopicIndex}
+                />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function DiodeApplicationDiagram({ visual = "vi", title = "Diode application" }) {
+  return (
+    <svg viewBox="0 0 680 330" className="mx-auto h-auto w-[680px] max-w-none md:w-full" role="img" aria-label={`${title} animated diode diagram`}>
+      <defs>
+        <marker id={`diode-app-arrow-${visual}`} markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+          <path d="M0 0 10 5 0 10Z" fill="#154a96" />
+        </marker>
+      </defs>
+      <style>{`
+        .da-flow { stroke-dasharray: 12 10; animation: daFlow 1.1s linear infinite; }
+        .da-wave { stroke-dasharray: 360; stroke-dashoffset: 360; animation: daWave 2.5s ease-in-out infinite; }
+        .da-pulse { animation: daPulse 1.7s ease-in-out infinite; }
+        .da-fill { animation: daFill 2.2s ease-in-out infinite; transform-origin: center; }
+        .da-clamp { animation: daClamp 1.8s ease-in-out infinite; }
+        @keyframes daFlow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -22; } }
+        @keyframes daWave { 0% { stroke-dashoffset: 360; } 75%,100% { stroke-dashoffset: 0; } }
+        @keyframes daPulse { 0%,100% { opacity: .28; } 50% { opacity: .95; } }
+        @keyframes daFill { 0%,100% { transform: scaleY(.25); opacity: .35; } 50% { transform: scaleY(1); opacity: .95; } }
+        @keyframes daClamp { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+      `}</style>
+      <rect x="18" y="18" width="644" height="294" rx="24" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="42" y="56" fill="#0f172a" fontSize="18" fontWeight="900">{title}</text>
+
+      {["vi", "resistance"].includes(visual) ? (
+        <>
+          <path d="M86 250h500M116 270V78" stroke="#94a3b8" strokeWidth="3" strokeLinecap="round" />
+          <path className="da-wave" d="M118 238c140 0 210-8 272-28 54-18 80-66 118-132" fill="none" stroke="#154a96" strokeWidth="5" strokeLinecap="round" />
+          <path d="M120 250c110-2 190-8 256-18" fill="none" stroke="#64748b" strokeWidth="3" strokeLinecap="round" />
+          <circle className="da-pulse" cx={visual === "resistance" ? 410 : 478} cy={visual === "resistance" ? 184 : 116} r="10" fill="#f97316" />
+          <text x="455" y="270" fill="#475569" fontSize="13" fontWeight="800">VD</text>
+          <text x="72" y="94" fill="#475569" fontSize="13" fontWeight="800">ID</text>
+          <text x="220" y="104" fill="#154a96" fontSize="14" fontWeight="900">
+            {visual === "resistance" ? "Q-point decides resistance model" : "forward current rises sharply after knee"}
+          </text>
+        </>
+      ) : null}
+
+      {["zener", "led", "photo", "schottky", "varactor"].includes(visual) ? (
+        <>
+          <circle cx="92" cy="166" r="26" fill="#eff6ff" stroke="#154a96" strokeWidth="4" />
+          <path d="M82 166c8-16 14 16 22 0s14 16 22 0" fill="none" stroke="#154a96" strokeWidth="2.5" strokeLinecap="round" />
+          <path d="M120 166h104M224 126v80l70-40-70-40ZM306 126v80M306 166h118" fill="none" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+          <path className="da-flow" d="M128 166h286" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#diode-app-arrow-${visual})`} />
+          {visual === "zener" ? <path className="da-clamp" d="M436 116v96M460 116v96M460 166h106" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" /> : null}
+          {visual === "led" ? (
+            <>
+              <path className="da-pulse" d="M432 132l52-44M454 152l68-30M432 200l52 44" stroke="#f59e0b" strokeWidth="4" strokeLinecap="round" markerEnd={`url(#diode-app-arrow-${visual})`} />
+              <text x="446" y="242" fill="#b45309" fontSize="14" fontWeight="900">light leaves junction</text>
+            </>
+          ) : null}
+          {visual === "photo" ? (
+            <>
+              <path className="da-pulse" d="M560 96l-72 54M584 132l-88 36M560 214l-72-34" stroke="#f59e0b" strokeWidth="4" strokeLinecap="round" markerEnd={`url(#diode-app-arrow-${visual})`} />
+              <text x="430" y="242" fill="#154a96" fontSize="14" fontWeight="900">light creates photocurrent</text>
+            </>
+          ) : null}
+          {visual === "schottky" ? <text x="432" y="158" fill="#154a96" fontSize="16" fontWeight="900">fast, low Vf</text> : null}
+          {visual === "varactor" ? (
+            <>
+              <path className="da-fill" d="M438 110v112M488 110v112" stroke="#16a34a" strokeWidth="8" strokeLinecap="round" />
+              <text x="420" y="248" fill="#16a34a" fontSize="14" fontWeight="900">reverse voltage changes capacitance</text>
+            </>
+          ) : null}
+        </>
+      ) : null}
+
+      {["half", "full", "bridge"].includes(visual) ? (
+        <>
+          <circle cx="86" cy="160" r="28" fill="#eff6ff" stroke="#154a96" strokeWidth="4" />
+          <path className="da-wave" d="M56 160c10-22 20-22 30 0s20 22 30 0" fill="none" stroke="#154a96" strokeWidth="2.5" strokeLinecap="round" />
+          <path d="M116 160h88M204 122v76l66-38-66-38ZM282 122v76M282 160h92" fill="none" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+          {visual === "bridge" ? (
+            <path d="M378 118l52 42-52 42-52-42 52-42ZM430 160h82" fill="none" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+          ) : (
+            <path d="M374 132v58M394 132v58M394 160h118" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          )}
+          <path className="da-flow" d="M122 160h388" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#diode-app-arrow-${visual})`} />
+          <path className="da-wave" d={visual === "half" ? "M96 258c20-42 40-42 60 0 40 0 80 0 120 0 20-42 40-42 60 0" : "M96 258c18-42 36-42 54 0s36 42 54 0 36-42 54 0 36 42 54 0 36-42 54 0"} fill="none" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" />
+          <text x="392" y="238" fill="#16a34a" fontSize="14" fontWeight="900">{visual === "half" ? "one half-cycle used" : "both half-cycles used"}</text>
+        </>
+      ) : null}
+
+      {["capacitor", "inductor", "lc"].includes(visual) ? (
+        <>
+          <path d="M82 166h120M202 126v80l70-40-70-40ZM284 126v80M284 166h82" fill="none" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+          {visual !== "capacitor" ? <path d="M368 166c10-22 22 22 32 0s22 22 32 0 22-22 32 0" fill="none" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" /> : null}
+          <path d="M492 120v92M516 120v92M516 166h72" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          <rect className="da-fill" x="498" y="152" width="12" height="54" rx="5" fill="#16a34a" />
+          <path className="da-flow" d="M86 166h490" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#diode-app-arrow-${visual})`} />
+          <path className="da-wave" d="M100 258c22-18 44-18 66 0s44 18 66 0 44-18 66 0 44 18 66 0" fill="none" stroke="#64748b" strokeWidth="3" strokeLinecap="round" />
+          <path className="da-wave" d="M410 258c30-8 60-8 90 0s60 8 90 0" fill="none" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" />
+          <text x="392" y="104" fill="#154a96" fontSize="14" fontWeight="900">storage reduces ripple</text>
+        </>
+      ) : null}
+    </svg>
+  );
+}
+
+function DiodeApplicationSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
+  return (
+    <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+          2.{topicIndex + 1}.{subtopicIndex + 1}
+        </span>
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+            {lesson.title}
+          </p>
+          <h3 className="text-base font-bold tracking-tight text-slate-950">
+            {subtopic.name}
+          </h3>
+        </div>
+      </div>
+
+      <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+        {subtopic.explanation}
+      </p>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_0.95fr]">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+          <h4 className="text-sm font-bold text-slate-950">Step-by-step working</h4>
+          <ol className="mt-3 grid gap-2 text-sm leading-6 text-slate-700">
+            {subtopic.steps.map((step, index) => (
+              <li key={step} className="flex gap-3 rounded-xl border border-white bg-white px-3 py-2">
+                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-portal-50 text-xs font-black text-portal-700">
+                  {index + 1}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <DiodeApplicationDiagram visual={subtopic.visual} title={subtopic.name} />
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3">
+        <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">
+          Remember
+        </p>
+        <p className="mt-1.5 text-sm font-semibold leading-6 text-emerald-950">
+          {subtopic.examLine}
+        </p>
+      </div>
+    </article>
+  );
+}
+
+function DiodesApplicationsDeepDiveContent({ chapter }) {
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
+            Chapter 2 / Original Circuit Builder
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+            Diodes and Applications
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            This chapter treats the diode as a decision-making element. Every circuit
+            is solved by asking: what polarity is applied, which diode path conducts,
+            where energy is stored, and how the load sees the final waveform.
+          </p>
+          <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">
+              GATE/PSU Lens
+            </p>
+            <p className="mt-2 text-sm font-semibold leading-6 text-emerald-950">
+              First decide diode state, then trace current path, then apply the proper
+              model. This habit prevents most rectifier, regulator, and waveform mistakes.
+            </p>
+          </div>
+        </div>
+        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <DiodeApplicationDiagram visual="bridge" title="Diode application flow" />
+        </div>
+      </div>
+
+      <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
+        <h2 className="text-lg font-bold tracking-tight text-slate-950">
+          Animated Working: From Junction to DC Supply
+        </h2>
+        <div className="mt-4 grid gap-3 lg:grid-cols-5">
+          {chapter.workingSteps.map((step, index) => (
+            <div key={step} className="rounded-2xl border border-white bg-white p-3 shadow-sm">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <p className="mt-3 text-sm font-semibold leading-6 text-slate-700">{step}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="mt-6 grid gap-5">
+        {DIODE_APPLICATION_TOPIC_LESSONS.map((lesson, topicIndex) => (
+          <section
+            key={lesson.title}
+            id={`analog-topic-${toAnchorId(lesson.title)}`}
+            className="scroll-mt-40 rounded-[26px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff,#f8fbff)] p-4 shadow-sm sm:p-5"
+          >
+            <div className="flex flex-wrap items-start gap-3">
+              <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+                2.{topicIndex + 1}
+              </span>
+              <div className="min-w-0">
+                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+                  Main Topic
+                </p>
+                <h2 className="text-xl font-bold tracking-tight text-slate-950">
+                  {lesson.title}
+                </h2>
+                <p className="mt-2 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
+                  {lesson.idea}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-4">
+              {lesson.subtopics.map((subtopic, subtopicIndex) => (
+                <DiodeApplicationSubtopicCard
+                  key={subtopic.name}
+                  lesson={lesson}
+                  topicIndex={topicIndex}
+                  subtopic={subtopic}
+                  subtopicIndex={subtopicIndex}
+                />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function BjtDiagram({ visual = "working", title = "BJT operation" }) {
+  return (
+    <svg viewBox="0 0 680 330" className="mx-auto h-auto w-[680px] max-w-none md:w-full" role="img" aria-label={`${title} animated BJT diagram`}>
+      <defs>
+        <marker id={`bjt-arrow-${visual}`} markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+          <path d="M0 0 10 5 0 10Z" fill="#154a96" />
+        </marker>
+      </defs>
+      <style>{`
+        .bjt-flow { stroke-dasharray: 12 10; animation: bjtFlow 1.1s linear infinite; }
+        .bjt-wave { stroke-dasharray: 360; stroke-dashoffset: 360; animation: bjtWave 2.5s ease-in-out infinite; }
+        .bjt-pulse { animation: bjtPulse 1.6s ease-in-out infinite; }
+        .bjt-q { animation: bjtQ 2s ease-in-out infinite; }
+        @keyframes bjtFlow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -22; } }
+        @keyframes bjtWave { 0% { stroke-dashoffset: 360; } 75%,100% { stroke-dashoffset: 0; } }
+        @keyframes bjtPulse { 0%,100% { opacity: .3; } 50% { opacity: .95; } }
+        @keyframes bjtQ { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+      `}</style>
+      <rect x="18" y="18" width="644" height="294" rx="24" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="42" y="56" fill="#0f172a" fontSize="18" fontWeight="900">{title}</text>
+
+      {["construction", "working", "currents", "ce", "cb", "cc"].includes(visual) ? (
+        <>
+          <path d="M186 160h92M278 94v132M278 118l96-58M278 202l96 58" fill="none" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          <text x="154" y="151" fill="#475569" fontSize="14" fontWeight="900">B</text>
+          <text x="380" y="64" fill="#475569" fontSize="14" fontWeight="900">C</text>
+          <text x="382" y="270" fill="#475569" fontSize="14" fontWeight="900">E</text>
+          <path className="bjt-flow" d="M82 160h184" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#bjt-arrow-${visual})`} />
+          <path className="bjt-flow" d="M372 64c-34 70-34 122 0 192" stroke="#154a96" strokeWidth="5" fill="none" strokeLinecap="round" markerEnd={`url(#bjt-arrow-${visual})`} />
+          <path className="bjt-wave" d="M430 166c18-44 36-44 54 0s36 44 54 0 36-44 54 0" fill="none" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" />
+          <circle className="bjt-pulse" cx="278" cy="160" r="16" fill="#f97316" opacity=".4" />
+          <text x="442" y="232" fill="#154a96" fontSize="14" fontWeight="900">
+            {visual === "construction" ? "thin base controls carrier stream" : visual === "cc" ? "emitter follows base" : "small base action controls output"}
+          </text>
+        </>
+      ) : null}
+
+      {["input", "output", "stability"].includes(visual) ? (
+        <>
+          <path d="M86 250h500M116 270V82" stroke="#94a3b8" strokeWidth="3" strokeLinecap="round" />
+          <path className="bjt-wave" d={visual === "input" ? "M118 242c120 0 200-16 270-52 44-22 72-58 110-108" : "M122 232h420M122 196h420M122 160h420M122 124h420"} fill="none" stroke="#154a96" strokeWidth="5" strokeLinecap="round" />
+          {visual === "stability" ? <path className="bjt-q" d="M398 226v-92" stroke="#f97316" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#bjt-arrow-${visual})`} /> : <circle className="bjt-pulse" cx="392" cy="170" r="10" fill="#f97316" />}
+          <text x="460" y="270" fill="#475569" fontSize="13" fontWeight="800">{visual === "input" ? "VBE" : "VCE"}</text>
+          <text x="72" y="94" fill="#475569" fontSize="13" fontWeight="800">{visual === "input" ? "IB" : "IC"}</text>
+          <text x="214" y="96" fill="#154a96" fontSize="14" fontWeight="900">
+            {visual === "input" ? "input junction is diode-like" : visual === "stability" ? "feedback resists Q-point drift" : "families of curves for different IB"}
+          </text>
+        </>
+      ) : null}
+
+      {["fixed", "divider", "hybrid", "hparams"].includes(visual) ? (
+        <>
+          <path d="M86 90h460M546 90v176H86V90" fill="none" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M178 90v62M160 152h36M164 164h28M168 176h20M178 176v34h92" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+          <path d="M270 210h72M342 156v108M342 176l78-46M342 238l78 46" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          <path className="bjt-flow" d="M118 90h380" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#bjt-arrow-${visual})`} />
+          {visual === "divider" ? <path d="M132 90v70M132 190v76M112 160h40M112 190h40" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" /> : null}
+          {["hybrid", "hparams"].includes(visual) ? (
+            <>
+              <rect x="436" y="128" width="132" height="92" rx="18" fill="#eff6ff" stroke="#154a96" strokeWidth="3" />
+              <text x="466" y="162" fill="#154a96" fontSize="16" fontWeight="900">{visual === "hybrid" ? "small" : "h"}</text>
+              <text x="456" y="184" fill="#154a96" fontSize="16" fontWeight="900">{visual === "hybrid" ? "signal" : "params"}</text>
+            </>
+          ) : null}
+          <text x="252" y="64" fill="#154a96" fontSize="14" fontWeight="900">
+            {visual === "fixed" ? "simple bias, beta sensitive" : visual === "divider" ? "emitter feedback stabilizes" : "replace nonlinear BJT near Q-point"}
+          </text>
+        </>
+      ) : null}
+    </svg>
+  );
+}
+
+function BjtSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
+  return (
+    <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+          3.{topicIndex + 1}.{subtopicIndex + 1}
+        </span>
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+            {lesson.title}
+          </p>
+          <h3 className="text-base font-bold tracking-tight text-slate-950">
+            {subtopic.name}
+          </h3>
+        </div>
+      </div>
+
+      <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+        {subtopic.explanation}
+      </p>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_0.95fr]">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+          <h4 className="text-sm font-bold text-slate-950">Step-by-step working</h4>
+          <ol className="mt-3 grid gap-2 text-sm leading-6 text-slate-700">
+            {subtopic.steps.map((step, index) => (
+              <li key={step} className="flex gap-3 rounded-xl border border-white bg-white px-3 py-2">
+                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-portal-50 text-xs font-black text-portal-700">
+                  {index + 1}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <BjtDiagram visual={subtopic.visual} title={subtopic.name} />
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3">
+        <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">
+          Remember
+        </p>
+        <p className="mt-1.5 text-sm font-semibold leading-6 text-emerald-950">
+          {subtopic.examLine}
+        </p>
+      </div>
+    </article>
+  );
+}
+
+function BjtDeepDiveContent({ chapter }) {
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
+            Chapter 3 / Original Transistor Builder
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+            Bipolar Junction Transistor (BJT)
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            This chapter treats the BJT as a controllable carrier valve. The base does
+            not carry the main output current; it decides how much of the emitter carrier
+            stream reaches the collector. That one idea connects construction, biasing,
+            characteristics, and small-signal gain.
+          </p>
+          <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">
+              GATE/PSU Lens
+            </p>
+            <p className="mt-2 text-sm font-semibold leading-6 text-emerald-950">
+              Always identify region of operation, write current relations, fix the
+              Q-point, then use the small-signal model.
+            </p>
+          </div>
+        </div>
+        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <BjtDiagram visual="working" title="BJT carrier-control flow" />
+        </div>
+      </div>
+
+      <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
+        <h2 className="text-lg font-bold tracking-tight text-slate-950">
+          Animated Working: From Base Signal to Collector Output
+        </h2>
+        <div className="mt-4 grid gap-3 lg:grid-cols-5">
+          {chapter.workingSteps.map((step, index) => (
+            <div key={step} className="rounded-2xl border border-white bg-white p-3 shadow-sm">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <p className="mt-3 text-sm font-semibold leading-6 text-slate-700">{step}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="mt-6 grid gap-5">
+        {BJT_TOPIC_LESSONS.map((lesson, topicIndex) => (
+          <section
+            key={lesson.title}
+            id={`analog-topic-${toAnchorId(lesson.title)}`}
+            className="scroll-mt-40 rounded-[26px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff,#f8fbff)] p-4 shadow-sm sm:p-5"
+          >
+            <div className="flex flex-wrap items-start gap-3">
+              <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+                3.{topicIndex + 1}
+              </span>
+              <div className="min-w-0">
+                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+                  Main Topic
+                </p>
+                <h2 className="text-xl font-bold tracking-tight text-slate-950">
+                  {lesson.title}
+                </h2>
+                <p className="mt-2 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
+                  {lesson.idea}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-4">
+              {lesson.subtopics.map((subtopic, subtopicIndex) => (
+                <BjtSubtopicCard
+                  key={subtopic.name}
+                  lesson={lesson}
+                  topicIndex={topicIndex}
+                  subtopic={subtopic}
+                  subtopicIndex={subtopicIndex}
+                />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function BjtAmplifierDiagram({ visual = "ceamp", title = "BJT amplifier" }) {
+  const isClass = ["classa", "classb", "classab", "pushpull"].includes(visual);
+  return (
+    <svg viewBox="0 0 680 330" className="mx-auto h-auto w-[680px] max-w-none md:w-full" role="img" aria-label={`${title} animated amplifier diagram`}>
+      <defs>
+        <marker id={`bjt-amp-arrow-${visual}`} markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+          <path d="M0 0 10 5 0 10Z" fill="#154a96" />
+        </marker>
+      </defs>
+      <style>{`
+        .ba-flow { stroke-dasharray: 12 10; animation: baFlow 1.1s linear infinite; }
+        .ba-small { stroke-dasharray: 260; stroke-dashoffset: 260; animation: baSmall 2.2s ease-in-out infinite; }
+        .ba-large { stroke-dasharray: 360; stroke-dashoffset: 360; animation: baLarge 2.2s ease-in-out infinite; }
+        .ba-pulse { animation: baPulse 1.6s ease-in-out infinite; }
+        .ba-class { animation: baClass 2s ease-in-out infinite; transform-origin: center; }
+        @keyframes baFlow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -22; } }
+        @keyframes baSmall { 0% { stroke-dashoffset: 260; } 75%,100% { stroke-dashoffset: 0; } }
+        @keyframes baLarge { 0% { stroke-dashoffset: 360; } 75%,100% { stroke-dashoffset: 0; } }
+        @keyframes baPulse { 0%,100% { opacity: .3; } 50% { opacity: .95; } }
+        @keyframes baClass { 0%,100% { transform: scaleY(.65); } 50% { transform: scaleY(1); } }
+      `}</style>
+      <rect x="18" y="18" width="644" height="294" rx="24" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="42" y="56" fill="#0f172a" fontSize="18" fontWeight="900">{title}</text>
+
+      {["ceamp", "cbamp", "ccamp"].includes(visual) ? (
+        <>
+          <path className="ba-small" d="M66 166c14-24 28-24 42 0s28 24 42 0 28-24 42 0" fill="none" stroke="#64748b" strokeWidth="3" strokeLinecap="round" />
+          <path d="M248 166h78M326 100v132M326 124l92-56M326 206l92 56" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" fill="none" />
+          <path className="ba-flow" d="M194 166h118" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#bjt-amp-arrow-${visual})`} />
+          <path className="ba-large" d={visual === "ccamp" ? "M452 166c16-28 32-28 48 0s32 28 48 0" : "M452 166c20-56 40-56 60 0s40 56 60 0"} fill="none" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" />
+          <circle className="ba-pulse" cx="326" cy="166" r="16" fill="#f97316" />
+          <text x="456" y="238" fill="#154a96" fontSize="14" fontWeight="900">
+            {visual === "ceamp" ? "large inverted output" : visual === "cbamp" ? "high-frequency voltage gain" : "buffered follower output"}
+          </text>
+        </>
+      ) : null}
+
+      {["lowfreq", "highfreq", "bandwidth"].includes(visual) ? (
+        <>
+          <path d="M86 250h500M116 270V82" stroke="#94a3b8" strokeWidth="3" strokeLinecap="round" />
+          <path className="ba-large" d="M118 226c48-116 84-118 132-118h174c48 0 78 24 120 118" fill="none" stroke="#154a96" strokeWidth="5" strokeLinecap="round" />
+          <path d="M232 250V108M460 250V108" stroke="#f97316" strokeWidth="3" strokeLinecap="round" strokeDasharray="8 8" />
+          <text x="214" y="272" fill="#f97316" fontSize="13" fontWeight="900">fL</text>
+          <text x="444" y="272" fill="#f97316" fontSize="13" fontWeight="900">fH</text>
+          <text x="270" y="96" fill="#154a96" fontSize="14" fontWeight="900">
+            {visual === "lowfreq" ? "capacitors weaken low-frequency gain" : visual === "highfreq" ? "parasitics reduce high-frequency gain" : "useful flat-gain band"}
+          </text>
+        </>
+      ) : null}
+
+      {["cascade", "coupling", "loading"].includes(visual) ? (
+        <>
+          {[82, 282, 482].map((x, index) => (
+            <g key={x}>
+              <path d={`M${x} 136h92l44 30-44 30H${x}Z`} fill="#eff6ff" stroke="#154a96" strokeWidth="3" strokeLinejoin="round" />
+              <text x={x + 38} y="172" fill="#154a96" fontSize="15" fontWeight="900">A{index + 1}</text>
+            </g>
+          ))}
+          <path className="ba-flow" d="M218 166h64M418 166h64" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#bjt-amp-arrow-${visual})`} />
+          {visual === "loading" ? <path className="ba-pulse" d="M420 166c-28 34-54 34-82 0" fill="none" stroke="#f97316" strokeWidth="5" strokeLinecap="round" /> : null}
+          {visual === "coupling" ? <path d="M246 138v56M264 138v56M446 138v56M464 138v56" stroke="#f97316" strokeWidth="4" strokeLinecap="round" /> : null}
+          <path className="ba-small" d="M58 244c12-18 24-18 36 0s24 18 36 0" fill="none" stroke="#64748b" strokeWidth="3" />
+          <path className="ba-large" d="M510 244c18-42 36-42 54 0s36 42 54 0" fill="none" stroke="#16a34a" strokeWidth="4" />
+          <text x="234" y="104" fill="#154a96" fontSize="14" fontWeight="900">
+            {visual === "cascade" ? "stage gains multiply" : visual === "coupling" ? "AC passes, DC bias stays separate" : "next stage reduces previous output"}
+          </text>
+        </>
+      ) : null}
+
+      {isClass ? (
+        <>
+          <path d="M86 246h500M116 264V86" stroke="#94a3b8" strokeWidth="3" strokeLinecap="round" />
+          <path className="ba-small" d="M130 176c20-58 40-58 60 0s40 58 60 0 40-58 60 0" fill="none" stroke="#64748b" strokeWidth="3" strokeLinecap="round" />
+          <path className="ba-class" d={
+            visual === "classa"
+              ? "M390 176c20-58 40-58 60 0s40 58 60 0 40-58 60 0"
+              : visual === "classb"
+              ? "M390 176c20-58 40-58 60 0M510 176c20 58 40 58 60 0"
+              : visual === "classab"
+              ? "M390 176c20-58 40-58 60 0s40 58 60 0 40-58 60 0"
+              : "M382 176c22-58 44-58 66 0M500 176c22 58 44 58 66 0"
+          } fill="none" stroke="#16a34a" strokeWidth="5" strokeLinecap="round" />
+          <path className="ba-flow" d="M318 176h54" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#bjt-amp-arrow-${visual})`} />
+          <text x="402" y="104" fill="#154a96" fontSize="14" fontWeight="900">
+            {visual === "classa" ? "conducts full cycle" : visual === "classb" ? "each device handles half" : visual === "classab" ? "small overlap reduces crossover" : "two devices share load power"}
+          </text>
+        </>
+      ) : null}
+    </svg>
+  );
+}
+
+function BjtAmplifierSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
+  return (
+    <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+          4.{topicIndex + 1}.{subtopicIndex + 1}
+        </span>
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+            {lesson.title}
+          </p>
+          <h3 className="text-base font-bold tracking-tight text-slate-950">{subtopic.name}</h3>
+        </div>
+      </div>
+      <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">{subtopic.explanation}</p>
+      <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_0.95fr]">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+          <h4 className="text-sm font-bold text-slate-950">Step-by-step working</h4>
+          <ol className="mt-3 grid gap-2 text-sm leading-6 text-slate-700">
+            {subtopic.steps.map((step, index) => (
+              <li key={step} className="flex gap-3 rounded-xl border border-white bg-white px-3 py-2">
+                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-portal-50 text-xs font-black text-portal-700">{index + 1}</span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <BjtAmplifierDiagram visual={subtopic.visual} title={subtopic.name} />
+        </div>
+      </div>
+      <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3">
+        <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">Remember</p>
+        <p className="mt-1.5 text-sm font-semibold leading-6 text-emerald-950">{subtopic.examLine}</p>
+      </div>
+    </article>
+  );
+}
+
+function BjtAmplifiersDeepDiveContent({ chapter }) {
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">Chapter 4 / Original Amplifier Builder</p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">BJT Amplifiers</h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            This chapter explains BJT amplifiers as signal-controlled power transfer.
+            Biasing prepares the transistor, the input signal moves the Q-point slightly,
+            and the collector or emitter network turns that motion into useful output.
+          </p>
+          <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">GATE/PSU Lens</p>
+            <p className="mt-2 text-sm font-semibold leading-6 text-emerald-950">
+              Separate DC bias, midband gain, cutoff frequencies, loading, and power-class conduction angle.
+            </p>
+          </div>
+        </div>
+        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <BjtAmplifierDiagram visual="ceamp" title="BJT amplifier signal flow" />
+        </div>
+      </div>
+
+      <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
+        <h2 className="text-lg font-bold tracking-tight text-slate-950">Animated Working: From Small Signal to Useful Power</h2>
+        <div className="mt-4 grid gap-3 lg:grid-cols-5">
+          {chapter.workingSteps.map((step, index) => (
+            <div key={step} className="rounded-2xl border border-white bg-white p-3 shadow-sm">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">{String(index + 1).padStart(2, "0")}</span>
+              <p className="mt-3 text-sm font-semibold leading-6 text-slate-700">{step}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="mt-6 grid gap-5">
+        {BJT_AMPLIFIER_TOPIC_LESSONS.map((lesson, topicIndex) => (
+          <section key={lesson.title} id={`analog-topic-${toAnchorId(lesson.title)}`} className="scroll-mt-40 rounded-[26px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff,#f8fbff)] p-4 shadow-sm sm:p-5">
+            <div className="flex flex-wrap items-start gap-3">
+              <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">4.{topicIndex + 1}</span>
+              <div className="min-w-0">
+                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">Main Topic</p>
+                <h2 className="text-xl font-bold tracking-tight text-slate-950">{lesson.title}</h2>
+                <p className="mt-2 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">{lesson.idea}</p>
+              </div>
+            </div>
+            <div className="mt-4 grid gap-4">
+              {lesson.subtopics.map((subtopic, subtopicIndex) => (
+                <BjtAmplifierSubtopicCard
+                  key={subtopic.name}
+                  lesson={lesson}
+                  topicIndex={topicIndex}
+                  subtopic={subtopic}
+                  subtopicIndex={subtopicIndex}
+                />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FetDiagram({ visual = "jfet-working", title = "FET operation" }) {
+  const isChart = visual.includes("characteristics");
+  const isBias = visual.includes("bias");
+  const isAmp = visual.includes("common");
+  return (
+    <svg viewBox="0 0 680 330" className="mx-auto h-auto w-[680px] max-w-none md:w-full" role="img" aria-label={`${title} animated FET diagram`}>
+      <defs>
+        <marker id={`fet-arrow-${visual}`} markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+          <path d="M0 0 10 5 0 10Z" fill="#154a96" />
+        </marker>
+      </defs>
+      <style>{`
+        .fet-flow { stroke-dasharray: 12 10; animation: fetFlow 1.1s linear infinite; }
+        .fet-wave { stroke-dasharray: 340; stroke-dashoffset: 340; animation: fetWave 2.4s ease-in-out infinite; }
+        .fet-pulse { animation: fetPulse 1.6s ease-in-out infinite; }
+        .fet-channel { animation: fetChannel 2s ease-in-out infinite; transform-origin: center; }
+        @keyframes fetFlow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -22; } }
+        @keyframes fetWave { 0% { stroke-dashoffset: 340; } 75%,100% { stroke-dashoffset: 0; } }
+        @keyframes fetPulse { 0%,100% { opacity: .28; } 50% { opacity: .95; } }
+        @keyframes fetChannel { 0%,100% { transform: scaleY(.35); opacity: .45; } 50% { transform: scaleY(1); opacity: .95; } }
+      `}</style>
+      <rect x="18" y="18" width="644" height="294" rx="24" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="42" y="56" fill="#0f172a" fontSize="18" fontWeight="900">{title}</text>
+
+      {!isChart && !isBias && !isAmp ? (
+        <>
+          <path d="M278 88v154M330 88v154M182 126h72M182 204h72M354 126h132M354 204h132" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          <rect className="fet-channel" x="286" y="126" width="36" height="78" rx="10" fill="#16a34a" />
+          <path className="fet-flow" d="M474 126v78" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#fet-arrow-${visual})`} />
+          <path className="fet-pulse" d="M88 166h160" stroke="#f97316" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#fet-arrow-${visual})`} />
+          <text x="90" y="144" fill="#f97316" fontSize="14" fontWeight="900">gate field</text>
+          <text x="382" y="246" fill="#154a96" fontSize="14" fontWeight="900">
+            {visual.includes("depletion") ? "existing channel is reduced or enhanced" : visual.includes("enhancement") ? "channel forms after threshold" : "depletion controls channel width"}
+          </text>
+        </>
+      ) : null}
+
+      {isChart ? (
+        <>
+          <path d="M86 250h500M116 270V82" stroke="#94a3b8" strokeWidth="3" strokeLinecap="round" />
+          <path className="fet-wave" d="M124 224c50-96 86-104 138-104h258" fill="none" stroke="#154a96" strokeWidth="5" strokeLinecap="round" />
+          <path d="M124 204c48-64 84-72 138-72h258M124 184c48-38 84-46 138-46h258" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" />
+          <circle className="fet-pulse" cx="318" cy="122" r="10" fill="#f97316" />
+          <text x="454" y="270" fill="#475569" fontSize="13" fontWeight="800">VDS</text>
+          <text x="72" y="94" fill="#475569" fontSize="13" fontWeight="800">ID</text>
+          <text x="224" y="92" fill="#154a96" fontSize="14" fontWeight="900">VGS shifts drain current level</text>
+        </>
+      ) : null}
+
+      {isBias ? (
+        <>
+          <path d="M92 90h490M582 90v176H92V90" fill="none" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M328 126v96M370 126v96M228 174h76M394 174h112" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          <rect className="fet-channel" x="336" y="148" width="26" height="52" rx="8" fill="#16a34a" />
+          <path className="fet-flow" d="M500 132v84" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#fet-arrow-${visual})`} />
+          {visual === "divider-bias" ? <path d="M150 90v72M150 194v72M130 162h40M130 194h40" stroke="#f97316" strokeWidth="4" strokeLinecap="round" /> : null}
+          {visual === "self-bias" || visual === "divider-bias" ? <path d="M370 222v44M350 246h40M354 258h32M358 270h24" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" /> : null}
+          <text x="224" y="70" fill="#154a96" fontSize="14" fontWeight="900">
+            {visual === "gate-bias" ? "fixed gate voltage sets Q-point" : visual === "self-bias" ? "source resistor adds feedback" : "VG and VS set VGS"}
+          </text>
+        </>
+      ) : null}
+
+      {isAmp ? (
+        <>
+          <path className="fet-wave" d="M66 166c14-24 28-24 42 0s28 24 42 0 28-24 42 0" fill="none" stroke="#64748b" strokeWidth="3" strokeLinecap="round" />
+          <path d="M304 100v132M348 100v132M222 166h58M372 132h126M372 204h126" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          <rect className="fet-channel" x="312" y="132" width="28" height="72" rx="8" fill="#16a34a" />
+          <path className="fet-pulse" d="M194 166h86" stroke="#f97316" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#fet-arrow-${visual})`} />
+          <path className="fet-flow" d="M486 132v72" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#fet-arrow-${visual})`} />
+          <path className="fet-wave" d={visual === "common-drain" ? "M512 166c16-26 32-26 48 0s32 26 48 0" : "M512 166c20-52 40-52 60 0s40 52 60 0"} fill="none" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" />
+          <text x="430" y="244" fill="#154a96" fontSize="14" fontWeight="900">
+            {visual === "common-source" ? "inverted voltage gain" : visual === "common-gate" ? "low input resistance stage" : "source follower buffer"}
+          </text>
+        </>
+      ) : null}
+    </svg>
+  );
+}
+
+function FetSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
+  return (
+    <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+          5.{topicIndex + 1}.{subtopicIndex + 1}
+        </span>
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">{lesson.title}</p>
+          <h3 className="text-base font-bold tracking-tight text-slate-950">{subtopic.name}</h3>
+        </div>
+      </div>
+      <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">{subtopic.explanation}</p>
+      <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_0.95fr]">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+          <h4 className="text-sm font-bold text-slate-950">Step-by-step working</h4>
+          <ol className="mt-3 grid gap-2 text-sm leading-6 text-slate-700">
+            {subtopic.steps.map((step, index) => (
+              <li key={step} className="flex gap-3 rounded-xl border border-white bg-white px-3 py-2">
+                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-portal-50 text-xs font-black text-portal-700">{index + 1}</span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <FetDiagram visual={subtopic.visual} title={subtopic.name} />
+        </div>
+      </div>
+      <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3">
+        <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">Remember</p>
+        <p className="mt-1.5 text-sm font-semibold leading-6 text-emerald-950">{subtopic.examLine}</p>
+      </div>
+    </article>
+  );
+}
+
+function FetDeepDiveContent({ chapter }) {
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">Chapter 5 / Professional FET Builder</p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Field Effect Transistors (FET)</h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            This chapter explains FETs as electric-field controlled channel devices.
+            Unlike BJTs, the controlling terminal ideally draws almost no current, so
+            the main design question becomes: how does gate voltage shape the channel?
+          </p>
+          <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">GATE/PSU Lens</p>
+            <p className="mt-2 text-sm font-semibold leading-6 text-emerald-950">
+              Track VGS, threshold or pinch-off condition, drain-current region, bias stability, and amplifier configuration.
+            </p>
+          </div>
+        </div>
+        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <FetDiagram visual="enhancement" title="FET gate-field channel control" />
+        </div>
+      </div>
+
+      <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
+        <h2 className="text-lg font-bold tracking-tight text-slate-950">Animated Working: Gate Field to Drain Current</h2>
+        <div className="mt-4 grid gap-3 lg:grid-cols-5">
+          {chapter.workingSteps.map((step, index) => (
+            <div key={step} className="rounded-2xl border border-white bg-white p-3 shadow-sm">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">{String(index + 1).padStart(2, "0")}</span>
+              <p className="mt-3 text-sm font-semibold leading-6 text-slate-700">{step}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="mt-6 grid gap-5">
+        {FET_TOPIC_LESSONS.map((lesson, topicIndex) => (
+          <section key={lesson.title} id={`analog-topic-${toAnchorId(lesson.title)}`} className="scroll-mt-40 rounded-[26px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff,#f8fbff)] p-4 shadow-sm sm:p-5">
+            <div className="flex flex-wrap items-start gap-3">
+              <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">5.{topicIndex + 1}</span>
+              <div className="min-w-0">
+                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">Main Topic</p>
+                <h2 className="text-xl font-bold tracking-tight text-slate-950">{lesson.title}</h2>
+                <p className="mt-2 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">{lesson.idea}</p>
+              </div>
+            </div>
+            <div className="mt-4 grid gap-4">
+              {lesson.subtopics.map((subtopic, subtopicIndex) => (
+                <FetSubtopicCard key={subtopic.name} lesson={lesson} topicIndex={topicIndex} subtopic={subtopic} subtopicIndex={subtopicIndex} />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FeedbackDiagram({ visual = "closed-loop", title = "Feedback amplifier" }) {
+  const isType = ["voltage-series", "voltage-shunt", "current-series", "current-shunt"].includes(visual);
+  return (
+    <svg viewBox="0 0 680 330" className="mx-auto h-auto w-[680px] max-w-none md:w-full" role="img" aria-label={`${title} animated feedback diagram`}>
+      <defs>
+        <marker id={`fb-arrow-${visual}`} markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+          <path d="M0 0 10 5 0 10Z" fill="#154a96" />
+        </marker>
+      </defs>
+      <style>{`
+        .fb-flow { stroke-dasharray: 12 10; animation: fbFlow 1.1s linear infinite; }
+        .fb-wave { stroke-dasharray: 340; stroke-dashoffset: 340; animation: fbWave 2.4s ease-in-out infinite; }
+        .fb-pulse { animation: fbPulse 1.6s ease-in-out infinite; }
+        .fb-correct { animation: fbCorrect 2s ease-in-out infinite; transform-origin: center; }
+        @keyframes fbFlow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -22; } }
+        @keyframes fbWave { 0% { stroke-dashoffset: 340; } 75%,100% { stroke-dashoffset: 0; } }
+        @keyframes fbPulse { 0%,100% { opacity: .28; } 50% { opacity: .95; } }
+        @keyframes fbCorrect { 0%,100% { transform: scaleY(.72); } 50% { transform: scaleY(1); } }
+      `}</style>
+      <rect x="18" y="18" width="644" height="294" rx="24" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="42" y="56" fill="#0f172a" fontSize="18" fontWeight="900">{title}</text>
+
+      <circle cx="126" cy="166" r="25" fill="#eff6ff" stroke="#154a96" strokeWidth="3" />
+      <text x="119" y="172" fill="#154a96" fontSize="18" fontWeight="900">{visual === "open-loop" ? "+" : "-"}</text>
+      <path d="M170 126h148l66 40-66 40H170Z" fill="#eff6ff" stroke="#154a96" strokeWidth="4" strokeLinejoin="round" />
+      <text x="236" y="172" fill="#154a96" fontSize="18" fontWeight="900">A</text>
+      <path className="fb-flow" d="M54 166h48M151 166h84M384 166h176" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#fb-arrow-${visual})`} />
+      <path className="fb-wave" d="M472 112c18-36 36-36 54 0s36 36 54 0" fill="none" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" />
+
+      {visual !== "open-loop" ? (
+        <>
+          <path d="M522 166v72H126v-46" fill="none" stroke="#f97316" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" markerEnd={`url(#fb-arrow-${visual})`} />
+          <rect x="282" y="220" width="86" height="42" rx="14" fill="#fff7ed" stroke="#f97316" strokeWidth="3" />
+          <text x="306" y="246" fill="#f97316" fontSize="15" fontWeight="900">beta</text>
+        </>
+      ) : null}
+
+      {isType ? (
+        <>
+          <text x="410" y="244" fill="#154a96" fontSize="14" fontWeight="900">
+            {visual.includes("voltage") ? "sample output voltage" : "sample output current"}
+          </text>
+          <text x="68" y="246" fill="#f97316" fontSize="14" fontWeight="900">
+            {visual.includes("series") ? "series input mixing" : "shunt input mixing"}
+          </text>
+        </>
+      ) : (
+        <text x="402" y="244" fill="#154a96" fontSize="14" fontWeight="900">
+          {visual === "gain-stability" ? "gain variation is corrected" : visual === "distortion" ? "distortion error is fed back" : visual === "bandwidth-feedback" ? "lower gain, wider band" : visual === "feedback-factor" ? "beta samples output" : visual === "open-loop" ? "no correction path" : "closed loop corrects error"}
+        </text>
+      )}
+
+      {["distortion", "bandwidth-feedback", "gain-stability"].includes(visual) ? (
+        <path className="fb-correct" d="M432 112c18-54 38-22 56 0s38 54 56 0" fill="none" stroke="#dc2626" strokeWidth="3" strokeLinecap="round" />
+      ) : null}
+    </svg>
+  );
+}
+
+function FeedbackSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
+  return (
+    <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+          6.{topicIndex + 1}.{subtopicIndex + 1}
+        </span>
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">{lesson.title}</p>
+          <h3 className="text-base font-bold tracking-tight text-slate-950">{subtopic.name}</h3>
+        </div>
+      </div>
+      <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">{subtopic.explanation}</p>
+      <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_0.95fr]">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+          <h4 className="text-sm font-bold text-slate-950">Step-by-step working</h4>
+          <ol className="mt-3 grid gap-2 text-sm leading-6 text-slate-700">
+            {subtopic.steps.map((step, index) => (
+              <li key={step} className="flex gap-3 rounded-xl border border-white bg-white px-3 py-2">
+                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-portal-50 text-xs font-black text-portal-700">{index + 1}</span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <FeedbackDiagram visual={subtopic.visual} title={subtopic.name} />
+        </div>
+      </div>
+      <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3">
+        <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">Remember</p>
+        <p className="mt-1.5 text-sm font-semibold leading-6 text-emerald-950">{subtopic.examLine}</p>
+      </div>
+    </article>
+  );
+}
+
+function FeedbackDeepDiveContent({ chapter }) {
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">Chapter 6 / Professional Feedback Builder</p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Feedback Amplifiers</h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            This chapter explains feedback as controlled self-correction. The amplifier
+            sacrifices some raw gain so the final circuit becomes more predictable,
+            cleaner, wider-band, and better matched to its source or load.
+          </p>
+          <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">GATE/PSU Lens</p>
+            <p className="mt-2 text-sm font-semibold leading-6 text-emerald-950">
+              Identify sampled quantity, input mixing method, feedback sign, and the effect on gain, bandwidth, distortion, and impedances.
+            </p>
+          </div>
+        </div>
+        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <FeedbackDiagram visual="closed-loop" title="Negative feedback loop" />
+        </div>
+      </div>
+
+      <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
+        <h2 className="text-lg font-bold tracking-tight text-slate-950">Animated Working: Output Sample to Input Correction</h2>
+        <div className="mt-4 grid gap-3 lg:grid-cols-5">
+          {chapter.workingSteps.map((step, index) => (
+            <div key={step} className="rounded-2xl border border-white bg-white p-3 shadow-sm">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">{String(index + 1).padStart(2, "0")}</span>
+              <p className="mt-3 text-sm font-semibold leading-6 text-slate-700">{step}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="mt-6 grid gap-5">
+        {FEEDBACK_TOPIC_LESSONS.map((lesson, topicIndex) => (
+          <section key={lesson.title} id={`analog-topic-${toAnchorId(lesson.title)}`} className="scroll-mt-40 rounded-[26px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff,#f8fbff)] p-4 shadow-sm sm:p-5">
+            <div className="flex flex-wrap items-start gap-3">
+              <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">6.{topicIndex + 1}</span>
+              <div className="min-w-0">
+                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">Main Topic</p>
+                <h2 className="text-xl font-bold tracking-tight text-slate-950">{lesson.title}</h2>
+                <p className="mt-2 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">{lesson.idea}</p>
+              </div>
+            </div>
+            <div className="mt-4 grid gap-4">
+              {lesson.subtopics.map((subtopic, subtopicIndex) => (
+                <FeedbackSubtopicCard key={subtopic.name} lesson={lesson} topicIndex={topicIndex} subtopic={subtopic} subtopicIndex={subtopicIndex} />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function OscillatorDiagram({ mode = "loop", title = "Oscillator signal flow" }) {
+  return (
+    <svg viewBox="0 0 680 330" className="mx-auto h-auto w-[680px] max-w-none md:w-full" role="img" aria-label={`${title} animated oscillator diagram`}>
+      <defs>
+        <marker id={`osc-arrow-${mode}`} markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+          <path d="M0 0 10 5 0 10Z" fill="#154a96" />
+        </marker>
+      </defs>
+      <style>{`
+        .osc-flow { stroke-dasharray: 12 10; animation: oscFlow 1.1s linear infinite; }
+        .osc-wave { stroke-dasharray: 360; stroke-dashoffset: 360; animation: oscWave 2.4s ease-in-out infinite; }
+        .osc-pulse { animation: oscPulse 1.6s ease-in-out infinite; }
+        .osc-energy { animation: oscEnergy 2s ease-in-out infinite; transform-origin: center; }
+        @keyframes oscFlow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -22; } }
+        @keyframes oscWave { 0% { stroke-dashoffset: 360; } 75%,100% { stroke-dashoffset: 0; } }
+        @keyframes oscPulse { 0%,100% { opacity: .3; } 50% { opacity: .95; } }
+        @keyframes oscEnergy { 0%,100% { transform: scale(.82); opacity: .42; } 50% { transform: scale(1.04); opacity: .95; } }
+      `}</style>
+      <rect x="18" y="18" width="644" height="294" rx="24" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="42" y="56" fill="#0f172a" fontSize="18" fontWeight="900">{title}</text>
+
+      {mode === "loop" ? (
+        <>
+          <path d="M100 128h150l58 38-58 38H100Z" fill="#eff6ff" stroke="#154a96" strokeWidth="4" strokeLinejoin="round" />
+          <text x="158" y="172" fill="#154a96" fontSize="18" fontWeight="900">A</text>
+          <rect x="382" y="126" width="142" height="78" rx="20" fill="#fff7ed" stroke="#f97316" strokeWidth="4" />
+          <text x="426" y="172" fill="#f97316" fontSize="18" fontWeight="900">beta</text>
+          <path className="osc-flow" d="M306 166h76M524 166h60v88H164v-48" stroke="#154a96" strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round" markerEnd={`url(#osc-arrow-${mode})`} />
+          <path className="osc-wave" d="M86 252c18-38 36-38 54 0s36 38 54 0 36-38 54 0" fill="none" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" />
+          <text x="354" y="252" fill="#154a96" fontSize="14" fontWeight="900">output sample returns in phase</text>
+        </>
+      ) : null}
+
+      {mode === "rc" ? (
+        <>
+          <path d="M76 166h92M168 136v60M188 136v60M188 166h78M266 136v60M286 136v60M286 166h78M364 136v60M384 136v60M384 166h82" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          <path d="M168 196v46M266 196v46M364 196v46M144 242h250" stroke="#1e293b" strokeWidth="3" strokeLinecap="round" />
+          <path d="M466 128h116l48 38-48 38H466Z" fill="#eff6ff" stroke="#154a96" strokeWidth="4" strokeLinejoin="round" />
+          <text x="506" y="172" fill="#154a96" fontSize="17" fontWeight="900">Amp</text>
+          <path className="osc-flow" d="M84 166h528" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#osc-arrow-${mode})`} />
+          <path className="osc-wave" d="M112 92c16-28 32-28 48 0s32 28 48 0 32-28 48 0" fill="none" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" />
+          <text x="204" y="270" fill="#f97316" fontSize="14" fontWeight="900">RC network selects frequency and phase</text>
+        </>
+      ) : null}
+
+      {mode === "lc" ? (
+        <>
+          <circle className="osc-energy" cx="210" cy="166" r="58" fill="#eff6ff" stroke="#154a96" strokeWidth="4" />
+          <path d="M150 166c10-24 22 24 32 0s22-24 32 0 22 24 32 0 22-24 32 0" fill="none" stroke="#154a96" strokeWidth="4" strokeLinecap="round" />
+          <path d="M342 112v108M370 112v108" stroke="#1e293b" strokeWidth="5" strokeLinecap="round" />
+          <path d="M268 166h74M370 166h118M488 126h110l44 40-44 40H488Z" stroke="#1e293b" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <text x="530" y="172" fill="#154a96" fontSize="17" fontWeight="900">Amp</text>
+          <path className="osc-flow" d="M126 166h488" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#osc-arrow-${mode})`} />
+          <text x="146" y="260" fill="#f97316" fontSize="14" fontWeight="900">energy swaps between magnetic field and electric field</text>
+        </>
+      ) : null}
+
+      {mode === "crystal" ? (
+        <>
+          <path d="M92 166h144M236 116v100M260 116v100M260 166h88" stroke="#1e293b" strokeWidth="5" strokeLinecap="round" />
+          <rect className="osc-energy" x="344" y="116" width="114" height="100" rx="18" fill="#eff6ff" stroke="#154a96" strokeWidth="4" />
+          <path d="M372 144h58M372 166h58M372 188h58" stroke="#154a96" strokeWidth="4" strokeLinecap="round" />
+          <path d="M458 166h112M570 126h70v80h-70Z" stroke="#1e293b" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <path className="osc-wave" d="M126 254c14-24 28-24 42 0s28 24 42 0 28-24 42 0" fill="none" stroke="#16a34a" strokeWidth="4" strokeLinecap="round" />
+          <text x="314" y="250" fill="#154a96" fontSize="14" fontWeight="900">quartz locks frequency sharply</text>
+        </>
+      ) : null}
+    </svg>
+  );
+}
+
+function TopicSection({ title, children }) {
+  return (
+    <section className="topic-section rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+      <h2 className="text-xl font-bold tracking-tight text-slate-950">{title}</h2>
+      <div className="mt-3 grid gap-3 text-sm leading-7 text-slate-700 sm:text-base">
+        {children}
+      </div>
+    </section>
+  );
+}
+
+function OscillatorsDeepDiveContent({ chapter }) {
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
+            Chapter 7 / Professional Oscillator Builder
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+            Oscillators
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            An oscillator is an electronic circuit that creates a periodic waveform
+            without needing a periodic input signal. It converts DC supply energy into
+            a controlled AC signal by using amplification, feedback, and a frequency
+            selective network.
+          </p>
+        </div>
+        <div className="diagram-placeholder overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <OscillatorDiagram mode="loop" title="Oscillator feedback loop" />
+        </div>
+      </div>
+
+      <div className="mt-6 grid gap-5">
+        <TopicSection title="Introduction">
+          <p>
+            An oscillator is a signal generator. Unlike an amplifier, it does not wait
+            for a continuous input waveform. A tiny disturbance, noise pulse, or switching
+            transient starts the process, and the circuit keeps reinforcing the correct
+            frequency.
+          </p>
+          <p>
+            In ECE, oscillators matter because almost every timed electronic system needs
+            a repeatable signal: radios need carriers, digital systems need clocks,
+            microcontrollers need timing references, and instruments need test signals.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Why This Topic Matters">
+          <ul className="grid gap-2">
+            <li>Industry relevance: RF transmitters, PLLs, microcontroller clocks, audio generators, sensor interfaces, and communication systems all use oscillators.</li>
+            <li>Exam relevance: GATE and university exams frequently test Barkhausen criterion, RC phase-shift oscillator, Wien bridge oscillator, Hartley, Colpitts, and crystal oscillator frequency expressions.</li>
+            <li>Interview relevance: A strong answer connects gain, feedback, phase shift, amplitude control, and frequency selection instead of only quoting formulas.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Prerequisites">
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li>Amplifier gain and phase shift</li>
+            <li>Positive and negative feedback</li>
+            <li>RC and LC frequency response</li>
+            <li>Phasors and phase angle</li>
+            <li>Resonance and quality factor</li>
+            <li>Basic op-amp or transistor amplifier action</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Basic Intuition">
+          <p>
+            Think of a swing. One push at the right instant increases the swing motion.
+            A push at the wrong instant slows it down. An oscillator works similarly:
+            the feedback signal must return at the correct phase so it supports the
+            existing waveform.
+          </p>
+          <p>
+            The amplifier supplies energy. The feedback network decides timing. The
+            frequency-selective circuit decides which frequency receives reinforcement.
+            Amplitude control prevents the waveform from growing without limit.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Core Theory Explanation">
+          <p>
+            A practical oscillator has three functional blocks: an amplifier, a feedback
+            network, and a frequency-selective network. In many circuits, the feedback
+            and frequency-selective network are the same physical network.
+          </p>
+          <ul className="grid gap-2">
+            <li>The amplifier gives gain so losses in the feedback network are compensated.</li>
+            <li>The feedback path returns part of the output to the input.</li>
+            <li>The selected frequency returns with total phase shift equal to 0 degree or 360 degrees.</li>
+            <li>At unwanted frequencies, phase or gain condition is not satisfied, so oscillation does not sustain.</li>
+          </ul>
+          <blockquote className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-sm font-semibold leading-6 text-amber-950">
+            The oscillator is not creating energy from nothing. It is converting DC supply
+            energy into AC energy at a frequency chosen by the circuit.
+          </blockquote>
+        </TopicSection>
+
+        <TopicSection title="Step-by-Step Mathematical Derivation">
+          <p>
+            {"Start with an amplifier of gain $$ A $$ and feedback factor $$ \\beta $$."}
+            If the input error signal is $$ V_i $$, output is:
+          </p>
+          <p>$$ V_o = A V_i $$</p>
+          <p>The feedback signal is:</p>
+          <p>{"$$ V_f = \\beta V_o $$"}</p>
+          <p>
+            For self-sustained oscillation, the circuit should keep producing output
+            even when the external input is removed. That means the feedback signal must
+            replace the required input:
+          </p>
+          <p>{"$$ V_i = V_f = \\beta V_o $$"}</p>
+          <p>{"Substitute $$ V_o = A V_i $$:"}</p>
+          <p>{"$$ V_i = \\beta A V_i $$"}</p>
+          <p>For non-zero oscillation:</p>
+          <p>{"$$ A\\beta = 1 $$"}</p>
+          <p>
+            Physically, this means the returned signal has exactly the same magnitude
+            and phase needed to continue the next cycle.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Working Principle">
+          <ol className="grid gap-2">
+            {chapter.workingSteps.map((step, index) => (
+              <li key={step} className="flex gap-3 rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-2">
+                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-portal-600 text-xs font-black text-white">
+                  {index + 1}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </TopicSection>
+
+        <TopicSection title="Diagram Explanation">
+          <div className="diagram-placeholder overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+            <OscillatorDiagram mode="loop" title="Block Diagram Here" />
+          </div>
+          <p>
+            The block diagram shows output being sampled and returned through the feedback
+            network. If the returned signal reaches the summing point in phase, it acts
+            like a fresh input signal and keeps the waveform alive.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Important Formulas">
+          <div className="grid gap-3 lg:grid-cols-2">
+            {OSCILLATOR_QUICK_TOPICS.map((topic) => (
+              <div key={topic.title} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+                <h3 className="text-base font-bold text-slate-950">{topic.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{topic.detail}</p>
+                <p className="mt-2 rounded-xl bg-white px-3 py-2 text-sm font-bold text-portal-700">{topic.formula}</p>
+              </div>
+            ))}
+          </div>
+        </TopicSection>
+
+        <TopicSection title="Oscillator Types">
+          <div className="grid gap-4">
+            <section className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-lg font-bold text-slate-950">Barkhausen Criterion</h3>
+              <p className="mt-2">The Barkhausen criterion is the starting condition for sustained sinusoidal oscillation. It says the loop must return a signal that is neither weaker nor phase-opposed at the oscillation frequency.</p>
+              <div className="diagram-placeholder mt-3 overflow-x-auto rounded-2xl border border-portal-100 bg-white p-3">
+                <OscillatorDiagram mode="loop" title="Signal Flow Diagram" />
+              </div>
+            </section>
+            <section className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-lg font-bold text-slate-950">RC Oscillators</h3>
+              <p className="mt-2">RC oscillators are preferred for low-frequency and audio-frequency generation because resistors and capacitors are easier to implement than large inductors.</p>
+              <div className="diagram-placeholder mt-3 overflow-x-auto rounded-2xl border border-portal-100 bg-white p-3">
+                <OscillatorDiagram mode="rc" title="RC Circuit Diagram Here" />
+              </div>
+            </section>
+            <section className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-lg font-bold text-slate-950">LC Oscillators</h3>
+              <p className="mt-2">LC oscillators are useful at higher frequencies because the tank circuit naturally exchanges energy between magnetic and electric fields.</p>
+              <div className="diagram-placeholder mt-3 overflow-x-auto rounded-2xl border border-portal-100 bg-white p-3">
+                <OscillatorDiagram mode="lc" title="LC Circuit Diagram Here" />
+              </div>
+            </section>
+            <section className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-lg font-bold text-slate-950">Crystal Oscillator</h3>
+              <p className="mt-2">A crystal oscillator uses mechanical resonance of quartz. Its frequency stability is much higher than ordinary RC or LC oscillators.</p>
+              <div className="diagram-placeholder mt-3 overflow-x-auto rounded-2xl border border-portal-100 bg-white p-3">
+                <OscillatorDiagram mode="crystal" title="Crystal Equivalent Circuit Diagram Here" />
+              </div>
+            </section>
+          </div>
+        </TopicSection>
+
+        <TopicSection title="Real-World Applications">
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li>Carrier generation in AM, FM, and RF transmitters</li>
+            <li>Clock generation in microcontrollers and processors</li>
+            <li>Local oscillators in superheterodyne receivers</li>
+            <li>Function generators and laboratory instruments</li>
+            <li>PLL frequency synthesis</li>
+            <li>Timing references in communication and navigation systems</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Solved Examples">
+          <h3 className="text-base font-bold text-slate-950">Beginner Example</h3>
+          <p>{"If an oscillator has amplifier gain $$ A = 50 $$, what feedback factor is needed for sustained oscillation?"}</p>
+          <p>{"Using $$ A\\beta = 1 $$:"}</p>
+          <p>{"$$ \\beta = \\frac{1}{A} = \\frac{1}{50} = 0.02 $$"}</p>
+          <p>The feedback network must return 2 percent of output with correct phase.</p>
+
+          <h3 className="text-base font-bold text-slate-950">Intermediate Numerical</h3>
+          <p>{"Find LC oscillator frequency for $$ L = 10\\,\\mu H $$ and $$ C = 100\\,pF $$."}</p>
+          <p>{"$$ f_0 = \\frac{1}{2\\pi\\sqrt{LC}} $$"}</p>
+          <p>{"$$ f_0 \\approx \\frac{1}{2\\pi\\sqrt{10 \\times 10^{-6} \\times 100 \\times 10^{-12}}} \\approx 5.03\\,MHz $$"}</p>
+
+          <h3 className="text-base font-bold text-slate-950">Advanced Problem</h3>
+          <p>{"A three-section RC phase-shift oscillator uses equal $$ R $$ and $$ C $$. If $$ R = 10\\,k\\Omega $$ and $$ C = 0.01\\,\\mu F $$, estimate frequency."}</p>
+          <p>{"$$ f = \\frac{1}{2\\pi RC\\sqrt{6}} $$"}</p>
+          <p>{"$$ f \\approx \\frac{1}{2\\pi(10^4)(10^{-8})\\sqrt{6}} \\approx 650\\,Hz $$"}</p>
+        </TopicSection>
+
+        <TopicSection title="Common Mistakes">
+          <ul className="grid gap-2">
+            <li>Thinking positive feedback alone is enough; correct phase and loop gain are both required.</li>
+            <li>{"Using $$ A\\beta = 1 $$ without checking phase shift."}</li>
+            <li>Confusing startup condition with steady-state condition. Startup often needs loop gain slightly greater than one.</li>
+            <li>Forgetting amplitude stabilization in practical oscillators.</li>
+            <li>Using LC formula for RC oscillators or ignoring the specific oscillator topology.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Comparison Tables">
+          <table className="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-950">
+                <th className="py-2 pr-3">Type</th>
+                <th className="py-2 pr-3">Best Range</th>
+                <th className="py-2 pr-3">Main Strength</th>
+                <th className="py-2 pr-3">Limitation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">RC</td><td className="py-2 pr-3">Low/audio frequency</td><td className="py-2 pr-3">No inductor needed</td><td className="py-2 pr-3">Lower frequency stability</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">LC</td><td className="py-2 pr-3">RF range</td><td className="py-2 pr-3">Good sinusoidal RF generation</td><td className="py-2 pr-3">Inductor size/loss/parasitics</td></tr>
+              <tr><td className="py-2 pr-3">Crystal</td><td className="py-2 pr-3">Fixed precise frequency</td><td className="py-2 pr-3">Excellent stability</td><td className="py-2 pr-3">Limited tuning range</td></tr>
+            </tbody>
+          </table>
+        </TopicSection>
+
+        <TopicSection title="Interview Questions">
+          <ul className="grid gap-2">
+            <li>Why does an oscillator need feedback?</li>
+            <li>{"What is the physical meaning of $$ A\\beta = 1 $$?"}</li>
+            <li>Why does startup usually require loop gain greater than one?</li>
+            <li>Why are RC oscillators preferred at low frequencies?</li>
+            <li>Why are crystal oscillators highly stable?</li>
+            <li>What is the difference between an amplifier with feedback and an oscillator?</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Exam-Oriented Notes">
+          <ul className="grid gap-2">
+            <li>Barkhausen criterion requires both magnitude and phase conditions.</li>
+            <li>Three-section RC phase-shift oscillator needs total RC phase shift of 180 degrees plus amplifier phase shift of 180 degrees.</li>
+            <li>{"Wien bridge oscillator frequency is commonly $$ f = 1/(2\\pi RC) $$ for equal R and C."}</li>
+            <li>Hartley uses split inductance; Colpitts uses split capacitance.</li>
+            <li>Crystal oscillator gives the best frequency stability among common analog oscillators.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Revision Summary">
+          <ul className="grid gap-2">
+            <li>Oscillator converts DC supply energy into AC signal.</li>
+            <li>Amplifier compensates circuit loss.</li>
+            <li>Feedback returns the output sample to input.</li>
+            <li>Frequency-selective network chooses the oscillation frequency.</li>
+            <li>Practical oscillators need amplitude stabilization.</li>
+            <li>{"Main formula: $$ |A\\beta| = 1 $$ with zero net phase shift."}</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Practice Questions">
+          <h3 className="text-base font-bold text-slate-950">Conceptual</h3>
+          <ul><li>Explain why an oscillator can produce output without an external AC input.</li><li>Why is amplitude control necessary in practical oscillators?</li></ul>
+          <h3 className="text-base font-bold text-slate-950">Numerical</h3>
+          <ul><li>{"Find $$ \\beta $$ required when $$ A = 80 $$."}</li><li>{"Calculate LC oscillator frequency for $$ L = 2\\,\\mu H $$ and $$ C = 50\\,pF $$."}</li></ul>
+          <h3 className="text-base font-bold text-slate-950">MCQs</h3>
+          <ul><li>Which oscillator gives highest frequency stability: RC, LC, or crystal?</li><li>In a feedback oscillator, which condition controls phase: amplifier only, feedback network only, or total loop?</li></ul>
+        </TopicSection>
+      </div>
+    </section>
+  );
+}
+
+function OpAmpDiagram({ mode = "inverting", title = "Op-amp circuit" }) {
+  return (
+    <svg viewBox="0 0 680 330" className="mx-auto h-auto w-[680px] max-w-none md:w-full" role="img" aria-label={`${title} animated op-amp diagram`}>
+      <defs>
+        <marker id={`op-arrow-${mode}`} markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+          <path d="M0 0 10 5 0 10Z" fill="#154a96" />
+        </marker>
+      </defs>
+      <style>{`
+        .op-flow { stroke-dasharray: 12 10; animation: opFlow 1.1s linear infinite; }
+        .op-wave { stroke-dasharray: 360; stroke-dashoffset: 360; animation: opWave 2.4s ease-in-out infinite; }
+        .op-pulse { animation: opPulse 1.6s ease-in-out infinite; }
+        .op-switch { animation: opSwitch 2s ease-in-out infinite; transform-origin: center; }
+        @keyframes opFlow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -22; } }
+        @keyframes opWave { 0% { stroke-dashoffset: 360; } 75%,100% { stroke-dashoffset: 0; } }
+        @keyframes opPulse { 0%,100% { opacity: .28; } 50% { opacity: .95; } }
+        @keyframes opSwitch { 0%,100% { transform: translateY(22px); } 50% { transform: translateY(-22px); } }
+      `}</style>
+      <rect x="18" y="18" width="644" height="294" rx="24" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="42" y="56" fill="#0f172a" fontSize="18" fontWeight="900">{title}</text>
+
+      <path d="M284 104v124l128-62-128-62Z" fill="#eff6ff" stroke="#154a96" strokeWidth="4" strokeLinejoin="round" />
+      <text x="300" y="142" fill="#154a96" fontSize="20" fontWeight="900">-</text>
+      <text x="300" y="202" fill="#154a96" fontSize="20" fontWeight="900">+</text>
+      <path d="M180 136h104M180 196h104M412 166h138" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+      <path className="op-flow" d="M92 136h178M410 166h128" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#op-arrow-${mode})`} />
+      <path className="op-wave" d="M68 258c14-24 28-24 42 0s28 24 42 0 28-24 42 0" fill="none" stroke="#64748b" strokeWidth="3" strokeLinecap="round" />
+      <path className="op-wave" d={mode === "comparator" || mode === "schmitt" ? "M454 258h34v-48h54v48h54" : "M454 258c20-48 40-48 60 0s40 48 60 0"} fill="none" stroke={mode === "comparator" || mode === "schmitt" ? "#f97316" : "#16a34a"} strokeWidth="4" strokeLinecap="round" />
+
+      {["inverting", "integrator", "differentiator", "summing"].includes(mode) ? (
+        <>
+          <path d="M182 136v-54h214v84" fill="none" stroke="#f97316" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" markerEnd={`url(#op-arrow-${mode})`} />
+          <text x="244" y="74" fill="#f97316" fontSize="14" fontWeight="900">negative feedback</text>
+        </>
+      ) : null}
+
+      {mode === "noninverting" || mode === "follower" ? (
+        <>
+          <path d="M550 166v78H238v-48" fill="none" stroke="#f97316" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" markerEnd={`url(#op-arrow-${mode})`} />
+          <text x="332" y="270" fill="#f97316" fontSize="14" fontWeight="900">{mode === "follower" ? "output follows input" : "feedback divider sets gain"}</text>
+        </>
+      ) : null}
+
+      {mode === "comparator" || mode === "schmitt" ? (
+        <>
+          <line className="op-switch" x1="586" y1="142" x2="586" y2="190" stroke="#f97316" strokeWidth="5" strokeLinecap="round" />
+          <text x="430" y="96" fill="#154a96" fontSize="14" fontWeight="900">{mode === "schmitt" ? "hysteresis creates two thresholds" : "output saturates high or low"}</text>
+        </>
+      ) : null}
+
+      <text x="424" y="238" fill="#154a96" fontSize="14" fontWeight="900">
+        {mode === "inverting" ? "phase inversion" : mode === "noninverting" ? "same phase gain" : mode === "follower" ? "buffer action" : mode === "summing" ? "currents add at virtual ground" : mode === "integrator" ? "output accumulates input" : mode === "differentiator" ? "output follows rate of change" : "threshold decision"}
+      </text>
+    </svg>
+  );
+}
+
+function OpAmpDeepDiveContent({ chapter }) {
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
+            Chapter 8 / Professional Op-Amp Builder
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+            Operational Amplifiers (Op-Amp)
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            An op-amp is a high-gain differential amplifier that becomes predictable
+            and useful when feedback is applied. It can amplify, compare, add, subtract,
+            integrate, differentiate, filter, buffer, and shape signals.
+          </p>
+        </div>
+        <div className="diagram-placeholder overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <OpAmpDiagram mode="inverting" title="Op-amp feedback action" />
+        </div>
+      </div>
+
+      <div className="mt-6 grid gap-5">
+        <TopicSection title="Introduction">
+          <p>
+            An operational amplifier is a building-block circuit with two inputs and
+            one output. It amplifies the voltage difference between the non-inverting
+            input and the inverting input.
+          </p>
+          <p>
+            The important idea is not only high gain. The real power of an op-amp comes
+            from feedback. Feedback forces the op-amp to behave according to external
+            resistors, capacitors, and circuit connections.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Why This Topic Matters">
+          <ul className="grid gap-2">
+            <li>Industry relevance: op-amps are used in sensors, audio systems, filters, data converters, power electronics, medical instruments, and control systems.</li>
+            <li>Exam relevance: GATE repeatedly tests inverting, non-inverting, summing, integrator, differentiator, comparator, slew rate, CMRR, and virtual short concepts.</li>
+            <li>Interview relevance: strong answers explain virtual short, feedback, saturation, and why ideal assumptions work only in linear negative-feedback operation.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Prerequisites">
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li>KCL and node-voltage analysis</li>
+            <li>Voltage divider rule</li>
+            <li>Feedback amplifier basics</li>
+            <li>Capacitor current relation</li>
+            <li>Time-domain and frequency-domain signal behavior</li>
+            <li>Basic diode/transistor amplifier intuition</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Basic Intuition">
+          <p>
+            Imagine the op-amp as a very sensitive balance. If one input becomes slightly
+            higher than the other, the output moves strongly. With negative feedback,
+            the output moves in whatever direction is needed to make the two input
+            terminals almost equal.
+          </p>
+          <blockquote className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-sm font-semibold leading-6 text-amber-950">
+            In linear negative feedback, the op-amp output continuously corrects itself
+            until the input difference becomes almost zero.
+          </blockquote>
+        </TopicSection>
+
+        <TopicSection title="Core Theory Explanation">
+          <p>
+            The open-loop relation is:
+          </p>
+          <p>{"$$ V_o = A_{OL}(V_+ - V_-) $$"}</p>
+          <p>
+            Since open-loop gain is extremely large, even a tiny difference between the
+            inputs can drive the output into saturation. Negative feedback prevents this
+            by returning output information to the inverting input.
+          </p>
+          <ul className="grid gap-2">
+            <li>Ideal input current is zero, so no current enters either input terminal.</li>
+            <li>With negative feedback and linear operation, input voltages become nearly equal.</li>
+            <li>Closed-loop gain depends mainly on external components, not raw op-amp gain.</li>
+            <li>Without negative feedback, the op-amp usually behaves as a comparator.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Step-by-Step Mathematical Derivation">
+          <h3 className="text-base font-bold text-slate-950">Inverting Amplifier</h3>
+          <p>
+            In an ideal inverting amplifier, the non-inverting input is grounded. With
+            negative feedback, the inverting input becomes a virtual ground.
+          </p>
+          <p>{"$$ V_- \\approx V_+ = 0 $$"}</p>
+          <p>Because input current into the op-amp is zero, current through input resistor equals current through feedback resistor:</p>
+          <p>{"$$ \\frac{V_i - 0}{R_1} = \\frac{0 - V_o}{R_f} $$"}</p>
+          <p>{"$$ \\frac{V_o}{V_i} = -\\frac{R_f}{R_1} $$"}</p>
+          <p>
+            The negative sign means output is inverted by 180 degrees.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">Non-Inverting Amplifier</h3>
+          <p>The feedback divider sends a fraction of output to the inverting input:</p>
+          <p>{"$$ V_- = V_o\\frac{R_1}{R_1 + R_f} $$"}</p>
+          <p>Since virtual short gives $$ V_- = V_i $$:</p>
+          <p>{"$$ V_i = V_o\\frac{R_1}{R_1 + R_f} $$"}</p>
+          <p>{"$$ \\frac{V_o}{V_i} = 1 + \\frac{R_f}{R_1} $$"}</p>
+        </TopicSection>
+
+        <TopicSection title="Working Principle">
+          <ol className="grid gap-2">
+            {chapter.workingSteps.map((step, index) => (
+              <li key={step} className="flex gap-3 rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-2">
+                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-portal-600 text-xs font-black text-white">{index + 1}</span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </TopicSection>
+
+        <TopicSection title="Diagram Explanation">
+          <div className="diagram-placeholder overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+            <OpAmpDiagram mode="inverting" title="Circuit Diagram Here" />
+          </div>
+          <p>
+            The diagram shows the op-amp comparing its two input terminals. The feedback
+            path returns output to the inverting input, making the output settle at the
+            value required by the resistor network.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Important Formulas">
+          <div className="grid gap-3 lg:grid-cols-2">
+            {OPAMP_QUICK_TOPICS.map((topic) => (
+              <div key={topic.title} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+                <h3 className="text-base font-bold text-slate-950">{topic.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{topic.detail}</p>
+                <p className="mt-2 rounded-xl bg-white px-3 py-2 text-sm font-bold text-portal-700">{topic.formula}</p>
+              </div>
+            ))}
+          </div>
+        </TopicSection>
+
+        <TopicSection title="Op-Amp Topics">
+          <div className="grid gap-4">
+            {[
+              ["Ideal Op-Amp Characteristics", "Infinite open-loop gain, infinite input resistance, zero output resistance, infinite bandwidth, and zero offset are ideal assumptions used to simplify circuit analysis.", "follower"],
+              ["Practical Parameters", "Real op-amps have finite slew rate, finite CMRR, input offset voltage, limited output swing, finite bandwidth, and bias currents.", "comparator"],
+              ["Inverting Amplifier", "Input current flows through R1 and feedback current flows through Rf. The inverting node behaves as virtual ground.", "inverting"],
+              ["Non-Inverting Amplifier", "The input signal enters the high-resistance non-inverting terminal, and feedback divider sets gain without phase inversion.", "noninverting"],
+              ["Voltage Follower", "The entire output is fed back to the inverting input, producing unity gain and strong buffering.", "follower"],
+              ["Summing Amplifier", "Multiple input currents meet at virtual ground and add through the feedback resistor.", "summing"],
+              ["Differentiator and Integrator", "Capacitors in input or feedback path make output depend on rate of change or accumulated input.", "integrator"],
+              ["Comparator and Schmitt Trigger", "Without linear negative feedback, the op-amp switches high or low. Schmitt trigger adds hysteresis for noise immunity.", "schmitt"],
+            ].map(([heading, text, mode]) => (
+              <section key={heading} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+                <h3 className="text-lg font-bold text-slate-950">{heading}</h3>
+                <p className="mt-2">{text}</p>
+                <div className="diagram-placeholder mt-3 overflow-x-auto rounded-2xl border border-portal-100 bg-white p-3">
+                  <OpAmpDiagram mode={mode} title={`${heading} Diagram Here`} />
+                </div>
+              </section>
+            ))}
+          </div>
+        </TopicSection>
+
+        <TopicSection title="Real-World Applications">
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li>Sensor signal conditioning</li>
+            <li>Audio preamplifiers and equalizers</li>
+            <li>Active filters in communication systems</li>
+            <li>ADC input buffers</li>
+            <li>Instrumentation amplifiers</li>
+            <li>Comparators and threshold detectors</li>
+            <li>Waveform generators</li>
+            <li>Control and feedback systems</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Solved Examples">
+          <h3 className="text-base font-bold text-slate-950">Beginner Example</h3>
+          <p>{"For an inverting amplifier, let $$ R_f = 20\\,k\\Omega $$ and $$ R_1 = 5\\,k\\Omega $$. Find gain."}</p>
+          <p>{"$$ A_v = -\\frac{R_f}{R_1} = -\\frac{20}{5} = -4 $$"}</p>
+          <p>The output is four times larger and inverted.</p>
+
+          <h3 className="text-base font-bold text-slate-950">Intermediate Numerical</h3>
+          <p>{"For a non-inverting amplifier with $$ R_f = 30\\,k\\Omega $$ and $$ R_1 = 10\\,k\\Omega $$:"}</p>
+          <p>{"$$ A_v = 1 + \\frac{R_f}{R_1} = 1 + 3 = 4 $$"}</p>
+          <p>Output preserves phase and has four times input amplitude.</p>
+
+          <h3 className="text-base font-bold text-slate-950">Advanced Problem</h3>
+          <p>{"If slew rate is $$ 0.5\\,V/\\mu s $$ and sine output peak is $$ 5\\,V $$, maximum undistorted frequency is:"}</p>
+          <p>{"$$ SR = 2\\pi f V_m $$"}</p>
+          <p>{"$$ f = \\frac{SR}{2\\pi V_m} = \\frac{0.5 \\times 10^6}{2\\pi \\times 5} \\approx 15.9\\,kHz $$"}</p>
+        </TopicSection>
+
+        <TopicSection title="Common Mistakes">
+          <ul className="grid gap-2">
+            <li>Using virtual short when there is no negative feedback.</li>
+            <li>Thinking virtual ground means physically connected to ground.</li>
+            <li>Forgetting the negative sign in inverting amplifier gain.</li>
+            <li>Assuming output can exceed supply rails.</li>
+            <li>Ignoring slew rate for large high-frequency signals.</li>
+            <li>Confusing comparator operation with linear amplifier operation.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Comparison Tables">
+          <table className="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-950">
+                <th className="py-2 pr-3">Circuit</th>
+                <th className="py-2 pr-3">Gain</th>
+                <th className="py-2 pr-3">Phase</th>
+                <th className="py-2 pr-3">Main Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Inverting</td><td className="py-2 pr-3">{"$$ -R_f/R_1 $$"}</td><td className="py-2 pr-3">180 degree shift</td><td className="py-2 pr-3">Scaled inversion</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Non-inverting</td><td className="py-2 pr-3">{"$$ 1 + R_f/R_1 $$"}</td><td className="py-2 pr-3">Same phase</td><td className="py-2 pr-3">High input resistance gain</td></tr>
+              <tr><td className="py-2 pr-3">Follower</td><td className="py-2 pr-3">{"$$ 1 $$"}</td><td className="py-2 pr-3">Same phase</td><td className="py-2 pr-3">Buffering</td></tr>
+            </tbody>
+          </table>
+        </TopicSection>
+
+        <TopicSection title="Interview Questions">
+          <ul className="grid gap-2">
+            <li>What is virtual short, and when is it valid?</li>
+            <li>Why is input current assumed zero in ideal op-amp analysis?</li>
+            <li>Why does an inverting amplifier invert phase?</li>
+            <li>What is the difference between an op-amp amplifier and comparator?</li>
+            <li>Why does slew rate limit high-frequency signals?</li>
+            <li>What does CMRR physically mean?</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Exam-Oriented Notes">
+          <ul className="grid gap-2">
+            <li>Use virtual short only with negative feedback and unsaturated output.</li>
+            <li>Input current into ideal op-amp terminals is zero.</li>
+            <li>Inverting node may be virtual ground, but it is not physically grounded.</li>
+            <li>Comparator output saturates high or low depending on input polarity.</li>
+            <li>{"For sinusoidal output, slew-rate condition is $$ SR \\ge 2\\pi f V_m $$."}</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Revision Summary">
+          <ul className="grid gap-2">
+            <li>Op-amp amplifies differential input voltage.</li>
+            <li>Negative feedback makes circuit behavior stable and resistor-controlled.</li>
+            <li>Ideal assumptions: infinite gain, infinite input resistance, zero output resistance.</li>
+            <li>{"Inverting gain: $$ -R_f/R_1 $$."}</li>
+            <li>{"Non-inverting gain: $$ 1 + R_f/R_1 $$."}</li>
+            <li>Comparator and Schmitt trigger are switching applications, not linear amplifiers.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Practice Questions">
+          <h3 className="text-base font-bold text-slate-950">Conceptual</h3>
+          <ul><li>Explain why feedback makes op-amp gain predictable.</li><li>Why is voltage follower useful if its gain is only one?</li></ul>
+          <h3 className="text-base font-bold text-slate-950">Numerical</h3>
+          <ul><li>{"Find inverting gain when $$ R_f = 100\\,k\\Omega $$ and $$ R_1 = 20\\,k\\Omega $$."}</li><li>{"Find non-inverting gain when $$ R_f = 47\\,k\\Omega $$ and $$ R_1 = 10\\,k\\Omega $$."}</li></ul>
+          <h3 className="text-base font-bold text-slate-950">MCQs</h3>
+          <ul><li>Which terminal receives feedback in a standard inverting amplifier?</li><li>Which parameter limits output rate of change?</li></ul>
+        </TopicSection>
+      </div>
+    </section>
+  );
+}
+
+function ActiveFiltersWaveformDeepDiveContent({ chapter }) {
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
+            Chapter 9 / Professional Signal Shaping
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+            Active Filters and Waveform Generators
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            Active filters use op-amps with resistors and capacitors to select useful
+            frequency components from a signal. Waveform generators use op-amp switching
+            and integration to create square, triangular, and related timing waveforms.
+          </p>
+        </div>
+        <div className="diagram-placeholder flex min-h-[220px] items-center justify-center rounded-[24px] border border-portal-100 bg-[#f8fbff] p-4 text-center text-sm font-bold text-portal-700">
+          Signal Flow Diagram Here
+        </div>
+      </div>
+
+      <div className="mt-6 grid gap-5">
+        <TopicSection title="Introduction">
+          <p>
+            In real electronics, signals rarely arrive clean. A sensor may contain useful
+            low-frequency information plus high-frequency noise. A communication receiver
+            may need one narrow frequency band while rejecting everything else. A timing
+            circuit may need a stable square wave or triangular ramp without using a
+            microcontroller.
+          </p>
+          <p>
+            Active filters solve the frequency-selection problem. Waveform generators
+            solve the signal-creation problem. Both topics are natural extensions of
+            op-amp feedback, RC charging, saturation, and frequency response.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Why This Topic Matters">
+          <ul className="grid gap-2">
+            <li>Industry relevance: active filters are used in audio equalizers, biomedical instruments, anti-aliasing filters, sensor conditioning, communication receivers, and control systems.</li>
+            <li>Waveform-generator relevance: square and triangular waves are used in PWM circuits, function generators, clock sources, sweep generators, SMPS control, and testing instruments.</li>
+            <li>Exam relevance: GATE and university exams often ask cutoff frequency, passband gain, roll-off, transfer-function behavior, Schmitt-trigger thresholds, and integrator output slope.</li>
+            <li>Interview relevance: strong answers explain what the capacitor does at low and high frequency, instead of only writing the formula for cutoff frequency.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Prerequisites">
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li>Op-amp virtual short and negative feedback</li>
+            <li>Comparator and saturation behavior</li>
+            <li>Capacitive reactance and RC time constant</li>
+            <li>Frequency response and Bode plot basics</li>
+            <li>Integrator and differentiator circuits</li>
+            <li>Voltage divider rule and KCL</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Basic Intuition">
+          <p>
+            A filter is like a frequency gate. It does not judge a signal by amplitude
+            alone; it judges how fast the signal changes. Slow variation corresponds to
+            low frequency, and rapid variation corresponds to high frequency.
+          </p>
+          <p>
+            The capacitor is the key frequency-sensitive element. At low frequency, it
+            has high reactance and behaves almost like an open circuit. At high frequency,
+            it has low reactance and behaves almost like a short circuit. By placing this
+            capacitor in the right part of an op-amp circuit, we decide which frequencies
+            are passed, attenuated, amplified, or rejected.
+          </p>
+          <p>
+            A waveform generator uses the same capacitor idea differently. Instead of
+            filtering an existing signal, the circuit repeatedly charges and discharges
+            a capacitor, producing ramps. A comparator then converts those ramps into
+            sharp square-wave transitions.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Active Filters and Waveform Generators - Simplified Concept Explanation">
+          <h3 className="text-base font-bold text-slate-950">Capacitor Reactance: The Main Idea Behind Filters</h3>
+          <p>
+            A capacitor behaves differently at different frequencies. This is the main
+            reason RC filters work. At low frequency, a capacitor offers high opposition
+            to the signal. At high frequency, it offers very low opposition.
+          </p>
+          <p>
+            This opposition is called capacitive reactance.
+          </p>
+          <p>{"$$ X_C = \\frac{1}{2\\pi f C} $$"}</p>
+          <ul className="grid gap-2">
+            <li>{"$$ X_C $$ is capacitive reactance, measured in ohms."}</li>
+            <li>{"$$ f $$ is the signal frequency."}</li>
+            <li>{"$$ C $$ is capacitance."}</li>
+          </ul>
+          <p>
+            The most important observation is that frequency is in the denominator.
+            Therefore, when frequency increases, capacitive reactance decreases. When
+            frequency decreases, capacitive reactance increases.
+          </p>
+          <blockquote className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-sm font-semibold leading-6 text-amber-950">
+            Easy picture: a capacitor behaves like a frequency-controlled gate. Slow
+            signals are blocked more. Fast signals pass more easily.
+          </blockquote>
+
+          <h3 className="text-base font-bold text-slate-950">Cutoff Frequency</h3>
+          <p>
+            Cutoff frequency is the transition point where the filter starts changing
+            its response significantly. At this frequency, the resistor and capacitor
+            have equal influence on the signal.
+          </p>
+          <p>{"$$ f_c = \\frac{1}{2\\pi RC} $$"}</p>
+          <ul className="grid gap-2">
+            <li>{"$$ f_c $$ is cutoff frequency."}</li>
+            <li>{"$$ R $$ is resistance."}</li>
+            <li>{"$$ C $$ is capacitance."}</li>
+          </ul>
+          <p>
+            Larger resistance or capacitance makes the circuit slower, so cutoff
+            frequency becomes lower. Smaller resistance or capacitance makes the circuit
+            faster, so cutoff frequency becomes higher.
+          </p>
+          <ul className="grid gap-2">
+            <li>{"Large $$ RC $$ gives lower cutoff frequency."}</li>
+            <li>{"Small $$ RC $$ gives higher cutoff frequency."}</li>
+          </ul>
+          <p>
+            Cutoff frequency is not the point where output becomes zero. At cutoff
+            frequency, the output voltage becomes:
+          </p>
+          <p>{"$$ V_o = \\frac{1}{\\sqrt{2}}V_{passband} \\approx 0.707V_{passband} $$"}</p>
+          <p>
+            This means the output voltage is about 70.7 percent of the maximum passband
+            voltage. Since power depends on voltage squared:
+          </p>
+          <p>{"$$ (0.707)^2 \\approx 0.5 $$"}</p>
+          <p>
+            So the output power becomes half of the passband power. That is why cutoff
+            frequency is also called half-power frequency or -3 dB frequency.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">Low-Pass Filter</h3>
+          <p>
+            A low-pass filter allows low-frequency signals to pass and reduces
+            high-frequency signals.
+          </p>
+          <p>{"$$ H(s)=\\frac{1}{1+sRC} $$"}</p>
+          <ul className="grid gap-2">
+            <li>{"At low frequency, $$ sRC $$ is very small, so the denominator is almost 1 and output is almost equal to input."}</li>
+            <li>{"At high frequency, $$ sRC $$ becomes large, so the denominator increases and output decreases."}</li>
+          </ul>
+          <blockquote className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 text-sm font-semibold leading-6 text-emerald-950">
+            Memory tip: low-pass filter passes slow-changing signals.
+          </blockquote>
+
+          <h3 className="text-base font-bold text-slate-950">High-Pass Filter</h3>
+          <p>
+            A high-pass filter blocks low-frequency signals and allows high-frequency
+            signals to pass.
+          </p>
+          <p>{"$$ H(s)=\\frac{sRC}{1+sRC} $$"}</p>
+          <ul className="grid gap-2">
+            <li>{"At low frequency, the numerator $$ sRC $$ is very small, so output becomes nearly zero."}</li>
+            <li>{"At high frequency, numerator and denominator become nearly equal, so output approaches input."}</li>
+          </ul>
+          <blockquote className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 text-sm font-semibold leading-6 text-emerald-950">
+            Memory tip: high-pass filter passes fast-changing signals.
+          </blockquote>
+
+          <h3 className="text-base font-bold text-slate-950">Integrator and Ramp Generation</h3>
+          <p>
+            An op-amp integrator converts a constant input voltage into a linearly
+            changing output waveform. This linearly changing output is called a ramp.
+          </p>
+          <p>{"$$ \\frac{dV_o}{dt}=-\\frac{V_{in}}{RC} $$"}</p>
+          <ul className="grid gap-2">
+            <li>{"$$ V_{in} $$ is the input voltage."}</li>
+            <li>{"$$ RC $$ is the time constant."}</li>
+            <li>{"$$ dV_o/dt $$ is the rate of change, or slope, of the output voltage."}</li>
+          </ul>
+          <p>
+            Larger input voltage produces a steeper ramp. Larger $$ RC $$ produces a
+            slower ramp. The negative sign appears because the common op-amp integrator
+            is inverting: positive input creates a downward ramp, and negative input
+            creates an upward ramp.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">How to Understand Filter Formulas Easily</h3>
+          <ol className="grid gap-2">
+            <li>First understand the capacitor: low frequency is blocked more, high frequency passes more.</li>
+            <li>Then check where output is taken: across capacitor means low-pass behavior, across resistor means high-pass behavior.</li>
+            <li>Finally understand the RC effect: large RC means slow response, small RC means fast response.</li>
+          </ol>
+
+          <h3 className="text-base font-bold text-slate-950">Quick Revision Table</h3>
+          <table className="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-950">
+                <th className="py-2 pr-3">Concept</th>
+                <th className="py-2 pr-3">Easy Understanding</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Capacitor reactance</td><td className="py-2 pr-3">Opposition decreases as frequency increases</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Low-pass filter</td><td className="py-2 pr-3">Passes low-frequency signals</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">High-pass filter</td><td className="py-2 pr-3">Passes high-frequency signals</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Cutoff frequency</td><td className="py-2 pr-3">Transition point of filter response</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Integrator</td><td className="py-2 pr-3">Converts constant input into ramp output</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Large RC</td><td className="py-2 pr-3">Slower circuit response</td></tr>
+              <tr><td className="py-2 pr-3">Small RC</td><td className="py-2 pr-3">Faster circuit response</td></tr>
+            </tbody>
+          </table>
+
+          <p>
+            Final concept: active filters work because capacitors react differently at
+            different frequencies. Low-pass filters pass slow-changing signals,
+            high-pass filters pass fast-changing signals, cutoff frequency defines the
+            transition region, and integrators convert constant voltage into ramp
+            waveforms.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Core Theory Explanation">
+          <p>
+            An active filter contains passive frequency-selective elements and an active
+            device, usually an op-amp. The RC network decides frequency behavior, while
+            the op-amp provides buffering, gain, and isolation between stages.
+          </p>
+          <ul className="grid gap-2">
+            <li>Low-pass filter: passes slow changes and attenuates fast changes.</li>
+            <li>High-pass filter: blocks DC or slow changes and passes fast changes.</li>
+            <li>Band-pass filter: passes only a selected middle band of frequencies.</li>
+            <li>Band-stop filter: rejects a selected band and passes frequencies below and above it.</li>
+          </ul>
+          <p>
+            Waveform generators usually combine two op-amp actions. A Schmitt trigger
+            acts as a decision-maker with two threshold levels. An integrator acts as a
+            ramp-maker because a constant input voltage through a resistor produces an
+            almost constant capacitor current.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Step-by-Step Formula Understanding">
+          <h3 className="text-base font-bold text-slate-950">Step 1: Understand the Capacitor First</h3>
+          <p>
+            Do not start by memorizing filter formulas. Start with the capacitor. A
+            capacitor gives high opposition to slow-changing signals and low opposition
+            to fast-changing signals.
+          </p>
+          <p className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4 font-bold text-slate-950">
+            Capacitor opposition = 1 / (2 x pi x frequency x capacitance)
+          </p>
+          <p>
+            This formula is only saying one simple thing: frequency is in the bottom
+            part of the expression. So frequency and capacitor opposition move in
+            opposite directions.
+          </p>
+          <ul className="grid gap-2">
+            <li>If frequency increases, capacitor opposition decreases. High-frequency signals pass more easily through the capacitor.</li>
+            <li>If frequency decreases, capacitor opposition increases. Low-frequency signals are blocked more by the capacitor.</li>
+            <li>If capacitance is larger, the capacitor also gives less opposition to AC signals.</li>
+          </ul>
+          <div className="diagram-placeholder flex min-h-[120px] items-center justify-center rounded-2xl border border-portal-100 bg-[#f8fbff] p-4 text-center text-sm font-bold text-portal-700">
+            Capacitor Reactance Versus Frequency Graph Here
+          </div>
+
+          <h3 className="text-base font-bold text-slate-950">Step 2: Understand Cutoff Frequency</h3>
+          <p>
+            Cutoff frequency is the transition point of the filter. It is not the point
+            where output becomes zero. It is the point where the filter response starts
+            changing clearly.
+          </p>
+          <p>{"$$ f_c = \\frac{1}{2\\pi RC} $$"}</p>
+          <ul className="grid gap-2">
+            <li>{"Large $$ R $$ or large $$ C $$ makes the circuit slower, so $$ f_c $$ becomes lower."}</li>
+            <li>{"Small $$ R $$ or small $$ C $$ makes the circuit faster, so $$ f_c $$ becomes higher."}</li>
+            <li>{"At cutoff, output voltage is about $$ 0.707 $$ times the passband voltage."}</li>
+          </ul>
+          <p>{"$$ V_o = \\frac{1}{\\sqrt{2}}V_{passband} \\approx 0.707V_{passband} $$"}</p>
+          <p>
+            Since power depends on voltage squared, 0.707 voltage gives about half
+            power. That is why cutoff frequency is also called half-power frequency or
+            -3 dB frequency.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">Step 3: Understand Low-Pass Filter</h3>
+          <p>
+            A low-pass filter passes slow-changing signals and reduces fast-changing
+            signals.
+          </p>
+          <p>{"$$ H(s)=\\frac{1}{1+sRC} $$"}</p>
+          <ul className="grid gap-2">
+            <li>{"At low frequency, $$ sRC $$ is very small. The denominator is almost 1, so output is almost equal to input."}</li>
+            <li>{"At high frequency, $$ sRC $$ becomes large. The denominator increases, so output decreases."}</li>
+          </ul>
+          <blockquote className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 text-sm font-semibold leading-6 text-emerald-950">
+            Simple memory: low-pass means low frequency passes.
+          </blockquote>
+
+          <h3 className="text-base font-bold text-slate-950">Step 4: Understand High-Pass Filter</h3>
+          <p>
+            A high-pass filter blocks slow-changing signals and passes fast-changing
+            signals.
+          </p>
+          <p>{"$$ H(s)=\\frac{sRC}{1+sRC} $$"}</p>
+          <ul className="grid gap-2">
+            <li>{"At low frequency, numerator $$ sRC $$ is very small, so output is nearly zero."}</li>
+            <li>{"At high frequency, numerator and denominator become almost equal, so output approaches input."}</li>
+          </ul>
+          <blockquote className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 text-sm font-semibold leading-6 text-emerald-950">
+            Simple memory: high-pass means high frequency passes.
+          </blockquote>
+
+          <h3 className="text-base font-bold text-slate-950">Step 5: Understand Integrator Ramp Generation</h3>
+          <p>
+            An op-amp integrator converts a constant input voltage into a linearly
+            changing output voltage. This linearly changing output is called a ramp.
+          </p>
+          <p>{"$$ \\frac{dV_o}{dt}=-\\frac{V_{in}}{RC} $$"}</p>
+          <ul className="grid gap-2">
+            <li>{"Larger $$ V_{in} $$ produces a steeper ramp."}</li>
+            <li>{"Larger $$ RC $$ produces a slower ramp."}</li>
+            <li>The negative sign appears because the common integrator is inverting.</li>
+          </ul>
+          <p>
+            Therefore, a positive input creates a downward ramp, and a negative input
+            creates an upward ramp.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Working Principle">
+          <ol className="grid gap-2">
+            {chapter.workingSteps.map((step, index) => (
+              <li key={step} className="flex gap-3 rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-2">
+                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-portal-600 text-xs font-black text-white">
+                  {index + 1}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </TopicSection>
+
+        <TopicSection title="Diagram Explanation">
+          <div className="grid gap-3 lg:grid-cols-2">
+            <div className="diagram-placeholder flex min-h-[150px] items-center justify-center rounded-2xl border border-portal-100 bg-[#f8fbff] p-4 text-center text-sm font-bold text-portal-700">
+              Active Filter Circuit Diagram Here
+            </div>
+            <div className="diagram-placeholder flex min-h-[150px] items-center justify-center rounded-2xl border border-portal-100 bg-[#f8fbff] p-4 text-center text-sm font-bold text-portal-700">
+              Waveform Generator Timing Diagram Here
+            </div>
+          </div>
+          <p>
+            In the filter diagram, the RC path changes signal division with frequency
+            and the op-amp controls gain or buffering. In the waveform-generator timing
+            diagram, the square wave switches between saturation levels while the
+            triangular wave rises and falls linearly between threshold voltages.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Important Formulas">
+          <div className="grid gap-3 lg:grid-cols-2">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-base font-bold text-slate-950">Capacitive Reactance</h3>
+              <p className="mt-2 font-bold text-portal-700">{"$$ X_C = \\frac{1}{2\\pi f C} $$"}</p>
+              <p className="mt-2 text-sm leading-6">As frequency increases, the capacitor offers less opposition. This is the root idea behind RC filters.</p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-base font-bold text-slate-950">Cutoff Frequency</h3>
+              <p className="mt-2 font-bold text-portal-700">{"$$ f_c = \\frac{1}{2\\pi RC} $$"}</p>
+              <p className="mt-2 text-sm leading-6">This is the transition frequency where output becomes 0.707 of passband value for a first-order section.</p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-base font-bold text-slate-950">Low-Pass Transfer Function</h3>
+              <p className="mt-2 font-bold text-portal-700">{"$$ H(s)=\\frac{1}{1+sRC} $$"}</p>
+              <p className="mt-2 text-sm leading-6">Low frequencies see almost unity transfer; high frequencies are attenuated.</p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-base font-bold text-slate-950">High-Pass Transfer Function</h3>
+              <p className="mt-2 font-bold text-portal-700">{"$$ H(s)=\\frac{sRC}{1+sRC} $$"}</p>
+              <p className="mt-2 text-sm leading-6">Low frequencies are blocked; high frequencies are passed.</p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-base font-bold text-slate-950">Band-Pass Quality Factor</h3>
+              <p className="mt-2 font-bold text-portal-700">{"$$ Q = \\frac{f_0}{BW} = \\frac{f_0}{f_H-f_L} $$"}</p>
+              <p className="mt-2 text-sm leading-6">Higher Q means the filter is more selective around the center frequency.</p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-base font-bold text-slate-950">Integrator Output Slope</h3>
+              <p className="mt-2 font-bold text-portal-700">{"$$ \\frac{dV_o}{dt}=-\\frac{V_{in}}{RC} $$"}</p>
+              <p className="mt-2 text-sm leading-6">A constant input creates a straight-line output ramp.</p>
+            </div>
+          </div>
+        </TopicSection>
+
+        <TopicSection title="Real-World Applications">
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li>Anti-aliasing filters before ADCs</li>
+            <li>Audio tone control and equalization</li>
+            <li>ECG, EEG, and biomedical signal conditioning</li>
+            <li>Noise removal in sensor interfaces</li>
+            <li>Channel selection in communication receivers</li>
+            <li>PWM and ramp generation in power electronics</li>
+            <li>Function generators and lab instruments</li>
+            <li>Clock and timing signal generation</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Solved Examples">
+          <h3 className="text-base font-bold text-slate-950">Beginner Example</h3>
+          <p>{"A low-pass filter has $$ R = 10\\,k\\Omega $$ and $$ C = 0.01\\,\\mu F $$. Find cutoff frequency."}</p>
+          <p>{"$$ f_c = \\frac{1}{2\\pi RC} $$"}</p>
+          <p>{"$$ f_c = \\frac{1}{2\\pi(10^4)(10^{-8})} \\approx 1591\\,Hz $$"}</p>
+          <p>
+            Frequencies much below 1.59 kHz pass almost unchanged. Frequencies much above
+            1.59 kHz are increasingly attenuated.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">Intermediate Numerical</h3>
+          <p>{"A band-pass filter has lower cutoff $$ f_L = 1\\,kHz $$ and upper cutoff $$ f_H = 10\\,kHz $$. Find bandwidth and center frequency."}</p>
+          <p>{"$$ BW = f_H - f_L = 10\\,kHz - 1\\,kHz = 9\\,kHz $$"}</p>
+          <p>{"$$ f_0 = \\sqrt{f_L f_H} = \\sqrt{1\\times10}\\,kHz \\approx 3.16\\,kHz $$"}</p>
+          <p>
+            The center frequency is geometric mean, not arithmetic mean, because frequency
+            response is multiplicative on a logarithmic scale.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">Advanced Problem</h3>
+          <p>{"An op-amp integrator has $$ R = 20\\,k\\Omega $$ and $$ C = 0.1\\,\\mu F $$. If a constant $$ +2\\,V $$ is applied, find output slope."}</p>
+          <p>{"$$ \\frac{dV_o}{dt} = -\\frac{V_{in}}{RC} $$"}</p>
+          <p>{"$$ RC = (20\\times10^3)(0.1\\times10^{-6}) = 2\\times10^{-3}\\,s $$"}</p>
+          <p>{"$$ \\frac{dV_o}{dt} = -\\frac{2}{2\\times10^{-3}} = -1000\\,V/s $$"}</p>
+          <p>
+            The negative sign means the output ramps downward because the circuit is an
+            inverting integrator.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Common Mistakes">
+          <ul className="grid gap-2">
+            <li>Thinking cutoff frequency is where output becomes zero. It is actually the -3 dB transition point.</li>
+            <li>{"Using $$ f_c = 1/(2\\pi RC) $$ without converting kilo-ohm, microfarad, and nanofarad units correctly."}</li>
+            <li>Confusing low-pass and high-pass by memorizing circuits instead of checking where output is taken.</li>
+            <li>Forgetting that active filters need op-amp bandwidth high enough for the required frequency range.</li>
+            <li>Using virtual short in a comparator or Schmitt trigger; those circuits operate in saturation, not linear feedback.</li>
+            <li>Assuming triangular-wave amplitude is set by integrator alone. It is mainly bounded by Schmitt-trigger thresholds.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Comparison Tables">
+          <table className="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-950">
+                <th className="py-2 pr-3">Circuit</th>
+                <th className="py-2 pr-3">Passes</th>
+                <th className="py-2 pr-3">Rejects</th>
+                <th className="py-2 pr-3">Main Engineering Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Low-pass</td><td className="py-2 pr-3">Low frequencies</td><td className="py-2 pr-3">High-frequency noise</td><td className="py-2 pr-3">Sensor smoothing, anti-aliasing</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">High-pass</td><td className="py-2 pr-3">High frequencies</td><td className="py-2 pr-3">DC and slow drift</td><td className="py-2 pr-3">AC coupling, drift removal</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Band-pass</td><td className="py-2 pr-3">Selected band</td><td className="py-2 pr-3">Low and high extremes</td><td className="py-2 pr-3">Channel selection</td></tr>
+              <tr><td className="py-2 pr-3">Band-stop</td><td className="py-2 pr-3">Outside selected band</td><td className="py-2 pr-3">One unwanted band</td><td className="py-2 pr-3">Hum or interference rejection</td></tr>
+            </tbody>
+          </table>
+          <table className="mt-4 w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-950">
+                <th className="py-2 pr-3">Waveform Circuit</th>
+                <th className="py-2 pr-3">Main Block</th>
+                <th className="py-2 pr-3">Output Nature</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Schmitt trigger</td><td className="py-2 pr-3">Comparator with positive feedback</td><td className="py-2 pr-3">Square wave or clean switching</td></tr>
+              <tr><td className="py-2 pr-3">Integrator</td><td className="py-2 pr-3">Op-amp with feedback capacitor</td><td className="py-2 pr-3">Ramp or triangular wave</td></tr>
+            </tbody>
+          </table>
+        </TopicSection>
+
+        <TopicSection title="Interview Questions">
+          <ul className="grid gap-2">
+            <li>Why is an active filter called active?</li>
+            <li>What physically happens to capacitor reactance as frequency increases?</li>
+            <li>Why is cutoff frequency called the -3 dB frequency?</li>
+            <li>How do you decide whether an RC circuit is low-pass or high-pass?</li>
+            <li>Why are inductors avoided in many active filters?</li>
+            <li>How does a Schmitt trigger improve noise immunity?</li>
+            <li>Why does an integrator convert a square wave into a triangular wave?</li>
+            <li>What limits the maximum frequency of a practical op-amp waveform generator?</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Exam-Oriented Notes">
+          <ul className="grid gap-2">
+            <li>{"For first-order RC filters, remember $$ f_c = 1/(2\\pi RC) $$ and check unit conversion first."}</li>
+            <li>At cutoff, output magnitude is 0.707 of passband output and phase shift is 45 degrees for a first-order RC section.</li>
+            <li>A first-order filter has roll-off of 20 dB/decade; second-order has 40 dB/decade.</li>
+            <li>{"Band-pass bandwidth is $$ f_H - f_L $$ and center frequency is usually $$ \\sqrt{f_L f_H} $$."}</li>
+            <li>Schmitt trigger questions usually depend on upper and lower threshold voltages, not only op-amp saturation voltage.</li>
+            <li>{"For integrator ramp problems, write slope first: $$ dV_o/dt = -V_{in}/RC $$."}</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Revision Summary">
+          <ul className="grid gap-2">
+            <li>Active filters combine op-amps with RC networks to control frequency response.</li>
+            <li>Capacitor reactance decreases as frequency increases.</li>
+            <li>Low-pass passes slow signals; high-pass passes rapidly changing signals.</li>
+            <li>Band-pass accepts a frequency window; band-stop rejects a frequency window.</li>
+            <li>Cutoff frequency is the -3 dB transition point, not a sudden stop.</li>
+            <li>Schmitt trigger creates square switching using two thresholds.</li>
+            <li>Integrator converts constant voltage into a linear ramp.</li>
+            <li>{"Key formulas: $$ X_C = 1/(2\\pi fC) $$, $$ f_c = 1/(2\\pi RC) $$, and $$ dV_o/dt = -V_{in}/RC $$."}</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Practice Questions">
+          <h3 className="text-base font-bold text-slate-950">Conceptual</h3>
+          <ul className="grid gap-2">
+            <li>Explain low-pass filter action using capacitor reactance.</li>
+            <li>Why does a high-pass filter block DC?</li>
+            <li>Why does an integrator output become triangular when input is square?</li>
+          </ul>
+          <h3 className="text-base font-bold text-slate-950">Numerical</h3>
+          <ul className="grid gap-2">
+            <li>{"Find cutoff frequency for $$ R=4.7\\,k\\Omega $$ and $$ C=0.047\\,\\mu F $$."}</li>
+            <li>{"A band-pass filter has $$ f_L=300\\,Hz $$ and $$ f_H=3\\,kHz $$. Find bandwidth and center frequency."}</li>
+            <li>{"For an integrator with $$ R=10\\,k\\Omega $$, $$ C=0.01\\,\\mu F $$, and input $$ 1\\,V $$, find output slope."}</li>
+          </ul>
+          <h3 className="text-base font-bold text-slate-950">MCQs</h3>
+          <ul className="grid gap-2">
+            <li>At cutoff frequency of a first-order filter, voltage gain becomes: 1, 0.707, 0, or 2?</li>
+            <li>Which filter rejects a narrow unwanted frequency band: low-pass, high-pass, band-pass, or band-stop?</li>
+            <li>Which op-amp circuit is normally used to generate a triangular wave from a square wave?</li>
+          </ul>
+        </TopicSection>
+      </div>
+    </section>
+  );
+}
+
+function PowerSuppliesDeepDiveContent({ chapter }) {
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
+            Chapter 10 / Practical DC Energy System
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+            Power Supplies
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            A power supply converts available electrical energy into a stable DC voltage
+            required by electronic circuits. It is the hidden foundation behind almost
+            every analog, digital, communication, embedded, and instrumentation system.
+          </p>
+        </div>
+        <div className="diagram-placeholder flex min-h-[220px] items-center justify-center rounded-[24px] border border-portal-100 bg-[#f8fbff] p-4 text-center text-sm font-bold text-portal-700">
+          Power Supply Block Diagram Here
+        </div>
+      </div>
+
+      <div className="mt-6 grid gap-5">
+        <TopicSection title="Introduction">
+          <p>
+            Every electronic circuit needs energy, but it does not usually need raw AC
+            from the mains. A microcontroller may need 5 V DC, an op-amp circuit may need
+            dual 12 V supplies, and an RF module may need a very clean 3.3 V line. A
+            power supply is the circuit that prepares this usable DC energy.
+          </p>
+          <p>
+            In analog electronics, a power supply is not just a supporting topic. Noise,
+            ripple, poor regulation, heating, and wrong grounding can make even a good
+            amplifier, filter, or sensor circuit behave badly.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Why This Topic Matters">
+          <ul className="grid gap-2">
+            <li>Industry relevance: power supplies are used in chargers, routers, TVs, medical devices, PLCs, lab instruments, telecom systems, and embedded boards.</li>
+            <li>Analog relevance: amplifier hum, ADC error, op-amp offset problems, and sensor noise often come from poor supply design.</li>
+            <li>Exam relevance: university and GATE-style questions often test rectifier output, ripple factor, PIV, capacitor filter behavior, Zener regulation, IC regulators, and SMPS block operation.</li>
+            <li>Interview relevance: strong answers connect transformer, rectifier, filter, regulator, load current, heat, ripple, and efficiency as one energy path.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Prerequisites">
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li>AC voltage, RMS value, and peak value</li>
+            <li>PN junction diode conduction</li>
+            <li>Capacitor charging and discharging</li>
+            <li>Zener diode breakdown operation</li>
+            <li>Basic transistor and op-amp regulation idea</li>
+            <li>Inductor energy storage for SMPS basics</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Basic Intuition">
+          <p>
+            Think of the power supply as a water preparation plant. The transformer
+            changes the pressure level. The rectifier makes flow move in one direction.
+            The filter tank smooths the pulses. The regulator keeps the final pressure
+            nearly constant even when demand changes.
+          </p>
+          <p>
+            Electrically, AC alternates polarity, but electronic circuits usually need
+            one fixed polarity. Rectification makes current unidirectional. Filtering
+            reduces the up-and-down variation. Regulation corrects the remaining changes.
+          </p>
+          <blockquote className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-sm font-semibold leading-6 text-amber-950">
+            Simple view: rectifier decides direction, filter reduces ripple, regulator
+            holds voltage steady.
+          </blockquote>
+        </TopicSection>
+
+        <TopicSection title="Core Theory Explanation">
+          <p>
+            A practical linear DC supply is commonly built in four stages:
+          </p>
+          <ul className="grid gap-2">
+            <li>Transformer: steps AC voltage up or down and can provide isolation from mains.</li>
+            <li>Rectifier: uses diodes to convert AC into pulsating DC.</li>
+            <li>Filter: uses capacitor, inductor, or LC network to reduce ripple.</li>
+            <li>Regulator: keeps output voltage nearly constant despite input or load changes.</li>
+          </ul>
+          <p>
+            A switch-mode power supply uses a different method. It switches energy at
+            high frequency and transfers it through inductors, transformers, capacitors,
+            and feedback control. This gives high efficiency and smaller magnetic
+            components compared with a low-frequency linear supply.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Step-by-Step Mathematical Derivation">
+          <h3 className="text-base font-bold text-slate-950">1. RMS Voltage to Peak Voltage</h3>
+          <p>
+            AC mains and transformer secondary voltages are usually given as RMS values.
+            Rectifier capacitor charging depends mainly on the peak value, so first
+            convert RMS to peak.
+          </p>
+          <p>{"$$ V_m = \\sqrt{2}V_{rms} $$"}</p>
+          <ul className="grid gap-2">
+            <li>{"$$ V_m $$ is the maximum peak of the sine wave."}</li>
+            <li>{"$$ V_{rms} $$ is the effective AC value printed on the transformer rating."}</li>
+          </ul>
+          <p>
+            Plain meaning: a 12 V RMS transformer does not peak at 12 V. Its sine wave
+            reaches about 16.97 V before diode drops and load effects.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">2. Average DC Output of Rectifiers</h3>
+          <p>
+            Rectification does not immediately produce perfectly flat DC. It produces a
+            unidirectional waveform. The average value tells us the DC level of that
+            pulsating waveform before filtering.
+          </p>
+          <p>{"Half-wave rectifier average output: $$ V_{DC} = \\frac{V_m}{\\pi} $$"}</p>
+          <p>{"Full-wave or bridge rectifier average output: $$ V_{DC} = \\frac{2V_m}{\\pi} $$"}</p>
+          <p>
+            Physical meaning: full-wave rectification uses both half-cycles, so it gives
+            a higher average DC value and lower ripple than half-wave rectification.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">3. Ripple Frequency</h3>
+          <p>
+            Ripple is the leftover AC variation riding on the DC output. Its frequency
+            depends on how often the capacitor is recharged.
+          </p>
+          <ul className="grid gap-2">
+            <li>Half-wave rectifier recharges once per AC cycle, so ripple frequency equals supply frequency.</li>
+            <li>Full-wave and bridge rectifiers recharge twice per AC cycle, so ripple frequency is double the supply frequency.</li>
+          </ul>
+          <p>{"Half-wave rectifier: $$ f_r = f $$"}</p>
+          <p>{"Full-wave or bridge rectifier: $$ f_r = 2f $$"}</p>
+
+          <h3 className="text-base font-bold text-slate-950">4. Capacitor Filter Ripple Approximation</h3>
+          <p>
+            A filter capacitor charges near the rectified peak and then discharges into
+            the load between peaks. More load current discharges it faster. A larger
+            capacitor discharges more slowly.
+          </p>
+          <p>{"$$ V_{r(pp)} \\approx \\frac{I_L}{f_r C} $$"}</p>
+          <ul className="grid gap-2">
+            <li>{"$$ V_{r(pp)} $$ is peak-to-peak ripple voltage."}</li>
+            <li>{"$$ I_L $$ is load current. More load current means more ripple."}</li>
+            <li>{"$$ f_r $$ is ripple frequency. Higher recharge frequency means less ripple."}</li>
+            <li>{"$$ C $$ is filter capacitance. Larger capacitance means less ripple."}</li>
+          </ul>
+          <p>
+            Plain meaning: ripple becomes smaller when the capacitor is larger, load
+            current is smaller, or the capacitor is refreshed more often.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">5. Zener Regulator Condition</h3>
+          <p>
+            A Zener regulator works only if the Zener stays in breakdown and current
+            remains within a safe range.
+          </p>
+          <p>{"$$ I_S = \\frac{V_{in}-V_Z}{R_S} $$"}</p>
+          <p>{"$$ I_Z = I_S - I_L $$"}</p>
+          <p>
+            The series resistor carries current from the input. Part of that current
+            goes to the load, and the remaining current goes through the Zener. If load
+            current becomes too high, Zener current may fall below the minimum required
+            value and regulation is lost.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">6. Linear Regulator Power Loss</h3>
+          <p>
+            A linear regulator behaves like a controlled voltage-dropping element. The
+            voltage difference between input and output becomes heat.
+          </p>
+          <p>{"$$ P_{loss} = (V_{in}-V_o)I_L $$"}</p>
+          <p>
+            This formula is very important practically. A large input-output difference
+            and high load current cause heating, so heat sink design may become necessary.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Working Principle">
+          <ol className="grid gap-2">
+            {chapter.workingSteps.map((step, index) => (
+              <li key={step} className="flex gap-3 rounded-xl border border-slate-200 bg-slate-50/80 px-3 py-2">
+                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-portal-600 text-xs font-black text-white">
+                  {index + 1}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </TopicSection>
+
+        <TopicSection title="Diagram Explanation">
+          <div className="grid gap-3 lg:grid-cols-2">
+            <div className="diagram-placeholder flex min-h-[150px] items-center justify-center rounded-2xl border border-portal-100 bg-[#f8fbff] p-4 text-center text-sm font-bold text-portal-700">
+              Regulated Power Supply Block Diagram Here
+            </div>
+            <div className="diagram-placeholder flex min-h-[150px] items-center justify-center rounded-2xl border border-portal-100 bg-[#f8fbff] p-4 text-center text-sm font-bold text-portal-700">
+              Rectifier Output and Filtered Waveform Here
+            </div>
+          </div>
+          <p>
+            The block diagram should show AC input moving through transformer, rectifier,
+            filter, and regulator. The waveform diagram should show AC sine wave,
+            pulsating DC after rectification, reduced ripple after filtering, and nearly
+            flat DC after regulation.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Important Formulas">
+          <div className="grid gap-3 lg:grid-cols-2">
+            {[
+              ["Peak from RMS", "$$ V_m = \\sqrt{2}V_{rms} $$", "Converts transformer RMS voltage into sine-wave peak voltage."],
+              ["Half-wave DC value", "$$ V_{DC} = V_m/\\pi $$", "Average value when only one half-cycle is used."],
+              ["Full-wave DC value", "$$ V_{DC} = 2V_m/\\pi $$", "Average value when both half-cycles are used."],
+              ["Ripple factor", "$$ r = V_{r(rms)}/V_{DC} $$", "Measures AC ripple compared with useful DC output."],
+              ["Capacitor ripple", "$$ V_{r(pp)} \\approx I_L/(f_r C) $$", "Ripple decreases with larger capacitor and higher ripple frequency."],
+              ["Zener current", "$$ I_Z = I_S - I_L $$", "Remaining current through Zener after load current is supplied."],
+              ["Linear regulator heat", "$$ P_{loss}=(V_{in}-V_o)I_L $$", "Voltage dropped by regulator becomes heat."],
+              ["Efficiency", "$$ \\eta = (P_o/P_i)\\times100\\% $$", "Shows how much input power becomes useful output power."],
+            ].map(([heading, formula, meaning]) => (
+              <div key={heading} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+                <h3 className="text-base font-bold text-slate-950">{heading}</h3>
+                <p className="mt-2 font-bold text-portal-700">{formula}</p>
+                <p className="mt-2 text-sm leading-6">{meaning}</p>
+              </div>
+            ))}
+          </div>
+        </TopicSection>
+
+        <TopicSection title="Real-World Applications">
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li>Mobile chargers and laptop adapters</li>
+            <li>Microcontroller and FPGA power rails</li>
+            <li>Audio amplifier supplies</li>
+            <li>Medical instrument low-noise supplies</li>
+            <li>Communication base-station power systems</li>
+            <li>Industrial PLC and control-panel supplies</li>
+            <li>Battery chargers and solar charge controllers</li>
+            <li>SMPS units in TVs, routers, and computers</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Solved Examples">
+          <h3 className="text-base font-bold text-slate-950">Beginner Example</h3>
+          <p>{"A transformer secondary is rated at $$ 12\\,V_{rms} $$. Find the approximate peak voltage before diode drops."}</p>
+          <p>{"$$ V_m = \\sqrt{2}V_{rms} = 1.414\\times12 \\approx 16.97\\,V $$"}</p>
+          <p>
+            So the capacitor in a rectifier circuit can charge close to 17 V under light
+            load, before subtracting diode drops and transformer regulation effects.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">Intermediate Numerical</h3>
+          <p>{"A bridge rectifier uses a filter capacitor of $$ 1000\\,\\mu F $$ and supplies $$ 0.5\\,A $$. If mains frequency is $$ 50\\,Hz $$, estimate peak-to-peak ripple."}</p>
+          <p>{"For bridge rectifier, $$ f_r = 2f = 100\\,Hz $$."}</p>
+          <p>{"$$ V_{r(pp)} \\approx \\frac{I_L}{f_rC} = \\frac{0.5}{100\\times1000\\times10^{-6}} = 5\\,V $$"}</p>
+          <p>
+            The ripple is large because the load current is significant. Increasing the
+            capacitor or using regulation after filtering would reduce output variation.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">Advanced Problem</h3>
+          <p>{"A linear regulator converts $$ 15\\,V $$ input to $$ 5\\,V $$ output at $$ 0.4\\,A $$. Find power loss and comment on heating."}</p>
+          <p>{"$$ P_{loss}=(V_{in}-V_o)I_L=(15-5)\\times0.4=4\\,W $$"}</p>
+          <p>
+            Four watts is not a small loss for a small regulator package. A heat sink or
+            a switch-mode regulator may be required.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Common Mistakes">
+          <ul className="grid gap-2">
+            <li>Thinking rectifier output is pure DC. It is pulsating DC until filtering and regulation are added.</li>
+            <li>Forgetting to convert RMS voltage to peak voltage before estimating capacitor charging.</li>
+            <li>Ignoring diode drops in bridge rectifiers, where two diodes conduct at a time.</li>
+            <li>Using half-wave ripple frequency for a full-wave rectifier.</li>
+            <li>Assuming a larger capacitor fixes every problem; inrush current, diode stress, size, and cost also matter.</li>
+            <li>Forgetting heat dissipation in linear regulators.</li>
+            <li>Assuming Zener regulation works even when Zener current falls below its minimum value.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Comparison Tables">
+          <table className="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-950">
+                <th className="py-2 pr-3">Stage</th>
+                <th className="py-2 pr-3">Main Job</th>
+                <th className="py-2 pr-3">Signal Change</th>
+                <th className="py-2 pr-3">Practical Concern</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Transformer</td><td className="py-2 pr-3">Change AC level</td><td className="py-2 pr-3">AC to AC</td><td className="py-2 pr-3">Rating, isolation, losses</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Rectifier</td><td className="py-2 pr-3">Make current one-directional</td><td className="py-2 pr-3">AC to pulsating DC</td><td className="py-2 pr-3">PIV, diode drop, current rating</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Filter</td><td className="py-2 pr-3">Reduce ripple</td><td className="py-2 pr-3">Pulsating DC to smoother DC</td><td className="py-2 pr-3">Ripple, inrush, capacitor ESR</td></tr>
+              <tr><td className="py-2 pr-3">Regulator</td><td className="py-2 pr-3">Hold voltage steady</td><td className="py-2 pr-3">Smooth DC to regulated DC</td><td className="py-2 pr-3">Dropout, heat, efficiency</td></tr>
+            </tbody>
+          </table>
+          <table className="mt-4 w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-950">
+                <th className="py-2 pr-3">Supply Type</th>
+                <th className="py-2 pr-3">Strength</th>
+                <th className="py-2 pr-3">Limitation</th>
+                <th className="py-2 pr-3">Typical Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Linear regulated</td><td className="py-2 pr-3">Low noise, simple</td><td className="py-2 pr-3">Poor efficiency when voltage drop is large</td><td className="py-2 pr-3">Analog and sensor circuits</td></tr>
+              <tr><td className="py-2 pr-3">SMPS</td><td className="py-2 pr-3">High efficiency, compact</td><td className="py-2 pr-3">Switching noise, EMI design needed</td><td className="py-2 pr-3">Chargers, computers, high-power systems</td></tr>
+            </tbody>
+          </table>
+        </TopicSection>
+
+        <TopicSection title="Interview Questions">
+          <ul className="grid gap-2">
+            <li>Why do electronic circuits need regulated DC instead of raw rectified output?</li>
+            <li>What is the difference between RMS voltage and peak voltage?</li>
+            <li>Why does a bridge rectifier have two diode drops in the conducting path?</li>
+            <li>Why is ripple frequency doubled in a full-wave rectifier?</li>
+            <li>How does a capacitor filter reduce ripple?</li>
+            <li>Why can a linear regulator become hot?</li>
+            <li>What is dropout voltage in an IC regulator?</li>
+            <li>Why is SMPS more efficient than a linear regulator?</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Exam-Oriented Notes">
+          <ul className="grid gap-2">
+            <li>{"Always convert transformer RMS voltage to peak using $$ V_m=\\sqrt{2}V_{rms} $$ before estimating capacitor voltage."}</li>
+            <li>Bridge rectifier conduction path contains two diodes, so subtract approximately two diode drops for silicon diodes.</li>
+            <li>Full-wave and bridge rectifiers have ripple frequency twice the AC supply frequency.</li>
+            <li>{"Capacitor ripple is roughly proportional to load current: more $$ I_L $$ means more ripple."}</li>
+            <li>{"Capacitor ripple is inversely proportional to capacitance: larger $$ C $$ means lower ripple."}</li>
+            <li>For linear regulators, always check heat using input-output voltage difference multiplied by load current.</li>
+            <li>For Zener regulators, regulation exists only while Zener current stays within safe minimum and maximum limits.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Revision Summary">
+          <ul className="grid gap-2">
+            <li>Power supply converts available electrical energy into usable DC voltage.</li>
+            <li>Transformer changes AC level and can provide isolation.</li>
+            <li>Rectifier converts AC into pulsating DC.</li>
+            <li>Filter reduces ripple using energy storage.</li>
+            <li>Regulator keeps output voltage nearly constant.</li>
+            <li>Linear regulators are simple and low-noise but waste extra voltage as heat.</li>
+            <li>SMPS circuits are efficient but require switching-noise and EMI control.</li>
+            <li>{"Key formulas: $$ V_m=\\sqrt{2}V_{rms} $$, $$ V_{r(pp)}\\approx I_L/(f_rC) $$, and $$ P_{loss}=(V_{in}-V_o)I_L $$."}</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Practice Questions">
+          <h3 className="text-base font-bold text-slate-950">Conceptual</h3>
+          <ul className="grid gap-2">
+            <li>Why is rectifier output called pulsating DC rather than pure DC?</li>
+            <li>Explain capacitor filter action using charging and discharging.</li>
+            <li>Why does a regulator need headroom voltage?</li>
+          </ul>
+          <h3 className="text-base font-bold text-slate-950">Numerical</h3>
+          <ul className="grid gap-2">
+            <li>{"Find peak voltage for a $$ 9\\,V_{rms} $$ transformer secondary."}</li>
+            <li>{"Estimate ripple for $$ I_L=200\\,mA $$, $$ C=470\\,\\mu F $$, and bridge rectifier on $$ 50\\,Hz $$ mains."}</li>
+            <li>{"Find regulator power loss when $$ V_{in}=12\\,V $$, $$ V_o=5\\,V $$, and $$ I_L=300\\,mA $$."}</li>
+          </ul>
+          <h3 className="text-base font-bold text-slate-950">MCQs</h3>
+          <ul className="grid gap-2">
+            <li>Which stage converts AC into pulsating DC: transformer, rectifier, filter, or regulator?</li>
+            <li>In a bridge rectifier, how many diodes conduct during one half-cycle?</li>
+            <li>Which supply type usually has higher efficiency: linear regulator or SMPS?</li>
+          </ul>
+        </TopicSection>
+      </div>
+    </section>
+  );
+}
+
+function AnalogChapterDeepDiveContent({ chapter }) {
+  if (chapter.slug === "semiconductor-fundamentals") {
+    return <SemiconductorFundamentalsDeepDiveContent chapter={chapter} />;
+  }
+
+  if (chapter.slug === "diodes-and-applications") {
+    return <DiodesApplicationsDeepDiveContent chapter={chapter} />;
+  }
+
+  if (chapter.slug === "bipolar-junction-transistor") {
+    return <BjtDeepDiveContent chapter={chapter} />;
+  }
+
+  if (chapter.slug === "bjt-amplifiers") {
+    return <BjtAmplifiersDeepDiveContent chapter={chapter} />;
+  }
+
+  if (chapter.slug === "field-effect-transistors") {
+    return <FetDeepDiveContent chapter={chapter} />;
+  }
+
+  if (chapter.slug === "feedback-amplifiers") {
+    return <FeedbackDeepDiveContent chapter={chapter} />;
+  }
+
+  if (chapter.slug === "oscillators") {
+    return <OscillatorsDeepDiveContent chapter={chapter} />;
+  }
+
+  if (chapter.slug === "operational-amplifiers") {
+    return <OpAmpDeepDiveContent chapter={chapter} />;
+  }
+
+  if (chapter.slug === "active-filters-waveform-generators") {
+    return <ActiveFiltersWaveformDeepDiveContent chapter={chapter} />;
+  }
+
+  if (chapter.slug === "power-supplies") {
+    return <PowerSuppliesDeepDiveContent chapter={chapter} />;
+  }
+
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
+            Chapter {chapter.number} / Complete Concept
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+            {chapter.title}
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            {chapter.summary}
+          </p>
+          <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">
+              GATE/PSU Focus
+            </p>
+            <p className="mt-2 text-sm font-semibold leading-6 text-emerald-950">
+              {chapter.examFocus}
+            </p>
+          </div>
+        </div>
+        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <AnalogChapterMotionDiagram mode={chapter.diagramMode} title={`${chapter.title} flow`} />
+        </div>
+      </div>
+
+      <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
+        <h2 className="text-lg font-bold tracking-tight text-slate-950">
+          Animated Working: Step-by-Step Function
+        </h2>
+        <div className="mt-4 grid gap-3 lg:grid-cols-5">
+          {chapter.workingSteps.map((step, index) => (
+            <div key={step} className="rounded-2xl border border-white bg-white p-3 shadow-sm">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <p className="mt-3 text-sm font-semibold leading-6 text-slate-700">{step}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="mt-6 grid gap-4">
+        {chapter.topics.map((topic, topicIndex) => (
+          <AnalogChapterTopicCard
+            key={topic.title}
+            topic={topic}
+            chapter={chapter}
+            topicIndex={topicIndex}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AnalogChapterPage({ chapter }) {
+  const menuTopics = chapter.topics.map((topic) => ({
+    title: topic.title,
+    detail: topic.subtopics.join(", "),
+  }));
+
+  return (
+    <Layout title={`ECE Exam Guide | ${chapter.title}`} pageClassName="py-3 sm:py-4">
+      <div className="mx-auto max-w-[1200px] pb-24">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-5 flex items-start justify-between gap-3 pt-1"
+        >
+          <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
+            <li>
+              <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
+                Home
+              </Link>
+            </li>
+            <li className="text-slate-300">/</li>
+            <li>
+              <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
+                Subjects
+              </Link>
+            </li>
+            <li className="text-slate-300">/</li>
+            <li>
+              <Link href="/subjects/analog-electronics" className="font-medium text-slate-600 transition hover:text-portal-700">
+                Analog Electronics
+              </Link>
+            </li>
+            <li className="text-slate-300">/</li>
+            <li>
+              <span className="rounded-full bg-portal-50 px-3 py-1 font-semibold text-portal-700">
+                {chapter.title}
+              </span>
+            </li>
+          </ol>
+          <TopicJumpMenu
+            label={chapter.title}
+            topics={menuTopics}
+            idPrefix="analog-topic"
+            controlId={`analog-${chapter.slug}-topic-menu`}
+          />
+        </nav>
+
+        <section className="rounded-[24px] border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-4 shadow-panel sm:p-5">
+          <p className="inline-flex rounded-full border border-portal-200 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
+            Analog Electronics / Chapter {chapter.number}
+          </p>
+          <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            {chapter.title}: Topics, Subtopics, Circuit Flow, and Animated Working
+          </h1>
+          <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-800 sm:text-base">
+            Chapter-by-chapter GATE/PSU explanation with every topic and subtopic
+            organized for concept building, revision, interviews, and numerical solving.
+          </p>
+          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+            <Link
+              href="/mcqs/analog-electronics"
+              className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
+            >
+              Try MCQs
+            </Link>
+            <Link
+              href="/notes/analog-electronics"
+              className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
+            >
+              Download Notes
+            </Link>
+            <Link
+              href="/subjects/analog-electronics"
+              className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
+            >
+              Back to Analog Electronics
+            </Link>
+          </div>
+        </section>
+
+        <AnalogChapterDeepDiveContent chapter={chapter} />
+      </div>
+    </Layout>
+  );
+}
+
+function AnalogTopicCard({ title, intro, points, takeaway, href }) {
   return (
     <article className="rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-      <h3 className="text-xl font-bold tracking-tight text-slate-950">{title}</h3>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <h3 className="text-xl font-bold tracking-tight text-slate-950">{title}</h3>
+        {href ? (
+          <Link
+            href={href}
+            className="inline-flex flex-none justify-center rounded-xl border border-portal-200 bg-portal-50 px-3 py-2 text-xs font-bold text-portal-700 transition hover:bg-white"
+          >
+            Open Chapter
+          </Link>
+        ) : null}
+      </div>
       <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">{intro}</p>
       <ul className="mt-4 grid gap-2 text-sm leading-6 text-slate-700">
         {points.map((point) => (
@@ -3588,89 +8321,21 @@ function AnalogTopicCard({ title, intro, points, takeaway }) {
 }
 
 function AnalogElectronicsSection() {
-  const analogTopics = [
-    {
-      title: "Diodes",
-      intro:
-        "A diode is the simplest semiconductor device built from a PN junction. It conducts strongly in forward bias and blocks current in reverse bias until breakdown, which makes it a natural one-way element in rectification and clipping circuits.",
-      points: [
-        "Forward bias reduces the depletion barrier and allows majority carrier flow.",
-        "Reverse bias widens the depletion region, so only a very small reverse saturation current flows.",
-        "Zener diodes are designed to operate safely in breakdown and are used in regulation.",
-        "Rectifier, clipper, clamper, and switching questions usually test operating region first and formula second.",
-      ],
-      takeaway:
-        "In exam problems, first decide whether the diode is ON, OFF, or in Zener breakdown before writing any circuit equation.",
-    },
-    {
-      title: "Transistors: BJT and MOSFET",
-      intro:
-        "Transistors are three-terminal control devices. A BJT is current-controlled in first approximation, while a MOSFET is voltage-controlled. Both are used as switches and amplifiers, but their biasing logic and small-signal parameters differ.",
-      points: [
-        "BJT regions: cutoff, active, and saturation. Amplifier action usually requires active region operation.",
-        "MOSFET regions: cutoff, triode, and saturation. Analog gain stages often use saturation region.",
-        "Common configurations such as CE, CB, CC and CS, CG, CD decide gain, input resistance, and output resistance.",
-        "Biasing fixes the Q-point so the output signal can swing without distortion.",
-      ],
-      takeaway:
-        "Always identify the region of operation before computing current, gain, or voltage swing.",
-    },
-    {
-      title: "Amplifiers",
-      intro:
-        "An amplifier uses DC supply energy to increase the amplitude of a small input signal without changing the information it carries. In analog electronics, we usually study voltage gain, current gain, power gain, input resistance, output resistance, and frequency response together.",
-      points: [
-        "CE and CS amplifiers give significant voltage gain with phase inversion.",
-        "Emitter follower and source follower give low output resistance and are used for buffering.",
-        "Midband gain is usually obtained from the small-signal model after DC bias is established.",
-        "At low and high frequencies, capacitors and parasitics modify gain, which creates bandwidth limits.",
-      ],
-      takeaway:
-        "Separate DC bias analysis from AC small-signal analysis; that split solves many amplifier questions cleanly.",
-    },
-    {
-      title: "Operational Amplifiers",
-      intro:
-        "An op-amp is a very high-gain differential amplifier used with feedback. In ideal analysis, it offers infinite input resistance, zero output resistance, and very high open-loop gain, which makes many linear circuits reduce to elegant algebra.",
-      points: [
-        "With negative feedback in linear operation, the two input terminals sit at nearly the same voltage.",
-        "Inverting amplifier gain is set by resistor ratio and introduces a 180 degree phase reversal.",
-        "Non-inverting amplifier gain preserves phase and offers very high input resistance.",
-        "Summing, integrator, differentiator, active filter, and comparator problems grow from these base configurations.",
-      ],
-      takeaway:
-        "For ideal op-amp circuits with negative feedback, start from virtual short and zero input current assumptions.",
-    },
-    {
-      title: "Filters",
-      intro:
-        "Filters are frequency-selective circuits that pass some frequency components and attenuate others. Even the simplest RC low-pass and high-pass circuits are important because they connect analog electronics to communication, control, and signal processing.",
-      points: [
-        "A low-pass filter passes slow variations and attenuates high-frequency components.",
-        "A high-pass filter blocks DC and low frequencies while allowing fast changes to pass.",
-        "Cutoff frequency in first-order RC filters is a recurring exam formula.",
-        "Active filters use op-amps to provide gain, buffering, and better control over frequency response.",
-      ],
-      takeaway:
-        "Remember both the physical meaning and the transfer function shape; GATE questions often test interpretation, not just formula recall.",
-    },
-  ];
-
   return (
     <section className="mt-5 rounded-[30px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff,#f8fbff)] p-5 shadow-panel sm:p-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
-            Added Section
+            Structured Syllabus
           </p>
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-            Analog Electronics
+            Analog Electronics Chapter Flow
           </h2>
           <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
             Analog Electronics studies continuous-time signals and the devices that shape,
-            amplify, rectify, and filter them. For exam preparation, the subject becomes
-            easier when you move in this order: device physics, operating region, biasing,
-            small-signal model, gain, and frequency response.
+            amplify, rectify, and filter them. For GATE/PSU preparation, use the same
+            hierarchy on every page: Chapter, Topics, Subtopics, circuit diagram, animated
+            working, and exam takeaway.
           </p>
         </div>
         <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
@@ -3678,14 +8343,21 @@ function AnalogElectronicsSection() {
             High-Yield Focus
           </p>
           <p className="mt-1 text-sm font-semibold leading-6 text-slate-900">
-            Regions, biasing, gain, feedback, cutoff frequency
+            Diodes, biasing, small-signal gain, feedback, oscillators, op-amps
           </p>
         </div>
       </div>
 
       <div className="mt-5 grid gap-4 lg:grid-cols-2">
-        {analogTopics.map((topic) => (
-          <AnalogTopicCard key={topic.title} {...topic} />
+        {ANALOG_CHAPTERS.map((chapter) => (
+          <AnalogTopicCard
+            key={chapter.slug}
+            title={`Chapter ${chapter.number}: ${chapter.title}`}
+            intro={chapter.summary}
+            points={chapter.topics.map((topic) => `${topic.title}: ${topic.subtopics.join(", ")}`)}
+            takeaway={chapter.examFocus}
+            href={chapter.route}
+          />
         ))}
       </div>
 
@@ -3735,11 +8407,42 @@ const DIODE_TOPIC_MENU = [
   { title: "Final Summary", detail: "Quick revision ending" },
 ];
 
-function DiodeTopicMenu() {
+const TRANSISTOR_TOPIC_MENU = [
+  { title: "Introduction to Transistors", detail: "Amplification and switching" },
+  { title: "BJT Structure", detail: "Emitter, base, collector" },
+  { title: "BJT Working Principle", detail: "Base current controls collector current" },
+  { title: "BJT Current Relations", detail: "IE, IB, IC, beta" },
+  { title: "BJT Operating Regions", detail: "Cutoff, active, saturation" },
+  { title: "BJT Characteristics", detail: "Input and output curves" },
+  { title: "BJT as Amplifier and Switch", detail: "Signal gain and ON/OFF action" },
+  { title: "MOSFET Structure", detail: "Gate, drain, source" },
+  { title: "MOSFET Working Principle", detail: "Electric field and channel formation" },
+  { title: "MOSFET Regions and Equations", detail: "Cutoff, linear, saturation" },
+  { title: "MOSFET Characteristics", detail: "Output and transfer curves" },
+  { title: "BJT vs MOSFET", detail: "Exam-ready comparison" },
+  { title: "Final Summary", detail: "Quick revision ending" },
+];
+
+const AMPLIFIER_TOPIC_MENU = [
+  { title: "What Is an Amplifier?", detail: "Signal scaling without distortion" },
+  { title: "Why Amplifiers Are Important", detail: "Audio, sensors, communication" },
+  { title: "Basic Amplifier Model", detail: "Input, output, supply, gain" },
+  { title: "Types of Amplifiers", detail: "Voltage, current, power, RF" },
+  { title: "BJT Amplifier", detail: "Base current to collector output" },
+  { title: "MOSFET Amplifier", detail: "Gate voltage to drain output" },
+  { title: "Frequency Response", detail: "Gain, cutoff, bandwidth" },
+  { title: "Classes of Amplifiers", detail: "Class A, B, AB, C" },
+  { title: "Amplifier Distortion", detail: "Harmonic, frequency, phase" },
+  { title: "Practical Parameters", detail: "Gain, impedance, efficiency" },
+  { title: "BJT vs MOSFET Amplifier", detail: "Exam comparison" },
+  { title: "Final Summary", detail: "Quick revision ending" },
+];
+
+function TopicJumpMenu({ label, topics = [], idPrefix, controlId }) {
   const [isOpen, setIsOpen] = useState(false);
 
   function scrollToTopic(title) {
-    const targetId = `diode-topic-${toAnchorId(title)}`;
+    const targetId = `${idPrefix}-${toAnchorId(title)}`;
     document.getElementById(targetId)?.scrollIntoView({
       behavior: "smooth",
       block: "start",
@@ -3753,9 +8456,9 @@ function DiodeTopicMenu() {
         type="button"
         onClick={() => setIsOpen((currentValue) => !currentValue)}
         className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Diodes topics"
+        aria-label={`Open ${label} topics`}
         aria-expanded={isOpen}
-        aria-controls="diodes-topic-menu"
+        aria-controls={controlId}
       >
         {isOpen ? (
           <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -3770,12 +8473,12 @@ function DiodeTopicMenu() {
 
       {isOpen ? (
         <div
-          id="diodes-topic-menu"
+          id={controlId}
           className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
         >
           <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
             <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              Diodes
+              {label}
             </p>
             <p className="mt-1 text-xs font-semibold leading-5 text-slate-700">
               Jump to any topic in this explanation.
@@ -3783,7 +8486,7 @@ function DiodeTopicMenu() {
           </div>
 
           <div className="grid gap-2">
-            {DIODE_TOPIC_MENU.map((topic, index) => (
+            {topics.map((topic, index) => (
               <button
                 key={topic.title}
                 type="button"
@@ -3809,6 +8512,17 @@ function DiodeTopicMenu() {
         </div>
       ) : null}
     </div>
+  );
+}
+
+function DiodeTopicMenu() {
+  return (
+    <TopicJumpMenu
+      label="Diodes"
+      topics={DIODE_TOPIC_MENU}
+      idPrefix="diode-topic"
+      controlId="diodes-topic-menu"
+    />
   );
 }
 
@@ -4162,6 +8876,746 @@ function RectifierMotionDiagram() {
   );
 }
 
+function BjtMosfetDeepDiveContent() {
+  const sections = [
+    {
+      title: "Introduction to Transistors",
+      badge: "Core Idea",
+      paragraphs: [
+        "A transistor is a three-terminal semiconductor device used for amplification and switching. It lets a small electrical control signal influence a larger output current or voltage.",
+        "The two most important transistor families in Analog Electronics are BJTs and MOSFETs. A BJT is treated as a current-controlled device, while a MOSFET is treated as a voltage-controlled device.",
+      ],
+      points: [
+        "Amplifier use: a small input signal controls a larger output signal.",
+        "Switching use: the transistor moves between OFF and ON states.",
+        "Exam questions usually begin by identifying device type, bias condition, and operating region.",
+      ],
+    },
+    {
+      title: "BJT Structure",
+      badge: "Bipolar Device",
+      paragraphs: [
+        "A Bipolar Junction Transistor has three regions: emitter, base, and collector. The emitter is heavily doped so it can inject carriers, the base is very thin and lightly doped, and the collector is designed to collect carriers.",
+        "BJTs are available as NPN and PNP devices. In most introductory analog circuits, NPN examples are used first because their current directions are easier to visualize with positive supply voltages.",
+      ],
+      points: [
+        "Emitter injects majority carriers into the base.",
+        "Base is thin, so only a small part of the injected carriers recombines.",
+        "Collector gathers most carriers and forms the main output current path.",
+      ],
+    },
+    {
+      title: "BJT Working Principle",
+      badge: "Current Control",
+      paragraphs: [
+        "For an NPN transistor in active region, the base-emitter junction is forward biased and the collector-base junction is reverse biased. This biasing condition lets carriers move from emitter to collector.",
+        "A small base current controls a much larger collector current. This is the central idea behind BJT amplification.",
+      ],
+      points: [
+        "Base-emitter junction forward bias starts carrier injection.",
+        "Collector-base reverse bias pulls most carriers into the collector.",
+        "Small IB controls large IC, so BJT gain is built around current control.",
+      ],
+    },
+    {
+      title: "BJT Current Relations",
+      badge: "Key Formula",
+      paragraphs: [
+        "The emitter current is the sum of base current and collector current. Current gain beta tells how many times larger collector current is compared with base current.",
+        "In hand analysis, IC = beta IB is useful only when the transistor is actually in active region. In saturation, this relation no longer decides the collector current directly.",
+      ],
+      points: [
+        "IE = IB + IC",
+        "IC = beta IB in active region",
+        "Beta is useful for amplifier biasing but should not be blindly used in switching saturation.",
+      ],
+    },
+    {
+      title: "BJT Operating Regions",
+      badge: "Exam Decision",
+      paragraphs: [
+        "A BJT can operate in cutoff, active, or saturation. Cutoff means the device is OFF, active means it can amplify, and saturation means it is fully ON like a closed switch.",
+        "Most mistakes happen when students calculate gain before checking the region. Region identification should come before formula substitution.",
+      ],
+      points: [
+        "Cutoff: both major current paths are practically OFF.",
+        "Active: used for analog amplification.",
+        "Saturation: used for switching ON state.",
+      ],
+    },
+    {
+      title: "BJT Characteristics",
+      badge: "Graph Reading",
+      paragraphs: [
+        "BJT input characteristics relate base current to base-emitter voltage and look similar to a diode curve. Output characteristics relate collector current to collector-emitter voltage for different base currents.",
+        "In the active region, output curves are nearly flat, meaning collector current is mainly controlled by base current instead of VCE.",
+      ],
+      points: [
+        "Input curve: IB vs VBE resembles a forward-biased diode.",
+        "Output curve: IC vs VCE shows cutoff, active, and saturation regions.",
+        "Increasing base current shifts collector current upward.",
+      ],
+    },
+    {
+      title: "BJT as Amplifier and Switch",
+      badge: "Applications",
+      paragraphs: [
+        "As an amplifier, a BJT is biased in active region so a small input variation produces a larger output variation. As a switch, it is driven between cutoff and saturation.",
+        "This distinction matters because amplifier design needs linearity, while switching design needs clear OFF and ON states.",
+      ],
+      points: [
+        "Amplifier: active region operation with a stable Q-point.",
+        "Switch OFF: cutoff region.",
+        "Switch ON: saturation region.",
+      ],
+    },
+    {
+      title: "MOSFET Structure",
+      badge: "Field Effect Device",
+      paragraphs: [
+        "A MOSFET has three main terminals: gate, drain, and source. The gate is insulated from the channel by an oxide layer, which gives the MOSFET very high input impedance.",
+        "In an n-channel enhancement MOSFET, applying enough positive gate-source voltage forms a conductive channel between drain and source.",
+      ],
+      points: [
+        "Gate controls the channel using an electric field.",
+        "Drain and source form the controlled current path.",
+        "No significant DC gate current flows in the ideal model.",
+      ],
+    },
+    {
+      title: "MOSFET Working Principle",
+      badge: "Voltage Control",
+      paragraphs: [
+        "With no sufficient gate voltage, the channel is absent or weak, so the MOSFET remains OFF. When VGS exceeds threshold voltage, carriers gather near the oxide interface and create a conducting channel.",
+        "This is why MOSFETs are called voltage-controlled devices. The gate voltage controls channel strength and therefore drain current.",
+      ],
+      points: [
+        "Below threshold: no strong channel.",
+        "Above threshold: channel forms and current can flow.",
+        "Larger overdrive voltage usually means larger drain current.",
+      ],
+    },
+    {
+      title: "MOSFET Regions and Equations",
+      badge: "Formula Use",
+      paragraphs: [
+        "MOSFET operation is usually divided into cutoff, linear or ohmic region, and saturation. Cutoff is OFF, linear region behaves like a voltage-controlled resistor, and saturation is used for amplification.",
+        "A common long-channel saturation approximation is ID = k(VGS - VT)^2. Here VT is threshold voltage and VGS - VT is called overdrive voltage.",
+      ],
+      points: [
+        "Cutoff: VGS is below threshold.",
+        "Linear region: channel exists and VDS is relatively small.",
+        "Saturation: current is strongly controlled by VGS and useful for analog gain.",
+      ],
+    },
+    {
+      title: "MOSFET Characteristics",
+      badge: "Graph Reading",
+      paragraphs: [
+        "MOSFET output characteristics plot ID against VDS for different VGS values. Transfer characteristics plot ID against VGS and show how threshold voltage starts conduction.",
+        "The most important visual idea is channel formation: as gate voltage increases, the channel becomes stronger and drain current rises.",
+      ],
+      points: [
+        "Output curve: ID vs VDS for different gate voltages.",
+        "Transfer curve: ID vs VGS shows threshold behavior.",
+        "Gate voltage slider animations help explain channel growth clearly.",
+      ],
+    },
+    {
+      title: "BJT vs MOSFET",
+      badge: "Comparison",
+      paragraphs: [
+        "BJTs and MOSFETs both amplify and switch, but their control mechanisms are different. BJT behavior is tied to base current, while MOSFET behavior is tied to gate-source voltage.",
+        "MOSFETs dominate digital ICs and power switching because of high input impedance and efficient voltage control. BJTs remain important in analog gain stages and current-controlled circuit examples.",
+      ],
+      points: [
+        "BJT: current-controlled, lower input impedance, beta-based analysis.",
+        "MOSFET: voltage-controlled, very high input impedance, threshold-based analysis.",
+        "Both require region identification before solving exam questions.",
+      ],
+    },
+  ];
+
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="grid gap-4 lg:grid-cols-[0.96fr_1.04fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
+            BJT and MOSFET / Complete Concept
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+            Step-by-Step Transistor Explanation
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            Learn how BJTs and MOSFETs work, how their terminals control current,
+            how to identify operating regions, and how both devices are used as
+            amplifiers and switches in analog and digital circuits.
+          </p>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-2xl border border-sky-200 bg-sky-50/80 p-4">
+              <p className="text-xs font-black uppercase tracking-[0.12em] text-sky-700">
+                BJT Rule
+              </p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-slate-900">
+                Small base current controls a larger collector current.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50/80 p-4">
+              <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">
+                MOSFET Rule
+              </p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-slate-900">
+                Gate-source voltage forms a channel and controls drain current.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <TransistorMotionDiagram />
+        </div>
+      </div>
+
+      <div className="mt-6 divide-y divide-slate-200">
+        {sections.map((section, index) => (
+          <article
+            key={section.title}
+            id={`transistor-topic-${toAnchorId(section.title)}`}
+            className="scroll-mt-40 py-5 first:pt-0 last:pb-0"
+          >
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+                  {section.badge}
+                </p>
+                <h2 className="text-lg font-bold tracking-tight text-slate-950">
+                  {section.title}
+                </h2>
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-4 lg:grid-cols-[1.04fr_0.96fr]">
+              <div className="grid gap-3 text-sm leading-7 text-slate-700 sm:text-base">
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+              <ul className="grid gap-2 rounded-2xl border border-slate-200 bg-slate-50/80 p-4 text-sm leading-6 text-slate-700">
+                {section.points.map((point) => (
+                  <li key={point} className="flex gap-2">
+                    <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <section
+        id="transistor-topic-final-summary"
+        className="mt-5 scroll-mt-40 rounded-[24px] border border-portal-200 bg-portal-50/70 p-4 sm:p-5"
+      >
+        <h2 className="text-lg font-bold text-slate-950">Final Summary</h2>
+        <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+          A BJT is a current-controlled transistor where base current controls
+          collector current. A MOSFET is a voltage-controlled transistor where gate
+          voltage controls channel formation and drain current. Both devices are
+          essential for amplification and switching, but every problem should begin
+          with the same question: which region is the device operating in?
+        </p>
+      </section>
+    </section>
+  );
+}
+
+function TransistorMotionDiagram() {
+  return (
+    <svg viewBox="0 0 680 380" className="mx-auto h-auto w-[720px] max-w-none md:w-full" role="img" aria-label="Animated BJT and MOSFET operation showing current control and channel formation">
+      <defs>
+        <marker id="transistor-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+          <path d="M0 0 10 5 0 10Z" fill="#154a96" />
+        </marker>
+        <filter id="transistor-glow" x="-70%" y="-70%" width="240%" height="240%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <style>{`
+        .bjt-carrier { fill: #1d4ed8; filter: url(#transistor-glow); }
+        .bjt-base-pulse { animation: bjtBasePulse 2.2s ease-in-out infinite; }
+        .mos-channel { animation: mosChannelGrow 2.8s ease-in-out infinite; transform-origin: 504px 145px; }
+        .mos-current { stroke-dasharray: 12 10; animation: mosCurrentMove 1.2s linear infinite; }
+        .transistor-curve { stroke-dasharray: 280; stroke-dashoffset: 280; animation: transistorCurveDraw 3.2s ease-out infinite; }
+        @keyframes bjtBasePulse {
+          0%, 100% { opacity: 0.28; stroke-width: 3; }
+          50% { opacity: 0.95; stroke-width: 7; }
+        }
+        @keyframes mosChannelGrow {
+          0%, 100% { transform: scaleY(0.28); opacity: 0.35; }
+          50% { transform: scaleY(1); opacity: 0.95; }
+        }
+        @keyframes mosCurrentMove {
+          from { stroke-dashoffset: 0; }
+          to { stroke-dashoffset: -22; }
+        }
+        @keyframes transistorCurveDraw {
+          0% { stroke-dashoffset: 280; }
+          70%, 100% { stroke-dashoffset: 0; }
+        }
+      `}</style>
+
+      <rect x="24" y="28" width="300" height="190" rx="22" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="46" y="60" fill="#0f172a" fontSize="18" fontWeight="800">BJT: current control</text>
+      <path d="M118 104h80M198 78v108M198 96l70-42M198 166l70 42" fill="none" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+      <path className="bjt-base-pulse" d="M68 104h118" stroke="#154a96" strokeLinecap="round" markerEnd="url(#transistor-arrow)" />
+      <path d="M258 60c-22 42-24 94 0 136" fill="none" stroke="#154a96" strokeWidth="4" strokeLinecap="round" markerEnd="url(#transistor-arrow)" />
+      <text x="62" y="92" fill="#154a96" fontSize="14" fontWeight="800">small IB</text>
+      <text x="240" y="122" fill="#154a96" fontSize="14" fontWeight="800">large IC</text>
+      <text x="92" y="200" fill="#475569" fontSize="13" fontWeight="700">base current controls collector current</text>
+      <circle className="bjt-carrier" r="5">
+        <animateMotion dur="2.6s" repeatCount="indefinite" path="M258 60c-22 42-24 94 0 136" />
+      </circle>
+      <circle className="bjt-carrier" r="5">
+        <animateMotion dur="2.6s" begin="-1.3s" repeatCount="indefinite" path="M258 60c-22 42-24 94 0 136" />
+      </circle>
+
+      <rect x="356" y="28" width="300" height="190" rx="22" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="378" y="60" fill="#0f172a" fontSize="18" fontWeight="800">MOSFET: voltage control</text>
+      <path d="M492 82v126M532 82v126" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+      <rect x="496" y="124" width="32" height="52" rx="8" className="mos-channel" fill="#16a34a" />
+      <path d="M428 104h48M428 186h48M548 104h58M548 186h58" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+      <path d="M476 104v82M412 145h64" stroke="#154a96" strokeWidth="4" strokeLinecap="round" />
+      <path className="mos-current" d="M594 104v82" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd="url(#transistor-arrow)" />
+      <text x="384" y="132" fill="#154a96" fontSize="14" fontWeight="800">VGS</text>
+      <text x="562" y="88" fill="#475569" fontSize="13" fontWeight="700">drain</text>
+      <text x="558" y="210" fill="#475569" fontSize="13" fontWeight="700">source</text>
+      <text x="418" y="210" fill="#475569" fontSize="13" fontWeight="700">gate voltage forms channel</text>
+
+      <rect x="24" y="244" width="300" height="106" rx="22" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="48" y="274" fill="#0f172a" fontSize="16" fontWeight="800">BJT output characteristic</text>
+      <path d="M66 324h220M82 334V286" stroke="#94a3b8" strokeWidth="2.4" strokeLinecap="round" />
+      <path className="transistor-curve" d="M84 320c28-24 70-26 192-25M84 306c36-25 78-27 192-26M84 292c42-25 90-27 192-26" fill="none" stroke="#154a96" strokeWidth="3" strokeLinecap="round" />
+      <text x="232" y="340" fill="#64748b" fontSize="12" fontWeight="700">VCE</text>
+      <text x="50" y="294" fill="#64748b" fontSize="12" fontWeight="700">IC</text>
+
+      <rect x="356" y="244" width="300" height="106" rx="22" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="380" y="274" fill="#0f172a" fontSize="16" fontWeight="800">MOSFET transfer curve</text>
+      <path d="M398 324h220M414 334V286" stroke="#94a3b8" strokeWidth="2.4" strokeLinecap="round" />
+      <path className="transistor-curve" d="M414 322h58c18 0 28-6 40-22 14-18 28-20 74-20" fill="none" stroke="#16a34a" strokeWidth="3.4" strokeLinecap="round" />
+      <text x="552" y="340" fill="#64748b" fontSize="12" fontWeight="700">VGS</text>
+      <text x="382" y="294" fill="#64748b" fontSize="12" fontWeight="700">ID</text>
+      <text x="466" y="338" fill="#16a34a" fontSize="12" fontWeight="800">VT</text>
+    </svg>
+  );
+}
+
+function AmplifierDeepDiveContent() {
+  const sections = [
+    {
+      title: "What Is an Amplifier?",
+      badge: "Core Idea",
+      paragraphs: [
+        "An amplifier is an electronic circuit that increases the strength of a signal without changing its basic information or intended waveform shape.",
+        "The simplest way to understand amplification is signal scaling: a small input waveform enters the circuit and a larger output waveform appears at the load.",
+      ],
+      points: [
+        "Amplification should increase signal level, not create unwanted distortion.",
+        "The amplifier uses DC supply power to make the output signal larger.",
+        "Voltage gain is commonly written as Av = Vout / Vin.",
+      ],
+      visual: "gain",
+    },
+    {
+      title: "Why Amplifiers Are Important",
+      badge: "Need",
+      paragraphs: [
+        "Real-world signals from microphones, antennas, and sensors are often too weak to drive loads or processing circuits directly.",
+        "Amplifiers make these small signals usable in audio systems, communication receivers, measurement instruments, wireless devices, and control systems.",
+      ],
+      points: [
+        "Audio amplifiers drive speakers and headphones.",
+        "RF and IF amplifiers strengthen communication signals.",
+        "Instrumentation amplifiers help read small sensor outputs.",
+      ],
+      visual: "system",
+    },
+    {
+      title: "Basic Amplifier Model",
+      badge: "Model",
+      paragraphs: [
+        "Every amplifier can be viewed as an input port, an output port, and a DC power supply. The input signal controls how supply energy is converted into output signal energy.",
+        "Gain tells how strongly the amplifier scales a signal. If Vin is 20 mV and Vout is 2 V, the voltage gain is 100.",
+      ],
+      points: [
+        "Input port receives the small signal.",
+        "Power supply provides energy for the larger output.",
+        "Output port delivers amplified signal to the load.",
+      ],
+      visual: "block",
+    },
+    {
+      title: "Types of Amplifiers",
+      badge: "Classification",
+      paragraphs: [
+        "Amplifiers are classified by the quantity they amplify, the frequency range they work in, and the transistor configuration used.",
+        "For exam preparation, the most common categories are voltage amplifiers, current amplifiers, power amplifiers, audio amplifiers, RF amplifiers, common-emitter stages, and common-source stages.",
+      ],
+      points: [
+        "By signal quantity: voltage, current, and power amplifiers.",
+        "By frequency: audio, IF, and RF amplifiers.",
+        "By configuration: CE, CS, CB, CG, emitter follower, and source follower.",
+      ],
+      visual: "types",
+    },
+    {
+      title: "BJT Amplifier",
+      badge: "Current Control",
+      paragraphs: [
+        "In a BJT amplifier, the input signal is applied at the base. A small change in base current causes a larger change in collector current, and the collector resistor converts that current change into output voltage.",
+        "A common-emitter amplifier gives significant voltage gain and usually produces a 180 degree phase shift between input and output.",
+      ],
+      points: [
+        "Input signal changes base current.",
+        "Collector current changes more strongly.",
+        "Output voltage develops across the collector load resistor.",
+      ],
+      visual: "bjt",
+    },
+    {
+      title: "MOSFET Amplifier",
+      badge: "Voltage Control",
+      paragraphs: [
+        "In a MOSFET amplifier, the input signal is applied at the gate. Gate-source voltage controls channel strength, which changes drain current and output voltage.",
+        "A common-source MOSFET amplifier is the MOS counterpart of the common-emitter BJT amplifier. It can provide voltage gain and phase inversion with very high input impedance.",
+      ],
+      points: [
+        "Input voltage controls channel formation.",
+        "Drain current changes with gate-source voltage.",
+        "High input impedance makes MOSFET amplifiers useful in ICs and sensor interfaces.",
+      ],
+      visual: "mosfet",
+    },
+    {
+      title: "Frequency Response",
+      badge: "Bandwidth",
+      paragraphs: [
+        "Amplifier gain is not constant at every frequency. It usually falls at low frequencies due to coupling and bypass capacitors, remains nearly constant in the midband, and falls again at high frequencies due to internal capacitances.",
+        "The useful operating range is called bandwidth. It is commonly written as BW = fH - fL, where fL and fH are the lower and upper cutoff frequencies.",
+      ],
+      points: [
+        "Low frequency region: gain drops.",
+        "Midband region: gain remains almost constant.",
+        "High frequency region: gain drops due to capacitance and device limits.",
+      ],
+      visual: "frequency",
+    },
+    {
+      title: "Classes of Amplifiers",
+      badge: "Power Stages",
+      paragraphs: [
+        "Amplifier classes describe how much of the input cycle the active device conducts. This affects efficiency, distortion, and application area.",
+        "Class A gives high linearity but low efficiency. Class B improves efficiency but can create crossover distortion. Class AB is a practical compromise, while Class C is used mainly in tuned RF circuits.",
+      ],
+      points: [
+        "Class A: conducts for the full cycle.",
+        "Class B: conducts for half cycle.",
+        "Class AB: conducts slightly more than half cycle.",
+        "Class C: conducts less than half cycle, useful in RF tuned circuits.",
+      ],
+      visual: "classes",
+    },
+    {
+      title: "Amplifier Distortion",
+      badge: "Output Quality",
+      paragraphs: [
+        "Distortion occurs when the output is not a faithful scaled version of the input. It can change waveform shape, frequency balance, or phase relation.",
+        "Common distortion types include harmonic distortion, frequency distortion, and phase distortion. Good amplifier design tries to keep signal scaling clean over the required bandwidth.",
+      ],
+      points: [
+        "Harmonic distortion changes waveform shape.",
+        "Frequency distortion amplifies some frequencies more than others.",
+        "Phase distortion shifts frequency components unevenly.",
+      ],
+      visual: "distortion",
+    },
+    {
+      title: "Practical Parameters",
+      badge: "Exam Checklist",
+      paragraphs: [
+        "Practical amplifier questions often test gain, input impedance, output impedance, bandwidth, efficiency, and maximum undistorted output swing.",
+        "A good amplifier has the right gain for the job, enough bandwidth, acceptable distortion, suitable impedance levels, and safe power dissipation.",
+      ],
+      points: [
+        "Gain decides signal scaling.",
+        "Input impedance decides loading on the source.",
+        "Output impedance decides how well the amplifier drives the load.",
+        "Efficiency matters strongly in power amplifiers.",
+      ],
+      visual: "parameters",
+    },
+    {
+      title: "BJT vs MOSFET Amplifier",
+      badge: "Comparison",
+      paragraphs: [
+        "BJT amplifiers are current-controlled and often provide strong transconductance for analog gain. MOSFET amplifiers are voltage-controlled and offer very high input impedance.",
+        "Both are important. BJT amplifiers are common in discrete analog learning, while MOSFET amplifiers dominate integrated circuits and many modern mixed-signal designs.",
+      ],
+      points: [
+        "BJT: current control, lower input impedance, strong analog gain examples.",
+        "MOSFET: voltage control, high input impedance, common in IC design.",
+        "Both require correct biasing before small-signal gain analysis.",
+      ],
+      visual: "compare",
+    },
+  ];
+
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-6">
+      <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
+            Amplifiers / Complete Concept
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+            Step-by-Step Amplifier Explanation
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            Learn amplifier gain, signal scaling, BJT and MOSFET amplifier action,
+            phase shift, frequency response, bandwidth, amplifier classes, distortion,
+            and practical exam parameters with animated circuit motion.
+          </p>
+        </div>
+        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <AmplifierMotionDiagram mode="gain" />
+        </div>
+      </div>
+
+      <div className="mt-6 divide-y divide-slate-200">
+        {sections.map((section, index) => (
+          <article
+            key={section.title}
+            id={`amplifier-topic-${toAnchorId(section.title)}`}
+            className="scroll-mt-40 py-5 first:pt-0 last:pb-0"
+          >
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+                  {section.badge}
+                </p>
+                <h2 className="text-lg font-bold tracking-tight text-slate-950">
+                  {section.title}
+                </h2>
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_0.95fr]">
+              <div className="grid gap-3 text-sm leading-7 text-slate-700 sm:text-base">
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+                <ul className="grid gap-2 rounded-2xl border border-slate-200 bg-slate-50/80 p-4 text-sm leading-6 text-slate-700">
+                  {section.points.map((point) => (
+                    <li key={point} className="flex gap-2">
+                      <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-[#f8fbff] p-3">
+                <AmplifierMotionDiagram mode={section.visual} />
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <section
+        id="amplifier-topic-final-summary"
+        className="mt-5 scroll-mt-40 rounded-[24px] border border-portal-200 bg-portal-50/70 p-4 sm:p-5"
+      >
+        <h2 className="text-lg font-bold text-slate-950">Final Summary</h2>
+        <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+          An amplifier increases signal strength while preserving the useful shape
+          of the input. BJT and MOSFET amplifiers are foundation blocks for audio,
+          communication, instrumentation, and integrated circuits. For exam solving,
+          always identify biasing, configuration, gain, phase relation, bandwidth,
+          and distortion limits.
+        </p>
+      </section>
+    </section>
+  );
+}
+
+function AmplifierMotionDiagram({ mode = "gain" }) {
+  const titleMap = {
+    gain: "Signal amplification",
+    system: "Amplifier as a system",
+    block: "Basic amplifier model",
+    types: "Amplifier classifications",
+    bjt: "BJT amplifier motion",
+    mosfet: "MOSFET amplifier motion",
+    frequency: "Frequency response",
+    classes: "Amplifier classes",
+    distortion: "Distortion visualization",
+    parameters: "Practical parameters",
+    compare: "BJT vs MOSFET amplifier",
+  };
+
+  return (
+    <svg viewBox="0 0 620 300" className="mx-auto h-auto w-[640px] max-w-none md:w-full" role="img" aria-label={`${titleMap[mode] || "Amplifier animated explanation"} diagram`}>
+      <defs>
+        <marker id={`amp-arrow-${mode}`} markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+          <path d="M0 0 10 5 0 10Z" fill="#154a96" />
+        </marker>
+      </defs>
+      <style>{`
+        .amp-wave-small { stroke-dasharray: 260; stroke-dashoffset: 260; animation: ampDrawSmall 2.4s ease-in-out infinite; }
+        .amp-wave-large { stroke-dasharray: 360; stroke-dashoffset: 360; animation: ampDrawLarge 2.4s ease-in-out infinite; }
+        .amp-flow { stroke-dasharray: 12 10; animation: ampFlow 1.1s linear infinite; }
+        .amp-pulse { animation: ampPulse 1.7s ease-in-out infinite; }
+        .amp-channel { animation: ampChannel 2.4s ease-in-out infinite; transform-origin: 336px 136px; }
+        .amp-response { stroke-dasharray: 380; stroke-dashoffset: 380; animation: ampResponse 3.2s ease-in-out infinite; }
+        .amp-distort { animation: ampDistort 2.2s ease-in-out infinite; transform-origin: center; }
+        @keyframes ampDrawSmall { 0% { stroke-dashoffset: 260; } 65%,100% { stroke-dashoffset: 0; } }
+        @keyframes ampDrawLarge { 0% { stroke-dashoffset: 360; } 65%,100% { stroke-dashoffset: 0; } }
+        @keyframes ampFlow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -22; } }
+        @keyframes ampPulse { 0%,100% { opacity: .28; } 50% { opacity: .95; } }
+        @keyframes ampChannel { 0%,100% { transform: scaleY(.25); opacity: .35; } 50% { transform: scaleY(1); opacity: .95; } }
+        @keyframes ampResponse { 0% { stroke-dashoffset: 380; } 75%,100% { stroke-dashoffset: 0; } }
+        @keyframes ampDistort { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(.72); } }
+      `}</style>
+
+      <rect x="18" y="20" width="584" height="260" rx="22" fill="#ffffff" stroke="#dbeafe" strokeWidth="2" />
+      <text x="42" y="54" fill="#0f172a" fontSize="18" fontWeight="800">{titleMap[mode] || "Amplifier"}</text>
+
+      {["gain", "system", "block"].includes(mode) ? (
+        <>
+          <path className="amp-wave-small" d="M54 148c16-26 32-26 48 0s32 26 48 0 32-26 48 0" fill="none" stroke="#64748b" strokeWidth="3" strokeLinecap="round" />
+          <path d="M218 118h116l54 30-54 30H218Z" fill="#eff6ff" stroke="#154a96" strokeWidth="3" strokeLinejoin="round" />
+          <text x="252" y="153" fill="#154a96" fontSize="17" fontWeight="900">Av</text>
+          <path className="amp-flow" d="M188 148h50M370 148h44" stroke="#154a96" strokeWidth="4" strokeLinecap="round" markerEnd={`url(#amp-arrow-${mode})`} />
+          <path className="amp-wave-large" d="M428 148c20-50 40-50 60 0s40 50 60 0" fill="none" stroke="#154a96" strokeWidth="4" strokeLinecap="round" />
+          <text x="64" y="206" fill="#475569" fontSize="13" fontWeight="700">small input</text>
+          <text x="454" y="222" fill="#154a96" fontSize="13" fontWeight="800">larger output, same shape</text>
+          <path d="M276 92v-28" stroke="#f97316" strokeWidth="4" strokeLinecap="round" markerEnd={`url(#amp-arrow-${mode})`} />
+          <text x="220" y="82" fill="#f97316" fontSize="13" fontWeight="800">DC supply energy</text>
+        </>
+      ) : null}
+
+      {mode === "types" ? (
+        <>
+          {[
+            ["Voltage", 68, 118],
+            ["Current", 230, 118],
+            ["Power", 392, 118],
+            ["Audio", 68, 190],
+            ["RF / IF", 230, 190],
+            ["CE / CS", 392, 190],
+          ].map(([label, x, y], index) => (
+            <g key={label} className={index % 2 ? "" : "amp-pulse"}>
+              <rect x={x} y={y} width="128" height="44" rx="14" fill="#f8fbff" stroke="#bfdbfe" strokeWidth="2" />
+              <text x={x + 22} y={y + 28} fill="#154a96" fontSize="14" fontWeight="900">{label}</text>
+            </g>
+          ))}
+        </>
+      ) : null}
+
+      {mode === "bjt" ? (
+        <>
+          <path d="M156 126h82M238 88v112M238 108l82-48M238 178l82 48" fill="none" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          <path className="amp-pulse" d="M74 126h150" stroke="#154a96" strokeWidth="6" strokeLinecap="round" markerEnd={`url(#amp-arrow-${mode})`} />
+          <path className="amp-flow" d="M310 66c-24 48-24 104 0 152" stroke="#154a96" strokeWidth="5" fill="none" strokeLinecap="round" markerEnd={`url(#amp-arrow-${mode})`} />
+          <path className="amp-wave-small" d="M70 224c12-18 24-18 36 0s24 18 36 0 24-18 36 0" fill="none" stroke="#64748b" strokeWidth="3" strokeLinecap="round" />
+          <path className="amp-wave-large" d="M394 180c18 42 36 42 54 0s36-42 54 0 36 42 54 0" fill="none" stroke="#154a96" strokeWidth="4" strokeLinecap="round" />
+          <text x="80" y="108" fill="#154a96" fontSize="14" fontWeight="800">base input</text>
+          <text x="392" y="236" fill="#154a96" fontSize="14" fontWeight="800">inverted amplified output</text>
+        </>
+      ) : null}
+
+      {mode === "mosfet" ? (
+        <>
+          <path d="M250 80v140M294 80v140M174 112h58M174 188h58M314 112h100M314 188h100" stroke="#1e293b" strokeWidth="4" strokeLinecap="round" />
+          <rect x="256" y="120" width="32" height="58" rx="8" className="amp-channel" fill="#16a34a" />
+          <path className="amp-pulse" d="M96 150h134" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#amp-arrow-${mode})`} />
+          <path className="amp-flow" d="M396 112v76" stroke="#154a96" strokeWidth="5" strokeLinecap="round" markerEnd={`url(#amp-arrow-${mode})`} />
+          <path className="amp-wave-large" d="M440 150c18-42 36-42 54 0s36 42 54 0" fill="none" stroke="#154a96" strokeWidth="4" strokeLinecap="round" />
+          <text x="100" y="132" fill="#154a96" fontSize="14" fontWeight="800">gate signal</text>
+          <text x="250" y="238" fill="#16a34a" fontSize="14" fontWeight="800">channel grows</text>
+        </>
+      ) : null}
+
+      {mode === "frequency" ? (
+        <>
+          <path d="M74 226h466M96 238V84" stroke="#94a3b8" strokeWidth="3" strokeLinecap="round" />
+          <path className="amp-response" d="M98 212c48-120 82-118 128-118h152c48 0 78 22 124 116" fill="none" stroke="#154a96" strokeWidth="5" strokeLinecap="round" />
+          <path d="M206 228V94M422 228V94" stroke="#f97316" strokeWidth="2.8" strokeDasharray="7 8" />
+          <text x="188" y="248" fill="#f97316" fontSize="13" fontWeight="800">fL</text>
+          <text x="408" y="248" fill="#f97316" fontSize="13" fontWeight="800">fH</text>
+          <text x="260" y="82" fill="#154a96" fontSize="14" fontWeight="800">midband gain</text>
+        </>
+      ) : null}
+
+      {mode === "classes" ? (
+        <>
+          {[
+            ["Class A", "360 deg", 62, 110],
+            ["Class B", "180 deg", 218, 110],
+            ["Class AB", ">180 deg", 374, 110],
+            ["Class C", "<180 deg", 218, 190],
+          ].map(([name, detail, x, y]) => (
+            <g key={name}>
+              <rect x={x} y={y} width="130" height="58" rx="16" fill="#f8fbff" stroke="#bfdbfe" strokeWidth="2" />
+              <path className="amp-wave-small" d={`M${x + 18} ${y + 40}c12-22 24-22 36 0s24 22 36 0`} fill="none" stroke="#154a96" strokeWidth="3" strokeLinecap="round" />
+              <text x={x + 18} y={y + 22} fill="#0f172a" fontSize="13" fontWeight="900">{name}</text>
+              <text x={x + 78} y={y + 22} fill="#64748b" fontSize="12" fontWeight="800">{detail}</text>
+            </g>
+          ))}
+        </>
+      ) : null}
+
+      {mode === "distortion" ? (
+        <>
+          <path className="amp-wave-small" d="M70 150c22-42 44-42 66 0s44 42 66 0 44-42 66 0" fill="none" stroke="#64748b" strokeWidth="3" strokeLinecap="round" />
+          <path d="M300 150h52" stroke="#154a96" strokeWidth="4" strokeLinecap="round" markerEnd={`url(#amp-arrow-${mode})`} />
+          <path className="amp-distort" d="M386 150c18-54 42-24 60 0s36 46 60 0 42-56 62 0" fill="none" stroke="#dc2626" strokeWidth="4" strokeLinecap="round" />
+          <text x="82" y="218" fill="#64748b" fontSize="13" fontWeight="800">clean input</text>
+          <text x="420" y="218" fill="#dc2626" fontSize="13" fontWeight="800">distorted output</text>
+        </>
+      ) : null}
+
+      {["parameters", "compare"].includes(mode) ? (
+        <>
+          {[
+            mode === "compare" ? ["BJT", "current control", 74, 110] : ["Gain", "Vout / Vin", 74, 110],
+            mode === "compare" ? ["MOSFET", "voltage control", 344, 110] : ["Input Z", "source loading", 344, 110],
+            mode === "compare" ? ["Biasing", "sets Q-point", 74, 190] : ["Output Z", "load drive", 74, 190],
+            mode === "compare" ? ["Region", "must identify first", 344, 190] : ["Efficiency", "power use", 344, 190],
+          ].map(([name, detail, x, y]) => (
+            <g key={name} className="amp-pulse">
+              <rect x={x} y={y} width="196" height="52" rx="16" fill="#f8fbff" stroke="#bfdbfe" strokeWidth="2" />
+              <text x={x + 18} y={y + 22} fill="#0f172a" fontSize="14" fontWeight="900">{name}</text>
+              <text x={x + 18} y={y + 40} fill="#64748b" fontSize="12" fontWeight="800">{detail}</text>
+            </g>
+          ))}
+        </>
+      ) : null}
+    </svg>
+  );
+}
+
 function FallbackSubjectPage({ subject, steps, totalConcepts, subjectSummary }) {
   return (
     <>
@@ -4287,8 +9741,8 @@ export default function SubjectTheoryPage({
   const activeConcept = concepts[activeConceptDataIndex] || concepts[0];
   const isExternalDiodeConcept =
     subject.title === "Analog Electronics" &&
-    activeConcept?.slug === "diodes-and-pn-junction" &&
-    standaloneTopicPage !== "diodes";
+    ["diodes-and-pn-junction", "transistor-basics", "amplifier-fundamentals"].includes(activeConcept?.slug) &&
+    !["diodes", "bjt-mosfet", "amplifiers"].includes(standaloneTopicPage);
   const shouldShowInlineConcept = !isConceptIntroPage && !isExternalDiodeConcept;
   const activeTeaching = activeConcept?.teaching || {};
   const subjectProgress = progressStats.subjects.find(
@@ -4319,6 +9773,11 @@ export default function SubjectTheoryPage({
   const selectedQuizIndex = quizSelections[activeConcept?.slug];
   const isQuizAnswered = typeof selectedQuizIndex === "number";
   const isQuizCorrect = isQuizAnswered && selectedQuizIndex === activeQuiz?.correctIndex;
+  const analogStandaloneChapter = ANALOG_STANDALONE_PAGES[standaloneTopicPage];
+
+  if (analogStandaloneChapter) {
+    return <AnalogChapterPage chapter={analogStandaloneChapter} />;
+  }
 
   if (standaloneTopicPage === "basic-concepts") {
     return (
@@ -4499,6 +9958,324 @@ export default function SubjectTheoryPage({
     );
   }
 
+  if (standaloneTopicPage === "bjt-mosfet") {
+    const pageTitle =
+      "BJT and MOSFET Explained | Structure, Working, Regions and Characteristics";
+    const pageDescription =
+      "Learn BJT and MOSFET working step by step with structure, current relations, operating regions, characteristics, amplifier and switch applications, and comparison.";
+    const canonicalUrl = "https://eceexamguide.vercel.app/bjt-and-mosfet";
+    const articleSchema = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: pageTitle,
+      description: pageDescription,
+      author: { "@type": "Organization", name: "ECE Exam Guide" },
+      publisher: { "@type": "Organization", name: "ECE Exam Guide" },
+      mainEntityOfPage: canonicalUrl,
+    };
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://eceexamguide.vercel.app/" },
+        { "@type": "ListItem", position: 2, name: "Subjects", item: "https://eceexamguide.vercel.app/subjects" },
+        { "@type": "ListItem", position: 3, name: "Analog Electronics", item: "https://eceexamguide.vercel.app/subjects/analog-electronics" },
+        { "@type": "ListItem", position: 4, name: "BJT and MOSFET", item: canonicalUrl },
+      ],
+    };
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What is the main difference between BJT and MOSFET?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "A BJT is mainly current-controlled because base current controls collector current. A MOSFET is voltage-controlled because gate-source voltage controls channel formation and drain current.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Which BJT region is used for amplification?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "The active region is used for BJT amplification because collector current is controlled by base current while the transistor remains in a linear operating condition.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Why is MOSFET input impedance high?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "The MOSFET gate is insulated from the channel by an oxide layer, so ideally almost no DC current enters the gate.",
+          },
+        },
+      ],
+    };
+
+    return (
+      <Layout
+        title={pageTitle}
+        description={pageDescription}
+        pageClassName="py-3 sm:py-4"
+      >
+        <Head>
+          <link rel="canonical" href={canonicalUrl} />
+          <meta name="keywords" content="BJT and MOSFET, BJT working, MOSFET working, transistor operating regions, BJT characteristics, MOSFET characteristics, BJT vs MOSFET, Analog Electronics" />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          />
+        </Head>
+        <div className="mx-auto max-w-[1200px] pb-24">
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-5 flex items-start justify-between gap-3 pt-1"
+          >
+            <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
+              <li>
+                <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
+                  Home
+                </Link>
+              </li>
+              <li className="text-slate-300">/</li>
+              <li>
+                <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
+                  Subjects
+                </Link>
+              </li>
+              <li className="text-slate-300">/</li>
+              <li>
+                <Link
+                  href="/subjects/analog-electronics"
+                  className="font-medium text-slate-600 transition hover:text-portal-700"
+                >
+                  Analog Electronics
+                </Link>
+              </li>
+              <li className="text-slate-300">/</li>
+              <li>
+                <span className="rounded-full bg-portal-50 px-3 py-1 font-semibold text-portal-700">
+                  BJT and MOSFET
+                </span>
+              </li>
+            </ol>
+            <TopicJumpMenu
+              label="BJT and MOSFET"
+              topics={TRANSISTOR_TOPIC_MENU}
+              idPrefix="transistor-topic"
+              controlId="transistor-topic-menu"
+            />
+          </nav>
+
+          <section className="rounded-[24px] border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-4 shadow-panel sm:p-5">
+            <p className="inline-flex rounded-full border border-portal-200 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
+              Analog Electronics / BJT and MOSFET
+            </p>
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              BJT and MOSFET Explained: Structure, Working, Regions, and Characteristics
+            </h1>
+            <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-800 sm:text-base">
+              A complete visual guide to transistor operation, BJT current control,
+              MOSFET voltage control, characteristics, switching, amplification, and
+              exam-focused comparison.
+            </p>
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+              <Link
+                href="/mcqs/analog-electronics"
+                className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
+              >
+                Try MCQs
+              </Link>
+              <Link
+                href="/notes/analog-electronics"
+                className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
+              >
+                Download Notes
+              </Link>
+              <Link
+                href="/subjects/analog-electronics"
+                className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
+              >
+                Back to Analog Electronics
+              </Link>
+            </div>
+          </section>
+
+          <BjtMosfetDeepDiveContent />
+        </div>
+      </Layout>
+    );
+  }
+
+  if (standaloneTopicPage === "amplifiers") {
+    const pageTitle =
+      "Amplifiers Explained | Gain, BJT, MOSFET, Frequency Response and Classes";
+    const pageDescription =
+      "Learn amplifiers step by step with gain, BJT amplifier, MOSFET amplifier, phase shift, frequency response, bandwidth, classes, distortion and practical parameters.";
+    const canonicalUrl = "https://eceexamguide.vercel.app/amplifiers";
+    const articleSchema = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: pageTitle,
+      description: pageDescription,
+      author: { "@type": "Organization", name: "ECE Exam Guide" },
+      publisher: { "@type": "Organization", name: "ECE Exam Guide" },
+      mainEntityOfPage: canonicalUrl,
+    };
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://eceexamguide.vercel.app/" },
+        { "@type": "ListItem", position: 2, name: "Subjects", item: "https://eceexamguide.vercel.app/subjects" },
+        { "@type": "ListItem", position: 3, name: "Analog Electronics", item: "https://eceexamguide.vercel.app/subjects/analog-electronics" },
+        { "@type": "ListItem", position: 4, name: "Amplifiers", item: canonicalUrl },
+      ],
+    };
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What is an amplifier?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "An amplifier is an electronic circuit that increases the strength of a signal while preserving its useful waveform shape.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What is voltage gain?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Voltage gain is the ratio of output voltage to input voltage and is commonly written as Av = Vout / Vin.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Why does a common-emitter amplifier invert phase?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "In a common-emitter amplifier, an increase in collector current increases the voltage drop across the collector resistor, reducing collector voltage and producing a 180 degree phase inversion.",
+          },
+        },
+      ],
+    };
+
+    return (
+      <Layout
+        title={pageTitle}
+        description={pageDescription}
+        pageClassName="py-3 sm:py-4"
+      >
+        <Head>
+          <link rel="canonical" href={canonicalUrl} />
+          <meta name="keywords" content="amplifier, amplifiers explained, voltage gain, BJT amplifier, MOSFET amplifier, frequency response, amplifier bandwidth, amplifier classes, amplifier distortion, Analog Electronics" />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          />
+        </Head>
+        <div className="mx-auto max-w-[1200px] pb-24">
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-5 flex items-start justify-between gap-3 pt-1"
+          >
+            <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
+              <li>
+                <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
+                  Home
+                </Link>
+              </li>
+              <li className="text-slate-300">/</li>
+              <li>
+                <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
+                  Subjects
+                </Link>
+              </li>
+              <li className="text-slate-300">/</li>
+              <li>
+                <Link
+                  href="/subjects/analog-electronics"
+                  className="font-medium text-slate-600 transition hover:text-portal-700"
+                >
+                  Analog Electronics
+                </Link>
+              </li>
+              <li className="text-slate-300">/</li>
+              <li>
+                <span className="rounded-full bg-portal-50 px-3 py-1 font-semibold text-portal-700">
+                  Amplifiers
+                </span>
+              </li>
+            </ol>
+            <TopicJumpMenu
+              label="Amplifiers"
+              topics={AMPLIFIER_TOPIC_MENU}
+              idPrefix="amplifier-topic"
+              controlId="amplifier-topic-menu"
+            />
+          </nav>
+
+          <section className="rounded-[24px] border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-4 shadow-panel sm:p-5">
+            <p className="inline-flex rounded-full border border-portal-200 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
+              Analog Electronics / Amplifiers
+            </p>
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              Amplifiers Explained: Gain, BJT, MOSFET, Frequency Response, and Classes
+            </h1>
+            <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-800 sm:text-base">
+              A complete visual guide to amplifier gain, phase shift, BJT and MOSFET
+              amplifier action, frequency response, bandwidth, classes, distortion,
+              and practical design parameters.
+            </p>
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+              <Link
+                href="/mcqs/analog-electronics"
+                className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
+              >
+                Try MCQs
+              </Link>
+              <Link
+                href="/notes/analog-electronics"
+                className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
+              >
+                Download Notes
+              </Link>
+              <Link
+                href="/subjects/analog-electronics"
+                className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
+              >
+                Back to Analog Electronics
+              </Link>
+            </div>
+          </section>
+
+          <AmplifierDeepDiveContent />
+        </div>
+      </Layout>
+    );
+  }
+
   function getConceptStatus(index) {
     if (index < activeConceptIndex) {
       return "review";
@@ -4559,6 +10336,8 @@ export default function SubjectTheoryPage({
               activeIndex={activeConceptIndex}
               onSelectTopic={selectRoadmapTopic}
             />
+          ) : subject.title === "Analog Electronics" ? (
+            <AnalogChapterMenu />
           ) : concepts.length ? (
             <SubjectConceptMenu
               subjectTitle={subject.title}
@@ -4658,20 +10437,13 @@ export default function SubjectTheoryPage({
             ) : null}
 
             {isConceptIntroPage ? (
-              <div className="mt-5 flex justify-end">
+              <div className="mt-5 flex flex-col justify-end gap-3 sm:flex-row">
                 {subject.title === "Network Analysis" ? (
                   <Link
                     href="/basic-concepts"
                     className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
                   >
                     Next Basic Concepts
-                  </Link>
-                ) : subject.title === "Analog Electronics" ? (
-                  <Link
-                    href="/diodes"
-                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
-                  >
-                    Diodes
                   </Link>
                 ) : (
                   <button
@@ -4955,7 +10727,7 @@ export default function SubjectTheoryPage({
             </Link>
           ) : subject.title === "Analog Electronics" ? (
             <Link
-              href="/diodes"
+              href="/semiconductor-fundamentals"
               className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
             >
               Theory

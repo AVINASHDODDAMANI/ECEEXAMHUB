@@ -1,8 +1,8 @@
 ⨯ Another next dev server is already running.
 
 - Local:        http://localhost:3000
-- PID:          23528
+- PID:          3068
 - Dir:          C:\Users\AVINASH\Documents\GitHub\ECEEXAMHUB
 - Log:          .next\dev\logs\next-development.log
 
-Run taskkill /PID 23528 /F to stop it.
+Run taskkill /PID 3068 /F to stop it.

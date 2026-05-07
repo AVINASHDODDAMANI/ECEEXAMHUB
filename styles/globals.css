@@ -78,6 +78,22 @@ canvas {
   min-height: 100vh;
 }
 
+mjx-container {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+mjx-container[display="true"] {
+  margin: 0.75rem auto !important;
+  text-align: center;
+}
+
+.topic-section mjx-container[display="true"] {
+  color: #0f172a;
+  font-size: 112% !important;
+}
+
 .basic-concept-guide-content > div > section {
   padding-top: 1rem;
   padding-bottom: 1rem;
