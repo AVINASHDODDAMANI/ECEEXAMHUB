@@ -68,6 +68,210 @@ const SUBJECT_META = {
     studyTip:
       "Study analog electronics in this order: device operation, region identification, biasing, small-signal model, gain formulas, then frequency response and op-amp applications.",
   },
+  "Digital Electronics": {
+    subtitle: "The chapter that teaches how binary information is represented, simplified, stored, timed, and implemented using logic circuits.",
+    estimatedTime: "7-9 Hours",
+    difficulty: "Medium",
+    level: "Beginner to GATE Level",
+    keyConcepts: [
+      "Number Systems",
+      "Boolean Algebra",
+      "K-Maps",
+      "Combinational Circuits",
+      "Flip-Flops and Counters",
+      "Logic Families",
+    ],
+    examFocus: [
+      "Boolean algebra and K-map simplification",
+      "Combinational circuit design",
+      "Flip-flops, counters, and registers",
+      "Logic families, memories, ADC, and DAC",
+    ],
+    studyTip:
+      "Study Digital Electronics in chapter order: number systems, Boolean algebra, K-maps, combinational circuits, sequential circuits, counters, registers, logic families, memories, and converters.",
+  },
+};
+
+const DIGITAL_ELECTRONICS_CHAPTERS = [
+  {
+    title: "Number Systems and Codes",
+    topics: [
+      {
+        title: "Number Systems",
+        subtopics: ["Decimal number system", "Binary number system", "Octal number system", "Hexadecimal number system"],
+      },
+      {
+        title: "Number Conversions",
+        subtopics: ["Decimal to binary", "Binary to decimal", "Binary to octal", "Hexadecimal conversions"],
+      },
+      {
+        title: "Binary Arithmetic",
+        subtopics: ["Binary addition", "Binary subtraction", "1's complement", "2's complement"],
+      },
+      {
+        title: "Codes",
+        subtopics: ["BCD code", "Gray code", "ASCII", "Excess-3 code"],
+      },
+    ],
+  },
+  {
+    title: "Logic Gates and Boolean Algebra",
+    topics: [
+      { title: "Basic Logic Gates", subtopics: ["AND gate", "OR gate", "NOT gate"] },
+      { title: "Universal Gates", subtopics: ["NAND gate", "NOR gate"] },
+      { title: "Exclusive Gates", subtopics: ["XOR gate", "XNOR gate"] },
+      { title: "Boolean Algebra", subtopics: ["Boolean laws", "De Morgan's theorem", "(A + B)' = A'B'"] },
+      { title: "Logic Simplification", subtopics: ["SOP form", "POS form"] },
+    ],
+  },
+  {
+    title: "Karnaugh Map (K-Map)",
+    topics: [
+      { title: "K-Map Basics", subtopics: ["2-variable K-map", "3-variable K-map", "4-variable K-map"] },
+      { title: "Simplification Techniques", subtopics: ["Grouping", "Prime implicants", "Essential prime implicants"] },
+      { title: "Don't Care Conditions", subtopics: [] },
+    ],
+  },
+  {
+    title: "Combinational Circuits",
+    topics: [
+      { title: "Adders", subtopics: ["Half adder", "Full adder"] },
+      { title: "Subtractors", subtopics: ["Half subtractor", "Full subtractor"] },
+      { title: "Multiplexers (MUX)", subtopics: [] },
+      { title: "Demultiplexers (DEMUX)", subtopics: [] },
+      { title: "Encoders", subtopics: [] },
+      { title: "Decoders", subtopics: [] },
+      { title: "Comparators", subtopics: [] },
+    ],
+  },
+  {
+    title: "Sequential Circuits",
+    topics: [
+      { title: "Latches", subtopics: ["SR latch", "D latch"] },
+      { title: "Flip-Flops", subtopics: ["SR flip-flop", "JK flip-flop", "D flip-flop", "T flip-flop"] },
+      { title: "Flip-Flop Characteristics", subtopics: ["Truth table", "Excitation table", "Characteristic equation"] },
+    ],
+  },
+  {
+    title: "Counters",
+    topics: [
+      { title: "Asynchronous Counters", subtopics: [] },
+      { title: "Synchronous Counters", subtopics: [] },
+      { title: "Types of Counters", subtopics: ["Up counter", "Down counter", "Mod-N counter", "Ring counter", "Johnson counter"] },
+    ],
+  },
+  {
+    title: "Registers and Shift Registers",
+    topics: [
+      { title: "Registers", subtopics: [] },
+      { title: "Shift Registers", subtopics: ["SISO", "SIPO", "PISO", "PIPO"] },
+      { title: "Applications of Shift Registers", subtopics: [] },
+    ],
+  },
+  {
+    title: "Logic Families",
+    topics: [
+      { title: "TTL Logic", subtopics: [] },
+      { title: "CMOS Logic", subtopics: [] },
+      { title: "Comparison of Logic Families", subtopics: ["Fan-in", "Fan-out", "Noise margin", "Power dissipation", "Propagation delay"] },
+    ],
+  },
+  {
+    title: "Memories",
+    topics: [
+      { title: "Semiconductor Memories", subtopics: ["RAM", "ROM"] },
+      { title: "Types of RAM", subtopics: ["SRAM", "DRAM"] },
+      { title: "Types of ROM", subtopics: ["PROM", "EPROM", "EEPROM"] },
+    ],
+  },
+  {
+    title: "Analog to Digital and Digital to Analog Converters",
+    topics: [
+      { title: "DAC", subtopics: ["Binary weighted DAC", "R-2R ladder DAC"] },
+      { title: "ADC", subtopics: ["Flash ADC", "Successive approximation ADC", "Dual slope ADC"] },
+      { title: "Resolution and Accuracy", subtopics: [] },
+    ],
+  },
+  {
+    title: "Digital ICs and Applications",
+    topics: [
+      { title: "Timing Circuits", subtopics: [] },
+      { title: "Clock Signals", subtopics: [] },
+      { title: "Pulse Generation", subtopics: [] },
+      { title: "Applications of Digital Electronics", subtopics: [] },
+    ],
+  },
+];
+
+const DIGITAL_HIGH_WEIGHTAGE_TOPICS = [
+  "Boolean algebra",
+  "K-map simplification",
+  "Combinational circuits",
+  "Flip-flops",
+  "Counters",
+  "Shift registers",
+  "Logic families",
+  "ADC and DAC",
+];
+
+const DIGITAL_CHAPTER_ROUTES = {
+  "Number Systems and Codes": "/number-systems-and-codes",
+  "Logic Gates and Boolean Algebra": "/logic-gates-and-boolean-algebra",
+  "Karnaugh Map (K-Map)": "/karnaugh-map",
+  "Combinational Circuits": "/combinational-circuits",
+  "Sequential Circuits": "/sequential-circuits",
+  Counters: "/counters",
+};
+
+const DIGITAL_ELECTRONICS_KNOWLEDGE = {
+  overviewCards: [
+    {
+      title: "Overview of Digital Electronics",
+      description:
+        "For Graduate Aptitude Test in Engineering (GATE) and PSU exams, Digital Electronics should be prepared in a structured format: Chapter -> Topics -> Subtopics. This keeps the subject easy to revise and makes objective questions faster to solve.",
+      points: [
+        "Use the chapter flow for concept clarity.",
+        "Revise topics and subtopics quickly before exams.",
+        "Prepare cleaner interview explanations.",
+        "Solve Boolean, K-map, circuit, and timing questions faster.",
+      ],
+    },
+  ],
+  concepts: DIGITAL_ELECTRONICS_CHAPTERS.map((chapter, index) => ({
+    slug: `digital-chapter-${index + 1}`,
+    title: chapter.title,
+    shortTitle: chapter.title,
+    diagram: "basic-circuit",
+    diagramNote: "Digital Electronics questions are best handled by first identifying the chapter, then the exact topic and subtopic being tested.",
+    summary: chapter.topics
+      .map((topic) => [topic.title, ...topic.subtopics].join(": "))
+      .join(" | "),
+    teaching: {
+      intuition: [
+        `${chapter.title} is Chapter ${index + 1} in the Digital Electronics GATE/PSU flow.`,
+        "Prepare it as topic blocks, then practice objective questions from each block.",
+      ],
+      explanation: chapter.topics.map((topic) =>
+        topic.subtopics.length ? `${topic.title}: ${topic.subtopics.join(", ")}` : topic.title
+      ),
+      interpretation: chapter.topics.map((topic) => topic.title),
+      commonMistake:
+        "Students often memorize isolated facts instead of learning the chapter, topic, and subtopic relationship.",
+      realLifeInsight:
+        "Digital systems are built by combining representation, logic simplification, combinational blocks, storage elements, timing, and IC constraints.",
+    },
+    learnPoints: chapter.topics.map((topic) => topic.title),
+    formulas:
+      chapter.title === "Logic Gates and Boolean Algebra"
+        ? [
+            {
+              label: "De Morgan's theorem",
+              expression: "(A + B)' = A'B'",
+              note: "A common simplification identity used while reducing Boolean expressions.",
+            },
+          ]
+        : [],
+  })),
 };
 
 const NETWORK_ANALYSIS_TOPIC_GROUPS = [
@@ -4653,6 +4857,65 @@ function NetworkOverviewPanel({ overviewCards = [] }) {
   );
 }
 
+function DigitalOverviewPanel() {
+  return (
+    <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Is Digital Electronics?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            Digital Electronics is the study of circuits that represent information
+            using discrete logic levels, mainly 0 and 1. It explains how numbers,
+            codes, gates, Boolean expressions, combinational circuits, flip-flops,
+            counters, registers, memories, and converters work together to build
+            digital systems.
+          </p>
+        </article>
+
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            Why Do We Study It?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            We study this chapter because GATE, PSU exams, interviews, and practical
+            electronics all depend on digital logic. A strong Digital Electronics base
+            helps you simplify logic expressions, design circuit blocks, analyze
+            sequential behavior, and answer objective questions quickly.
+          </p>
+        </article>
+
+        <article className="lg:col-span-2">
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Will You Learn?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            For Graduate Aptitude Test in Engineering and PSU exams, prepare Digital
+            Electronics in a structured format: Chapter - Topics - Subtopics.
+          </p>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+            {[
+              "Number systems, conversions, binary arithmetic, and codes.",
+              "Logic gates, Boolean algebra, De Morgan's theorem, SOP, and POS forms.",
+              "K-map simplification, grouping, prime implicants, and don't-care conditions.",
+              "Combinational circuits such as adders, subtractors, MUX, DEMUX, encoders, decoders, and comparators.",
+              "Sequential circuits including latches, flip-flops, counters, registers, and shift registers.",
+              "Logic families, memories, ADC, DAC, timing circuits, clocks, and applications.",
+            ].map((point) => (
+              <li key={point} className="flex gap-2">
+                <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+
+    </section>
+  );
+}
+
 function OverviewRow({ item }) {
   return (
     <article className="py-5 first:pt-0 last:pb-0">
@@ -5021,6 +5284,78 @@ function SubjectConceptMenu({ subjectTitle, concepts = [], activeIndex = 0, onSe
   );
 }
 
+function DigitalChapterMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open Digital Electronics topics"
+        aria-expanded={isOpen}
+        aria-controls="digital-chapter-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="digital-chapter-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(26rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              Digital Electronics Structure
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
+              Chapter - Topics - Subtopics for GATE/PSU revision.
+            </p>
+          </div>
+
+          <div className="grid gap-2">
+            {DIGITAL_ELECTRONICS_CHAPTERS.map((chapter, chapterIndex) => {
+              const routeHref = DIGITAL_CHAPTER_ROUTES[chapter.title] || "/subjects/digital-electronics";
+
+              return (
+                <Link
+                  key={chapter.title}
+                  href={routeHref}
+                  onClick={() => setIsOpen(false)}
+                  className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+                >
+                  <span className="flex items-start gap-2.5">
+                    <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
+                      {String(chapterIndex + 1).padStart(2, "0")}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-black leading-snug text-slate-950">
+                        {chapter.title}
+                      </span>
+                      <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
+                        {chapter.topics.map((topic) => topic.title).join(", ")}
+                      </span>
+                    </span>
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function AnalogChapterMenu() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -5048,35 +5383,35 @@ function AnalogChapterMenu() {
       {isOpen ? (
         <div
           id="analog-chapter-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(24rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+          className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(23rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
         >
           <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
             <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
               Analog Electronics Chapter Flow
             </p>
-            <p className="mt-1 text-xs font-semibold leading-5 text-slate-700">
-              Open a chapter page for circuit flow and animated step-by-step working.
+            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
+              Open a chapter for focused theory, diagrams, and practice.
             </p>
           </div>
 
-          <div className="grid gap-2">
+          <div className="grid gap-1.5">
             {ANALOG_CHAPTERS.map((chapter) => (
               <Link
                 key={chapter.slug}
                 href={chapter.route}
                 onClick={() => setIsOpen(false)}
-                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-2.5 text-left transition hover:border-portal-300 hover:bg-white"
               >
-                <span className="flex items-start gap-3">
-                  <span className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-white text-xs font-black text-portal-700 shadow-sm">
+                <span className="flex items-start gap-2.5">
+                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
                     {String(chapter.number).padStart(2, "0")}
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-sm font-black text-slate-950">
+                    <span className="block text-sm font-black leading-snug text-slate-950">
                       {chapter.title}
                     </span>
-                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
-                      Circuit flow + animated working
+                    <span className="mt-0.5 block text-xs font-semibold leading-4 text-slate-600">
+                      {chapter.examFocus}
                     </span>
                   </span>
                 </span>
@@ -6314,6 +6649,333 @@ function FetDeepDiveContent({ chapter }) {
       </section>
 
       <div className="mt-6 grid gap-5">
+        <TopicSection title="Introduction">
+          <p>
+            A Field Effect Transistor, or FET, is a semiconductor device in which an
+            electric field controls current through a conducting channel. Unlike a BJT,
+            which needs base current for control, a FET is mainly controlled by voltage
+            applied at the gate terminal.
+          </p>
+          <p>
+            FETs are important because modern electronics needs devices that consume very
+            little input current, switch fast, occupy small chip area, and can be packed
+            in huge numbers inside integrated circuits.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Why This Topic Matters">
+          <ul className="grid gap-2">
+            <li>Industry relevance: MOSFETs are the backbone of CMOS ICs, microprocessors, memory, power electronics, SMPS, motor drives, RF circuits, and analog switches.</li>
+            <li>Analog relevance: FETs are used in common-source amplifiers, source followers, current sources, active loads, differential pairs, and high-input-impedance sensor circuits.</li>
+            <li>Exam relevance: GATE and university exams test JFET pinch-off, MOSFET threshold voltage, operating regions, drain-current equations, transconductance, and FET amplifier gain.</li>
+            <li>Interview relevance: strong answers explain channel formation and gate-field control instead of only quoting drain-current formulas.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Prerequisites">
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li>PN junction and depletion region</li>
+            <li>Doping and majority carriers</li>
+            <li>Electric field effect on charge carriers</li>
+            <li>Voltage, current, and resistance concepts</li>
+            <li>Basic amplifier gain and biasing</li>
+            <li>Small-signal model and transconductance idea</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Basic Intuition">
+          <p>
+            Imagine a water pipe with a flexible wall. The water flow is drain current.
+            The pipe opening is the channel. The gate voltage presses on the channel
+            electrically and changes how wide the path is. A wider channel allows more
+            current; a narrower channel allows less current.
+          </p>
+          <p>
+            In a JFET, the channel already exists and gate reverse bias squeezes it. In
+            an enhancement MOSFET, the channel does not exist at zero gate voltage; it
+            forms only when gate voltage crosses threshold.
+          </p>
+          <blockquote className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-sm font-semibold leading-6 text-amber-950">
+            Simple memory: BJT uses input current for control; FET uses gate voltage and
+            electric field for control.
+          </blockquote>
+        </TopicSection>
+
+        <TopicSection title="Core Theory Explanation">
+          <p>
+            A FET has three main terminals: gate, drain, and source. Current flows mainly
+            between drain and source through a channel. The gate controls that channel
+            through an electric field.
+          </p>
+          <ul className="grid gap-2">
+            <li>JFET: gate-channel junction is reverse biased; increasing reverse bias narrows the channel.</li>
+            <li>Depletion MOSFET: channel exists initially and can be depleted or enhanced by gate voltage.</li>
+            <li>Enhancement MOSFET: channel is induced only when gate-source voltage exceeds threshold voltage.</li>
+            <li>FET amplifier action: a small change in gate voltage causes a larger change in drain current, which creates output voltage across a load.</li>
+          </ul>
+          <p>
+            The key physical concept is channel control. The gate does not need to inject
+            significant DC current. It creates an electric field, and that field controls
+            the carrier density or channel width between drain and source.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Step-by-Step Mathematical Derivation">
+          <h3 className="text-base font-bold text-slate-950">1. JFET Drain Current</h3>
+          <p>
+            For a JFET, the channel is widest when gate-source voltage is zero. As
+            reverse gate voltage increases, the depletion region expands and the channel
+            becomes narrower. Shockley's equation models this behavior:
+          </p>
+          <p>{"$$ I_D = I_{DSS}\\left(1-\\frac{V_{GS}}{V_P}\\right)^2 $$"}</p>
+          <ul className="grid gap-2">
+            <li>{"$$ I_D $$ is drain current."}</li>
+            <li>{"$$ I_{DSS} $$ is maximum drain current when gate-source voltage is zero."}</li>
+            <li>{"$$ V_{GS} $$ is gate-source voltage."}</li>
+            <li>{"$$ V_P $$ is pinch-off voltage, the gate voltage that almost closes the channel."}</li>
+          </ul>
+          <p>
+            Physical meaning: the squared term tells us that channel current does not
+            reduce linearly. As the channel is squeezed, current falls faster.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">2. MOSFET Threshold Condition</h3>
+          <p>
+            In an enhancement MOSFET, drain current does not start properly until a
+            conducting channel is formed. This happens when gate-source voltage crosses
+            threshold voltage.
+          </p>
+          <p>{"Channel forms when $$ V_{GS} > V_T $$"}</p>
+          <p>
+            Below threshold, the gate field is not strong enough to create a useful
+            inversion channel. Above threshold, carriers gather under the gate oxide and
+            create a controllable path from drain to source.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">3. MOSFET Drain Current in Saturation</h3>
+          <p>
+            In saturation region, a long-channel enhancement MOSFET behaves approximately
+            as a voltage-controlled current source:
+          </p>
+          <p>{"$$ I_D = \\frac{1}{2}k(V_{GS}-V_T)^2 $$"}</p>
+          <ul className="grid gap-2">
+            <li>{"$$ k $$ depends on device geometry, mobility, oxide capacitance, and channel dimensions."}</li>
+            <li>{"$$ V_{GS}-V_T $$ is called overdrive voltage."}</li>
+            <li>The larger the overdrive voltage, the stronger the channel and the larger the drain current.</li>
+          </ul>
+
+          <h3 className="text-base font-bold text-slate-950">4. Transconductance</h3>
+          <p>
+            Transconductance measures how effectively gate voltage controls drain
+            current. It is the small-signal slope of the drain-current curve.
+          </p>
+          <p>{"$$ g_m = \\frac{\\Delta I_D}{\\Delta V_{GS}} $$"}</p>
+          <p>
+            Plain meaning: if a tiny change in gate voltage produces a large change in
+            drain current, the device has high transconductance and can provide strong
+            amplification.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">5. Common-Source Voltage Gain</h3>
+          <p>
+            In a common-source amplifier, gate voltage changes drain current. Drain
+            current variation creates voltage variation across the drain resistor.
+          </p>
+          <p>{"$$ A_v \\approx -g_m R_D $$"}</p>
+          <p>
+            The negative sign means phase inversion. When gate voltage increases, drain
+            current increases, voltage drop across the drain resistor increases, and
+            drain voltage falls.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Working Principle">
+          <ol className="grid gap-2">
+            <li>Apply gate-source voltage to create or control the channel.</li>
+            <li>Drain-source voltage pulls carriers through the channel.</li>
+            <li>Gate electric field changes channel width or channel charge density.</li>
+            <li>Drain current changes according to gate-source voltage.</li>
+            <li>In amplifier use, drain-current change is converted into output voltage across a load.</li>
+            <li>In switching use, the FET moves between cutoff and low-resistance ON state.</li>
+          </ol>
+        </TopicSection>
+
+        <TopicSection title="Diagram Explanation">
+          <div className="grid gap-3 lg:grid-cols-2">
+            <div className="diagram-placeholder flex min-h-[150px] items-center justify-center rounded-2xl border border-portal-100 bg-[#f8fbff] p-4 text-center text-sm font-bold text-portal-700">
+              FET Structure and Channel Control Diagram Here
+            </div>
+            <div className="diagram-placeholder flex min-h-[150px] items-center justify-center rounded-2xl border border-portal-100 bg-[#f8fbff] p-4 text-center text-sm font-bold text-portal-700">
+              Drain Characteristics Graph Here
+            </div>
+          </div>
+          <p>
+            The structure diagram should show gate, drain, source, oxide or PN junction,
+            and channel. The characteristics graph should show how drain current changes
+            with drain-source voltage for different gate-source voltages.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Important Formulas">
+          <div className="grid gap-3 lg:grid-cols-2">
+            {[
+              ["JFET drain current", "$$ I_D=I_{DSS}\\left(1-\\frac{V_{GS}}{V_P}\\right)^2 $$", "Gate reverse bias squeezes the channel and reduces current."],
+              ["MOSFET threshold condition", "$$ V_{GS}>V_T $$", "Enhancement MOSFET channel forms only above threshold."],
+              ["MOSFET saturation current", "$$ I_D=\\frac{1}{2}k(V_{GS}-V_T)^2 $$", "Drain current rises with square of overdrive voltage."],
+              ["Overdrive voltage", "$$ V_{OV}=V_{GS}-V_T $$", "Extra gate voltage available after channel formation."],
+              ["Transconductance", "$$ g_m=\\Delta I_D/\\Delta V_{GS} $$", "Measures gate-voltage control over drain current."],
+              ["Common-source gain", "$$ A_v\\approx -g_mR_D $$", "Current variation through drain resistor creates inverted voltage gain."],
+              ["Triode-region condition", "$$ V_{DS}<V_{GS}-V_T $$", "MOSFET behaves like a voltage-controlled resistor."],
+              ["Saturation-region condition", "$$ V_{DS}\\ge V_{GS}-V_T $$", "MOSFET behaves approximately like a controlled current source."],
+            ].map(([heading, formula, meaning]) => (
+              <div key={heading} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+                <h3 className="text-base font-bold text-slate-950">{heading}</h3>
+                <p className="mt-2 font-bold text-portal-700">{formula}</p>
+                <p className="mt-2 text-sm leading-6">{meaning}</p>
+              </div>
+            ))}
+          </div>
+        </TopicSection>
+
+        <TopicSection title="Real-World Applications">
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li>CMOS logic gates and microprocessors</li>
+            <li>Memory cells and digital ICs</li>
+            <li>SMPS and DC-DC converters</li>
+            <li>Motor drivers and power inverters</li>
+            <li>Low-noise sensor input stages</li>
+            <li>Analog switches and multiplexers</li>
+            <li>RF amplifiers and mixers</li>
+            <li>Source followers and impedance buffers</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Solved Examples">
+          <h3 className="text-base font-bold text-slate-950">Beginner Example</h3>
+          <p>{"An enhancement MOSFET has $$ V_T=2\\,V $$. If $$ V_{GS}=1.5\\,V $$, is a strong channel formed?"}</p>
+          <p>
+            Since gate-source voltage is less than threshold voltage, a strong inversion
+            channel is not formed. The MOSFET remains OFF for basic circuit analysis.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">Intermediate Numerical</h3>
+          <p>{"A MOSFET has $$ k=2\\,mA/V^2 $$, $$ V_T=1\\,V $$, and $$ V_{GS}=3\\,V $$. Find saturation drain current."}</p>
+          <p>{"Overdrive voltage: $$ V_{OV}=V_{GS}-V_T=3-1=2\\,V $$"}</p>
+          <p>{"$$ I_D=\\frac{1}{2}kV_{OV}^2=\\frac{1}{2}(2)(2)^2=4\\,mA $$"}</p>
+
+          <h3 className="text-base font-bold text-slate-950">Advanced Problem</h3>
+          <p>{"A common-source amplifier has $$ g_m=4\\,mS $$ and $$ R_D=5\\,k\\Omega $$. Estimate voltage gain."}</p>
+          <p>{"$$ A_v\\approx -g_mR_D=-(4\\times10^{-3})(5\\times10^3)=-20 $$"}</p>
+          <p>
+            The magnitude of gain is 20, and the negative sign means the output is 180
+            degrees out of phase with the input.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Common Mistakes">
+          <ul className="grid gap-2">
+            <li>Thinking MOSFET gate draws large DC current. Ideally, the insulated gate draws almost no DC current.</li>
+            <li>Confusing JFET pinch-off voltage with MOSFET threshold voltage.</li>
+            <li>Using saturation current equation when the MOSFET is actually in triode region.</li>
+            <li>Forgetting that enhancement MOSFET needs gate voltage above threshold to form a strong channel.</li>
+            <li>Ignoring the negative sign in common-source voltage gain.</li>
+            <li>Assuming all FETs are normally OFF; depletion-mode devices can be normally ON.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Comparison Tables">
+          <table className="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-950">
+                <th className="py-2 pr-3">Device</th>
+                <th className="py-2 pr-3">Control Method</th>
+                <th className="py-2 pr-3">Normally</th>
+                <th className="py-2 pr-3">Key Exam Point</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">JFET</td><td className="py-2 pr-3">Reverse gate bias controls channel width</td><td className="py-2 pr-3">ON at zero gate bias</td><td className="py-2 pr-3">Pinch-off and Shockley equation</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Depletion MOSFET</td><td className="py-2 pr-3">Gate voltage depletes or enhances existing channel</td><td className="py-2 pr-3">ON at zero gate bias</td><td className="py-2 pr-3">Can work with positive or negative gate control</td></tr>
+              <tr><td className="py-2 pr-3">Enhancement MOSFET</td><td className="py-2 pr-3">Gate voltage induces channel</td><td className="py-2 pr-3">OFF at zero gate bias</td><td className="py-2 pr-3">Threshold voltage and regions</td></tr>
+            </tbody>
+          </table>
+          <table className="mt-4 w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-950">
+                <th className="py-2 pr-3">Amplifier</th>
+                <th className="py-2 pr-3">Phase</th>
+                <th className="py-2 pr-3">Input Resistance</th>
+                <th className="py-2 pr-3">Main Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Common source</td><td className="py-2 pr-3">Inverted</td><td className="py-2 pr-3">High</td><td className="py-2 pr-3">Voltage gain</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Common drain</td><td className="py-2 pr-3">Same phase</td><td className="py-2 pr-3">Very high</td><td className="py-2 pr-3">Buffering</td></tr>
+              <tr><td className="py-2 pr-3">Common gate</td><td className="py-2 pr-3">Same phase</td><td className="py-2 pr-3">Low</td><td className="py-2 pr-3">High-frequency matching</td></tr>
+            </tbody>
+          </table>
+        </TopicSection>
+
+        <TopicSection title="Interview Questions">
+          <ul className="grid gap-2">
+            <li>Why is a FET called a voltage-controlled device?</li>
+            <li>Why is MOSFET input resistance very high?</li>
+            <li>What is threshold voltage in an enhancement MOSFET?</li>
+            <li>What is pinch-off in a JFET?</li>
+            <li>What is transconductance, and why does it matter in amplifiers?</li>
+            <li>Why does common-source amplifier invert phase?</li>
+            <li>How is a MOSFET used as a switch?</li>
+            <li>What is the difference between triode and saturation regions?</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Exam-Oriented Notes">
+          <ul className="grid gap-2">
+            <li>For enhancement MOSFET, first check whether gate-source voltage is above threshold.</li>
+            <li>{"Use triode condition $$ V_{DS}<V_{GS}-V_T $$ before applying triode-region equations."}</li>
+            <li>{"Use saturation condition $$ V_{DS}\\ge V_{GS}-V_T $$ before applying saturation equation."}</li>
+            <li>JFET is normally ON; enhancement MOSFET is normally OFF.</li>
+            <li>Common-source amplifier gives voltage gain with phase inversion.</li>
+            <li>Common-drain circuit is a source follower used for buffering.</li>
+            <li>High input resistance is a major advantage of FETs in sensor and amplifier input stages.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Revision Summary">
+          <ul className="grid gap-2">
+            <li>FET current is controlled by gate electric field.</li>
+            <li>Gate current is ideally very small, giving high input resistance.</li>
+            <li>JFET channel exists initially and is squeezed by reverse gate bias.</li>
+            <li>Enhancement MOSFET channel forms only after threshold voltage.</li>
+            <li>Transconductance tells how strongly gate voltage controls drain current.</li>
+            <li>Common-source gives voltage gain and phase inversion.</li>
+            <li>{"Key formulas: $$ I_D=I_{DSS}(1-V_{GS}/V_P)^2 $$, $$ I_D=\\frac{1}{2}k(V_{GS}-V_T)^2 $$, and $$ A_v\\approx -g_mR_D $$."}</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Practice Questions">
+          <h3 className="text-base font-bold text-slate-950">Conceptual</h3>
+          <ul className="grid gap-2">
+            <li>Explain FET operation using channel-width control.</li>
+            <li>Why is an enhancement MOSFET normally OFF?</li>
+            <li>Why is common-drain amplifier called a source follower?</li>
+          </ul>
+          <h3 className="text-base font-bold text-slate-950">Numerical</h3>
+          <ul className="grid gap-2">
+            <li>{"For a MOSFET with $$ V_T=1.5\\,V $$ and $$ V_{GS}=4\\,V $$, find overdrive voltage."}</li>
+            <li>{"If $$ k=1\\,mA/V^2 $$ and $$ V_{OV}=3\\,V $$, find saturation drain current."}</li>
+            <li>{"Find common-source gain when $$ g_m=2.5\\,mS $$ and $$ R_D=8\\,k\\Omega $$."}</li>
+          </ul>
+          <h3 className="text-base font-bold text-slate-950">MCQs</h3>
+          <ul className="grid gap-2">
+            <li>Which device is normally OFF: JFET, depletion MOSFET, or enhancement MOSFET?</li>
+            <li>Which FET amplifier gives phase inversion: common source, common drain, or common gate?</li>
+            <li>What does transconductance relate: voltage to current, current to current, or voltage to voltage?</li>
+          </ul>
+        </TopicSection>
+      </div>
+
+      <div className="mt-6 grid gap-5">
         {FET_TOPIC_LESSONS.map((lesson, topicIndex) => (
           <section key={lesson.title} id={`analog-topic-${toAnchorId(lesson.title)}`} className="scroll-mt-40 rounded-[26px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff,#f8fbff)] p-4 shadow-sm sm:p-5">
             <div className="flex flex-wrap items-start gap-3">
@@ -6467,6 +7129,304 @@ function FeedbackDeepDiveContent({ chapter }) {
           ))}
         </div>
       </section>
+
+      <div className="mt-6 grid gap-5">
+        <TopicSection title="Introduction">
+          <p>
+            A feedback amplifier is an amplifier in which a fraction of the output is
+            returned to the input. If the returned signal opposes the input error, the
+            system uses negative feedback. If it supports the input, the system uses
+            positive feedback.
+          </p>
+          <p>
+            In amplifier design, negative feedback is extremely important because it
+            trades extra gain for better accuracy, stability, bandwidth, linearity, and
+            predictable input-output resistance.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Why This Topic Matters">
+          <ul className="grid gap-2">
+            <li>Industry relevance: feedback appears in audio amplifiers, op-amp circuits, RF gain blocks, sensor interfaces, voltage regulators, control systems, and data converters.</li>
+            <li>Signal-quality relevance: negative feedback reduces distortion, gain drift, noise sensitivity, and device-parameter dependence.</li>
+            <li>Exam relevance: GATE and university exams repeatedly ask closed-loop gain, desensitivity, bandwidth improvement, distortion reduction, and feedback topology identification.</li>
+            <li>Interview relevance: a strong answer explains feedback as error correction, not just the formula $$ A_f=A/(1+A\beta) $$.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Prerequisites">
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li>Voltage gain and current gain</li>
+            <li>Open-loop and closed-loop amplifier behavior</li>
+            <li>Basic block diagrams and signal flow</li>
+            <li>Input resistance and output resistance</li>
+            <li>Frequency response and bandwidth</li>
+            <li>Phase shift, distortion, and amplifier loading</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Basic Intuition">
+          <p>
+            Feedback is like a teacher checking the answer and correcting the next step.
+            The amplifier produces an output. A small part of that output is measured
+            and sent back. The input stage compares the original command with this
+            returned information.
+          </p>
+          <p>
+            If the output is too large, negative feedback reduces the effective input.
+            If the output is too small, the error increases and the amplifier pushes
+            harder. This self-correction makes the circuit more predictable.
+          </p>
+          <blockquote className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-sm font-semibold leading-6 text-amber-950">
+            Simple memory: an open-loop amplifier only amplifies; a negative-feedback
+            amplifier amplifies and corrects itself.
+          </blockquote>
+        </TopicSection>
+
+        <TopicSection title="Core Theory Explanation">
+          <p>
+            A feedback amplifier has three important quantities: open-loop gain, feedback
+            factor, and closed-loop gain. The open-loop gain is the raw gain of the
+            amplifier without correction. The feedback factor tells how much output is
+            sampled and returned. The closed-loop gain is the final gain after correction.
+          </p>
+          <ul className="grid gap-2">
+            <li>Sampling network: takes voltage or current information from the output.</li>
+            <li>Feedback network: scales the sampled output by a factor $$ \beta $$.</li>
+            <li>Mixing network: compares the input signal with feedback signal.</li>
+            <li>Basic amplifier: amplifies the remaining error signal.</li>
+          </ul>
+          <p>
+            Negative feedback reduces gain, but that reduction is not a weakness. It is
+            the price paid for stability. Instead of depending strongly on transistor
+            gain, temperature, aging, and supply variation, the amplifier behavior becomes
+            controlled mainly by the external feedback network.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Step-by-Step Mathematical Derivation">
+          <h3 className="text-base font-bold text-slate-950">1. Start With the Error Signal</h3>
+          <p>
+            The amplifier does not amplify the source signal directly. In a negative
+            feedback system, it amplifies the difference between input and feedback.
+          </p>
+          <p>{"$$ V_e = V_s - V_f $$"}</p>
+          <p>
+            Here, $$ V_e $$ is the error signal. If output becomes too large, feedback
+            becomes larger, so error becomes smaller. That is correction.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">2. Relate Feedback to Output</h3>
+          <p>
+            The feedback network returns only a fraction of the output:
+          </p>
+          <p>{"$$ V_f = \\beta V_o $$"}</p>
+          <p>
+            Plain meaning: if $$ \beta = 0.1 $$, then 10 percent of output information
+            is returned to the input for correction.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">3. Use Amplifier Gain</h3>
+          <p>
+            The basic amplifier multiplies the error signal by open-loop gain:
+          </p>
+          <p>{"$$ V_o = A V_e $$"}</p>
+          <p>{"Substitute $$ V_e = V_s - \\beta V_o $$:"}</p>
+          <p>{"$$ V_o = A(V_s - \\beta V_o) $$"}</p>
+          <p>{"$$ V_o + A\\beta V_o = AV_s $$"}</p>
+          <p>{"$$ V_o(1+A\\beta)=AV_s $$"}</p>
+          <p>{"$$ A_f = \\frac{V_o}{V_s}=\\frac{A}{1+A\\beta} $$"}</p>
+          <p>
+            The denominator $$ 1+A\beta $$ is the correction strength. Larger loop gain
+            means stronger feedback correction and more stable closed-loop behavior.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">4. Gain Stability Meaning</h3>
+          <p>
+            When $$ A\beta $$ is very large, the formula becomes:
+          </p>
+          <p>{"$$ A_f \\approx \\frac{1}{\\beta} $$"}</p>
+          <p>
+            This is the most powerful idea in feedback. The final gain depends mainly on
+            the feedback network, not on the uncertain raw amplifier gain.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Working Principle">
+          <ol className="grid gap-2">
+            <li>Input signal enters the mixing point.</li>
+            <li>A fraction of output is sampled by the feedback network.</li>
+            <li>The sampled signal is returned to the input side.</li>
+            <li>For negative feedback, the returned signal subtracts from the source signal.</li>
+            <li>The amplifier boosts only the remaining error signal.</li>
+            <li>The output settles to a stable value controlled by feedback.</li>
+          </ol>
+        </TopicSection>
+
+        <TopicSection title="Diagram Explanation">
+          <div className="grid gap-3 lg:grid-cols-2">
+            <div className="diagram-placeholder flex min-h-[150px] items-center justify-center rounded-2xl border border-portal-100 bg-[#f8fbff] p-4 text-center text-sm font-bold text-portal-700">
+              Negative Feedback Block Diagram Here
+            </div>
+            <div className="diagram-placeholder flex min-h-[150px] items-center justify-center rounded-2xl border border-portal-100 bg-[#f8fbff] p-4 text-center text-sm font-bold text-portal-700">
+              Feedback Topology Signal Flow Diagram Here
+            </div>
+          </div>
+          <p>
+            The block diagram should show source signal, summing node, amplifier gain
+            block, output sampling, feedback factor $$ \beta $$, and the return path.
+            For topology diagrams, observe whether voltage or current is sampled at the
+            output and whether feedback is mixed in series or shunt at the input.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Important Formulas">
+          <div className="grid gap-3 lg:grid-cols-2">
+            {[
+              ["Feedback signal", "$$ V_f=\\beta V_o $$", "Feedback factor tells what fraction of output information returns to the input."],
+              ["Closed-loop gain", "$$ A_f=\\frac{A}{1+A\\beta} $$", "Negative feedback gain is lower but more stable than open-loop gain."],
+              ["Loop gain", "$$ A\\beta $$", "Measures strength of feedback correction around the loop."],
+              ["Desensitivity", "$$ D=1+A\\beta $$", "Shows how much gain variation is reduced by feedback."],
+              ["Bandwidth improvement", "$$ BW_f=BW(1+A\\beta) $$", "Gain reduces, but useful frequency range increases."],
+              ["Distortion reduction", "$$ D_f=\\frac{D}{1+A\\beta} $$", "Nonlinear distortion is divided by the same feedback factor."],
+              ["Noise reduction", "$$ N_f=\\frac{N}{1+A\\beta} $$", "Noise generated inside the amplifier is reduced by negative feedback."],
+              ["High loop-gain approximation", "$$ A_f\\approx\\frac{1}{\\beta} $$", "With strong feedback, final gain is set mainly by the feedback network."],
+            ].map(([heading, formula, meaning]) => (
+              <div key={heading} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+                <h3 className="text-base font-bold text-slate-950">{heading}</h3>
+                <p className="mt-2 font-bold text-portal-700">{formula}</p>
+                <p className="mt-2 text-sm leading-6">{meaning}</p>
+              </div>
+            ))}
+          </div>
+        </TopicSection>
+
+        <TopicSection title="Real-World Applications">
+          <ul className="grid gap-2 sm:grid-cols-2">
+            <li>Op-amp inverting and non-inverting amplifiers</li>
+            <li>Audio power amplifiers with low distortion</li>
+            <li>Voltage regulators and power supplies</li>
+            <li>Instrumentation amplifiers for sensor signals</li>
+            <li>Automatic gain control circuits</li>
+            <li>RF and communication gain stages</li>
+            <li>Control systems and servo loops</li>
+            <li>ADC drivers and precision analog front ends</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Solved Examples">
+          <h3 className="text-base font-bold text-slate-950">Beginner Example</h3>
+          <p>{"An amplifier has open-loop gain $$ A=1000 $$ and feedback factor $$ \\beta=0.01 $$. Find closed-loop gain."}</p>
+          <p>{"Loop gain: $$ A\\beta=1000\\times0.01=10 $$"}</p>
+          <p>{"$$ A_f=\\frac{A}{1+A\\beta}=\\frac{1000}{11}\\approx90.9 $$"}</p>
+          <p>
+            The gain dropped from 1000 to about 91, but the amplifier is now much more
+            stable and predictable.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">Intermediate Numerical</h3>
+          <p>{"An amplifier bandwidth is $$ 20\\,kHz $$ without feedback. If $$ A\\beta=9 $$, estimate feedback bandwidth."}</p>
+          <p>{"$$ BW_f=BW(1+A\\beta)=20\\,kHz\\times10=200\\,kHz $$"}</p>
+          <p>
+            Negative feedback reduces gain but expands bandwidth by the same factor.
+          </p>
+
+          <h3 className="text-base font-bold text-slate-950">Advanced Problem</h3>
+          <p>{"An amplifier has 8 percent distortion without feedback. If loop gain is 19, find distortion with feedback."}</p>
+          <p>{"$$ D_f=\\frac{D}{1+A\\beta}=\\frac{8\\%}{20}=0.4\\% $$"}</p>
+          <p>
+            Feedback reduces distortion because the output error is sampled and opposed
+            at the input.
+          </p>
+        </TopicSection>
+
+        <TopicSection title="Common Mistakes">
+          <ul className="grid gap-2">
+            <li>Thinking negative feedback always means smaller output. It reduces uncontrolled gain, not useful performance.</li>
+            <li>Using $$ A_f=A/(1+A\beta) $$ for positive feedback. Positive feedback uses a different sign condition.</li>
+            <li>Confusing feedback factor $$ \beta $$ with transistor current gain $$ \beta $$.</li>
+            <li>Forgetting that feedback effects depend on loop gain $$ A\beta $$, not only amplifier gain.</li>
+            <li>Mixing up sampling and mixing: output side decides voltage/current sampling; input side decides series/shunt mixing.</li>
+            <li>Ignoring phase shift at high frequency, which can turn negative feedback into instability or oscillation.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Comparison Tables">
+          <table className="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-950">
+                <th className="py-2 pr-3">Feedback Type</th>
+                <th className="py-2 pr-3">Input Mixing</th>
+                <th className="py-2 pr-3">Output Sampling</th>
+                <th className="py-2 pr-3">Main Effect</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Voltage series</td><td className="py-2 pr-3">Series</td><td className="py-2 pr-3">Voltage</td><td className="py-2 pr-3">Increases input resistance, decreases output resistance</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Voltage shunt</td><td className="py-2 pr-3">Shunt</td><td className="py-2 pr-3">Voltage</td><td className="py-2 pr-3">Decreases input resistance, decreases output resistance</td></tr>
+              <tr className="border-b border-slate-100"><td className="py-2 pr-3">Current series</td><td className="py-2 pr-3">Series</td><td className="py-2 pr-3">Current</td><td className="py-2 pr-3">Increases input resistance, increases output resistance</td></tr>
+              <tr><td className="py-2 pr-3">Current shunt</td><td className="py-2 pr-3">Shunt</td><td className="py-2 pr-3">Current</td><td className="py-2 pr-3">Decreases input resistance, increases output resistance</td></tr>
+            </tbody>
+          </table>
+        </TopicSection>
+
+        <TopicSection title="Interview Questions">
+          <ul className="grid gap-2">
+            <li>What is the physical meaning of negative feedback?</li>
+            <li>Why does negative feedback reduce gain but improve stability?</li>
+            <li>What is loop gain, and why is it important?</li>
+            <li>Why does bandwidth increase when negative feedback is applied?</li>
+            <li>How does negative feedback reduce distortion?</li>
+            <li>How do you identify voltage sampling versus current sampling?</li>
+            <li>What is the difference between series and shunt mixing?</li>
+            <li>Can negative feedback cause oscillation? Under what condition?</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Exam-Oriented Notes">
+          <ul className="grid gap-2">
+            <li>{"For negative feedback, use $$ A_f=A/(1+A\\beta) $$."}</li>
+            <li>{"The factor $$ 1+A\\beta $$ appears in gain stability, bandwidth improvement, distortion reduction, and noise reduction."}</li>
+            <li>Series mixing increases input resistance; shunt mixing decreases input resistance.</li>
+            <li>Voltage sampling decreases output resistance; current sampling increases output resistance.</li>
+            <li>If loop gain is very high, closed-loop gain becomes approximately reciprocal of feedback factor.</li>
+            <li>At high frequency, always remember phase shift can reduce stability margin.</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Revision Summary">
+          <ul className="grid gap-2">
+            <li>Feedback means returning a portion of output to the input.</li>
+            <li>Negative feedback subtracts feedback from input and corrects error.</li>
+            <li>Closed-loop gain is lower but more stable than open-loop gain.</li>
+            <li>Loop gain controls the strength of feedback improvement.</li>
+            <li>Negative feedback improves bandwidth, linearity, distortion, and parameter stability.</li>
+            <li>Feedback topology is identified by output sampling and input mixing.</li>
+            <li>{"Key relation: $$ A_f=A/(1+A\\beta) $$."}</li>
+          </ul>
+        </TopicSection>
+
+        <TopicSection title="Practice Questions">
+          <h3 className="text-base font-bold text-slate-950">Conceptual</h3>
+          <ul className="grid gap-2">
+            <li>Explain negative feedback as error correction.</li>
+            <li>Why does an amplifier become more stable after adding negative feedback?</li>
+            <li>How do you identify whether output voltage or output current is sampled?</li>
+          </ul>
+          <h3 className="text-base font-bold text-slate-950">Numerical</h3>
+          <ul className="grid gap-2">
+            <li>{"Find closed-loop gain for $$ A=500 $$ and $$ \\beta=0.02 $$."}</li>
+            <li>{"If bandwidth is $$ 50\\,kHz $$ and loop gain is 4, find feedback bandwidth."}</li>
+            <li>{"If distortion is 5 percent and $$ A\\beta=24 $$, find distortion with feedback."}</li>
+          </ul>
+          <h3 className="text-base font-bold text-slate-950">MCQs</h3>
+          <ul className="grid gap-2">
+            <li>Negative feedback generally increases bandwidth: true or false?</li>
+            <li>Series mixing increases or decreases input resistance?</li>
+            <li>Voltage sampling increases or decreases output resistance?</li>
+          </ul>
+        </TopicSection>
+      </div>
 
       <div className="mt-6 grid gap-5">
         {FEEDBACK_TOPIC_LESSONS.map((lesson, topicIndex) => (
@@ -8287,34 +9247,41 @@ function AnalogChapterPage({ chapter }) {
   );
 }
 
-function AnalogTopicCard({ title, intro, points, takeaway, href }) {
+function AnalogTopicCard({ chapterNumber, title, intro, points, takeaway, href }) {
   return (
-    <article className="rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <h3 className="text-xl font-bold tracking-tight text-slate-950">{title}</h3>
+    <article className="group rounded-2xl border border-slate-200 bg-white p-3.5 shadow-sm transition hover:-translate-y-0.5 hover:border-portal-200 hover:shadow-panel sm:p-4">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+            Chapter {String(chapterNumber).padStart(2, "0")}
+          </p>
+          <h3 className="mt-1 text-lg font-bold leading-snug tracking-tight text-slate-950">
+            {title}
+          </h3>
+        </div>
         {href ? (
           <Link
             href={href}
-            className="inline-flex flex-none justify-center rounded-xl border border-portal-200 bg-portal-50 px-3 py-2 text-xs font-bold text-portal-700 transition hover:bg-white"
+            className="inline-flex flex-none justify-center rounded-lg border border-portal-200 bg-portal-50 px-2.5 py-1.5 text-[11px] font-black uppercase tracking-[0.08em] text-portal-700 transition group-hover:bg-white"
           >
-            Open Chapter
+            Open
           </Link>
         ) : null}
       </div>
-      <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">{intro}</p>
-      <ul className="mt-4 grid gap-2 text-sm leading-6 text-slate-700">
+      <p className="mt-2 line-clamp-3 text-sm leading-6 text-slate-700">{intro}</p>
+      <ul className="mt-3 grid gap-1.5 text-sm leading-5 text-slate-700">
         {points.map((point) => (
-          <li key={`${title}-${point}`} className="flex gap-2">
-            <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
-            <span>{point}</span>
+          <li key={`${title}-${point}`} className="flex gap-2 rounded-lg bg-slate-50 px-2.5 py-1.5">
+            <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+            <span className="min-w-0">{point}</span>
           </li>
         ))}
       </ul>
-      <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3">
-        <p className="text-xs font-bold uppercase tracking-[0.12em] text-emerald-700">
-          Exam Takeaway
+      <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50/70 px-3 py-2">
+        <p className="text-[10px] font-black uppercase tracking-[0.12em] text-emerald-700">
+          Exam Focus
         </p>
-        <p className="mt-1.5 text-sm font-semibold leading-6 text-emerald-950">{takeaway}</p>
+        <p className="mt-1 text-sm font-semibold leading-5 text-emerald-950">{takeaway}</p>
       </div>
     </article>
   );
@@ -8322,37 +9289,37 @@ function AnalogTopicCard({ title, intro, points, takeaway, href }) {
 
 function AnalogElectronicsSection() {
   return (
-    <section className="mt-5 rounded-[30px] border border-slate-200 bg-[linear-gradient(180deg,#ffffff,#f8fbff)] p-5 shadow-panel sm:p-6">
+    <section className="mt-5 rounded-3xl border border-slate-200 bg-[linear-gradient(180deg,#ffffff,#f8fbff)] p-4 shadow-panel sm:p-5">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
             Structured Syllabus
           </p>
-          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+          <h2 className="mt-1.5 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             Analog Electronics Chapter Flow
           </h2>
-          <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
+          <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-700 sm:text-base">
             Analog Electronics studies continuous-time signals and the devices that shape,
-            amplify, rectify, and filter them. For GATE/PSU preparation, use the same
-            hierarchy on every page: Chapter, Topics, Subtopics, circuit diagram, animated
-            working, and exam takeaway.
+            amplify, rectify, regulate, and filter them. Study the flow from device
+            physics to practical signal and power circuits.
           </p>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white px-3.5 py-2.5 shadow-sm">
           <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">
             High-Yield Focus
           </p>
           <p className="mt-1 text-sm font-semibold leading-6 text-slate-900">
-            Diodes, biasing, small-signal gain, feedback, oscillators, op-amps
+            Diodes, BJTs, FETs, amplifiers, feedback, oscillators, op-amps, filters, supplies
           </p>
         </div>
       </div>
 
-      <div className="mt-5 grid gap-4 lg:grid-cols-2">
+      <div className="mt-4 grid gap-3 lg:grid-cols-2 2xl:grid-cols-3">
         {ANALOG_CHAPTERS.map((chapter) => (
           <AnalogTopicCard
             key={chapter.slug}
-            title={`Chapter ${chapter.number}: ${chapter.title}`}
+            chapterNumber={chapter.number}
+            title={chapter.title}
             intro={chapter.summary}
             points={chapter.topics.map((topic) => `${topic.title}: ${topic.subtopics.join(", ")}`)}
             takeaway={chapter.examFocus}
@@ -8361,32 +9328,33 @@ function AnalogElectronicsSection() {
         ))}
       </div>
 
-      <section className="mt-5 rounded-[26px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-        <h3 className="text-xl font-bold tracking-tight text-slate-950">
+      <section className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <h3 className="text-lg font-bold tracking-tight text-slate-950">
           How These Concepts Connect
         </h3>
-        <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+        <p className="mt-2 text-sm leading-6 text-slate-700 sm:text-base">
           Diodes teach junction behavior and non-linearity. Transistors extend that idea
           into controlled current or voltage devices. Amplifiers use properly biased
           transistors to create gain. Op-amps package very high gain with feedback so we
           can realize stable linear functions. Filters then use RC networks or op-amp based
-          circuits to shape signals in frequency.
+          circuits to shape signals in frequency, while power supplies keep every stage
+          energized with usable DC.
         </p>
-        <ul className="mt-4 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+        <ul className="mt-3 grid gap-2 text-sm leading-5 text-slate-700 sm:grid-cols-2">
           <li className="flex gap-2">
-            <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+            <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
             <span>Diode questions usually depend on piecewise region assumptions.</span>
           </li>
           <li className="flex gap-2">
-            <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+            <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
             <span>Transistor questions usually begin with bias and operating point.</span>
           </li>
           <li className="flex gap-2">
-            <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+            <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
             <span>Amplifier questions often split into midband gain and frequency response.</span>
           </li>
           <li className="flex gap-2">
-            <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+            <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
             <span>Op-amp questions reward quick use of ideal assumptions under feedback.</span>
           </li>
         </ul>
@@ -9675,7 +10643,10 @@ export default function SubjectTheoryPage({
   initialActiveConceptIndex = 0,
   standaloneTopicPage = "",
 }) {
-  const theoryKnowledge = subjectTheoryKnowledge[subject.title] || null;
+  const theoryKnowledge =
+    subject.title === "Digital Electronics"
+      ? DIGITAL_ELECTRONICS_KNOWLEDGE
+      : subjectTheoryKnowledge[subject.title] || null;
   const chapterMeta = SUBJECT_META[subject.title] || null;
   const totalConcepts = steps.reduce((count, step) => count + step.points.length, 0);
   const subjectSummary =
@@ -9743,7 +10714,8 @@ export default function SubjectTheoryPage({
     subject.title === "Analog Electronics" &&
     ["diodes-and-pn-junction", "transistor-basics", "amplifier-fundamentals"].includes(activeConcept?.slug) &&
     !["diodes", "bjt-mosfet", "amplifiers"].includes(standaloneTopicPage);
-  const shouldShowInlineConcept = !isConceptIntroPage && !isExternalDiodeConcept;
+  const shouldShowInlineConcept =
+    subject.title !== "Digital Electronics" && !isConceptIntroPage && !isExternalDiodeConcept;
   const activeTeaching = activeConcept?.teaching || {};
   const subjectProgress = progressStats.subjects.find(
     (item) => item.slug === learningMeta.learningSubjectSlug
@@ -10338,6 +11310,8 @@ export default function SubjectTheoryPage({
             />
           ) : subject.title === "Analog Electronics" ? (
             <AnalogChapterMenu />
+          ) : subject.title === "Digital Electronics" ? (
+            <DigitalChapterMenu />
           ) : concepts.length ? (
             <SubjectConceptMenu
               subjectTitle={subject.title}
@@ -10417,7 +11391,11 @@ export default function SubjectTheoryPage({
 
         {isConceptIntroPage ? (
           <div className="mt-5">
-            <NetworkOverviewPanel overviewCards={theoryKnowledge.overviewCards} />
+            {subject.title === "Digital Electronics" ? (
+              <DigitalOverviewPanel />
+            ) : (
+              <NetworkOverviewPanel overviewCards={theoryKnowledge.overviewCards} />
+            )}
           </div>
         ) : null}
 
@@ -10445,6 +11423,13 @@ export default function SubjectTheoryPage({
                   >
                     Next Basic Concepts
                   </Link>
+                ) : subject.title === "Digital Electronics" ? (
+                  <a
+                    href="#digital-chapter-1"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
+                  >
+                    Start Number Systems
+                  </a>
                 ) : (
                   <button
                     type="button"
@@ -10732,6 +11717,13 @@ export default function SubjectTheoryPage({
             >
               Theory
             </Link>
+          ) : subject.title === "Digital Electronics" ? (
+            <a
+              href="#digital-chapter-1"
+              className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Theory
+            </a>
           ) : (
             <button
               type="button"

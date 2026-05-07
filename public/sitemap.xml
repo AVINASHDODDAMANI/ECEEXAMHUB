@@ -16,6 +16,41 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://eceexamguide.vercel.app/subjects/digital-electronics</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/number-systems-and-codes</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/logic-gates-and-boolean-algebra</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/karnaugh-map</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/combinational-circuits</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/sequential-circuits</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/counters</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://eceexamguide.vercel.app/diodes</loc>
     <lastmod>2026-05-05</lastmod>
     <priority>0.85</priority>
@@ -91,13 +126,98 @@
     <priority>0.75</priority>
   </url>
   <url>
+    <loc>https://eceexamguide.vercel.app/notes/digital-electronics</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/mcqs/digital-electronics</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.75</priority>
+  </url>
+  <url>
     <loc>https://eceexamguide.vercel.app/subjects/network-analysis</loc>
-    <lastmod>2026-05-05</lastmod>
-    <priority>0.85</priority>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://eceexamguide.vercel.app/basic-concepts</loc>
-    <lastmod>2026-05-05</lastmod>
-    <priority>0.8</priority>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/circuit-elements</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/circuit-laws</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/network-theorems</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/dc-circuit-analysis</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/ac-fundamentals</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/ac-circuit-analysis</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/transient-analysis</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/network-topology</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/laplace-transform-methods</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/frequency-domain-analysis</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/two-port-networks</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/filters</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/network-functions</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/notes/network-analysis</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/mcqs/network-analysis</loc>
+    <lastmod>2026-05-07</lastmod>
+    <priority>0.75</priority>
   </url>
 </urlset>
