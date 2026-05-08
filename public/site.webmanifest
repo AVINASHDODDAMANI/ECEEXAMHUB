@@ -1,0 +1,18 @@
+{
+  "name": "ECE Exam Guide",
+  "short_name": "ECE Guide",
+  "description": "Structured ECE preparation with subject-wise notes, MCQs, previous papers, and exam-focused revision.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#123b79",
+  "icons": [
+    {
+      "src": "/brand/ece-exam-guide-mark-v2.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

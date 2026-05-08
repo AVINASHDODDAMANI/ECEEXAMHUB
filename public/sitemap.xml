@@ -51,6 +51,31 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://eceexamguide.vercel.app/registers-and-shift-registers</loc>
+    <lastmod>2026-05-08</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/logic-families</loc>
+    <lastmod>2026-05-08</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/memories</loc>
+    <lastmod>2026-05-08</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/analog-to-digital-and-digital-to-analog-converters</loc>
+    <lastmod>2026-05-08</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/digital-ics-and-applications</loc>
+    <lastmod>2026-05-08</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://eceexamguide.vercel.app/diodes</loc>
     <lastmod>2026-05-05</lastmod>
     <priority>0.85</priority>

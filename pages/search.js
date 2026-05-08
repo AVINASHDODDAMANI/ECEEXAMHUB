@@ -87,6 +87,8 @@ export default function SearchPage() {
   return (
     <Layout
       title="ECE Exam Guide | Search"
+      description="Search ECE Exam Guide topics, notes, MCQs, previous papers, and subject resources."
+      noIndex
       searchValue={searchValue}
       onSearchChange={setSearchValue}
     >

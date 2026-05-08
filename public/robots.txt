@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /search?
 
 Sitemap: https://eceexamguide.vercel.app/sitemap.xml

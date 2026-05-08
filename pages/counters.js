@@ -342,7 +342,7 @@ export default function CountersPage() {
           </TopicSection>
 
           <div className="flex justify-end">
-            <Link href="/subjects/digital-electronics" className="inline-flex w-full justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto">
+            <Link href="/registers-and-shift-registers" className="inline-flex w-full justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto">
               Next Registers and Shift Registers
             </Link>
           </div>

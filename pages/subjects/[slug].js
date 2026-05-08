@@ -221,6 +221,11 @@ const DIGITAL_CHAPTER_ROUTES = {
   "Combinational Circuits": "/combinational-circuits",
   "Sequential Circuits": "/sequential-circuits",
   Counters: "/counters",
+  "Registers and Shift Registers": "/registers-and-shift-registers",
+  "Logic Families": "/logic-families",
+  Memories: "/memories",
+  "Analog to Digital and Digital to Analog Converters": "/analog-to-digital-and-digital-to-analog-converters",
+  "Digital ICs and Applications": "/digital-ics-and-applications",
 };
 
 const DIGITAL_ELECTRONICS_KNOWLEDGE = {
