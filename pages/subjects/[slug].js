@@ -228,6 +228,125 @@ const DIGITAL_CHAPTER_ROUTES = {
   "Digital ICs and Applications": "/digital-ics-and-applications",
 };
 
+const SIGNALS_SYSTEMS_CHAPTERS = [
+  {
+    title: "Introduction to Signals",
+    topics: [
+      { title: "Definition of Signals", subtopics: ["Continuous-time signals", "Discrete-time signals"] },
+      {
+        title: "Classification of Signals",
+        subtopics: [
+          "Periodic and aperiodic",
+          "Even and odd signals",
+          "Energy and power signals",
+          "Deterministic and random signals",
+        ],
+      },
+      {
+        title: "Basic Signals",
+        subtopics: ["Unit step signal", "Unit impulse signal", "Ramp signal", "Exponential signal", "Sinusoidal signal"],
+      },
+    ],
+  },
+  {
+    title: "Systems and Their Properties",
+    topics: [
+      { title: "Definition of Systems", subtopics: [] },
+      {
+        title: "Types of Systems",
+        subtopics: ["Linear and non-linear", "Time-invariant and time-varying", "Causal and non-causal", "Stable and unstable", "Static and dynamic systems"],
+      },
+      { title: "System Properties", subtopics: ["Linearity", "Time invariance", "Causality", "Stability"] },
+    ],
+  },
+  {
+    title: "Mathematical Representation of Signals",
+    topics: [
+      { title: "Signal Operations", subtopics: ["Time shifting", "Time scaling", "Time reversal"] },
+      { title: "Signal Decomposition", subtopics: ["Even-odd decomposition"] },
+      { title: "Orthogonal Signals", subtopics: [] },
+    ],
+  },
+  {
+    title: "Convolution",
+    formula: "$$ y(t)=x(t)*h(t)=\\int_{-\\infty}^{\\infty}x(\\tau)h(t-\\tau)d\\tau $$",
+    topics: [
+      { title: "Continuous-Time Convolution", subtopics: [] },
+      { title: "Discrete-Time Convolution", subtopics: ["$$ y[n]=\\sum_{k=-\\infty}^{\\infty}x[k]h[n-k] $$"] },
+      { title: "Graphical Convolution", subtopics: [] },
+      { title: "Properties of Convolution", subtopics: ["Commutative", "Associative", "Distributive"] },
+    ],
+  },
+  {
+    title: "Fourier Series",
+    topics: [
+      { title: "Trigonometric Fourier Series", subtopics: [] },
+      { title: "Exponential Fourier Series", subtopics: [] },
+      { title: "Properties of Fourier Series", subtopics: [] },
+      { title: "Spectrum Analysis", subtopics: [] },
+    ],
+  },
+  {
+    title: "Fourier Transform",
+    formula: "$$ X(\\omega)=\\int_{-\\infty}^{\\infty}x(t)e^{-j\\omega t}dt $$",
+    topics: [
+      { title: "Continuous-Time Fourier Transform (CTFT)", subtopics: [] },
+      { title: "Discrete-Time Fourier Transform (DTFT)", subtopics: [] },
+      { title: "Properties of Fourier Transform", subtopics: ["Linearity", "Time shifting", "Frequency shifting", "Convolution property"] },
+      { title: "Parseval's Theorem", subtopics: [] },
+    ],
+  },
+  {
+    title: "Laplace Transform",
+    formula: "$$ X(s)=\\int_{0}^{\\infty}x(t)e^{-st}dt $$",
+    topics: [
+      { title: "Definition of Laplace Transform", subtopics: [] },
+      { title: "Region of Convergence (ROC)", subtopics: [] },
+      { title: "Properties of Laplace Transform", subtopics: [] },
+      { title: "Inverse Laplace Transform", subtopics: [] },
+      { title: "System Analysis Using Laplace", subtopics: [] },
+    ],
+  },
+  {
+    title: "Z-Transform",
+    formula: "$$ X(z)=\\sum_{n=-\\infty}^{\\infty}x[n]z^{-n} $$",
+    topics: [
+      { title: "Definition of Z-Transform", subtopics: [] },
+      { title: "ROC of Z-Transform", subtopics: [] },
+      { title: "Properties of Z-Transform", subtopics: [] },
+      { title: "Inverse Z-Transform", subtopics: [] },
+    ],
+  },
+  {
+    title: "Sampling Theorem",
+    formula: "$$ f_s\\geq2f_m $$",
+    topics: [
+      { title: "Sampling Process", subtopics: [] },
+      { title: "Nyquist Sampling Theorem", subtopics: [] },
+      { title: "Aliasing", subtopics: [] },
+      { title: "Reconstruction of Signals", subtopics: [] },
+    ],
+  },
+  {
+    title: "Frequency Response and Filters",
+    topics: [
+      { title: "Frequency Response", subtopics: [] },
+      { title: "Ideal Filters", subtopics: ["Low-pass filter", "High-pass filter", "Band-pass filter", "Band-stop filter"] },
+      { title: "Distortionless Transmission", subtopics: [] },
+    ],
+  },
+];
+
+const SIGNALS_HIGH_WEIGHTAGE_TOPICS = [
+  "Convolution",
+  "Fourier Transform",
+  "Laplace Transform",
+  "Z-Transform",
+  "System properties",
+  "Sampling theorem",
+  "Fourier series",
+];
+
 const DIGITAL_ELECTRONICS_KNOWLEDGE = {
   overviewCards: [
     {
@@ -4921,6 +5040,140 @@ function DigitalOverviewPanel() {
   );
 }
 
+function SignalsOverviewPanel() {
+  return (
+    <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Is Signals and Systems?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            Signals and Systems explains how information varies with time and how
+            physical or electronic systems modify that information. A signal may be
+            voltage, current, sound, image intensity, sensor data, or a mathematical
+            waveform. A system receives a signal, processes it, and produces another
+            signal.
+          </p>
+        </article>
+
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            Why Do We Study It?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            This subject is the mathematical language behind communication systems,
+            control systems, DSP, filters, modulation, sampling, and circuit response.
+            In GATE and PSU exams, it is also one of the fastest scoring subjects when
+            convolution, transforms, ROC, and sampling are understood clearly.
+          </p>
+        </article>
+
+        <article className="lg:col-span-2">
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            Concepts Overview
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            For Graduate Aptitude Test in Engineering and PSU exams, Signals and
+            Systems should be studied in a structured hierarchy: Chapter - Topics -
+            Subtopics. This helps in understanding mathematical concepts, solving
+            numericals, quick revision, and interview preparation.
+          </p>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+            {[
+              "Start with signal definitions, classifications, and standard signals.",
+              "Then learn system properties such as linearity, time invariance, causality, and stability.",
+              "Practice signal operations: shifting, scaling, reversal, and even-odd decomposition.",
+              "Master convolution because it directly gives LTI system output from input and impulse response.",
+              "Use Fourier series and Fourier transform to understand frequency content and spectra.",
+              "Use Laplace transform, Z-transform, sampling theorem, and filters for exam-level system analysis.",
+            ].map((point) => (
+              <li key={point} className="flex gap-2">
+                <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+
+      <div className="mt-5 grid gap-4">
+        <div className="rounded-2xl border border-portal-100 bg-[#f8fbff] p-4">
+          <p className="text-xs font-black uppercase tracking-[0.14em] text-portal-700">
+            Signals and Systems Structure
+          </p>
+          <p className="mt-2 text-sm font-semibold leading-6 text-slate-800">
+            Chapter - Topics - Subtopics
+          </p>
+        </div>
+
+        <div className="grid gap-3">
+          {SIGNALS_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => (
+            <section
+              key={chapter.title}
+              id={`signals-chapter-${chapterIndex + 1}`}
+              className="scroll-mt-32 rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
+            >
+              <div className="flex flex-wrap items-start gap-3">
+                <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
+                  {String(chapterIndex + 1).padStart(2, "0")}
+                </span>
+                <div className="min-w-0">
+                  <h3 className="text-base font-black text-slate-950">
+                    Chapter {chapterIndex + 1}: {chapter.title}
+                  </h3>
+                  {chapter.formula ? (
+                    <p className="mt-2 rounded-xl border border-white bg-white px-3 py-2 text-sm font-bold text-portal-700">
+                      {chapter.formula}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="mt-3 grid gap-2 md:grid-cols-2">
+                {chapter.topics.map((topic, topicIndex) => (
+                  <div key={topic.title} className="rounded-xl border border-white bg-white p-3">
+                    <h4 className="text-sm font-bold text-slate-950">
+                      {chapterIndex + 1}.{topicIndex + 1} {topic.title}
+                    </h4>
+                    {topic.subtopics.length ? (
+                      <ul className="mt-2 grid gap-1.5 text-sm leading-6 text-slate-700">
+                        {topic.subtopics.map((subtopic) => (
+                          <li key={subtopic} className="flex gap-2">
+                            <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-slate-400" />
+                            <span>{subtopic}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="mt-2 text-sm leading-6 text-slate-600">
+                        Focus on definition, physical meaning, and numerical use.
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+
+        <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
+          <h3 className="text-base font-black text-amber-950">
+            Most Important Topics for GATE/PSU
+          </h3>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {SIGNALS_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
+              <span key={topic} className="rounded-full border border-amber-200 bg-white px-3 py-1.5 text-xs font-bold text-amber-900">
+                {topic}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function OverviewRow({ item }) {
   return (
     <article className="py-5 first:pt-0 last:pb-0">
@@ -5354,6 +5607,74 @@ function DigitalChapterMenu() {
                 </Link>
               );
             })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function SignalsChapterMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open Signals and Systems chapters"
+        aria-expanded={isOpen}
+        aria-controls="signals-chapter-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="signals-chapter-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              Signals and Systems Structure
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
+              Chapter - Topics - Subtopics for GATE/PSU revision.
+            </p>
+          </div>
+
+          <div className="grid gap-2">
+            {SIGNALS_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => (
+              <a
+                key={chapter.title}
+                href={`#signals-chapter-${chapterIndex + 1}`}
+                onClick={() => setIsOpen(false)}
+                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+              >
+                <span className="flex items-start gap-2.5">
+                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
+                    {String(chapterIndex + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-black leading-snug text-slate-950">
+                      {chapter.title}
+                    </span>
+                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
+                      {chapter.topics.map((topic) => topic.title).join(", ")}
+                    </span>
+                  </span>
+                </span>
+              </a>
+            ))}
           </div>
         </div>
       ) : null}
@@ -10636,6 +10957,12 @@ function FallbackSubjectPage({ subject, steps, totalConcepts, subjectSummary }) 
         </div>
       </section>
 
+      {subject.title === "Signals and Systems" ? (
+        <div className="mt-5">
+          <SignalsOverviewPanel />
+        </div>
+      ) : null}
+
       {subject.title === "Analog Electronics" ? <AnalogElectronicsSection /> : null}
     </>
   );
@@ -10675,7 +11002,7 @@ export default function SubjectTheoryPage({
     return (
       <Layout title={`ECE Exam Guide | ${subject.title}`} pageClassName="py-3 sm:py-4">
         <div className="mx-auto max-w-[1200px]">
-          <nav aria-label="Breadcrumb" className="mb-5 pt-1">
+          <nav aria-label="Breadcrumb" className="mb-5 flex items-start justify-between gap-3 pt-1">
             <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/80 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
               <li>
                 <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
@@ -10698,6 +11025,7 @@ export default function SubjectTheoryPage({
                 </span>
               </li>
             </ol>
+            {subject.title === "Signals and Systems" ? <SignalsChapterMenu /> : null}
           </nav>
 
           <FallbackSubjectPage
@@ -11317,6 +11645,8 @@ export default function SubjectTheoryPage({
             <AnalogChapterMenu />
           ) : subject.title === "Digital Electronics" ? (
             <DigitalChapterMenu />
+          ) : subject.title === "Signals and Systems" ? (
+            <SignalsChapterMenu />
           ) : concepts.length ? (
             <SubjectConceptMenu
               subjectTitle={subject.title}
@@ -11398,6 +11728,8 @@ export default function SubjectTheoryPage({
           <div className="mt-5">
             {subject.title === "Digital Electronics" ? (
               <DigitalOverviewPanel />
+            ) : subject.title === "Signals and Systems" ? (
+              <SignalsOverviewPanel />
             ) : (
               <NetworkOverviewPanel overviewCards={theoryKnowledge.overviewCards} />
             )}

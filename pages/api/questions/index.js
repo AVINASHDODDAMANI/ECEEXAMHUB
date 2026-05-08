@@ -11,7 +11,7 @@ function isAdminAuthorized(req) {
   const requiredAdminKey = process.env.ADMIN_API_KEY;
 
   if (!requiredAdminKey) {
-    return true;
+    return process.env.NODE_ENV !== "production";
   }
 
   const providedKey = req.headers["x-admin-key"];
