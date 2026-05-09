@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useMemo } from "react";
 import Layout from "../../../components/layout";
+import CommunicationSystemTopicPage from "../../../components/CommunicationSystemTopicPage";
 import seedQuestions from "../../../data/questions";
 import {
   buildTopicKey,
@@ -55,6 +56,10 @@ function BulletList({ items = [], tone = "plain" }) {
 }
 
 export default function LearningTopicPage({ topic }) {
+  if (topic.subjectSlug === "communications") {
+    return <CommunicationSystemTopicPage topic={topic} />;
+  }
+
   const {
     progressMap,
     revisionMap,

@@ -97,24 +97,24 @@ export const subjectTheoryRoadmaps = {
   ],
   "Communication Systems": [
     {
-      title: "Start with signal transmission basics",
-      points: ["Bandwidth", "Power", "Noise and SNR"],
+      title: "Learn communication fundamentals",
+      points: ["Information source to destination", "Analog and digital communication", "Wired and wireless channels"],
     },
     {
-      title: "Learn analog modulation",
-      points: ["AM", "FM", "PM"],
+      title: "Build signal and spectrum understanding",
+      points: ["Analog and digital signals", "Bandwidth and PSD", "Time and frequency domain"],
     },
     {
-      title: "Study sampling and pulse modulation",
-      points: ["Sampling theorem", "PAM", "PCM"],
+      title: "Master analog and pulse modulation",
+      points: ["AM, FM, and PM", "Sampling theorem", "PAM, PWM, and PPM"],
     },
     {
-      title: "Move to digital modulation",
-      points: ["ASK, FSK, PSK", "QAM", "Bit error probability basics"],
+      title: "Move to digital communication",
+      points: ["PCM, DM, and ADM", "ASK, FSK, PSK, and QAM", "Quantization basics"],
     },
     {
-      title: "Understand system performance",
-      points: ["Channel noise", "Bandwidth efficiency", "Link budget basics"],
+      title: "Finish with performance and reception",
+      points: ["Noise and SNR", "Entropy and channel capacity", "Receivers and propagation basics"],
     },
   ],
   "Electromagnetic Theory": [

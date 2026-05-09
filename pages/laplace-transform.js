@@ -411,7 +411,7 @@ export default function LaplaceTransformPage() {
           <Link href="/fourier-transform" className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-50">
             Previous Fourier Transform
           </Link>
-          <Link href="/subjects/signals-and-systems" className="next-topic-btn inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700">
+          <Link href="/z-transform" className="next-topic-btn inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700">
             Next Z-Transform
           </Link>
         </div>

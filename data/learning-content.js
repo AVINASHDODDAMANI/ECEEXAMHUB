@@ -345,7 +345,7 @@ const learningSubjects = [
             summary:
               "Work with transform pairs, ROC, and difference equations in discrete-time analysis.",
             estimatedTime: "40 min",
-            status: "roadmap",
+            status: "ready",
             concepts: ["ROC", "Difference equation", "Stability"],
             subtopics: [
               "One-sided and two-sided Z-transform",

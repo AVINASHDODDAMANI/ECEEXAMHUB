@@ -90,6 +90,72 @@ const SUBJECT_META = {
     studyTip:
       "Study Digital Electronics in chapter order: number systems, Boolean algebra, K-maps, combinational circuits, sequential circuits, counters, registers, logic families, memories, and converters.",
   },
+  "Signals and Systems": {
+    subtitle: "The chapter that explains how signals are represented, transformed, sampled, filtered, and processed by systems.",
+    estimatedTime: "8-10 Hours",
+    difficulty: "Medium",
+    level: "Beginner to GATE Level",
+    keyConcepts: [
+      "Signal Classification",
+      "System Properties",
+      "Convolution",
+      "Fourier Analysis",
+      "Laplace and Z-Transform",
+      "Sampling and Filters",
+    ],
+    examFocus: [
+      "Energy and power signals",
+      "Linearity, time invariance, causality, and stability",
+      "Convolution and LTI system response",
+      "Fourier, Laplace, Z-transform, ROC, and sampling",
+    ],
+    studyTip:
+      "Study Signals and Systems in chapter order: signal basics, system properties, signal operations, convolution, Fourier tools, Laplace transform, Z-transform, sampling theorem, and frequency response.",
+  },
+  "Communication Systems": {
+    subtitle: "The chapter that explains how information is transmitted, modulated, received, and protected in practical communication links.",
+    estimatedTime: "8-10 Hours",
+    difficulty: "Medium",
+    level: "Beginner to GATE Level",
+    keyConcepts: [
+      "Communication Basics",
+      "Signals and Spectra",
+      "AM, FM, and PM",
+      "Sampling and PCM",
+      "Digital Modulation",
+      "Noise and Information Theory",
+    ],
+    examFocus: [
+      "AM, FM, PM, and modulation index",
+      "Sampling theorem, pulse modulation, PCM, and delta modulation",
+      "ASK, FSK, PSK, QPSK, and QAM",
+      "Noise, SNR, entropy, and channel capacity",
+    ],
+    studyTip:
+      "Study Communication Systems in chapter order: system basics, signals and spectra, analog modulation, pulse and digital communication, noise analysis, information theory, receivers, and propagation.",
+  },
+  "Control Systems": {
+    subtitle: "The chapter that teaches how dynamic systems are modeled, analyzed, stabilized, and designed using feedback.",
+    estimatedTime: "8-10 Hours",
+    difficulty: "Medium to High",
+    level: "Beginner to GATE Level",
+    keyConcepts: [
+      "Transfer Function",
+      "Block Diagrams",
+      "Time Response",
+      "Stability",
+      "Root Locus",
+      "Frequency Response",
+    ],
+    examFocus: [
+      "Transfer functions and system modeling",
+      "Block diagram reduction and Mason's gain formula",
+      "Time response and steady-state error",
+      "Routh stability, root locus, Bode plot, Nyquist plot, PID, and state space",
+    ],
+    studyTip:
+      "Study Control Systems in chapter order: basics, mathematical modeling, block diagrams, time response, stability, root locus, frequency response, controllers, state space, and design.",
+  },
 };
 
 const DIGITAL_ELECTRONICS_CHAPTERS = [
@@ -228,6 +294,128 @@ const DIGITAL_CHAPTER_ROUTES = {
   "Digital ICs and Applications": "/digital-ics-and-applications",
 };
 
+const CONTROL_SYSTEMS_CHAPTERS = [
+  {
+    title: "Introduction to Control Systems",
+    topics: [
+      {
+        title: "Basic Concepts",
+        subtopics: ["Definition of control system", "Open-loop control system", "Closed-loop control system"],
+      },
+      {
+        title: "Examples of Control Systems",
+        subtopics: ["Temperature control", "Speed control", "Automatic voltage regulator"],
+      },
+      { title: "Advantages of Closed-Loop Systems", subtopics: [] },
+      {
+        title: "Types of Control Systems",
+        subtopics: ["Linear and nonlinear", "Time-invariant and time-varying", "Continuous and discrete systems"],
+      },
+    ],
+  },
+  {
+    title: "Mathematical Modeling of Systems",
+    topics: [
+      { title: "Transfer Function", formula: "$$G(s)=\\frac{Output}{Input}$$", subtopics: [] },
+      { title: "Differential Equation Representation", subtopics: [] },
+      { title: "Mechanical Systems", subtopics: ["Translational systems", "Rotational systems"] },
+      { title: "Electrical Systems", subtopics: ["RLC circuits modeling"] },
+      { title: "Analogous Systems", subtopics: ["Force-voltage analogy", "Force-current analogy"] },
+    ],
+  },
+  {
+    title: "Block Diagram and Signal Flow Graph",
+    topics: [
+      { title: "Block Diagram Representation", subtopics: [] },
+      { title: "Block Diagram Reduction Rules", subtopics: [] },
+      { title: "Signal Flow Graph (SFG)", subtopics: [] },
+      { title: "Mason's Gain Formula", formula: "$$T=\\frac{\\sum P_k\\Delta_k}{\\Delta}$$", subtopics: [] },
+    ],
+  },
+  {
+    title: "Time Response Analysis",
+    topics: [
+      { title: "Standard Test Signals", subtopics: ["Unit step", "Unit ramp", "Unit impulse", "Parabolic input"] },
+      { title: "First-Order Systems", subtopics: [] },
+      { title: "Second-Order Systems", subtopics: [] },
+      { title: "Time Domain Specifications", subtopics: ["Rise time", "Peak time", "Settling time", "Maximum overshoot"] },
+      { title: "Steady-State Error", subtopics: [] },
+    ],
+  },
+  {
+    title: "Stability Analysis",
+    topics: [
+      { title: "Concept of Stability", subtopics: [] },
+      { title: "Routh-Hurwitz Criterion", subtopics: [] },
+      { title: "Relative Stability", subtopics: [] },
+      { title: "Root Locations", subtopics: [] },
+    ],
+  },
+  {
+    title: "Root Locus Technique",
+    topics: [
+      { title: "Introduction to Root Locus", subtopics: [] },
+      { title: "Construction Rules", subtopics: [] },
+      { title: "Root Locus Analysis", subtopics: [] },
+      { title: "Effect of Pole-Zero Addition", subtopics: [] },
+    ],
+  },
+  {
+    title: "Frequency Response Analysis",
+    topics: [
+      { title: "Frequency Domain Concepts", subtopics: [] },
+      { title: "Polar Plot", subtopics: [] },
+      { title: "Bode Plot", subtopics: [] },
+      { title: "Nyquist Plot", subtopics: [] },
+      { title: "Gain Margin and Phase Margin", subtopics: [] },
+    ],
+  },
+  {
+    title: "Controllers and Compensators",
+    topics: [
+      {
+        title: "Types of Controllers",
+        formula: "$$u(t)=K_pe(t)+K_i\\int e(t)dt+K_d\\frac{de(t)}{dt}$$",
+        subtopics: ["P controller", "PI controller", "PD controller", "PID controller"],
+      },
+      {
+        title: "Compensation Techniques",
+        subtopics: ["Lead compensator", "Lag compensator", "Lag-lead compensator"],
+      },
+    ],
+  },
+  {
+    title: "State Space Analysis",
+    topics: [
+      { title: "State Variables", subtopics: [] },
+      { title: "State Space Representation", formula: "$$\\dot{x}=Ax+Bu$$", subtopics: [] },
+      { title: "State Transition Matrix", subtopics: [] },
+      { title: "Controllability", subtopics: [] },
+      { title: "Observability", subtopics: [] },
+    ],
+  },
+  {
+    title: "Control System Design",
+    topics: [
+      { title: "Design Specifications", subtopics: [] },
+      { title: "Stability Improvement", subtopics: [] },
+      { title: "Compensation Design", subtopics: [] },
+      { title: "PID Tuning", subtopics: [] },
+    ],
+  },
+];
+
+const CONTROL_HIGH_WEIGHTAGE_TOPICS = [
+  "Transfer functions",
+  "Time response analysis",
+  "Routh stability criterion",
+  "Root locus",
+  "Bode plot",
+  "Nyquist plot",
+  "PID controllers",
+  "State space analysis",
+];
+
 const SIGNALS_SYSTEMS_CHAPTERS = [
   {
     title: "Introduction to Signals",
@@ -346,6 +534,268 @@ const SIGNALS_HIGH_WEIGHTAGE_TOPICS = [
   "Sampling theorem",
   "Fourier series",
 ];
+
+const SIGNALS_SYSTEMS_KNOWLEDGE = {
+  overviewCards: [
+    {
+      title: "Overview of Signals and Systems",
+      description:
+        "For Graduate Aptitude Test in Engineering (GATE) and PSU exams, Signals and Systems should be prepared in a structured format: Chapter -> Topics -> Subtopics. This keeps convolution, transforms, ROC, sampling, and filters connected instead of memorized as isolated formulas.",
+      points: [
+        "Use the chapter flow for concept clarity.",
+        "Revise signal properties and system properties before transforms.",
+        "Connect every transform to LTI system response and stability.",
+        "Practice GATE-style numericals after each chapter block.",
+      ],
+    },
+  ],
+  concepts: SIGNALS_SYSTEMS_CHAPTERS.map((chapter, index) => ({
+    slug: `signals-chapter-${index + 1}`,
+    title: chapter.title,
+    shortTitle: chapter.title,
+    diagram: "basic-circuit",
+    diagramNote:
+      "Signals and Systems questions are best handled by first identifying the chapter, then the exact topic and subtopic being tested.",
+    summary: chapter.topics
+      .map((topic) => [topic.title, ...topic.subtopics].join(": "))
+      .join(" | "),
+    teaching: {
+      intuition: [
+        `${chapter.title} is Chapter ${index + 1} in the Signals and Systems GATE/PSU flow.`,
+        "Prepare it as a concept block, then connect it to waveform behavior, frequency behavior, and exam numericals.",
+      ],
+      explanation: chapter.topics.map((topic) =>
+        topic.subtopics.length ? `${topic.title}: ${topic.subtopics.join(", ")}` : topic.title
+      ),
+      interpretation: chapter.topics.map((topic) => topic.title),
+      commonMistake:
+        "Students often memorize transform pairs and conditions separately instead of connecting signal type, ROC, stability, and frequency behavior.",
+      realLifeInsight:
+        "Communication receivers, DSP algorithms, control systems, filters, sensors, and audio systems all use Signals and Systems ideas to predict how information changes through a system.",
+    },
+    learnPoints: chapter.topics.map((topic) => topic.title),
+    formulas: chapter.formula
+      ? [
+          {
+            label: "Key relation",
+            expression: chapter.formula,
+            note: "Use this relation with its conditions and physical interpretation, not as a standalone memory item.",
+          },
+        ]
+      : [],
+  })),
+};
+
+const COMMUNICATION_SYSTEMS_CHAPTERS = [
+  {
+    title: "Introduction to Communication Systems",
+    topics: [
+      { title: "Basic Communication System", subtopics: ["Information source", "Transmitter", "Channel", "Receiver", "Destination"] },
+      { title: "Types of Communication", subtopics: ["Analog communication", "Digital communication"] },
+      { title: "Communication Channels", subtopics: ["Wired communication", "Wireless communication"] },
+      { title: "Electromagnetic Spectrum", subtopics: [] },
+    ],
+  },
+  {
+    title: "Signals and Spectra",
+    topics: [
+      { title: "Types of Signals", subtopics: ["Analog signals", "Digital signals"] },
+      { title: "Time Domain and Frequency Domain", subtopics: [] },
+      { title: "Bandwidth of Signals", subtopics: [] },
+      { title: "Power Spectral Density (PSD)", subtopics: [] },
+    ],
+  },
+  {
+    title: "Amplitude Modulation (AM)",
+    formula: "$$ s(t)=A_c[1+m\\cos(\\omega_m t)]\\cos(\\omega_c t) $$",
+    topics: [
+      { title: "Need for Modulation", subtopics: [] },
+      { title: "Amplitude Modulation Basics", subtopics: [] },
+      { title: "Modulation Index", subtopics: [] },
+      { title: "Frequency Spectrum of AM", subtopics: [] },
+      { title: "Power Relations in AM", subtopics: [] },
+      { title: "AM Generation Methods", subtopics: [] },
+      { title: "AM Demodulation", subtopics: ["Envelope detector"] },
+    ],
+  },
+  {
+    title: "Angle Modulation",
+    topics: [
+      { title: "Frequency Modulation (FM)", subtopics: [] },
+      { title: "Phase Modulation (PM)", subtopics: [] },
+      { title: "Modulation Index", subtopics: [] },
+      { title: "Bandwidth of FM", subtopics: [] },
+      { title: "Narrowband and Wideband FM", subtopics: [] },
+      { title: "FM Generation", subtopics: [] },
+      { title: "FM Detection", subtopics: [] },
+    ],
+  },
+  {
+    title: "Pulse Modulation",
+    formula: "$$ f_s\\geq2f_m $$",
+    topics: [
+      { title: "Sampling Theorem", subtopics: [] },
+      { title: "PAM", subtopics: ["Pulse Amplitude Modulation"] },
+      { title: "PWM", subtopics: ["Pulse Width Modulation"] },
+      { title: "PPM", subtopics: ["Pulse Position Modulation"] },
+    ],
+  },
+  {
+    title: "Digital Communication",
+    topics: [
+      { title: "Pulse Code Modulation (PCM)", subtopics: [] },
+      { title: "Quantization", subtopics: ["Uniform quantization", "Non-uniform quantization"] },
+      { title: "Delta Modulation (DM)", subtopics: [] },
+      { title: "Adaptive Delta Modulation (ADM)", subtopics: [] },
+    ],
+  },
+  {
+    title: "Digital Modulation Techniques",
+    topics: [
+      { title: "ASK", subtopics: ["Amplitude Shift Keying"] },
+      { title: "FSK", subtopics: ["Frequency Shift Keying"] },
+      { title: "PSK", subtopics: ["Phase Shift Keying"] },
+      { title: "QPSK", subtopics: [] },
+      { title: "QAM", subtopics: ["Quadrature Amplitude Modulation"] },
+    ],
+  },
+  {
+    title: "Noise in Communication Systems",
+    topics: [
+      { title: "Types of Noise", subtopics: ["Internal noise", "External noise"] },
+      { title: "Signal-to-Noise Ratio (SNR)", subtopics: [] },
+      { title: "Noise Figure", subtopics: [] },
+      { title: "Noise in AM and FM Systems", subtopics: [] },
+    ],
+  },
+  {
+    title: "Information Theory",
+    formula: "$$ C=B\\log_2(1+SNR) $$",
+    topics: [
+      { title: "Information and Entropy", subtopics: ["$$ H=-\\sum p_i\\log_2 p_i $$"] },
+      { title: "Channel Capacity", subtopics: [] },
+      { title: "Source Coding", subtopics: [] },
+      { title: "Error Control Coding", subtopics: [] },
+    ],
+  },
+  {
+    title: "Communication Receivers",
+    topics: [
+      { title: "Superheterodyne Receiver", subtopics: [] },
+      { title: "RF Amplifier", subtopics: [] },
+      { title: "Mixer", subtopics: [] },
+      { title: "Intermediate Frequency (IF)", subtopics: [] },
+      { title: "Detection and Demodulation", subtopics: [] },
+    ],
+  },
+  {
+    title: "Antennas and Propagation Basics",
+    topics: [
+      { title: "Antenna Parameters", subtopics: ["Gain", "Directivity", "Radiation pattern"] },
+      { title: "Wave Propagation", subtopics: ["Ground wave", "Sky wave", "Space wave"] },
+    ],
+  },
+];
+
+const COMMUNICATION_SYSTEMS_KNOWLEDGE = {
+  overviewCards: [
+    {
+      title: "Overview of Communication Systems",
+      description:
+        "For Graduate Aptitude Test in Engineering and PSU exams, Communication Systems should be studied in a structured hierarchy: Chapter -> Topics -> Subtopics. This helps in concept clarity, numerical solving, revision, and interview preparation.",
+      points: [
+        "Start from the transmitter-channel-receiver flow before modulation details.",
+        "Study AM, FM, PM, sampling, PCM, and digital modulation in sequence.",
+        "Keep bandwidth, SNR, noise, and channel capacity connected to numericals.",
+        "Revise receivers and propagation after the core modulation chapters.",
+      ],
+    },
+  ],
+  concepts: COMMUNICATION_SYSTEMS_CHAPTERS.map((chapter, index) => ({
+    slug: `communication-chapter-${index + 1}`,
+    title: chapter.title,
+    shortTitle: chapter.title,
+    diagram: "basic-circuit",
+    diagramNote:
+      "Communication Systems questions are best handled by first identifying the chapter, then the exact topic and subtopic being tested.",
+    summary: chapter.topics
+      .map((topic) => [topic.title, ...topic.subtopics].join(": "))
+      .join(" | "),
+    teaching: {
+      intuition: [
+        `${chapter.title} is Chapter ${index + 1} in the Communication Systems GATE/PSU flow.`,
+        "Prepare it as a communication block, then connect the theory to modulation, bandwidth, noise, and exam numericals.",
+      ],
+      explanation: chapter.topics.map((topic) =>
+        topic.subtopics.length ? `${topic.title}: ${topic.subtopics.join(", ")}` : topic.title
+      ),
+      interpretation: chapter.topics.map((topic) => topic.title),
+      commonMistake:
+        "Students often memorize separate formulas for AM, FM, PCM, and channel capacity without connecting them to bandwidth, noise, and receiver behavior.",
+      realLifeInsight:
+        "Wireless links, mobile communication, broadcasting, satellite systems, radar, and optical links all rely on Communication Systems ideas to transmit information efficiently and reliably.",
+    },
+    learnPoints: chapter.topics.map((topic) => topic.title),
+    formulas: chapter.formula
+      ? [
+          {
+            label: "Key relation",
+            expression: chapter.formula,
+            note: "Use this relation with its assumptions, bandwidth meaning, and physical interpretation, not as an isolated memory item.",
+          },
+        ]
+      : [],
+  })),
+};
+
+const CONTROL_SYSTEMS_KNOWLEDGE = {
+  overviewCards: [
+    {
+      title: "Overview of Control Systems",
+      description:
+        "For Graduate Aptitude Test in Engineering (GATE) and PSU exams, Control Systems should be studied in a structured hierarchy: Chapter -> Topics -> Subtopics. This structure supports conceptual understanding, numerical problem solving, quick revision, and interview preparation.",
+      points: [
+        "Start with open-loop and closed-loop control ideas.",
+        "Model systems using transfer functions, differential equations, and state space.",
+        "Analyze time response, stability, root locus, and frequency response.",
+        "Finish with controllers, compensators, and design specifications.",
+      ],
+    },
+  ],
+  concepts: CONTROL_SYSTEMS_CHAPTERS.map((chapter, index) => ({
+    slug: `control-chapter-${index + 1}`,
+    title: chapter.title,
+    shortTitle: chapter.title,
+    diagram: "basic-circuit",
+    diagramNote:
+      "Control Systems questions are best handled by first identifying the chapter, then the exact topic and subtopic being tested.",
+    summary: chapter.topics
+      .map((topic) => [topic.title, ...topic.subtopics].join(": "))
+      .join(" | "),
+    teaching: {
+      intuition: [
+        `${chapter.title} is Chapter ${index + 1} in the Control Systems GATE/PSU flow.`,
+        "Prepare it as a modeling, analysis, or design block, then practice numerical problems from that block.",
+      ],
+      explanation: chapter.topics.map((topic) =>
+        topic.subtopics.length ? `${topic.title}: ${topic.subtopics.join(", ")}` : topic.title
+      ),
+      interpretation: chapter.topics.map((topic) => topic.title),
+      commonMistake:
+        "Students often memorize isolated formulas without checking the system type, input type, stability condition, and required design specification.",
+      realLifeInsight:
+        "Control Systems ideas appear in speed control, temperature regulation, voltage regulators, robotics, aerospace systems, industrial automation, and feedback-based electronics.",
+    },
+    learnPoints: chapter.topics.map((topic) => topic.title),
+    formulas: chapter.topics
+      .filter((topic) => topic.formula)
+      .map((topic) => ({
+        label: topic.title,
+        expression: topic.formula,
+        note: "Use this relation with the correct block, signal, or state-variable interpretation.",
+      })),
+  })),
+};
 
 const DIGITAL_ELECTRONICS_KNOWLEDGE = {
   overviewCards: [
@@ -5071,21 +5521,134 @@ function SignalsOverviewPanel() {
 
         <article className="lg:col-span-2">
           <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
-            Concepts Overview
+            What Will You Learn?
           </h2>
           <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
-            For Graduate Aptitude Test in Engineering and PSU exams, Signals and
-            Systems should be studied in a structured hierarchy: Chapter - Topics -
+            For Graduate Aptitude Test in Engineering and PSU exams, prepare Signals
+            and Systems in a structured format: Chapter - Topics - Subtopics.
+          </p>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+            {[
+              "Signal definitions, classifications, and standard signals.",
+              "System properties such as linearity, time invariance, causality, and stability.",
+              "Signal operations including shifting, scaling, reversal, and decomposition.",
+              "Convolution and LTI system response from input and impulse response.",
+              "Fourier series, Fourier transform, Laplace transform, and Z-transform.",
+              "Sampling theorem, aliasing, frequency response, and filters.",
+            ].map((point) => (
+              <li key={point} className="flex gap-2">
+                <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function CommunicationSystemsOverviewPanel() {
+  return (
+    <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Is Communication Systems?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            Communication Systems deals with the transmission, modulation,
+            reception, and processing of information signals efficiently and
+            reliably through wired and wireless channels.
+          </p>
+        </article>
+
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            Why Do We Study It?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            This subject builds the foundation for analog and digital
+            communication, broadcasting, mobile links, receivers, noise
+            analysis, and information theory. In GATE and PSU exams, it becomes
+            much easier when studied in a structured chapter hierarchy.
+          </p>
+        </article>
+
+        <article className="lg:col-span-2">
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Will You Learn?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            For Graduate Aptitude Test in Engineering and PSU exams, prepare
+            Communication Systems in a structured format: Chapter - Topics -
             Subtopics.
           </p>
           <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
             {[
-              "Start with signal definitions, classifications, and standard signals.",
-              "Then learn system properties such as linearity, time invariance, causality, and stability.",
-              "Practice signal operations: shifting, scaling, reversal, and even-odd decomposition.",
-              "Master convolution because it directly gives LTI system output from input and impulse response.",
-              "Use Fourier series and Fourier transform to understand frequency content and spectra.",
-              "Use Laplace transform, Z-transform, sampling theorem, and filters for exam-level system analysis.",
+              "Communication basics including source, transmitter, channel, receiver, and spectrum.",
+              "Signal spectra, bandwidth, and power spectral density.",
+              "Analog modulation topics such as AM, FM, PM, modulation index, and demodulation.",
+              "Sampling theorem, pulse modulation, PCM, quantization, and delta modulation.",
+              "Digital modulation techniques including ASK, FSK, PSK, QPSK, and QAM.",
+              "Noise, SNR, information theory, channel capacity, receivers, and propagation basics.",
+            ].map((point) => (
+              <li key={point} className="flex gap-2">
+                <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function ControlSystemsOverviewPanel() {
+  return (
+    <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Is Control Systems?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            Control Systems studies how a system output is regulated using input,
+            feedback, modeling, stability analysis, and design. It explains how
+            practical systems such as speed controllers, temperature controllers,
+            voltage regulators, robotics, and automation loops behave.
+          </p>
+        </article>
+
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            Why Do We Study It?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            For Graduate Aptitude Test in Engineering and PSU exams, Control Systems
+            should be studied in a structured hierarchy. This structure helps for
+            conceptual understanding, numerical problem solving, quick revision, and
+            interview preparation.
+          </p>
+        </article>
+
+        <article className="lg:col-span-2">
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Will You Learn?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            For Graduate Aptitude Test in Engineering and PSU exams, prepare Control
+            Systems in a structured format: Chapter - Topics - Subtopics.
+          </p>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+            {[
+              "Introduction to open-loop, closed-loop, linear, nonlinear, continuous, and discrete systems.",
+              "Mathematical modeling using transfer functions, differential equations, and analogous systems.",
+              "Block diagram reduction, signal flow graph, and Mason's gain formula.",
+              "Time response analysis, steady-state error, and stability using Routh-Hurwitz criterion.",
+              "Root locus, Bode plot, Nyquist plot, gain margin, and phase margin.",
+              "PID controllers, compensators, state space analysis, controllability, and observability.",
             ].map((point) => (
               <li key={point} className="flex gap-2">
                 <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
@@ -5429,9 +5992,6 @@ function SubjectConceptMenu({ subjectTitle, concepts = [], activeIndex = 0, onSe
                     <span className="block text-sm font-black text-slate-950">
                       {concept.shortTitle}
                     </span>
-                    <span className="mt-1 block text-xs font-semibold text-slate-600">
-                      {activeIndex === index + 1 ? "Current concept" : "Open concept"}
-                    </span>
                   </span>
                 </span>
               );
@@ -5594,6 +6154,12 @@ function SignalsChapterMenu() {
                   ? "/fourier-transform"
                   : chapter.title === "Laplace Transform"
                   ? "/laplace-transform"
+                  : chapter.title === "Z-Transform"
+                  ? "/z-transform"
+                  : chapter.title === "Sampling Theorem"
+                  ? "/sampling-theorem"
+                  : chapter.title === "Frequency Response and Filters"
+                  ? "/frequency-response-and-filters"
                   : "";
               const content = (
                 <span className="flex items-start gap-2.5">
@@ -5628,6 +6194,183 @@ function SignalsChapterMenu() {
                 <button
                   type="button"
                   key={chapter.title}
+                  onClick={() => setIsOpen(false)}
+                  className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+                >
+                  {content}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function CommunicationSystemsChapterMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open Communication Systems chapters"
+        aria-expanded={isOpen}
+        aria-controls="communication-systems-chapter-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="communication-systems-chapter-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              Communication Systems Structure
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
+              Chapter - Topics - Subtopics for GATE/PSU revision.
+            </p>
+          </div>
+
+          <div className="grid gap-2">
+            {COMMUNICATION_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => (
+              <button
+                type="button"
+                key={chapter.title}
+                onClick={() => setIsOpen(false)}
+                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+              >
+                <span className="flex items-start gap-2.5">
+                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
+                    {String(chapterIndex + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-black leading-snug text-slate-950">
+                      {chapter.title}
+                    </span>
+                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
+                      {chapter.topics.map((topic) => topic.title).join(", ")}
+                    </span>
+                  </span>
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function ControlSystemsChapterMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open Control Systems chapters"
+        aria-expanded={isOpen}
+        aria-controls="control-systems-chapter-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="control-systems-chapter-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              Control Systems Structure
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
+              Chapter - Topics - Subtopics for GATE/PSU revision.
+            </p>
+          </div>
+
+          <div className="grid gap-2">
+            {CONTROL_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => {
+              const routeHref =
+                chapter.title === "Introduction to Control Systems"
+                  ? "/introduction-to-control-systems"
+                : chapter.title === "Mathematical Modeling of Systems"
+                  ? "/mathematical-modeling-of-systems"
+                : chapter.title === "Block Diagram and Signal Flow Graph"
+                  ? "/block-diagram-and-signal-flow-graph"
+                : chapter.title === "Time Response Analysis"
+                  ? "/time-response-analysis"
+                : chapter.title === "Stability Analysis"
+                  ? "/stability-analysis"
+                : chapter.title === "Root Locus Technique"
+                  ? "/root-locus-technique"
+                : chapter.title === "Frequency Response Analysis"
+                  ? "/frequency-response-analysis"
+                : chapter.title === "Controllers and Compensators"
+                  ? "/controllers-and-compensators"
+                : chapter.title === "State Space Analysis"
+                  ? "/state-space-analysis"
+                : chapter.title === "Control System Design"
+                  ? "/control-system-design"
+                  : "";
+              const content = (
+                <span className="flex items-start gap-2.5">
+                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
+                    {String(chapterIndex + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-black leading-snug text-slate-950">
+                      {chapter.title}
+                    </span>
+                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
+                      {chapter.topics.map((topic) => topic.title).join(", ")}
+                    </span>
+                  </span>
+                </span>
+              );
+
+              if (routeHref) {
+                return (
+                  <Link
+                    key={chapter.title}
+                    href={routeHref}
+                    onClick={() => setIsOpen(false)}
+                    className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+                  >
+                    {content}
+                  </Link>
+                );
+              }
+
+              return (
+                <button
+                  key={chapter.title}
+                  type="button"
                   onClick={() => setIsOpen(false)}
                   className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
                 >
@@ -10921,6 +11664,10 @@ function FallbackSubjectPage({ subject, steps, totalConcepts, subjectSummary }) 
         <div className="mt-5">
           <SignalsOverviewPanel />
         </div>
+      ) : subject.title === "Communication Systems" ? (
+        <div className="mt-5">
+          <CommunicationSystemsOverviewPanel />
+        </div>
       ) : null}
 
       {subject.title === "Analog Electronics" ? <AnalogElectronicsSection /> : null}
@@ -10938,6 +11685,12 @@ export default function SubjectTheoryPage({
   const theoryKnowledge =
     subject.title === "Digital Electronics"
       ? DIGITAL_ELECTRONICS_KNOWLEDGE
+      : subject.title === "Signals and Systems"
+      ? SIGNALS_SYSTEMS_KNOWLEDGE
+      : subject.title === "Communication Systems"
+      ? COMMUNICATION_SYSTEMS_KNOWLEDGE
+      : subject.title === "Control Systems"
+      ? CONTROL_SYSTEMS_KNOWLEDGE
       : subjectTheoryKnowledge[subject.title] || null;
   const chapterMeta = SUBJECT_META[subject.title] || null;
   const totalConcepts = steps.reduce((count, step) => count + step.points.length, 0);
@@ -10985,7 +11738,11 @@ export default function SubjectTheoryPage({
                 </span>
               </li>
             </ol>
-            {subject.title === "Signals and Systems" ? <SignalsChapterMenu /> : null}
+            {subject.title === "Signals and Systems" ? (
+              <SignalsChapterMenu />
+            ) : subject.title === "Communication Systems" ? (
+              <CommunicationSystemsChapterMenu />
+            ) : null}
           </nav>
 
           <FallbackSubjectPage
@@ -11607,6 +12364,10 @@ export default function SubjectTheoryPage({
             <DigitalChapterMenu />
           ) : subject.title === "Signals and Systems" ? (
             <SignalsChapterMenu />
+          ) : subject.title === "Communication Systems" ? (
+            <CommunicationSystemsChapterMenu />
+          ) : subject.title === "Control Systems" ? (
+            <ControlSystemsChapterMenu />
           ) : concepts.length ? (
             <SubjectConceptMenu
               subjectTitle={subject.title}
@@ -11690,6 +12451,10 @@ export default function SubjectTheoryPage({
               <DigitalOverviewPanel />
             ) : subject.title === "Signals and Systems" ? (
               <SignalsOverviewPanel />
+            ) : subject.title === "Communication Systems" ? (
+              <CommunicationSystemsOverviewPanel />
+            ) : subject.title === "Control Systems" ? (
+              <ControlSystemsOverviewPanel />
             ) : (
               <NetworkOverviewPanel overviewCards={theoryKnowledge.overviewCards} />
             )}
@@ -11732,7 +12497,7 @@ export default function SubjectTheoryPage({
                     href="/introduction-to-signals"
                     className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
                   >
-                    Next Introduction to Signals
+                    Start Introduction to Signals
                   </Link>
                 ) : (
                   <button
