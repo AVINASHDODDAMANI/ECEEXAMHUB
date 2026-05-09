@@ -11759,14 +11759,14 @@ export default function SubjectTheoryPage({
       <Layout title={`ECE Exam Guide | ${subject.title}`} pageClassName="py-3 sm:py-4">
         <div className="mx-auto max-w-[1200px]">
           <nav aria-label="Breadcrumb" className="mb-5 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between">
-            <ol className="flex min-w-0 flex-wrap items-center gap-2 rounded-2xl border border-white/80 bg-white/80 px-3 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur sm:rounded-full sm:px-4">
-              <li>
+            <ol className="flex min-w-0 w-full flex-wrap items-center gap-2 rounded-2xl border border-white/80 bg-white/80 px-3 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur sm:w-auto sm:rounded-full sm:px-4">
+              <li className="shrink-0">
                 <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
                   Home
                 </Link>
               </li>
-              <li className="text-slate-300">/</li>
-              <li>
+              <li className="shrink-0 text-slate-300">/</li>
+              <li className="shrink-0">
                 <Link
                   href="/subjects"
                   className="font-medium text-slate-600 transition hover:text-portal-700"
@@ -11774,9 +11774,9 @@ export default function SubjectTheoryPage({
                   Subjects
                 </Link>
               </li>
-              <li className="text-slate-300">/</li>
-              <li>
-                <span className="rounded-full bg-portal-50 px-3 py-1 font-semibold text-portal-700">
+              <li className="shrink-0 text-slate-300">/</li>
+              <li className="min-w-0 basis-full sm:basis-auto">
+                <span className="inline-flex max-w-full rounded-2xl bg-portal-50 px-3 py-1 text-left font-semibold leading-snug text-portal-700 whitespace-normal break-words sm:rounded-full">
                   {subject.title}
                 </span>
               </li>
@@ -12373,14 +12373,14 @@ export default function SubjectTheoryPage({
           aria-label="Breadcrumb"
           className="mb-4 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between"
         >
-          <ol className="flex min-w-0 flex-wrap items-center gap-2 text-sm text-slate-500">
-            <li>
+          <ol className="flex min-w-0 w-full flex-wrap items-center gap-2 rounded-2xl border border-white/80 bg-white/80 px-3 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur sm:w-auto sm:rounded-full sm:px-4">
+            <li className="shrink-0">
               <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
                 Home
               </Link>
             </li>
-            <li className="text-slate-300">/</li>
-            <li>
+            <li className="shrink-0 text-slate-300">/</li>
+            <li className="shrink-0">
               <Link
                 href="/subjects"
                 className="font-medium text-slate-600 transition hover:text-portal-700"
@@ -12388,9 +12388,9 @@ export default function SubjectTheoryPage({
                 Subjects
               </Link>
             </li>
-            <li className="text-slate-300">/</li>
-            <li>
-              <span className="font-semibold text-portal-700">
+            <li className="shrink-0 text-slate-300">/</li>
+            <li className="min-w-0 basis-full sm:basis-auto">
+              <span className="inline-flex max-w-full text-left font-semibold leading-snug text-portal-700 whitespace-normal break-words">
                 {subject.title}
               </span>
             </li>
