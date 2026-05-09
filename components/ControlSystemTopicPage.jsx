@@ -7,7 +7,7 @@ function TopicSection({ id, title, children }) {
   return (
     <section
       id={id}
-      className="topic-section scroll-mt-32 rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
+      className="topic-section min-w-0 scroll-mt-32 overflow-hidden rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
     >
       <h2 className="text-xl font-black tracking-tight text-slate-950 sm:text-2xl">{title}</h2>
       {children}
@@ -17,7 +17,7 @@ function TopicSection({ id, title, children }) {
 
 function MiniCard({ title, children }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+    <div className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
       <h3 className="text-base font-bold text-slate-950">{title}</h3>
       {children}
     </div>
@@ -34,11 +34,11 @@ function FormulaBox({ children }) {
 
 function BulletList({ items, bulletClassName = "bg-portal-600" }) {
   return (
-    <ul className="mt-3 grid gap-2 text-sm leading-7 text-slate-700 sm:text-base">
+    <ul className="mt-3 grid min-w-0 gap-2 text-sm leading-7 text-slate-700 sm:text-base">
       {items.map((item) => (
-        <li key={item} className="flex gap-2.5">
+        <li key={item} className="flex min-w-0 gap-2.5">
           <span className={`mt-2.5 h-1.5 w-1.5 flex-none rounded-full ${bulletClassName}`} />
-          <span>{item}</span>
+          <span className="min-w-0 break-words">{item}</span>
         </li>
       ))}
     </ul>
@@ -108,7 +108,7 @@ export default function ControlSystemTopicPage({ topic }) {
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
     >
-      <div className="mx-auto max-w-[1200px] pb-20">
+      <div className="mx-auto min-w-0 max-w-[1200px] pb-20">
         <nav aria-label="Breadcrumb" className="mb-4 pt-1">
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>

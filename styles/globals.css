@@ -94,6 +94,21 @@ mjx-container[display="true"] {
   font-size: 112% !important;
 }
 
+.topic-section,
+.topic-section * {
+  min-width: 0;
+}
+
+.topic-section p,
+.topic-section li,
+.topic-section blockquote,
+.topic-section h2,
+.topic-section h3,
+.topic-section span {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
 .basic-concept-guide-content > div > section {
   padding-top: 1rem;
   padding-bottom: 1rem;
