@@ -21,6 +21,46 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://eceexamguide.vercel.app/subjects/signals-and-systems</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/introduction-to-signals</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/systems-and-their-properties</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/mathematical-representation-of-signals</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/convolution</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/fourier-series</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/fourier-transform</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://eceexamguide.vercel.app/laplace-transform</loc>
+    <lastmod>2026-05-09</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://eceexamguide.vercel.app/number-systems-and-codes</loc>
     <lastmod>2026-05-07</lastmod>
     <priority>0.85</priority>

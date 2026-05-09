@@ -5076,8 +5076,7 @@ function SignalsOverviewPanel() {
           <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
             For Graduate Aptitude Test in Engineering and PSU exams, Signals and
             Systems should be studied in a structured hierarchy: Chapter - Topics -
-            Subtopics. This helps in understanding mathematical concepts, solving
-            numericals, quick revision, and interview preparation.
+            Subtopics.
           </p>
           <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
             {[
@@ -5095,80 +5094,6 @@ function SignalsOverviewPanel() {
             ))}
           </ul>
         </article>
-      </div>
-
-      <div className="mt-5 grid gap-4">
-        <div className="rounded-2xl border border-portal-100 bg-[#f8fbff] p-4">
-          <p className="text-xs font-black uppercase tracking-[0.14em] text-portal-700">
-            Signals and Systems Structure
-          </p>
-          <p className="mt-2 text-sm font-semibold leading-6 text-slate-800">
-            Chapter - Topics - Subtopics
-          </p>
-        </div>
-
-        <div className="grid gap-3">
-          {SIGNALS_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => (
-            <section
-              key={chapter.title}
-              id={`signals-chapter-${chapterIndex + 1}`}
-              className="scroll-mt-32 rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
-            >
-              <div className="flex flex-wrap items-start gap-3">
-                <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
-                  {String(chapterIndex + 1).padStart(2, "0")}
-                </span>
-                <div className="min-w-0">
-                  <h3 className="text-base font-black text-slate-950">
-                    Chapter {chapterIndex + 1}: {chapter.title}
-                  </h3>
-                  {chapter.formula ? (
-                    <p className="mt-2 rounded-xl border border-white bg-white px-3 py-2 text-sm font-bold text-portal-700">
-                      {chapter.formula}
-                    </p>
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="mt-3 grid gap-2 md:grid-cols-2">
-                {chapter.topics.map((topic, topicIndex) => (
-                  <div key={topic.title} className="rounded-xl border border-white bg-white p-3">
-                    <h4 className="text-sm font-bold text-slate-950">
-                      {chapterIndex + 1}.{topicIndex + 1} {topic.title}
-                    </h4>
-                    {topic.subtopics.length ? (
-                      <ul className="mt-2 grid gap-1.5 text-sm leading-6 text-slate-700">
-                        {topic.subtopics.map((subtopic) => (
-                          <li key={subtopic} className="flex gap-2">
-                            <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-slate-400" />
-                            <span>{subtopic}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="mt-2 text-sm leading-6 text-slate-600">
-                        Focus on definition, physical meaning, and numerical use.
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
-
-        <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
-          <h3 className="text-base font-black text-amber-950">
-            Most Important Topics for GATE/PSU
-          </h3>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {SIGNALS_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
-              <span key={topic} className="rounded-full border border-amber-200 bg-white px-3 py-1.5 text-xs font-bold text-amber-900">
-                {topic}
-              </span>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
@@ -5653,13 +5578,24 @@ function SignalsChapterMenu() {
           </div>
 
           <div className="grid gap-2">
-            {SIGNALS_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => (
-              <a
-                key={chapter.title}
-                href={`#signals-chapter-${chapterIndex + 1}`}
-                onClick={() => setIsOpen(false)}
-                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-              >
+            {SIGNALS_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => {
+              const routeHref =
+                chapter.title === "Introduction to Signals"
+                  ? "/introduction-to-signals"
+                  : chapter.title === "Systems and Their Properties"
+                  ? "/systems-and-their-properties"
+                  : chapter.title === "Mathematical Representation of Signals"
+                  ? "/mathematical-representation-of-signals"
+                  : chapter.title === "Convolution"
+                  ? "/convolution"
+                  : chapter.title === "Fourier Series"
+                  ? "/fourier-series"
+                  : chapter.title === "Fourier Transform"
+                  ? "/fourier-transform"
+                  : chapter.title === "Laplace Transform"
+                  ? "/laplace-transform"
+                  : "";
+              const content = (
                 <span className="flex items-start gap-2.5">
                   <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
                     {String(chapterIndex + 1).padStart(2, "0")}
@@ -5673,8 +5609,32 @@ function SignalsChapterMenu() {
                     </span>
                   </span>
                 </span>
-              </a>
-            ))}
+              );
+
+              if (routeHref) {
+                return (
+                  <Link
+                    key={chapter.title}
+                    href={routeHref}
+                    onClick={() => setIsOpen(false)}
+                    className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+                  >
+                    {content}
+                  </Link>
+                );
+              }
+
+              return (
+                <button
+                  type="button"
+                  key={chapter.title}
+                  onClick={() => setIsOpen(false)}
+                  className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+                >
+                  {content}
+                </button>
+              );
+            })}
           </div>
         </div>
       ) : null}
@@ -11767,6 +11727,13 @@ export default function SubjectTheoryPage({
                   >
                     Start Number Systems
                   </a>
+                ) : subject.title === "Signals and Systems" ? (
+                  <Link
+                    href="/introduction-to-signals"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
+                  >
+                    Next Introduction to Signals
+                  </Link>
                 ) : (
                   <button
                     type="button"
@@ -12061,6 +12028,13 @@ export default function SubjectTheoryPage({
             >
               Theory
             </a>
+          ) : subject.title === "Signals and Systems" ? (
+            <Link
+              href="/subjects/signals-and-systems"
+              className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Theory
+            </Link>
           ) : (
             <button
               type="button"
