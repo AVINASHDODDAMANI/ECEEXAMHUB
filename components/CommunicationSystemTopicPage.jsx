@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import Layout from "./layout";
-import { communicationTopicPageMap } from "../data/communication-topic-pages";
+import { getRelatedLearningTopics } from "../lib/learning-utils";
 
 const CommunicationSystemVisualizer = dynamic(
   () => import("./visualizers/CommunicationSystemVisualizer"),
@@ -84,10 +84,7 @@ const sectionLinks = [
 
 export default function CommunicationSystemTopicPage({ topic }) {
   const relatedTopics = useMemo(
-    () =>
-      (topic.relatedTopics || [])
-        .map((item) => communicationTopicPageMap[item.topicSlug])
-        .filter(Boolean),
+    () => getRelatedLearningTopics(topic.relatedTopics || []),
     [topic.relatedTopics]
   );
 
@@ -133,6 +130,36 @@ export default function CommunicationSystemTopicPage({ topic }) {
           },
         })),
       },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://eceexamguide.vercel.app/",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Subjects",
+            item: "https://eceexamguide.vercel.app/subjects",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: "Communication Systems",
+            item: "https://eceexamguide.vercel.app/subjects/communication-systems",
+          },
+          {
+            "@type": "ListItem",
+            position: 4,
+            name: topic.shortTitle,
+            item: `https://eceexamguide.vercel.app/learn/communications/${topic.slug}`,
+          },
+        ],
+      },
     ],
     [faqItems, topic]
   );
@@ -142,6 +169,7 @@ export default function CommunicationSystemTopicPage({ topic }) {
       title={topic.metaTitle}
       description={topic.metaDescription}
       keywords={topic.keywords}
+      canonicalUrl={`https://eceexamguide.vercel.app/learn/communications/${topic.slug}`}
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
     >
@@ -198,6 +226,27 @@ export default function CommunicationSystemTopicPage({ topic }) {
               <p className="font-bold text-slate-950">Engineering use</p>
               <p className="mt-1 leading-6">{topic.engineeringUse}</p>
             </div>
+          </div>
+
+          <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+            <Link
+              href="/subjects/communication-systems"
+              className="inline-flex justify-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-white"
+            >
+              Back to Communication Systems roadmap
+            </Link>
+            <Link
+              href="/notes/communications"
+              className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-4 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
+            >
+              Open Communication Systems notes
+            </Link>
+            <Link
+              href="/practice?search=Communication%20Systems"
+              className="inline-flex justify-center rounded-xl bg-portal-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-portal-700"
+            >
+              Practice Communication Systems
+            </Link>
           </div>
         </header>
 
@@ -369,8 +418,8 @@ export default function CommunicationSystemTopicPage({ topic }) {
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {relatedTopics.map((relatedTopic) => (
                 <Link
-                  key={relatedTopic.slug}
-                  href={`/learn/communications/${relatedTopic.slug}`}
+                  key={`${relatedTopic.subjectSlug}-${relatedTopic.slug}`}
+                  href={`/learn/${relatedTopic.subjectSlug}/${relatedTopic.slug}`}
                   className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-portal-200 hover:bg-portal-50"
                 >
                   <h3 className="text-sm font-black text-slate-900">{relatedTopic.shortTitle}</h3>

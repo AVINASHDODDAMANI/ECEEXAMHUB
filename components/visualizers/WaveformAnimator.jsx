@@ -58,21 +58,37 @@ function SpectrumBars({ bars = [], labels = [] }) {
   );
 }
 
-function WaveformAnimatorComponent({ variant, visual }) {
+function VisualizationPanel({ isActive = false, children }) {
+  return (
+    <div
+      className={`rounded-[22px] border p-1 transition ${
+        isActive ? "border-portal-300 bg-portal-50/70" : "border-transparent bg-transparent"
+      }`}
+    >
+      {children}
+    </div>
+  );
+}
+
+function WaveformAnimatorComponent({ variant, visual, activeStep = 0 }) {
   if (variant === "spectrum") {
     return (
       <div className="grid gap-4 lg:grid-cols-2">
-        <PlotFrame ariaLabel="Time domain waveform" xLabel="t" yLabel="x(t)">
-          <motion.path
-            d={buildSinePath({ width: 316, height: 117, amplitude: 30, cycles: 2.5 })}
-            fill="none"
-            stroke="#154a96"
-            strokeWidth="4"
-            animate={{ pathLength: [0.1, 1, 0.1] }}
-            transition={visualizationTransition}
-          />
-        </PlotFrame>
-        <SpectrumBars bars={visual.spectrumBars} />
+        <VisualizationPanel isActive={activeStep === 0}>
+          <PlotFrame ariaLabel="Time domain waveform" xLabel="t" yLabel="x(t)">
+            <motion.path
+              d={buildSinePath({ width: 316, height: 117, amplitude: 30, cycles: 2.5 })}
+              fill="none"
+              stroke="#154a96"
+              strokeWidth="4"
+              animate={{ pathLength: [0.1, 1, 0.1] }}
+              transition={visualizationTransition}
+            />
+          </PlotFrame>
+        </VisualizationPanel>
+        <VisualizationPanel isActive={activeStep >= 1}>
+          <SpectrumBars bars={visual.spectrumBars} />
+        </VisualizationPanel>
       </div>
     );
   }
@@ -80,24 +96,29 @@ function WaveformAnimatorComponent({ variant, visual }) {
   if (variant === "am") {
     return (
       <div className="grid gap-4 lg:grid-cols-2">
-        <PlotFrame ariaLabel="Amplitude modulation waveform" xLabel="t" yLabel="AM">
-          <motion.path
-            d={buildEnvelopePath({ width: 316, height: 117 })}
-            fill="none"
-            stroke="#154a96"
-            strokeWidth="4"
-            animate={{ pathLength: [0.1, 1, 0.1] }}
-            transition={visualizationTransition}
-          />
-          <path
-            d={buildSinePath({ width: 316, height: 117, amplitude: 26, cycles: 1, samples: 80 })}
-            fill="none"
-            stroke="#f59e0b"
-            strokeWidth="2.5"
-            strokeDasharray="7 6"
-          />
-        </PlotFrame>
-        <SpectrumBars bars={visual.spectrumBars} labels={visual.labels} />
+        <VisualizationPanel isActive={activeStep <= 2}>
+          <PlotFrame ariaLabel="Amplitude modulation waveform" xLabel="t" yLabel="AM">
+            <motion.path
+              d={buildEnvelopePath({ width: 316, height: 117 })}
+              fill="none"
+              stroke="#154a96"
+              strokeWidth="4"
+              animate={{ pathLength: [0.1, 1, 0.1] }}
+              transition={visualizationTransition}
+            />
+            <path
+              d={buildSinePath({ width: 316, height: 117, amplitude: 26, cycles: 1, samples: 80 })}
+              fill="none"
+              stroke="#f59e0b"
+              strokeWidth="2.5"
+              strokeDasharray="7 6"
+              opacity={activeStep === 0 ? 1 : 0.7}
+            />
+          </PlotFrame>
+        </VisualizationPanel>
+        <VisualizationPanel isActive={activeStep === 3}>
+          <SpectrumBars bars={visual.spectrumBars} labels={visual.labels} />
+        </VisualizationPanel>
       </div>
     );
   }
@@ -105,26 +126,30 @@ function WaveformAnimatorComponent({ variant, visual }) {
   if (variant === "angle") {
     return (
       <div className="grid gap-4 lg:grid-cols-2">
-        <PlotFrame ariaLabel="Narrowband FM" xLabel="t" yLabel="NBFM">
-          <motion.path
-            d={buildSinePath({ width: 316, height: 117, amplitude: 26, cycles: 4.8 })}
-            fill="none"
-            stroke="#154a96"
-            strokeWidth="4"
-            animate={{ pathLength: [0.1, 1, 0.1] }}
-            transition={visualizationTransition}
-          />
-        </PlotFrame>
-        <PlotFrame ariaLabel="Wideband FM" xLabel="t" yLabel="WBFM">
-          <motion.path
-            d="M 0 58 C 14 26 26 26 40 58 S 68 90 82 58 S 98 18 116 58 S 142 100 168 58 S 190 12 210 58 S 246 104 270 58 S 294 18 316 58"
-            fill="none"
-            stroke="#f59e0b"
-            strokeWidth="4"
-            animate={{ pathLength: [0.1, 1, 0.1] }}
-            transition={visualizationTransition}
-          />
-        </PlotFrame>
+        <VisualizationPanel isActive={activeStep <= 1}>
+          <PlotFrame ariaLabel="Narrowband FM" xLabel="t" yLabel="NBFM">
+            <motion.path
+              d={buildSinePath({ width: 316, height: 117, amplitude: 26, cycles: 4.8 })}
+              fill="none"
+              stroke="#154a96"
+              strokeWidth="4"
+              animate={{ pathLength: [0.1, 1, 0.1] }}
+              transition={visualizationTransition}
+            />
+          </PlotFrame>
+        </VisualizationPanel>
+        <VisualizationPanel isActive={activeStep >= 2}>
+          <PlotFrame ariaLabel="Wideband FM" xLabel="t" yLabel="WBFM">
+            <motion.path
+              d="M 0 58 C 14 26 26 26 40 58 S 68 90 82 58 S 98 18 116 58 S 142 100 168 58 S 190 12 210 58 S 246 104 270 58 S 294 18 316 58"
+              fill="none"
+              stroke="#f59e0b"
+              strokeWidth="4"
+              animate={{ pathLength: [0.1, 1, 0.1] }}
+              transition={visualizationTransition}
+            />
+          </PlotFrame>
+        </VisualizationPanel>
       </div>
     );
   }
@@ -132,62 +157,68 @@ function WaveformAnimatorComponent({ variant, visual }) {
   if (variant === "pulse") {
     return (
       <div className="grid gap-4 lg:grid-cols-2">
-        <PlotFrame ariaLabel="Sampled message and PAM" xLabel="t" yLabel="PAM">
-          <motion.path
-            d={buildSinePath({ width: 316, height: 117, amplitude: 28, cycles: 1.2 })}
-            fill="none"
-            stroke="#cbd5e1"
-            strokeWidth="3"
-          />
-          {visual.sampleHeights.map((value, index) => {
-            const x = 22 + index * 42;
-            const y = 117 - value * 90;
+        <VisualizationPanel isActive={activeStep <= 1}>
+          <PlotFrame ariaLabel="Sampled message and PAM" xLabel="t" yLabel="PAM">
+            <motion.path
+              d={buildSinePath({ width: 316, height: 117, amplitude: 28, cycles: 1.2 })}
+              fill="none"
+              stroke="#cbd5e1"
+              strokeWidth="3"
+            />
+            {visual.sampleHeights.map((value, index) => {
+              const x = 22 + index * 42;
+              const y = 117 - value * 90;
 
-            return (
-              <motion.g key={`${value}-${index}`} animate={{ opacity: [0.55, 1, 0.55] }} transition={{ ...visualizationTransition, delay: index * 0.18 }}>
-                <line x1={x} y1="117" x2={x} y2={y} stroke="#154a96" strokeWidth="4" />
-                <circle cx={x} cy={y} r="5" fill="#f59e0b" />
-              </motion.g>
-            );
-          })}
-        </PlotFrame>
+              return (
+                <motion.g key={`${value}-${index}`} animate={{ opacity: [0.55, 1, 0.55] }} transition={{ ...visualizationTransition, delay: index * 0.18 }}>
+                  <line x1={x} y1="117" x2={x} y2={y} stroke="#154a96" strokeWidth="4" />
+                  <circle cx={x} cy={y} r="5" fill="#f59e0b" />
+                </motion.g>
+              );
+            })}
+          </PlotFrame>
+        </VisualizationPanel>
         <div className="grid gap-3">
-          <PlotFrame ariaLabel="Pulse width modulation" xLabel="t" yLabel="PWM">
-            {visual.pulseWidths.map((width, index) => {
-              const x = index * 58 + 14;
-              return (
-                <motion.rect
-                  key={`w-${width}-${index}`}
-                  x={x}
-                  y="34"
-                  width={width}
-                  height="83"
-                  rx="4"
-                  fill="#154a96"
-                  animate={{ opacity: [0.68, 1, 0.68] }}
-                  transition={{ ...visualizationTransition, delay: index * 0.15 }}
-                />
-              );
-            })}
-          </PlotFrame>
-          <PlotFrame ariaLabel="Pulse position modulation" xLabel="t" yLabel="PPM">
-            {visual.pulseOffsets.map((offset, index) => {
-              const x = index * 58 + 20 + offset;
-              return (
-                <motion.rect
-                  key={`p-${offset}-${index}`}
-                  x={x}
-                  y="34"
-                  width="18"
-                  height="83"
-                  rx="4"
-                  fill="#f59e0b"
-                  animate={{ y: [34, 28, 34] }}
-                  transition={{ ...pulseTransition, delay: index * 0.15 }}
-                />
-              );
-            })}
-          </PlotFrame>
+          <VisualizationPanel isActive={activeStep === 2}>
+            <PlotFrame ariaLabel="Pulse width modulation" xLabel="t" yLabel="PWM">
+              {visual.pulseWidths.map((width, index) => {
+                const x = index * 58 + 14;
+                return (
+                  <motion.rect
+                    key={`w-${width}-${index}`}
+                    x={x}
+                    y="34"
+                    width={width}
+                    height="83"
+                    rx="4"
+                    fill="#154a96"
+                    animate={{ opacity: [0.68, 1, 0.68] }}
+                    transition={{ ...visualizationTransition, delay: index * 0.15 }}
+                  />
+                );
+              })}
+            </PlotFrame>
+          </VisualizationPanel>
+          <VisualizationPanel isActive={activeStep >= 2}>
+            <PlotFrame ariaLabel="Pulse position modulation" xLabel="t" yLabel="PPM">
+              {visual.pulseOffsets.map((offset, index) => {
+                const x = index * 58 + 20 + offset;
+                return (
+                  <motion.rect
+                    key={`p-${offset}-${index}`}
+                    x={x}
+                    y="34"
+                    width="18"
+                    height="83"
+                    rx="4"
+                    fill="#f59e0b"
+                    animate={{ y: [34, 28, 34] }}
+                    transition={{ ...pulseTransition, delay: index * 0.15 }}
+                  />
+                );
+              })}
+            </PlotFrame>
+          </VisualizationPanel>
         </div>
       </div>
     );
@@ -196,17 +227,23 @@ function WaveformAnimatorComponent({ variant, visual }) {
   if (variant === "digital") {
     return (
       <div className="grid gap-4 lg:grid-cols-2">
-        <PlotFrame ariaLabel="Quantization staircase" xLabel="t" yLabel="xq">
-          <motion.path
-            d={buildStaircasePath(visual.staircase)}
-            fill="none"
-            stroke="#154a96"
-            strokeWidth="4"
-            animate={{ pathLength: [0.1, 1, 0.1] }}
-            transition={visualizationTransition}
-          />
-        </PlotFrame>
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <VisualizationPanel isActive={activeStep <= 1}>
+          <PlotFrame ariaLabel="Quantization staircase" xLabel="t" yLabel="xq">
+            <motion.path
+              d={buildStaircasePath(visual.staircase)}
+              fill="none"
+              stroke="#154a96"
+              strokeWidth="4"
+              animate={{ pathLength: [0.1, 1, 0.1] }}
+              transition={visualizationTransition}
+            />
+          </PlotFrame>
+        </VisualizationPanel>
+        <div
+          className={`rounded-2xl border bg-white p-4 transition ${
+            activeStep >= 2 ? "border-portal-300 bg-portal-50/40" : "border-slate-200"
+          }`}
+        >
           <div className="grid grid-cols-3 gap-3">
             {visual.bits.map((bit, index) => (
               <motion.div
@@ -232,7 +269,11 @@ function WaveformAnimatorComponent({ variant, visual }) {
 
     return (
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div
+          className={`rounded-2xl border bg-white p-4 transition ${
+            activeStep <= 2 ? "border-portal-300 bg-portal-50/40" : "border-slate-200"
+          }`}
+        >
           <div className="grid gap-2">
             {["ASK: amplitude switches", "FSK: frequency switches", "PSK: phase switches"].map((label, index) => (
               <motion.div
@@ -246,23 +287,25 @@ function WaveformAnimatorComponent({ variant, visual }) {
             ))}
           </div>
         </div>
-        <svg viewBox="0 0 240 240" className="w-full rounded-2xl border border-slate-200 bg-white p-3" role="img" aria-label="Constellation diagram">
-          <line x1="120" y1="24" x2="120" y2="216" stroke="#94a3b8" strokeWidth="2" />
-          <line x1="24" y1="120" x2="216" y2="120" stroke="#94a3b8" strokeWidth="2" />
-          <text x="204" y="114" fill="#475569" fontSize="12" fontWeight="700">I</text>
-          <text x="126" y="36" fill="#475569" fontSize="12" fontWeight="700">Q</text>
-          {points.map((point, index) => (
-            <motion.circle
-              key={point.id}
-              cx={120 + point.x}
-              cy={120 - point.y}
-              r="9"
-              fill={index < 4 ? "#154a96" : "#f59e0b"}
-              animate={{ scale: [0.84, 1.1, 0.84] }}
-              transition={{ ...visualizationTransition, delay: index * 0.14 }}
-            />
-          ))}
-        </svg>
+        <VisualizationPanel isActive={activeStep === 3}>
+          <svg viewBox="0 0 240 240" className="w-full rounded-2xl border border-slate-200 bg-white p-3" role="img" aria-label="Constellation diagram">
+            <line x1="120" y1="24" x2="120" y2="216" stroke="#94a3b8" strokeWidth="2" />
+            <line x1="24" y1="120" x2="216" y2="120" stroke="#94a3b8" strokeWidth="2" />
+            <text x="204" y="114" fill="#475569" fontSize="12" fontWeight="700">I</text>
+            <text x="126" y="36" fill="#475569" fontSize="12" fontWeight="700">Q</text>
+            {points.map((point, index) => (
+              <motion.circle
+                key={point.id}
+                cx={120 + point.x}
+                cy={120 - point.y}
+                r="9"
+                fill={index < 4 ? "#154a96" : "#f59e0b"}
+                animate={{ scale: [0.84, 1.1, 0.84] }}
+                transition={{ ...visualizationTransition, delay: index * 0.14 }}
+              />
+            ))}
+          </svg>
+        </VisualizationPanel>
       </div>
     );
   }
@@ -270,25 +313,34 @@ function WaveformAnimatorComponent({ variant, visual }) {
   if (variant === "noise") {
     return (
       <div className="grid gap-4 lg:grid-cols-2">
-        <PlotFrame ariaLabel="Clean and noisy signals" xLabel="t" yLabel="r(t)">
-          <path
-            d={buildSinePath({ width: 316, height: 117, amplitude: 24, cycles: 2.3 })}
-            fill="none"
-            stroke="#16a34a"
-            strokeWidth="3"
-          />
-          <motion.path
-            d="M 0 57 C 16 18 29 36 46 52 S 74 85 94 60 S 116 22 136 63 S 160 102 184 62 S 210 26 232 54 S 258 110 286 62 S 304 32 316 62"
-            fill="none"
-            stroke="#dc2626"
-            strokeWidth="4"
-            animate={{ pathLength: [0.2, 1, 0.2] }}
-            transition={visualizationTransition}
-          />
-        </PlotFrame>
+        <VisualizationPanel isActive={activeStep <= 1}>
+          <PlotFrame ariaLabel="Clean and noisy signals" xLabel="t" yLabel="r(t)">
+            <path
+              d={buildSinePath({ width: 316, height: 117, amplitude: 24, cycles: 2.3 })}
+              fill="none"
+              stroke="#16a34a"
+              strokeWidth="3"
+            />
+            <motion.path
+              d="M 0 57 C 16 18 29 36 46 52 S 74 85 94 60 S 116 22 136 63 S 160 102 184 62 S 210 26 232 54 S 258 110 286 62 S 304 32 316 62"
+              fill="none"
+              stroke="#dc2626"
+              strokeWidth="4"
+              animate={{ pathLength: [0.2, 1, 0.2] }}
+              transition={visualizationTransition}
+            />
+          </PlotFrame>
+        </VisualizationPanel>
         <div className="grid gap-3">
           {visual.snrBars.map((value, index) => (
-            <div key={`${value}-${index}`} className="rounded-2xl border border-slate-200 bg-white p-4">
+            <div
+              key={`${value}-${index}`}
+              className={`rounded-2xl border bg-white p-4 transition ${
+                activeStep >= 2 && index === Math.min(activeStep - 1, visual.snrBars.length - 1)
+                  ? "border-portal-300 bg-portal-50/40"
+                  : "border-slate-200"
+              }`}
+            >
               <div className="flex items-center justify-between text-sm font-bold text-slate-800">
                 <span>{visual.labels[index]}</span>
                 <span>{Math.round(value * 100)}%</span>
@@ -310,7 +362,11 @@ function WaveformAnimatorComponent({ variant, visual }) {
   if (variant === "information") {
     return (
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div
+          className={`rounded-2xl border bg-white p-4 transition ${
+            activeStep <= 2 ? "border-portal-300 bg-portal-50/40" : "border-slate-200"
+          }`}
+        >
           <div className="grid gap-3">
             {visual.probabilities.map((value, index) => (
               <motion.div
@@ -330,7 +386,11 @@ function WaveformAnimatorComponent({ variant, visual }) {
             ))}
           </div>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <div
+          className={`rounded-2xl border bg-white p-4 transition ${
+            activeStep === 3 ? "border-portal-300 bg-portal-50/40" : "border-slate-200"
+          }`}
+        >
           <div className="flex h-full flex-col justify-between gap-3">
             {["Less probable -> more surprise", "Average surprise -> entropy", "Bandwidth + SNR -> channel capacity"].map((label, index) => (
               <motion.div

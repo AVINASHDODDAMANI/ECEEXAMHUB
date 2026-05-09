@@ -2,6 +2,7 @@ import { memo } from "react";
 import { communicationVisualizationData } from "../../data/communication-visualization-data";
 import { useVisualizationSteps } from "../../hooks/useVisualizationSteps";
 import SignalFlowAnimation from "./SignalFlowAnimation";
+import VisualizationInsightPanel from "./VisualizationInsightPanel";
 import StepExplanation from "./StepExplanation";
 import VisualizationCard from "./VisualizationCard";
 import WaveformAnimator from "./WaveformAnimator";
@@ -34,6 +35,7 @@ function CommunicationSystemVisualizerComponent({ slug }) {
 
   const Animation =
     visualization.visualType === "signal-flow" ? SignalFlowAnimation : WaveformAnimator;
+  const [activeStepTitle, activeStepText] = visualization.steps[activeStep] || [];
 
   return (
     <VisualizationCard
@@ -54,8 +56,14 @@ function CommunicationSystemVisualizerComponent({ slug }) {
             onStepSelect={setActiveStep}
           />
           <div className="grid gap-3">
+            <VisualizationInsightPanel
+              stepTitle={activeStepTitle}
+              stepText={activeStepText}
+              subtitle={visualization.subtitle}
+              takeaway={visualization.takeaway}
+            />
             <VariableLabels variables={visualization.variables} />
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-bold leading-6 text-slate-800">
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-bold leading-6 text-slate-800">
               Exam takeaway: {visualization.takeaway}
             </div>
           </div>

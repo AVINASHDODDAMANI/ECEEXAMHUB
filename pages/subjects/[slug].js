@@ -2810,11 +2810,11 @@ function SubjectTheoryIcon() {
 
 function HeroMetric({ label, value }) {
   return (
-    <div className="rounded-lg border border-slate-200 bg-white px-2.5 py-2 shadow-sm sm:rounded-xl sm:px-3 sm:py-2.5">
-      <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-slate-500 sm:text-[10px] sm:tracking-[0.14em]">
+    <div className="rounded-lg border border-slate-200 bg-white px-3 py-2.5 shadow-sm sm:rounded-xl sm:px-3 sm:py-2.5">
+      <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-500 sm:text-[10px] sm:tracking-[0.14em]">
         {label}
       </p>
-      <p className="mt-0.5 text-xs font-bold leading-5 text-slate-900 sm:mt-1 sm:text-sm">{value}</p>
+      <p className="mt-1 text-sm font-bold leading-5 text-slate-900 sm:mt-1 sm:text-sm">{value}</p>
     </div>
   );
 }
@@ -6247,13 +6247,32 @@ function CommunicationSystemsChapterMenu() {
           </div>
 
           <div className="grid gap-2">
-            {COMMUNICATION_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => (
-              <button
-                type="button"
-                key={chapter.title}
-                onClick={() => setIsOpen(false)}
-                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-              >
+            {COMMUNICATION_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => {
+              const routeHref =
+                chapter.title === "Introduction to Communication Systems"
+                  ? "/learn/communications/introduction-to-communication-systems"
+                  : chapter.title === "Signals and Spectra"
+                  ? "/learn/communications/signals-and-spectra"
+                  : chapter.title === "Amplitude Modulation (AM)"
+                  ? "/learn/communications/amplitude-modulation"
+                  : chapter.title === "Angle Modulation"
+                  ? "/learn/communications/angle-modulation"
+                  : chapter.title === "Pulse Modulation"
+                  ? "/learn/communications/pulse-modulation"
+                  : chapter.title === "Digital Communication"
+                  ? "/learn/communications/digital-communication"
+                  : chapter.title === "Digital Modulation Techniques"
+                  ? "/learn/communications/digital-modulation-techniques"
+                  : chapter.title === "Noise in Communication Systems"
+                  ? "/learn/communications/noise-in-communication-systems"
+                  : chapter.title === "Information Theory"
+                  ? "/learn/communications/information-theory"
+                  : chapter.title === "Communication Receivers"
+                  ? "/learn/communications/communication-receivers"
+                  : chapter.title === "Antennas and Propagation Basics"
+                  ? "/learn/communications/antennas-and-propagation-basics"
+                  : "";
+              const content = (
                 <span className="flex items-start gap-2.5">
                   <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
                     {String(chapterIndex + 1).padStart(2, "0")}
@@ -6267,8 +6286,32 @@ function CommunicationSystemsChapterMenu() {
                     </span>
                   </span>
                 </span>
-              </button>
-            ))}
+              );
+
+              if (routeHref) {
+                return (
+                  <Link
+                    key={chapter.title}
+                    href={routeHref}
+                    onClick={() => setIsOpen(false)}
+                    className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+                  >
+                    {content}
+                  </Link>
+                );
+              }
+
+              return (
+                <button
+                  type="button"
+                  key={chapter.title}
+                  onClick={() => setIsOpen(false)}
+                  className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+                >
+                  {content}
+                </button>
+              );
+            })}
           </div>
         </div>
       ) : null}
@@ -11715,8 +11758,8 @@ export default function SubjectTheoryPage({
     return (
       <Layout title={`ECE Exam Guide | ${subject.title}`} pageClassName="py-3 sm:py-4">
         <div className="mx-auto max-w-[1200px]">
-          <nav aria-label="Breadcrumb" className="mb-5 flex items-start justify-between gap-3 pt-1">
-            <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/80 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
+          <nav aria-label="Breadcrumb" className="mb-5 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between">
+            <ol className="flex min-w-0 flex-wrap items-center gap-2 rounded-2xl border border-white/80 bg-white/80 px-3 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur sm:rounded-full sm:px-4">
               <li>
                 <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
                   Home
@@ -12328,7 +12371,7 @@ export default function SubjectTheoryPage({
       <div id="subject-roadmap-top" className="mx-auto max-w-[1500px] scroll-mt-40 pb-24 xl:pb-0">
         <nav
           aria-label="Breadcrumb"
-          className="mb-4 flex items-start justify-between gap-3 pt-1"
+          className="mb-4 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between"
         >
           <ol className="flex min-w-0 flex-wrap items-center gap-2 text-sm text-slate-500">
             <li>
@@ -12385,7 +12428,7 @@ export default function SubjectTheoryPage({
                 <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
                   ECE Core Chapter
                 </p>
-                <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+                <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-4xl">
                   {subject.title}
                 </h1>
                 <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-700 sm:text-base">
@@ -12403,7 +12446,7 @@ export default function SubjectTheoryPage({
 
             <div className="grid gap-3 rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
               <div>
-                <div className="flex items-center justify-between gap-3">
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                   <h2 className="text-sm font-bold text-slate-950">Study Progress</h2>
                   <span className="text-xs font-semibold text-slate-500">
                     {isReady ? `${completionPercent}% Completed` : "Loading..."}
@@ -12422,7 +12465,7 @@ export default function SubjectTheoryPage({
 
               <Link
                 href={learningMeta.continueHref || subject.href}
-                className="inline-flex justify-center rounded-xl bg-portal-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-portal-700"
+                className="inline-flex w-full justify-center rounded-xl bg-portal-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-portal-700"
               >
                 {completionPercent > 0 ? "Continue Learning" : "Start Learning"}
               </Link>
@@ -12430,13 +12473,13 @@ export default function SubjectTheoryPage({
               <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
                 <Link
                   href={notesHref}
-                  className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
+                  className="inline-flex w-full justify-center rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-bold text-slate-700 transition hover:bg-slate-50"
                 >
                   Notes
                 </Link>
                 <Link
                   href={`/practice?search=${encodeURIComponent(subject.search)}`}
-                  className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-3 py-2.5 text-xs font-bold text-portal-700 transition hover:bg-portal-50"
+                  className="inline-flex w-full justify-center rounded-xl border border-portal-200 bg-white px-3 py-2.5 text-xs font-bold text-portal-700 transition hover:bg-portal-50"
                 >
                   Practice
                 </Link>
@@ -12481,29 +12524,36 @@ export default function SubjectTheoryPage({
                 {subject.title === "Network Analysis" ? (
                   <Link
                     href="/basic-concepts"
-                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-4 py-3 text-center text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto sm:px-5"
                   >
                     Next Basic Concepts
                   </Link>
                 ) : subject.title === "Digital Electronics" ? (
                   <a
                     href="#digital-chapter-1"
-                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-4 py-3 text-center text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto sm:px-5"
                   >
                     Start Number Systems
                   </a>
                 ) : subject.title === "Signals and Systems" ? (
                   <Link
                     href="/introduction-to-signals"
-                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-4 py-3 text-center text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto sm:px-5"
                   >
                     Start Introduction to Signals
+                  </Link>
+                ) : subject.title === "Communication Systems" ? (
+                  <Link
+                    href="/learn/communications/introduction-to-communication-systems"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-4 py-3 text-center text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto sm:px-5"
+                  >
+                    Start Introduction to Communication Systems
                   </Link>
                 ) : (
                   <button
                     type="button"
                     onClick={() => selectRoadmapTopic(1)}
-                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-4 py-3 text-center text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto sm:px-5"
                   >
                     Start First Concept
                   </button>
@@ -12514,9 +12564,9 @@ export default function SubjectTheoryPage({
             {shouldShowInlineConcept ? (
             <section
               id="subject-concept"
-              className="mt-5 scroll-mt-40 bg-white"
+              className="mt-5 rounded-[24px] border border-slate-200 bg-white scroll-mt-40 shadow-panel"
             >
-              <div className="px-3 pb-4 sm:px-5 lg:px-6">
+              <div className="px-4 pb-4 pt-4 sm:px-5 lg:px-6">
                 {isConceptIntroPage ? (
                   null
                 ) : (
@@ -12536,7 +12586,7 @@ export default function SubjectTheoryPage({
 
               {isConceptIntroPage ? null : (
               <>
-              <div className="grid gap-5 border-t border-slate-200 px-3 pt-4 sm:px-5 lg:px-6">
+              <div className="grid gap-5 border-t border-slate-200 px-4 pt-4 sm:px-5 lg:px-6">
                 <div className="grid gap-4">
                   <div>
                     <h3 className="text-sm font-bold uppercase tracking-[0.08em] text-slate-900">
@@ -12592,7 +12642,7 @@ export default function SubjectTheoryPage({
                     <h3 className="text-sm font-bold uppercase tracking-[0.08em] text-slate-900">
                       Circuit Diagram
                     </h3>
-                    <div className="mt-2 max-w-2xl overflow-x-auto">
+                    <div className="mt-2 max-w-2xl overflow-x-auto rounded-xl border border-slate-100 bg-slate-50/60 p-2">
                       <NetworkTheoryDiagram type={activeConcept.diagram} />
                     </div>
                     <p className="mt-2 text-xs leading-5 text-slate-600">
@@ -12625,7 +12675,7 @@ export default function SubjectTheoryPage({
               </div>
 
               {activeWorkedExample ? (
-                <div className="mt-6 border-t border-slate-200 pt-4">
+                <div className="mt-6 border-t border-slate-200 px-4 pt-4 sm:px-5 lg:px-6">
                   <h3 className="text-base font-bold text-slate-900">Worked Example</h3>
                   <p className="mt-2 text-sm font-semibold leading-6 text-slate-900">
                     {activeWorkedExample.prompt}
@@ -12653,7 +12703,7 @@ export default function SubjectTheoryPage({
               ) : null}
 
               {activeQuiz ? (
-                <div className="mt-6 border-t border-slate-200 pt-4">
+                <div className="mt-6 border-t border-slate-200 px-4 pt-4 sm:px-5 lg:px-6">
                   <h3 className="text-base font-bold text-slate-900">Quick Quiz</h3>
                   <p className="mt-2 text-sm leading-6 text-slate-700">
                     {activeQuiz.question}
@@ -12702,7 +12752,7 @@ export default function SubjectTheoryPage({
                 </div>
               ) : null}
 
-              <div className="mt-6 grid gap-4 border-t border-slate-200 pt-4 lg:grid-cols-2">
+              <div className="mt-6 grid gap-4 border-t border-slate-200 px-4 pt-4 lg:grid-cols-2 sm:px-5 lg:px-6">
                 <div>
                   <h3 className="text-base font-bold text-slate-900">Common Mistake</h3>
                   <p className="mt-2 text-sm leading-6 text-slate-700">
@@ -12718,7 +12768,7 @@ export default function SubjectTheoryPage({
                 </div>
               </div>
 
-              <div className="mt-5 border-t border-slate-200 pt-4">
+              <div className="mt-5 border-t border-slate-200 px-4 pt-4 sm:px-5 lg:px-6">
                 <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-portal-700">
                   Next Step
                 </p>
@@ -12731,12 +12781,12 @@ export default function SubjectTheoryPage({
               </>
               )}
 
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="mt-5 flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 lg:px-6">
                 <button
                   type="button"
                   onClick={() => setActiveConceptIndex((currentValue) => Math.max(currentValue - 1, 0))}
                   disabled={activeConceptIndex === 0}
-                  className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
                 >
                   Previous Concept
                 </button>
@@ -12748,7 +12798,7 @@ export default function SubjectTheoryPage({
                     )
                   }
                   disabled={activeConceptIndex === concepts.length}
-                  className="rounded-xl bg-portal-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-portal-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="w-full rounded-xl bg-portal-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-portal-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
                 >
                   {activeConceptIndex === concepts.length
                     ? "Last Concept"
@@ -12764,39 +12814,46 @@ export default function SubjectTheoryPage({
       </div>
 
       <div className="fixed bottom-3 left-3 right-3 z-20 rounded-[24px] border border-slate-200 bg-white/95 p-2 shadow-[0_18px_40px_rgba(15,23,42,0.16)] backdrop-blur xl:hidden">
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           <button
             type="button"
             onClick={() => selectRoadmapTopic(0, "subject-roadmap-top")}
-            className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
+            className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             Roadmap
           </button>
           {subject.title === "Network Analysis" ? (
             <Link
               href="/circuit-elements"
-              className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
+              className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
             >
               Theory
             </Link>
           ) : subject.title === "Analog Electronics" ? (
             <Link
               href="/semiconductor-fundamentals"
-              className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
+              className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
             >
               Theory
             </Link>
           ) : subject.title === "Digital Electronics" ? (
             <a
               href="#digital-chapter-1"
-              className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
+              className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
             >
               Theory
             </a>
           ) : subject.title === "Signals and Systems" ? (
             <Link
               href="/subjects/signals-and-systems"
-              className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
+              className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Theory
+            </Link>
+          ) : subject.title === "Communication Systems" ? (
+            <Link
+              href="/subjects/communication-systems"
+              className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
             >
               Theory
             </Link>
@@ -12804,20 +12861,20 @@ export default function SubjectTheoryPage({
             <button
               type="button"
               onClick={() => selectRoadmapTopic(Math.max(activeConceptIndex, 1))}
-              className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
+              className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
             >
               Theory
             </button>
           )}
           <Link
             href={notesHref}
-            className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
+            className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             Notes
           </Link>
           <Link
             href={subject.href}
-            className="rounded-2xl px-2 py-3 text-center text-[11px] font-semibold text-slate-700 transition hover:bg-slate-50"
+            className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             Learn
           </Link>

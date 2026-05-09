@@ -11,6 +11,7 @@ function StepExplanationComponent({ steps, activeStep, onStepSelect }) {
             <button
               type="button"
               onClick={() => onStepSelect(index)}
+              aria-current={isActive ? "step" : undefined}
               className={`h-full w-full rounded-2xl border p-3 text-left transition ${
                 isActive
                   ? "border-portal-300 bg-portal-50 shadow-sm"
