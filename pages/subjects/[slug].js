@@ -19,6 +19,9 @@ const SUBJECT_TO_LEARNING_SLUG = {
   "Digital Electronics": "digital",
   "Signals and Systems": "signals",
   "Communication Systems": "communications",
+  "Electromagnetic Theory": "electromagnetics",
+  Microprocessors: "microprocessors",
+  "Digital Signal Processing": "dsp",
   "Control Systems": "control-systems",
 };
 
@@ -133,6 +136,72 @@ const SUBJECT_META = {
     ],
     studyTip:
       "Study Communication Systems in chapter order: system basics, signals and spectra, analog modulation, pulse and digital communication, noise analysis, information theory, receivers, and propagation.",
+  },
+  "Electromagnetic Theory": {
+    subtitle: "The chapter that explains electric fields, magnetic fields, Maxwell equations, waves, transmission lines, waveguides, and antennas.",
+    estimatedTime: "8-10 Hours",
+    difficulty: "Medium to High",
+    level: "Beginner to GATE Level",
+    keyConcepts: [
+      "Vector Calculus",
+      "Electrostatics",
+      "Magnetostatics",
+      "Maxwell Equations",
+      "EM Waves",
+      "Transmission Lines",
+    ],
+    examFocus: [
+      "Vector calculus and coordinate systems",
+      "Gauss law, Coulomb law, and boundary conditions",
+      "Maxwell equations in integral and differential forms",
+      "Plane waves, Poynting vector, transmission lines, waveguides, and antennas",
+    ],
+    studyTip:
+      "Study Electromagnetic Theory in chapter order: vector calculus, electrostatics, conductors and dielectrics, magnetostatics, induction, Maxwell equations, waves, transmission lines, waveguides, antennas, and applications.",
+  },
+  Microprocessors: {
+    subtitle: "The chapter that explains processor architecture, instruction execution, programming, timing, interrupts, interfacing, and 8086 fundamentals.",
+    estimatedTime: "7-9 Hours",
+    difficulty: "Medium",
+    level: "Beginner to GATE Level",
+    keyConcepts: [
+      "8085 Architecture",
+      "Instruction Set",
+      "Addressing Modes",
+      "Timing Diagrams",
+      "Interrupts",
+      "Interfacing",
+    ],
+    examFocus: [
+      "8085 architecture and buses",
+      "Instruction set, addressing modes, opcode, and operand",
+      "Assembly programs, timing diagrams, machine cycles, and interrupts",
+      "Memory interfacing, I/O interfacing, 8255 PPI, and 8086 architecture",
+    ],
+    studyTip:
+      "Study Microprocessors in chapter order: basics, 8085 architecture, instruction set, assembly programming, timing diagrams, interrupts, memory interfacing, I/O interfacing, 8255, 8086, and advanced applications.",
+  },
+  "Digital Signal Processing": {
+    subtitle: "The chapter that explains discrete-time signal analysis, transform methods, convolution, sampling, FFT, and digital filter design.",
+    estimatedTime: "8-10 Hours",
+    difficulty: "Medium to High",
+    level: "Beginner to GATE Level",
+    keyConcepts: [
+      "Discrete-Time Signals",
+      "Convolution",
+      "Z-Transform",
+      "DFT and FFT",
+      "Digital Filters",
+      "Sampling",
+    ],
+    examFocus: [
+      "Convolution and correlation",
+      "Z-transform, ROC, and system analysis",
+      "DFT, FFT, and spectrum interpretation",
+      "FIR/IIR filters, filter design, and sampling theorem",
+    ],
+    studyTip:
+      "Study Digital Signal Processing in chapter order: DSP basics, discrete-time signals and systems, convolution, z-transform, DFT, FFT, digital filters, filter design, sampling, processors, and applications.",
   },
   "Control Systems": {
     subtitle: "The chapter that teaches how dynamic systems are modeled, analyzed, stabilized, and designed using feedback.",
@@ -292,6 +361,385 @@ const DIGITAL_CHAPTER_ROUTES = {
   Memories: "/memories",
   "Analog to Digital and Digital to Analog Converters": "/analog-to-digital-and-digital-to-analog-converters",
   "Digital ICs and Applications": "/digital-ics-and-applications",
+};
+
+const ELECTROMAGNETIC_THEORY_CHAPTERS = [
+  {
+    title: "Vector Calculus",
+    topics: [
+      { title: "Coordinate Systems", subtopics: ["Cartesian coordinates", "Cylindrical coordinates", "Spherical coordinates"] },
+      { title: "Vector Operations", subtopics: ["Gradient", "Divergence", "Curl"] },
+      { title: "Integral Theorems", subtopics: ["Gauss divergence theorem", "Stokes theorem"] },
+    ],
+  },
+  {
+    title: "Electrostatics",
+    topics: [
+      { title: "Coulomb's Law", formula: "$$F=\\frac{1}{4\\pi\\epsilon}\\frac{q_1q_2}{r^2}$$", subtopics: [] },
+      { title: "Electric Field Intensity", subtopics: [] },
+      { title: "Electric Flux Density", subtopics: [] },
+      { title: "Gauss's Law", formula: "$$\\oint \\vec{D}\\cdot d\\vec{S}=Q_{enc}$$", subtopics: [] },
+      { title: "Electric Potential", subtopics: [] },
+      { title: "Potential Gradient", subtopics: [] },
+      { title: "Energy Density in Electric Fields", subtopics: [] },
+    ],
+  },
+  {
+    title: "Conductors and Dielectrics",
+    topics: [
+      { title: "Properties of Conductors", subtopics: [] },
+      { title: "Boundary Conditions", subtopics: [] },
+      { title: "Capacitance", subtopics: ["Parallel plate capacitor", "Spherical capacitor", "Cylindrical capacitor"] },
+      { title: "Dielectric Materials", subtopics: ["Polarization", "Permittivity"] },
+    ],
+  },
+  {
+    title: "Magnetostatics",
+    topics: [
+      { title: "Biot-Savart Law", formula: "$$d\\vec{B}=\\frac{\\mu_0}{4\\pi}\\frac{I\\,d\\vec{l}\\times\\hat{r}}{r^2}$$", subtopics: [] },
+      { title: "Ampere's Circuital Law", formula: "$$\\oint \\vec{H}\\cdot d\\vec{l}=I_{enc}$$", subtopics: [] },
+      { title: "Magnetic Flux Density", subtopics: [] },
+      { title: "Magnetic Scalar and Vector Potential", subtopics: [] },
+      { title: "Magnetic Forces and Torque", subtopics: [] },
+    ],
+  },
+  {
+    title: "Electromagnetic Induction",
+    topics: [
+      { title: "Faraday's Law", formula: "$$\\mathcal{E}=-\\frac{d\\Phi}{dt}$$", subtopics: [] },
+      { title: "Lenz's Law", subtopics: [] },
+      { title: "Self Inductance", subtopics: [] },
+      { title: "Mutual Inductance", subtopics: [] },
+      { title: "Energy Stored in Magnetic Fields", subtopics: [] },
+    ],
+  },
+  {
+    title: "Maxwell's Equations",
+    topics: [
+      { title: "Maxwell's First Equation", subtopics: [] },
+      { title: "Maxwell's Second Equation", subtopics: [] },
+      { title: "Maxwell's Third Equation", subtopics: [] },
+      { title: "Maxwell's Fourth Equation", subtopics: [] },
+      { title: "Differential and Integral Forms", subtopics: [] },
+    ],
+  },
+  {
+    title: "Electromagnetic Waves",
+    topics: [
+      { title: "Wave Equation", subtopics: [] },
+      { title: "Plane Wave Propagation", subtopics: [] },
+      { title: "Uniform Plane Waves", subtopics: [] },
+      { title: "Wave Propagation in Different Media", subtopics: ["Free space", "Conductors", "Dielectrics"] },
+      { title: "Poynting Vector", formula: "$$\\vec{S}=\\vec{E}\\times\\vec{H}$$", subtopics: [] },
+    ],
+  },
+  {
+    title: "Transmission Lines",
+    topics: [
+      { title: "Transmission Line Parameters", subtopics: ["Resistance", "Inductance", "Capacitance", "Conductance"] },
+      { title: "Telegrapher's Equations", subtopics: [] },
+      { title: "Reflection Coefficient", subtopics: [] },
+      { title: "Standing Wave Ratio (SWR)", subtopics: [] },
+      { title: "Impedance Matching", subtopics: [] },
+    ],
+  },
+  {
+    title: "Waveguides",
+    topics: [
+      { title: "Rectangular Waveguides", subtopics: [] },
+      { title: "Modes of Propagation", subtopics: ["TE mode", "TM mode", "TEM mode"] },
+      { title: "Cutoff Frequency", subtopics: [] },
+      { title: "Phase and Group Velocity", subtopics: [] },
+    ],
+  },
+  {
+    title: "Antennas",
+    topics: [
+      { title: "Basic Antenna Parameters", subtopics: ["Radiation pattern", "Gain", "Directivity", "Efficiency"] },
+      { title: "Dipole Antenna", subtopics: [] },
+      { title: "Antenna Arrays", subtopics: [] },
+      { title: "Radiation Mechanism", subtopics: [] },
+    ],
+  },
+  {
+    title: "Electromagnetic Compatibility and Applications",
+    topics: [
+      { title: "Shielding", subtopics: [] },
+      { title: "Interference", subtopics: [] },
+      { title: "Microwave Applications", subtopics: [] },
+      { title: "Radar Basics", subtopics: [] },
+    ],
+  },
+];
+
+const ELECTROMAGNETIC_HIGH_WEIGHTAGE_TOPICS = [
+  "Vector calculus",
+  "Gauss law",
+  "Maxwell equations",
+  "Electromagnetic waves",
+  "Transmission lines",
+  "Waveguides",
+  "Antennas",
+  "Faraday's law",
+];
+
+const ELECTROMAGNETIC_CHAPTER_ROUTES = {
+  "Vector Calculus": "/learn/electromagnetics/vector-calculus",
+  Electrostatics: "/learn/electromagnetics/electrostatics",
+  "Conductors and Dielectrics": "/learn/electromagnetics/conductors-and-dielectrics",
+  Magnetostatics: "/learn/electromagnetics/magnetostatics",
+  "Electromagnetic Induction": "/learn/electromagnetics/electromagnetic-induction",
+  "Maxwell's Equations": "/learn/electromagnetics/maxwells-equations",
+  "Electromagnetic Waves": "/learn/electromagnetics/electromagnetic-waves",
+  "Transmission Lines": "/learn/electromagnetics/transmission-lines",
+  Waveguides: "/learn/electromagnetics/waveguides",
+  Antennas: "/learn/electromagnetics/antennas",
+  "Electromagnetic Compatibility and Applications": "/learn/electromagnetics/electromagnetic-compatibility-and-applications",
+};
+
+const DIGITAL_SIGNAL_PROCESSING_CHAPTERS = [
+  {
+    title: "Introduction to DSP",
+    topics: [
+      { title: "Basics of DSP", subtopics: ["Analog signals", "Digital signals"] },
+      { title: "Advantages of DSP", subtopics: [] },
+      { title: "DSP Applications", subtopics: [] },
+      { title: "Basic DSP System", subtopics: [] },
+    ],
+  },
+  {
+    title: "Discrete-Time Signals and Systems",
+    topics: [
+      { title: "Discrete-Time Signals", subtopics: ["Unit impulse sequence", "Unit step sequence", "Exponential sequence", "Sinusoidal sequence"] },
+      { title: "Signal Operations", subtopics: ["Time shifting", "Time scaling", "Folding"] },
+      { title: "System Properties", subtopics: ["Linearity", "Time invariance", "Causality", "Stability"] },
+    ],
+  },
+  {
+    title: "Convolution and Correlation",
+    topics: [
+      { title: "Linear Convolution", formula: "y[n] = x[n] * h[n] = sum x[k]h[n-k]", subtopics: [] },
+      { title: "Circular Convolution", subtopics: [] },
+      { title: "Auto-correlation", subtopics: [] },
+      { title: "Cross-correlation", subtopics: [] },
+    ],
+  },
+  {
+    title: "Z-Transform",
+    topics: [
+      { title: "Definition of Z-Transform", formula: "X(z) = sum x[n]z^(-n)", subtopics: [] },
+      { title: "ROC (Region of Convergence)", subtopics: [] },
+      { title: "Properties of Z-Transform", subtopics: [] },
+      { title: "Inverse Z-Transform", subtopics: [] },
+      { title: "System Analysis Using Z-Transform", subtopics: [] },
+    ],
+  },
+  {
+    title: "Discrete Fourier Transform (DFT)",
+    topics: [
+      { title: "DFT Definition", formula: "X[k] = sum x[n]e^(-j2pi kn/N)", subtopics: [] },
+      { title: "Properties of DFT", subtopics: [] },
+      { title: "Circular Convolution Using DFT", subtopics: [] },
+      { title: "Frequency Spectrum Analysis", subtopics: [] },
+    ],
+  },
+  {
+    title: "Fast Fourier Transform (FFT)",
+    topics: [
+      { title: "Need for FFT", subtopics: [] },
+      { title: "Radix-2 FFT", subtopics: [] },
+      { title: "Decimation in Time (DIT)", subtopics: [] },
+      { title: "Decimation in Frequency (DIF)", subtopics: [] },
+      { title: "Butterfly Computation", subtopics: [] },
+    ],
+  },
+  {
+    title: "Digital Filters",
+    topics: [
+      { title: "FIR Filters", subtopics: ["Characteristics", "Structure"] },
+      { title: "IIR Filters", subtopics: ["Characteristics", "Structure"] },
+      { title: "FIR vs IIR Comparison", subtopics: [] },
+      { title: "Frequency Response of Filters", subtopics: [] },
+    ],
+  },
+  {
+    title: "Filter Design Techniques",
+    topics: [
+      { title: "FIR Filter Design", subtopics: ["Window method"] },
+      { title: "IIR Filter Design", subtopics: ["Butterworth filter", "Chebyshev filter"] },
+      { title: "Low-pass, High-pass, Band-pass Filters", subtopics: [] },
+    ],
+  },
+  {
+    title: "Sampling and Reconstruction",
+    topics: [
+      { title: "Sampling Theorem", formula: "fs >= 2fm", subtopics: [] },
+      { title: "Aliasing", subtopics: [] },
+      { title: "Reconstruction of Signals", subtopics: [] },
+      { title: "Quantization Noise", subtopics: [] },
+    ],
+  },
+  {
+    title: "DSP Processors and Applications",
+    topics: [
+      { title: "DSP Processor Architecture", subtopics: [] },
+      { title: "MAC Unit", subtopics: [] },
+      { title: "Real-Time Processing", subtopics: [] },
+      { title: "DSP Applications", subtopics: ["Audio processing", "Image processing", "Speech processing", "Communication systems"] },
+    ],
+  },
+];
+
+const DIGITAL_SIGNAL_PROCESSING_HIGH_WEIGHTAGE_TOPICS = [
+  "Convolution",
+  "Z-transform",
+  "DFT and FFT",
+  "FIR and IIR filters",
+  "Sampling theorem",
+  "Filter design",
+  "System properties",
+];
+
+const DIGITAL_SIGNAL_PROCESSING_CHAPTER_ROUTES = {
+  "Introduction to DSP": "/learn/dsp/introduction-to-dsp",
+  "Discrete-Time Signals and Systems": "/learn/dsp/discrete-time-signals-and-systems",
+  "Convolution and Correlation": "/learn/dsp/convolution-and-correlation",
+  "Z-Transform": "/learn/dsp/z-transform",
+  "Discrete Fourier Transform (DFT)": "/learn/dsp/discrete-fourier-transform-dft",
+  "Fast Fourier Transform (FFT)": "/learn/dsp/fast-fourier-transform-fft",
+  "Digital Filters": "/learn/dsp/digital-filters",
+  "Filter Design Techniques": "/learn/dsp/filter-design-techniques",
+  "Sampling and Reconstruction": "/learn/dsp/sampling-and-reconstruction",
+  "DSP Processors and Applications": "/learn/dsp/dsp-processors-and-applications",
+};
+
+const MICROPROCESSORS_CHAPTERS = [
+  {
+    title: "Introduction to Microprocessors",
+    topics: [
+      { title: "Basics of Microprocessors", subtopics: ["Definition of microprocessor", "Microprocessor vs microcontroller"] },
+      { title: "Evolution of Microprocessors", subtopics: ["4-bit processors", "8-bit processors", "16-bit processors", "32-bit processors"] },
+      { title: "Applications of Microprocessors", subtopics: [] },
+      { title: "Basic Computer Architecture", subtopics: ["CPU", "Memory", "Input/Output devices", "System bus"] },
+    ],
+  },
+  {
+    title: "8085 Microprocessor Architecture",
+    topics: [
+      { title: "Internal Architecture of 8085", subtopics: ["ALU", "Accumulator", "Flag register", "Program counter", "Stack pointer"] },
+      { title: "Pin Diagram of 8085", subtopics: [] },
+      { title: "Address Bus, Data Bus, Control Bus", subtopics: [] },
+      { title: "Timing and Control Unit", subtopics: [] },
+    ],
+  },
+  {
+    title: "8085 Instruction Set",
+    topics: [
+      { title: "Types of Instructions", subtopics: ["Data transfer instructions", "Arithmetic instructions", "Logical instructions", "Branching instructions", "Machine control instructions"] },
+      { title: "Addressing Modes", subtopics: ["Immediate addressing", "Direct addressing", "Register addressing", "Indirect addressing"] },
+      { title: "Opcode and Operand", subtopics: [] },
+    ],
+  },
+  {
+    title: "Assembly Language Programming",
+    topics: [
+      { title: "Basics of Assembly Language", subtopics: [] },
+      { title: "Simple Programs", subtopics: ["Addition", "Subtraction", "Multiplication", "Division"] },
+      { title: "Looping and Branching", subtopics: [] },
+      { title: "Sorting Programs", subtopics: [] },
+      { title: "Delay Generation", subtopics: [] },
+    ],
+  },
+  {
+    title: "Timing Diagrams and Machine Cycles",
+    topics: [
+      { title: "Opcode Fetch Cycle", subtopics: [] },
+      { title: "Memory Read Cycle", subtopics: [] },
+      { title: "Memory Write Cycle", subtopics: [] },
+      { title: "I/O Read and Write Cycles", subtopics: [] },
+      { title: "Timing Diagram Analysis", subtopics: [] },
+    ],
+  },
+  {
+    title: "Interrupts in 8085",
+    topics: [
+      { title: "Interrupt Basics", subtopics: [] },
+      { title: "Hardware Interrupts", subtopics: ["TRAP", "RST7.5", "RST6.5", "RST5.5", "INTR"] },
+      { title: "Software Interrupts", subtopics: [] },
+      { title: "Interrupt Priority", subtopics: [] },
+      { title: "Interrupt Handling", subtopics: [] },
+    ],
+  },
+  {
+    title: "Memory Interfacing",
+    topics: [
+      { title: "Memory Organization", subtopics: [] },
+      { title: "RAM and ROM Interfacing", subtopics: [] },
+      { title: "Address Decoding", subtopics: [] },
+      { title: "Memory Mapping", subtopics: [] },
+    ],
+  },
+  {
+    title: "I/O Interfacing",
+    topics: [
+      { title: "I/O Mapped I/O", subtopics: [] },
+      { title: "Memory Mapped I/O", subtopics: [] },
+      { title: "Peripheral Devices", subtopics: [] },
+      { title: "Data Transfer Techniques", subtopics: ["Programmed I/O", "Interrupt-driven I/O", "DMA"] },
+    ],
+  },
+  {
+    title: "8255 Programmable Peripheral Interface",
+    topics: [
+      { title: "Architecture of 8255", subtopics: [] },
+      { title: "Operating Modes", subtopics: ["Mode 0", "Mode 1", "Mode 2"] },
+      { title: "Interfacing Applications", subtopics: [] },
+    ],
+  },
+  {
+    title: "8086 Microprocessor",
+    topics: [
+      { title: "Architecture of 8086", subtopics: [] },
+      { title: "Memory Segmentation", subtopics: [] },
+      { title: "Minimum and Maximum Modes", subtopics: [] },
+      { title: "Register Organization", subtopics: [] },
+      { title: "Addressing Modes of 8086", subtopics: [] },
+    ],
+  },
+  {
+    title: "Advanced Topics",
+    topics: [
+      { title: "DMA Controller", subtopics: [] },
+      { title: "Serial Communication Basics", subtopics: [] },
+      { title: "Microprocessor Applications", subtopics: [] },
+      { title: "Embedded System Basics", subtopics: [] },
+    ],
+  },
+];
+
+const MICROPROCESSORS_HIGH_WEIGHTAGE_TOPICS = [
+  "8085 architecture",
+  "Instruction set",
+  "Addressing modes",
+  "Interrupts",
+  "Timing diagrams",
+  "Memory interfacing",
+  "8255 interfacing",
+  "8086 architecture",
+];
+
+const MICROPROCESSORS_CHAPTER_ROUTES = {
+  "Introduction to Microprocessors": "/learn/microprocessors/introduction-to-microprocessors",
+  "8085 Microprocessor Architecture": "/learn/microprocessors/8085-microprocessor-architecture",
+  "8085 Instruction Set": "/learn/microprocessors/8085-instruction-set",
+  "Assembly Language Programming": "/learn/microprocessors/assembly-language-programming",
+  "Timing Diagrams and Machine Cycles": "/learn/microprocessors/timing-diagrams-and-machine-cycles",
+  "Interrupts in 8085": "/learn/microprocessors/interrupts-in-8085",
+  "Memory Interfacing": "/learn/microprocessors/memory-interfacing",
+  "I/O Interfacing": "/learn/microprocessors/io-interfacing",
+  "8255 Programmable Peripheral Interface": "/learn/microprocessors/8255-programmable-peripheral-interface",
+  "8086 Microprocessor": "/learn/microprocessors/8086-microprocessor",
+  "Advanced Topics": "/learn/microprocessors/advanced-topics",
 };
 
 const CONTROL_SYSTEMS_CHAPTERS = [
@@ -845,6 +1293,147 @@ const DIGITAL_ELECTRONICS_KNOWLEDGE = {
             },
           ]
         : [],
+  })),
+};
+
+const ELECTROMAGNETIC_THEORY_KNOWLEDGE = {
+  overviewCards: [
+    {
+      title: "Overview of Electromagnetic Theory",
+      description:
+        "For Graduate Aptitude Test in Engineering and PSU exams, Electromagnetic Theory should be studied in a structured hierarchy: Chapter -> Topics -> Subtopics. This supports conceptual understanding, formula-based preparation, numerical solving, and quick revision.",
+      points: [
+        "Start with vector calculus and coordinate systems before field laws.",
+        "Study electrostatics, conductors, dielectrics, magnetostatics, and induction in sequence.",
+        "Treat Maxwell equations as the bridge between fields and waves.",
+        "Finish with transmission lines, waveguides, antennas, EMC, and applications.",
+      ],
+    },
+  ],
+  concepts: ELECTROMAGNETIC_THEORY_CHAPTERS.map((chapter, index) => ({
+    slug: `electromagnetic-chapter-${index + 1}`,
+    title: chapter.title,
+    shortTitle: chapter.title,
+    diagram: "basic-circuit",
+    diagramNote:
+      "Electromagnetic Theory questions are best handled by first identifying the chapter, then the exact topic and subtopic being tested.",
+    summary: chapter.topics
+      .map((topic) => [topic.title, ...topic.subtopics].join(": "))
+      .join(" | "),
+    teaching: {
+      intuition: [
+        `${chapter.title} is Chapter ${index + 1} in the Electromagnetic Theory GATE/PSU flow.`,
+        "Prepare it as a field, wave, guided-wave, or radiation block, then practice formula-based numericals from that block.",
+      ],
+      explanation: chapter.topics.map((topic) =>
+        topic.subtopics.length ? `${topic.title}: ${topic.subtopics.join(", ")}` : topic.title
+      ),
+      interpretation: chapter.topics.map((topic) => topic.title),
+      commonMistake:
+        "Students often memorize field formulas without checking coordinate system, symmetry, boundary condition, medium, and sign convention.",
+      realLifeInsight:
+        "Electromagnetic Theory explains capacitors, inductors, antennas, waveguides, transmission lines, shielding, microwave links, radar, and wireless propagation.",
+    },
+    learnPoints: chapter.topics.map((topic) => topic.title),
+    formulas: chapter.topics
+      .filter((topic) => topic.formula)
+      .map((topic) => ({
+        label: topic.title,
+        expression: topic.formula,
+        note: "Use this relation with the correct field direction, medium, boundary, and coordinate-system assumptions.",
+      })),
+  })),
+};
+
+const DIGITAL_SIGNAL_PROCESSING_KNOWLEDGE = {
+  overviewCards: [
+    {
+      title: "Overview of Digital Signal Processing",
+      description:
+        "For Graduate Aptitude Test in Engineering and PSU exams, Digital Signal Processing should be studied in a structured hierarchy: Chapter -> Topics -> Subtopics. This helps in mathematical understanding, transform analysis, numerical solving, and quick revision for competitive exams.",
+      points: [
+        "Start with discrete-time signals, operations, and system properties.",
+        "Master convolution and correlation before moving into transforms.",
+        "Study Z-transform, DFT, and FFT as the main exam problem-solving tools.",
+        "Finish with FIR/IIR filters, filter design, sampling, reconstruction, and DSP applications.",
+      ],
+    },
+  ],
+  concepts: DIGITAL_SIGNAL_PROCESSING_CHAPTERS.map((chapter, index) => ({
+    slug: `dsp-chapter-${index + 1}`,
+    title: chapter.title,
+    shortTitle: chapter.title,
+    diagram: "basic-circuit",
+    diagramNote:
+      "Digital Signal Processing questions are best handled by first identifying the chapter, then the exact topic and subtopic being tested.",
+    summary: chapter.topics
+      .map((topic) => [topic.title, ...topic.subtopics].join(": "))
+      .join(" | "),
+    teaching: {
+      intuition: [
+        `${chapter.title} is Chapter ${index + 1} in the Digital Signal Processing GATE/PSU flow.`,
+        "Prepare it as a signal, transform, convolution, sampling, or filter block, then practice numerical questions from that block.",
+      ],
+      explanation: chapter.topics.map((topic) =>
+        topic.subtopics.length ? `${topic.title}: ${topic.subtopics.join(", ")}` : topic.title
+      ),
+      interpretation: chapter.topics.map((topic) => topic.title),
+      commonMistake:
+        "Students often memorize DSP formulas without checking sequence limits, transform region, circular versus linear operation, or filter type.",
+      realLifeInsight:
+        "Digital Signal Processing powers audio processing, image processing, speech processing, communication systems, instrumentation, and real-time embedded signal analysis.",
+    },
+    learnPoints: chapter.topics.map((topic) => topic.title),
+    formulas: chapter.topics
+      .filter((topic) => topic.formula)
+      .map((topic) => ({
+        label: topic.title,
+        expression: topic.formula,
+        note: "Use this relation with the correct sequence length, transform convention, sampling assumption, or filter structure.",
+      })),
+  })),
+};
+
+const MICROPROCESSORS_KNOWLEDGE = {
+  overviewCards: [
+    {
+      title: "Overview of Microprocessors",
+      description:
+        "For Graduate Aptitude Test in Engineering and PSU exams, Microprocessors should be studied in a structured hierarchy: Chapter -> Topics -> Subtopics. This helps in understanding processor architecture, learning instruction execution, solving numerical and programming problems, and quick revision for PSU/GATE exams.",
+      points: [
+        "Start with basic processor architecture and system-bus concepts.",
+        "Study 8085 architecture before memorizing instructions.",
+        "Connect instruction set, addressing modes, machine cycles, and timing diagrams.",
+        "Finish with interrupts, memory/I/O interfacing, 8255, 8086, DMA, serial communication, and applications.",
+      ],
+    },
+  ],
+  concepts: MICROPROCESSORS_CHAPTERS.map((chapter, index) => ({
+    slug: `microprocessor-chapter-${index + 1}`,
+    title: chapter.title,
+    shortTitle: chapter.title,
+    diagram: "basic-circuit",
+    diagramNote:
+      "Microprocessor questions are best handled by first identifying the chapter, then the exact topic and subtopic being tested.",
+    summary: chapter.topics
+      .map((topic) => [topic.title, ...topic.subtopics].join(": "))
+      .join(" | "),
+    teaching: {
+      intuition: [
+        `${chapter.title} is Chapter ${index + 1} in the Microprocessors GATE/PSU flow.`,
+        "Prepare it as an architecture, instruction, timing, interrupt, or interfacing block, then practice short programs and numerical questions.",
+      ],
+      explanation: chapter.topics.map((topic) =>
+        topic.subtopics.length ? `${topic.title}: ${topic.subtopics.join(", ")}` : topic.title
+      ),
+      interpretation: chapter.topics.map((topic) => topic.title),
+      commonMistake:
+        "Students often memorize instructions without connecting opcode, operand, addressing mode, machine cycle, and bus activity.",
+      realLifeInsight:
+        "Microprocessors explain how CPUs execute instructions, move data, respond to interrupts, interface memory and I/O, and control embedded systems.",
+    },
+    learnPoints: chapter.topics.map((topic) => topic.title),
+    formulas: [],
   })),
 };
 
@@ -5490,6 +6079,183 @@ function DigitalOverviewPanel() {
   );
 }
 
+function ElectromagneticTheoryOverviewPanel() {
+  return (
+    <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Is Electromagnetic Theory?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            Electromagnetic Theory explains how electric fields, magnetic fields,
+            charges, currents, waves, guided structures, and antennas behave. It
+            connects electrostatics, magnetostatics, induction, Maxwell equations,
+            transmission lines, waveguides, and radiation into one field-based
+            subject.
+          </p>
+        </article>
+
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            Why Do We Study It?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            We study this chapter because GATE, PSU exams, microwave engineering,
+            antenna systems, communication links, shielding, radar, and high-speed
+            circuits all depend on electromagnetic field behavior. A structured
+            chapter flow makes formulas easier to remember and numericals easier to
+            attack.
+          </p>
+        </article>
+
+        <article className="lg:col-span-2">
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Will You Learn?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            For Graduate Aptitude Test in Engineering and PSU exams, prepare
+            Electromagnetic Theory in a structured format: Chapter - Topics -
+            Subtopics.
+          </p>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+            {[
+              "Vector calculus, coordinate systems, gradient, divergence, curl, Gauss theorem, and Stokes theorem.",
+              "Electrostatics including Coulomb's law, electric field, flux density, Gauss law, potential, and energy density.",
+              "Conductors, dielectrics, boundary conditions, capacitance, polarization, and permittivity.",
+              "Magnetostatics, Biot-Savart law, Ampere's law, magnetic flux density, potentials, forces, and torque.",
+              "Electromagnetic induction, Faraday's law, Lenz's law, inductance, and magnetic-field energy.",
+              "Maxwell equations, electromagnetic waves, transmission lines, waveguides, antennas, EMC, microwave applications, and radar basics.",
+            ].map((point) => (
+              <li key={point} className="flex gap-2">
+                <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function DigitalSignalProcessingOverviewPanel() {
+  return (
+    <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Is Digital Signal Processing?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            Digital Signal Processing deals with the analysis and processing of
+            discrete-time signals using mathematical algorithms, transforms, and
+            digital filters for efficient signal representation and system design.
+          </p>
+        </article>
+
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            Why Do We Study It?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            We study DSP because GATE and PSU exams frequently test convolution,
+            Z-transform, DFT, FFT, sampling theorem, FIR/IIR filters, and filter
+            design. A structured chapter flow makes transform analysis and
+            numerical solving faster.
+          </p>
+        </article>
+
+        <article className="lg:col-span-2">
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Will You Learn?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            For Graduate Aptitude Test in Engineering and PSU exams, prepare
+            Digital Signal Processing in a structured format: Chapter - Topics -
+            Subtopics. Use the hamburger menu to open the complete chapter and
+            topic hierarchy.
+          </p>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+            {[
+              "DSP basics, analog signals, digital signals, applications, and basic DSP system flow.",
+              "Discrete-time signals, signal operations, linearity, time invariance, causality, and stability.",
+              "Linear convolution, circular convolution, auto-correlation, and cross-correlation.",
+              "Z-transform, ROC, inverse Z-transform, and system analysis using Z-transform.",
+              "DFT, FFT, circular convolution using DFT, spectrum analysis, DIT, DIF, and butterfly computation.",
+              "FIR filters, IIR filters, filter design, sampling theorem, aliasing, reconstruction, quantization noise, DSP processors, and applications.",
+            ].map((point) => (
+              <li key={point} className="flex gap-2">
+                <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function MicroprocessorsOverviewPanel() {
+  return (
+    <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Are Microprocessors?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            Microprocessors are programmable digital processors that fetch
+            instructions from memory, decode them, execute operations, and control
+            data movement through buses, registers, memory, and input/output
+            devices. They form the processing core behind computers, controllers,
+            instruments, and embedded systems.
+          </p>
+        </article>
+
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            Why Do We Study It?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            We study Microprocessors because GATE, PSU exams, interviews, and
+            university exams frequently test architecture, instruction execution,
+            addressing modes, timing diagrams, interrupts, memory interfacing, I/O
+            interfacing, 8255, and 8086 fundamentals.
+          </p>
+        </article>
+
+        <article className="lg:col-span-2">
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Will You Learn?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            For Graduate Aptitude Test in Engineering and PSU exams, prepare
+            Microprocessors in a structured format: Chapter - Topics - Subtopics.
+            Use the hamburger menu to open the complete chapter hierarchy.
+          </p>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+            {[
+              "Microprocessor basics, evolution, applications, CPU, memory, I/O devices, and system bus.",
+              "8085 architecture including ALU, accumulator, flags, program counter, stack pointer, buses, pins, and timing control.",
+              "Instruction set, addressing modes, opcode, operand, assembly programming, loops, branching, sorting, and delay generation.",
+              "Timing diagrams, machine cycles, opcode fetch, memory read/write, and I/O read/write cycles.",
+              "Interrupts, interrupt priority, interrupt handling, memory interfacing, address decoding, and memory mapping.",
+              "I/O interfacing, programmed I/O, interrupt-driven I/O, DMA, 8255 PPI, 8086 architecture, segmentation, and embedded basics.",
+            ].map((point) => (
+              <li key={point} className="flex gap-2">
+                <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </section>
+  );
+}
+
 function SignalsOverviewPanel() {
   return (
     <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
@@ -6090,6 +6856,276 @@ function DigitalChapterMenu() {
                     </span>
                   </span>
                 </Link>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function ElectromagneticTheoryChapterMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open Electromagnetic Theory chapters"
+        aria-expanded={isOpen}
+        aria-controls="electromagnetic-theory-chapter-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="electromagnetic-theory-chapter-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              Electromagnetic Theory Structure
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
+              Chapter - Topics - Subtopics for GATE/PSU revision.
+            </p>
+          </div>
+
+          <div className="mb-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-700">
+              Most Important Topics
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {ELECTROMAGNETIC_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
+                <span
+                  key={topic}
+                  className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700"
+                >
+                  {topic}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-2">
+            {ELECTROMAGNETIC_THEORY_CHAPTERS.map((chapter, chapterIndex) => {
+              const routeHref =
+                ELECTROMAGNETIC_CHAPTER_ROUTES[chapter.title] ||
+                "/subjects/electromagnetic-theory";
+
+              return (
+              <Link
+                key={chapter.title}
+                href={routeHref}
+                onClick={() => setIsOpen(false)}
+                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+              >
+                <span className="flex items-start gap-2.5">
+                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
+                    {String(chapterIndex + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-black leading-snug text-slate-950">
+                      {chapter.title}
+                    </span>
+                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
+                      {chapter.topics.map((topic) => topic.title).join(", ")}
+                    </span>
+                  </span>
+                </span>
+              </Link>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function DigitalSignalProcessingChapterMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open Digital Signal Processing chapters"
+        aria-expanded={isOpen}
+        aria-controls="digital-signal-processing-chapter-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="digital-signal-processing-chapter-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              Digital Signal Processing Structure
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
+              Chapter - Topics - Subtopics for GATE/PSU revision.
+            </p>
+          </div>
+
+          <div className="mb-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-700">
+              Most Important Topics
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {DIGITAL_SIGNAL_PROCESSING_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
+                <span
+                  key={topic}
+                  className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700"
+                >
+                  {topic}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-2">
+            {DIGITAL_SIGNAL_PROCESSING_CHAPTERS.map((chapter, chapterIndex) => {
+              const routeHref =
+                DIGITAL_SIGNAL_PROCESSING_CHAPTER_ROUTES[chapter.title] ||
+                "/subjects/digital-signal-processing";
+
+              return (
+                <Link
+                  key={chapter.title}
+                  href={routeHref}
+                  onClick={() => setIsOpen(false)}
+                  className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+                >
+                  <span className="flex items-start gap-2.5">
+                    <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
+                      {String(chapterIndex + 1).padStart(2, "0")}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm font-black leading-snug text-slate-950">
+                        {chapter.title}
+                      </span>
+                      <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
+                        {chapter.topics.map((topic) => topic.title).join(", ")}
+                      </span>
+                    </span>
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function MicroprocessorsChapterMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open Microprocessors chapters"
+        aria-expanded={isOpen}
+        aria-controls="microprocessors-chapter-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="microprocessors-chapter-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              Microprocessors Structure
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
+              Chapter - Topics - Subtopics for GATE/PSU revision.
+            </p>
+          </div>
+
+          <div className="mb-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-700">
+              Most Important Topics
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {MICROPROCESSORS_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
+                <span
+                  key={topic}
+                  className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700"
+                >
+                  {topic}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-2">
+            {MICROPROCESSORS_CHAPTERS.map((chapter, chapterIndex) => {
+              const routeHref =
+                MICROPROCESSORS_CHAPTER_ROUTES[chapter.title] ||
+                "/subjects/microprocessors";
+
+              return (
+              <Link
+                key={chapter.title}
+                href={routeHref}
+                onClick={() => setIsOpen(false)}
+                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+              >
+                <span className="flex items-start gap-2.5">
+                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
+                    {String(chapterIndex + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-black leading-snug text-slate-950">
+                      {chapter.title}
+                    </span>
+                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
+                      {chapter.topics.map((topic) => topic.title).join(", ")}
+                    </span>
+                  </span>
+                </span>
+              </Link>
               );
             })}
           </div>
@@ -11728,6 +12764,12 @@ export default function SubjectTheoryPage({
   const theoryKnowledge =
     subject.title === "Digital Electronics"
       ? DIGITAL_ELECTRONICS_KNOWLEDGE
+      : subject.title === "Electromagnetic Theory"
+      ? ELECTROMAGNETIC_THEORY_KNOWLEDGE
+      : subject.title === "Microprocessors"
+      ? MICROPROCESSORS_KNOWLEDGE
+      : subject.title === "Digital Signal Processing"
+      ? DIGITAL_SIGNAL_PROCESSING_KNOWLEDGE
       : subject.title === "Signals and Systems"
       ? SIGNALS_SYSTEMS_KNOWLEDGE
       : subject.title === "Communication Systems"
@@ -11781,8 +12823,14 @@ export default function SubjectTheoryPage({
                 </span>
               </li>
             </ol>
-            {subject.title === "Signals and Systems" ? (
-              <SignalsChapterMenu />
+            {subject.title === "Electromagnetic Theory" ? (
+              <ElectromagneticTheoryChapterMenu />
+          ) : subject.title === "Microprocessors" ? (
+            <MicroprocessorsChapterMenu />
+          ) : subject.title === "Digital Signal Processing" ? (
+            <DigitalSignalProcessingChapterMenu />
+          ) : subject.title === "Signals and Systems" ? (
+            <SignalsChapterMenu />
             ) : subject.title === "Communication Systems" ? (
               <CommunicationSystemsChapterMenu />
             ) : null}
@@ -11808,7 +12856,12 @@ export default function SubjectTheoryPage({
     ["diodes-and-pn-junction", "transistor-basics", "amplifier-fundamentals"].includes(activeConcept?.slug) &&
     !["diodes", "bjt-mosfet", "amplifiers"].includes(standaloneTopicPage);
   const shouldShowInlineConcept =
-    subject.title !== "Digital Electronics" && !isConceptIntroPage && !isExternalDiodeConcept;
+    subject.title !== "Digital Electronics" &&
+    subject.title !== "Electromagnetic Theory" &&
+    subject.title !== "Microprocessors" &&
+    subject.title !== "Digital Signal Processing" &&
+    !isConceptIntroPage &&
+    !isExternalDiodeConcept;
   const activeTeaching = activeConcept?.teaching || {};
   const subjectProgress = progressStats.subjects.find(
     (item) => item.slug === learningMeta.learningSubjectSlug
@@ -12405,6 +13458,12 @@ export default function SubjectTheoryPage({
             <AnalogChapterMenu />
           ) : subject.title === "Digital Electronics" ? (
             <DigitalChapterMenu />
+          ) : subject.title === "Electromagnetic Theory" ? (
+            <ElectromagneticTheoryChapterMenu />
+          ) : subject.title === "Microprocessors" ? (
+            <MicroprocessorsChapterMenu />
+          ) : subject.title === "Digital Signal Processing" ? (
+            <DigitalSignalProcessingChapterMenu />
           ) : subject.title === "Signals and Systems" ? (
             <SignalsChapterMenu />
           ) : subject.title === "Communication Systems" ? (
@@ -12492,6 +13551,12 @@ export default function SubjectTheoryPage({
           <div className="mt-5">
             {subject.title === "Digital Electronics" ? (
               <DigitalOverviewPanel />
+            ) : subject.title === "Electromagnetic Theory" ? (
+              <ElectromagneticTheoryOverviewPanel />
+            ) : subject.title === "Microprocessors" ? (
+              <MicroprocessorsOverviewPanel />
+            ) : subject.title === "Digital Signal Processing" ? (
+              <DigitalSignalProcessingOverviewPanel />
             ) : subject.title === "Signals and Systems" ? (
               <SignalsOverviewPanel />
             ) : subject.title === "Communication Systems" ? (
@@ -12535,6 +13600,28 @@ export default function SubjectTheoryPage({
                   >
                     Start Number Systems
                   </a>
+                ) : subject.title === "Electromagnetic Theory" ? (
+                  <a
+                    href="#electromagnetic-chapter-1"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-4 py-3 text-center text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto sm:px-5"
+                  >
+                    Start Vector Calculus
+                  </a>
+                ) : subject.title === "Microprocessors" ? (
+                  <button
+                    type="button"
+                    onClick={() => selectRoadmapTopic(0, "subject-roadmap-top")}
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-4 py-3 text-center text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto sm:px-5"
+                  >
+                    Use Chapter Menu
+                  </button>
+                ) : subject.title === "Digital Signal Processing" ? (
+                  <Link
+                    href="/learn/dsp/introduction-to-dsp"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-4 py-3 text-center text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto sm:px-5"
+                  >
+                    Start Introduction to DSP
+                  </Link>
                 ) : subject.title === "Signals and Systems" ? (
                   <Link
                     href="/introduction-to-signals"
@@ -12843,6 +13930,28 @@ export default function SubjectTheoryPage({
             >
               Theory
             </a>
+          ) : subject.title === "Electromagnetic Theory" ? (
+            <a
+              href="#electromagnetic-chapter-1"
+              className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Theory
+            </a>
+          ) : subject.title === "Microprocessors" ? (
+            <button
+              type="button"
+              onClick={() => selectRoadmapTopic(0, "subject-roadmap-top")}
+              className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Theory
+            </button>
+          ) : subject.title === "Digital Signal Processing" ? (
+            <Link
+              href="/learn/dsp/introduction-to-dsp"
+              className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Theory
+            </Link>
           ) : subject.title === "Signals and Systems" ? (
             <Link
               href="/subjects/signals-and-systems"

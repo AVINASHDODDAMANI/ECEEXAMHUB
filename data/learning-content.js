@@ -827,117 +827,370 @@ const learningSubjects = [
     ],
   },
   {
-    slug: "electromagnetics",
-    name: "Electromagnetics",
+    slug: "microprocessors",
+    name: "Microprocessors",
     weightage: "6-8 marks",
     description:
-      "Cover electrostatics, Maxwell equations, transmission lines, and wave propagation topics commonly seen in ECE exams.",
+      "Study 8085 architecture, instruction execution, assembly programming, timing diagrams, interrupts, interfacing, 8255, 8086, and advanced processor applications.",
     chapters: [
       {
-        slug: "electrostatics",
-        title: "Electrostatics and Fields",
+        slug: "introduction-to-microprocessors",
+        title: "Introduction to Microprocessors",
         topics: [
           {
-            slug: "coulomb-and-gauss-law",
-            title: "Coulomb and Gauss Law",
+            slug: "introduction-to-microprocessors",
+            title: "Introduction to Microprocessors",
             summary:
-              "Use symmetry and field relations to solve standard electric field problems quickly.",
-            estimatedTime: "35 min",
-            status: "roadmap",
-            concepts: ["Electric field", "Flux", "Gauss law"],
-            subtopics: [
-              "Coulomb law",
-              "Electric flux density",
-              "Gauss law applications",
-              "Symmetry arguments",
-            ],
-          },
-          {
-            slug: "electric-potential",
-            title: "Electric Potential",
-            summary:
-              "Relate field, potential, capacitance, and stored energy in electrostatic systems.",
+              "Understand CPU, memory, I/O, system bus, microprocessor basics, microprocessor vs microcontroller, and input-process-output flow.",
             estimatedTime: "30 min",
-            status: "roadmap",
-            concepts: ["Potential", "Capacitance", "Energy density"],
-            subtopics: [
-              "Potential difference",
-              "Potential gradient",
-              "Capacitance",
-              "Stored electrostatic energy",
-            ],
+            status: "ready",
+            concepts: ["CPU", "Memory", "I/O", "System bus"],
+            subtopics: ["Basics of microprocessors", "Evolution", "Applications", "Basic computer architecture"],
           },
         ],
       },
       {
-        slug: "transmission-lines-and-waves",
-        title: "Transmission Lines and Waves",
+        slug: "8085-microprocessor-architecture",
+        title: "8085 Microprocessor Architecture",
+        topics: [
+          {
+            slug: "8085-microprocessor-architecture",
+            title: "8085 Microprocessor Architecture",
+            summary:
+              "Learn the 8085 internal architecture, ALU, accumulator, flags, program counter, stack pointer, buses, pin diagram, and timing-control unit.",
+            estimatedTime: "40 min",
+            status: "ready",
+            concepts: ["ALU", "Accumulator", "Flag register", "Program counter"],
+            subtopics: ["Internal architecture", "Pin diagram", "Address/data/control bus", "Timing and control unit"],
+          },
+        ],
+      },
+      {
+        slug: "8085-instruction-set",
+        title: "8085 Instruction Set",
+        topics: [
+          {
+            slug: "8085-instruction-set",
+            title: "8085 Instruction Set",
+            summary:
+              "Classify 8085 instructions, addressing modes, opcode, operand, data transfer, arithmetic, logical, branching, and machine-control operations.",
+            estimatedTime: "40 min",
+            status: "ready",
+            concepts: ["Opcode", "Operand", "Addressing modes", "Instruction types"],
+            subtopics: ["Data transfer", "Arithmetic", "Logical", "Branching", "Machine control"],
+          },
+        ],
+      },
+      {
+        slug: "assembly-language-programming",
+        title: "Assembly Language Programming",
+        topics: [
+          {
+            slug: "assembly-language-programming",
+            title: "Assembly Language Programming",
+            summary:
+              "Practice assembly execution, register updates, arithmetic programs, loops, branching, sorting, memory interaction, and delay generation.",
+            estimatedTime: "45 min",
+            status: "ready",
+            concepts: ["Registers", "Looping", "Branching", "Memory locations"],
+            subtopics: ["Addition", "Subtraction", "Multiplication", "Division", "Sorting", "Delay generation"],
+          },
+        ],
+      },
+      {
+        slug: "timing-diagrams-and-machine-cycles",
+        title: "Timing Diagrams and Machine Cycles",
+        topics: [
+          {
+            slug: "timing-diagrams-and-machine-cycles",
+            title: "Timing Diagrams and Machine Cycles",
+            summary:
+              "Understand T-states, machine cycles, opcode fetch, memory read/write, I/O read/write, bus activity, and clock synchronization.",
+            estimatedTime: "40 min",
+            status: "ready",
+            concepts: ["T-state", "Machine cycle", "Opcode fetch", "Bus activity"],
+            subtopics: ["Opcode fetch", "Memory read", "Memory write", "I/O read/write", "Timing analysis"],
+          },
+        ],
+      },
+      {
+        slug: "interrupts-in-8085",
+        title: "Interrupts in 8085",
+        topics: [
+          {
+            slug: "interrupts-in-8085",
+            title: "Interrupts in 8085",
+            summary:
+              "Study interrupt request flow, interrupt priority, TRAP, RST7.5, RST6.5, RST5.5, INTR, software interrupts, and servicing process.",
+            estimatedTime: "35 min",
+            status: "ready",
+            concepts: ["TRAP", "RST7.5", "RST6.5", "RST5.5", "INTR"],
+            subtopics: ["Interrupt basics", "Hardware interrupts", "Software interrupts", "Priority", "Handling"],
+          },
+        ],
+      },
+      {
+        slug: "memory-interfacing",
+        title: "Memory Interfacing",
+        topics: [
+          {
+            slug: "memory-interfacing",
+            title: "Memory Interfacing",
+            summary:
+              "Connect RAM and ROM to the processor using address decoding, chip select logic, memory mapping, and read/write operation flow.",
+            estimatedTime: "35 min",
+            status: "ready",
+            concepts: ["RAM", "ROM", "Address decoding", "Chip select"],
+            subtopics: ["Memory organization", "RAM/ROM interfacing", "Address decoding", "Memory mapping"],
+          },
+        ],
+      },
+      {
+        slug: "io-interfacing",
+        title: "I/O Interfacing",
+        topics: [
+          {
+            slug: "io-interfacing",
+            title: "I/O Interfacing",
+            summary:
+              "Compare I/O mapped and memory mapped I/O, peripheral communication, programmed I/O, interrupt-driven I/O, DMA, and synchronization.",
+            estimatedTime: "35 min",
+            status: "ready",
+            concepts: ["I/O mapped I/O", "Memory mapped I/O", "DMA", "Peripheral devices"],
+            subtopics: ["Peripheral communication", "Programmed I/O", "Interrupt-driven I/O", "DMA"],
+          },
+        ],
+      },
+      {
+        slug: "8255-programmable-peripheral-interface",
+        title: "8255 Programmable Peripheral Interface",
+        topics: [
+          {
+            slug: "8255-programmable-peripheral-interface",
+            title: "8255 Programmable Peripheral Interface",
+            summary:
+              "Learn 8255 architecture, Port A, Port B, Port C, Mode 0, Mode 1, Mode 2, control word, and peripheral interfacing.",
+            estimatedTime: "35 min",
+            status: "ready",
+            concepts: ["Port A", "Port B", "Port C", "Control word"],
+            subtopics: ["Architecture", "Mode 0", "Mode 1", "Mode 2", "Interfacing applications"],
+          },
+        ],
+      },
+      {
+        slug: "8086-microprocessor",
+        title: "8086 Microprocessor",
+        topics: [
+          {
+            slug: "8086-microprocessor",
+            title: "8086 Microprocessor",
+            summary:
+              "Understand 8086 architecture, BIU, EU, memory segmentation, minimum and maximum modes, register organization, addressing modes, and 20-bit address generation.",
+            estimatedTime: "45 min",
+            status: "ready",
+            concepts: ["BIU", "EU", "Segmentation", "20-bit address"],
+            subtopics: ["Architecture", "Memory segmentation", "Minimum/maximum modes", "Registers", "Addressing modes"],
+          },
+        ],
+      },
+      {
+        slug: "advanced-topics",
+        title: "Advanced Topics",
+        topics: [
+          {
+            slug: "advanced-topics",
+            title: "Advanced Topics",
+            summary:
+              "Revise DMA controller operation, serial communication, embedded system basics, peripheral interfacing overview, and real-world microprocessor applications.",
+            estimatedTime: "30 min",
+            status: "ready",
+            concepts: ["DMA", "Serial communication", "Embedded systems", "Applications"],
+            subtopics: ["DMA controller", "Serial communication", "Microprocessor applications", "Embedded system basics"],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "electromagnetics",
+    name: "Electromagnetic Theory",
+    weightage: "6-8 marks",
+    description:
+      "Cover vector calculus, electrostatics, Maxwell equations, waves, transmission lines, waveguides, antennas, and EMC topics commonly seen in ECE exams.",
+    chapters: [
+      {
+        slug: "vector-calculus",
+        title: "Vector Calculus",
+        topics: [
+          {
+            slug: "vector-calculus",
+            title: "Vector Calculus",
+            summary:
+              "Build field intuition with coordinate systems, gradient, divergence, curl, Gauss theorem, and Stokes theorem.",
+            estimatedTime: "35 min",
+            status: "ready",
+            concepts: ["Gradient", "Divergence", "Curl"],
+            subtopics: ["Coordinate systems", "Vector operations", "Integral theorems"],
+          },
+        ],
+      },
+      {
+        slug: "electrostatics",
+        title: "Electrostatics",
+        topics: [
+          {
+            slug: "electrostatics",
+            title: "Electrostatics",
+            summary:
+              "Use Coulomb law, electric field, flux density, Gauss law, electric potential, and energy density to solve field problems.",
+            estimatedTime: "40 min",
+            status: "ready",
+            concepts: ["Coulomb law", "Electric field", "Gauss law"],
+            subtopics: ["Electric field intensity", "Electric flux density", "Electric potential"],
+          },
+        ],
+      },
+      {
+        slug: "conductors-and-dielectrics",
+        title: "Conductors and Dielectrics",
+        topics: [
+          {
+            slug: "conductors-and-dielectrics",
+            title: "Conductors and Dielectrics",
+            summary:
+              "Understand conductor charge distribution, dielectric polarization, boundary conditions, and capacitance.",
+            estimatedTime: "35 min",
+            status: "ready",
+            concepts: ["Boundary conditions", "Capacitance", "Polarization"],
+            subtopics: ["Conductors", "Dielectrics", "Parallel plate capacitor"],
+          },
+        ],
+      },
+      {
+        slug: "magnetostatics",
+        title: "Magnetostatics",
+        topics: [
+          {
+            slug: "magnetostatics",
+            title: "Magnetostatics",
+            summary:
+              "Study magnetic field due to steady currents using Biot-Savart law, Ampere's circuital law, flux density, force, and torque.",
+            estimatedTime: "35 min",
+            status: "ready",
+            concepts: ["Biot-Savart law", "Ampere's law", "Magnetic flux density"],
+            subtopics: ["Current-carrying conductor", "Ampere loop", "Magnetic force"],
+          },
+        ],
+      },
+      {
+        slug: "electromagnetic-induction",
+        title: "Electromagnetic Induction",
+        topics: [
+          {
+            slug: "electromagnetic-induction",
+            title: "Electromagnetic Induction",
+            summary:
+              "Connect changing magnetic flux to induced EMF, Lenz's law, self inductance, mutual inductance, and magnetic energy.",
+            estimatedTime: "35 min",
+            status: "ready",
+            concepts: ["Faraday's law", "Lenz's law", "Inductance"],
+            subtopics: ["Changing flux", "Induced EMF", "Mutual inductance"],
+          },
+        ],
+      },
+      {
+        slug: "maxwells-equations",
+        title: "Maxwell's Equations",
+        topics: [
+          {
+            slug: "maxwells-equations",
+            title: "Maxwell's Equations",
+            summary:
+              "Interpret Maxwell's equations in integral and differential forms and understand displacement current and field coupling.",
+            estimatedTime: "45 min",
+            status: "ready",
+            concepts: ["Gauss law", "Faraday law", "Displacement current"],
+            subtopics: ["Integral form", "Differential form", "Field coupling"],
+          },
+        ],
+      },
+      {
+        slug: "electromagnetic-waves",
+        title: "Electromagnetic Waves",
+        topics: [
+          {
+            slug: "electromagnetic-waves",
+            title: "Electromagnetic Waves",
+            summary:
+              "Understand wave equation, plane waves, E-H-field orientation, Poynting vector, and propagation in different media.",
+            estimatedTime: "40 min",
+            status: "ready",
+            concepts: ["Plane wave", "Poynting vector", "Attenuation"],
+            subtopics: ["Uniform plane waves", "Free space", "Conductors and dielectrics"],
+          },
+        ],
+      },
+      {
+        slug: "transmission-lines",
+        title: "Transmission Lines",
         topics: [
           {
             slug: "transmission-lines",
             title: "Transmission Lines",
             summary:
-              "Revise reflection coefficient, VSWR, impedance matching, and line equations.",
+              "Revise line parameters, telegrapher equations, reflection coefficient, standing wave ratio, and impedance matching.",
             estimatedTime: "45 min",
-            status: "roadmap",
-            concepts: ["Reflection coefficient", "VSWR", "Impedance matching"],
-            subtopics: [
-              "Characteristic impedance",
-              "Reflection coefficient",
-              "VSWR",
-              "Quarter-wave transformer",
-            ],
-          },
-          {
-            slug: "wave-propagation",
-            title: "Wave Propagation",
-            summary:
-              "Understand plane waves, polarization, phase velocity, and group velocity.",
-            estimatedTime: "35 min",
-            status: "roadmap",
-            concepts: ["Plane wave", "Polarization", "Phase velocity"],
-            subtopics: [
-              "Uniform plane wave",
-              "Polarization",
-              "Phase and group velocity",
-              "Skin depth",
-            ],
+            status: "ready",
+            concepts: ["Characteristic impedance", "Reflection coefficient", "SWR"],
+            subtopics: ["Line parameters", "Reflections", "Impedance matching"],
           },
         ],
       },
       {
-        slug: "waveguides-and-antennas",
-        title: "Waveguides and Antennas",
+        slug: "waveguides",
+        title: "Waveguides",
         topics: [
           {
             slug: "waveguides",
             title: "Waveguides",
             summary:
-              "Study TE and TM modes, cutoff frequency, and dominant mode selection.",
+              "Study rectangular waveguides, TE/TM/TEM modes, cutoff frequency, phase velocity, and group velocity.",
             estimatedTime: "35 min",
-            status: "roadmap",
+            status: "ready",
             concepts: ["TE mode", "TM mode", "Cutoff frequency"],
-            subtopics: [
-              "Rectangular waveguide",
-              "TE and TM modes",
-              "Cutoff frequency",
-              "Dominant mode",
-            ],
+            subtopics: ["Rectangular waveguides", "Modes", "Phase and group velocity"],
           },
+        ],
+      },
+      {
+        slug: "antennas",
+        title: "Antennas",
+        topics: [
           {
             slug: "antennas",
             title: "Antennas",
             summary:
-              "Cover radiation pattern, gain, directivity, and common antenna properties.",
+              "Cover radiation pattern, gain, directivity, efficiency, dipole antenna, arrays, and radiation mechanism.",
+            estimatedTime: "35 min",
+            status: "ready",
+            concepts: ["Radiation pattern", "Gain", "Directivity"],
+            subtopics: ["Dipole antenna", "Antenna arrays", "Radiation mechanism"],
+          },
+        ],
+      },
+      {
+        slug: "electromagnetic-compatibility-and-applications",
+        title: "Electromagnetic Compatibility and Applications",
+        topics: [
+          {
+            slug: "electromagnetic-compatibility-and-applications",
+            title: "Electromagnetic Compatibility and Applications",
+            summary:
+              "Understand shielding, interference, microwave applications, radar basics, and noise suppression from an EMFT perspective.",
             estimatedTime: "30 min",
-            status: "roadmap",
-            concepts: ["Directivity", "Gain", "Radiation resistance"],
-            subtopics: [
-              "Radiation pattern",
-              "Gain and directivity",
-              "Radiation resistance",
-              "Aperture and bandwidth",
-            ],
+            status: "ready",
+            concepts: ["Shielding", "Interference", "Radar"],
+            subtopics: ["EMI", "Microwave communication", "Noise suppression"],
           },
         ],
       },
@@ -945,7 +1198,426 @@ const learningSubjects = [
   },
 ];
 
+const microprocessorTopicSeed = [
+  ["introduction-to-microprocessors", "Introduction to Microprocessors", "CPU, memory, and I/O communicate over system buses to complete input-process-output work.", "CPU fetches instructions from memory, processes data, and exchanges signals with I/O devices.", "Input-process-output"],
+  ["8085-microprocessor-architecture", "8085 Microprocessor Architecture", "The 8085 is organized around ALU, accumulator, registers, buses, flags, PC, SP, and timing-control logic.", "Program counter selects the next instruction, registers hold data, and the ALU performs operations.", "PC -> memory -> instruction register -> ALU"],
+  ["8085-instruction-set", "8085 Instruction Set", "Instructions tell the processor what operation to perform and where operands are located.", "Opcode defines the operation, while addressing mode tells how to find data.", "Opcode + operand + addressing mode"],
+  ["assembly-language-programming", "Assembly Language Programming", "Assembly programs are step-by-step instructions that update registers, flags, and memory locations.", "Trace register values after every instruction to avoid programming mistakes.", "Trace registers and flags"],
+  ["timing-diagrams-and-machine-cycles", "Timing Diagrams and Machine Cycles", "Machine cycles split instruction execution into clocked bus operations such as opcode fetch, memory read, and memory write.", "Timing diagrams show when address, data, and control signals become active.", "Instruction cycle = machine cycles = T-states"],
+  ["interrupts-in-8085", "Interrupts in 8085", "Interrupts let external or software events pause the main program and jump to a service routine.", "Priority decides which request is serviced first when multiple interrupts arrive.", "TRAP > RST7.5 > RST6.5 > RST5.5 > INTR"],
+  ["memory-interfacing", "Memory Interfacing", "Memory interfacing connects processor address, data, and control buses to RAM or ROM using address decoding.", "Chip select logic activates only the required memory device for a given address range.", "Address decoding creates chip select"],
+  ["io-interfacing", "I/O Interfacing", "I/O interfacing connects external peripherals using I/O mapped or memory mapped techniques.", "Data transfer can be programmed, interrupt-driven, or handled by DMA.", "Programmed I/O, interrupt I/O, DMA"],
+  ["8255-programmable-peripheral-interface", "8255 Programmable Peripheral Interface", "8255 expands processor I/O through Port A, Port B, Port C, operating modes, and a control word.", "The control word configures port direction and operating mode.", "Ports A/B/C + control word"],
+  ["8086-microprocessor", "8086 Microprocessor", "8086 uses BIU and EU with segmented memory to generate 20-bit physical addresses.", "Segment and offset combine to access a larger memory space.", "Physical address = segment x 10H + offset"],
+  ["advanced-topics", "Advanced Topics", "Advanced microprocessor systems use DMA, serial communication, peripheral controllers, and embedded-system style interaction.", "DMA moves data without continuous CPU involvement, improving throughput.", "CPU, DMA, peripheral, memory"],
+];
+
+const microprocessorTopicDetails = Object.fromEntries(
+  microprocessorTopicSeed.map(([slug, shortTitle, introLine, intuition, formula]) => [
+    `microprocessors/${slug}`,
+    {
+      metaTitle: `${shortTitle} | GATE ECE Microprocessors Notes`,
+      metaDescription: `Learn ${shortTitle} with animated step-by-step visualization, 8085 notes, 8086 architecture links, PSU Microprocessors tips, and university exam preparation.`,
+      keywords:
+        "GATE ECE Microprocessors, PSU Microprocessors, 8085 notes, 8086 architecture, university exam preparation",
+      shortTitle,
+      coreQuestion: `How does ${shortTitle} help explain processor operation?`,
+      examFocus:
+        "Processor architecture, instruction execution, bus activity, timing, interrupts, interfacing, 8085 notes, and 8086 architecture.",
+      engineeringUse:
+        "Used in embedded systems, instrumentation, control hardware, peripheral interfacing, industrial automation, and processor-based products.",
+      intro: [
+        introLine,
+        `${shortTitle} should be revised as part of GATE ECE Microprocessors, PSU Microprocessors, 8085 notes, 8086 architecture, and university exam preparation.`,
+      ],
+      intuition,
+      learningGoals: [
+        "Read the processor block diagram as a data movement story.",
+        "Connect registers, buses, memory, and control signals.",
+        "Use the visualization to remember the exam sequence.",
+      ],
+      keyConcepts: [
+        "Processor blocks",
+        "Data bus and address bus",
+        "Control signals",
+        "Instruction execution flow",
+      ],
+      theoryCards: [
+        {
+          title: "Hardware intuition",
+          detail:
+            "Microprocessor questions become easier when every topic is treated as movement of address, data, and control information.",
+        },
+        {
+          title: "Execution flow",
+          detail:
+            "Most concepts can be read as fetch, decode, execute, transfer, or service sequences.",
+        },
+        {
+          title: "Exam pattern",
+          detail:
+            "GATE and PSU questions often ask for bus role, instruction behavior, timing order, interrupt priority, or interfacing logic.",
+        },
+      ],
+      formulas: [
+        {
+          label: "Core relation",
+          expression: formula,
+          note: "Use this as the compact revision hook for this chapter.",
+        },
+      ],
+      examples: [
+        {
+          title: `Trace ${shortTitle}`,
+          prompt: `A question asks the sequence of events in ${shortTitle}.`,
+          steps: [
+            "Identify the active processor block or bus.",
+            "Follow address, data, and control movement in order.",
+            "Check the register, flag, memory, or peripheral effect at the end.",
+          ],
+          answer: "The correct answer follows the ordered hardware flow, not isolated memorization.",
+        },
+      ],
+      commonMistakes: [
+        "Memorizing names without tracing data flow.",
+        "Confusing address bus direction with data bus direction.",
+        "Ignoring control signals or timing order.",
+      ],
+      examPointers: [
+        "Draw the block flow before solving timing or interfacing questions.",
+        "For instructions, always identify opcode, operand, addressing mode, and affected flags.",
+      ],
+      quickRevision: [formula],
+      insightSummary:
+        "Microprocessor questions reward ordered tracing: address first, data next, control decides timing.",
+      relatedTopics: [
+        {
+          subjectSlug: "microprocessors",
+          topicSlug:
+            slug === "advanced-topics"
+              ? "introduction-to-microprocessors"
+              : microprocessorTopicSeed[
+                  microprocessorTopicSeed.findIndex((item) => item[0] === slug) + 1
+                ]?.[0] || "introduction-to-microprocessors",
+        },
+      ],
+    },
+  ])
+);
+
 const topicLibrary = {
+  ...microprocessorTopicDetails,
+  "electromagnetics/vector-calculus": {
+    metaTitle: "Vector Calculus | GATE ECE Electromagnetic Theory Notes",
+    metaDescription:
+      "Learn vector calculus for GATE ECE Electromagnetic Theory with gradient, divergence, curl, coordinate systems, field visualization, EMFT notes, and PSU exam tips.",
+    keywords:
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, vector calculus, university exam preparation",
+    shortTitle: "Vector Calculus",
+    coreQuestion: "How do gradient, divergence, and curl describe the behavior of a field?",
+    examFocus: "Coordinate systems, gradient direction, divergence source strength, curl rotation, Gauss theorem, and Stokes theorem.",
+    engineeringUse: "Used to describe electric fields, magnetic fields, flux flow, circulation, and wave behavior.",
+    intro: [
+      "Vector Calculus is the language of Electromagnetic Theory. It converts field pictures into equations that can be used in GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, and university exam preparation.",
+      "Instead of treating gradient, divergence, and curl as isolated formulas, read them as three questions: where does the field increase, where does it spread out, and where does it rotate?",
+    ],
+    intuition:
+      "Gradient points toward fastest increase, divergence tells whether a point behaves like a source or sink, and curl tells whether the field has local rotation.",
+    learningGoals: ["Choose the right coordinate system.", "Interpret gradient, divergence, and curl physically.", "Connect integral theorems to field-flow questions."],
+    keyConcepts: ["Cartesian, cylindrical, and spherical coordinates", "Gradient as direction of maximum increase", "Divergence as field expansion", "Curl as circulation"],
+    theoryCards: [
+      { title: "Coordinate Systems", detail: "Pick the coordinate system that matches symmetry: rectangular objects use Cartesian, long wires use cylindrical, and point charges use spherical." },
+      { title: "Vector Operations", detail: "Gradient acts on scalar fields, while divergence and curl act on vector fields." },
+      { title: "Integral Theorems", detail: "Gauss theorem converts volume behavior to surface flux, and Stokes theorem converts surface curl to boundary circulation." },
+    ],
+    formulas: [
+      { label: "Gradient", expression: "grad V", note: "Direction of maximum increase of scalar potential." },
+      { label: "Divergence", expression: "div A", note: "Net outward field flow per unit volume." },
+      { label: "Curl", expression: "curl A", note: "Local rotational tendency of a vector field." },
+    ],
+    examples: [{ title: "Identify the right operator", prompt: "A question asks whether field lines spread out from a point.", steps: ["Spreading from a point indicates source behavior.", "Source behavior is measured by divergence."], answer: "Use divergence." }],
+    commonMistakes: ["Using Cartesian coordinates even when cylindrical or spherical symmetry makes the problem short.", "Memorizing formulas without understanding direction and physical meaning."],
+    examPointers: ["Always check symmetry before choosing coordinates.", "Divergence links naturally to Gauss law; curl links naturally to Stokes theorem and Faraday/Ampere laws."],
+    quickRevision: ["Gradient climbs, divergence spreads, curl rotates."],
+    insightSummary: "Many EMFT numericals become shorter when the coordinate system and vector operator are chosen from symmetry first.",
+    relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "electrostatics" }],
+  },
+  "electromagnetics/electrostatics": {
+    metaTitle: "Electrostatics | GATE ECE Electromagnetic Theory Notes",
+    metaDescription:
+      "Study electrostatics for GATE ECE Electromagnetic Theory with Coulomb force, electric field lines, Gauss surface, potential gradient, EMFT notes, and PSU tips.",
+    keywords:
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, electrostatics, university exam preparation",
+    shortTitle: "Electrostatics",
+    coreQuestion: "How do stationary charges create electric field, flux, potential, and force?",
+    examFocus: "Coulomb law, electric field intensity, flux density, Gauss law, potential, potential gradient, and energy density.",
+    engineeringUse: "Used in capacitors, insulation design, sensors, high-voltage systems, and semiconductor field regions.",
+    intro: ["Electrostatics studies charges at rest and the fields they create.", "For exams, the fastest method is to identify symmetry, choose Gauss law when possible, and then connect field to potential."],
+    intuition: "Positive charge sends electric field outward, negative charge pulls field inward, and potential decreases in the direction of the electric field.",
+    learningGoals: ["Relate charge to field and flux.", "Use Gauss surfaces for symmetric charge distributions.", "Connect electric potential to field direction."],
+    keyConcepts: ["Coulomb force", "Electric field lines", "Gauss surface", "Potential gradient"],
+    theoryCards: [
+      { title: "Coulomb Interaction", detail: "Charges exert force along the line joining them, with direction decided by attraction or repulsion." },
+      { title: "Flux View", detail: "Flux counts how much electric field passes through a surface." },
+      { title: "Potential View", detail: "Potential gives energy per unit charge, and field points from higher potential to lower potential." },
+    ],
+    formulas: [
+      { label: "Coulomb law", expression: "F = (1 / 4 pi epsilon) q1 q2 / r^2", note: "Use direction carefully for attraction and repulsion." },
+      { label: "Gauss law", expression: "closed integral D . dS = Q enclosed", note: "Best used when symmetry makes D constant over the surface." },
+    ],
+    examples: [{ title: "Choose Gauss law", prompt: "A uniformly charged sphere asks for field outside the sphere.", steps: ["Spherical symmetry exists.", "Choose a spherical Gaussian surface.", "Use enclosed charge over surface area."], answer: "Gauss law is the shortest method." }],
+    commonMistakes: ["Using Gauss law without checking symmetry.", "Confusing electric field intensity E with flux density D."],
+    examPointers: ["If the charge distribution is line, sheet, sphere, or cylinder-like, test Gauss law first."],
+    quickRevision: ["Field lines show direction; flux counts crossing; potential gives energy per charge."],
+    insightSummary: "Electrostatics questions are usually symmetry questions wearing formula clothing.",
+    relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "conductors-and-dielectrics" }],
+  },
+  "electromagnetics/conductors-and-dielectrics": {
+    metaTitle: "Conductors and Dielectrics | EMFT Notes for GATE ECE",
+    metaDescription:
+      "Learn conductors and dielectrics with charge distribution, polarization, capacitance, boundary conditions, EMFT notes, GATE ECE and PSU preparation.",
+    keywords:
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, conductors and dielectrics, university exam preparation",
+    shortTitle: "Conductors and Dielectrics",
+    coreQuestion: "How do materials reshape electric fields and boundary behavior?",
+    examFocus: "Conductor properties, boundary conditions, capacitance, dielectric polarization, and permittivity.",
+    engineeringUse: "Used in capacitors, cables, insulation, PCB spacing, and high-voltage dielectric design.",
+    intro: ["Conductors allow free charge movement, while dielectrics polarize under electric fields.", "This chapter turns ideal field laws into material-aware EMFT problem solving."],
+    intuition: "A conductor rearranges charge until the internal electric field becomes zero; a dielectric reduces effective field by polarization.",
+    learningGoals: ["Explain charge distribution in conductors.", "Understand dielectric polarization.", "Apply capacitance and boundary-condition intuition."],
+    keyConcepts: ["Surface charge", "Polarization", "Permittivity", "Capacitance"],
+    theoryCards: [
+      { title: "Conductors", detail: "Free charges move to the surface in electrostatic equilibrium, making the field inside the conductor zero." },
+      { title: "Dielectrics", detail: "Bound charges shift slightly and create polarization that changes field strength." },
+      { title: "Boundary Conditions", detail: "Tangential and normal field components obey different continuity rules at material boundaries." },
+    ],
+    formulas: [{ label: "Capacitance idea", expression: "C = Q / V", note: "Capacitance increases when geometry stores more charge for the same voltage." }],
+    examples: [{ title: "Parallel plate with dielectric", prompt: "A dielectric is inserted into a capacitor.", steps: ["Permittivity increases.", "Capacitance increases.", "Field for a fixed free charge reduces."], answer: "The dielectric supports more charge storage." }],
+    commonMistakes: ["Assuming field inside a conductor is nonzero in electrostatic equilibrium.", "Ignoring boundary normal/tangential directions."],
+    examPointers: ["Capacitance and boundary conditions are common GATE ECE Electromagnetic Theory scoring areas."],
+    quickRevision: ["Conductor cancels internal field; dielectric polarizes and changes capacitance."],
+    insightSummary: "Material behavior explains why the same electric field law looks different in air, conductor, and dielectric regions.",
+    relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "magnetostatics" }],
+  },
+  "electromagnetics/magnetostatics": {
+    metaTitle: "Magnetostatics | GATE ECE Electromagnetic Theory Notes",
+    metaDescription:
+      "Study magnetostatics with magnetic field around current, right-hand rule, Biot-Savart law, Ampere loop, EMFT notes, and PSU preparation.",
+    keywords:
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, magnetostatics, university exam preparation",
+    shortTitle: "Magnetostatics",
+    coreQuestion: "How do steady currents create magnetic fields and magnetic force?",
+    examFocus: "Biot-Savart law, Ampere circuital law, magnetic flux density, vector potential, magnetic forces, and torque.",
+    engineeringUse: "Used in motors, transformers, inductors, relays, transmission lines, and magnetic sensors.",
+    intro: ["Magnetostatics studies magnetic fields produced by steady currents.", "The right-hand rule gives direction, while Biot-Savart and Ampere laws give magnitude."],
+    intuition: "Current creates circular magnetic field lines around a conductor; stronger current means denser magnetic field.",
+    learningGoals: ["Use right-hand rule direction.", "Choose Biot-Savart or Ampere law correctly.", "Relate magnetic field to force and torque."],
+    keyConcepts: ["Current-carrying conductor", "Ampere loop", "Magnetic flux density", "Magnetic force"],
+    theoryCards: [
+      { title: "Biot-Savart View", detail: "Small current elements contribute small magnetic field vectors." },
+      { title: "Ampere Loop View", detail: "For high symmetry, integrate H around a closed path to find enclosed current." },
+      { title: "Force View", detail: "Magnetic fields exert force on moving charges and current-carrying conductors." },
+    ],
+    formulas: [
+      { label: "Ampere law", expression: "closed integral H . dl = I enclosed", note: "Works cleanly for symmetric current distributions." },
+      { label: "Force idea", expression: "F = q v x B", note: "Direction comes from cross product." },
+    ],
+    examples: [{ title: "Long straight conductor", prompt: "Find the magnetic field trend around a long wire.", steps: ["Symmetry is circular.", "Use an Amperian circle.", "Field decreases with distance from wire."], answer: "Magnetic field circles the wire and weakens with radius." }],
+    commonMistakes: ["Forgetting that magnetic field direction wraps around current.", "Using Ampere law where symmetry is not enough."],
+    examPointers: ["For long wire, solenoid, and toroid problems, test Ampere law first."],
+    quickRevision: ["Current creates curling magnetic field; Ampere law loves symmetry."],
+    insightSummary: "Magnetostatics is mostly direction plus symmetry: right-hand rule first, law selection second.",
+    relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "electromagnetic-induction" }],
+  },
+  "electromagnetics/electromagnetic-induction": {
+    metaTitle: "Electromagnetic Induction | EMFT Notes for GATE ECE",
+    metaDescription:
+      "Learn Faraday law, Lenz law, changing magnetic flux, induced EMF, self and mutual inductance with EMFT notes for GATE ECE and PSU exams.",
+    keywords:
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, electromagnetic induction, university exam preparation",
+    shortTitle: "Electromagnetic Induction",
+    coreQuestion: "How does changing magnetic flux create induced EMF?",
+    examFocus: "Faraday law, Lenz law, self inductance, mutual inductance, and magnetic energy.",
+    engineeringUse: "Used in transformers, generators, inductors, wireless charging, motors, and electromagnetic sensors.",
+    intro: ["Electromagnetic Induction links changing magnetic fields to electric effects.", "This is the bridge from static fields to time-varying electromagnetic systems."],
+    intuition: "A changing magnetic flux forces the circuit to respond with an induced EMF that opposes the change causing it.",
+    learningGoals: ["Visualize changing flux.", "Apply Faraday law sign intuition.", "Separate self and mutual inductance."],
+    keyConcepts: ["Changing flux", "Induced EMF", "Lenz opposition", "Mutual coupling"],
+    theoryCards: [
+      { title: "Faraday Law", detail: "The magnitude of induced EMF depends on the rate of change of magnetic flux." },
+      { title: "Lenz Law", detail: "The induced effect opposes the change that produced it." },
+      { title: "Mutual Inductance", detail: "Changing current in one coil induces voltage in a nearby coupled coil." },
+    ],
+    formulas: [{ label: "Faraday law", expression: "emf = - dPhi / dt", note: "The negative sign represents Lenz law opposition." }],
+    examples: [{ title: "Moving magnet near coil", prompt: "A magnet moves toward a coil.", steps: ["Flux through coil changes.", "EMF is induced.", "Induced current opposes the flux change."], answer: "The coil produces a field opposing the magnet motion." }],
+    commonMistakes: ["Ignoring the negative sign meaning in Faraday law.", "Confusing flux value with rate of change of flux."],
+    examPointers: ["Look for words like changing, moving, time-varying, or induced."],
+    quickRevision: ["No changing flux, no induction."],
+    insightSummary: "Induction problems become clear when you first identify what change the circuit is trying to oppose.",
+    relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "maxwells-equations" }],
+  },
+  "electromagnetics/maxwells-equations": {
+    metaTitle: "Maxwell's Equations | GATE ECE Electromagnetic Theory Notes",
+    metaDescription:
+      "Understand Maxwell's equations, integral and differential forms, displacement current, field coupling, EMFT notes, GATE ECE and PSU preparation.",
+    keywords:
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, Maxwell equations, university exam preparation",
+    shortTitle: "Maxwell's Equations",
+    coreQuestion: "How do electric and magnetic fields couple in space and time?",
+    examFocus: "Four Maxwell equations, integral vs differential forms, displacement current, and physical interpretation.",
+    engineeringUse: "Foundation of antennas, waves, transmission lines, waveguides, radar, and high-frequency electronics.",
+    intro: ["Maxwell's equations summarize electromagnetic field behavior.", "They connect charge, current, electric field, magnetic field, and time variation."],
+    intuition: "Changing electric fields create magnetic fields, and changing magnetic fields create electric fields, allowing waves to propagate.",
+    learningGoals: ["Read each equation physically.", "Connect integral and differential forms.", "Understand displacement current."],
+    keyConcepts: ["Gauss law for electric field", "Gauss law for magnetism", "Faraday law", "Ampere-Maxwell law"],
+    theoryCards: [
+      { title: "Electric Sources", detail: "Charges are sources or sinks of electric flux." },
+      { title: "No Magnetic Monopoles", detail: "Magnetic field lines form closed loops." },
+      { title: "Field Coupling", detail: "Time-varying electric and magnetic fields sustain each other." },
+    ],
+    formulas: [{ label: "Ampere-Maxwell idea", expression: "curl H = J + dD/dt", note: "Displacement current completes the law for time-varying fields." }],
+    examples: [{ title: "Capacitor gap", prompt: "Current appears to flow in wires but not through dielectric gap.", steps: ["Electric field in gap changes.", "Changing D creates displacement current.", "Ampere-Maxwell law remains continuous."], answer: "Displacement current explains the magnetic field in the gap." }],
+    commonMistakes: ["Memorizing equations without knowing what each term means.", "Forgetting displacement current in time-varying fields."],
+    examPointers: ["Map each equation to its physical sentence before writing formulas."],
+    quickRevision: ["Charges create E flux; changing B creates E; currents and changing E create H."],
+    insightSummary: "Maxwell's equations are the reason static-field chapters become wave and antenna chapters.",
+    relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "electromagnetic-waves" }],
+  },
+  "electromagnetics/electromagnetic-waves": {
+    metaTitle: "Electromagnetic Waves | EMFT Notes for GATE ECE",
+    metaDescription:
+      "Learn plane wave propagation, E and H fields, Poynting vector, attenuation in conductors, EMFT notes, GATE ECE and PSU exam preparation.",
+    keywords:
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, electromagnetic waves, university exam preparation",
+    shortTitle: "Electromagnetic Waves",
+    coreQuestion: "How do electric and magnetic fields carry energy through space?",
+    examFocus: "Wave equation, plane waves, uniform plane waves, propagation media, Poynting vector, and attenuation.",
+    engineeringUse: "Used in wireless communication, antennas, radar, optics, microwave systems, and EMC analysis.",
+    intro: ["Electromagnetic waves are coupled electric and magnetic fields that propagate energy.", "For exams, focus on field orientation, propagation direction, impedance, velocity, and attenuation."],
+    intuition: "E field, H field, and propagation direction are mutually perpendicular in a uniform plane wave.",
+    learningGoals: ["Visualize E-H-field orientation.", "Interpret Poynting vector direction.", "Understand attenuation in conductors."],
+    keyConcepts: ["Plane wave", "Wave impedance", "Poynting vector", "Skin depth"],
+    theoryCards: [
+      { title: "Plane Wave", detail: "Fields vary with propagation direction while staying uniform over transverse planes." },
+      { title: "Energy Flow", detail: "The Poynting vector gives direction and density of power flow." },
+      { title: "Media Effect", detail: "Free space, dielectrics, and conductors change speed, attenuation, and impedance." },
+    ],
+    formulas: [{ label: "Poynting vector", expression: "S = E x H", note: "Direction is the direction of electromagnetic power flow." }],
+    examples: [{ title: "Field orientation", prompt: "If E is along x and H is along y.", steps: ["Use cross product E x H.", "x cross y gives z."], answer: "The wave propagates along +z." }],
+    commonMistakes: ["Making E and H parallel in a plane wave.", "Forgetting that conductors attenuate waves."],
+    examPointers: ["Use right-hand cross product for propagation direction questions."],
+    quickRevision: ["E perpendicular H perpendicular propagation; S = E x H."],
+    insightSummary: "Wave questions are often vector-direction questions plus medium-property questions.",
+    relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "transmission-lines" }],
+  },
+  "electromagnetics/transmission-lines": {
+    metaTitle: "Transmission Lines | GATE ECE Electromagnetic Theory Notes",
+    metaDescription:
+      "Study transmission lines with signal propagation, reflection coefficient, SWR, impedance matching, EMFT notes, GATE ECE and PSU preparation.",
+    keywords:
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, transmission lines, university exam preparation",
+    shortTitle: "Transmission Lines",
+    coreQuestion: "How does a high-frequency signal travel and reflect along a line?",
+    examFocus: "Line parameters, telegrapher equations, reflection coefficient, SWR, and impedance matching.",
+    engineeringUse: "Used in RF links, PCB traces, coaxial cables, antennas, microwave systems, and high-speed digital design.",
+    intro: ["Transmission lines matter when signal wavelength becomes comparable to conductor length.", "At that point, propagation, reflection, and matching decide what reaches the load."],
+    intuition: "A signal travels like a wave on the line; mismatch at the load sends part of it back as reflection.",
+    learningGoals: ["Understand forward and reflected waves.", "Interpret reflection coefficient and SWR.", "Recognize impedance matching."],
+    keyConcepts: ["Characteristic impedance", "Reflection coefficient", "Standing wave", "Matching"],
+    theoryCards: [
+      { title: "Distributed Parameters", detail: "R, L, C, and G are distributed along the line instead of lumped at one point." },
+      { title: "Reflections", detail: "Load mismatch causes reflected wave components." },
+      { title: "Matching", detail: "When load equals characteristic impedance, reflection ideally disappears." },
+    ],
+    formulas: [{ label: "Reflection coefficient", expression: "Gamma = (ZL - Z0) / (ZL + Z0)", note: "Gamma becomes zero for a matched load." }],
+    examples: [{ title: "Matched load", prompt: "A line has Z0 = 50 ohm and load is 50 ohm.", steps: ["Substitute ZL = Z0.", "Numerator becomes zero."], answer: "Reflection coefficient is zero." }],
+    commonMistakes: ["Treating a long high-frequency line as a short lumped wire.", "Confusing SWR with reflection coefficient."],
+    examPointers: ["Check load matching before doing long calculations."],
+    quickRevision: ["Mismatch reflects; matching absorbs."],
+    insightSummary: "Transmission-line questions often reduce to whether energy is delivered, reflected, or standing on the line.",
+    relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "waveguides" }],
+  },
+  "electromagnetics/waveguides": {
+    metaTitle: "Waveguides | EMFT Notes for GATE ECE",
+    metaDescription:
+      "Learn rectangular waveguides, TE TM TEM modes, cutoff frequency, phase and group velocity with EMFT notes for GATE ECE and PSU exams.",
+    keywords:
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, waveguides, university exam preparation",
+    shortTitle: "Waveguides",
+    coreQuestion: "How do hollow conducting structures guide electromagnetic waves?",
+    examFocus: "Rectangular waveguides, TE/TM/TEM modes, cutoff frequency, phase velocity, and group velocity.",
+    engineeringUse: "Used in microwave links, radar, satellite systems, RF test setups, and high-power microwave transmission.",
+    intro: ["Waveguides guide EM waves through conducting boundaries.", "Unlike ordinary two-conductor lines, rectangular waveguides support TE and TM modes with cutoff behavior."],
+    intuition: "A waveguide passes waves only when frequency is above cutoff; below cutoff, energy does not propagate effectively.",
+    learningGoals: ["Differentiate TE, TM, and TEM modes.", "Understand cutoff frequency.", "Compare phase and group velocity."],
+    keyConcepts: ["Rectangular waveguide", "Cutoff", "TE mode", "TM mode"],
+    theoryCards: [
+      { title: "Mode Pattern", detail: "Field patterns must satisfy conducting-wall boundary conditions." },
+      { title: "Cutoff", detail: "Every mode has a minimum frequency needed for propagation." },
+      { title: "Velocity", detail: "Phase velocity and group velocity describe different parts of wave motion." },
+    ],
+    formulas: [{ label: "Cutoff idea", expression: "f must be greater than fc", note: "Below cutoff, the mode is evanescent." }],
+    examples: [{ title: "Below cutoff", prompt: "A signal frequency is below cutoff for a mode.", steps: ["Check f < fc.", "Mode cannot propagate normally."], answer: "The wave decays instead of carrying power forward." }],
+    commonMistakes: ["Assuming TEM mode exists in a hollow rectangular waveguide.", "Ignoring cutoff condition."],
+    examPointers: ["Dominant mode and cutoff relations are high-yield topics."],
+    quickRevision: ["Waveguides are mode-based and cutoff-limited."],
+    insightSummary: "Waveguide questions become simpler when you identify the mode first and the cutoff condition second.",
+    relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "antennas" }],
+  },
+  "electromagnetics/antennas": {
+    metaTitle: "Antennas | GATE ECE Electromagnetic Theory Notes",
+    metaDescription:
+      "Study antennas with dipole radiation, radiation pattern, gain, directivity, antenna arrays, EMFT notes, GATE ECE and PSU preparation.",
+    keywords:
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, antennas, university exam preparation",
+    shortTitle: "Antennas",
+    coreQuestion: "How does guided electrical energy become radiated electromagnetic energy?",
+    examFocus: "Radiation pattern, gain, directivity, efficiency, dipole antenna, arrays, and radiation mechanism.",
+    engineeringUse: "Used in mobile communication, broadcasting, radar, satellites, IoT, Wi-Fi, and microwave links.",
+    intro: ["An antenna converts guided energy into radiated electromagnetic waves and also receives waves in reverse.", "For exams, focus on radiation pattern, gain, directivity, efficiency, and dipole intuition."],
+    intuition: "Time-varying current on an antenna creates changing fields that detach and radiate outward.",
+    learningGoals: ["Visualize dipole radiation.", "Interpret gain and directivity.", "Understand array direction control."],
+    keyConcepts: ["Dipole antenna", "Radiation pattern", "Gain", "Antenna array"],
+    theoryCards: [
+      { title: "Dipole Radiation", detail: "Alternating current creates time-varying fields around the conductor." },
+      { title: "Pattern", detail: "Radiation pattern shows how strongly energy is radiated in each direction." },
+      { title: "Array", detail: "Multiple antennas combine fields to shape direction and beam strength." },
+    ],
+    formulas: [{ label: "Gain idea", expression: "Gain = efficiency x directivity", note: "Gain includes both focusing and losses." }],
+    examples: [{ title: "Directivity vs gain", prompt: "An antenna focuses energy strongly but has loss.", steps: ["Directivity describes focusing.", "Gain includes efficiency loss."], answer: "Gain is less than ideal directivity if efficiency is below one." }],
+    commonMistakes: ["Treating gain and directivity as always identical.", "Thinking antennas create energy instead of redirecting/radiating supplied energy."],
+    examPointers: ["Radiation pattern and gain/directivity comparisons are common conceptual questions."],
+    quickRevision: ["Antenna current radiates; pattern shows direction; gain includes efficiency."],
+    insightSummary: "Antenna problems are field-shape problems, not only formula problems.",
+    relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "electromagnetic-compatibility-and-applications" }],
+  },
+  "electromagnetics/electromagnetic-compatibility-and-applications": {
+    metaTitle: "Electromagnetic Compatibility and Applications | EMFT Notes",
+    metaDescription:
+      "Learn EMC, shielding, electromagnetic interference, radar basics, microwave applications, noise suppression, EMFT notes, GATE ECE and PSU preparation.",
+    keywords:
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, electromagnetic compatibility, university exam preparation",
+    shortTitle: "EMC and Applications",
+    coreQuestion: "How do we control unwanted electromagnetic interaction in real systems?",
+    examFocus: "Shielding, interference, microwave applications, radar basics, and noise suppression.",
+    engineeringUse: "Used in product compliance, PCB design, communication systems, radar, microwave links, and instrumentation.",
+    intro: ["Electromagnetic Compatibility studies how systems operate without causing or suffering unacceptable interference.", "It connects field theory to practical shielding, grounding, radar, microwave, and noise-control decisions."],
+    intuition: "EMI is unwanted field coupling; shielding and filtering reduce the path through which interference enters a system.",
+    learningGoals: ["Visualize interference coupling.", "Understand shielding effectiveness.", "Connect radar and microwave applications to wave propagation."],
+    keyConcepts: ["EMI", "Shielding", "Radar pulse", "Noise suppression"],
+    theoryCards: [
+      { title: "Interference", detail: "Unwanted electromagnetic energy couples into circuits through radiation or conduction." },
+      { title: "Shielding", detail: "Conductive barriers reflect and absorb incident fields." },
+      { title: "Radar", detail: "Radar sends waves and interprets reflected energy from targets." },
+    ],
+    formulas: [{ label: "Radar time idea", expression: "Range proportional to round-trip delay", note: "Distance is estimated from travel time of reflected signal." }],
+    examples: [{ title: "Shielded enclosure", prompt: "A noisy field hits a conductive enclosure.", steps: ["Incident wave reaches shield.", "Part reflects and part attenuates.", "Internal field reduces."], answer: "Shielding reduces coupled interference." }],
+    commonMistakes: ["Thinking shielding only blocks electric fields and never considering apertures or grounding.", "Ignoring coupling path in EMI problems."],
+    examPointers: ["For EMC questions, identify source, coupling path, and victim."],
+    quickRevision: ["EMC = source control + path control + victim protection."],
+    insightSummary: "Applications questions become easier when you track how electromagnetic energy travels, reflects, couples, and is suppressed.",
+    relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "vector-calculus" }],
+  },
   "analog/operational-amplifiers": {
     learningGoals: [
       "Use ideal op-amp assumptions to simplify circuits quickly.",

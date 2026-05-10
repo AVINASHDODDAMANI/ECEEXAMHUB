@@ -2,6 +2,9 @@ import Link from "next/link";
 import { useMemo } from "react";
 import Layout from "../../../components/layout";
 import CommunicationSystemTopicPage from "../../../components/CommunicationSystemTopicPage";
+import DigitalSignalProcessingTopicPage from "../../../components/DigitalSignalProcessingTopicPage";
+import ElectromagneticTheoryTopicPage from "../../../components/ElectromagneticTheoryTopicPage";
+import MicroprocessorTopicPage from "../../../components/MicroprocessorTopicPage";
 import seedQuestions from "../../../data/questions";
 import {
   buildTopicKey,
@@ -58,6 +61,18 @@ function BulletList({ items = [], tone = "plain" }) {
 export default function LearningTopicPage({ topic }) {
   if (topic.subjectSlug === "communications") {
     return <CommunicationSystemTopicPage topic={topic} />;
+  }
+
+  if (topic.subjectSlug === "electromagnetics") {
+    return <ElectromagneticTheoryTopicPage topic={topic} />;
+  }
+
+  if (topic.subjectSlug === "microprocessors") {
+    return <MicroprocessorTopicPage topic={topic} />;
+  }
+
+  if (topic.subjectSlug === "dsp") {
+    return <DigitalSignalProcessingTopicPage topic={topic} />;
   }
 
   const {

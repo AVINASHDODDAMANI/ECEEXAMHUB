@@ -1,8 +1,0 @@
-⨯ Another next dev server is already running.
-
-- Local:        http://localhost:3000
-- PID:          9040
-- Dir:          C:\Users\AVINASH\Documents\GitHub\ECEEXAMHUB
-- Log:          .next\dev\logs\next-development.log
-
-Run taskkill /PID 9040 /F to stop it.
