@@ -159,6 +159,28 @@ const SUBJECT_META = {
     studyTip:
       "Study Electromagnetic Theory in chapter order: vector calculus, electrostatics, conductors and dielectrics, magnetostatics, induction, Maxwell equations, waves, transmission lines, waveguides, antennas, and applications.",
   },
+  "VLSI Design": {
+    subtitle: "The chapter that explains semiconductor fabrication, MOS transistors, CMOS logic, layout, timing, power, testing, and HDL-based IC implementation.",
+    estimatedTime: "7-9 Hours",
+    difficulty: "Medium to High",
+    level: "Beginner to GATE Level",
+    keyConcepts: [
+      "MOS Transistors",
+      "CMOS Inverter",
+      "CMOS Logic",
+      "Fabrication",
+      "Layout Design",
+      "Power and Delay",
+    ],
+    examFocus: [
+      "MOSFET regions and current-voltage characteristics",
+      "CMOS inverter, NAND, NOR, transmission gates, and pass transistor logic",
+      "Fabrication steps, design rules, stick diagrams, and layout concepts",
+      "Propagation delay, power dissipation, scaling effects, testing, and HDL basics",
+    ],
+    studyTip:
+      "Study VLSI Design in chapter order: VLSI basics, MOS transistor operation, CMOS logic, fabrication, design styles, stick diagrams, combinational and sequential circuits, interconnects, scaling, testing, verification, and HDL automation basics.",
+  },
   Microprocessors: {
     subtitle: "The chapter that explains processor architecture, instruction execution, programming, timing, interrupts, interfacing, and 8086 fundamentals.",
     estimatedTime: "7-9 Hours",
@@ -496,6 +518,122 @@ const ELECTROMAGNETIC_CHAPTER_ROUTES = {
   Antennas: "/learn/electromagnetics/antennas",
   "Electromagnetic Compatibility and Applications": "/learn/electromagnetics/electromagnetic-compatibility-and-applications",
 };
+
+const VLSI_DESIGN_CHAPTERS = [
+  {
+    title: "Introduction to VLSI Design",
+    topics: [
+      { title: "Basics of VLSI", subtopics: ["SSI", "MSI", "LSI", "VLSI", "ULSI", "Moore's Law"] },
+      { title: "VLSI Design Flow", subtopics: ["Specification", "Design", "Verification", "Fabrication", "Testing"] },
+      { title: "Applications of VLSI", subtopics: [] },
+    ],
+  },
+  {
+    title: "MOS Transistor Basics",
+    topics: [
+      { title: "MOSFET Structure", subtopics: ["NMOS transistor", "PMOS transistor", "CMOS transistor"] },
+      { title: "MOSFET Operation", subtopics: ["Cutoff region", "Linear region", "Saturation region"] },
+      { title: "Threshold Voltage", subtopics: [] },
+      { title: "Current-Voltage Characteristics", subtopics: [] },
+    ],
+  },
+  {
+    title: "CMOS Logic Design",
+    topics: [
+      { title: "CMOS Inverter", formula: "$$V_{out}=f(V_{in})$$", subtopics: [] },
+      { title: "Static CMOS Logic", subtopics: ["NAND gate", "NOR gate"] },
+      { title: "Dynamic CMOS Logic", subtopics: [] },
+      { title: "Transmission Gates", subtopics: [] },
+      { title: "Pass Transistor Logic", subtopics: [] },
+    ],
+  },
+  {
+    title: "CMOS Fabrication Technology",
+    topics: [
+      { title: "IC Fabrication Process", subtopics: ["Oxidation", "Diffusion", "Ion implantation", "Lithography"] },
+      { title: "N-Well and P-Well Processes", subtopics: [] },
+      { title: "CMOS Fabrication Steps", subtopics: [] },
+      { title: "Design Rules", subtopics: [] },
+    ],
+  },
+  {
+    title: "VLSI Design Styles",
+    topics: [
+      { title: "Full Custom Design", subtopics: [] },
+      { title: "Semi-Custom Design", subtopics: [] },
+      { title: "Standard Cell Design", subtopics: [] },
+      { title: "Gate Array Design", subtopics: [] },
+      { title: "FPGA Basics", subtopics: [] },
+    ],
+  },
+  {
+    title: "Stick Diagrams and Layout Design",
+    topics: [
+      { title: "Stick Diagrams", subtopics: [] },
+      { title: "Layout Design Rules", subtopics: [] },
+      { title: "Lambda-Based Design Rules", subtopics: [] },
+      { title: "CMOS Layout Techniques", subtopics: [] },
+    ],
+  },
+  {
+    title: "Combinational Circuit Design",
+    topics: [
+      { title: "CMOS Logic Circuits", subtopics: [] },
+      { title: "Arithmetic Circuits", subtopics: ["Half adder", "Full adder"] },
+      { title: "Multiplexers", subtopics: [] },
+      { title: "Decoders", subtopics: [] },
+    ],
+  },
+  {
+    title: "Sequential Circuit Design",
+    topics: [
+      { title: "Latches and Flip-Flops", subtopics: [] },
+      { title: "Registers", subtopics: [] },
+      { title: "Counters", subtopics: [] },
+      { title: "Memory Elements", subtopics: [] },
+    ],
+  },
+  {
+    title: "VLSI Interconnects and Scaling",
+    topics: [
+      { title: "Interconnect Effects", subtopics: [] },
+      { title: "Propagation Delay", subtopics: [] },
+      { title: "Power Dissipation", subtopics: [] },
+      { title: "Scaling Effects", subtopics: [] },
+      { title: "Short Channel Effects", subtopics: [] },
+    ],
+  },
+  {
+    title: "Testing and Verification",
+    topics: [
+      { title: "Fault Models", subtopics: [] },
+      { title: "Design for Testability (DFT)", subtopics: [] },
+      { title: "Built-In Self-Test (BIST)", subtopics: [] },
+      { title: "Verification Techniques", subtopics: [] },
+    ],
+  },
+  {
+    title: "HDL and VLSI Automation Basics",
+    topics: [
+      { title: "Introduction to Verilog/VHDL", subtopics: [] },
+      { title: "Behavioral Modeling", subtopics: [] },
+      { title: "RTL Design Basics", subtopics: [] },
+      { title: "Synthesis Flow", subtopics: [] },
+      { title: "CAD Tools Overview", subtopics: [] },
+    ],
+  },
+];
+
+const VLSI_HIGH_WEIGHTAGE_TOPICS = [
+  "CMOS inverter",
+  "MOSFET characteristics",
+  "CMOS logic design",
+  "Fabrication process",
+  "Stick diagrams and layout",
+  "Sequential circuits",
+  "Power and delay analysis",
+  "Scaling effects",
+];
 
 const DIGITAL_SIGNAL_PROCESSING_CHAPTERS = [
   {
@@ -1341,6 +1479,55 @@ const ELECTROMAGNETIC_THEORY_KNOWLEDGE = {
         label: topic.title,
         expression: topic.formula,
         note: "Use this relation with the correct field direction, medium, boundary, and coordinate-system assumptions.",
+      })),
+  })),
+};
+
+const VLSI_DESIGN_KNOWLEDGE = {
+  overviewCards: [
+    {
+      title: "Overview of VLSI Design",
+      description:
+        "For Graduate Aptitude Test in Engineering and PSU exams, VLSI Design should be studied in a structured hierarchy: Chapter -> Topics -> Subtopics. This helps in understanding semiconductor fabrication, CMOS logic design, digital IC implementation, and efficient exam preparation.",
+      points: [
+        "Start with VLSI basics, design flow, and MOS transistor fundamentals.",
+        "Study CMOS inverter, static CMOS logic, dynamic logic, transmission gates, and pass transistor logic.",
+        "Learn fabrication, design styles, stick diagrams, layout rules, and lambda-based design rules together.",
+        "Finish with delay, power, interconnects, scaling, testing, verification, HDL, RTL, synthesis, and CAD flow.",
+      ],
+    },
+  ],
+  concepts: VLSI_DESIGN_CHAPTERS.map((chapter, index) => ({
+    slug: `vlsi-chapter-${index + 1}`,
+    title: chapter.title,
+    shortTitle: chapter.title,
+    diagram: "basic-circuit",
+    diagramNote:
+      "VLSI Design questions are best handled by first identifying the chapter, then the exact topic and subtopic being tested.",
+    summary: chapter.topics
+      .map((topic) => [topic.title, ...topic.subtopics].join(": "))
+      .join(" | "),
+    teaching: {
+      intuition: [
+        `${chapter.title} is Chapter ${index + 1} in the VLSI Design GATE/PSU flow.`,
+        "Prepare it as a transistor, logic, fabrication, layout, timing, testing, or automation block, then practice conceptual and numerical questions from that block.",
+      ],
+      explanation: chapter.topics.map((topic) =>
+        topic.subtopics.length ? `${topic.title}: ${topic.subtopics.join(", ")}` : topic.title
+      ),
+      interpretation: chapter.topics.map((topic) => topic.title),
+      commonMistake:
+        "Students often memorize VLSI terms without connecting MOS operation, CMOS logic, layout constraints, power, delay, and fabrication flow.",
+      realLifeInsight:
+        "VLSI Design is used to build microprocessors, memory chips, ASICs, SoCs, FPGAs, communication ICs, and low-power embedded hardware.",
+    },
+    learnPoints: chapter.topics.map((topic) => topic.title),
+    formulas: chapter.topics
+      .filter((topic) => topic.formula)
+      .map((topic) => ({
+        label: topic.title,
+        expression: topic.formula,
+        note: "Use this relation while checking CMOS transfer behavior, transistor state, load, and sizing assumptions.",
       })),
   })),
 };
@@ -5986,6 +6173,20 @@ function BasicConceptGuideContent({ withIntro = true }) {
   );
 }
 
+function BasicConceptTopicSection({ id, title, children }) {
+  return (
+    <section
+      id={id}
+      className="min-w-0 scroll-mt-28 overflow-hidden rounded-[26px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
+    >
+      <h2 className="text-xl font-black tracking-tight text-slate-950 sm:text-2xl">{title}</h2>
+      <div className="mt-3 grid min-w-0 gap-3 text-sm leading-7 text-slate-700 sm:text-base">
+        {children}
+      </div>
+    </section>
+  );
+}
+
 function NetworkOverviewPanel({ overviewCards = [] }) {
   return (
     <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
@@ -6126,6 +6327,63 @@ function ElectromagneticTheoryOverviewPanel() {
               "Magnetostatics, Biot-Savart law, Ampere's law, magnetic flux density, potentials, forces, and torque.",
               "Electromagnetic induction, Faraday's law, Lenz's law, inductance, and magnetic-field energy.",
               "Maxwell equations, electromagnetic waves, transmission lines, waveguides, antennas, EMC, microwave applications, and radar basics.",
+            ].map((point) => (
+              <li key={point} className="flex gap-2">
+                <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function VlsiDesignOverviewPanel() {
+  return (
+    <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Is VLSI Design?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            VLSI Design deals with the design and fabrication of highly integrated
+            semiconductor circuits using CMOS technology for implementing digital
+            systems with optimized speed, power, and area.
+          </p>
+        </article>
+
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            Why Do We Study It?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            We study this chapter because GATE, PSU exams, interviews, and chip
+            design roles frequently test MOS transistor behavior, CMOS logic,
+            fabrication, layout, delay, power, scaling, testing, and HDL-based
+            implementation.
+          </p>
+        </article>
+
+        <article className="lg:col-span-2">
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Will You Learn?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            For Graduate Aptitude Test in Engineering and PSU exams, prepare VLSI
+            Design in a structured format: Chapter - Topics - Subtopics. Use the
+            hamburger menu to open the complete chapter and topic hierarchy.
+          </p>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+            {[
+              "VLSI basics, SSI, MSI, LSI, VLSI, ULSI, Moore's Law, design flow, applications, fabrication, and testing.",
+              "MOSFET structure, NMOS, PMOS, CMOS transistors, cutoff, linear, saturation, threshold voltage, and current-voltage characteristics.",
+              "CMOS inverter, static CMOS NAND and NOR gates, dynamic CMOS logic, transmission gates, and pass transistor logic.",
+              "IC fabrication including oxidation, diffusion, ion implantation, lithography, N-well and P-well processes, CMOS fabrication steps, and design rules.",
+              "Full custom, semi-custom, standard cell, gate array, FPGA basics, stick diagrams, layout rules, lambda rules, and CMOS layout techniques.",
+              "Combinational and sequential VLSI circuits, interconnect effects, delay, power, scaling, short-channel effects, testing, DFT, BIST, HDL, RTL, synthesis, and CAD tools.",
             ].map((point) => (
               <li key={point} className="flex gap-2">
                 <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
@@ -6948,6 +7206,90 @@ function ElectromagneticTheoryChapterMenu() {
               </Link>
               );
             })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function VlsiDesignChapterMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open VLSI Design chapters"
+        aria-expanded={isOpen}
+        aria-controls="vlsi-design-chapter-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="vlsi-design-chapter-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              VLSI Design Structure
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
+              Chapter - Topics - Subtopics for GATE/PSU revision.
+            </p>
+          </div>
+
+          <div className="mb-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-700">
+              Most Important Topics
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {VLSI_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
+                <span
+                  key={topic}
+                  className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700"
+                >
+                  {topic}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-2">
+            {VLSI_DESIGN_CHAPTERS.map((chapter, chapterIndex) => (
+              <a
+                key={chapter.title}
+                href={`#vlsi-chapter-${chapterIndex + 1}`}
+                onClick={() => setIsOpen(false)}
+                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+              >
+                <span className="flex items-start gap-2.5">
+                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
+                    {String(chapterIndex + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-black leading-snug text-slate-950">
+                      {chapter.title}
+                    </span>
+                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
+                      {chapter.topics.map((topic) => topic.title).join(", ")}
+                    </span>
+                  </span>
+                </span>
+              </a>
+            ))}
           </div>
         </div>
       ) : null}
@@ -12766,6 +13108,8 @@ export default function SubjectTheoryPage({
       ? DIGITAL_ELECTRONICS_KNOWLEDGE
       : subject.title === "Electromagnetic Theory"
       ? ELECTROMAGNETIC_THEORY_KNOWLEDGE
+      : subject.title === "VLSI Design"
+      ? VLSI_DESIGN_KNOWLEDGE
       : subject.title === "Microprocessors"
       ? MICROPROCESSORS_KNOWLEDGE
       : subject.title === "Digital Signal Processing"
@@ -12825,6 +13169,8 @@ export default function SubjectTheoryPage({
             </ol>
             {subject.title === "Electromagnetic Theory" ? (
               <ElectromagneticTheoryChapterMenu />
+          ) : subject.title === "VLSI Design" ? (
+            <VlsiDesignChapterMenu />
           ) : subject.title === "Microprocessors" ? (
             <MicroprocessorsChapterMenu />
           ) : subject.title === "Digital Signal Processing" ? (
@@ -12858,6 +13204,7 @@ export default function SubjectTheoryPage({
   const shouldShowInlineConcept =
     subject.title !== "Digital Electronics" &&
     subject.title !== "Electromagnetic Theory" &&
+    subject.title !== "VLSI Design" &&
     subject.title !== "Microprocessors" &&
     subject.title !== "Digital Signal Processing" &&
     !isConceptIntroPage &&
@@ -12903,9 +13250,9 @@ export default function SubjectTheoryPage({
         <div className="mx-auto max-w-[1200px] pb-24">
           <nav
             aria-label="Breadcrumb"
-            className="mb-5 flex items-start justify-between gap-3 pt-1"
+            className="mb-4 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between"
           >
-            <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
+            <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
               <li>
                 <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
                   Home
@@ -12928,50 +13275,232 @@ export default function SubjectTheoryPage({
               </li>
               <li className="text-slate-300">/</li>
               <li>
-                <span className="rounded-full bg-portal-50 px-3 py-1 font-semibold text-portal-700">
-                  Basic Concepts
-                </span>
+                <span className="font-semibold text-portal-700">Basic Concepts</span>
               </li>
             </ol>
-            <BasicConceptSubtopicMenu topics={BASIC_CONCEPT_GUIDE} />
+            <NetworkTopicMenu
+              concepts={concepts}
+              activeIndex={0}
+              onSelectTopic={() => {}}
+            />
           </nav>
 
-          <section className="rounded-[24px] border border-portal-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,255,0.94))] p-4 shadow-panel sm:p-5">
-            <p className="inline-flex rounded-full border border-portal-200 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
-              Network Analysis / Basic Concepts
+          <header className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+            <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
+              Network Analysis
             </p>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Understand Electric Current in 2 minutes with visual explanation
+            <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+              Basic Concepts
             </h1>
-            <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-800 sm:text-base">
-              You will learn how charge moves, how current is defined, why voltage
-              creates the push, and how power and energy appear inside a circuit.
+            <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
+              Basic Concepts is the starting chapter of Network Analysis. It explains
+              charge, current, voltage, power, energy, active and passive elements,
+              linear and non-linear behavior, and bilateral and unilateral elements
+              before you move into KCL, KVL, theorems, and circuit solving.
             </p>
-            <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-              <Link
-                href="/mcqs/network-analysis"
-                className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
-              >
-                Try MCQs
-              </Link>
-              <Link
-                href="/notes/network-analysis"
-                className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
-              >
-                Download Notes
-              </Link>
-              <Link
-                href="/circuit-elements"
-                className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
-              >
-                Next Topic
-              </Link>
+            <div className="mt-4 grid gap-3 text-sm text-slate-700 md:grid-cols-3">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <p className="font-bold text-slate-950">Core question</p>
+                <p className="mt-1 leading-6">
+                  How do voltage, current, charge, power, and energy describe a circuit?
+                </p>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <p className="font-bold text-slate-950">Exam focus</p>
+                <p className="mt-1 leading-6">
+                  Definitions, sign convention, passive sign convention, element type,
+                  and power absorbed or delivered.
+                </p>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <p className="font-bold text-slate-950">Engineering use</p>
+                <p className="mt-1 leading-6">
+                  Every circuit calculation begins by identifying variables, terminals,
+                  element behavior, and energy flow.
+                </p>
+              </div>
             </div>
-          </section>
+          </header>
 
-          <section className="mt-5">
-            <BasicConceptGuideContent withIntro={false} />
-          </section>
+          <nav
+            aria-label="Basic Concepts sections"
+            className="sticky top-20 z-20 mt-4 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-sm backdrop-blur"
+          >
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {[
+                ["introduction", "Introduction"],
+                ["intuition", "Basic Intuition"],
+                ["visualization", "Visualization"],
+                ["theory", "Core Theory"],
+                ["formulas", "Formulas"],
+                ["exam-focus", "Exam Focus"],
+                ["related-topics", "Related Topics"],
+              ].map(([id, label]) => (
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  className="whitespace-nowrap rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-portal-200 hover:bg-portal-50 hover:text-portal-700"
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
+          </nav>
+
+          <article className="mt-5 grid gap-5">
+            <BasicConceptTopicSection id="introduction" title="Introduction">
+              <p>
+                Network Analysis studies how electrical quantities behave in a connected
+                circuit. Before solving any circuit, you must know what is flowing,
+                what is pushing it, where energy is absorbed, and which elements are
+                controlling the behavior.
+              </p>
+              <p>
+                In this chapter, charge is the basic quantity, current is the rate of
+                charge flow, voltage is the potential difference between two points,
+                power is the rate of energy transfer, and energy is the total work done
+                by or on the circuit.
+              </p>
+            </BasicConceptTopicSection>
+
+            <BasicConceptTopicSection id="intuition" title="Basic Intuition">
+              <p>
+                Think of a circuit as a closed path with terminals, elements, and energy
+                exchange. A source creates voltage, charges move as current, and elements
+                either absorb, store, deliver, control, or restrict electrical energy.
+              </p>
+              <div className="mt-4 grid gap-3 md:grid-cols-2">
+                <div>
+                  <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
+                    Learning Goals
+                  </h3>
+                  <ul className="mt-3 grid gap-2">
+                    {[
+                      "Understand charge, current, voltage, power, and energy.",
+                      "Identify active, passive, linear, non-linear, bilateral, and unilateral elements.",
+                      "Use sign convention correctly before applying KCL, KVL, or Ohm's law.",
+                    ].map((item) => (
+                      <li key={item} className="flex gap-2.5">
+                        <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
+                    Key Concepts
+                  </h3>
+                  <ul className="mt-3 grid gap-2">
+                    {BASIC_CONCEPT_GUIDE.map((concept) => (
+                      <li key={concept.title} className="flex gap-2.5">
+                        <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                        <span>{concept.title}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </BasicConceptTopicSection>
+
+            <BasicConceptTopicSection id="visualization" title="Step-by-Step Visualization">
+              <p>
+                This circuit motion explains how charge, current, voltage, power, and
+                element behavior appear in a simple Network Analysis circuit.
+              </p>
+              <div className="mt-4">
+                <BasicConceptGuideContent withIntro={false} />
+              </div>
+            </BasicConceptTopicSection>
+
+            <BasicConceptTopicSection id="theory" title="Core Theory">
+              <div className="grid gap-3 md:grid-cols-2">
+                {BASIC_CONCEPT_GUIDE.map((concept) => (
+                  <article key={concept.title} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+                    <h3 className="text-base font-black text-slate-950">{concept.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">
+                      {concept.sections[0]?.body || "Study the definition, behavior, and exam use of this basic network concept."}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </BasicConceptTopicSection>
+
+            <BasicConceptTopicSection id="formulas" title="Formula Highlights and Quick Revision">
+              <div className="grid gap-3 md:grid-cols-2">
+                {[
+                  ["Current", "I = dQ/dt", "Current is the time rate of flow of charge."],
+                  ["Power", "P = VI", "Positive power means absorption under passive sign convention."],
+                  ["Energy", "W = integral P dt", "Energy is accumulated power over time."],
+                  ["Ohm's Law Preview", "V = IR", "This becomes useful after identifying voltage and current direction."],
+                ].map(([label, expression, note]) => (
+                  <article key={label} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+                    <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
+                      {label}
+                    </h3>
+                    <p className="mt-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-950 sm:text-base">
+                      {expression}
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">{note}</p>
+                  </article>
+                ))}
+              </div>
+            </BasicConceptTopicSection>
+
+            <BasicConceptTopicSection id="exam-focus" title="Exam Focus">
+              <div className="grid gap-3 md:grid-cols-2">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
+                    Exam Pointers
+                  </h3>
+                  <ul className="mt-3 grid gap-2">
+                    {[
+                      "Check whether the element is absorbing or delivering power.",
+                      "Keep conventional current direction separate from electron flow.",
+                      "Identify whether an element is active/passive, linear/non-linear, or bilateral/unilateral.",
+                      "Do not apply circuit laws before marking voltage polarity and current direction.",
+                    ].map((item) => (
+                      <li key={item} className="flex gap-2.5">
+                        <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
+                  <h3 className="text-sm font-black uppercase tracking-[0.12em] text-amber-800">
+                    Exam-Oriented Tip
+                  </h3>
+                  <p className="mt-3 text-sm font-semibold leading-7 text-slate-800">
+                    Most mistakes in Network Analysis begin before calculation: wrong
+                    polarity, wrong current direction, or wrong assumption about whether
+                    power is absorbed or delivered.
+                  </p>
+                </div>
+              </div>
+            </BasicConceptTopicSection>
+
+            <BasicConceptTopicSection id="related-topics" title="Related Network Analysis Topics">
+              <p>
+                Continue through Network Analysis in the same order as the hamburger
+                menu so each chapter builds naturally from the previous one.
+              </p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {NETWORK_ANALYSIS_TOPIC_GROUPS.slice(1, 7).map((group) => (
+                  <Link
+                    key={group.title}
+                    href={NETWORK_TOPIC_ROUTES[group.title]}
+                    className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-portal-200 hover:bg-portal-50"
+                  >
+                    <h3 className="text-sm font-black text-slate-900">{group.title}</h3>
+                    <p className="mt-1 text-sm leading-6 text-slate-600">
+                      {group.topics.slice(0, 3).join(", ")}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </BasicConceptTopicSection>
+          </article>
 
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             <Link
@@ -13460,6 +13989,8 @@ export default function SubjectTheoryPage({
             <DigitalChapterMenu />
           ) : subject.title === "Electromagnetic Theory" ? (
             <ElectromagneticTheoryChapterMenu />
+          ) : subject.title === "VLSI Design" ? (
+            <VlsiDesignChapterMenu />
           ) : subject.title === "Microprocessors" ? (
             <MicroprocessorsChapterMenu />
           ) : subject.title === "Digital Signal Processing" ? (
@@ -13553,6 +14084,8 @@ export default function SubjectTheoryPage({
               <DigitalOverviewPanel />
             ) : subject.title === "Electromagnetic Theory" ? (
               <ElectromagneticTheoryOverviewPanel />
+            ) : subject.title === "VLSI Design" ? (
+              <VlsiDesignOverviewPanel />
             ) : subject.title === "Microprocessors" ? (
               <MicroprocessorsOverviewPanel />
             ) : subject.title === "Digital Signal Processing" ? (
@@ -13606,6 +14139,13 @@ export default function SubjectTheoryPage({
                     className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-4 py-3 text-center text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto sm:px-5"
                   >
                     Start Vector Calculus
+                  </a>
+                ) : subject.title === "VLSI Design" ? (
+                  <a
+                    href="#vlsi-chapter-1"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-4 py-3 text-center text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto sm:px-5"
+                  >
+                    Start Introduction to VLSI Design
                   </a>
                 ) : subject.title === "Microprocessors" ? (
                   <button
@@ -13933,6 +14473,13 @@ export default function SubjectTheoryPage({
           ) : subject.title === "Electromagnetic Theory" ? (
             <a
               href="#electromagnetic-chapter-1"
+              className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Theory
+            </a>
+          ) : subject.title === "VLSI Design" ? (
+            <a
+              href="#vlsi-chapter-1"
               className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
             >
               Theory
