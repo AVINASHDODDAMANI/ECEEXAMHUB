@@ -11,6 +11,15 @@ import {
 } from "../../data/subject-theory-roadmaps";
 import { getLearningSubject } from "../../lib/learning-utils";
 import { useLearningProgress } from "../../lib/use-learning-progress";
+import {
+  buildSubjectFaqs,
+  generateCanonical,
+  generateDescription,
+  generateKeywords,
+  generateStructuredData,
+  generateTitle,
+  getSubjectRelatedLinks,
+} from "../../lib/seo";
 
 const SUBJECT_TO_LEARNING_SLUG = {
   "Network Analysis": "networks",
@@ -80,6 +89,51 @@ const TAB_OPTIONS = [
   { id: "study", label: "What We Will Study" },
   { id: "use", label: "Real-Life Use" },
 ];
+
+function buildNotesSeo(subject, theoryKnowledge) {
+  const relatedLinks = getSubjectRelatedLinks(subject.title);
+  const topicNames =
+    theoryKnowledge?.concepts?.map((concept) => concept.shortTitle || concept.title) ||
+    relatedLinks.map((item) => item.title);
+  const faqItems = buildSubjectFaqs(subject.title, topicNames);
+  const title = generateTitle({ type: "notes", subjectName: subject.title });
+  const description = generateDescription({
+    type: "notes",
+    subjectName: subject.title,
+    topics: topicNames,
+  });
+  const keywords = generateKeywords({
+    subjectName: subject.title,
+    topicNames,
+    extraKeywords: ["handwritten notes", "chapter wise notes", "exam revision"],
+  });
+  const canonicalUrl = generateCanonical(`/notes/${getSubjectSlug(subject.title)}`);
+  const structuredData = generateStructuredData({
+    type: "notes",
+    title: `${subject.title} Notes`,
+    description,
+    path: `/notes/${getSubjectSlug(subject.title)}`,
+    subjectName: subject.title,
+    keywords,
+    about: topicNames,
+    breadcrumbItems: [
+      { name: "Home", item: "/" },
+      { name: "Notes", item: "/notes" },
+      { name: subject.title, item: `/notes/${getSubjectSlug(subject.title)}` },
+    ],
+    faqItems,
+  });
+
+  return {
+    title,
+    description,
+    keywords,
+    canonicalUrl,
+    structuredData,
+    faqItems,
+    relatedLinks,
+  };
+}
 
 function NotesTopicIcon() {
   return (
@@ -259,8 +313,16 @@ function ChapterOutlineGrid({ concepts = [] }) {
 }
 
 function FallbackNotesPage({ subject, steps }) {
+  const seo = buildNotesSeo(subject);
+
   return (
-    <Layout title={`ECEExamHub | ${subject.title} Notes`}>
+    <Layout
+      title={seo.title}
+      description={seo.description}
+      keywords={seo.keywords}
+      canonicalUrl={seo.canonicalUrl}
+      structuredData={seo.structuredData}
+    >
       <div className="mx-auto max-w-[1000px]">
         <div className="mb-5 flex items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500">
           <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">
@@ -325,6 +387,7 @@ export default function NoteTopicPage({
   theoryKnowledge,
   learningMeta,
 }) {
+  const seo = buildNotesSeo(subject, theoryKnowledge);
   const chapterMeta = CHAPTER_META[subject.title];
   const { progressStats, isReady } = useLearningProgress();
   const [activeConceptIndex, setActiveConceptIndex] = useState(0);
@@ -594,7 +657,14 @@ export default function NoteTopicPage({
   }
 
   return (
-    <Layout title={`ECEExamHub | ${subject.title} Notes`} pageClassName="py-3 sm:py-4">
+    <Layout
+      title={seo.title}
+      description={seo.description}
+      keywords={seo.keywords}
+      canonicalUrl={seo.canonicalUrl}
+      structuredData={seo.structuredData}
+      pageClassName="py-3 sm:py-4"
+    >
       <div className="mx-auto max-w-[1500px] pb-24 xl:pb-0">
         <div className="mb-5 flex flex-wrap items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500">
           <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">
@@ -891,6 +961,49 @@ export default function NoteTopicPage({
             </div>
           </aside>
         </section>
+
+        <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+            Related {subject.title} Topics
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-600 sm:text-base">
+            Use these internal links to move from general {subject.title.toLowerCase()} notes
+            into exam-focused topics and explanations.
+          </p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {seo.relatedLinks.map((item) => (
+              <Link
+                key={`${item.href}-${item.title}`}
+                href={item.href}
+                className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:border-portal-200 hover:bg-portal-50"
+              >
+                <h3 className="text-base font-bold text-slate-900">{item.title}</h3>
+                {item.summary ? (
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{item.summary}</p>
+                ) : null}
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+            {subject.title} Notes FAQ
+          </h2>
+          <div className="mt-5 grid gap-3">
+            {seo.faqItems.map((item) => (
+              <details
+                key={item.question}
+                className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
+              >
+                <summary className="cursor-pointer text-sm font-bold text-slate-900">
+                  {item.question}
+                </summary>
+                <p className="mt-3 text-sm leading-6 text-slate-700">{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
       </div>
 
       <div className="fixed bottom-3 left-3 right-3 z-20 rounded-[24px] border border-slate-200 bg-white/95 p-2 shadow-[0_18px_40px_rgba(15,23,42,0.16)] backdrop-blur xl:hidden">
@@ -967,5 +1080,6 @@ export function getStaticProps({ params }) {
         questionCount: seedQuestions.filter((question) => question.subject === "Networks").length,
       },
     },
+    revalidate: 86400,
   };
 }

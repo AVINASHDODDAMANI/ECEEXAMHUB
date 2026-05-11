@@ -2,14 +2,17 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Footer from "./Footer";
 import Navbar from "./navbar";
+import {
+  DEFAULT_OG_IMAGE,
+  SITE_NAME,
+  SITE_URL,
+  shouldNoIndexPath,
+} from "../lib/seo";
 
-const SITE_URL = "https://eceexamguide.vercel.app";
-const SITE_NAME = "ECE Exam Guide";
-const DEFAULT_OG_IMAGE = `${SITE_URL}/brand/ece-exam-guide-lockup-v2.svg`;
 const defaultStructuredData = [
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": "EducationalOrganization",
     name: SITE_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/brand/ece-exam-guide-mark-v2.svg`,
@@ -46,6 +49,7 @@ export default function Layout({
   const router = useRouter();
   const pathOnly = (router.asPath || "/").split("#")[0].split("?")[0] || "/";
   const resolvedCanonicalUrl = canonicalUrl || `${SITE_URL}${pathOnly === "/" ? "" : pathOnly}`;
+  const effectiveNoIndex = noIndex || shouldNoIndexPath(router.pathname || pathOnly, router.asPath || pathOnly);
   const structuredDataItems = Array.isArray(structuredData)
     ? [...defaultStructuredData, ...structuredData]
     : [...defaultStructuredData, ...[structuredData].filter(Boolean)];
@@ -60,8 +64,13 @@ export default function Layout({
         <meta name="author" content={SITE_NAME} key="author" />
         <meta
           name="robots"
-          content={noIndex ? "noindex, nofollow" : "index, follow"}
+          content={effectiveNoIndex ? "noindex, nofollow" : "index, follow"}
           key="robots"
+        />
+        <meta
+          name="googlebot"
+          content={effectiveNoIndex ? "noindex, nofollow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"}
+          key="googlebot"
         />
         <link rel="canonical" href={resolvedCanonicalUrl} key="canonical" />
         <link rel="manifest" href="/site.webmanifest" key="manifest" />
@@ -73,6 +82,7 @@ export default function Layout({
         <meta property="og:description" content={description} key="og:description" />
         <meta property="og:url" content={resolvedCanonicalUrl} key="og:url" />
         {ogImage ? <meta property="og:image" content={ogImage} key="og:image" /> : null}
+        {ogImage ? <meta property="og:image:alt" content={title} key="og:image:alt" /> : null}
         <meta property="og:locale" content="en_IN" key="og:locale" />
         <meta name="twitter:card" content="summary_large_image" key="twitter:card" />
         <meta name="twitter:domain" content="eceexamguide.vercel.app" key="twitter:domain" />

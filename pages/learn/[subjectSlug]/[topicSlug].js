@@ -14,6 +14,14 @@ import {
   getTopicQuestions,
 } from "../../../lib/learning-utils";
 import { useLearningProgress } from "../../../lib/use-learning-progress";
+import {
+  generateCanonical,
+  generateDescription,
+  generateKeywords,
+  generateStructuredData,
+  generateTitle,
+  getSubjectPagePathByLearningSlug,
+} from "../../../lib/seo";
 
 function NotesSection({ id, title, description, children }) {
   return (
@@ -89,6 +97,69 @@ export default function LearningTopicPage({ topic }) {
     () => getRelatedLearningTopics(topic.relatedTopics || []),
     [topic.relatedTopics]
   );
+  const faqItems = useMemo(
+    () => [
+      {
+        question: `What should I study first in ${topic.title}?`,
+        answer:
+          topic.learningGoals?.[0] ||
+          topic.summary,
+      },
+      {
+        question: `How is ${topic.title} useful for GATE ECE and university exams?`,
+        answer: `${topic.title} is useful for ${topic.subjectName} notes because it combines concept clarity, formula-based revision, and exam-style worked examples for ECE students.`,
+      },
+      {
+        question: `Which topics should I revise after ${topic.title}?`,
+        answer:
+          relatedTopics.length > 0
+            ? `After ${topic.title}, revise ${relatedTopics
+                .slice(0, 3)
+                .map((item) => item.title)
+                .join(", ")}.`
+            : `After ${topic.title}, continue with the next ${topic.subjectName} chapter in your learning roadmap.`,
+      },
+    ],
+    [relatedTopics, topic]
+  );
+  const canonicalUrl = generateCanonical(`/learn/${topic.subjectSlug}/${topic.slug}`);
+  const seoTitle = generateTitle({
+    type: "topic",
+    title: topic.title,
+    subjectName: topic.subjectName,
+  });
+  const seoDescription = generateDescription({
+    type: "topic",
+    title: topic.title,
+    subjectName: topic.subjectName,
+    chapterTitle: topic.chapterTitle,
+    summary: topic.summary,
+  });
+  const seoKeywords = generateKeywords({
+    title: topic.title,
+    subjectName: topic.subjectName,
+    chapterTitle: topic.chapterTitle,
+    topicNames: topic.subtopics || [],
+    extraKeywords: topic.keyConcepts || [],
+  });
+  const structuredData = generateStructuredData({
+    type: "topic",
+    title: topic.title,
+    description: seoDescription,
+    path: `/learn/${topic.subjectSlug}/${topic.slug}`,
+    subjectName: topic.subjectName,
+    chapterTitle: topic.chapterTitle,
+    keywords: seoKeywords,
+    about: [...(topic.keyConcepts || []), ...(topic.subtopics || [])],
+    breadcrumbItems: [
+      { name: "Home", item: "/" },
+      { name: "Subjects", item: "/subjects" },
+      { name: topic.subjectName, item: getSubjectPagePathByLearningSlug(topic.subjectSlug) },
+      { name: topic.chapterTitle, item: canonicalUrl },
+      { name: topic.title, item: canonicalUrl },
+    ],
+    faqItems,
+  });
 
   const sectionLinks = [
     { id: "overview", label: "Overview" },
@@ -96,6 +167,7 @@ export default function LearningTopicPage({ topic }) {
     { id: "formulas", label: "Formulas" },
     { id: "examples", label: "Examples" },
     { id: "revision", label: "Revision" },
+    { id: "faq", label: "FAQ" },
   ];
 
   function toggleCompletedState() {
@@ -108,8 +180,11 @@ export default function LearningTopicPage({ topic }) {
 
   return (
     <Layout
-      title={`ECEExamHub | ${topic.title}`}
-      description={`${topic.title} notes page with concepts, formulas, examples, and revision guidance for ${topic.subjectName}.`}
+      title={seoTitle}
+      description={seoDescription}
+      keywords={seoKeywords}
+      canonicalUrl={canonicalUrl}
+      structuredData={structuredData}
     >
       <div className="mx-auto max-w-5xl pb-12">
         <section className="rounded-[1rem] border border-slate-200 bg-white p-4 shadow-sm">
@@ -403,6 +478,30 @@ export default function LearningTopicPage({ topic }) {
             </div>
           </section>
         ) : null}
+
+        <section
+          id="faq"
+          className="mt-6 rounded-[1rem] border border-slate-200 bg-white p-4 shadow-sm"
+        >
+          <h2 className="text-lg font-semibold text-slate-900">{topic.title} FAQ</h2>
+          <p className="mt-1 text-sm leading-6 text-slate-600">
+            Quick answers for students searching {topic.title.toLowerCase()} explained,
+            {` ${topic.subjectName.toLowerCase()} notes, and GATE ECE preparation.`}
+          </p>
+          <div className="mt-4 grid gap-3">
+            {faqItems.map((item) => (
+              <details
+                key={item.question}
+                className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+              >
+                <summary className="cursor-pointer text-sm font-semibold text-slate-900">
+                  {item.question}
+                </summary>
+                <p className="mt-3 text-sm leading-6 text-slate-700">{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
       </div>
     </Layout>
   );
@@ -440,5 +539,6 @@ export async function getStaticProps({ params }) {
         params.topicSlug
       ),
     },
+    revalidate: 86400,
   };
 }

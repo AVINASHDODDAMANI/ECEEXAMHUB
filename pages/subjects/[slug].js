@@ -12,6 +12,15 @@ import {
 } from "../../data/subject-theory-roadmaps";
 import { getLearningSubject } from "../../lib/learning-utils";
 import { useLearningProgress } from "../../lib/use-learning-progress";
+import {
+  buildSubjectFaqs,
+  generateCanonical,
+  generateDescription,
+  generateKeywords,
+  generateStructuredData,
+  generateTitle,
+  getSubjectRelatedLinks,
+} from "../../lib/seo";
 
 const SUBJECT_TO_LEARNING_SLUG = {
   "Network Analysis": "networks",
@@ -13096,6 +13105,60 @@ function FallbackSubjectPage({ subject, steps, totalConcepts, subjectSummary }) 
   );
 }
 
+function buildSubjectSeo(subject, theoryKnowledge, learningTopics = []) {
+  const relatedLinks = getSubjectRelatedLinks(subject.title);
+  const chapterNames = subjectTheoryRoadmaps[subject.title]?.map((step) => step.title) || [];
+  const topicNames =
+    theoryKnowledge?.concepts?.map((concept) => concept.shortTitle || concept.title) ||
+    learningTopics.map((topic) => topic.title) ||
+    relatedLinks.map((item) => item.title);
+  const faqItems = buildSubjectFaqs(subject.title, topicNames);
+  const title = generateTitle({ type: "subject", subjectName: subject.title });
+  const description = generateDescription({
+    type: "subject",
+    subjectName: subject.title,
+    chapters: chapterNames,
+    topics: topicNames,
+    summary: subject.description,
+  });
+  const keywords = generateKeywords({
+    subjectName: subject.title,
+    chapterNames,
+    topicNames,
+    extraKeywords: ["subject notes", "gate preparation", "engineering theory"],
+  });
+  const canonicalUrl = generateCanonical(`/subjects/${getSubjectSlug(subject.title)}`);
+  const structuredData = generateStructuredData({
+    type: "subject",
+    title: `${subject.title} Notes`,
+    description,
+    path: `/subjects/${getSubjectSlug(subject.title)}`,
+    subjectName: subject.title,
+    keywords,
+    about: [...chapterNames, ...topicNames],
+    breadcrumbItems: [
+      { name: "Home", item: "/" },
+      { name: "Subjects", item: "/subjects" },
+      { name: subject.title, item: `/subjects/${getSubjectSlug(subject.title)}` },
+    ],
+    faqItems,
+  });
+  const introParagraph = `Study ${subject.title} notes for ECE with chapter-wise explanations, high-value concepts, and GATE-focused revision. This page connects roadmap topics like ${topicNames
+    .slice(0, 5)
+    .join(", ")} so students can move from fundamentals to exam-ready problem solving.`;
+
+  return {
+    title,
+    description,
+    keywords,
+    canonicalUrl,
+    structuredData,
+    faqItems,
+    relatedLinks,
+    introParagraph,
+  };
+}
+
 export default function SubjectTheoryPage({
   subject,
   steps,
@@ -13127,6 +13190,7 @@ export default function SubjectTheoryPage({
     subject.description ||
     "A structured roadmap that moves from fundamentals to exam-level analysis and problem solving.";
   const notesHref = `/notes/${getSubjectSlug(subject.title)}`;
+  const seo = buildSubjectSeo(subject, theoryKnowledge, learningMeta.learningTopics || []);
   const [activeConceptIndex, setActiveConceptIndex] = useState(initialActiveConceptIndex);
   const [quizSelections, setQuizSelections] = useState({});
   const { progressStats, isReady } = useLearningProgress();
@@ -13142,7 +13206,14 @@ export default function SubjectTheoryPage({
 
   if (!theoryKnowledge || !chapterMeta) {
     return (
-      <Layout title={`ECE Exam Guide | ${subject.title}`} pageClassName="py-3 sm:py-4">
+      <Layout
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        canonicalUrl={seo.canonicalUrl}
+        structuredData={seo.structuredData}
+        pageClassName="py-3 sm:py-4"
+      >
         <div className="mx-auto max-w-[1200px]">
           <nav aria-label="Breadcrumb" className="mb-5 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between">
             <ol className="flex min-w-0 w-full flex-wrap items-center gap-2 rounded-2xl border border-white/80 bg-white/80 px-3 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur sm:w-auto sm:rounded-full sm:px-4">
@@ -13350,14 +13421,12 @@ export default function SubjectTheoryPage({
           <article className="mt-5 grid gap-5">
             <BasicConceptTopicSection id="introduction" title="Introduction">
               <p>
-                Network Analysis studies how electrical quantities behave in a connected
-                circuit. Before solving any circuit, you must know what is flowing,
-                what is pushing it, where energy is absorbed, and which elements are
-                controlling the behavior.
+               Every electrical circuit contains voltage, current, power, and energy exchange.
+               Network Analysis helps us understand how these quantities behave and interact inside the circuit.
               </p>
               <p>
-                In this chapter, charge is the basic quantity, current is the rate of
-                charge flow, voltage is the potential difference between two points,
+                In this chapter, charge is the basic quantity, when electric charge starts moving through a conductor, electrical current is produced.
+                The amount of charge flowing every second determines how large the current is. Voltage is the potential difference between two points,
                 power is the rate of energy transfer, and energy is the total work done
                 by or on the circuit.
               </p>
@@ -13949,7 +14018,14 @@ export default function SubjectTheoryPage({
   }
 
   return (
-    <Layout title={`ECE Exam Guide | ${subject.title}`} pageClassName="py-3 sm:py-4">
+    <Layout
+      title={seo.title}
+      description={seo.description}
+      keywords={seo.keywords}
+      canonicalUrl={seo.canonicalUrl}
+      structuredData={seo.structuredData}
+      pageClassName="py-3 sm:py-4"
+    >
       <div id="subject-roadmap-top" className="mx-auto max-w-[1500px] scroll-mt-40 pb-24 xl:pb-0">
         <nav
           aria-label="Breadcrumb"
@@ -14438,6 +14514,48 @@ export default function SubjectTheoryPage({
           </main>
 
         </section>
+
+        <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+            Why Students Search {subject.title} Notes
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            {seo.introParagraph}
+          </p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {seo.relatedLinks.map((item) => (
+              <Link
+                key={`${item.href}-${item.title}`}
+                href={item.href}
+                className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:border-portal-200 hover:bg-portal-50"
+              >
+                <h3 className="text-base font-bold text-slate-900">{item.title}</h3>
+                {item.summary ? (
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{item.summary}</p>
+                ) : null}
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+            {subject.title} FAQ
+          </h2>
+          <div className="mt-5 grid gap-3">
+            {seo.faqItems.map((item) => (
+              <details
+                key={item.question}
+                className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
+              >
+                <summary className="cursor-pointer text-sm font-bold text-slate-900">
+                  {item.question}
+                </summary>
+                <p className="mt-3 text-sm leading-6 text-slate-700">{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
       </div>
 
       <div className="fixed bottom-3 left-3 right-3 z-20 rounded-[24px] border border-slate-200 bg-white/95 p-2 shadow-[0_18px_40px_rgba(15,23,42,0.16)] backdrop-blur xl:hidden">
@@ -14574,9 +14692,11 @@ export function getSubjectTheoryProps(subjectSlug, extraProps = {}) {
         totalTopics: learningTopics.length,
         readyTopics: readyTopics.length,
         continueHref: readyTopics[0]?.href || subject.href,
+        learningTopics: readyTopics,
       },
       ...extraProps,
     },
+    revalidate: 86400,
   };
 }
 
