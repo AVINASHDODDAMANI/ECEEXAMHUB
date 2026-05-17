@@ -1,44 +1,13 @@
 import Link from "next/link";
 import { BrandLogo } from "./BrandIdentity";
 
-const footerGroups = [
-  {
-    title: "Explore",
-    links: [
-      { label: "Home", href: "/" },
-      { label: "Subjects", href: "/subjects" },
-      { label: "ECE Exams", href: "/ece-exams" },
-      { label: "Previous Papers", href: "/previous-year" },
-    ],
-  },
-  {
-    title: "Practice",
-    links: [
-      { label: "Study Materials", href: "/learn" },
-      { label: "Notes", href: "/notes" },
-      { label: "MCQs", href: "/mcqs" },
-      { label: "Practice Zone", href: "/practice" },
-      { label: "Mock Tests", href: "/mock-tests" },
-    ],
-  },
-  {
-    title: "Popular Prep",
-    links: [
-      { label: "GATE ECE", href: "/previous-year?exam=GATE" },
-      { label: "BEL & PSU", href: "/previous-year?exam=BEL" },
-      { label: "ISRO Questions", href: "/previous-year?exam=ISRO" },
-      { label: "BARC Revision", href: "/previous-year?exam=BARC" },
-    ],
-  },
-  {
-    title: "Platform",
-    links: [
-      { label: "Question Bank", href: "/previous-year#question-bank" },
-      { label: "Insights", href: "/insights" },
-      { label: "Revision Topics", href: "/learn" },
-      { label: "Subject Library", href: "/subjects" },
-    ],
-  },
+const footerLinks = [
+  { label: "Subjects", href: "/subjects" },
+  { label: "Notes", href: "/notes" },
+  { label: "Previous Papers", href: "/previous-year" },
+  { label: "Practice", href: "/practice" },
+  { label: "GATE ECE", href: "/previous-year?exam=GATE" },
+  { label: "ECE Exams", href: "/ece-exams" },
 ];
 
 const footerHighlights = ["Structured Notes", "Previous Papers", "Practice Sets", "MCQs"];
@@ -46,7 +15,7 @@ const footerHighlights = ["Structured Notes", "Previous Papers", "Practice Sets"
 export default function Footer() {
   return (
     <footer className="mt-12 border-t border-slate-200 bg-white/95 backdrop-blur">
-      <div className="mx-auto grid max-w-[1440px] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.25fr_repeat(4,minmax(0,1fr))] lg:px-8">
+      <div className="mx-auto grid max-w-[1440px] gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.7fr)] lg:items-start lg:px-8">
         <div>
           <BrandLogo
             className="max-w-full"
@@ -70,18 +39,16 @@ export default function Footer() {
           </div>
         </div>
 
-        {footerGroups.map((group) => (
-          <div key={group.title}>
-            <h3 className="text-base font-bold text-slate-900">{group.title}</h3>
-            <div className="mt-4 grid gap-3 text-sm text-slate-600">
-              {group.links.map((link) => (
-                <Link key={link.label} href={link.href} className="transition hover:text-portal-700">
-                  {link.label}
-                </Link>
-              ))}
-            </div>
+        <nav aria-label="Footer" className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+          <h3 className="text-base font-bold text-slate-900">Important Links</h3>
+          <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-slate-600">
+            {footerLinks.map((link) => (
+              <Link key={link.label} href={link.href} className="transition hover:text-portal-700">
+                {link.label}
+              </Link>
+            ))}
           </div>
-        ))}
+        </nav>
       </div>
 
       <div className="border-t border-slate-200 bg-[#f8fafc]">

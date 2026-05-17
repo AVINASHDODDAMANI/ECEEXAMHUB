@@ -45,6 +45,7 @@ export default function Navbar({
   const [localSearch, setLocalSearch] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeDesktopDropdown, setActiveDesktopDropdown] = useState("");
   const [searchQuestions, setSearchQuestions] = useState([]);
   const [searchRuntime, setSearchRuntime] = useState(null);
   const [isSearchBooting, setIsSearchBooting] = useState(false);
@@ -222,6 +223,7 @@ export default function Navbar({
   useEffect(() => {
     setIsSearchOpen(false);
     setIsMobileMenuOpen(false);
+    setActiveDesktopDropdown("");
   }, [router.asPath]);
 
   useEffect(() => {
@@ -576,9 +578,21 @@ export default function Navbar({
 
               if (item.dropdownType) {
                 const dropdown = getDropdownConfig(item.dropdownType);
+                const isDropdownActive = activeDesktopDropdown === item.href;
 
                 return (
-                  <div key={item.href} className="group relative">
+                  <div
+                    key={item.href}
+                    className="relative"
+                    onMouseEnter={() => setActiveDesktopDropdown(item.href)}
+                    onMouseLeave={() => setActiveDesktopDropdown("")}
+                    onFocus={() => setActiveDesktopDropdown(item.href)}
+                    onBlur={(event) => {
+                      if (!event.currentTarget.contains(event.relatedTarget)) {
+                        setActiveDesktopDropdown("");
+                      }
+                    }}
+                  >
                     <Link
                       href={item.href}
                       className={`relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold transition sm:px-4 sm:py-3 sm:text-sm ${
@@ -600,7 +614,8 @@ export default function Navbar({
                       ) : null}
                     </Link>
 
-                    <div className="pointer-events-none absolute left-0 top-full z-50 w-[760px] max-w-[calc(100vw-4rem)] translate-y-2 opacity-0 transition duration-150 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
+                    {isDropdownActive ? (
+                    <div className="absolute left-0 top-full z-50 w-[760px] max-w-[calc(100vw-4rem)] translate-y-0 opacity-100 transition duration-150">
                       <div className="rounded-2xl border border-slate-200 bg-white p-5 text-slate-900 shadow-[0_24px_80px_rgba(15,23,42,0.18)]">
                         <div className="mb-4 flex items-center justify-between gap-3">
                           <div>
@@ -635,6 +650,7 @@ export default function Navbar({
                         </div>
                       </div>
                     </div>
+                    ) : null}
                   </div>
                 );
               }

@@ -13797,6 +13797,294 @@ function FallbackSubjectPage({ subject, steps, totalConcepts, subjectSummary }) 
   );
 }
 
+function SubjectSeoDepthSection({
+  subject,
+  chapterMeta,
+  concepts = [],
+  learningTopics = [],
+  notesHref,
+}) {
+  const chapterTitles = concepts
+    .map((concept) => concept.shortTitle || concept.title)
+    .filter(Boolean)
+    .slice(0, 10);
+  const formulaItems = concepts
+    .flatMap((concept) =>
+      (concept.formulas || []).map((formula) => ({
+        ...formula,
+        conceptTitle: concept.shortTitle || concept.title,
+      }))
+    )
+    .slice(0, 6);
+  const readyTopicLinks = learningTopics.slice(0, 6);
+  const examFocus = chapterMeta?.examFocus || [];
+  const keyConcepts = chapterMeta?.keyConcepts || chapterTitles;
+  const pyqFocusItems = [
+    `Identify which ${subject.title} formulas are repeatedly used in previous year questions.`,
+    "Mark whether the question is testing definition, derivation, numerical substitution, graph interpretation, or conceptual comparison.",
+    "Revise mistakes after every practice session instead of collecting unsolved questions for the final week.",
+    "Create a short formula sheet from solved PYQs and update it whenever a new pattern appears.",
+  ];
+  const studyPlanItems = [
+    {
+      week: "Week 1",
+      title: "Build fundamentals",
+      text: `Read the basic theory of ${subject.title}, understand terminology, and make short notes for every chapter before solving timed questions.`,
+    },
+    {
+      week: "Week 2",
+      title: "Solve chapter-wise problems",
+      text: `Practice MCQs and numerical problems from ${keyConcepts.slice(0, 3).join(", ")} so each concept is connected with exam-style application.`,
+    },
+    {
+      week: "Week 3",
+      title: "Revise formulas and PYQs",
+      text: "Go through previous year questions, classify repeated patterns, and revise the formulas or assumptions that caused wrong answers.",
+    },
+    {
+      week: "Week 4",
+      title: "Attempt mixed practice",
+      text: `Mix ${subject.title} with other ECE subjects to improve recall speed, accuracy, and confidence for full-length tests.`,
+    },
+  ];
+  const commonMistakes = [
+    `Studying ${subject.title} only from cards or summaries without reading full explanations.`,
+    "Memorizing formulas without knowing where each assumption is valid.",
+    "Solving PYQs only once and not converting mistakes into revision notes.",
+    "Jumping between subjects before finishing one chapter-wise revision cycle.",
+  ];
+
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
+            Subject Guide
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">
+            {subject.title} Notes for GATE ECE and University Exams
+          </h2>
+          <div className="mt-3 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
+            <p>
+              {subject.title} is an important ECE subject because it connects
+              theory, formulas, numerical solving, and exam-style reasoning. On
+              ECE Exam Guide, this page works as a subject hub where students can
+              move from the syllabus overview to notes, formulas, practice, and
+              previous year question preparation.
+            </p>
+            <p>
+              A strong preparation flow starts with fundamentals, then moves into
+              chapter-wise concepts such as {keyConcepts.slice(0, 5).join(", ")}.
+              After each chapter, students should revise the important formulas,
+              solve MCQs, and check PYQ patterns before moving to the next topic.
+            </p>
+            <p>
+              For GATE ECE, ESE, PSU, and semester exams, the goal is not only to
+              memorize results. The better approach is to understand assumptions,
+              identify the correct method quickly, and practice enough problems to
+              recognize repeated question patterns.
+            </p>
+            <p>
+              This subject page is designed as a detailed authority page instead of
+              a simple directory. It gives search engines and students a clear
+              explanation of what the subject covers, how to study it, which
+              chapters matter for exams, how formulas should be revised, and where
+              to continue with notes, practice, and related learning pages.
+            </p>
+          </div>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-base font-bold text-slate-950">
+                Chapter-Wise Coverage
+              </h3>
+              <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                {chapterTitles.map((title) => (
+                  <li key={title} className="flex gap-2">
+                    <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                    <span>{title}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-base font-bold text-slate-950">
+                Exam Preparation Focus
+              </h3>
+              <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                {examFocus.map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-emerald-600" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-4">
+            <h3 className="text-base font-bold text-slate-950">
+              Detailed Syllabus Coverage
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-slate-700">
+              The {subject.title} syllabus should be studied as a connected chain,
+              not as isolated headings. Start with the core definitions and physical
+              meaning, then move into analytical methods, important formulas,
+              solved examples, and previous year question patterns. Chapters such
+              as {chapterTitles.slice(0, 6).join(", ")} should be revised with
+              handwritten notes, short formula summaries, and mixed practice so
+              the subject becomes useful in both objective questions and descriptive
+              university exam answers.
+            </p>
+            <p className="mt-3 text-sm leading-7 text-slate-700">
+              For competitive exams, give extra attention to problem statements
+              that combine two ideas in one question. A good revision session
+              should include one theory recap, one formula recap, five to ten
+              practice questions, and one quick mistake review. This process builds
+              topical authority for the learner and gives this page stronger
+              informational value than a normal link collection.
+            </p>
+          </div>
+
+          {formulaItems.length ? (
+            <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-base font-bold text-slate-950">
+                Important Formula Revision
+              </h3>
+              <div className="mt-3 grid gap-3 md:grid-cols-2">
+                {formulaItems.map((formula) => (
+                  <div
+                    key={`${formula.conceptTitle}-${formula.label}-${formula.expression}`}
+                    className="rounded-xl border border-slate-200 bg-white p-3"
+                  >
+                    <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                      {formula.conceptTitle}
+                    </p>
+                    <p className="mt-1 text-sm font-bold text-slate-950">
+                      {formula.expression}
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-slate-600">
+                      {formula.note}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          <div className="mt-5 grid gap-4 lg:grid-cols-2">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-base font-bold text-slate-950">
+                PYQ Practice Method
+              </h3>
+              <p className="mt-2 text-sm leading-7 text-slate-700">
+                Previous year questions are the best way to understand how
+                {` ${subject.title} `}is tested. Do not use PYQs only as a final
+                mock test. Use them chapter-wise after learning each topic, then
+                use mixed PYQs during revision to improve speed and retention.
+              </p>
+              <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                {pyqFocusItems.map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-orange-500" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <h3 className="text-base font-bold text-slate-950">
+                Common Mistakes To Avoid
+              </h3>
+              <p className="mt-2 text-sm leading-7 text-slate-700">
+                Many students lose marks in {subject.title} because they revise
+                too broadly and practice too late. A better method is to learn a
+                chapter, write the formulas, solve questions immediately, and
+                revise wrong answers within the same week.
+              </p>
+              <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                {commonMistakes.map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-rose-500" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-4">
+            <h3 className="text-base font-bold text-slate-950">
+              30-Day Study Strategy
+            </h3>
+            <div className="mt-3 grid gap-3 md:grid-cols-2">
+              {studyPlanItems.map((item) => (
+                <div
+                  key={item.week}
+                  className="rounded-xl border border-slate-200 bg-slate-50/80 p-3"
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-portal-700">
+                    {item.week}
+                  </p>
+                  <h4 className="mt-1 text-sm font-bold text-slate-950">{item.title}</h4>
+                  <p className="mt-1 text-sm leading-6 text-slate-700">{item.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <aside className="rounded-2xl border border-portal-100 bg-portal-50/60 p-4">
+          <h3 className="text-base font-bold text-slate-950">
+            Contextual Study Links
+          </h3>
+          <div className="mt-3 grid gap-2">
+            <Link
+              href={notesHref}
+              className="rounded-xl border border-white bg-white px-3 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-200"
+            >
+              {subject.title} notes
+            </Link>
+            <Link
+              href={`/practice?search=${encodeURIComponent(subject.search)}`}
+              className="rounded-xl border border-white bg-white px-3 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-200"
+            >
+              Practice {subject.title} questions
+            </Link>
+            <Link
+              href="/previous-year"
+              className="rounded-xl border border-white bg-white px-3 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-200"
+            >
+              Previous year papers
+            </Link>
+            {readyTopicLinks.map((topic) => (
+              <Link
+                key={topic.href}
+                href={topic.href}
+                className="rounded-xl border border-white bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-portal-200 hover:text-portal-700"
+              >
+                {topic.title}
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-5 border-t border-portal-100 pt-4">
+            <h3 className="text-base font-bold text-slate-950">
+              Study Strategy
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-slate-700">
+              {chapterMeta?.studyTip ||
+                `Study ${subject.title} in chapter order, revise formulas after each topic, and solve previous year questions before switching subjects.`}
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  );
+}
+
 function buildSubjectSeo(subject, theoryKnowledge, learningTopics = []) {
   const relatedLinks = getSubjectRelatedLinks(subject.title);
   const chapterNames = subjectTheoryRoadmaps[subject.title]?.map((step) => step.title) || [];
@@ -14856,6 +15144,14 @@ export default function SubjectTheoryPage({
             </div>
           </div>
         </section>
+
+        <SubjectSeoDepthSection
+          subject={subject}
+          chapterMeta={chapterMeta}
+          concepts={concepts}
+          learningTopics={learningMeta.learningTopics || []}
+          notesHref={notesHref}
+        />
 
         {isConceptIntroPage ? (
           <div className="mt-5">

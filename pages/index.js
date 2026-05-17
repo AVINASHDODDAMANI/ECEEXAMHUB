@@ -158,6 +158,30 @@ export default function Home() {
     ["Exam Guides", "/ece-exams"],
   ];
 
+  const seoLearningSections = [
+    {
+      title: "What Is GATE ECE Preparation?",
+      text:
+        "GATE ECE preparation is the process of building strong Electronics and Communication Engineering fundamentals, revising formulas, solving previous year questions, and practicing subject-wise problems with a consistent plan. ECE Exam Guide keeps the preparation flow connected: first learn the concept, then revise the notes, then solve MCQs and previous papers.",
+      href: "/subjects",
+      linkText: "Browse ECE subjects",
+    },
+    {
+      title: "Best ECE Subjects To Start With",
+      text:
+        "Most students should begin with Network Analysis, Signals and Systems, Digital Electronics, Analog Electronics, and Control Systems because these subjects build the base for later topics. Communication Systems, Electromagnetic Theory, DSP, Microprocessors, VLSI, Antenna, and Embedded Systems become easier when the core circuit and signal ideas are already clear.",
+      href: "/subjects/network-analysis",
+      linkText: "Start Network Analysis",
+    },
+    {
+      title: "How To Use Previous Year Questions",
+      text:
+        "Previous year questions should not be used only as a final test. Use them after each chapter to understand repeated patterns, formula traps, and common exam wording. On ECE Exam Guide, students can connect theory pages with notes, practice sets, and PYQ-style revision so preparation becomes more searchable and exam-focused.",
+      href: "/previous-year",
+      linkText: "Open previous papers",
+    },
+  ];
+
   return (
     <Layout
       title="ECE Exam Guide - GATE ECE Notes, PYQs, MCQs & Exam Preparation"
@@ -299,6 +323,40 @@ export default function Home() {
                 </span>
               </Link>
             ))}
+          </div>
+        </section>
+
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="grid gap-5 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-portal-600">
+                GATE ECE Guide
+              </p>
+              <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
+                ECE Exam Guide for Notes, PYQs, MCQs, and Revision
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600">
+                ECE Exam Guide, also known as ECE Exam Hub, is built for students who
+                want one organized place for Electronics and Communication Engineering
+                theory, subject-wise notes, formulas, previous year papers, and
+                exam-focused practice.
+              </p>
+            </div>
+
+            <div className="grid gap-4">
+              {seoLearningSections.map((section) => (
+                <article key={section.title} className="border-b border-slate-200 pb-4 last:border-b-0 last:pb-0">
+                  <h3 className="text-base font-bold text-slate-950">{section.title}</h3>
+                  <p className="mt-2 text-sm leading-7 text-slate-700">{section.text}</p>
+                  <Link
+                    href={section.href}
+                    className="mt-2 inline-flex text-sm font-bold text-portal-700 transition hover:text-portal-800"
+                  >
+                    {section.linkText} -&gt;
+                  </Link>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
