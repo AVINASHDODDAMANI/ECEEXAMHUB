@@ -37,6 +37,70 @@ const SUBJECT_TO_LEARNING_SLUG = {
   "Embedded Systems": "embedded-systems",
 };
 
+const LEARNING_TOPIC_TO_SUBJECT_CONCEPT_SLUG = {
+  networks: {
+    "network-theorems-topic": "network-theorems",
+    "nodal-and-mesh-analysis": "systematic-solving",
+    resonance: "ac-analysis",
+    "two-port-networks": "two-port-networks",
+    "first-order-transients": "transient-response",
+    "second-order-transients": "transient-response",
+  },
+};
+
+const NETWORK_CONTEXTUAL_TOPIC_ROUTES = {
+  "network-theorems-topic": "/network-theorems",
+  "nodal-and-mesh-analysis": "/dc-circuit-analysis",
+  resonance: "/ac-circuit-analysis",
+  "two-port-networks": "/two-port-networks",
+  "first-order-transients": "/transient-analysis",
+  "second-order-transients": "/transient-analysis",
+};
+
+const SUBJECT_CONTEXTUAL_TOPIC_ROUTES = {
+  analog: {
+    "operational-amplifiers": "/operational-amplifiers",
+    "active-filters": "/active-filters-waveform-generators",
+  },
+  digital: {
+    "boolean-algebra-and-kmaps": "/karnaugh-map",
+    "flip-flops": "/sequential-circuits",
+    "logic-families": "/logic-families",
+  },
+  signals: {
+    "laplace-transform": "/laplace-transform",
+    "sampling-theorem": "/sampling-theorem",
+    "z-transform": "/z-transform",
+  },
+  networks: NETWORK_CONTEXTUAL_TOPIC_ROUTES,
+  "control-systems": {
+    "time-response": "/time-response-analysis",
+    "root-locus": "/root-locus-technique",
+  },
+};
+
+function getSubjectContextTopicHref(subjectTitle, topic) {
+  const learningSubjectSlug = SUBJECT_TO_LEARNING_SLUG[subjectTitle];
+  const contextualRoute = SUBJECT_CONTEXTUAL_TOPIC_ROUTES[learningSubjectSlug]?.[topic.slug];
+
+  if (contextualRoute) {
+    return contextualRoute;
+  }
+
+  return learningSubjectSlug
+    ? `/learn/${learningSubjectSlug}/${topic.slug}`
+    : `/subjects/${getSubjectSlug(subjectTitle)}`;
+}
+
+function getConceptIndexForLearningTopic(subjectLearningSlug, topicSlug, concepts = []) {
+  const targetConceptSlug =
+    LEARNING_TOPIC_TO_SUBJECT_CONCEPT_SLUG[subjectLearningSlug]?.[topicSlug] ||
+    topicSlug;
+  const conceptIndex = concepts.findIndex((concept) => concept.slug === targetConceptSlug);
+
+  return conceptIndex >= 0 ? conceptIndex + 1 : 0;
+}
+
 const SUBJECT_META = {
   "Network Analysis": {
     subtitle: "The chapter that teaches how electrical circuits are understood, simplified, and solved.",
@@ -14061,7 +14125,7 @@ function SubjectSeoDepthSection({
             </Link>
             {readyTopicLinks.map((topic) => (
               <Link
-                key={topic.href}
+                key={topic.slug || topic.title}
                 href={topic.href}
                 className="rounded-xl border border-white bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-portal-200 hover:text-portal-700"
               >
@@ -14146,6 +14210,7 @@ export default function SubjectTheoryPage({
   initialActiveConceptIndex = 0,
   standaloneTopicPage = "",
 }) {
+  const router = useRouter();
   const theoryKnowledge =
     subject.title === "Digital Electronics"
       ? DIGITAL_ELECTRONICS_KNOWLEDGE
@@ -14178,6 +14243,11 @@ export default function SubjectTheoryPage({
   const [activeConceptIndex, setActiveConceptIndex] = useState(initialActiveConceptIndex);
   const [quizSelections, setQuizSelections] = useState({});
   const { progressStats, isReady } = useLearningProgress();
+  const selectedLearningTopicSlug =
+    typeof router.query.topic === "string" ? router.query.topic : "";
+  const selectedLearningTopic = selectedLearningTopicSlug
+    ? learningMeta.learningTopics?.find((topic) => topic.slug === selectedLearningTopicSlug)
+    : null;
 
   useEffect(() => {
     setActiveConceptIndex(initialActiveConceptIndex);
@@ -14251,6 +14321,13 @@ export default function SubjectTheoryPage({
   }
 
   const concepts = theoryKnowledge.concepts || [];
+  const selectedTopicConceptIndex = selectedLearningTopicSlug
+    ? getConceptIndexForLearningTopic(
+        learningMeta.learningSubjectSlug,
+        selectedLearningTopicSlug,
+        concepts
+      )
+    : 0;
   const isConceptIntroPage = activeConceptIndex === 0;
   const activeConceptDataIndex = isConceptIntroPage ? 0 : activeConceptIndex - 1;
   const activeConcept = concepts[activeConceptDataIndex] || concepts[0];
@@ -14297,6 +14374,38 @@ export default function SubjectTheoryPage({
   const isQuizAnswered = typeof selectedQuizIndex === "number";
   const isQuizCorrect = isQuizAnswered && selectedQuizIndex === activeQuiz?.correctIndex;
   const analogStandaloneChapter = ANALOG_STANDALONE_PAGES[standaloneTopicPage];
+
+  useEffect(() => {
+    if (!selectedLearningTopicSlug) {
+      return;
+    }
+
+    setActiveConceptIndex(selectedTopicConceptIndex);
+  }, [selectedLearningTopicSlug, selectedTopicConceptIndex]);
+
+  useEffect(() => {
+    if (
+      !selectedLearningTopicSlug ||
+      !shouldShowInlineConcept ||
+      activeConceptIndex !== selectedTopicConceptIndex
+    ) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      document.getElementById("subject-concept")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 60);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [
+    activeConceptIndex,
+    selectedLearningTopicSlug,
+    selectedTopicConceptIndex,
+    shouldShowInlineConcept,
+  ]);
 
   if (analogStandaloneChapter) {
     return <AnalogChapterPage chapter={analogStandaloneChapter} />;
@@ -15035,10 +15144,29 @@ export default function SubjectTheoryPage({
             </li>
             <li className="shrink-0 text-slate-300">/</li>
             <li className="min-w-0 basis-full sm:basis-auto">
-              <span className="inline-flex max-w-full text-left font-semibold leading-snug text-portal-700 whitespace-normal break-words">
-                {subject.title}
-              </span>
+              {selectedLearningTopic ? (
+                <Link
+                  href={`/subjects/${getSubjectSlug(subject.title)}`}
+                  className="inline-flex max-w-full text-left font-medium leading-snug text-slate-600 transition hover:text-portal-700 whitespace-normal break-words"
+                >
+                  {subject.title}
+                </Link>
+              ) : (
+                <span className="inline-flex max-w-full text-left font-semibold leading-snug text-portal-700 whitespace-normal break-words">
+                  {subject.title}
+                </span>
+              )}
             </li>
+            {selectedLearningTopic ? (
+              <>
+                <li className="shrink-0 text-slate-300">/</li>
+                <li className="min-w-0 basis-full sm:basis-auto">
+                  <span className="inline-flex max-w-full text-left font-semibold leading-snug text-portal-700 whitespace-normal break-words">
+                    {selectedLearningTopic.title}
+                  </span>
+                </li>
+              </>
+            ) : null}
           </ol>
           {subject.title === "Network Analysis" ? (
             <NetworkTopicMenu
@@ -15695,7 +15823,7 @@ export function getSubjectTheoryProps(subjectSlug, extraProps = {}) {
     ? learningSubject.chapters.flatMap((chapter) =>
         chapter.topics.map((topic) => ({
           ...topic,
-          href: `/learn/${learningSubjectSlug}/${topic.slug}`,
+          href: getSubjectContextTopicHref(subject.title, topic),
         }))
       )
     : [];

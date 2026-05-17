@@ -2,10 +2,6 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { examDirectory } from "../data/exam-directory";
-import { previousPaperDirectory } from "../data/previous-paper-directory";
-import { subjectDirectory } from "../data/subject-directory";
-import { getSubjectSlug } from "../data/subject-theory-roadmaps";
 import { isNavigationActive } from "../lib/site-navigation";
 import { BrandLogo } from "./BrandIdentity";
 
@@ -16,13 +12,12 @@ const SmartSearchDropdown = dynamic(() => import("./SmartSearchDropdown"), {
 
 const navItems = [
   { href: "/", label: "Home", mobilePrimary: true },
-  { href: "/subjects", label: "Subjects", dropdownType: "subjects", mobilePrimary: true },
-  { href: "/ece-exams", label: "ECE Exams", mobileLabel: "Exams", dropdownType: "exams", mobilePrimary: true },
-  { href: "/previous-year", label: "Previous Papers", dropdownType: "papers" },
+  { href: "/subjects", label: "Subjects", mobilePrimary: true },
+  { href: "/previous-year", label: "PYQs", mobilePrimary: true },
+  { href: "/mock-tests", label: "Mock Tests", mobileLabel: "Tests", mobilePrimary: true },
   { href: "/notes", label: "Notes" },
-  { href: "/mcqs", label: "MCQs", mobilePrimary: true },
-  { href: "/practice", label: "Practice" },
-  { href: "/insights", label: "Insights" },
+  { href: "/learn", label: "Dashboard" },
+  { href: "/ece-exams", label: "Resources", mobileLabel: "Resources" },
 ];
 
 const mobilePrimaryNavItems = navItems.filter((item) => item.mobilePrimary);
@@ -30,8 +25,8 @@ const mobilePrimaryNavItems = navItems.filter((item) => item.mobilePrimary);
 const activeNavClass = "bg-white/14 text-white shadow-[inset_0_-2px_0_rgba(255,255,255,0.96)]";
 const inactiveNavClass = "text-blue-100/95 hover:bg-white/8 hover:text-white";
 const utilityLinks = [
-  { href: "/subjects", label: "Browse Subjects" },
-  { href: "/previous-year", label: "Previous Papers" },
+  { href: "/mcqs", label: "Practice MCQs" },
+  { href: "/mock-tests", label: "Mock Test" },
 ];
 
 export default function Navbar({
@@ -45,7 +40,6 @@ export default function Navbar({
   const [localSearch, setLocalSearch] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeDesktopDropdown, setActiveDesktopDropdown] = useState("");
   const [searchQuestions, setSearchQuestions] = useState([]);
   const [searchRuntime, setSearchRuntime] = useState(null);
   const [isSearchBooting, setIsSearchBooting] = useState(false);
@@ -223,7 +217,6 @@ export default function Navbar({
   useEffect(() => {
     setIsSearchOpen(false);
     setIsMobileMenuOpen(false);
-    setActiveDesktopDropdown("");
   }, [router.asPath]);
 
   useEffect(() => {
@@ -260,51 +253,6 @@ export default function Navbar({
       window.clearTimeout(timeoutId);
     };
   }, [router.asPath, router.pathname]);
-
-  function getDropdownConfig(type) {
-    if (type === "subjects") {
-      return {
-        eyebrow: "Core Subjects",
-        title: "Explore all ECE subjects from one place",
-        actionHref: "/subjects",
-        actionLabel: "Open Subjects Page",
-        items: subjectDirectory.map((subject) => ({
-          key: subject.title,
-          href: `/subjects/${getSubjectSlug(subject.title)}`,
-          title: `${subject.id}. ${subject.title}`,
-          description: subject.description,
-        })),
-      };
-    }
-
-    if (type === "papers") {
-      return {
-        eyebrow: "Previous Papers",
-        title: "Browse major previous-paper collections by exam",
-        actionHref: "/previous-year",
-        actionLabel: "Open Previous Papers",
-        items: previousPaperDirectory.map((paper) => ({
-          key: paper.title,
-          href: paper.href,
-          title: paper.title,
-          description: paper.meta,
-        })),
-      };
-    }
-
-    return {
-      eyebrow: "Exam Guides",
-      title: "Open exam-wise guidance, stages, cutoffs, and strategy",
-      actionHref: "/ece-exams",
-      actionLabel: "Open Exam Guides",
-      items: examDirectory.map((exam) => ({
-        key: exam.title,
-        href: exam.href,
-        title: exam.title,
-        description: exam.shortDescription,
-      })),
-    };
-  }
 
   function handleSearchChange(value) {
     if (hasSearch) {
@@ -549,25 +497,6 @@ export default function Navbar({
                     );
                   })}
                 </div>
-                <div className="mt-3 border-t border-slate-200 pt-3">
-                  <p className="px-1 text-[11px] font-black uppercase tracking-[0.14em] text-portal-700">
-                    Core Subjects
-                  </p>
-                  <div className="mt-2 grid max-h-[42vh] gap-2 overflow-y-auto pr-1">
-                    {subjectDirectory.map((subject) => (
-                      <Link
-                        key={`mobile-subject-${subject.title}`}
-                        href={`/subjects/${getSubjectSlug(subject.title)}`}
-                        className="rounded-xl border border-slate-200 bg-[#f8fbff] px-3 py-2.5 text-sm font-bold text-slate-800 transition hover:border-portal-200 hover:bg-white hover:text-portal-700"
-                      >
-                        <span className="block text-[10px] font-black uppercase tracking-[0.12em] text-slate-500">
-                          Subject {String(subject.id).padStart(2, "0")}
-                        </span>
-                        <span className="mt-0.5 block">{subject.title}</span>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
               </div>
             ) : null}
           </div>
@@ -575,85 +504,6 @@ export default function Navbar({
           <nav className="hidden items-center gap-1 overflow-x-auto whitespace-nowrap py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex lg:py-0">
             {navItems.map((item) => {
               const isActive = isNavigationActive(router.pathname, item.href);
-
-              if (item.dropdownType) {
-                const dropdown = getDropdownConfig(item.dropdownType);
-                const isDropdownActive = activeDesktopDropdown === item.href;
-
-                return (
-                  <div
-                    key={item.href}
-                    className="relative"
-                    onMouseEnter={() => setActiveDesktopDropdown(item.href)}
-                    onMouseLeave={() => setActiveDesktopDropdown("")}
-                    onFocus={() => setActiveDesktopDropdown(item.href)}
-                    onBlur={(event) => {
-                      if (!event.currentTarget.contains(event.relatedTarget)) {
-                        setActiveDesktopDropdown("");
-                      }
-                    }}
-                  >
-                    <Link
-                      href={item.href}
-                      className={`relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold transition sm:px-4 sm:py-3 sm:text-sm ${
-                        isActive ? activeNavClass : inactiveNavClass
-                      }`}
-                    >
-                      {item.label}
-                      <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                        <path
-                          d="M5 7.5 10 12.5l5-5"
-                          stroke="currentColor"
-                          strokeWidth="1.7"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      {isActive ? (
-                        <span className="absolute inset-x-4 bottom-0 h-0.5 rounded-full bg-white" />
-                      ) : null}
-                    </Link>
-
-                    {isDropdownActive ? (
-                    <div className="absolute left-0 top-full z-50 w-[760px] max-w-[calc(100vw-4rem)] translate-y-0 opacity-100 transition duration-150">
-                      <div className="rounded-2xl border border-slate-200 bg-white p-5 text-slate-900 shadow-[0_24px_80px_rgba(15,23,42,0.18)]">
-                        <div className="mb-4 flex items-center justify-between gap-3">
-                          <div>
-                            <p className="text-xs font-bold uppercase tracking-[0.18em] text-portal-600">
-                              {dropdown.eyebrow}
-                            </p>
-                            <h3 className="mt-1 text-lg font-bold text-slate-900">
-                              {dropdown.title}
-                            </h3>
-                          </div>
-                          <Link
-                            href={dropdown.actionHref}
-                            className="rounded-full border border-portal-200 bg-portal-50 px-3 py-1.5 text-xs font-bold text-portal-700 transition hover:bg-white"
-                          >
-                            {dropdown.actionLabel}
-                          </Link>
-                        </div>
-
-                        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                          {dropdown.items.map((dropdownItem) => (
-                            <Link
-                              key={dropdownItem.key}
-                              href={dropdownItem.href}
-                              className="rounded-xl border border-portal-200 bg-[#f8fbff] px-4 py-3 transition hover:border-portal-300 hover:bg-white"
-                            >
-                              <p className="text-sm font-bold text-slate-900">{dropdownItem.title}</p>
-                              <p className="mt-1 text-xs leading-5 text-slate-600">
-                                {dropdownItem.description}
-                              </p>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    ) : null}
-                  </div>
-                );
-              }
 
               return (
                 <Link
