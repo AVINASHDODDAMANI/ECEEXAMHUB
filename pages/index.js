@@ -138,14 +138,15 @@ export default function Home() {
   ];
 
   const subjects = [
-    "Analog Electronics",
-    "Digital Electronics",
-    "Signals & Systems",
-    "Control Systems",
-    "Communication Systems",
-    "Electromagnetics",
-    "Network Theory",
-    "Microprocessors",
+    ["Analog Electronics", "/subjects/analog-electronics"],
+    ["Digital Electronics", "/subjects/digital-electronics"],
+    ["Signals & Systems", "/subjects/signals-and-systems"],
+    ["Control Systems", "/subjects/control-systems"],
+    ["Communication Systems", "/subjects/communication-systems"],
+    ["Electromagnetic Theory", "/subjects/electromagnetic-theory"],
+    ["Network Analysis", "/subjects/network-analysis"],
+    ["Microprocessors", "/subjects/microprocessors"],
+    ["Embedded Systems", "/subjects/embedded-systems"],
   ];
 
   const resources = [
@@ -277,10 +278,10 @@ export default function Home() {
             description="Learn every core ECE subject with structured concepts and examples."
           />
           <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-            {subjects.map((subject, index) => (
+            {subjects.map(([subject, href], index) => (
               <Link
                 key={subject}
-                href="/subjects"
+                href={href}
                 className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:border-portal-300 hover:bg-portal-50"
               >
                 <IconBadge tone={["blue", "green", "violet", "cyan"][index % 4]}>

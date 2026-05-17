@@ -32,6 +32,9 @@ const SUBJECT_TO_LEARNING_SLUG = {
   Microprocessors: "microprocessors",
   "Digital Signal Processing": "dsp",
   "Control Systems": "control-systems",
+  "VLSI Design": "vlsi-design",
+  "Antenna & Wave Propagation": "antenna-wave-propagation",
+  "Embedded Systems": "embedded-systems",
 };
 
 const SUBJECT_META = {
@@ -190,6 +193,28 @@ const SUBJECT_META = {
     studyTip:
       "Study VLSI Design in chapter order: VLSI basics, MOS transistor operation, CMOS logic, fabrication, design styles, stick diagrams, combinational and sequential circuits, interconnects, scaling, testing, verification, and HDL automation basics.",
   },
+  "Antenna & Wave Propagation": {
+    subtitle: "The chapter that explains antenna radiation, antenna parameters, dipoles, arrays, propagation modes, ionospheric effects, space-wave links, and modern wireless antenna applications.",
+    estimatedTime: "6-8 Hours",
+    difficulty: "Medium",
+    level: "Beginner to GATE Level",
+    keyConcepts: [
+      "Antenna Parameters",
+      "Dipole Antennas",
+      "Antenna Arrays",
+      "Friis Equation",
+      "Polarization",
+      "Propagation Modes",
+    ],
+    examFocus: [
+      "Radiation pattern, beamwidth, gain, directivity, and efficiency",
+      "Hertzian dipole, half-wave dipole, monopole, and radiation resistance",
+      "Array factor, broadside/end-fire arrays, and pattern multiplication",
+      "Ground wave, sky wave, space wave, critical frequency, and MUF",
+    ],
+    studyTip:
+      "Study Antenna and Wave Propagation in chapter order: antenna basics, parameters, dipoles, arrays, special antennas, propagation mechanisms, ground/sky wave, space wave, measurements, and modern antenna applications.",
+  },
   Microprocessors: {
     subtitle: "The chapter that explains processor architecture, instruction execution, programming, timing, interrupts, interfacing, and 8086 fundamentals.",
     estimatedTime: "7-9 Hours",
@@ -255,6 +280,28 @@ const SUBJECT_META = {
     ],
     studyTip:
       "Study Control Systems in chapter order: basics, mathematical modeling, block diagrams, time response, stability, root locus, frequency response, controllers, state space, and design.",
+  },
+  "Embedded Systems": {
+    subtitle: "The chapter that explains dedicated hardware-software systems built with microcontrollers, firmware, interfaces, communication protocols, RTOS concepts, memory, power, and design flow.",
+    estimatedTime: "7-9 Hours",
+    difficulty: "Medium",
+    level: "Beginner to GATE/PSU Level",
+    keyConcepts: [
+      "Embedded Architecture",
+      "Microcontrollers",
+      "Embedded C",
+      "Interfacing",
+      "Protocols",
+      "RTOS",
+    ],
+    examFocus: [
+      "Microcontroller architecture and register organization",
+      "Embedded C programming, bitwise operations, and interrupts",
+      "UART, SPI, I2C, CAN, timers, counters, and PWM",
+      "RTOS concepts, interfacing techniques, memory, power, and design flow",
+    ],
+    studyTip:
+      "Study Embedded Systems in chapter order: basics, architecture, microcontrollers, Embedded C, interfacing, communication protocols, timers, interrupts, RTOS, memory, power, design process, and advanced applications.",
   },
 };
 
@@ -528,6 +575,178 @@ const ELECTROMAGNETIC_CHAPTER_ROUTES = {
   "Electromagnetic Compatibility and Applications": "/learn/electromagnetics/electromagnetic-compatibility-and-applications",
 };
 
+const ANTENNA_WAVE_PROPAGATION_CHAPTERS = [
+  {
+    title: "Introduction to Antennas",
+    topics: [
+      { title: "Basics of Antennas", subtopics: ["Definition of antenna", "Functions of antenna", "Radiation mechanism"] },
+      { title: "Types of Antennas", subtopics: ["Wire antennas", "Aperture antennas", "Array antennas", "Reflector antennas"] },
+      { title: "Antenna Parameters", subtopics: ["Radiation pattern", "Beamwidth", "Directivity", "Gain", "Efficiency"] },
+    ],
+  },
+  {
+    title: "Antenna Fundamentals",
+    topics: [
+      { title: "Radiation Intensity", subtopics: [] },
+      { title: "Power Density", subtopics: [] },
+      { title: "Effective Aperture", subtopics: [] },
+      { title: "Polarization", subtopics: ["Linear polarization", "Circular polarization", "Elliptical polarization"] },
+      { title: "Friis Transmission Equation", formula: "$$P_r=P_tG_tG_r\\left(\\frac{\\lambda}{4\\pi R}\\right)^2$$", subtopics: [] },
+    ],
+  },
+  {
+    title: "Dipole and Monopole Antennas",
+    topics: [
+      { title: "Hertzian Dipole", subtopics: [] },
+      { title: "Half-Wave Dipole", subtopics: [] },
+      { title: "Quarter-Wave Monopole", subtopics: [] },
+      { title: "Radiation Resistance", subtopics: [] },
+      { title: "Current Distribution", subtopics: [] },
+    ],
+  },
+  {
+    title: "Antenna Arrays",
+    topics: [
+      { title: "Array Fundamentals", subtopics: [] },
+      { title: "Types of Arrays", subtopics: ["Broadside array", "End-fire array"] },
+      { title: "Array Factor", subtopics: [] },
+      { title: "Pattern Multiplication", subtopics: [] },
+      { title: "Phased Arrays", subtopics: [] },
+    ],
+  },
+  {
+    title: "Special Antennas",
+    topics: [
+      { title: "Loop Antenna", subtopics: [] },
+      { title: "Helical Antenna", subtopics: [] },
+      { title: "Horn Antenna", subtopics: [] },
+      { title: "Parabolic Reflector Antenna", subtopics: [] },
+      { title: "Microstrip Patch Antenna", subtopics: [] },
+    ],
+  },
+  {
+    title: "Wave Propagation Basics",
+    topics: [
+      { title: "Electromagnetic Wave Propagation", subtopics: [] },
+      { title: "Wave Propagation Mechanisms", subtopics: ["Reflection", "Refraction", "Diffraction", "Scattering"] },
+      { title: "Propagation Modes", subtopics: ["Ground wave", "Sky wave", "Space wave"] },
+    ],
+  },
+  {
+    title: "Ground Wave and Sky Wave Propagation",
+    topics: [
+      { title: "Ground Wave Propagation", subtopics: [] },
+      { title: "Surface Wave Propagation", subtopics: [] },
+      { title: "Ionosphere Basics", subtopics: [] },
+      { title: "Sky Wave Propagation", subtopics: [] },
+      { title: "Critical Frequency", subtopics: [] },
+      { title: "MUF (Maximum Usable Frequency)", subtopics: [] },
+    ],
+  },
+  {
+    title: "Space Wave Propagation",
+    topics: [
+      { title: "Line-of-Sight Communication", subtopics: [] },
+      { title: "Tropospheric Propagation", subtopics: [] },
+      { title: "Duct Propagation", subtopics: [] },
+      { title: "Microwave Propagation", subtopics: [] },
+      { title: "Radar Communication Basics", subtopics: [] },
+    ],
+  },
+  {
+    title: "Antenna Measurements",
+    topics: [
+      { title: "Radiation Pattern Measurement", subtopics: [] },
+      { title: "Gain Measurement", subtopics: [] },
+      { title: "VSWR Measurement", subtopics: [] },
+      { title: "Impedance Measurement", subtopics: [] },
+    ],
+  },
+  {
+    title: "Modern Antenna Applications",
+    topics: [
+      { title: "Satellite Communication Antennas", subtopics: [] },
+      { title: "Mobile Communication Antennas", subtopics: [] },
+      { title: "Radar Antennas", subtopics: [] },
+      { title: "Smart Antennas", subtopics: [] },
+      { title: "MIMO Antenna Basics", subtopics: [] },
+    ],
+  },
+];
+
+const ANTENNA_HIGH_WEIGHTAGE_TOPICS = [
+  "Antenna parameters",
+  "Dipole antennas",
+  "Antenna arrays",
+  "Friis equation",
+  "Polarization",
+  "Wave propagation modes",
+  "Ionospheric propagation",
+  "Space wave propagation",
+];
+
+const ANTENNA_TOPIC_ROUTES = [
+  "/learn/antenna-wave-propagation/introduction-to-antennas",
+  "/learn/antenna-wave-propagation/antenna-fundamentals",
+  "/learn/antenna-wave-propagation/dipole-and-monopole-antennas",
+  "/learn/antenna-wave-propagation/antenna-arrays",
+  "/learn/antenna-wave-propagation/special-antennas",
+  "/learn/antenna-wave-propagation/wave-propagation-basics",
+  "/learn/antenna-wave-propagation/ground-wave-and-sky-wave-propagation",
+  "/learn/antenna-wave-propagation/space-wave-propagation",
+  "/learn/antenna-wave-propagation/antenna-measurements",
+  "/learn/antenna-wave-propagation/modern-antenna-applications",
+];
+
+const ANTENNA_WAVE_PROPAGATION_KNOWLEDGE = {
+  overviewCards: [
+    {
+      title: "Overview of Antenna & Wave Propagation",
+      description:
+        "For Graduate Aptitude Test in Engineering and PSU exams, Antenna and Wave Propagation should be studied in a structured hierarchy: Chapter -> Topics -> Subtopics. This helps in understanding radiation concepts, learning propagation mechanisms, solving numerical problems, and quick revision.",
+      points: [
+        "Start with antenna basics, radiation mechanism, and antenna parameters.",
+        "Study dipoles, monopoles, arrays, and special antennas as separate blocks.",
+        "Connect Friis equation, polarization, gain, directivity, and effective aperture to numericals.",
+        "Finish with ground wave, sky wave, space wave, measurements, and modern antenna applications.",
+      ],
+    },
+  ],
+  concepts: ANTENNA_WAVE_PROPAGATION_CHAPTERS.map((chapter, index) => ({
+    slug: `antenna-chapter-${index + 1}`,
+    title: chapter.title,
+    shortTitle: chapter.title,
+    diagram: "basic-circuit",
+    diagramNote:
+      "Antenna and Wave Propagation questions are best handled by first identifying whether the problem is about antenna parameters, antenna type, array behavior, link equation, or propagation mode.",
+    summary: chapter.topics
+      .map((topic) => [topic.title, ...topic.subtopics].join(": "))
+      .join(" | "),
+    teaching: {
+      intuition: [
+        `${chapter.title} is Chapter ${index + 1} in the Antenna and Wave Propagation GATE/PSU flow.`,
+        "Treat each chapter as either a radiation block, antenna-structure block, link-budget block, or propagation block before solving.",
+      ],
+      explanation: chapter.topics.map((topic) =>
+        topic.subtopics.length ? `${topic.title}: ${topic.subtopics.join(", ")}` : topic.title
+      ),
+      interpretation: chapter.topics.map((topic) => topic.title),
+      commonMistake:
+        "Students often memorize antenna terms without separating pattern, gain, directivity, polarization, aperture, and propagation-mode assumptions.",
+      realLifeInsight:
+        "Antenna and propagation concepts appear in mobile networks, satellite links, radar, broadcasting, microwave communication, smart antennas, and MIMO systems.",
+    },
+    learnPoints: chapter.topics.map((topic) => topic.title),
+    formulas: chapter.topics
+      .filter((topic) => topic.formula)
+      .map((topic) => ({
+        label: topic.title,
+        expression: topic.formula,
+        note: "Use this relation with correct gain, wavelength, distance, and propagation assumptions.",
+      })),
+  })),
+};
+
 const VLSI_DESIGN_CHAPTERS = [
   {
     title: "Introduction to VLSI Design",
@@ -642,6 +861,20 @@ const VLSI_HIGH_WEIGHTAGE_TOPICS = [
   "Sequential circuits",
   "Power and delay analysis",
   "Scaling effects",
+];
+
+const VLSI_TOPIC_ROUTES = [
+  "/learn/vlsi-design/introduction-to-vlsi-design",
+  "/learn/vlsi-design/mos-transistor-basics",
+  "/learn/vlsi-design/cmos-logic-design",
+  "/learn/vlsi-design/cmos-fabrication-technology",
+  "/learn/vlsi-design/vlsi-design-styles",
+  "/learn/vlsi-design/stick-diagrams-and-layout-design",
+  "/learn/vlsi-design/combinational-circuit-design",
+  "/learn/vlsi-design/sequential-circuit-design",
+  "/learn/vlsi-design/vlsi-interconnects-and-scaling",
+  "/learn/vlsi-design/testing-and-verification",
+  "/learn/vlsi-design/hdl-and-vlsi-automation-basics",
 ];
 
 const DIGITAL_SIGNAL_PROCESSING_CHAPTERS = [
@@ -888,6 +1121,139 @@ const MICROPROCESSORS_CHAPTER_ROUTES = {
   "8086 Microprocessor": "/learn/microprocessors/8086-microprocessor",
   "Advanced Topics": "/learn/microprocessors/advanced-topics",
 };
+
+const EMBEDDED_SYSTEMS_CHAPTERS = [
+  {
+    title: "Introduction to Embedded Systems",
+    topics: [
+      { title: "Basics of Embedded Systems", subtopics: ["Definition of embedded systems", "Characteristics of embedded systems"] },
+      { title: "Types of Embedded Systems", subtopics: ["Standalone systems", "Real-time systems", "Networked embedded systems", "Mobile embedded systems"] },
+      { title: "Applications of Embedded Systems", subtopics: ["Consumer electronics", "Automotive systems", "Industrial automation", "Medical devices"] },
+    ],
+  },
+  {
+    title: "Embedded System Architecture",
+    topics: [
+      { title: "Basic Architecture", subtopics: ["Processor", "Memory", "Input/Output devices"] },
+      { title: "Hardware Components", subtopics: ["Sensors", "Actuators", "ADC and DAC", "Timers and counters"] },
+      { title: "Software Components", subtopics: ["Firmware", "Device drivers", "Middleware"] },
+    ],
+  },
+  {
+    title: "Microcontrollers",
+    topics: [
+      { title: "Introduction to Microcontrollers", subtopics: [] },
+      { title: "8051 Microcontroller Architecture", subtopics: ["CPU", "RAM and ROM", "I/O ports", "Timers", "Serial communication"] },
+      { title: "ARM Processor Basics", subtopics: [] },
+      { title: "Register Organization", subtopics: [] },
+    ],
+  },
+  {
+    title: "Embedded C Programming",
+    topics: [
+      { title: "Basics of Embedded C", subtopics: [] },
+      { title: "Data Types and Variables", subtopics: [] },
+      { title: "Bitwise Operations", subtopics: [] },
+      { title: "Functions and Pointers", subtopics: [] },
+      { title: "Interrupt Programming", subtopics: [] },
+    ],
+  },
+  {
+    title: "Interfacing Techniques",
+    topics: [
+      { title: "LED Interfacing", subtopics: [] },
+      { title: "LCD Interfacing", subtopics: [] },
+      { title: "Keyboard Interfacing", subtopics: [] },
+      { title: "Sensor Interfacing", subtopics: [] },
+      { title: "Motor Interfacing", subtopics: [] },
+    ],
+  },
+  {
+    title: "Communication Protocols",
+    topics: [
+      { title: "UART Communication", subtopics: [] },
+      { title: "SPI Protocol", subtopics: [] },
+      { title: "I2C Protocol", subtopics: [] },
+      { title: "CAN Protocol", subtopics: [] },
+      { title: "USB Basics", subtopics: [] },
+    ],
+  },
+  {
+    title: "Timers, Counters, and Interrupts",
+    topics: [
+      { title: "Timers and Counters", subtopics: [] },
+      { title: "Interrupt Basics", subtopics: [] },
+      { title: "Interrupt Handling", subtopics: [] },
+      { title: "Watchdog Timer", subtopics: [] },
+      { title: "PWM Generation", subtopics: [] },
+    ],
+  },
+  {
+    title: "Real-Time Operating Systems (RTOS)",
+    topics: [
+      { title: "Basics of RTOS", subtopics: [] },
+      { title: "Tasks and Threads", subtopics: [] },
+      { title: "Scheduling Algorithms", subtopics: [] },
+      { title: "Semaphores and Mutex", subtopics: [] },
+      { title: "Interprocess Communication", subtopics: [] },
+    ],
+  },
+  {
+    title: "Memory and Power Management",
+    topics: [
+      { title: "Memory Organization", subtopics: [] },
+      { title: "EEPROM and Flash Memory", subtopics: [] },
+      { title: "Cache Memory Basics", subtopics: [] },
+      { title: "Power Optimization Techniques", subtopics: [] },
+      { title: "Low Power Modes", subtopics: [] },
+    ],
+  },
+  {
+    title: "Embedded System Design Process",
+    topics: [
+      { title: "Requirement Analysis", subtopics: [] },
+      { title: "Hardware-Software Co-Design", subtopics: [] },
+      { title: "Testing and Debugging", subtopics: [] },
+      { title: "PCB Design Basics", subtopics: [] },
+      { title: "Embedded System Validation", subtopics: [] },
+    ],
+  },
+  {
+    title: "Advanced Embedded Applications",
+    topics: [
+      { title: "IoT Basics", subtopics: [] },
+      { title: "Wireless Embedded Systems", subtopics: [] },
+      { title: "Automotive Embedded Systems", subtopics: [] },
+      { title: "Robotics Applications", subtopics: [] },
+      { title: "AI in Embedded Systems", subtopics: [] },
+    ],
+  },
+];
+
+const EMBEDDED_SYSTEMS_HIGH_WEIGHTAGE_TOPICS = [
+  "Microcontroller architecture",
+  "Embedded C programming",
+  "Communication protocols",
+  "Interrupts and timers",
+  "RTOS concepts",
+  "Interfacing techniques",
+  "ARM processor basics",
+  "Embedded system design flow",
+];
+
+const EMBEDDED_SYSTEMS_TOPIC_ROUTES = [
+  "/learn/embedded-systems/introduction-to-embedded-systems",
+  "/learn/embedded-systems/embedded-system-architecture",
+  "/learn/embedded-systems/microcontrollers",
+  "/learn/embedded-systems/embedded-c-programming",
+  "/learn/embedded-systems/interfacing-techniques",
+  "/learn/embedded-systems/communication-protocols",
+  "/learn/embedded-systems/timers-counters-and-interrupts",
+  "/learn/embedded-systems/real-time-operating-systems-rtos",
+  "/learn/embedded-systems/memory-and-power-management",
+  "/learn/embedded-systems/embedded-system-design-process",
+  "/learn/embedded-systems/advanced-embedded-applications",
+];
 
 const CONTROL_SYSTEMS_CHAPTERS = [
   {
@@ -1627,6 +1993,49 @@ const MICROPROCESSORS_KNOWLEDGE = {
         "Students often memorize instructions without connecting opcode, operand, addressing mode, machine cycle, and bus activity.",
       realLifeInsight:
         "Microprocessors explain how CPUs execute instructions, move data, respond to interrupts, interface memory and I/O, and control embedded systems.",
+    },
+    learnPoints: chapter.topics.map((topic) => topic.title),
+    formulas: [],
+  })),
+};
+
+const EMBEDDED_SYSTEMS_KNOWLEDGE = {
+  overviewCards: [
+    {
+      title: "Overview of Embedded Systems",
+      description:
+        "For Graduate Aptitude Test in Engineering and PSU exams, Embedded Systems should be studied in a structured hierarchy: Chapter -> Topics -> Subtopics. This helps in understanding hardware-software integration, learning embedded architecture, solving interfacing problems, and preparing efficiently for GATE/PSU exams.",
+      points: [
+        "Start with embedded-system basics, characteristics, types, and applications.",
+        "Study processor, memory, I/O, sensors, actuators, firmware, device drivers, and middleware as one architecture.",
+        "Build strength in microcontrollers, Embedded C, interrupts, timers, and communication protocols.",
+        "Finish with RTOS, memory, power management, design flow, validation, IoT, wireless, automotive, robotics, and AI applications.",
+      ],
+    },
+  ],
+  concepts: EMBEDDED_SYSTEMS_CHAPTERS.map((chapter, index) => ({
+    slug: `embedded-systems-chapter-${index + 1}`,
+    title: chapter.title,
+    shortTitle: chapter.title,
+    diagram: "basic-circuit",
+    diagramNote:
+      "Embedded Systems questions are best handled by first identifying the chapter, then the exact hardware, software, interface, protocol, or real-time concept being tested.",
+    summary: chapter.topics
+      .map((topic) => [topic.title, ...topic.subtopics].join(": "))
+      .join(" | "),
+    teaching: {
+      intuition: [
+        `${chapter.title} is Chapter ${index + 1} in the Embedded Systems GATE/PSU flow.`,
+        "Prepare it as a hardware, firmware, interfacing, communication, timing, RTOS, memory, power, or design-flow block, then practice conceptual and application questions from that block.",
+      ],
+      explanation: chapter.topics.map((topic) =>
+        topic.subtopics.length ? `${topic.title}: ${topic.subtopics.join(", ")}` : topic.title
+      ),
+      interpretation: chapter.topics.map((topic) => topic.title),
+      commonMistake:
+        "Students often study microcontrollers, Embedded C, interfacing, protocols, and RTOS as separate facts instead of connecting them through hardware-software interaction.",
+      realLifeInsight:
+        "Embedded Systems combine hardware and software to perform dedicated real-time tasks efficiently using microcontrollers, communication interfaces, sensors, and optimized embedded programming techniques.",
     },
     learnPoints: chapter.topics.map((topic) => topic.title),
     formulas: [],
@@ -6406,6 +6815,63 @@ function VlsiDesignOverviewPanel() {
   );
 }
 
+function AntennaWavePropagationOverviewPanel() {
+  return (
+    <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Is Antenna & Wave Propagation?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            Antenna and Wave Propagation explains how electromagnetic energy is
+            radiated, received, directed, polarized, measured, and carried through
+            ground wave, sky wave, and space wave paths.
+          </p>
+        </article>
+
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            Why Do We Study It?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            We study this subject because GATE, PSU exams, wireless links, radar,
+            satellite systems, and mobile communication all depend on antenna
+            parameters, dipole behavior, arrays, Friis equation, and propagation
+            mechanisms.
+          </p>
+        </article>
+
+        <article className="lg:col-span-2">
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Will You Learn?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            For Graduate Aptitude Test in Engineering and PSU exams, prepare
+            Antenna and Wave Propagation in a structured format: Chapter - Topics -
+            Subtopics. Use the hamburger menu to open the complete hierarchy.
+          </p>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+            {[
+              "Antenna basics, radiation mechanism, antenna types, radiation pattern, beamwidth, directivity, gain, and efficiency.",
+              "Radiation intensity, power density, effective aperture, polarization, and Friis transmission equation.",
+              "Hertzian dipole, half-wave dipole, quarter-wave monopole, radiation resistance, and current distribution.",
+              "Antenna arrays including broadside arrays, end-fire arrays, array factor, pattern multiplication, and phased arrays.",
+              "Special antennas such as loop, helical, horn, parabolic reflector, and microstrip patch antennas.",
+              "Ground wave, sky wave, space wave, ionosphere, critical frequency, MUF, LOS links, measurements, smart antennas, and MIMO basics.",
+            ].map((point) => (
+              <li key={point} className="flex gap-2">
+                <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </section>
+  );
+}
+
 function DigitalSignalProcessingOverviewPanel() {
   return (
     <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
@@ -6510,6 +6976,64 @@ function MicroprocessorsOverviewPanel() {
               "Timing diagrams, machine cycles, opcode fetch, memory read/write, and I/O read/write cycles.",
               "Interrupts, interrupt priority, interrupt handling, memory interfacing, address decoding, and memory mapping.",
               "I/O interfacing, programmed I/O, interrupt-driven I/O, DMA, 8255 PPI, 8086 architecture, segmentation, and embedded basics.",
+            ].map((point) => (
+              <li key={point} className="flex gap-2">
+                <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+function EmbeddedSystemsOverviewPanel() {
+  return (
+    <section className="mb-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Are Embedded Systems?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            Embedded Systems combine hardware and software to perform dedicated
+            tasks inside products such as consumer electronics, automobiles,
+            industrial controllers, medical devices, IoT nodes, robots, and
+            real-time instruments.
+          </p>
+        </article>
+
+        <article>
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            Why Do We Study It?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            We study this subject because GATE, PSU exams, interviews, and
+            practical engineering frequently test microcontrollers, Embedded C,
+            interrupts, timers, interfacing, protocols, RTOS basics, memory,
+            power optimization, and design validation.
+          </p>
+        </article>
+
+        <article className="lg:col-span-2">
+          <h2 className="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">
+            What Will You Learn?
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+            For Graduate Aptitude Test in Engineering and PSU exams, prepare
+            Embedded Systems in a structured format: Chapter - Topics - Subtopics.
+            Use the hamburger menu to open the complete hierarchy.
+          </p>
+          <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
+            {[
+              "Embedded-system basics, characteristics, standalone systems, real-time systems, networked systems, mobile systems, and applications.",
+              "Embedded architecture including processor, memory, I/O, sensors, actuators, ADC, DAC, timers, counters, firmware, drivers, and middleware.",
+              "Microcontrollers including 8051 architecture, CPU, RAM, ROM, I/O ports, timers, serial communication, ARM basics, and registers.",
+              "Embedded C programming including data types, variables, bitwise operations, functions, pointers, and interrupt programming.",
+              "Interfacing and protocols including LED, LCD, keyboard, sensors, motors, UART, SPI, I2C, CAN, USB, timers, counters, watchdog, and PWM.",
+              "RTOS, tasks, scheduling, semaphores, mutex, IPC, memory organization, EEPROM, Flash, cache, power optimization, low-power modes, design flow, validation, IoT, wireless, automotive, robotics, and AI applications.",
             ].map((point) => (
               <li key={point} className="flex gap-2">
                 <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
@@ -7222,6 +7746,90 @@ function ElectromagneticTheoryChapterMenu() {
   );
 }
 
+function AntennaWavePropagationChapterMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open Antenna and Wave Propagation chapters"
+        aria-expanded={isOpen}
+        aria-controls="antenna-wave-propagation-chapter-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="antenna-wave-propagation-chapter-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(30rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              Antenna & Wave Propagation Structure
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
+              Chapter - Topics - Subtopics for GATE/PSU revision.
+            </p>
+          </div>
+
+          <div className="mb-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-700">
+              Most Important Topics
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {ANTENNA_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
+                <span
+                  key={topic}
+                  className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700"
+                >
+                  {topic}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-2">
+            {ANTENNA_WAVE_PROPAGATION_CHAPTERS.map((chapter, chapterIndex) => (
+              <Link
+                key={chapter.title}
+                href={ANTENNA_TOPIC_ROUTES[chapterIndex] || "/subjects/antenna-and-wave-propagation"}
+                onClick={() => setIsOpen(false)}
+                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+              >
+                <span className="flex items-start gap-2.5">
+                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
+                    {String(chapterIndex + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-black leading-snug text-slate-950">
+                      {chapter.title}
+                    </span>
+                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
+                      {chapter.topics.map((topic) => topic.title).join(", ")}
+                    </span>
+                  </span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function VlsiDesignChapterMenu() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -7278,9 +7886,9 @@ function VlsiDesignChapterMenu() {
 
           <div className="grid gap-2">
             {VLSI_DESIGN_CHAPTERS.map((chapter, chapterIndex) => (
-              <a
+              <Link
                 key={chapter.title}
-                href={`#vlsi-chapter-${chapterIndex + 1}`}
+                href={VLSI_TOPIC_ROUTES[chapterIndex] || `#vlsi-chapter-${chapterIndex + 1}`}
                 onClick={() => setIsOpen(false)}
                 className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
               >
@@ -7297,7 +7905,7 @@ function VlsiDesignChapterMenu() {
                     </span>
                   </span>
                 </span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -7479,6 +8087,90 @@ function MicroprocessorsChapterMenu() {
               </Link>
               );
             })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function EmbeddedSystemsChapterMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="relative flex-none">
+      <button
+        type="button"
+        onClick={() => setIsOpen((currentValue) => !currentValue)}
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
+        aria-label="Open Embedded Systems chapters"
+        aria-expanded={isOpen}
+        aria-controls="embedded-systems-chapter-menu"
+      >
+        {isOpen ? (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )}
+      </button>
+
+      {isOpen ? (
+        <div
+          id="embedded-systems-chapter-menu"
+          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+              Embedded Systems Structure
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
+              Chapter - Topics - Subtopics for GATE/PSU revision.
+            </p>
+          </div>
+
+          <div className="mb-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-700">
+              Most Important Topics
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {EMBEDDED_SYSTEMS_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
+                <span
+                  key={topic}
+                  className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700"
+                >
+                  {topic}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-2">
+            {EMBEDDED_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => (
+              <Link
+                key={chapter.title}
+                href={EMBEDDED_SYSTEMS_TOPIC_ROUTES[chapterIndex] || "/subjects/embedded-systems"}
+                onClick={() => setIsOpen(false)}
+                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
+              >
+                <span className="flex items-start gap-2.5">
+                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
+                    {String(chapterIndex + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-black leading-snug text-slate-950">
+                      {chapter.title}
+                    </span>
+                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
+                      {chapter.topics.map((topic) => topic.title).join(", ")}
+                    </span>
+                  </span>
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       ) : null}
@@ -13171,10 +13863,14 @@ export default function SubjectTheoryPage({
       ? DIGITAL_ELECTRONICS_KNOWLEDGE
       : subject.title === "Electromagnetic Theory"
       ? ELECTROMAGNETIC_THEORY_KNOWLEDGE
+      : subject.title === "Antenna & Wave Propagation"
+      ? ANTENNA_WAVE_PROPAGATION_KNOWLEDGE
       : subject.title === "VLSI Design"
       ? VLSI_DESIGN_KNOWLEDGE
       : subject.title === "Microprocessors"
       ? MICROPROCESSORS_KNOWLEDGE
+      : subject.title === "Embedded Systems"
+      ? EMBEDDED_SYSTEMS_KNOWLEDGE
       : subject.title === "Digital Signal Processing"
       ? DIGITAL_SIGNAL_PROCESSING_KNOWLEDGE
       : subject.title === "Signals and Systems"
@@ -13244,6 +13940,8 @@ export default function SubjectTheoryPage({
             <VlsiDesignChapterMenu />
           ) : subject.title === "Microprocessors" ? (
             <MicroprocessorsChapterMenu />
+          ) : subject.title === "Embedded Systems" ? (
+            <EmbeddedSystemsChapterMenu />
           ) : subject.title === "Digital Signal Processing" ? (
             <DigitalSignalProcessingChapterMenu />
           ) : subject.title === "Signals and Systems" ? (
@@ -13277,6 +13975,7 @@ export default function SubjectTheoryPage({
     subject.title !== "Electromagnetic Theory" &&
     subject.title !== "VLSI Design" &&
     subject.title !== "Microprocessors" &&
+    subject.title !== "Embedded Systems" &&
     subject.title !== "Digital Signal Processing" &&
     !isConceptIntroPage &&
     !isExternalDiodeConcept;
@@ -14065,10 +14764,14 @@ export default function SubjectTheoryPage({
             <DigitalChapterMenu />
           ) : subject.title === "Electromagnetic Theory" ? (
             <ElectromagneticTheoryChapterMenu />
+          ) : subject.title === "Antenna & Wave Propagation" ? (
+            <AntennaWavePropagationChapterMenu />
           ) : subject.title === "VLSI Design" ? (
             <VlsiDesignChapterMenu />
           ) : subject.title === "Microprocessors" ? (
             <MicroprocessorsChapterMenu />
+          ) : subject.title === "Embedded Systems" ? (
+            <EmbeddedSystemsChapterMenu />
           ) : subject.title === "Digital Signal Processing" ? (
             <DigitalSignalProcessingChapterMenu />
           ) : subject.title === "Signals and Systems" ? (
@@ -14160,10 +14863,14 @@ export default function SubjectTheoryPage({
               <DigitalOverviewPanel />
             ) : subject.title === "Electromagnetic Theory" ? (
               <ElectromagneticTheoryOverviewPanel />
+            ) : subject.title === "Antenna & Wave Propagation" ? (
+              <AntennaWavePropagationOverviewPanel />
             ) : subject.title === "VLSI Design" ? (
               <VlsiDesignOverviewPanel />
             ) : subject.title === "Microprocessors" ? (
               <MicroprocessorsOverviewPanel />
+            ) : subject.title === "Embedded Systems" ? (
+              <EmbeddedSystemsOverviewPanel />
             ) : subject.title === "Digital Signal Processing" ? (
               <DigitalSignalProcessingOverviewPanel />
             ) : subject.title === "Signals and Systems" ? (
@@ -14217,12 +14924,12 @@ export default function SubjectTheoryPage({
                     Start Vector Calculus
                   </a>
                 ) : subject.title === "VLSI Design" ? (
-                  <a
-                    href="#vlsi-chapter-1"
+                  <Link
+                    href="/learn/vlsi-design/introduction-to-vlsi-design"
                     className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-4 py-3 text-center text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto sm:px-5"
                   >
                     Start Introduction to VLSI Design
-                  </a>
+                  </Link>
                 ) : subject.title === "Microprocessors" ? (
                   <button
                     type="button"
@@ -14231,6 +14938,13 @@ export default function SubjectTheoryPage({
                   >
                     Use Chapter Menu
                   </button>
+                ) : subject.title === "Embedded Systems" ? (
+                  <Link
+                    href="/learn/embedded-systems/introduction-to-embedded-systems"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-portal-600 px-4 py-3 text-center text-sm font-bold text-white shadow-sm transition hover:bg-portal-700 sm:w-auto sm:px-5"
+                  >
+                    Start Introduction to Embedded Systems
+                  </Link>
                 ) : subject.title === "Digital Signal Processing" ? (
                   <Link
                     href="/learn/dsp/introduction-to-dsp"
@@ -14603,6 +15317,14 @@ export default function SubjectTheoryPage({
               Theory
             </a>
           ) : subject.title === "Microprocessors" ? (
+            <button
+              type="button"
+              onClick={() => selectRoadmapTopic(0, "subject-roadmap-top")}
+              className="rounded-2xl px-2 py-3 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Theory
+            </button>
+          ) : subject.title === "Embedded Systems" ? (
             <button
               type="button"
               onClick={() => selectRoadmapTopic(0, "subject-roadmap-top")}

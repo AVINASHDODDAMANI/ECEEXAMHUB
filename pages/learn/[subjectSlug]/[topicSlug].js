@@ -5,6 +5,9 @@ import CommunicationSystemTopicPage from "../../../components/CommunicationSyste
 import DigitalSignalProcessingTopicPage from "../../../components/DigitalSignalProcessingTopicPage";
 import ElectromagneticTheoryTopicPage from "../../../components/ElectromagneticTheoryTopicPage";
 import MicroprocessorTopicPage from "../../../components/MicroprocessorTopicPage";
+import VLSIDesignTopicPage from "../../../components/VLSIDesignTopicPage";
+import AntennaWavePropagationTopicPage from "../../../components/AntennaWavePropagationTopicPage";
+import EmbeddedSystemsTopicPage from "../../../components/EmbeddedSystemsTopicPage";
 import seedQuestions from "../../../data/questions";
 import {
   buildTopicKey,
@@ -81,6 +84,18 @@ export default function LearningTopicPage({ topic }) {
 
   if (topic.subjectSlug === "dsp") {
     return <DigitalSignalProcessingTopicPage topic={topic} />;
+  }
+
+  if (topic.subjectSlug === "vlsi-design") {
+    return <VLSIDesignTopicPage topic={topic} />;
+  }
+
+  if (topic.subjectSlug === "antenna-wave-propagation") {
+    return <AntennaWavePropagationTopicPage topic={topic} />;
+  }
+
+  if (topic.subjectSlug === "embedded-systems") {
+    return <EmbeddedSystemsTopicPage topic={topic} />;
   }
 
   const {
