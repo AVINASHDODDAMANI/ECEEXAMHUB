@@ -7393,6 +7393,7 @@ function NetworkTopicList({ compact = false, concepts = [], activeIndex = 0, onS
             <Link
               key={group.title}
               href={routeHref}
+              onClick={() => handleTopicSelect(group.title)}
               className={className}
             >
               {content}
@@ -14412,6 +14413,23 @@ export default function SubjectTheoryPage({
   }
 
   if (standaloneTopicPage === "basic-concepts") {
+    const basicConceptSections = [
+      ["introduction", "Introduction"],
+      ["intuition", "Basic Intuition"],
+      ["visualization", "Visualization"],
+      ["theory", "Core Theory"],
+      ["formulas", "Formulas"],
+      ["exam-focus", "Exam Focus"],
+      ["related-topics", "Related Topics"],
+    ];
+
+    function jumpToBasicConceptSection(id) {
+      document.getElementById(id)?.scrollIntoView({
+        behavior: "auto",
+        block: "start",
+      });
+    }
+
     return (
       <Layout title="ECE Exam Guide | Basic Concepts" pageClassName="py-3 sm:py-4">
         <div className="mx-auto max-w-[1200px] pb-24">
@@ -14494,22 +14512,15 @@ export default function SubjectTheoryPage({
             className="sticky top-20 z-20 mt-4 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-sm backdrop-blur"
           >
             <div className="flex gap-2 overflow-x-auto pb-1">
-              {[
-                ["introduction", "Introduction"],
-                ["intuition", "Basic Intuition"],
-                ["visualization", "Visualization"],
-                ["theory", "Core Theory"],
-                ["formulas", "Formulas"],
-                ["exam-focus", "Exam Focus"],
-                ["related-topics", "Related Topics"],
-              ].map(([id, label]) => (
-                <a
+              {basicConceptSections.map(([id, label]) => (
+                <button
                   key={id}
-                  href={`#${id}`}
+                  type="button"
+                  onClick={() => jumpToBasicConceptSection(id)}
                   className="whitespace-nowrap rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-portal-200 hover:bg-portal-50 hover:text-portal-700"
                 >
                   {label}
-                </a>
+                </button>
               ))}
             </div>
           </nav>

@@ -6,12 +6,5 @@
 - Local:         http://127.0.0.1:3001
 - Network:       http://127.0.0.1:3001
 - Environments: .env.local
-✓ Ready in 1190ms
-Creating turbopack project {
-  dir: 'C:\\Users\\AVINASH\\Documents\\GitHub\\ECEEXAMHUB',
-  testMode: true
-}
-
- GET /learn/dsp/sampling-and-reconstruction 200 in 1016ms (next.js: 948ms, generate-params: 940ms, application-code: 68ms)
- GET /learn/dsp/introduction-to-dsp 200 in 2.1s (next.js: 2.0s, generate-params: 1900ms, application-code: 77ms)
- GET /subjects/digital-signal-processing 200 in 1367ms (next.js: 1303ms, generate-params: 1228ms, application-code: 64ms)
+✓ Ready in 1208ms
+[?25h

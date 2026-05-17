@@ -1097,6 +1097,12 @@ export default function PreviousYearPage() {
   ]);
 
   const solvedCount = visibleQuestions.filter((question) => Boolean(question.explanation)).length;
+  const repeatedCount = visibleQuestions.filter((question) =>
+    (question.tags || []).includes("repeated")
+  ).length;
+  const importantCount = visibleQuestions.filter((question) =>
+    (question.tags || []).includes("important")
+  ).length;
   const hasActiveSelection =
     Boolean(search.trim()) ||
     activeFilters.exam !== initialFilters.exam ||
@@ -1105,6 +1111,42 @@ export default function PreviousYearPage() {
     activeFilters.topic !== initialFilters.topic ||
     activeFilters.paperType !== initialFilters.paperType;
   const latestYear = visiblePapers[0]?.year || filterOptions.years[0] || "--";
+  const solutionCoverage = visibleQuestions.length
+    ? Math.round((solvedCount / visibleQuestions.length) * 100)
+    : 0;
+  const selectedArchiveTitle =
+    activeFilters.exam !== initialFilters.exam
+      ? `${activeFilters.exam} Previous Papers`
+      : search.trim()
+        ? `${search.trim()} Previous Papers`
+        : "ECE Previous Papers Archive";
+  const archiveMetrics = [
+    {
+      label: "Papers",
+      value: String(visiblePapers.length),
+      detail: "Exam-wise sets",
+    },
+    {
+      label: "Questions",
+      value: String(visibleQuestions.length),
+      detail: "Currently in view",
+    },
+    {
+      label: "Solutions",
+      value: `${solutionCoverage}%`,
+      detail: `${solvedCount} explained`,
+    },
+    {
+      label: "Latest year",
+      value: String(latestYear),
+      detail: "Newest paper found",
+    },
+  ];
+  const patternMetrics = [
+    ["Repeated", repeatedCount, "Patterns seen more than once"],
+    ["Important", importantCount, "High-priority questions"],
+    ["Paper type", activeFilters.paperType, "Current attempt format"],
+  ];
   const activeFilterBadges = useMemo(
     () => buildActiveFilterBadges(search, activeFilters),
     [search, activeFilters]
@@ -1225,10 +1267,10 @@ export default function PreviousYearPage() {
       pageClassName="py-5 sm:py-6"
     >
       <div className="mx-auto max-w-[1440px] space-y-6">
-        <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
+        <nav className="flex flex-wrap items-center gap-2 text-sm text-slate-500" aria-label="Breadcrumb">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 font-medium text-slate-500 transition hover:text-portal-700"
+            className="inline-flex items-center gap-2 font-semibold text-slate-500 transition hover:text-portal-700"
           >
             <UiIcon type="home" className="h-4 w-4" />
             Home
@@ -1236,17 +1278,85 @@ export default function PreviousYearPage() {
           <span aria-hidden="true" className="text-slate-300">
             &gt;
           </span>
-          <span className="font-semibold text-slate-700">Previous Papers</span>
-        </div>
+          <span className="font-extrabold text-slate-800">Previous Papers</span>
+        </nav>
+
+        <section className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.12)]">
+          <div className="grid gap-0 lg:grid-cols-[1fr_430px]">
+            <div className="bg-slate-950 p-6 text-white sm:p-8">
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-cyan-200">
+                Previous paper command center
+              </p>
+              <h1 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-tight sm:text-5xl">
+                Practice Real ECE Exam Papers With Pattern Insights
+              </h1>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-200 sm:text-base">
+                Open year-wise papers, filter by exam and subject, review solved questions, and use repeated patterns to guide your next revision session.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a
+                  href="#paper-library"
+                  className="inline-flex min-h-12 items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-extrabold text-slate-950 transition hover:bg-cyan-50"
+                >
+                  Browse Papers
+                </a>
+                <a
+                  href="#question-bank"
+                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+                >
+                  Solve Questions
+                </a>
+              </div>
+            </div>
+
+            <div className="bg-slate-50 p-5 sm:p-6">
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500">
+                Current archive
+              </p>
+              <h2 className="mt-2 text-2xl font-extrabold text-slate-950">
+                {selectedArchiveTitle}
+              </h2>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                {archiveMetrics.map((metric) => (
+                  <div key={metric.label} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                    <p className="text-2xl font-extrabold text-slate-950">{metric.value}</p>
+                    <p className="mt-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-slate-500">
+                      {metric.label}
+                    </p>
+                    <p className="mt-2 text-sm leading-5 text-slate-600">{metric.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
         <section className="overflow-hidden rounded-[30px] border border-[#e2e9f7] bg-white shadow-[0_18px_60px_rgba(17,43,92,0.08)]">
           <div className="space-y-5 p-3 sm:space-y-6 sm:p-6">
             <section className="space-y-4">
-              <div className="flex flex-col gap-2">
-                <h1 className="text-lg font-bold text-slate-900 sm:text-2xl">Select Exam</h1>
-                <p className="text-sm text-slate-600">
-                  Choose an exam family to open a focused previous-paper library.
-                </p>
+              <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+                <div>
+                  <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
+                    Exam archive
+                  </p>
+                  <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
+                    Select Exam Family
+                  </h2>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    Choose an exam family to open a focused previous-paper library with year-wise practice.
+                  </p>
+                </div>
+                <div className="grid gap-2 sm:grid-cols-3">
+                  {patternMetrics.map(([label, value, detail]) => (
+                    <div key={label} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                      <p className="text-lg font-extrabold text-slate-950">{value}</p>
+                      <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">
+                        {label}
+                      </p>
+                      <p className="mt-1 text-xs text-slate-500">{detail}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:hidden">
@@ -1494,12 +1604,28 @@ export default function PreviousYearPage() {
                               </p>
                               <p className="mt-1 font-semibold text-slate-800">{paper.questionCount}</p>
                             </div>
+                            <div className="rounded-xl border border-[#e4eaf6] bg-white px-3 py-2">
+                              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                                Solved
+                              </p>
+                              <p className="mt-1 font-semibold text-slate-800">
+                                {getSolvedPercentage(paper.solvedCount, paper.questionCount)}%
+                              </p>
+                            </div>
+                            <div className="rounded-xl border border-[#e4eaf6] bg-white px-3 py-2">
+                              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                                Signals
+                              </p>
+                              <p className="mt-1 font-semibold text-slate-800">
+                                {paper.repeatedCount + paper.importantCount}
+                              </p>
+                            </div>
                           </div>
 
                           <div className="mt-4">
                             <Link
                               href={previewHref}
-                              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-3 py-2.5 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
+                              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-portal-700 px-3 py-2.5 text-sm font-bold text-white transition hover:bg-portal-800"
                             >
                               <UiIcon type="eye" className="h-4 w-4" />
                               Open Paper
@@ -1561,13 +1687,15 @@ export default function PreviousYearPage() {
                   </div>
 
                   <div className="hidden overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:block">
-                    <div className="min-w-[980px]">
+                    <div className="min-w-[1220px]">
                       <table className="min-w-full text-left">
                         <thead className="bg-[#fbfcff] text-sm text-slate-500">
                           <tr>
                             <th className="px-6 py-4 font-bold">Year</th>
                             <th className="px-6 py-4 font-bold">Paper / Post</th>
                             <th className="px-6 py-4 font-bold">Type</th>
+                            <th className="px-6 py-4 font-bold">Questions</th>
+                            <th className="px-6 py-4 font-bold">Pattern Signals</th>
                             <th className="px-6 py-4 font-bold">Solutions</th>
                             <th className="px-6 py-4 font-bold">Action</th>
                           </tr>
@@ -1611,6 +1739,24 @@ export default function PreviousYearPage() {
                                   </p>
                                 </td>
                                 <td className="px-6 py-5 align-top">
+                                  <p className="text-sm font-bold text-slate-900">
+                                    {paper.questionCount}
+                                  </p>
+                                  <p className="mt-1 text-xs text-slate-500">
+                                    {paper.subjectCount} subjects | {paper.topicCount} topics
+                                  </p>
+                                </td>
+                                <td className="px-6 py-5 align-top">
+                                  <div className="flex flex-wrap gap-2">
+                                    <span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-bold text-orange-700">
+                                      {paper.repeatedCount} repeated
+                                    </span>
+                                    <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700">
+                                      {paper.importantCount} important
+                                    </span>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-5 align-top">
                                   <span
                                     className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
                                       hasSolutions
@@ -1618,14 +1764,16 @@ export default function PreviousYearPage() {
                                         : "bg-slate-100 text-slate-600"
                                     }`}
                                   >
-                                    {hasSolutions ? "Available" : "Limited"}
+                                    {hasSolutions
+                                      ? `${getSolvedPercentage(paper.solvedCount, paper.questionCount)}% solved`
+                                      : "Limited"}
                                   </span>
                                 </td>
                                 <td className="px-6 py-5 align-top">
                                   <div className="flex items-center gap-3">
                                     <Link
                                       href={previewHref}
-                                      className="inline-flex items-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-2.5 text-sm font-semibold text-portal-700 transition hover:border-portal-300"
+                                      className="inline-flex items-center gap-2 rounded-xl bg-portal-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-portal-800"
                                     >
                                       <UiIcon type="eye" className="h-4 w-4" />
                                       Open Paper

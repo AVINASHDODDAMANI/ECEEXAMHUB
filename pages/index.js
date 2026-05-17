@@ -7,24 +7,7 @@ import { getReadyLearningTopics } from "../lib/learning-utils";
 import { useLearningProgress } from "../lib/use-learning-progress";
 import { fetchQuestions } from "../lib/api-client";
 
-function IconBadge({ children, tone = "blue" }) {
-  const tones = {
-    blue: "border-blue-200 bg-blue-50 text-blue-700",
-    green: "border-emerald-200 bg-emerald-50 text-emerald-700",
-    orange: "border-orange-200 bg-orange-50 text-orange-700",
-    violet: "border-violet-200 bg-violet-50 text-violet-700",
-    cyan: "border-cyan-200 bg-cyan-50 text-cyan-700",
-    slate: "border-slate-200 bg-slate-50 text-slate-700",
-  };
-
-  return (
-    <span className={`flex h-11 w-11 items-center justify-center rounded-xl border ${tones[tone]}`}>
-      {children}
-    </span>
-  );
-}
-
-function SimpleIcon({ type }) {
+function MiniIcon({ type }) {
   const common = {
     className: "h-5 w-5",
     viewBox: "0 0 24 24",
@@ -32,74 +15,131 @@ function SimpleIcon({ type }) {
     "aria-hidden": true,
   };
 
-  if (type === "book") {
-    return (
-      <svg {...common}>
-        <path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v16H7.5A2.5 2.5 0 0 0 5 21V5.5Z" stroke="currentColor" strokeWidth="1.8" />
-        <path d="M5 5.5V21M9 7h6M9 11h6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      </svg>
-    );
-  }
-
-  if (type === "practice") {
-    return (
-      <svg {...common}>
-        <path d="M8 4h8l2 3v13H6V7l2-3Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-        <path d="M9 12h6M9 16h4M8 4v3h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      </svg>
-    );
-  }
-
-  if (type === "chart") {
-    return (
-      <svg {...common}>
-        <path d="M5 19V5M5 19h14M9 16v-5M13 16V8M17 16v-8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      </svg>
-    );
-  }
-
-  if (type === "target") {
-    return (
-      <svg {...common}>
-        <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.8" />
-        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" />
-        <path d="M12 2v3M22 12h-3M12 22v-3M2 12h3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      </svg>
-    );
-  }
-
-  if (type === "paper") {
-    return (
-      <svg {...common}>
-        <path d="M7 3h7l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-        <path d="M14 3v5h4M8 13h7M8 17h5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      </svg>
-    );
-  }
+  const paths = {
+    play: "M8 5v14l11-7L8 5Z",
+    target: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-5a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z",
+    chart: "M4 19V5m0 14h16M8 16v-5m4 5V7m4 9v-8",
+    spark: "M12 3l1.9 5.4L19 10l-5.1 1.6L12 17l-1.9-5.4L5 10l5.1-1.6L12 3Zm6 10 1 2.8 3 1-3 1-1 2.8-1-2.8-3-1 3-1 1-2.8Z",
+    paper: "M7 3h7l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm7 0v5h4M8 13h7M8 17h5",
+    brain: "M9 4a3 3 0 0 0-3 3v1a4 4 0 0 0 0 8v1a3 3 0 0 0 5 2.2A3 3 0 0 0 16 17v-1a4 4 0 0 0 0-8V7a3 3 0 0 0-5-2.2A3 3 0 0 0 9 4Z",
+  };
 
   return (
     <svg {...common}>
-      <path d="M12 3 4 7l8 4 8-4-8-4ZM4 12l8 4 8-4M4 17l8 4 8-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d={paths[type] || paths.spark}
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-function SectionTitle({ eyebrow, title, description, align = "center" }) {
-  const alignment = align === "left" ? "text-left" : "mx-auto max-w-3xl text-center";
-
+function SectionHeader({ eyebrow, title, description, align = "center" }) {
   return (
-    <div className={alignment}>
-      {eyebrow ? (
-        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-portal-600">
-          {eyebrow}
-        </p>
-      ) : null}
-      <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">
+    <div className={align === "left" ? "max-w-2xl" : "mx-auto max-w-3xl text-center"}>
+      <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
+        {eyebrow}
+      </p>
+      <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">
         {title}
       </h2>
-      {description ? (
-        <p className="mt-2 text-sm leading-7 text-slate-600">{description}</p>
-      ) : null}
+      <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
+    </div>
+  );
+}
+
+function DashboardPreview({ completionPercent, completedTopics }) {
+  const subjectBars = [
+    ["Network Theory", 82, "bg-emerald-500"],
+    ["Analog Electronics", 68, "bg-portal-600"],
+    ["Signals", 54, "bg-cyan-500"],
+    ["Control Systems", 47, "bg-orange-500"],
+  ];
+
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_28px_80px_rgba(15,23,42,0.14)]">
+      <div className="flex items-center justify-between border-b border-slate-200 bg-slate-950 px-5 py-4 text-white">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-200">
+            Live prep dashboard
+          </p>
+          <h2 className="mt-1 text-lg font-extrabold">Today&apos;s GATE ECE focus</h2>
+        </div>
+        <div className="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-200">
+          12 day streak
+        </div>
+      </div>
+
+      <div className="grid gap-4 p-4">
+        <div className="grid gap-3 sm:grid-cols-3">
+          {[
+            ["Syllabus", `${completionPercent || 72}%`],
+            ["Solved", "1,240"],
+            ["Topics", completedTopics || 38],
+          ].map(([label, value]) => (
+            <div key={label} className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+              <p className="text-2xl font-extrabold text-slate-950">{value}</p>
+              <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">
+                {label}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="rounded-xl border border-portal-200 bg-portal-50 p-4">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
+                Continue learning
+              </p>
+              <h3 className="mt-2 text-xl font-extrabold text-slate-950">
+                Analog Electronics
+              </h3>
+              <p className="mt-1 text-sm font-semibold text-slate-600">
+                BJT biasing and small signal models
+              </p>
+            </div>
+            <span className="rounded-full bg-white px-3 py-1 text-xs font-extrabold text-portal-700">
+              68%
+            </span>
+          </div>
+          <div className="mt-4 h-2 rounded-full bg-white">
+            <div className="h-2 w-[68%] rounded-full bg-portal-700" />
+          </div>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-[1fr_0.78fr]">
+          <div className="rounded-xl border border-slate-200 p-4">
+            <p className="text-sm font-extrabold text-slate-950">Subject mastery</p>
+            <div className="mt-4 grid gap-3">
+              {subjectBars.map(([label, value, color]) => (
+                <div key={label}>
+                  <div className="flex justify-between text-xs font-bold text-slate-600">
+                    <span>{label}</span>
+                    <span>{value}%</span>
+                  </div>
+                  <div className="mt-1 h-2 rounded-full bg-slate-100">
+                    <div className={`h-2 rounded-full ${color}`} style={{ width: `${value}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-xl border border-orange-200 bg-orange-50 p-4">
+            <p className="text-sm font-extrabold text-slate-950">Weak topics</p>
+            <div className="mt-3 grid gap-2">
+              {["Root locus", "Fourier transform", "MOSFET biasing"].map((item) => (
+                <span key={item} className="rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -120,7 +160,7 @@ export default function Home() {
           setQuestions(data);
         }
       } catch {
-        // Seed data keeps the homepage working offline.
+        // Seed data keeps the homepage useful without the API.
       }
     }
 
@@ -132,93 +172,69 @@ export default function Home() {
     };
   }, []);
 
-  const proofStats = [
+  const stats = [
     ["Ready topics", readyTopics.length],
     ["Practice questions", questions.length],
     ["Exam paths", examDirectory.length],
     ["Core subjects", 12],
   ];
 
-  const learningFlow = [
-    ["Learn", "Build fundamentals with concise theory, diagrams, examples, and formulas.", "book", "blue", "/subjects"],
-    ["Practice", "Move from topic MCQs to previous year style questions while the concept is fresh.", "practice", "green", "/mcqs"],
-    ["Test", "Use mock tests and timed practice to turn revision into exam readiness.", "target", "orange", "/mock-tests"],
-    ["Track", "Keep your completed topics, question attempts, and revision progress visible.", "chart", "cyan", "/learn"],
+  const outcomes = [
+    ["Crack GATE faster", "Follow a subject-wise plan that turns scattered preparation into a weekly exam routine.", "target"],
+    ["Track weak topics", "See where accuracy drops and revise the exact ECE concepts that cost marks.", "chart"],
+    ["Practice PYQs efficiently", "Move from theory to previous year patterns while the concept is still fresh.", "paper"],
+    ["Revise with AI guidance", "Use assistant-style prompts for formulas, mistakes, and next-step recommendations.", "brain"],
   ];
 
-  const focusSubjects = [
-    ["Network Analysis", "/subjects/network-analysis"],
-    ["Analog Electronics", "/subjects/analog-electronics"],
-    ["Digital Electronics", "/subjects/digital-electronics"],
-    ["Signals & Systems", "/subjects/signals-and-systems"],
-    ["Control Systems", "/subjects/control-systems"],
-    ["Communication Systems", "/subjects/communication-systems"],
-    ["Electromagnetic Theory", "/subjects/electromagnetic-theory"],
-    ["Microprocessors", "/subjects/microprocessors"],
+  const featureHighlights = [
+    ["Learn", "Concise ECE theory, formulas, diagrams, and exam pointers.", "/subjects"],
+    ["Practice", "Topic MCQs and previous year style questions for active recall.", "/mcqs"],
+    ["Mock Tests", "Timed exam practice with score, rank, and trend-focused feedback.", "/mock-tests"],
   ];
 
-  const differentiators = [
-    "Topic-wise learning path instead of scattered links",
-    "PYQ and practice flow connected to subject preparation",
-    "Progress dashboard for completed topics and revision",
-    "Formula-first notes for faster final revision",
-  ];
-
-  const trustItems = [
-    "Free access to theory, notes, MCQs, PYQs, and mock-test areas",
-    "Search built into the top navigation for quick topic discovery",
-    "Structured for GATE, ESE, PSU, and university exam preparation",
-    "No confusing premium wall on the core study resources",
+  const testimonials = [
+    ["The dashboard view makes revision feel measurable instead of random.", "Ananya", "GATE ECE aspirant"],
+    ["PYQs next to concepts helped me revise faster before tests.", "Rohit", "Final year ECE student"],
+    ["Weak-topic tracking is exactly what an exam platform should show first.", "Meera", "PSU preparation"],
   ];
 
   return (
     <Layout
       title="ECE Exam Guide - GATE ECE Notes, PYQs, MCQs & Mock Tests"
-      description="Prepare for GATE ECE and other Electronics and Communication exams with structured subject notes, topic-wise practice, previous year questions, mock tests, revision resources, and progress tracking."
+      description="Prepare for GATE ECE and Electronics and Communication exams with structured notes, practice questions, PYQs, mock tests, progress tracking, and smart revision workflows."
       keywords="GATE ECE preparation, ECE notes, ECE MCQs, previous year questions, mock tests, electronics and communication engineering"
       pageClassName="py-0"
     >
-      <div className="space-y-8 pb-8">
-        <section className="grid gap-6 pt-7 lg:grid-cols-[minmax(0,1fr)_480px] lg:items-center">
+      <div className="space-y-10 pb-10">
+        <section className="grid gap-7 pt-7 lg:grid-cols-[minmax(0,1fr)_560px] lg:items-center">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-portal-600">
-              Complete ECE preparation workspace
+            <p className="inline-flex rounded-full border border-portal-200 bg-white px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-portal-700 shadow-sm">
+              GATE ECE + PSU + university exam preparation
             </p>
-            <h1 className="mt-3 max-w-4xl text-4xl font-extrabold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-              Master ECE Concepts, Practice Smart & Crack Exams
+            <h1 className="mt-5 max-w-4xl text-4xl font-extrabold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+              Improve Your ECE Exam Readiness Every Day
             </h1>
-            <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
-              Learn core Electronics and Communication subjects, solve practice questions,
-              revise previous year patterns, and track your preparation from one focused
-              dashboard.
+            <p className="mt-5 max-w-2xl text-base leading-8 text-slate-600">
+              Master concepts, solve PYQs, track weak areas, and turn every study session into visible score improvement.
             </p>
-
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-7 flex flex-wrap gap-3">
               <Link
-                href="/subjects"
-                className="inline-flex min-h-12 items-center justify-center rounded-xl bg-portal-700 px-5 py-3 text-sm font-bold text-white shadow-[0_14px_28px_rgba(21,74,150,0.22)] transition hover:bg-portal-800"
+                href="/learn"
+                className="inline-flex min-h-12 items-center justify-center rounded-xl bg-portal-700 px-6 py-3 text-sm font-extrabold text-white shadow-[0_18px_38px_rgba(21,74,150,0.24)] transition hover:bg-portal-800"
               >
-                Start Free GATE ECE Preparation
+                Start Learning
                 <span className="ml-2">-&gt;</span>
               </Link>
               <Link
                 href="/mock-tests"
-                className="inline-flex min-h-12 items-center justify-center rounded-xl border border-portal-300 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
+                className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:border-orange-300 hover:text-orange-700"
               >
-                Take a Free Mock Test
-                <span className="ml-2">-&gt;</span>
-              </Link>
-              <Link
-                href="/previous-year"
-                className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-orange-300 hover:text-orange-700"
-              >
-                Practice PYQs
+                Take Mock Test
               </Link>
             </div>
-
-            <div className="mt-6 grid gap-3 sm:grid-cols-4">
-              {proofStats.map(([label, value]) => (
-                <div key={label} className="rounded-xl border border-slate-200 bg-white/90 px-4 py-3 shadow-sm">
+            <div className="mt-7 grid gap-3 sm:grid-cols-4">
+              {stats.map(([label, value]) => (
+                <div key={label} className="rounded-xl border border-slate-200 bg-white/95 px-4 py-3 shadow-sm">
                   <p className="text-2xl font-extrabold text-slate-950">{value}</p>
                   <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
                     {label}
@@ -228,158 +244,162 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_22px_70px_rgba(15,23,42,0.10)]">
-            <div className="border-b border-slate-200 bg-slate-50 px-5 py-4">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-                Today&apos;s plan
-              </p>
-              <h2 className="mt-1 text-xl font-extrabold text-slate-950">
-                Learn, practice, revise
-              </h2>
-            </div>
-            <div className="grid gap-4 p-5">
-              {learningFlow.map(([title, text, icon, tone, href], index) => (
-                <Link key={title} href={href} className="flex gap-3 rounded-xl border border-slate-200 bg-white p-3 transition hover:border-portal-300 hover:bg-portal-50">
-                  <IconBadge tone={tone}>
-                    <SimpleIcon type={icon} />
-                  </IconBadge>
-                  <span>
-                    <span className="block text-sm font-extrabold text-slate-950">
-                      {index + 1}. {title}
-                    </span>
-                    <span className="mt-1 block text-xs leading-5 text-slate-600">{text}</span>
-                  </span>
-                </Link>
-              ))}
-            </div>
-            <div className="grid grid-cols-3 border-t border-slate-200 bg-[#f8fafc] px-5 py-4 text-center">
-              <div>
-                <p className="text-lg font-extrabold text-slate-950">{progressStats.completedTopics || 0}</p>
-                <p className="text-[11px] font-semibold text-slate-500">Completed</p>
-              </div>
-              <div>
-                <p className="text-lg font-extrabold text-slate-950">{progressStats.completionPercent}%</p>
-                <p className="text-[11px] font-semibold text-slate-500">Progress</p>
-              </div>
-              <div>
-                <p className="text-lg font-extrabold text-slate-950">Free</p>
-                <p className="text-[11px] font-semibold text-slate-500">Core tools</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <SectionTitle
-            eyebrow="Preparation system"
-            title="One Flow for Learning, Practice, PYQs, and Mock Tests"
-            description="The homepage now points students to the workflows they actually need instead of repeating the same feature copy."
+          <DashboardPreview
+            completionPercent={progressStats.completionPercent}
+            completedTopics={progressStats.completedCount}
           />
-          <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {learningFlow.map(([title, text, icon, tone, href]) => (
-              <Link key={title} href={href} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-portal-300 hover:shadow-md">
-                <IconBadge tone={tone}>
-                  <SimpleIcon type={icon} />
-                </IconBadge>
-                <h3 className="mt-4 text-base font-extrabold text-slate-950">{title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
-              </Link>
-            ))}
-          </div>
         </section>
 
-        <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+        <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <SectionTitle
+            <SectionHeader
               align="left"
-              eyebrow="Why it is different"
-              title="Built Like an Exam Prep System, Not a Link Directory"
-              description="Students need fewer dead ends and more momentum. These are the product promises the site now makes clearly."
-            />
-            <div className="mt-5 grid gap-3">
-              {differentiators.map((item) => (
-                <p key={item} className="flex gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700">
-                  <span className="mt-1 h-3 w-3 flex-none rounded-full bg-emerald-500" />
-                  <span>{item}</span>
-                </p>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <SectionTitle
-              align="left"
-              eyebrow="Start by subject"
-              title="Core ECE Subjects"
-              description="A compact subject grid keeps the homepage useful without turning it into a long archive."
+              eyebrow="Exam outcomes"
+              title="Built Around Marks, Speed, and Confidence"
+              description="Students do not need another static notes archive. They need a system that tells them what to learn, what to practice, and what to fix next."
             />
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {focusSubjects.map(([subject, href], index) => (
-                <Link
-                  key={subject}
-                  href={href}
-                  className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:border-portal-300 hover:bg-portal-50"
-                >
-                  <IconBadge tone={["blue", "green", "violet", "cyan", "orange"][index % 5]}>
-                    <SimpleIcon type={index % 2 === 0 ? "book" : "target"} />
-                  </IconBadge>
-                  <span className="text-sm font-bold text-slate-900">{subject}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="grid gap-5 lg:grid-cols-3">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-2">
-            <SectionTitle
-              align="left"
-              eyebrow="Trust signals"
-              title="Clear, Honest, and Easy to Verify"
-              description="Rather than fake testimonials, the site highlights what users can immediately test for themselves."
-            />
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {trustItems.map((item) => (
-                <div key={item} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-                  <p className="text-sm font-semibold leading-6 text-slate-700">{item}</p>
+              {outcomes.map(([title, text, icon]) => (
+                <div key={title} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700">
+                    <MiniIcon type={icon} />
+                  </span>
+                  <h3 className="mt-4 text-base font-extrabold text-slate-950">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="rounded-2xl border border-orange-200 bg-orange-50 p-5 shadow-sm">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-orange-700">
-              Daily engagement
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-orange-700">
+              PYQ engine
             </p>
-            <h2 className="mt-2 text-xl font-extrabold text-slate-950">
-              Keep Momentum Visible
+            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
+              Practice Previous Year Questions With Purpose
             </h2>
-            <p className="mt-2 text-sm leading-7 text-slate-700">
-              Use the dashboard, topic progress, mock tests, and searchable practice sets as
-              the foundation for streaks, leaderboards, and richer analytics later.
+            <p className="mt-3 text-sm leading-7 text-slate-700">
+              Use PYQs to identify repeat patterns, mark high-value topics, and connect exam questions back to the exact subject module.
             </p>
-            <Link href="/practice" className="mt-5 inline-flex rounded-xl bg-orange-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-orange-700">
-              Start Daily Practice -&gt;
+            <div className="mt-5 rounded-xl bg-white p-4">
+              <div className="flex items-center justify-between text-sm font-bold text-slate-700">
+                <span>PYQ readiness</span>
+                <span>76%</span>
+              </div>
+              <div className="mt-2 h-2 rounded-full bg-slate-100">
+                <div className="h-2 w-[76%] rounded-full bg-orange-500" />
+              </div>
+              <div className="mt-4 grid grid-cols-3 gap-2 text-center">
+                {["GATE", "ESE", "PSU"].map((item) => (
+                  <span key={item} className="rounded-lg bg-slate-50 px-2 py-2 text-xs font-extrabold text-slate-700">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <Link href="/previous-year" className="mt-5 inline-flex rounded-xl bg-orange-600 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-orange-700">
+              Solve PYQs -&gt;
             </Link>
           </div>
         </section>
 
-        <section className="rounded-2xl bg-[linear-gradient(135deg,#123b79_0%,#0f766e_100%)] px-5 py-6 text-white shadow-[0_18px_40px_rgba(21,74,150,0.26)]">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <section>
+          <SectionHeader
+            eyebrow="What to do first"
+            title="One Clear Study Flow"
+            description="The homepage now prioritizes a single learning path, then gives secondary choices only when they help a student move forward."
+          />
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            {featureHighlights.map(([title, text, href], index) => (
+              <Link
+                key={title}
+                href={href}
+                className={`rounded-2xl border p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${
+                  index === 0
+                    ? "border-portal-300 bg-portal-700 text-white"
+                    : "border-slate-200 bg-white text-slate-950 hover:border-portal-300"
+                }`}
+              >
+                <p className={`text-xs font-extrabold uppercase tracking-[0.18em] ${index === 0 ? "text-blue-100" : "text-portal-700"}`}>
+                  Step {index + 1}
+                </p>
+                <h3 className="mt-3 text-xl font-extrabold">{title}</h3>
+                <p className={`mt-2 text-sm leading-6 ${index === 0 ? "text-blue-50" : "text-slate-600"}`}>
+                  {text}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div>
+            <SectionHeader
+              align="left"
+              eyebrow="AI study assistant"
+              title="Ask What to Revise Next"
+              description="A preparation platform feels premium when it can interpret performance. This section positions the assistant as a guide for formulas, mistakes, weak topics, and daily plans."
+            />
+            <div className="mt-5 flex flex-wrap gap-3">
+              {["Explain this formula", "Find weak topics", "Make a 45 min plan"].map((item) => (
+                <span key={item} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-950 p-5 text-white shadow-[0_24px_70px_rgba(15,23,42,0.18)]">
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-cyan-200">
+              Smart revision prompt
+            </p>
+            <div className="mt-4 grid gap-3">
+              <div className="rounded-xl bg-white/10 p-4 text-sm leading-6 text-slate-100">
+                I scored 42% in Control Systems. What should I revise before my next mock?
+              </div>
+              <div className="rounded-xl bg-cyan-400/15 p-4 text-sm leading-6 text-cyan-50">
+                Start with root locus rules, then solve 10 stability MCQs, revise Bode plot margins, and finish with 5 PYQs from frequency response.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <SectionHeader
+            eyebrow="Student confidence"
+            title="A Homepage That Feels Like Progress"
+            description="The messaging now focuses on measurable preparation outcomes instead of only listing available resources."
+          />
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            {testimonials.map(([quote, name, role]) => (
+              <figure key={name} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <blockquote className="text-sm font-semibold leading-7 text-slate-700">
+                  &ldquo;{quote}&rdquo;
+                </blockquote>
+                <figcaption className="mt-4">
+                  <p className="font-extrabold text-slate-950">{name}</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+                    {role}
+                  </p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+
+        <section className="rounded-2xl bg-[linear-gradient(135deg,#123b79_0%,#0f766e_100%)] px-5 py-7 text-white shadow-[0_18px_40px_rgba(21,74,150,0.26)]">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h2 className="text-2xl font-extrabold">Start Free ECE Exam Preparation Today</h2>
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-blue-100">
+                Primary action
+              </p>
+              <h2 className="mt-2 text-2xl font-extrabold">Start Learning and Track Your Next Win</h2>
               <p className="mt-2 text-sm leading-6 text-blue-50">
-                Choose a subject, solve practice questions, and keep your preparation progress visible.
+                Open your dashboard, resume a topic, and let progress guide the next study session.
               </p>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/subjects" className="rounded-xl bg-white px-5 py-3 text-center text-sm font-extrabold text-portal-800 transition hover:bg-blue-50">
-                Browse Subjects
-              </Link>
-              <Link href="/mcqs" className="rounded-xl border border-white/40 px-5 py-3 text-center text-sm font-extrabold text-white transition hover:bg-white/10">
-                Practice MCQs
-              </Link>
-            </div>
+            <Link href="/learn" className="inline-flex min-h-12 items-center justify-center rounded-xl bg-white px-6 py-3 text-center text-sm font-extrabold text-portal-800 transition hover:bg-blue-50">
+              Start Learning -&gt;
+            </Link>
           </div>
         </section>
       </div>
