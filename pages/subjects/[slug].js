@@ -2,6 +2,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import EducationalTheoryLayout, {
+  EducationalBulletList,
+  EducationalExampleCard,
+  EducationalFormulaGrid,
+  EducationalInfoCard,
+} from "../../components/EducationalTheoryLayout";
 import Layout from "../../components/layout";
 import NetworkTheoryDiagram from "../../components/NetworkTheoryDiagram";
 import { subjectDirectory } from "../../data/subject-directory";
@@ -13927,27 +13933,27 @@ function SubjectSeoDepthSection({
             Subject Guide
           </p>
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">
-            {subject.title} Notes for GATE ECE and University Exams
+            {subject.title} Notes
           </h2>
           <div className="mt-3 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
             <p>
               {subject.title} is an important ECE subject because it connects
-              theory, formulas, numerical solving, and exam-style reasoning. On
+              theory, formulas, numerical solving, and concept-based reasoning. On
               ECE Exam Guide, this page works as a subject hub where students can
               move from the syllabus overview to notes, formulas, practice, and
-              previous year question preparation.
+              structured topic revision.
             </p>
             <p>
               A strong preparation flow starts with fundamentals, then moves into
               chapter-wise concepts such as {keyConcepts.slice(0, 5).join(", ")}.
               After each chapter, students should revise the important formulas,
-              solve MCQs, and check PYQ patterns before moving to the next topic.
+              solve practice questions, and review mistakes before moving to the
+              next topic.
             </p>
             <p>
-              For GATE ECE, ESE, PSU, and semester exams, the goal is not only to
-              memorize results. The better approach is to understand assumptions,
-              identify the correct method quickly, and practice enough problems to
-              recognize repeated question patterns.
+              The goal is not only to memorize results. The better approach is to
+              understand assumptions, identify the correct method quickly, and
+              practice enough problems to recognize repeated question patterns.
             </p>
             <p>
               This subject page is designed as a detailed authority page instead of
@@ -14413,292 +14419,216 @@ export default function SubjectTheoryPage({
   }
 
   if (standaloneTopicPage === "basic-concepts") {
-    const basicConceptSections = [
-      ["introduction", "Introduction"],
-      ["intuition", "Basic Intuition"],
-      ["visualization", "Visualization"],
-      ["theory", "Core Theory"],
-      ["formulas", "Formulas"],
-      ["exam-focus", "Exam Focus"],
-      ["related-topics", "Related Topics"],
+    const basicFormulaItems = [
+      { label: "Current", expression: "I = dQ/dt", note: "Current is the time rate of flow of charge." },
+      { label: "Power", expression: "P = VI", note: "Positive power means absorption under passive sign convention." },
+      { label: "Energy", expression: "W = integral P dt", note: "Energy is accumulated power over time." },
+      { label: "Ohm's Law Preview", expression: "V = IR", note: "This becomes useful after identifying voltage and current direction." },
+    ];
+    const basicLearningGoals = [
+      "Understand charge, current, voltage, power, and energy.",
+      "Identify active, passive, linear, non-linear, bilateral, and unilateral elements.",
+      "Use sign convention correctly before applying KCL, KVL, or Ohm's law.",
+    ];
+    const basicExamPointers = [
+      "Check whether the element is absorbing or delivering power.",
+      "Keep conventional current direction separate from electron flow.",
+      "Identify whether an element is active/passive, linear/non-linear, or bilateral/unilateral.",
+      "Do not apply circuit laws before marking voltage polarity and current direction.",
+    ];
+    const basicWorkedExample = {
+      title: "Power direction check",
+      prompt: "A circuit element has marked voltage and current direction. Decide whether it absorbs or delivers energy before solving deeper network equations.",
+      steps: [
+        "Mark the voltage polarity and current reference direction first.",
+        "Use P = VI with the passive sign convention.",
+        "If power is positive, the element absorbs energy; if negative, it delivers energy.",
+      ],
+      answer: "Power sign tells whether the element is absorbing or delivering energy.",
+    };
+    const standardBasicSections = [
+      {
+        id: "introduction",
+        title: "Topic Introduction",
+        navLabel: "Introduction",
+        children: (
+          <div className="grid gap-3">
+            <p>
+              Every electrical circuit contains voltage, current, power, and energy exchange.
+              Network Analysis helps us understand how these quantities behave and interact inside the circuit.
+            </p>
+            <p>
+              In this chapter, charge is the basic quantity, when electric charge starts moving through a conductor, electrical current is produced.
+              The amount of charge flowing every second determines how large the current is. Voltage is the potential difference between two points,
+              power is the rate of energy transfer, and energy is the total work done
+              by or on the circuit.
+            </p>
+          </div>
+        ),
+      },
+      {
+        id: "intuition",
+        title: "Key Idea / Intuition",
+        navLabel: "Intuition",
+        children: (
+          <>
+            <p>
+              Think of a circuit as a closed path with terminals, elements, and energy
+              exchange. A source creates voltage, charges move as current, and elements
+              either absorb, store, deliver, control, or restrict electrical energy.
+            </p>
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              <div>
+                <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
+                  Learning Goals
+                </h3>
+                <EducationalBulletList items={basicLearningGoals} />
+              </div>
+              <div>
+                <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
+                  Key Concepts
+                </h3>
+                <EducationalBulletList items={BASIC_CONCEPT_GUIDE.map((concept) => concept.title)} />
+              </div>
+            </div>
+          </>
+        ),
+      },
+      {
+        id: "mathematical-definition",
+        title: "Mathematical Definition",
+        navLabel: "Definition",
+        children: (
+          <>
+            <p>
+              Keep the basic quantities close to their meaning. These formulas are
+              useful only after voltage polarity and current direction are marked.
+            </p>
+            <EducationalFormulaGrid formulas={basicFormulaItems} />
+          </>
+        ),
+      },
+      {
+        id: "visual-understanding",
+        title: "Visual Understanding",
+        navLabel: "Visual",
+        children: (
+          <>
+            <p>
+              This circuit motion explains how charge, current, voltage, power, and
+              element behavior appear in a simple Network Analysis circuit.
+            </p>
+            <div className="mt-4">
+              <BasicConceptGuideContent withIntro={false} />
+            </div>
+          </>
+        ),
+      },
+      {
+        id: "worked-example",
+        title: "Worked Example",
+        navLabel: "Example",
+        children: <EducationalExampleCard example={basicWorkedExample} />,
+      },
+      {
+        id: "important-notes",
+        title: "Important Notes",
+        navLabel: "Notes",
+        children: (
+          <div className="grid gap-3 md:grid-cols-2">
+            <EducationalInfoCard title="Exam Pointers">
+              <EducationalBulletList items={basicExamPointers} />
+            </EducationalInfoCard>
+            <EducationalInfoCard title="Exam-Oriented Tip" tone="amber">
+              <p className="font-semibold text-slate-800">
+                Most mistakes in Network Analysis begin before calculation: wrong
+                polarity, wrong current direction, or wrong assumption about whether
+                power is absorbed or delivered.
+              </p>
+            </EducationalInfoCard>
+          </div>
+        ),
+      },
+      {
+        id: "quick-summary",
+        title: "Quick Summary",
+        navLabel: "Summary",
+        children: (
+          <>
+            <EducationalInfoCard title="Quick Revision Takeaway" tone="emerald">
+              <EducationalBulletList
+                bulletClassName="bg-emerald-500"
+                items={[
+                  "Voltage, current, power, and energy describe circuit behavior.",
+                  "Element type decides whether energy is absorbed, stored, delivered, controlled, or restricted.",
+                  "Mark polarity and current direction before applying laws or theorems.",
+                ]}
+              />
+            </EducationalInfoCard>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {NETWORK_ANALYSIS_TOPIC_GROUPS.slice(1, 7).map((group) => (
+                <Link
+                  key={group.title}
+                  href={NETWORK_TOPIC_ROUTES[group.title]}
+                  className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-portal-200 hover:bg-portal-50"
+                >
+                  <h3 className="text-sm font-black text-slate-900">{group.title}</h3>
+                  <p className="mt-1 text-sm leading-6 text-slate-600">
+                    {group.topics.slice(0, 3).join(", ")}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </>
+        ),
+      },
     ];
 
-    function jumpToBasicConceptSection(id) {
-      document.getElementById(id)?.scrollIntoView({
-        behavior: "auto",
-        block: "start",
-      });
-    }
+    const basicFooter = (
+      <div className="grid gap-3 sm:grid-cols-3">
+        <Link
+          href="/mcqs/network-analysis"
+          className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
+        >
+          Try MCQs
+        </Link>
+        <Link
+          href="/notes/network-analysis"
+          className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
+        >
+          Download Notes
+        </Link>
+        <Link
+          href="/circuit-elements"
+          className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
+        >
+          Next Topic
+        </Link>
+      </div>
+    );
 
     return (
       <Layout title="ECE Exam Guide | Basic Concepts" pageClassName="py-3 sm:py-4">
-        <div className="mx-auto max-w-[1200px] pb-24">
-          <nav
-            aria-label="Breadcrumb"
-            className="mb-4 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between"
-          >
-            <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-              <li>
-                <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
-                  Home
-                </Link>
-              </li>
-              <li className="text-slate-300">/</li>
-              <li>
-                <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
-                  Subjects
-                </Link>
-              </li>
-              <li className="text-slate-300">/</li>
-              <li>
-                <Link
-                  href="/subjects/network-analysis"
-                  className="font-medium text-slate-600 transition hover:text-portal-700"
-                >
-                  Network Analysis
-                </Link>
-              </li>
-              <li className="text-slate-300">/</li>
-              <li>
-                <span className="font-semibold text-portal-700">Basic Concepts</span>
-              </li>
-            </ol>
-            <NetworkTopicMenu
-              concepts={concepts}
-              activeIndex={0}
-              onSelectTopic={() => {}}
-            />
-          </nav>
-
-          <header className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
-            <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
-              Network Analysis
-            </p>
-            <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-              Basic Concepts
-            </h1>
-            <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
-              Basic Concepts is the starting chapter of Network Analysis. It explains
-              charge, current, voltage, power, energy, active and passive elements,
-              linear and non-linear behavior, and bilateral and unilateral elements
-              before you move into KCL, KVL, theorems, and circuit solving.
-            </p>
-            <div className="mt-4 grid gap-3 text-sm text-slate-700 md:grid-cols-3">
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-                <p className="font-bold text-slate-950">Core question</p>
-                <p className="mt-1 leading-6">
-                  How do voltage, current, charge, power, and energy describe a circuit?
-                </p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-                <p className="font-bold text-slate-950">Exam focus</p>
-                <p className="mt-1 leading-6">
-                  Definitions, sign convention, passive sign convention, element type,
-                  and power absorbed or delivered.
-                </p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-                <p className="font-bold text-slate-950">Engineering use</p>
-                <p className="mt-1 leading-6">
-                  Every circuit calculation begins by identifying variables, terminals,
-                  element behavior, and energy flow.
-                </p>
-              </div>
-            </div>
-          </header>
-
-          <nav
-            aria-label="Basic Concepts sections"
-            className="sticky top-20 z-20 mt-4 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-sm backdrop-blur"
-          >
-            <div className="flex gap-2 overflow-x-auto pb-1">
-              {basicConceptSections.map(([id, label]) => (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => jumpToBasicConceptSection(id)}
-                  className="whitespace-nowrap rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-portal-200 hover:bg-portal-50 hover:text-portal-700"
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          </nav>
-
-          <article className="mt-5 grid gap-5">
-            <BasicConceptTopicSection id="introduction" title="Introduction">
-              <p>
-               Every electrical circuit contains voltage, current, power, and energy exchange.
-               Network Analysis helps us understand how these quantities behave and interact inside the circuit.
-              </p>
-              <p>
-                In this chapter, charge is the basic quantity, when electric charge starts moving through a conductor, electrical current is produced.
-                The amount of charge flowing every second determines how large the current is. Voltage is the potential difference between two points,
-                power is the rate of energy transfer, and energy is the total work done
-                by or on the circuit.
-              </p>
-            </BasicConceptTopicSection>
-
-            <BasicConceptTopicSection id="intuition" title="Basic Intuition">
-              <p>
-                Think of a circuit as a closed path with terminals, elements, and energy
-                exchange. A source creates voltage, charges move as current, and elements
-                either absorb, store, deliver, control, or restrict electrical energy.
-              </p>
-              <div className="mt-4 grid gap-3 md:grid-cols-2">
-                <div>
-                  <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
-                    Learning Goals
-                  </h3>
-                  <ul className="mt-3 grid gap-2">
-                    {[
-                      "Understand charge, current, voltage, power, and energy.",
-                      "Identify active, passive, linear, non-linear, bilateral, and unilateral elements.",
-                      "Use sign convention correctly before applying KCL, KVL, or Ohm's law.",
-                    ].map((item) => (
-                      <li key={item} className="flex gap-2.5">
-                        <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
-                    Key Concepts
-                  </h3>
-                  <ul className="mt-3 grid gap-2">
-                    {BASIC_CONCEPT_GUIDE.map((concept) => (
-                      <li key={concept.title} className="flex gap-2.5">
-                        <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
-                        <span>{concept.title}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </BasicConceptTopicSection>
-
-            <BasicConceptTopicSection id="visualization" title="Step-by-Step Visualization">
-              <p>
-                This circuit motion explains how charge, current, voltage, power, and
-                element behavior appear in a simple Network Analysis circuit.
-              </p>
-              <div className="mt-4">
-                <BasicConceptGuideContent withIntro={false} />
-              </div>
-            </BasicConceptTopicSection>
-
-            <BasicConceptTopicSection id="theory" title="Core Theory">
-              <div className="grid gap-3 md:grid-cols-2">
-                {BASIC_CONCEPT_GUIDE.map((concept) => (
-                  <article key={concept.title} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
-                    <h3 className="text-base font-black text-slate-950">{concept.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-700">
-                      {concept.sections[0]?.body || "Study the definition, behavior, and exam use of this basic network concept."}
-                    </p>
-                  </article>
-                ))}
-              </div>
-            </BasicConceptTopicSection>
-
-            <BasicConceptTopicSection id="formulas" title="Formula Highlights and Quick Revision">
-              <div className="grid gap-3 md:grid-cols-2">
-                {[
-                  ["Current", "I = dQ/dt", "Current is the time rate of flow of charge."],
-                  ["Power", "P = VI", "Positive power means absorption under passive sign convention."],
-                  ["Energy", "W = integral P dt", "Energy is accumulated power over time."],
-                  ["Ohm's Law Preview", "V = IR", "This becomes useful after identifying voltage and current direction."],
-                ].map(([label, expression, note]) => (
-                  <article key={label} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
-                    <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
-                      {label}
-                    </h3>
-                    <p className="mt-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-950 sm:text-base">
-                      {expression}
-                    </p>
-                    <p className="mt-2 text-sm leading-6 text-slate-700">{note}</p>
-                  </article>
-                ))}
-              </div>
-            </BasicConceptTopicSection>
-
-            <BasicConceptTopicSection id="exam-focus" title="Exam Focus">
-              <div className="grid gap-3 md:grid-cols-2">
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                  <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
-                    Exam Pointers
-                  </h3>
-                  <ul className="mt-3 grid gap-2">
-                    {[
-                      "Check whether the element is absorbing or delivering power.",
-                      "Keep conventional current direction separate from electron flow.",
-                      "Identify whether an element is active/passive, linear/non-linear, or bilateral/unilateral.",
-                      "Do not apply circuit laws before marking voltage polarity and current direction.",
-                    ].map((item) => (
-                      <li key={item} className="flex gap-2.5">
-                        <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
-                  <h3 className="text-sm font-black uppercase tracking-[0.12em] text-amber-800">
-                    Exam-Oriented Tip
-                  </h3>
-                  <p className="mt-3 text-sm font-semibold leading-7 text-slate-800">
-                    Most mistakes in Network Analysis begin before calculation: wrong
-                    polarity, wrong current direction, or wrong assumption about whether
-                    power is absorbed or delivered.
-                  </p>
-                </div>
-              </div>
-            </BasicConceptTopicSection>
-
-            <BasicConceptTopicSection id="related-topics" title="Related Network Analysis Topics">
-              <p>
-                Continue through Network Analysis in the same order as the hamburger
-                menu so each chapter builds naturally from the previous one.
-              </p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {NETWORK_ANALYSIS_TOPIC_GROUPS.slice(1, 7).map((group) => (
-                  <Link
-                    key={group.title}
-                    href={NETWORK_TOPIC_ROUTES[group.title]}
-                    className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-portal-200 hover:bg-portal-50"
-                  >
-                    <h3 className="text-sm font-black text-slate-900">{group.title}</h3>
-                    <p className="mt-1 text-sm leading-6 text-slate-600">
-                      {group.topics.slice(0, 3).join(", ")}
-                    </p>
-                  </Link>
-                ))}
-              </div>
-            </BasicConceptTopicSection>
-          </article>
-
-          <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            <Link
-              href="/mcqs/network-analysis"
-              className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
-            >
-              Try MCQs
-            </Link>
-            <Link
-              href="/notes/network-analysis"
-              className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
-            >
-              Download Notes
-            </Link>
-            <Link
-              href="/circuit-elements"
-              className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50"
-            >
-              Next Topic
-            </Link>
-          </div>
-        </div>
+        <EducationalTheoryLayout
+          eyebrow="Network Analysis"
+          title="Basic Concepts"
+          summary="Basic Concepts is the starting chapter of Network Analysis. It explains charge, current, voltage, power, energy, active and passive elements, linear and non-linear behavior, and bilateral and unilateral elements before you move into KCL, KVL, theorems, and circuit solving."
+          breadcrumbs={[
+            { label: "Home", href: "/" },
+            { label: "Subjects", href: "/subjects" },
+            { label: "Network Analysis", href: "/subjects/network-analysis" },
+            { label: "Basic Concepts" },
+          ]}
+          menu={<NetworkTopicMenu concepts={concepts} activeIndex={0} onSelectTopic={() => {}} />}
+          metrics={[
+            { label: "Core question", value: "How do voltage, current, charge, power, and energy describe a circuit?" },
+            { label: "Exam focus", value: "Definitions, sign convention, passive sign convention, element type, and power absorbed or delivered." },
+            { label: "Engineering use", value: "Every circuit calculation begins by identifying variables, terminals, element behavior, and energy flow." },
+          ]}
+          sections={standardBasicSections}
+          footer={basicFooter}
+          navLabel="Basic Concepts topic sections"
+        />
       </Layout>
     );
   }

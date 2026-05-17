@@ -160,6 +160,92 @@ const questions = [
     year: 2024,
     diagram: "",
   },
+  {
+    _id: "bel-dec-2023-q1",
+    question:
+      "Which of the following practices is considered a sustainable agricultural method to enhance soil fertility and reduce environmental impact?",
+    options: [
+      "Monoculture",
+      "Excessive pesticide use",
+      "Overgrazing",
+      "Agroforestry",
+    ],
+    correctAnswer: "Agroforestry",
+    explanation:
+      "Agroforestry integrates trees with crops or livestock. It can improve soil fertility, reduce erosion, support biodiversity, and lower the environmental impact compared with intensive monoculture or overuse of chemicals.",
+    subject: "General Awareness",
+    topic: "Sustainable Agriculture",
+    exam: ["BEL"],
+    tags: ["official-paper"],
+    year: 2023,
+    questionId: "630680512568",
+    optionIds: [
+      "6306802003243",
+      "6306802003245",
+      "6306802003242",
+      "6306802003244",
+    ],
+    status: "Answered",
+    chosenOption: "4",
+    diagram: "",
+  },
+  {
+    _id: "bel-dec-2023-q2",
+    question:
+      "Which institution is responsible for the promotion and development of the Hindi language in India?",
+    options: [
+      "Kendriya Hindi Sansthan (KHS)",
+      "Akhil Bharatiya Vidyarthi Parishad (ABVP)",
+      "Sahitya Akademi",
+      "Central Institute of Indian Languages (CIIL)",
+    ],
+    correctAnswer: "Kendriya Hindi Sansthan (KHS)",
+    explanation:
+      "Kendriya Hindi Sansthan works for the teaching, promotion, and development of Hindi. The other options are associated with student organization, literature, or broader language studies.",
+    subject: "General Awareness",
+    topic: "Hindi Language Institutions",
+    exam: ["BEL"],
+    tags: ["official-paper"],
+    year: 2023,
+    questionId: "630680512565",
+    optionIds: [
+      "6306802003233",
+      "6306802003232",
+      "6306802003230",
+      "6306802003231",
+    ],
+    status: "Not Answered",
+    chosenOption: "-",
+    diagram: "",
+  },
+  {
+    _id: "bel-dec-2023-q3",
+    question: "Who was the first ruler of the Gupta dynasty?",
+    options: [
+      "Chandragupta I",
+      "Chandragupta II",
+      "Sri Gupta",
+      "Kumaragupta",
+    ],
+    correctAnswer: "Sri Gupta",
+    explanation:
+      "Sri Gupta is regarded as the founder and earliest known ruler of the Gupta dynasty. Chandragupta I came later and expanded the dynasty's political importance.",
+    subject: "General Awareness",
+    topic: "Gupta Dynasty",
+    exam: ["BEL"],
+    tags: ["official-paper"],
+    year: 2023,
+    questionId: "630680512564",
+    optionIds: [
+      "6306802003227",
+      "6306802003228",
+      "6306802003226",
+      "6306802003229",
+    ],
+    status: "Answered",
+    chosenOption: "4",
+    diagram: "",
+  },
 ];
 
 export default questions;

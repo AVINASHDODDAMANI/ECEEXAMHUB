@@ -29,6 +29,18 @@ const utilityLinks = [
   { href: "/mock-tests", label: "Mock Test" },
 ];
 
+function isTopNavActive(pathname, href) {
+  if (pathname === "/learn/[subjectSlug]/[topicSlug]") {
+    return href === "/subjects";
+  }
+
+  if (href === "/learn") {
+    return pathname === "/learn";
+  }
+
+  return isNavigationActive(pathname, href);
+}
+
 export default function Navbar({
   searchValue,
   onSearchChange,
@@ -227,7 +239,7 @@ export default function Navbar({
     }
 
     const activeItem = navItems.find((item) =>
-      isNavigationActive(router.pathname, item.href)
+      isTopNavActive(router.pathname, item.href)
     );
 
     if (!activeItem) {
@@ -450,7 +462,7 @@ export default function Navbar({
               className="grid grid-cols-4 gap-1.5 py-2"
             >
               {mobilePrimaryNavItems.map((item) => {
-                const isActive = isNavigationActive(router.pathname, item.href);
+                const isActive = isTopNavActive(router.pathname, item.href);
 
                 return (
                   <Link
@@ -480,7 +492,7 @@ export default function Navbar({
               >
                 <div className="grid grid-cols-2 gap-2">
                   {navItems.map((item) => {
-                    const isActive = isNavigationActive(router.pathname, item.href);
+                    const isActive = isTopNavActive(router.pathname, item.href);
 
                     return (
                       <Link
@@ -503,7 +515,7 @@ export default function Navbar({
 
           <nav className="hidden items-center gap-1 overflow-x-auto whitespace-nowrap py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex lg:py-0">
             {navItems.map((item) => {
-              const isActive = isNavigationActive(router.pathname, item.href);
+              const isActive = isTopNavActive(router.pathname, item.href);
 
               return (
                 <Link

@@ -4,8 +4,15 @@ import { useRouter } from "next/router";
 import EmptyState from "../components/EmptyState";
 import Layout from "../components/layout";
 import PreviousYearQuestionCard from "../components/PreviousYearQuestionCard";
+import { officialPreviousPapers } from "../data/official-previous-papers";
 import { fetchFilters, fetchQuestions } from "../lib/api-client";
 import { EXAMS, SUBJECTS } from "../lib/question-utils";
+import {
+  buildPaperPdfMarkup,
+  getPaperQuestions,
+  getSolvedPercentage,
+  slugifyPaper,
+} from "../lib/paper-document";
 
 const initialFilters = {
   exam: "All Exams",
@@ -171,7 +178,56 @@ function questionMatchesPaperType(question, selectedPaperType) {
   );
 }
 
-function buildPaperEntries(questions = [], selectedPaperType = "All Types") {
+function paperMatchesSelection(paper, selectedPaperType = "All Types", filters = initialFilters, searchValue = "") {
+  const normalizedSearch = searchValue.trim().toLowerCase();
+  const searchText = [
+    paper.exam,
+    paper.year,
+    paper.title,
+    paper.role,
+    paper.sourceLabel,
+    ...(paper.subjects || []),
+    ...(paper.topics || []),
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  if (selectedPaperType !== "All Types" && paper.paperType !== selectedPaperType) {
+    return false;
+  }
+
+  if (filters.exam !== initialFilters.exam && paper.exam !== filters.exam) {
+    return false;
+  }
+
+  if (filters.year && Number(paper.year) !== Number(filters.year)) {
+    return false;
+  }
+
+  if (
+    filters.subject !== initialFilters.subject &&
+    !(paper.subjects || []).includes(filters.subject)
+  ) {
+    return false;
+  }
+
+  if (
+    filters.topic !== initialFilters.topic &&
+    !(paper.topics || []).includes(filters.topic)
+  ) {
+    return false;
+  }
+
+  return !normalizedSearch || searchText.includes(normalizedSearch);
+}
+
+function buildPaperEntries(
+  questions = [],
+  selectedPaperType = "All Types",
+  filters = initialFilters,
+  searchValue = ""
+) {
   const paperMap = new Map();
 
   questions.forEach((question) => {
@@ -228,11 +284,40 @@ function buildPaperEntries(questions = [], selectedPaperType = "All Types") {
     });
   });
 
+  officialPreviousPapers
+    .filter((paper) => paperMatchesSelection(paper, selectedPaperType, filters, searchValue))
+    .forEach((paper) => {
+      const key = `${paper.exam}-${paper.year}`;
+      if (paperMap.has(key)) {
+        const current = paperMap.get(key);
+        paperMap.set(key, {
+          ...current,
+          title: paper.title,
+          role: paper.role,
+          isOfficialPdf: true,
+          pdfHref: paper.pdfHref,
+          sourceLabel: paper.sourceLabel,
+          summary: paper.summary,
+          subjectSet: new Set([...(current.subjectSet || []), ...(paper.subjects || [])]),
+          topicSet: new Set([...(current.topicSet || []), ...(paper.topics || [])]),
+        });
+      } else {
+        paperMap.set(key, {
+          ...paper,
+          isOfficialPdf: true,
+          subjectSet: new Set(paper.subjects || []),
+          topicSet: new Set(paper.topics || []),
+        });
+      }
+    });
+
   return [...paperMap.values()]
     .map((paper) => ({
       id: paper.id,
       exam: paper.exam,
       year: paper.year,
+      title: paper.title,
+      role: paper.role,
       paperType: paper.paperType,
       questionCount: paper.questionCount,
       solvedCount: paper.solvedCount,
@@ -242,6 +327,10 @@ function buildPaperEntries(questions = [], selectedPaperType = "All Types") {
       topicCount: paper.topicSet.size,
       subjects: [...paper.subjectSet],
       topics: [...paper.topicSet],
+      isOfficialPdf: Boolean(paper.isOfficialPdf),
+      pdfHref: paper.pdfHref,
+      sourceLabel: paper.sourceLabel,
+      summary: paper.summary,
     }))
     .sort(
       (left, right) =>
@@ -331,6 +420,31 @@ function buildPaperHref(
   }
 
   return `/previous-year?${searchParams.toString()}${hash ? `#${hash}` : ""}`;
+}
+
+function buildSolutionHref(paper, filters = initialFilters, searchValue = "") {
+  const searchParams = new URLSearchParams({
+    exam: paper.exam,
+    year: String(paper.year),
+  });
+
+  if (searchValue.trim()) {
+    searchParams.set("search", searchValue.trim());
+  }
+
+  if (filters.subject !== initialFilters.subject) {
+    searchParams.set("subject", filters.subject);
+  }
+
+  if (filters.topic !== initialFilters.topic) {
+    searchParams.set("topic", filters.topic);
+  }
+
+  if (filters.paperType !== initialFilters.paperType) {
+    searchParams.set("paperType", filters.paperType);
+  }
+
+  return `/solution/${slugifyPaper(paper.exam, paper.year)}?${searchParams.toString()}`;
 }
 
 function getExamHighlight(examName) {
@@ -436,12 +550,48 @@ function getPaperRoleLabel(examName) {
   return paperRoleLabels[examName] || `${examName} Previous Paper`;
 }
 
-function getSolvedPercentage(solvedCount, questionCount) {
-  if (!questionCount) {
-    return 0;
+function getPaperTitle(paper) {
+  return paper.role || paper.title || getPaperRoleLabel(paper.exam);
+}
+
+function getQuestionCountLabel(paper) {
+  return paper.questionCount ? `${paper.questionCount} questions` : "Official PDF";
+}
+
+function getSolutionStatusLabel(paper) {
+  if (paper.isOfficialPdf && !paper.solvedCount) {
+    return "Official paper";
   }
 
-  return Math.round((solvedCount / questionCount) * 100);
+  return paper.solvedCount
+    ? `${getSolvedPercentage(paper.solvedCount, paper.questionCount)}% solved`
+    : "Limited";
+}
+
+function mergeOfficialOptions(payload = {}, filters = initialFilters) {
+  const matchingPapers = officialPreviousPapers.filter((paper) =>
+    paperMatchesSelection(paper, "All Types", filters, "")
+  );
+  const appendUnique = (items = [], additions = []) =>
+    Array.from(new Set([...(items || []), ...additions])).filter(Boolean);
+
+  return {
+    subjects: appendUnique(
+      Array.isArray(payload.subjects) ? payload.subjects : SUBJECTS,
+      matchingPapers.flatMap((paper) => paper.subjects || [])
+    ),
+    exams: appendUnique(
+      Array.isArray(payload.exams) ? payload.exams : EXAMS,
+      matchingPapers.map((paper) => paper.exam)
+    ),
+    topics: appendUnique(
+      Array.isArray(payload.topics) ? payload.topics : ["All Topics"],
+      matchingPapers.flatMap((paper) => paper.topics || [])
+    ),
+    years: Array.from(
+      new Set([...(Array.isArray(payload.years) ? payload.years : []), ...matchingPapers.map((paper) => paper.year)])
+    ).sort((left, right) => Number(right) - Number(left)),
+  };
 }
 
 function buildPaginationItems(currentPage, totalPages) {
@@ -982,21 +1132,11 @@ export default function PreviousYearPage() {
         );
 
         if (mounted) {
-          setFilterOptions({
-            subjects: Array.isArray(payload.subjects) ? payload.subjects : SUBJECTS,
-            exams: Array.isArray(payload.exams) ? payload.exams : EXAMS,
-            topics: Array.isArray(payload.topics) ? payload.topics : ["All Topics"],
-            years: Array.isArray(payload.years) ? payload.years : [],
-          });
+          setFilterOptions(mergeOfficialOptions(payload, filterForm));
         }
       } catch (error) {
         if (mounted && error.name !== "AbortError") {
-          setFilterOptions({
-            subjects: SUBJECTS,
-            exams: EXAMS,
-            topics: ["All Topics"],
-            years: [],
-          });
+          setFilterOptions(mergeOfficialOptions({}, filterForm));
         }
       }
     }
@@ -1081,8 +1221,8 @@ export default function PreviousYearPage() {
   }, [questions, activeFilters.paperType]);
 
   const visiblePapers = useMemo(
-    () => buildPaperEntries(questions, activeFilters.paperType),
-    [questions, activeFilters.paperType]
+    () => buildPaperEntries(questions, activeFilters.paperType, activeFilters, search),
+    [questions, activeFilters, search]
   );
 
   useEffect(() => {
@@ -1257,6 +1397,33 @@ export default function PreviousYearPage() {
       left: direction * 240,
       behavior: "smooth",
     });
+  }
+
+  function handlePaperPdf(paper) {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    if (paper.pdfHref) {
+      window.open(paper.pdfHref, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    const paperQuestions = getPaperQuestions(
+      visibleQuestions,
+      paper,
+      activeFilters.paperType
+    );
+    const pdfWindow = window.open("", "_blank", "noopener,noreferrer");
+
+    if (!pdfWindow) {
+      window.alert("Please allow pop-ups to generate the paper PDF.");
+      return;
+    }
+
+    pdfWindow.document.open();
+    pdfWindow.document.write(buildPaperPdfMarkup(paper, paperQuestions));
+    pdfWindow.document.close();
   }
 
   return (
@@ -1555,12 +1722,14 @@ export default function PreviousYearPage() {
                   <div className="grid gap-3 p-4 sm:p-5 lg:hidden">
                     {paginatedPapers.map((paper) => {
                       const hasSolutions = paper.solvedCount > 0;
-                      const previewHref = buildPaperHref(
+                      const hasPaperAccess = hasSolutions || paper.isOfficialPdf;
+                      const practiceHref = buildPaperHref(
                         paper,
                         activeFilters,
                         search,
                         "question-bank"
                       );
+                      const solutionHref = buildSolutionHref(paper, activeFilters, search);
 
                       return (
                         <article
@@ -1573,22 +1742,22 @@ export default function PreviousYearPage() {
                                 {paper.year}
                               </span>
                               <p className="mt-3 text-base font-bold text-slate-900">
-                                {getPaperRoleLabel(paper.exam)}
+                                {getPaperTitle(paper)}
                               </p>
                             </div>
                             <span
                               className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-                                hasSolutions
+                                hasPaperAccess
                                   ? "bg-emerald-50 text-emerald-700"
                                   : "bg-slate-100 text-slate-600"
                               }`}
                             >
-                              {hasSolutions ? "Available" : "Limited"}
+                              {hasPaperAccess ? "Available" : "Limited"}
                             </span>
                           </div>
 
                           <p className="mt-2 text-sm leading-6 text-slate-600">
-                            {formatSubjectSummary(paper.subjects)} | {paper.questionCount} questions
+                            {formatSubjectSummary(paper.subjects)} | {getQuestionCountLabel(paper)}
                           </p>
 
                           <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
@@ -1602,14 +1771,16 @@ export default function PreviousYearPage() {
                               <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
                                 Questions
                               </p>
-                              <p className="mt-1 font-semibold text-slate-800">{paper.questionCount}</p>
+                              <p className="mt-1 font-semibold text-slate-800">{paper.questionCount || "PDF"}</p>
                             </div>
                             <div className="rounded-xl border border-[#e4eaf6] bg-white px-3 py-2">
                               <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
                                 Solved
                               </p>
                               <p className="mt-1 font-semibold text-slate-800">
-                                {getSolvedPercentage(paper.solvedCount, paper.questionCount)}%
+                                {paper.questionCount
+                                  ? `${getSolvedPercentage(paper.solvedCount, paper.questionCount)}%`
+                                  : "Source"}
                               </p>
                             </div>
                             <div className="rounded-xl border border-[#e4eaf6] bg-white px-3 py-2">
@@ -1622,15 +1793,33 @@ export default function PreviousYearPage() {
                             </div>
                           </div>
 
-                          <div className="mt-4">
+                          <div className="mt-4 grid gap-2 sm:grid-cols-3">
                             <Link
-                              href={previewHref}
+                              href={solutionHref}
                               className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-portal-700 px-3 py-2.5 text-sm font-bold text-white transition hover:bg-portal-800"
                             >
                               <UiIcon type="eye" className="h-4 w-4" />
-                              Open Paper
+                              View Solution
+                            </Link>
+                            <button
+                              type="button"
+                              onClick={() => handlePaperPdf(paper)}
+                              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-3 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-300 hover:bg-portal-50"
+                            >
+                              <UiIcon type="download" className="h-4 w-4" />
+                              Download PDF
+                            </button>
+                            <Link
+                              href={practiceHref}
+                              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-3 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-300 hover:bg-portal-50"
+                            >
+                              <UiIcon type="play" className="h-4 w-4" />
+                              Practice
                             </Link>
                           </div>
+                          <p className="mt-2 text-xs text-slate-500">
+                            View Solution keeps the paper inside this website. Download PDF is optional.
+                          </p>
                         </article>
                       );
                     })}
@@ -1703,12 +1892,14 @@ export default function PreviousYearPage() {
                         <tbody>
                           {paginatedPapers.map((paper, index) => {
                             const hasSolutions = paper.solvedCount > 0;
-                            const previewHref = buildPaperHref(
+                            const hasPaperAccess = hasSolutions || paper.isOfficialPdf;
+                            const practiceHref = buildPaperHref(
                               paper,
                               activeFilters,
                               search,
                               "question-bank"
                             );
+                            const solutionHref = buildSolutionHref(paper, activeFilters, search);
 
                             return (
                               <tr
@@ -1726,11 +1917,10 @@ export default function PreviousYearPage() {
                                 </td>
                                 <td className="px-6 py-5 align-top">
                                   <p className="text-base font-semibold text-slate-900">
-                                    {getPaperRoleLabel(paper.exam)}
+                                    {getPaperTitle(paper)}
                                   </p>
                                   <p className="mt-1 text-sm text-slate-500">
-                                    {formatSubjectSummary(paper.subjects)} | {paper.questionCount}{" "}
-                                    questions
+                                    {formatSubjectSummary(paper.subjects)} | {getQuestionCountLabel(paper)}
                                   </p>
                                 </td>
                                 <td className="px-6 py-5 align-top">
@@ -1740,7 +1930,7 @@ export default function PreviousYearPage() {
                                 </td>
                                 <td className="px-6 py-5 align-top">
                                   <p className="text-sm font-bold text-slate-900">
-                                    {paper.questionCount}
+                                    {paper.questionCount || "PDF"}
                                   </p>
                                   <p className="mt-1 text-xs text-slate-500">
                                     {paper.subjectCount} subjects | {paper.topicCount} topics
@@ -1759,26 +1949,42 @@ export default function PreviousYearPage() {
                                 <td className="px-6 py-5 align-top">
                                   <span
                                     className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-                                      hasSolutions
+                                      hasPaperAccess
                                         ? "bg-emerald-50 text-emerald-700"
                                         : "bg-slate-100 text-slate-600"
                                     }`}
                                   >
-                                    {hasSolutions
-                                      ? `${getSolvedPercentage(paper.solvedCount, paper.questionCount)}% solved`
-                                      : "Limited"}
+                                    {getSolutionStatusLabel(paper)}
                                   </span>
                                 </td>
                                 <td className="px-6 py-5 align-top">
                                   <div className="flex items-center gap-3">
                                     <Link
-                                      href={previewHref}
+                                      href={solutionHref}
                                       className="inline-flex items-center gap-2 rounded-xl bg-portal-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-portal-800"
                                     >
                                       <UiIcon type="eye" className="h-4 w-4" />
-                                      Open Paper
+                                      View Solution
+                                    </Link>
+                                    <button
+                                      type="button"
+                                      onClick={() => handlePaperPdf(paper)}
+                                      className="inline-flex items-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-300 hover:bg-portal-50"
+                                    >
+                                      <UiIcon type="download" className="h-4 w-4" />
+                                      Download PDF
+                                    </button>
+                                    <Link
+                                      href={practiceHref}
+                                      className="inline-flex items-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-300 hover:bg-portal-50"
+                                    >
+                                      <UiIcon type="play" className="h-4 w-4" />
+                                      Practice
                                     </Link>
                                   </div>
+                                  <p className="mt-2 text-xs text-slate-500">
+                                    Opens an in-website paper viewer
+                                  </p>
                                 </td>
                               </tr>
                             );

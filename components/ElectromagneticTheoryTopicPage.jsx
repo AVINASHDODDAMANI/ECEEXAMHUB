@@ -1,6 +1,12 @@
 import { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import EducationalTheoryLayout, {
+  EducationalBulletList,
+  EducationalExampleCard,
+  EducationalFormulaGrid,
+  EducationalInfoCard,
+} from "./EducationalTheoryLayout";
 import Layout from "./layout";
 import { getLearningSubject, getRelatedLearningTopics } from "../lib/learning-utils";
 
@@ -222,205 +228,129 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
     [faqItems, topic]
   );
 
-  return (
-    <Layout
-      title={topic.metaTitle}
-      description={topic.metaDescription}
-      keywords={topic.keywords}
-      canonicalUrl={`https://eceexamguide.vercel.app/learn/electromagnetics/${topic.slug}`}
-      structuredData={structuredData}
-      pageClassName="py-3 sm:py-4"
-    >
-      <div className="mx-auto min-w-0 max-w-[1200px] pb-20">
-        <nav
-          aria-label="Breadcrumb"
-          className="mb-4 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between"
-        >
-          <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-            <li>
-              <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
-                Home
-              </Link>
-            </li>
-            <li className="text-slate-300">/</li>
-            <li>
-              <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
-                Subjects
-              </Link>
-            </li>
-            <li className="text-slate-300">/</li>
-            <li>
-              <Link
-                href="/subjects/electromagnetic-theory"
-                className="font-medium text-slate-600 transition hover:text-portal-700"
-              >
-                Electromagnetic Theory
-              </Link>
-            </li>
-            <li className="text-slate-300">/</li>
-            <li>
-              <span className="font-semibold text-portal-700">{topic.shortTitle}</span>
-            </li>
-          </ol>
-          <ElectromagneticChapterMenu topics={orderedTopics} currentSlug={topic.slug} />
-        </nav>
-
-        <header className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
-          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
-            Electromagnetic Theory
-          </p>
-          <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-            {topic.title}
-          </h1>
-          <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
-            {topic.summary}
-          </p>
-          <div className="mt-4 grid gap-3 text-sm text-slate-700 md:grid-cols-3">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="font-bold text-slate-950">Core question</p>
-              <p className="mt-1 leading-6">{topic.coreQuestion}</p>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="font-bold text-slate-950">Exam focus</p>
-              <p className="mt-1 leading-6">{topic.examFocus}</p>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-              <p className="font-bold text-slate-950">Engineering use</p>
-              <p className="mt-1 leading-6">{topic.engineeringUse}</p>
-            </div>
-          </div>
-        </header>
-
-        <nav
-          aria-label={`${topic.shortTitle} topic sections`}
-          className="sticky top-20 z-20 mt-4 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-sm backdrop-blur"
-        >
-          <div className="flex gap-2 overflow-x-auto pb-1">
-            {sectionLinks.map((section) => (
-              <a
-                key={section.id}
-                href={`#${section.id}`}
-                className="whitespace-nowrap rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-portal-200 hover:bg-portal-50 hover:text-portal-700"
-              >
-                {section.label}
-              </a>
-            ))}
-          </div>
-        </nav>
-
-        <article className="mt-5 grid gap-5">
-          <TopicSection id="introduction" title="Introduction">
-            {topic.intro.map((paragraph) => (
-              <p key={paragraph} className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-                {paragraph}
-              </p>
-            ))}
-          </TopicSection>
-
-          <TopicSection id="intuition" title="Basic Intuition">
-            <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">{topic.intuition}</p>
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
-              <div>
-                <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
-                  Learning Goals
-                </h3>
-                <BulletList items={topic.learningGoals} />
-              </div>
-              <div>
-                <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
-                  Key Concepts
-                </h3>
-                <BulletList items={topic.keyConcepts} />
-              </div>
-            </div>
-          </TopicSection>
-
-          <TopicSection id="visualization" title="Step-by-Step Visualization">
-            <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-              This lightweight SVG animation explains {topic.shortTitle} step by step for GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, and university exam preparation.
-            </p>
-            <div className="mt-4">
-              <ElectromagneticTheoryVisualizer slug={topic.slug} />
-            </div>
-          </TopicSection>
-
-          <TopicSection id="theory" title="Core Theory">
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
-              {topic.theoryCards.map((item) => (
-                <article key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
-                  <h3 className="text-base font-black text-slate-950">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-700">{item.detail}</p>
-                </article>
-              ))}
-            </div>
-          </TopicSection>
-
-          <TopicSection id="formulas" title="Formula Highlights and Quick Revision">
-            <FormulaGrid formulas={topic.formulas} />
-            <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
-              <h3 className="text-sm font-black uppercase tracking-[0.12em] text-emerald-800">
-                Quick Revision Takeaway
+  const standardSections = [
+    {
+      id: "introduction",
+      title: "Topic Introduction",
+      navLabel: "Introduction",
+      children: (
+        <div className="grid gap-3">
+          {topic.intro.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+      ),
+    },
+    {
+      id: "intuition",
+      title: "Key Idea / Intuition",
+      navLabel: "Intuition",
+      children: (
+        <>
+          <p>{topic.intuition}</p>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            <div>
+              <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
+                Learning Goals
               </h3>
-              <BulletList items={topic.quickRevision} bulletClassName="bg-emerald-500" />
+              <EducationalBulletList items={topic.learningGoals} />
             </div>
-          </TopicSection>
-
-          <TopicSection id="examples" title="Worked Example and Common Traps">
-            {topic.examples.map((example) => (
-              <article key={example.title} className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
-                <h3 className="text-base font-black text-slate-950">{example.title}</h3>
-                <p className="mt-2 text-sm leading-7 text-slate-700">{example.prompt}</p>
-                <ol className="mt-3 grid gap-2">
-                  {example.steps.map((step, index) => (
-                    <li key={step} className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-700">
-                      <span className="font-black text-portal-700">{index + 1}.</span> {step}
-                    </li>
-                  ))}
-                </ol>
-                <div className="mt-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800">
-                  Answer: {example.answer}
-                </div>
+            <div>
+              <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
+                Key Concepts
+              </h3>
+              <EducationalBulletList items={topic.keyConcepts} />
+            </div>
+          </div>
+        </>
+      ),
+    },
+    {
+      id: "mathematical-definition",
+      title: "Mathematical Definition",
+      navLabel: "Definition",
+      children: (
+        <>
+          <p>
+            Read each formula as a field question first, then use the notation for
+            calculation. This keeps the operator meaning clear during EMFT numericals.
+          </p>
+          <EducationalFormulaGrid formulas={topic.formulas} />
+        </>
+      ),
+    },
+    {
+      id: "visual-understanding",
+      title: "Visual Understanding",
+      navLabel: "Visual",
+      children: (
+        <>
+          <p>
+            This lightweight SVG animation explains {topic.shortTitle} step by step
+            for GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT
+            notes, and university exam preparation.
+          </p>
+          <div className="mt-4">
+            <ElectromagneticTheoryVisualizer slug={topic.slug} />
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {topic.theoryCards.map((item) => (
+              <article key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+                <h3 className="text-base font-black text-slate-950">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{item.detail}</p>
               </article>
             ))}
-            <div className="mt-4">
-              <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
-                Common Mistakes
-              </h3>
-              <BulletList items={topic.commonMistakes} bulletClassName="bg-rose-500" />
-            </div>
-          </TopicSection>
-
-          <TopicSection id="exam-focus" title="Exam Focus">
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
-                  Exam Pointers
-                </h3>
-                <BulletList items={topic.examPointers} />
-              </div>
-              <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
-                <h3 className="text-sm font-black uppercase tracking-[0.12em] text-amber-800">
-                  Exam-Oriented Tip
-                </h3>
-                <p className="mt-3 text-sm font-semibold leading-7 text-slate-800">
-                  {topic.insightSummary}
-                </p>
-              </div>
-            </div>
-          </TopicSection>
-
-          <TopicSection id="faq" title={`${topic.shortTitle} FAQ`}>
-            <div className="mt-4 grid gap-3">
-              {faqItems.map((item) => (
-                <FAQCard key={item.question} question={item.question} answer={item.answer} />
-              ))}
-            </div>
-          </TopicSection>
-
-          <TopicSection id="related-topics" title="Related Electromagnetic Theory Topics">
-            <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-              Continue through EMFT notes in the same order as the Electromagnetic Theory hamburger menu.
-            </p>
+          </div>
+        </>
+      ),
+    },
+    {
+      id: "worked-example",
+      title: "Worked Example",
+      navLabel: "Example",
+      children: (
+        <>
+          {topic.examples.map((example) => (
+            <EducationalExampleCard key={example.title} example={example} />
+          ))}
+        </>
+      ),
+    },
+    {
+      id: "important-notes",
+      title: "Important Notes",
+      navLabel: "Notes",
+      children: (
+        <>
+          <div className="grid gap-3 md:grid-cols-2">
+            <EducationalInfoCard title="Common Mistakes">
+              <EducationalBulletList items={topic.commonMistakes} bulletClassName="bg-rose-500" />
+            </EducationalInfoCard>
+            <EducationalInfoCard title="Exam Pointers">
+              <EducationalBulletList items={topic.examPointers} />
+            </EducationalInfoCard>
+          </div>
+          <div className="mt-4 grid gap-3">
+            {faqItems.map((item) => (
+              <FAQCard key={item.question} question={item.question} answer={item.answer} />
+            ))}
+          </div>
+        </>
+      ),
+    },
+    {
+      id: "quick-summary",
+      title: "Quick Summary",
+      navLabel: "Summary",
+      children: (
+        <>
+          <EducationalInfoCard title="Quick Revision Takeaway" tone="emerald">
+            <EducationalBulletList items={topic.quickRevision} bulletClassName="bg-emerald-500" />
+          </EducationalInfoCard>
+          <EducationalInfoCard title="Exam-Oriented Tip" tone="amber">
+            <p className="font-semibold text-slate-800">{topic.insightSummary}</p>
+          </EducationalInfoCard>
+          {relatedTopics.length ? (
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {relatedTopics.map((relatedTopic) => (
                 <Link
@@ -433,32 +363,66 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
                 </Link>
               ))}
             </div>
-          </TopicSection>
-        </article>
+          ) : null}
+        </>
+      ),
+    },
+  ];
 
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <Link
-            href={
-              previousTopic
-                ? `/learn/electromagnetics/${previousTopic.slug}`
-                : "/subjects/electromagnetic-theory"
-            }
-            className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-50"
-          >
-            {previousTopic ? `Previous ${previousTopic.title}` : "Back to Electromagnetic Theory"}
-          </Link>
-          <Link
-            href={
-              nextTopic
-                ? `/learn/electromagnetics/${nextTopic.slug}`
-                : "/subjects/electromagnetic-theory"
-            }
-            className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
-          >
-            {nextTopic ? `Next ${nextTopic.title}` : "Back to Electromagnetic Theory"}
-          </Link>
-        </div>
-      </div>
+  const standardFooter = (
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <Link
+        href={
+          previousTopic
+            ? `/learn/electromagnetics/${previousTopic.slug}`
+            : "/subjects/electromagnetic-theory"
+        }
+        className="inline-flex justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-50"
+      >
+        {previousTopic ? `Previous ${previousTopic.title}` : "Back to Electromagnetic Theory"}
+      </Link>
+      <Link
+        href={
+          nextTopic
+            ? `/learn/electromagnetics/${nextTopic.slug}`
+            : "/subjects/electromagnetic-theory"
+        }
+        className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
+      >
+        {nextTopic ? `Next ${nextTopic.title}` : "Back to Electromagnetic Theory"}
+      </Link>
+    </div>
+  );
+
+  return (
+    <Layout
+      title={topic.metaTitle}
+      description={topic.metaDescription}
+      keywords={topic.keywords}
+      canonicalUrl={`https://eceexamguide.vercel.app/learn/electromagnetics/${topic.slug}`}
+      structuredData={structuredData}
+      pageClassName="py-3 sm:py-4"
+    >
+      <EducationalTheoryLayout
+        eyebrow="Electromagnetic Theory"
+        title={topic.title}
+        summary={topic.summary}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Subjects", href: "/subjects" },
+          { label: "Electromagnetic Theory", href: "/subjects/electromagnetic-theory" },
+          { label: topic.shortTitle },
+        ]}
+        menu={<ElectromagneticChapterMenu topics={orderedTopics} currentSlug={topic.slug} />}
+        metrics={[
+          { label: "Core question", value: topic.coreQuestion },
+          { label: "Exam focus", value: topic.examFocus },
+          { label: "Engineering use", value: topic.engineeringUse },
+        ]}
+        sections={standardSections}
+        footer={standardFooter}
+        navLabel={`${topic.shortTitle} topic sections`}
+      />
     </Layout>
   );
 }
