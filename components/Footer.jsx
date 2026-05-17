@@ -86,7 +86,7 @@ export default function Footer() {
 
       <div className="border-t border-slate-200 bg-[#f8fafc]">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-4 py-4 text-sm text-slate-500 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-          <p>&copy; 2026 ECE Exam Guide. Structured preparation for ECE students.</p>
+          <p>&copy; 2026 ECE Exam Guide. Also known as ECE Exam Hub. Structured preparation for ECE students.</p>
           <div className="flex gap-4">
             <Link href="/subjects" className="transition hover:text-portal-700">
               Subjects

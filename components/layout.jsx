@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import Navbar from "./navbar";
 import {
   DEFAULT_OG_IMAGE,
+  SITE_ALTERNATE_NAMES,
   SITE_NAME,
   SITE_URL,
   shouldNoIndexPath,
@@ -13,7 +14,9 @@ const defaultStructuredData = [
   {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
+    "@id": `${SITE_URL}/#organization`,
     name: SITE_NAME,
+    alternateName: SITE_ALTERNATE_NAMES,
     url: SITE_URL,
     logo: `${SITE_URL}/brand/ece-exam-guide-mark-v2.svg`,
     sameAs: [],
@@ -21,8 +24,14 @@ const defaultStructuredData = [
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
     name: SITE_NAME,
+    alternateName: SITE_ALTERNATE_NAMES,
     url: SITE_URL,
+    publisher: {
+      "@id": `${SITE_URL}/#organization`,
+    },
+    inLanguage: "en-IN",
     potentialAction: {
       "@type": "SearchAction",
       target: `${SITE_URL}/search?q={search_term_string}`,
@@ -34,7 +43,7 @@ const defaultStructuredData = [
 export default function Layout({
   children,
   title = SITE_NAME,
-  description = "ECE Exam Guide helps ECE students learn concepts, solve previous papers, practice MCQs, and track exam progress.",
+  description = "ECE Exam Guide, also known as ECE Exam Hub, helps ECE students learn concepts, solve previous papers, practice MCQs, revise notes, and prepare for GATE, ESE, PSU, and university exams.",
   canonicalUrl = "",
   keywords = "",
   ogType = "website",
@@ -62,6 +71,7 @@ export default function Layout({
         {keywords ? <meta name="keywords" content={keywords} key="keywords" /> : null}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content={SITE_NAME} key="author" />
+        <meta name="publisher" content={SITE_NAME} key="publisher" />
         <meta
           name="robots"
           content={effectiveNoIndex ? "noindex, nofollow" : "index, follow"}

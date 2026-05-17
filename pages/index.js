@@ -159,21 +159,27 @@ export default function Home() {
   ];
 
   return (
-    <Layout title="ECE Exam Guide | Home" pageClassName="py-0">
+    <Layout
+      title="ECE Exam Guide - GATE ECE Notes, PYQs, MCQs & Exam Preparation"
+      description="ECE Exam Guide, also known as ECE Exam Hub, is a structured preparation platform for Electronics and Communication Engineering students with GATE ECE notes, subject-wise theory, MCQs, previous year papers, and revision resources."
+      keywords="ECE Exam Guide, ece exam guide, ECE Exam Hub, ece exam hub, GATE ECE notes, ECE notes, ECE MCQs, ECE previous year papers, electronics and communication engineering preparation"
+      pageClassName="py-0"
+    >
       <div className="space-y-7 pb-8">
         <section className="grid gap-6 pt-8 lg:grid-cols-[minmax(0,1fr)_520px] lg:items-center">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-portal-600">
-              Complete ECE Preparation
+              ECE Exam Guide
             </p>
             <h1 className="mt-3 max-w-3xl text-4xl font-extrabold tracking-tight text-slate-950 sm:text-5xl">
-              Learn ECE Concepts.
+              ECE Exam Guide for ECE Concepts.
               <span className="block text-emerald-600">Practice Smart.</span>
               <span className="block text-orange-600">Crack Exams.</span>
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-8 text-slate-600">
-              Detailed theory, topic-wise practice, previous year papers, and smart
-              revision tools for Electronics and Communication Engineering aspirants.
+              ECE Exam Guide brings detailed theory, topic-wise practice, previous year
+              papers, and smart revision tools together for Electronics and Communication
+              Engineering aspirants. Students can also find us as ECE Exam Hub.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
