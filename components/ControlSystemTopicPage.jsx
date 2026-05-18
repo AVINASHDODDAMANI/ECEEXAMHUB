@@ -2,6 +2,7 @@ import Link from "next/link";
 import Layout from "./layout";
 import ControlSystemVisualizer from "./ControlSystemVisualizer";
 import { controlSystemTopicPages } from "../data/control-system-topic-pages";
+import { generateKeywords } from "../lib/seo";
 
 function TopicSection({ id, title, children }) {
   return (
@@ -62,6 +63,12 @@ export default function ControlSystemTopicPage({ topic }) {
   const relatedTopics = controlSystemTopicPages
     .filter((item) => item.slug !== topic.slug)
     .slice(0, 4);
+  const seoKeywords = generateKeywords({
+    title: topic.shortTitle || topic.title,
+    subjectName: "Control Systems",
+    topicNames: topic.subtopics || [],
+    extraKeywords: [topic.keywords, ...(topic.keyConcepts || [])],
+  });
   const faqItems = [
     {
       question: `Why is ${topic.title} important for GATE ECE?`,
@@ -85,6 +92,7 @@ export default function ControlSystemTopicPage({ topic }) {
       learningResourceType: "Theory Notes",
       educationalLevel: "Undergraduate engineering",
       teaches: topic.title,
+      keywords: seoKeywords,
     },
     {
       "@context": "https://schema.org",
@@ -104,7 +112,7 @@ export default function ControlSystemTopicPage({ topic }) {
     <Layout
       title={`${topic.title} | Control Systems Notes for GATE ECE`}
       description={`${topic.summary} Includes intuition, animated visualization, formulas, solved examples, exam notes, and practice for GATE ECE and university exams.`}
-      keywords={topic.keywords}
+      keywords={seoKeywords}
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
     >

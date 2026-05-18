@@ -9,6 +9,7 @@ import EducationalTheoryLayout, {
 } from "./EducationalTheoryLayout";
 import Layout from "./layout";
 import { getLearningSubject, getRelatedLearningTopics } from "../lib/learning-utils";
+import { generateKeywords } from "../lib/seo";
 
 const ElectromagneticTheoryVisualizer = dynamic(
   () => import("./visualizers/ElectromagneticTheoryVisualizer"),
@@ -189,6 +190,16 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
     ],
     [topic]
   );
+  const seoKeywords = useMemo(
+    () =>
+      generateKeywords({
+        title: topic.shortTitle || topic.title,
+        subjectName: "Electromagnetic Theory",
+        topicNames: topic.subtopics || [],
+        extraKeywords: [topic.keywords, ...(topic.keyConcepts || [])],
+      }),
+    [topic]
+  );
 
   const structuredData = useMemo(
     () => [
@@ -200,7 +211,7 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
         learningResourceType: "Theory Notes",
         educationalLevel: "Undergraduate engineering",
         teaches: topic.shortTitle,
-        keywords: topic.keywords,
+        keywords: seoKeywords,
       },
       {
         "@context": "https://schema.org",
@@ -225,7 +236,7 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
         ],
       },
     ],
-    [faqItems, topic]
+    [faqItems, seoKeywords, topic]
   );
 
   const standardSections = [
@@ -398,7 +409,7 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
     <Layout
       title={topic.metaTitle}
       description={topic.metaDescription}
-      keywords={topic.keywords}
+      keywords={seoKeywords}
       canonicalUrl={`https://eceexamguide.vercel.app/learn/electromagnetics/${topic.slug}`}
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"

@@ -8,6 +8,7 @@ import EducationalTheoryLayout, {
   EducationalFormulaGrid,
   EducationalInfoCard,
 } from "../../components/EducationalTheoryLayout";
+import ElectromagneticSubjectHub from "../../components/ElectromagneticSubjectHub";
 import Layout from "../../components/layout";
 import NetworkTheoryDiagram from "../../components/NetworkTheoryDiagram";
 import { subjectDirectory } from "../../data/subject-directory";
@@ -14381,6 +14382,10 @@ export default function SubjectTheoryPage({
   const isQuizAnswered = typeof selectedQuizIndex === "number";
   const isQuizCorrect = isQuizAnswered && selectedQuizIndex === activeQuiz?.correctIndex;
   const analogStandaloneChapter = ANALOG_STANDALONE_PAGES[standaloneTopicPage];
+  const shouldUseElectromagneticSubjectHub =
+    subject.title === "Electromagnetic Theory" &&
+    isConceptIntroPage &&
+    !selectedLearningTopic;
 
   useEffect(() => {
     if (!selectedLearningTopicSlug) {
@@ -15214,41 +15219,57 @@ export default function SubjectTheoryPage({
           </div>
         </section>
 
-        <SubjectSeoDepthSection
-          subject={subject}
-          chapterMeta={chapterMeta}
-          concepts={concepts}
-          learningTopics={learningMeta.learningTopics || []}
-          notesHref={notesHref}
-        />
+        {shouldUseElectromagneticSubjectHub ? (
+          <ElectromagneticSubjectHub
+            subject={subject}
+            chapterMeta={chapterMeta}
+            steps={steps}
+            concepts={concepts}
+            learningTopics={learningMeta.learningTopics || []}
+            notesHref={notesHref}
+            completionPercent={completionPercent}
+            completedTopics={completedTopics}
+            readyTopics={readyTopics}
+          />
+        ) : (
+          <>
+            <SubjectSeoDepthSection
+              subject={subject}
+              chapterMeta={chapterMeta}
+              concepts={concepts}
+              learningTopics={learningMeta.learningTopics || []}
+              notesHref={notesHref}
+            />
 
-        {isConceptIntroPage ? (
-          <div className="mt-5">
-            {subject.title === "Digital Electronics" ? (
-              <DigitalOverviewPanel />
-            ) : subject.title === "Electromagnetic Theory" ? (
-              <ElectromagneticTheoryOverviewPanel />
-            ) : subject.title === "Antenna & Wave Propagation" ? (
-              <AntennaWavePropagationOverviewPanel />
-            ) : subject.title === "VLSI Design" ? (
-              <VlsiDesignOverviewPanel />
-            ) : subject.title === "Microprocessors" ? (
-              <MicroprocessorsOverviewPanel />
-            ) : subject.title === "Embedded Systems" ? (
-              <EmbeddedSystemsOverviewPanel />
-            ) : subject.title === "Digital Signal Processing" ? (
-              <DigitalSignalProcessingOverviewPanel />
-            ) : subject.title === "Signals and Systems" ? (
-              <SignalsOverviewPanel />
-            ) : subject.title === "Communication Systems" ? (
-              <CommunicationSystemsOverviewPanel />
-            ) : subject.title === "Control Systems" ? (
-              <ControlSystemsOverviewPanel />
-            ) : (
-              <NetworkOverviewPanel overviewCards={theoryKnowledge.overviewCards} />
-            )}
-          </div>
-        ) : null}
+            {isConceptIntroPage ? (
+              <div className="mt-5">
+                {subject.title === "Digital Electronics" ? (
+                  <DigitalOverviewPanel />
+                ) : subject.title === "Electromagnetic Theory" ? (
+                  <ElectromagneticTheoryOverviewPanel />
+                ) : subject.title === "Antenna & Wave Propagation" ? (
+                  <AntennaWavePropagationOverviewPanel />
+                ) : subject.title === "VLSI Design" ? (
+                  <VlsiDesignOverviewPanel />
+                ) : subject.title === "Microprocessors" ? (
+                  <MicroprocessorsOverviewPanel />
+                ) : subject.title === "Embedded Systems" ? (
+                  <EmbeddedSystemsOverviewPanel />
+                ) : subject.title === "Digital Signal Processing" ? (
+                  <DigitalSignalProcessingOverviewPanel />
+                ) : subject.title === "Signals and Systems" ? (
+                  <SignalsOverviewPanel />
+                ) : subject.title === "Communication Systems" ? (
+                  <CommunicationSystemsOverviewPanel />
+                ) : subject.title === "Control Systems" ? (
+                  <ControlSystemsOverviewPanel />
+                ) : (
+                  <NetworkOverviewPanel overviewCards={theoryKnowledge.overviewCards} />
+                )}
+              </div>
+            ) : null}
+          </>
+        )}
 
         <section className="mt-5">
           <main className="min-w-0">

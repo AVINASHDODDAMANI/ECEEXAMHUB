@@ -93,6 +93,18 @@ export default function SearchPage() {
       onSearchChange={setSearchValue}
     >
       <div className="mx-auto max-w-[1100px] pb-20">
+        <div className="mb-5 flex items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500">
+          <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">
+            Home
+          </Link>
+          <span className="text-slate-300" aria-hidden="true">/</span>
+          <Link href="/subjects" className="font-medium text-portal-600 transition hover:text-portal-700">
+            Subjects
+          </Link>
+          <span className="text-slate-300" aria-hidden="true">/</span>
+          <span className="font-medium text-slate-700">Search</span>
+        </div>
+
         <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
           <p className="text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
             Search

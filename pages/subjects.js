@@ -214,10 +214,10 @@ export default function SubjectsPage() {
                 Subject-first preparation
               </p>
               <h1 className="mt-5 max-w-4xl text-4xl font-extrabold tracking-tight sm:text-5xl">
-                Pick one subject and get a real study system, not a PDF dump.
+                Choose one subject and study with a structured system — not a scattered collection of PDFs.
               </h1>
               <p className="mt-5 max-w-3xl text-base leading-8 text-blue-50/92">
-                Every subject hub is designed to help ECE students move from confused browsing to structured revision with theory, notes, PYQs, and a clearer next step.
+                Each subject hub is thoughtfully designed for ECE students to transition from unorganized browsing to focused, effective revision. With curated theory modules, concise notes, previous year questions (PYQs), and guided learning paths, students gain both conceptual clarity and a clear direction for what to study next.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <Link
