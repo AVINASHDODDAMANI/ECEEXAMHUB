@@ -1,6 +1,22 @@
 import Link from "next/link";
 import { useState } from "react";
-import { networkAnalysisTopicPages } from "../data/network-analysis-topic-pages";
+
+const networkTopics = [
+  { title: "Basic Concepts", href: "/basic-concepts" },
+  { title: "Circuit Elements", href: "/circuit-elements" },
+  { title: "Circuit Laws", href: "/circuit-laws" },
+  { title: "Network Theorems", href: "/network-theorems" },
+  { title: "DC Circuit Analysis", href: "/dc-circuit-analysis" },
+  { title: "AC Fundamentals", href: "/ac-fundamentals" },
+  { title: "AC Circuit Analysis", href: "/ac-circuit-analysis" },
+  { title: "Transient Analysis", href: "/transient-analysis" },
+  { title: "Network Topology", href: "/network-topology" },
+  { title: "Laplace Transform Methods", href: "/laplace-transform-methods" },
+  { title: "Frequency Domain Analysis", href: "/frequency-domain-analysis" },
+  { title: "Two-Port Networks", href: "/two-port-networks" },
+  { title: "Filters", href: "/filters" },
+  { title: "Network Functions", href: "/network-functions" },
+];
 
 export default function NetworkTopicMenu({ currentPath = "" }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,13 +57,13 @@ export default function NetworkTopicMenu({ currentPath = "" }) {
           </div>
 
           <div className="grid gap-2">
-            {networkAnalysisTopicPages.map((topic, index) => {
-              const isActive = currentPath === topic.route;
+            {networkTopics.map((topic, index) => {
+              const isActive = currentPath === topic.href;
 
               return (
                 <Link
-                  key={topic.slug}
-                  href={topic.route}
+                  key={topic.href}
+                  href={topic.href}
                   onClick={() => setIsOpen(false)}
                   className={`rounded-xl border p-3 text-left transition ${
                     isActive
