@@ -5,12 +5,19 @@ import Head from "next/head";
 import EducationalTheoryLayout, {
   EducationalBulletList,
   EducationalExampleCard,
-  EducationalFormulaGrid,
   EducationalInfoCard,
 } from "../../components/EducationalTheoryLayout";
 import Layout from "../../components/layout";
 import NetworkTheoryDiagram from "../../components/NetworkTheoryDiagram";
+import CircuitFlowAnimation from "../../components/visualizers/CircuitFlowAnimation";
 import { subjectDirectory } from "../../data/subject-directory";
+import {
+  NETWORK_ANALYSIS_TOPIC_GROUPS,
+  NETWORK_ROUTE_ACTIVE_INDEX,
+  NETWORK_TOPIC_ROUTES,
+  NETWORK_TOPIC_TARGET_ANCHORS,
+  NETWORK_TOPIC_TARGET_SLUGS,
+} from "../../data/network-analysis-topic-pages";
 import {
   getSubjectSlug,
   subjectTheoryKnowledge,
@@ -27,6 +34,8 @@ import {
   generateTitle,
   getSubjectRelatedLinks,
 } from "../../lib/seo";
+
+export { NETWORK_ROUTE_ACTIVE_INDEX };
 
 const SUBJECT_TO_LEARNING_SLUG = {
   "Network Analysis": "networks",
@@ -2110,166 +2119,6 @@ const EMBEDDED_SYSTEMS_KNOWLEDGE = {
     learnPoints: chapter.topics.map((topic) => topic.title),
     formulas: [],
   })),
-};
-
-const NETWORK_ANALYSIS_TOPIC_GROUPS = [
-  {
-    title: "Basic Concepts",
-    topics: [
-      "Electric charge, current, voltage",
-      "Power and energy",
-      "Passive vs active elements",
-      "Linear and non-linear elements",
-      "Bilateral and unilateral elements",
-    ],
-  },
-  {
-    title: "Circuit Elements",
-    topics: [
-      "Resistors, capacitors, inductors",
-      "Independent and dependent sources",
-      "Source transformation",
-    ],
-  },
-  {
-    title: "Circuit Laws",
-    topics: ["Ohm's Law", "Kirchhoff's Current Law (KCL)", "Kirchhoff's Voltage Law (KVL)"],
-  },
-  {
-    title: "Network Theorems",
-    topics: [
-      "Superposition Theorem",
-      "Thevenin's Theorem",
-      "Norton's Theorem",
-      "Maximum Power Transfer Theorem",
-      "Reciprocity Theorem",
-      "Millman's Theorem",
-      "Compensation Theorem",
-    ],
-  },
-  {
-    title: "DC Circuit Analysis",
-    topics: [
-      "Series and parallel circuits",
-      "Mesh analysis",
-      "Nodal analysis",
-      "Star-Delta (Y-Delta) transformation",
-    ],
-  },
-  {
-    title: "AC Fundamentals",
-    topics: ["Sinusoidal signals", "Phase and phasors", "RMS, average values", "Complex impedance"],
-  },
-  {
-    title: "AC Circuit Analysis",
-    topics: [
-      "RL, RC, RLC circuits",
-      "Series and parallel resonance",
-      "Power in AC circuits: real, reactive, apparent",
-      "Power factor",
-    ],
-  },
-  {
-    title: "Transient Analysis",
-    topics: [
-      "First-order circuits: RC, RL",
-      "Second-order circuits: RLC",
-      "Natural and forced response",
-      "Time constants",
-    ],
-  },
-  {
-    title: "Network Topology",
-    topics: ["Graph theory basics", "Trees, branches, nodes, loops", "Tie-set and cut-set matrices"],
-  },
-  {
-    title: "Laplace Transform Methods",
-    topics: [
-      "Laplace transform basics",
-      "Circuit analysis using Laplace",
-      "Transfer function",
-      "Initial and final value theorems",
-    ],
-  },
-  {
-    title: "Frequency Domain Analysis",
-    topics: ["Frequency response", "Bode plots", "Resonance and bandwidth"],
-  },
-  {
-    title: "Two-Port Networks",
-    topics: ["Z, Y, h, ABCD parameters", "Interconnections of two-port networks"],
-  },
-  {
-    title: "Filters",
-    topics: [
-      "Low-pass and high-pass filters",
-      "Band-pass and band-stop filters",
-      "Active and passive filters",
-    ],
-  },
-  {
-    title: "Network Functions",
-    topics: ["Poles and zeros", "Stability", "Transfer function behavior"],
-  },
-  {
-    title: "Advanced Topics",
-    topics: ["Fourier series and transforms", "Network synthesis", "State-space analysis"],
-  },
-];
-
-const NETWORK_TOPIC_TARGET_SLUGS = {
-  "Circuit Elements": "circuit-variables",
-  "Circuit Laws": "kirchhoff-laws",
-  "Network Theorems": "network-theorems",
-  "DC Circuit Analysis": "systematic-solving",
-  "AC Fundamentals": "ac-analysis",
-  "AC Circuit Analysis": "ac-analysis",
-  "Transient Analysis": "transient-response",
-  "Network Topology": "graph-theory",
-  "Laplace Transform Methods": "transient-response",
-  "Frequency Domain Analysis": "ac-analysis",
-  "Two-Port Networks": "two-port-networks",
-  Filters: "ac-analysis",
-  "Network Functions": "ac-analysis",
-  "Advanced Topics": "special-networks",
-};
-
-const NETWORK_TOPIC_TARGET_ANCHORS = {
-  "Basic Concepts": "fundamental-electrical-concepts",
-};
-
-export const NETWORK_TOPIC_ROUTES = {
-  "Basic Concepts": "/basic-concepts",
-  "Circuit Elements": "/circuit-elements",
-  "Circuit Laws": "/circuit-laws",
-  "Network Theorems": "/network-theorems",
-  "DC Circuit Analysis": "/dc-circuit-analysis",
-  "AC Fundamentals": "/ac-fundamentals",
-  "AC Circuit Analysis": "/ac-circuit-analysis",
-  "Transient Analysis": "/transient-analysis",
-  "Network Topology": "/network-topology",
-  "Laplace Transform Methods": "/laplace-transform-methods",
-  "Frequency Domain Analysis": "/frequency-domain-analysis",
-  "Two-Port Networks": "/two-port-networks",
-  Filters: "/filters",
-  "Network Functions": "/network-functions",
-};
-
-export const NETWORK_ROUTE_ACTIVE_INDEX = {
-  "/basic-concepts": 0,
-  "/circuit-elements": 1,
-  "/circuit-laws": 2,
-  "/network-theorems": 3,
-  "/dc-circuit-analysis": 4,
-  "/ac-fundamentals": 5,
-  "/ac-circuit-analysis": 6,
-  "/transient-analysis": 7,
-  "/network-topology": 8,
-  "/laplace-transform-methods": 9,
-  "/frequency-domain-analysis": 10,
-  "/two-port-networks": 11,
-  "/filters": 12,
-  "/network-functions": 13,
 };
 
 const ANALOG_CHAPTERS = [
@@ -6672,6 +6521,147 @@ function BasicConceptTopicSection({ id, title, children }) {
         {children}
       </div>
     </section>
+  );
+}
+
+function BasicFormulaExplorer({ formulas = [] }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeFormula = formulas[activeIndex] || formulas[0];
+
+  if (!activeFormula) {
+    return null;
+  }
+
+  return (
+    <div className="mt-4 grid gap-4 lg:grid-cols-[0.82fr_1.18fr]">
+      <div className="grid gap-2">
+        {formulas.map((formula, index) => (
+          <button
+            key={formula.label}
+            type="button"
+            onClick={() => setActiveIndex(index)}
+            className={`rounded-2xl border px-4 py-3 text-left transition ${
+              activeIndex === index
+                ? "border-portal-300 bg-portal-50 text-portal-900 shadow-sm"
+                : "border-slate-200 bg-white text-slate-700 hover:border-portal-200 hover:bg-slate-50"
+            }`}
+          >
+            <span className="text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+              {formula.label}
+            </span>
+            <span className="mt-1 block text-lg font-black text-slate-950">
+              {formula.expression}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-4">
+        <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+          Formula Intuition
+        </p>
+        <p className="mt-2 rounded-2xl border border-slate-200 bg-white px-4 py-4 text-2xl font-black text-slate-950">
+          {activeFormula.expression}
+        </p>
+        <p className="mt-3 text-sm leading-7 text-slate-700">{activeFormula.note}</p>
+        <div className="mt-4 grid gap-2 sm:grid-cols-3">
+          {activeFormula.variables.map((variable) => (
+            <div key={variable.symbol} className="rounded-xl border border-slate-200 bg-white p-3">
+              <p className="text-base font-black text-portal-700">{variable.symbol}</p>
+              <p className="mt-1 text-xs font-semibold leading-5 text-slate-600">
+                {variable.meaning}
+              </p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-semibold leading-6 text-amber-900">
+          GATE shortcut: {activeFormula.examUse}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function BasicPillarsGrid({ items = [] }) {
+  return (
+    <div className="grid gap-3 md:grid-cols-3">
+      {items.map((item) => (
+        <article key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+          <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+            {item.kicker}
+          </p>
+          <h3 className="mt-2 text-base font-black text-slate-950">{item.title}</h3>
+          <p className="mt-2 text-sm leading-6 text-slate-700">{item.detail}</p>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function BasicPyqPracticeCard({ question }) {
+  const [selectedOption, setSelectedOption] = useState("");
+  const [showExplanation, setShowExplanation] = useState(false);
+  const isAnswered = Boolean(selectedOption);
+  const isCorrect = selectedOption === question.correctAnswer;
+
+  return (
+    <article className="rounded-[24px] border border-slate-200 bg-slate-50 p-4">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
+          Previous GATE Pattern
+        </p>
+        <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-600">
+          {question.year} style
+        </span>
+      </div>
+      <h3 className="mt-3 text-base font-black leading-7 text-slate-950">
+        {question.prompt}
+      </h3>
+      <div className="mt-4 grid gap-2 sm:grid-cols-2">
+        {question.options.map((option) => {
+          const isSelected = selectedOption === option;
+          const showCorrect = isAnswered && option === question.correctAnswer;
+          const showWrong = isAnswered && isSelected && !isCorrect;
+
+          return (
+            <button
+              key={option}
+              type="button"
+              onClick={() => setSelectedOption(option)}
+              disabled={isAnswered}
+              className={`rounded-xl border px-3 py-2.5 text-left text-sm font-semibold transition ${
+                showCorrect
+                  ? "border-emerald-300 bg-emerald-50 text-emerald-800"
+                  : showWrong
+                  ? "border-rose-300 bg-rose-50 text-rose-700"
+                  : isSelected
+                  ? "border-portal-300 bg-portal-50 text-portal-800"
+                  : "border-slate-200 bg-white text-slate-700 hover:border-portal-200"
+              }`}
+            >
+              {option}
+            </button>
+          );
+        })}
+      </div>
+      {isAnswered ? (
+        <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-3">
+          <p className={`text-sm font-black ${isCorrect ? "text-emerald-700" : "text-rose-700"}`}>
+            {isCorrect ? "Correct." : "Not quite."}
+          </p>
+          <button
+            type="button"
+            onClick={() => setShowExplanation((value) => !value)}
+            className="mt-2 text-sm font-bold text-portal-700"
+          >
+            {showExplanation ? "Hide explanation" : "Show explanation"}
+          </button>
+          {showExplanation ? (
+            <p className="mt-2 text-sm leading-6 text-slate-700">{question.explanation}</p>
+          ) : null}
+        </div>
+      ) : null}
+    </article>
   );
 }
 
@@ -14420,10 +14410,50 @@ export default function SubjectTheoryPage({
 
   if (standaloneTopicPage === "basic-concepts") {
     const basicFormulaItems = [
-      { label: "Current", expression: "I = dQ/dt", note: "Current is the time rate of flow of charge." },
-      { label: "Power", expression: "P = VI", note: "Positive power means absorption under passive sign convention." },
-      { label: "Energy", expression: "W = integral P dt", note: "Energy is accumulated power over time." },
-      { label: "Ohm's Law Preview", expression: "V = IR", note: "This becomes useful after identifying voltage and current direction." },
+      {
+        label: "Current",
+        expression: "I = dQ/dt",
+        note: "Current measures how quickly charge crosses a branch reference point.",
+        examUse: "If charge is given as a function of time, differentiate first; do not divide by total time unless charge flow is uniform.",
+        variables: [
+          { symbol: "I", meaning: "Branch current in ampere." },
+          { symbol: "Q", meaning: "Charge crossing the branch." },
+          { symbol: "t", meaning: "Time reference for motion." },
+        ],
+      },
+      {
+        label: "Power",
+        expression: "P = VI",
+        note: "Power is positive when current enters the marked positive terminal of an element.",
+        examUse: "Before calculation, mark polarity and current direction; the sign of P decides absorbed or delivered energy.",
+        variables: [
+          { symbol: "P", meaning: "Rate of energy transfer." },
+          { symbol: "V", meaning: "Voltage across the element." },
+          { symbol: "I", meaning: "Current through the element." },
+        ],
+      },
+      {
+        label: "Energy",
+        expression: "W = integral P dt",
+        note: "Energy is accumulated power over the time interval of interest.",
+        examUse: "Constant power means W = Pt; time-varying power needs integration with correct limits.",
+        variables: [
+          { symbol: "W", meaning: "Total energy in joule." },
+          { symbol: "P", meaning: "Instantaneous power." },
+          { symbol: "dt", meaning: "Small time interval." },
+        ],
+      },
+      {
+        label: "Ohm's Law Preview",
+        expression: "V = IR",
+        note: "Ohm's law connects voltage drop, current, and resistance for linear resistive elements.",
+        examUse: "Use it only after choosing a reference direction; sign errors usually come from skipping that step.",
+        variables: [
+          { symbol: "V", meaning: "Voltage drop across R." },
+          { symbol: "I", meaning: "Current through R." },
+          { symbol: "R", meaning: "Resistance in ohm." },
+        ],
+      },
     ];
     const basicLearningGoals = [
       "Understand charge, current, voltage, power, and energy.",
@@ -14436,6 +14466,48 @@ export default function SubjectTheoryPage({
       "Identify whether an element is active/passive, linear/non-linear, or bilateral/unilateral.",
       "Do not apply circuit laws before marking voltage polarity and current direction.",
     ];
+    const basicPillars = [
+      {
+        kicker: "Step 1",
+        title: "Mark references",
+        detail:
+          "Choose voltage polarity and current direction even if the actual direction is unknown. The final sign will tell the truth.",
+      },
+      {
+        kicker: "Step 2",
+        title: "Classify behavior",
+        detail:
+          "Decide whether the element absorbs, delivers, stores, controls, or restricts energy before using a formula.",
+      },
+      {
+        kicker: "Step 3",
+        title: "Write laws",
+        detail:
+          "Once references are fixed, KCL, KVL, Ohm's law, source transformation, and theorems become systematic.",
+      },
+    ];
+    const basicSolveFlow = [
+      "Redraw the circuit neatly and label all terminals.",
+      "Mark current direction and voltage polarity on every asked branch.",
+      "Check passive sign convention before using P = VI.",
+      "Classify elements as active/passive and linear/non-linear when the question asks conceptual behavior.",
+      "Only then apply V = IR, KCL, KVL, or the relevant theorem.",
+    ];
+    const basicCommonMistakes = [
+      "Treating electron flow and conventional current as the same direction.",
+      "Calling negative power wrong instead of reading it as delivered power.",
+      "Applying V = IR to a non-linear/unilateral device without checking its operating condition.",
+      "Forgetting that current through an element is measured in series with that element, not across it.",
+    ];
+    const basicPyqQuestion = {
+      year: "GATE",
+      prompt:
+        "An element has V = 10 V across it. A current of 2 A enters the positive-marked terminal. What does the power sign indicate?",
+      options: ["20 W absorbed", "20 W delivered", "-20 W absorbed", "Power cannot be decided"],
+      correctAnswer: "20 W absorbed",
+      explanation:
+        "By passive sign convention, current entering the positive terminal gives P = VI = 10 x 2 = 20 W. Positive power means the element absorbs energy.",
+    };
     const basicWorkedExample = {
       title: "Power direction check",
       prompt: "A circuit element has marked voltage and current direction. Decide whether it absorbs or delivers energy before solving deeper network equations.",
@@ -14452,17 +14524,20 @@ export default function SubjectTheoryPage({
         title: "Topic Introduction",
         navLabel: "Introduction",
         children: (
-          <div className="grid gap-3">
+          <div className="grid gap-4">
             <p>
-              Every electrical circuit contains voltage, current, power, and energy exchange.
-              Network Analysis helps us understand how these quantities behave and interact inside the circuit.
+              Basic Concepts is not a dictionary chapter. It is the setup stage for
+              every Network Analysis problem: what is flowing, what is pushing it,
+              where energy is going, and which sign convention is being used.
             </p>
-            <p>
-              In this chapter, charge is the basic quantity, when electric charge starts moving through a conductor, electrical current is produced.
-              The amount of charge flowing every second determines how large the current is. Voltage is the potential difference between two points,
-              power is the rate of energy transfer, and energy is the total work done
-              by or on the circuit.
-            </p>
+            <BasicPillarsGrid items={basicPillars} />
+            <EducationalInfoCard title="Why This Matters" tone="emerald">
+              <p>
+                GATE numericals often become difficult because of signs, not algebra.
+                If the polarity and current reference are clear, power, KCL, KVL,
+                and equivalent-circuit questions become much faster.
+              </p>
+            </EducationalInfoCard>
           </div>
         ),
       },
@@ -14473,9 +14548,9 @@ export default function SubjectTheoryPage({
         children: (
           <>
             <p>
-              Think of a circuit as a closed path with terminals, elements, and energy
-              exchange. A source creates voltage, charges move as current, and elements
-              either absorb, store, deliver, control, or restrict electrical energy.
+              Think of the source as setting up an electrical push, the closed path
+              as allowing charge motion, and each element as deciding what happens
+              to energy along the way.
             </p>
             <div className="mt-4 grid gap-3 md:grid-cols-2">
               <div>
@@ -14495,16 +14570,48 @@ export default function SubjectTheoryPage({
         ),
       },
       {
+        id: "interactive-circuit",
+        title: "Interactive Circuit View",
+        navLabel: "Circuit",
+        children: (
+          <div className="grid gap-4 lg:grid-cols-[1.08fr_0.92fr]">
+            <CircuitFlowAnimation
+              mode="flow"
+              activeStep={1}
+              labels={["Source push", "Current path", "Voltage drop", "Power sign"]}
+            />
+            <div className="grid gap-3">
+              <EducationalInfoCard title="Read The Animation">
+                <EducationalBulletList
+                  items={[
+                    "The source creates potential difference.",
+                    "Current needs a closed conducting path.",
+                    "The resistor develops a voltage drop opposite the assumed rise.",
+                    "Power sign depends on where current enters the element.",
+                  ]}
+                />
+              </EducationalInfoCard>
+              <EducationalInfoCard title="Exam Tip" tone="amber">
+                <p className="font-semibold text-slate-800">
+                  The diagram is not decoration. Use it as your first rough work:
+                  mark source polarity, draw current, mark drops, then write equations.
+                </p>
+              </EducationalInfoCard>
+            </div>
+          </div>
+        ),
+      },
+      {
         id: "mathematical-definition",
-        title: "Mathematical Definition",
-        navLabel: "Definition",
+        title: "Interactive Formula Map",
+        navLabel: "Formulas",
         children: (
           <>
             <p>
-              Keep the basic quantities close to their meaning. These formulas are
-              useful only after voltage polarity and current direction are marked.
+              Use the formulas as sign-aware tools, not static memory lines. Select a
+              formula to see what each variable means and where it appears in exams.
             </p>
-            <EducationalFormulaGrid formulas={basicFormulaItems} />
+            <BasicFormulaExplorer formulas={basicFormulaItems} />
           </>
         ),
       },
@@ -14525,26 +14632,44 @@ export default function SubjectTheoryPage({
         ),
       },
       {
+        id: "solve-flow",
+        title: "How To Solve Basic Concept Questions",
+        navLabel: "Solve Flow",
+        children: (
+          <div className="grid gap-3">
+            {basicSolveFlow.map((step, index) => (
+              <div key={step} className="flex gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-portal-600 text-sm font-black text-white">
+                  {index + 1}
+                </span>
+                <p className="pt-1 text-sm font-semibold leading-6 text-slate-700">{step}</p>
+              </div>
+            ))}
+          </div>
+        ),
+      },
+      {
         id: "worked-example",
-        title: "Worked Example",
-        navLabel: "Example",
-        children: <EducationalExampleCard example={basicWorkedExample} />,
+        title: "Worked Example and PYQ Practice",
+        navLabel: "Practice",
+        children: (
+          <div className="grid gap-4 lg:grid-cols-2">
+            <EducationalExampleCard example={basicWorkedExample} />
+            <BasicPyqPracticeCard question={basicPyqQuestion} />
+          </div>
+        ),
       },
       {
         id: "important-notes",
-        title: "Important Notes",
-        navLabel: "Notes",
+        title: "GATE Focus and Common Mistakes",
+        navLabel: "GATE Focus",
         children: (
           <div className="grid gap-3 md:grid-cols-2">
             <EducationalInfoCard title="Exam Pointers">
               <EducationalBulletList items={basicExamPointers} />
             </EducationalInfoCard>
-            <EducationalInfoCard title="Exam-Oriented Tip" tone="amber">
-              <p className="font-semibold text-slate-800">
-                Most mistakes in Network Analysis begin before calculation: wrong
-                polarity, wrong current direction, or wrong assumption about whether
-                power is absorbed or delivered.
-              </p>
+            <EducationalInfoCard title="Common Mistakes" tone="amber">
+              <EducationalBulletList items={basicCommonMistakes} bulletClassName="bg-amber-500" />
             </EducationalInfoCard>
           </div>
         ),
@@ -14565,6 +14690,11 @@ export default function SubjectTheoryPage({
                 ]}
               />
             </EducationalInfoCard>
+            <div className="mt-4">
+              <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
+                Related Topics
+              </h3>
+            </div>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {NETWORK_ANALYSIS_TOPIC_GROUPS.slice(1, 7).map((group) => (
                 <Link

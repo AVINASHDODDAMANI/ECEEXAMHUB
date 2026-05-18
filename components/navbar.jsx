@@ -16,6 +16,7 @@ const navItems = [
   { href: "/previous-year", label: "PYQs", mobilePrimary: true },
   { href: "/mock-tests", label: "Mock Tests", mobileLabel: "Tests", mobilePrimary: true },
   { href: "/notes", label: "Notes" },
+  { href: "/diagram-lab", label: "AI Diagrams", mobileLabel: "Diagrams" },
   { href: "/learn", label: "Dashboard" },
   { href: "/ece-exams", label: "Resources", mobileLabel: "Resources" },
 ];
