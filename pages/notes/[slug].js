@@ -18,7 +18,9 @@ import {
   generateKeywords,
   generateStructuredData,
   generateTitle,
+  getNotesPagePathByLearningSlug,
   getSubjectRelatedLinks,
+  getSubjectPagePathByLearningSlug,
 } from "../../lib/seo";
 
 const SUBJECT_TO_LEARNING_SLUG = {
@@ -123,6 +125,14 @@ function buildNotesSeo(subject, theoryKnowledge) {
     ],
     faqItems,
   });
+  const searchIntents = [
+    `${subject.title} notes`,
+    `${subject.title} handwritten notes`,
+    `${subject.title} gate ece notes`,
+    `${subject.title} formulas`,
+    `${subject.title} important questions`,
+    `${subject.title} revision notes`,
+  ];
 
   return {
     title,
@@ -132,6 +142,7 @@ function buildNotesSeo(subject, theoryKnowledge) {
     structuredData,
     faqItems,
     relatedLinks,
+    searchIntents,
   };
 }
 
@@ -421,6 +432,9 @@ export default function NoteTopicPage({
   const subjectProgress = progressStats.subjects.find(
     (item) => item.slug === learningMeta.learningSubjectSlug
   );
+  const featuredLearningTopics = (learningMeta.learningTopics || []).slice(0, 6);
+  const subjectHubHref = getSubjectPagePathByLearningSlug(learningMeta.learningSubjectSlug);
+  const subjectNotesHref = getNotesPagePathByLearningSlug(learningMeta.learningSubjectSlug);
   const completedTopics = subjectProgress?.completedTopics || 0;
   const readyTopics = subjectProgress?.totalTopics || learningMeta.readyTopics || 0;
   const completionPercent = subjectProgress?.completionPercent || 0;
@@ -988,6 +1002,92 @@ export default function NoteTopicPage({
 
         <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
           <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+            Continue With {subject.title}
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-600 sm:text-base">
+            These links connect your notes page to the main subject hub and the most
+            important learning topics, making it easier for both students and search
+            engines to navigate the full {subject.title.toLowerCase()} preparation path.
+          </p>
+
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {[
+              {
+                title: `${subject.title} Subject Hub`,
+                description: "Open the roadmap, chapter sequence, and subject-level preparation guidance.",
+                href: subjectHubHref,
+                badge: "Subject",
+              },
+              {
+                title: `${subject.title} Notes Home`,
+                description: "Stay on the full notes path for this subject and revise it chapter by chapter.",
+                href: subjectNotesHref,
+                badge: "Notes",
+              },
+              {
+                title: `${subject.title} Search`,
+                description: "Find connected formulas, theory pages, and related study material across the site.",
+                href: `/search?q=${encodeURIComponent(subject.title)}`,
+                badge: "Search",
+              },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:-translate-y-0.5 hover:border-portal-300 hover:bg-white hover:shadow-sm"
+              >
+                <span className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700">
+                  {item.badge}
+                </span>
+                <h3 className="mt-3 text-base font-bold text-slate-900">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{item.description}</p>
+              </Link>
+            ))}
+          </div>
+
+          {featuredLearningTopics.length ? (
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {featuredLearningTopics.map((topic) => (
+                <Link
+                  key={topic.slug}
+                  href={topic.href}
+                  className="rounded-2xl border border-slate-200 bg-white px-4 py-4 transition hover:border-portal-200 hover:bg-portal-50"
+                >
+                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-portal-700">
+                    {topic.chapterTitle}
+                  </p>
+                  <h3 className="mt-2 text-base font-bold text-slate-900">{topic.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{topic.summary}</p>
+                </Link>
+              ))}
+            </div>
+          ) : null}
+        </section>
+
+        <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+            High-Intent {subject.title} Searches
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-600 sm:text-base">
+            These are the common search phrases students use when looking for {subject.title.toLowerCase()}
+            notes, revision material, and exam-focused study help.
+          </p>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            {seo.searchIntents.map((item) => (
+              <Link
+                key={item}
+                href={`/search?q=${encodeURIComponent(item)}`}
+                className="rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-portal-300 hover:bg-white hover:text-portal-700"
+              >
+                {item}
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
             {subject.title} Notes FAQ
           </h2>
           <div className="mt-5 grid gap-3">
@@ -1077,6 +1177,7 @@ export function getStaticProps({ params }) {
         totalTopics: learningTopics.length,
         readyTopics: readyTopics.length,
         continueHref: readyTopics[0]?.href || subject.href,
+        learningTopics: readyTopics,
         questionCount: seedQuestions.filter((question) => question.subject === "Networks").length,
       },
     },

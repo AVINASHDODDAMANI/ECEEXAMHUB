@@ -9,7 +9,7 @@ import EducationalTheoryLayout, {
 } from "./EducationalTheoryLayout";
 import Layout from "./layout";
 import { getLearningSubject, getRelatedLearningTopics } from "../lib/learning-utils";
-import { generateKeywords } from "../lib/seo";
+import { generateKeywords, SITE_URL } from "../lib/seo";
 
 const ElectromagneticTheoryVisualizer = dynamic(
   () => import("./visualizers/ElectromagneticTheoryVisualizer"),
@@ -229,10 +229,10 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: "https://eceexamguide.vercel.app/" },
-          { "@type": "ListItem", position: 2, name: "Subjects", item: "https://eceexamguide.vercel.app/subjects" },
-          { "@type": "ListItem", position: 3, name: "Electromagnetic Theory", item: "https://eceexamguide.vercel.app/subjects/electromagnetic-theory" },
-          { "@type": "ListItem", position: 4, name: topic.shortTitle, item: `https://eceexamguide.vercel.app/learn/electromagnetics/${topic.slug}` },
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+          { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+          { "@type": "ListItem", position: 3, name: "Electromagnetic Theory", item: `${SITE_URL}/subjects/electromagnetic-theory` },
+          { "@type": "ListItem", position: 4, name: topic.shortTitle, item: `${SITE_URL}/learn/electromagnetics/${topic.slug}` },
         ],
       },
     ],
@@ -410,7 +410,7 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
       title={topic.metaTitle}
       description={topic.metaDescription}
       keywords={seoKeywords}
-      canonicalUrl={`https://eceexamguide.vercel.app/learn/electromagnetics/${topic.slug}`}
+      canonicalUrl={`${SITE_URL}/learn/electromagnetics/${topic.slug}`}
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
     >

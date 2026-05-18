@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import Layout from "./layout";
 import { getLearningSubject, getRelatedLearningTopics } from "../lib/learning-utils";
-import { generateKeywords } from "../lib/seo";
+import { generateKeywords, SITE_URL } from "../lib/seo";
 
 const DSPVisualizer = dynamic(() => import("./visualizers/DSPVisualizer"), {
   ssr: false,
@@ -177,10 +177,10 @@ export default function DigitalSignalProcessingTopicPage({ topic }) {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: "https://eceexamguide.vercel.app/" },
-          { "@type": "ListItem", position: 2, name: "Subjects", item: "https://eceexamguide.vercel.app/subjects" },
-          { "@type": "ListItem", position: 3, name: "Digital Signal Processing", item: "https://eceexamguide.vercel.app/subjects/digital-signal-processing" },
-          { "@type": "ListItem", position: 4, name: topic.shortTitle, item: `https://eceexamguide.vercel.app/learn/dsp/${topic.slug}` },
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+          { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+          { "@type": "ListItem", position: 3, name: "Digital Signal Processing", item: `${SITE_URL}/subjects/digital-signal-processing` },
+          { "@type": "ListItem", position: 4, name: topic.shortTitle, item: `${SITE_URL}/learn/dsp/${topic.slug}` },
         ],
       },
     ],
@@ -192,7 +192,7 @@ export default function DigitalSignalProcessingTopicPage({ topic }) {
       title={topic.metaTitle}
       description={topic.metaDescription}
       keywords={seoKeywords}
-      canonicalUrl={`https://eceexamguide.vercel.app/learn/dsp/${topic.slug}`}
+      canonicalUrl={`${SITE_URL}/learn/dsp/${topic.slug}`}
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
     >

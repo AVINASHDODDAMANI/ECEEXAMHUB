@@ -27,6 +27,7 @@ import {
   generateStructuredData,
   generateTitle,
   getSubjectRelatedLinks,
+  SITE_URL,
 } from "../../lib/seo";
 
 const SUBJECT_TO_LEARNING_SLUG = {
@@ -14198,6 +14199,14 @@ function buildSubjectSeo(subject, theoryKnowledge, learningTopics = []) {
   const introParagraph = `Study ${subject.title} notes for ECE with chapter-wise explanations, high-value concepts, and GATE-focused revision. This page connects roadmap topics like ${topicNames
     .slice(0, 5)
     .join(", ")} so students can move from fundamentals to exam-ready problem solving.`;
+  const searchIntents = [
+    `${subject.title} notes`,
+    `${subject.title} gate ece`,
+    `${subject.title} handwritten notes`,
+    `${subject.title} important questions`,
+    `${subject.title} formulas`,
+    `${subject.title} pyq`,
+  ];
 
   return {
     title,
@@ -14208,6 +14217,7 @@ function buildSubjectSeo(subject, theoryKnowledge, learningTopics = []) {
     faqItems,
     relatedLinks,
     introParagraph,
+    searchIntents,
   };
 }
 
@@ -14721,7 +14731,7 @@ export default function SubjectTheoryPage({
       "BJT and MOSFET Explained | Structure, Working, Regions and Characteristics";
     const pageDescription =
       "Learn BJT and MOSFET working step by step with structure, current relations, operating regions, characteristics, amplifier and switch applications, and comparison.";
-    const canonicalUrl = "https://eceexamguide.vercel.app/bjt-and-mosfet";
+    const canonicalUrl = `${SITE_URL}/bjt-and-mosfet`;
     const articleSchema = {
       "@context": "https://schema.org",
       "@type": "Article",
@@ -14735,9 +14745,9 @@ export default function SubjectTheoryPage({
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://eceexamguide.vercel.app/" },
-        { "@type": "ListItem", position: 2, name: "Subjects", item: "https://eceexamguide.vercel.app/subjects" },
-        { "@type": "ListItem", position: 3, name: "Analog Electronics", item: "https://eceexamguide.vercel.app/subjects/analog-electronics" },
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+        { "@type": "ListItem", position: 3, name: "Analog Electronics", item: `${SITE_URL}/subjects/analog-electronics` },
         { "@type": "ListItem", position: 4, name: "BJT and MOSFET", item: canonicalUrl },
       ],
     };
@@ -14880,7 +14890,7 @@ export default function SubjectTheoryPage({
       "Amplifiers Explained | Gain, BJT, MOSFET, Frequency Response and Classes";
     const pageDescription =
       "Learn amplifiers step by step with gain, BJT amplifier, MOSFET amplifier, phase shift, frequency response, bandwidth, classes, distortion and practical parameters.";
-    const canonicalUrl = "https://eceexamguide.vercel.app/amplifiers";
+    const canonicalUrl = `${SITE_URL}/amplifiers`;
     const articleSchema = {
       "@context": "https://schema.org",
       "@type": "Article",
@@ -14894,9 +14904,9 @@ export default function SubjectTheoryPage({
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://eceexamguide.vercel.app/" },
-        { "@type": "ListItem", position: 2, name: "Subjects", item: "https://eceexamguide.vercel.app/subjects" },
-        { "@type": "ListItem", position: 3, name: "Analog Electronics", item: "https://eceexamguide.vercel.app/subjects/analog-electronics" },
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+        { "@type": "ListItem", position: 3, name: "Analog Electronics", item: `${SITE_URL}/subjects/analog-electronics` },
         { "@type": "ListItem", position: 4, name: "Amplifiers", item: canonicalUrl },
       ],
     };
@@ -15635,6 +15645,74 @@ export default function SubjectTheoryPage({
                 ) : null}
               </Link>
             ))}
+          </div>
+        </section>
+
+        <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+            Important {subject.title} Pages
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-slate-600 sm:text-base">
+            These are the core pages that help students move through the full {subject.title.toLowerCase()}
+            preparation journey, from subject overview to notes and topic-wise learning.
+          </p>
+
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            <Link
+              href={`/notes/${getSubjectSlug(subject.title)}`}
+              className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:-translate-y-0.5 hover:border-portal-300 hover:bg-white hover:shadow-sm"
+            >
+              <span className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700">
+                Notes
+              </span>
+              <h3 className="mt-3 text-base font-bold text-slate-900">{subject.title} Notes</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                Open chapter-wise notes, formula revision, and structured concept summaries.
+              </p>
+            </Link>
+
+            <Link
+              href={learningMeta.continueHref || subject.href}
+              className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:-translate-y-0.5 hover:border-portal-300 hover:bg-white hover:shadow-sm"
+            >
+              <span className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700">
+                Learn
+              </span>
+              <h3 className="mt-3 text-base font-bold text-slate-900">{subject.title} Learning Topics</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                Go deeper with exam-focused topic pages, explanations, and guided learning flow.
+              </p>
+            </Link>
+
+            <Link
+              href={`/search?q=${encodeURIComponent(subject.title)}`}
+              className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:-translate-y-0.5 hover:border-portal-300 hover:bg-white hover:shadow-sm"
+            >
+              <span className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700">
+                Search
+              </span>
+              <h3 className="mt-3 text-base font-bold text-slate-900">Search {subject.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                Find formulas, concepts, theory pages, and related content across the site.
+              </p>
+            </Link>
+          </div>
+
+          <div className="mt-5">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-portal-700">
+              Popular Searches
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {seo.searchIntents.map((item) => (
+                <Link
+                  key={item}
+                  href={`/search?q=${encodeURIComponent(item)}`}
+                  className="rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-portal-300 hover:bg-white hover:text-portal-700"
+                >
+                  {item}
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
 

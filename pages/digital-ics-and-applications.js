@@ -1,10 +1,11 @@
 import Link from "next/link";
 import Layout from "../components/layout";
+import { SITE_URL } from "../lib/seo";
 
 const pageTitle = "Digital ICs and Applications | Digital Electronics Notes for ECE";
 const pageDescription =
   "Learn Digital ICs and Applications with timing circuits, clock signals, pulse generation, 555 timer modes, propagation delay, duty cycle, formulas, examples, interview questions, and GATE notes.";
-const canonicalUrl = "https://eceexamguide.vercel.app/digital-ics-and-applications";
+const canonicalUrl = `${SITE_URL}/digital-ics-and-applications`;
 const seoKeywords =
   "Digital ICs and Applications, digital IC notes, timing circuits, clock signals, pulse generation, 555 timer monostable, 555 timer astable, propagation delay, duty cycle, Digital Electronics ECE, GATE ECE";
 const structuredData = [
@@ -35,20 +36,20 @@ const structuredData = [
     provider: {
       "@type": "Organization",
       name: "ECE Exam Guide",
-      url: "https://eceexamguide.vercel.app",
+      url: SITE_URL,
     },
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://eceexamguide.vercel.app/" },
-      { "@type": "ListItem", position: 2, name: "Subjects", item: "https://eceexamguide.vercel.app/subjects" },
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
       {
         "@type": "ListItem",
         position: 3,
         name: "Digital Electronics",
-        item: "https://eceexamguide.vercel.app/subjects/digital-electronics",
+        item: `${SITE_URL}/subjects/digital-electronics`,
       },
       { "@type": "ListItem", position: 4, name: "Digital ICs and Applications", item: canonicalUrl },
     ],

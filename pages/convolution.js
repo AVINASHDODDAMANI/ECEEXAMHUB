@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ConvolutionVisualizer from "../components/ConvolutionVisualizer";
 import Layout from "../components/layout";
+import { SITE_URL } from "../lib/seo";
 
 function BulletList({ items, bulletClassName = "bg-portal-600" }) {
   return (
@@ -45,8 +46,6 @@ function MiniCard({ title, children }) {
     </div>
   );
 }
-
-const SITE_URL = "https://eceexamguide.vercel.app";
 
 const sectionLinks = [
   { id: "introduction", label: "Introduction" },

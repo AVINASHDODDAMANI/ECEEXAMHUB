@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import Layout from "./layout";
 import { getRelatedLearningTopics } from "../lib/learning-utils";
-import { generateKeywords } from "../lib/seo";
+import { generateKeywords, SITE_URL } from "../lib/seo";
 
 const CommunicationSystemVisualizer = dynamic(
   () => import("./visualizers/CommunicationSystemVisualizer"),
@@ -149,25 +149,25 @@ export default function CommunicationSystemTopicPage({ topic }) {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://eceexamguide.vercel.app/",
+            item: `${SITE_URL}/`,
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Subjects",
-            item: "https://eceexamguide.vercel.app/subjects",
+            item: `${SITE_URL}/subjects`,
           },
           {
             "@type": "ListItem",
             position: 3,
             name: "Communication Systems",
-            item: "https://eceexamguide.vercel.app/subjects/communication-systems",
+            item: `${SITE_URL}/subjects/communication-systems`,
           },
           {
             "@type": "ListItem",
             position: 4,
             name: topic.shortTitle,
-            item: `https://eceexamguide.vercel.app/learn/communications/${topic.slug}`,
+            item: `${SITE_URL}/learn/communications/${topic.slug}`,
           },
         ],
       },
@@ -180,7 +180,7 @@ export default function CommunicationSystemTopicPage({ topic }) {
       title={topic.metaTitle}
       description={topic.metaDescription}
       keywords={seoKeywords}
-      canonicalUrl={`https://eceexamguide.vercel.app/learn/communications/${topic.slug}`}
+      canonicalUrl={`${SITE_URL}/learn/communications/${topic.slug}`}
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
     >

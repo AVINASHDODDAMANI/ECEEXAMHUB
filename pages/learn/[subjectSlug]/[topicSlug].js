@@ -22,6 +22,7 @@ import {
   generateDescription,
   generateKeywords,
   generateStructuredData,
+  getNotesPagePathByLearningSlug,
   generateTitle,
   getSubjectPagePathByLearningSlug,
 } from "../../../lib/seo";
@@ -183,6 +184,28 @@ export default function LearningTopicPage({ topic }) {
     { id: "examples", label: "Examples" },
     { id: "revision", label: "Revision" },
     { id: "faq", label: "FAQ" },
+  ];
+  const subjectHubHref = getSubjectPagePathByLearningSlug(topic.subjectSlug);
+  const subjectNotesHref = getNotesPagePathByLearningSlug(topic.subjectSlug);
+  const crossLinks = [
+    {
+      title: `${topic.subjectName} Subject Hub`,
+      description: `Open the full ${topic.subjectName} roadmap, chapter flow, and subject-level revision guidance.`,
+      href: subjectHubHref,
+      badge: "Subject",
+    },
+    {
+      title: `${topic.subjectName} Notes`,
+      description: `Move to chapter-wise ${topic.subjectName.toLowerCase()} notes for broader revision and faster recap.`,
+      href: subjectNotesHref,
+      badge: "Notes",
+    },
+    {
+      title: `${topic.subjectName} Practice`,
+      description: `Search more questions, related concepts, and connected study material in the same subject.`,
+      href: `/search?q=${encodeURIComponent(topic.subjectName)}`,
+      badge: "Search",
+    },
   ];
 
   function toggleCompletedState() {
@@ -493,6 +516,29 @@ export default function LearningTopicPage({ topic }) {
             </div>
           </section>
         ) : null}
+
+        <section className="mt-6 rounded-[1rem] border border-slate-200 bg-white p-4 shadow-sm">
+          <h2 className="text-lg font-semibold text-slate-900">Continue This Subject</h2>
+          <p className="mt-1 text-sm leading-6 text-slate-600">
+            Use these internal paths to move from this topic into the main subject hub,
+            full notes, and broader revision across {topic.subjectName}.
+          </p>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {crossLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-lg border border-slate-200 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:border-portal-300 hover:bg-white hover:shadow-sm"
+              >
+                <span className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700">
+                  {item.badge}
+                </span>
+                <h3 className="mt-3 text-base font-semibold text-slate-900">{item.title}</h3>
+                <p className="mt-1.5 text-sm leading-6 text-slate-600">{item.description}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         <section
           id="faq"

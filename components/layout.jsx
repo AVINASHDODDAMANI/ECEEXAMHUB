@@ -62,6 +62,13 @@ export default function Layout({
   const structuredDataItems = Array.isArray(structuredData)
     ? [...defaultStructuredData, ...structuredData]
     : [...defaultStructuredData, ...[structuredData].filter(Boolean)];
+  const twitterDomain = (() => {
+    try {
+      return new URL(SITE_URL).hostname;
+    } catch {
+      return "eceexamguide.in";
+    }
+  })();
 
   return (
     <>
@@ -95,7 +102,7 @@ export default function Layout({
         {ogImage ? <meta property="og:image:alt" content={title} key="og:image:alt" /> : null}
         <meta property="og:locale" content="en_IN" key="og:locale" />
         <meta name="twitter:card" content="summary_large_image" key="twitter:card" />
-        <meta name="twitter:domain" content="eceexamguide.vercel.app" key="twitter:domain" />
+        <meta name="twitter:domain" content={twitterDomain} key="twitter:domain" />
         <meta name="twitter:url" content={resolvedCanonicalUrl} key="twitter:url" />
         <meta name="twitter:title" content={title} key="twitter:title" />
         <meta name="twitter:description" content={description} key="twitter:description" />

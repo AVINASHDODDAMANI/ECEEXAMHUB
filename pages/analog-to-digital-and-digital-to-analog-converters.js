@@ -1,11 +1,12 @@
 import Link from "next/link";
 import Layout from "../components/layout";
+import { SITE_URL } from "../lib/seo";
 
 const pageTitle = "ADC and DAC Converters | Digital Electronics Notes for ECE";
 const pageDescription =
   "Learn Analog to Digital and Digital to Analog Converters with ADC/DAC working, resolution, quantization error, R-2R DAC, flash ADC, SAR ADC, dual-slope ADC, formulas, examples, and GATE notes.";
 const canonicalUrl =
-  "https://eceexamguide.vercel.app/analog-to-digital-and-digital-to-analog-converters";
+  `${SITE_URL}/analog-to-digital-and-digital-to-analog-converters`;
 const seoKeywords =
   "ADC and DAC, analog to digital converter, digital to analog converter, ADC DAC notes, R-2R ladder DAC, flash ADC, SAR ADC, dual slope ADC, quantization error, ADC resolution, Digital Electronics ECE, GATE ECE";
 const structuredData = [
@@ -36,20 +37,20 @@ const structuredData = [
     provider: {
       "@type": "Organization",
       name: "ECE Exam Guide",
-      url: "https://eceexamguide.vercel.app",
+      url: SITE_URL,
     },
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://eceexamguide.vercel.app/" },
-      { "@type": "ListItem", position: 2, name: "Subjects", item: "https://eceexamguide.vercel.app/subjects" },
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
       {
         "@type": "ListItem",
         position: 3,
         name: "Digital Electronics",
-        item: "https://eceexamguide.vercel.app/subjects/digital-electronics",
+        item: `${SITE_URL}/subjects/digital-electronics`,
       },
       { "@type": "ListItem", position: 4, name: "ADC and DAC Converters", item: canonicalUrl },
     ],

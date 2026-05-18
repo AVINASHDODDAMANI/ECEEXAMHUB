@@ -1434,18 +1434,20 @@ export default function PreviousYearPage() {
       pageClassName="py-5 sm:py-6"
     >
       <div className="mx-auto max-w-[1440px] space-y-6">
-        <nav className="flex flex-wrap items-center gap-2 text-sm text-slate-500" aria-label="Breadcrumb">
+        <nav
+          className="flex flex-wrap items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500"
+          aria-label="Breadcrumb"
+        >
           <Link
             href="/"
-            className="inline-flex items-center gap-2 font-semibold text-slate-500 transition hover:text-portal-700"
+            className="font-medium text-portal-600 transition hover:text-portal-700"
           >
-            <UiIcon type="home" className="h-4 w-4" />
             Home
           </Link>
           <span aria-hidden="true" className="text-slate-300">
-            &gt;
+            /
           </span>
-          <span className="font-extrabold text-slate-800">Previous Papers</span>
+          <span className="font-medium text-slate-700">Previous Papers</span>
         </nav>
 
         <section className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.12)]">
