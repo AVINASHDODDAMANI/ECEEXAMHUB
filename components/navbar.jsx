@@ -21,8 +21,6 @@ const navItems = [
   { href: "/ece-exams", label: "Resources", mobileLabel: "Resources" },
 ];
 
-const mobilePrimaryNavItems = navItems.filter((item) => item.mobilePrimary);
-
 const activeNavClass = "bg-white/14 text-white shadow-[inset_0_-2px_0_rgba(255,255,255,0.96)]";
 const inactiveNavClass = "text-blue-100/95 hover:bg-white/8 hover:text-white";
 const utilityLinks = [
@@ -52,14 +50,11 @@ export default function Navbar({
   const hasSearch = typeof onSearchChange === "function";
   const [localSearch, setLocalSearch] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuestions, setSearchQuestions] = useState([]);
   const [searchRuntime, setSearchRuntime] = useState(null);
   const [isSearchBooting, setIsSearchBooting] = useState(false);
   const desktopSearchRef = useRef(null);
   const mobileSearchRef = useRef(null);
-  const mobileNavRef = useRef(null);
-  const mobileNavItemRefs = useRef({});
   const isMountedRef = useRef(true);
   const searchRuntimePromiseRef = useRef(null);
   const hasFetchedRemoteQuestionsRef = useRef(false);
@@ -136,26 +131,6 @@ export default function Navbar({
     return searchRuntimePromiseRef.current;
   }
 
-  function centerMobileNavItem(href, behavior = "smooth") {
-    const navElement = mobileNavRef.current;
-    const activeElement = mobileNavItemRefs.current[href];
-
-    if (!navElement || !activeElement || typeof window === "undefined") {
-      return;
-    }
-
-    const nextScrollLeft =
-      activeElement.offsetLeft -
-      navElement.clientWidth / 2 +
-      activeElement.offsetWidth / 2;
-    const maxScrollLeft = navElement.scrollWidth - navElement.clientWidth;
-
-    navElement.scrollTo({
-      left: Math.max(0, Math.min(nextScrollLeft, maxScrollLeft)),
-      behavior,
-    });
-  }
-
   useEffect(() => {
     return () => {
       isMountedRef.current = false;
@@ -229,43 +204,7 @@ export default function Navbar({
 
   useEffect(() => {
     setIsSearchOpen(false);
-    setIsMobileMenuOpen(false);
   }, [router.asPath]);
-
-  useEffect(() => {
-    const navElement = mobileNavRef.current;
-
-    if (!navElement || typeof window === "undefined" || window.innerWidth >= 1024) {
-      return undefined;
-    }
-
-    const activeItem = navItems.find((item) =>
-      isTopNavActive(router.pathname, item.href)
-    );
-
-    if (!activeItem) {
-      return undefined;
-    }
-
-    const activeElement = mobileNavItemRefs.current[activeItem.href];
-
-    if (!activeElement) {
-      return undefined;
-    }
-
-    const animationFrameId = window.requestAnimationFrame(() => {
-      centerMobileNavItem(activeItem.href);
-    });
-
-    const timeoutId = window.setTimeout(() => {
-      centerMobileNavItem(activeItem.href, "auto");
-    }, 180);
-
-    return () => {
-      window.cancelAnimationFrame(animationFrameId);
-      window.clearTimeout(timeoutId);
-    };
-  }, [router.asPath, router.pathname]);
 
   function handleSearchChange(value) {
     if (hasSearch) {
@@ -360,32 +299,12 @@ export default function Navbar({
               ) : null}
             </div>
 
-            <button
-              type="button"
-              onClick={() => setIsMobileMenuOpen((currentValue) => !currentValue)}
-              className="inline-flex h-10 w-10 flex-none items-center justify-center rounded-xl border border-portal-200 bg-[#f8fbff] text-portal-800 shadow-sm transition hover:bg-white lg:hidden"
-              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isMobileMenuOpen}
-              aria-controls="mobile-main-menu"
+            <Link
+              href="/subjects"
+              className="inline-flex h-10 flex-none items-center justify-center rounded-xl border border-portal-200 bg-[#f8fbff] px-3 text-xs font-bold text-portal-800 shadow-sm transition hover:bg-white lg:hidden"
             >
-              <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                {isMobileMenuOpen ? (
-                  <path
-                    d="M5.5 5.5l9 9M14.5 5.5l-9 9"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                ) : (
-                  <path
-                    d="M4 6h12M4 10h12M4 14h12"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                )}
-              </svg>
-            </button>
+              Browse
+            </Link>
           </div>
 
           <div className="hidden items-center gap-3 lg:flex lg:justify-self-center lg:w-full lg:max-w-[560px]">
@@ -457,23 +376,16 @@ export default function Navbar({
 
       <div className="bg-[linear-gradient(135deg,#103a78_0%,#0f4b9b_100%)] text-white">
         <div className="mx-auto max-w-[1440px] px-2 sm:px-6 lg:px-8">
-          <div className="relative lg:hidden">
-            <nav
-              ref={mobileNavRef}
-              className="grid grid-cols-4 gap-1.5 py-2"
-            >
-              {mobilePrimaryNavItems.map((item) => {
+          <div className="lg:hidden">
+            <nav className="grid grid-cols-4 gap-1.5 py-2">
+              {navItems.map((item) => {
                 const isActive = isTopNavActive(router.pathname, item.href);
 
                 return (
                   <Link
                     key={`mobile-${item.href}`}
                     href={item.href}
-                    ref={(element) => {
-                      mobileNavItemRefs.current[item.href] = element;
-                    }}
-                    onClick={() => centerMobileNavItem(item.href)}
-                    className={`relative flex min-h-10 items-center justify-center whitespace-nowrap rounded-xl px-2 py-2 text-center text-[12px] font-bold transition sm:text-[13px] ${
+                    className={`relative flex min-h-10 items-center justify-center rounded-xl px-1.5 py-2 text-center text-[11px] font-bold leading-tight transition sm:text-[12px] ${
                       isActive ? activeNavClass : inactiveNavClass
                     }`}
                   >
@@ -485,33 +397,6 @@ export default function Navbar({
                 );
               })}
             </nav>
-
-            {isMobileMenuOpen ? (
-              <div
-                id="mobile-main-menu"
-                className="absolute left-0 right-0 top-full z-50 rounded-b-2xl border-x border-b border-portal-900/20 bg-white p-2 text-slate-900 shadow-[0_24px_60px_rgba(15,23,42,0.22)]"
-              >
-                <div className="grid grid-cols-2 gap-2">
-                  {navItems.map((item) => {
-                    const isActive = isTopNavActive(router.pathname, item.href);
-
-                    return (
-                      <Link
-                        key={`mobile-menu-${item.href}`}
-                        href={item.href}
-                        className={`rounded-xl border px-3 py-3 text-sm font-bold transition ${
-                          isActive
-                            ? "border-portal-200 bg-portal-50 text-portal-800"
-                            : "border-slate-200 bg-white text-slate-700 hover:border-portal-200 hover:text-portal-700"
-                        }`}
-                      >
-                        {item.mobileLabel || item.label}
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : null}
           </div>
 
           <nav className="hidden items-center gap-1 overflow-x-auto whitespace-nowrap py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex lg:py-0">
