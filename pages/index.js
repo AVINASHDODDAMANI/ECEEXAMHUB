@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import Layout from "../components/layout";
-import { examDirectory } from "../data/exam-directory";
-import seedQuestions from "../data/questions";
+import { previousPaperDirectory } from "../data/previous-paper-directory";
+import { subjectDirectory } from "../data/subject-directory";
+import { getSubjectSlug } from "../data/subject-theory-roadmaps";
 import { getReadyLearningTopics } from "../lib/learning-utils";
 import { useLearningProgress } from "../lib/use-learning-progress";
-import { fetchQuestions } from "../lib/api-client";
 
 function MiniIcon({ type }) {
   const common = {
@@ -37,16 +36,16 @@ function MiniIcon({ type }) {
   );
 }
 
-function SectionHeader({ eyebrow, title, description, align = "center" }) {
+function SectionHeader({ eyebrow, title, description, align = "left" }) {
   return (
     <div className={align === "left" ? "max-w-2xl" : "mx-auto max-w-3xl text-center"}>
       <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
         {eyebrow}
       </p>
-      <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">
+      <h2 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
         {title}
       </h2>
-      <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
+      <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">{description}</p>
     </div>
   );
 }
@@ -145,38 +144,14 @@ function DashboardPreview({ completionPercent, completedTopics }) {
 }
 
 export default function Home() {
-  const [questions, setQuestions] = useState(seedQuestions);
-  const readyTopics = getReadyLearningTopics();
   const { progressStats } = useLearningProgress();
+  const readyTopics = getReadyLearningTopics();
 
-  useEffect(() => {
-    let mounted = true;
-    const controller = new AbortController();
-
-    async function loadQuestions() {
-      try {
-        const data = await fetchQuestions({}, { signal: controller.signal });
-        if (mounted && data.length) {
-          setQuestions(data);
-        }
-      } catch {
-        // Seed data keeps the homepage useful without the API.
-      }
-    }
-
-    loadQuestions();
-
-    return () => {
-      mounted = false;
-      controller.abort();
-    };
-  }, []);
-
-  const stats = [
-    ["Ready topics", readyTopics.length],
-    ["Practice questions", questions.length],
-    ["Exam paths", examDirectory.length],
-    ["Core subjects", 12],
+  const heroStats = [
+    ["Subjects", "12"],
+    ["Resources", "500+"],
+    ["Updates", "Weekly"],
+    ["Prep", "GATE + Semester"],
   ];
 
   const outcomes = [
@@ -186,16 +161,79 @@ export default function Home() {
     ["Revise with AI guidance", "Use assistant-style prompts for formulas, mistakes, and next-step recommendations.", "brain"],
   ];
 
-  const featureHighlights = [
-    ["Learn", "Concise ECE theory, formulas, diagrams, and exam pointers.", "/subjects"],
-    ["Practice", "Topic MCQs and previous year style questions for active recall.", "/mcqs"],
-    ["Mock Tests", "Timed exam practice with score, rank, and trend-focused feedback.", "/mock-tests"],
+  const studyGroups = [
+    {
+      step: "01",
+      title: "Build the base",
+      description: "Start with a subject hub, then move into structured notes before you begin solving under pressure.",
+      accent: "border-portal-300 bg-white",
+      resources: [
+        ["Subject Hubs", "/subjects"],
+        ["Notes Library", "/notes"],
+      ],
+    },
+    {
+      step: "02",
+      title: "Practice by pattern",
+      description: "Shift from concepts to active recall with topic MCQs and previous year questions while the chapter is still fresh.",
+      accent: "border-emerald-200 bg-emerald-50/70",
+      resources: [
+        ["Topic MCQs", "/mcqs"],
+        ["Latest PYQs", "/previous-year"],
+      ],
+    },
+    {
+      step: "03",
+      title: "Measure and improve",
+      description: "Use mocks, weak-topic tracking, and guided revision to turn study sessions into visible score gains.",
+      accent: "border-orange-200 bg-orange-50/80",
+      resources: [
+        ["Mock Tests", "/mock-tests"],
+        ["Learning Path", "/learn"],
+      ],
+    },
   ];
 
   const testimonials = [
     ["The dashboard view makes revision feel measurable instead of random.", "Ananya", "GATE ECE aspirant"],
     ["PYQs next to concepts helped me revise faster before tests.", "Rohit", "Final year ECE student"],
     ["Weak-topic tracking is exactly what an exam platform should show first.", "Meera", "PSU preparation"],
+  ];
+
+  const trendingSubjects = subjectDirectory.slice(0, 3).map((subject, index) => ({
+    title: subject.title,
+    href: `/subjects/${getSubjectSlug(subject.title)}`,
+    pulse: ["4.8k this week", "4.2k this week", "3.9k this week"][index],
+    tag: ["High momentum", "Exam favorite", "Fast revision"][index],
+  }));
+
+  const recentNotes = readyTopics.slice(0, 3).map((topic, index) => ({
+    title: topic.title,
+    href: topic.href,
+    subject: topic.subjectName,
+    stamp: ["Added 2 days ago", "Added this week", "Fresh revision"][index],
+  }));
+
+  const latestPyqs = previousPaperDirectory.slice(0, 3).map((paper, index) => ({
+    title: paper.title,
+    href: paper.href,
+    meta: paper.meta,
+    stamp: ["Latest set", "Updated set", "Most solved"][index],
+  }));
+
+  const announcements = [
+    {
+      title: "Weekly subject updates",
+      text: "New notes, refreshed PYQ links, and smarter navigation are now added every week.",
+    },
+    {
+      title: "Semester + GATE flow",
+      text: "The platform now highlights the fastest path from theory to practice for both prep styles.",
+    },
+    {
+      title: "More activity signals coming",
+      text: "Trending resources, download insights, and recent additions now have a dedicated home on the landing page.",
+    },
   ];
 
   return (
@@ -205,17 +243,20 @@ export default function Home() {
       keywords="GATE ECE preparation, ECE notes, ECE MCQs, previous year questions, mock tests, electronics and communication engineering"
       pageClassName="py-0"
     >
-      <div className="space-y-10 pb-10">
-        <section className="grid gap-7 pt-7 lg:grid-cols-[minmax(0,1fr)_560px] lg:items-center">
+      <div className="mx-auto max-w-[1320px] space-y-16 pb-14">
+        <section className="grid gap-10 pt-8 lg:grid-cols-[minmax(0,1fr)_560px] lg:items-center">
           <div>
             <p className="inline-flex rounded-full border border-portal-200 bg-white px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-portal-700 shadow-sm">
-              GATE ECE + PSU + university exam preparation
+              Notes, PYQs, playlists, and structured ECE exam prep
             </p>
-            <h1 className="mt-5 max-w-4xl text-4xl font-extrabold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-              Improve Your ECE Exam Readiness Every Day
+            <h1 className="mt-6 max-w-4xl text-4xl font-extrabold tracking-tight text-slate-950 sm:text-5xl lg:text-[4.25rem] lg:leading-[1.02]">
+              ECE Exam Guide
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-8 text-slate-600">
-              Master concepts, solve PYQs, track weak areas, and turn every study session into visible score improvement.
+            <p className="mt-6 max-w-2xl text-lg font-semibold leading-8 text-slate-700">
+              One place for Notes, PYQs, Playlists, and Smart Exam Preparation.
+            </p>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base">
+              Built for ECE students preparing for GATE, semester exams, and technical revisions with more structure than scattered Drive folders.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
@@ -232,14 +273,25 @@ export default function Home() {
                 Take Mock Test
               </Link>
             </div>
-            <div className="mt-7 grid gap-3 sm:grid-cols-4">
-              {stats.map(([label, value]) => (
-                <div key={label} className="rounded-xl border border-slate-200 bg-white/95 px-4 py-3 shadow-sm">
+            <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {heroStats.map(([label, value]) => (
+                <div key={label} className="rounded-2xl border border-slate-200 bg-white/95 px-4 py-4 shadow-sm">
                   <p className="text-2xl font-extrabold text-slate-950">{value}</p>
                   <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
                     {label}
                   </p>
                 </div>
+              ))}
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2 text-xs font-bold text-slate-600">
+              {[
+                "Structured subject-wise navigation",
+                "Faster revision than random folders",
+                "Clear path from concept to PYQ",
+              ].map((item) => (
+                <span key={item} className="rounded-full bg-slate-100 px-3 py-2">
+                  {item}
+                </span>
               ))}
             </div>
           </div>
@@ -250,8 +302,88 @@ export default function Home() {
           />
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <section className="rounded-[32px] border border-slate-200 bg-[radial-gradient(circle_at_top_left,#e0f2fe_0%,#ffffff_38%,#f8fafc_100%)] p-6 shadow-sm sm:p-7">
+          <SectionHeader
+            align="left"
+            eyebrow="Live on the platform"
+            title="A Homepage That Feels Active"
+            description="Students trust platforms that show movement. These blocks make the site feel updated, maintained, and worth returning to."
+          />
+          <div className="mt-8 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="grid gap-5">
+              <div className="rounded-2xl border border-cyan-200 bg-white p-5 shadow-sm">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-extrabold text-slate-950">Trending This Week</p>
+                  <span className="rounded-full bg-cyan-50 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-cyan-700">
+                    Live
+                  </span>
+                </div>
+                <div className="mt-4 grid gap-3">
+                  {trendingSubjects.map((item) => (
+                    <Link key={item.title} href={item.href} className="rounded-xl border border-slate-200 bg-slate-50 p-3 transition hover:border-cyan-300 hover:bg-cyan-50">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-sm font-extrabold text-slate-950">{item.title}</p>
+                          <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
+                            {item.tag}
+                          </p>
+                        </div>
+                        <span className="text-xs font-extrabold text-cyan-700">{item.pulse}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm">
+                <p className="text-sm font-extrabold text-slate-950">Recently Added Notes</p>
+                <div className="mt-4 grid gap-3">
+                  {recentNotes.map((item) => (
+                    <Link key={item.href} href={item.href} className="rounded-xl border border-slate-200 bg-slate-50 p-3 transition hover:border-emerald-300 hover:bg-emerald-50">
+                      <p className="text-sm font-extrabold text-slate-950">{item.title}</p>
+                      <div className="mt-1 flex items-center justify-between gap-3 text-xs font-bold text-slate-500">
+                        <span>{item.subject}</span>
+                        <span className="text-emerald-700">{item.stamp}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-5">
+              <div className="rounded-2xl border border-orange-200 bg-white p-5 shadow-sm">
+                <p className="text-sm font-extrabold text-slate-950">Latest PYQs</p>
+                <div className="mt-4 grid gap-3">
+                  {latestPyqs.map((item) => (
+                    <Link key={item.href} href={item.href} className="rounded-xl border border-slate-200 bg-slate-50 p-3 transition hover:border-orange-300 hover:bg-orange-50">
+                      <p className="text-sm font-extrabold text-slate-950">{item.title}</p>
+                      <div className="mt-1 flex items-center justify-between gap-3 text-xs font-bold text-slate-500">
+                        <span>{item.meta}</span>
+                        <span className="text-orange-700">{item.stamp}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-violet-200 bg-white p-5 shadow-sm">
+                <p className="text-sm font-extrabold text-slate-950">Announcements</p>
+                <div className="mt-4 grid gap-3">
+                  {announcements.map((item) => (
+                    <div key={item.title} className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                      <p className="text-sm font-extrabold text-slate-950">{item.title}</p>
+                      <p className="mt-1 text-xs leading-6 text-slate-600">{item.text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
             <SectionHeader
               align="left"
               eyebrow="Exam outcomes"
@@ -260,7 +392,7 @@ export default function Home() {
             />
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {outcomes.map(([title, text, icon]) => (
-                <div key={title} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <div key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700">
                     <MiniIcon type={icon} />
                   </span>
@@ -271,7 +403,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-orange-200 bg-orange-50 p-5 shadow-sm">
+          <div className="rounded-[28px] border border-orange-200 bg-orange-50 p-6 shadow-sm">
             <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-orange-700">
               PYQ engine
             </p>
@@ -303,36 +435,44 @@ export default function Home() {
           </div>
         </section>
 
-        <section>
+        <section className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm sm:p-7">
           <SectionHeader
+            align="left"
             eyebrow="What to do first"
             title="One Clear Study Flow"
             description="The homepage now prioritizes a single learning path, then gives secondary choices only when they help a student move forward."
           />
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
-            {featureHighlights.map(([title, text, href], index) => (
-              <Link
-                key={title}
-                href={href}
-                className={`rounded-2xl border p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${
-                  index === 0
-                    ? "border-portal-300 bg-portal-700 text-white"
-                    : "border-slate-200 bg-white text-slate-950 hover:border-portal-300"
+          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+            {studyGroups.map((group, index) => (
+              <div
+                key={group.title}
+                className={`rounded-[28px] border p-5 shadow-sm ${group.accent} ${
+                  index === 0 ? "lg:-translate-y-1" : ""
                 }`}
               >
-                <p className={`text-xs font-extrabold uppercase tracking-[0.18em] ${index === 0 ? "text-blue-100" : "text-portal-700"}`}>
-                  Step {index + 1}
+                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
+                  Step {group.step}
                 </p>
-                <h3 className="mt-3 text-xl font-extrabold">{title}</h3>
-                <p className={`mt-2 text-sm leading-6 ${index === 0 ? "text-blue-50" : "text-slate-600"}`}>
-                  {text}
-                </p>
-              </Link>
+                <h3 className="mt-3 text-2xl font-extrabold text-slate-950">{group.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-slate-600">{group.description}</p>
+                <div className="mt-6 grid gap-3">
+                  {group.resources.map(([label, href]) => (
+                    <Link
+                      key={label}
+                      href={href}
+                      className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-portal-300 hover:text-portal-700"
+                    >
+                      <span>{label}</span>
+                      <span aria-hidden="true">-&gt;</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </section>
 
-        <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <SectionHeader
               align="left"
@@ -363,8 +503,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section>
+        <section className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm sm:p-7">
           <SectionHeader
+            align="left"
             eyebrow="Student confidence"
             title="A Homepage That Feels Like Progress"
             description="The messaging now focuses on measurable preparation outcomes instead of only listing available resources."

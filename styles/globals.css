@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -30,7 +30,7 @@ body {
   background:
     radial-gradient(circle at top, rgba(21, 74, 150, 0.08), transparent 30%),
     linear-gradient(180deg, #f8fbff 0%, #f4f7fb 44%, #eef2f8 100%);
-  font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  font-family: "Manrope", "Segoe UI", sans-serif;
   line-height: 1.5;
   min-width: 320px;
   -webkit-font-smoothing: antialiased;
