@@ -13,6 +13,7 @@ import {
   getSolvedPercentage,
   slugifyPaper,
 } from "../lib/paper-document";
+import { buildBreadcrumbList, generateStructuredData } from "../lib/seo";
 
 const initialFilters = {
   exam: "All Exams",
@@ -23,6 +24,25 @@ const initialFilters = {
 };
 
 const paperTypeOptions = ["All Types", "Objective", "General Aptitude + Engineering"];
+
+const previousYearStructuredData = [
+  ...generateStructuredData({
+    type: "topic",
+    title: "ECE Previous Year Question Papers",
+    description:
+      "Browse ECE previous year question papers for GATE, ISRO, BEL, BARC, ESE, DRDO, IOCL, SSC JE, RRB JE, and State AE/JE with year-wise paper links and solved questions.",
+    path: "/previous-year",
+    subjectName: "Electronics and Communication Engineering",
+    chapterTitle: "Previous Year Papers",
+    keywords:
+      "ECE previous year papers, GATE ECE question papers, ISRO ECE previous papers, BEL electronics paper, solved previous year questions, ECE PYQ",
+    about: ["GATE ECE", "ECE question papers", "solved previous year questions"],
+  }),
+  buildBreadcrumbList([
+    { name: "Home", item: "/" },
+    { name: "Previous Papers", item: "/previous-year" },
+  ]),
+];
 
 const featuredExamOptions = [
   {
@@ -1584,6 +1604,9 @@ export default function PreviousYearPage() {
   return (
     <Layout
       title="ECE Exam Guide | Previous Papers"
+      description="Browse searchable ECE previous year question papers for GATE, ISRO, BEL, BARC, ESE, DRDO, IOCL, SSC JE, RRB JE, and State AE/JE with year-wise paper solutions."
+      keywords="ECE previous year papers, GATE ECE previous papers, ECE question paper, solved previous year questions, ISRO ECE paper, BEL electronics paper"
+      structuredData={previousYearStructuredData}
       searchValue={search}
       onSearchChange={setSearch}
       pageClassName="py-5 sm:py-6"

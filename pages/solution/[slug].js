@@ -12,6 +12,24 @@ import {
   getSolvedPercentage,
   slugifyPaper,
 } from "../../lib/paper-document";
+import {
+  buildBreadcrumbList,
+  generateCanonical,
+  generateStructuredData,
+} from "../../lib/seo";
+
+function parsePaperSlug(slug = "") {
+  const match = String(slug).match(/^(.+)-(\d{4})$/);
+
+  if (!match) {
+    return { exam: "", year: 0 };
+  }
+
+  return {
+    exam: match[1].replace(/-/g, " ").toUpperCase(),
+    year: Number(match[2]),
+  };
+}
 
 function buildPaperSummary(questions = [], exam, year) {
   const officialPaper = getOfficialPaper(exam, year);
@@ -199,8 +217,11 @@ export default function SolutionPage() {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
 
-  const exam = typeof router.query.exam === "string" ? router.query.exam : "";
-  const year = typeof router.query.year === "string" ? Number(router.query.year) : 0;
+  const slug = typeof router.query.slug === "string" ? router.query.slug : "";
+  const slugPaper = parsePaperSlug(slug);
+  const exam = typeof router.query.exam === "string" ? router.query.exam : slugPaper.exam;
+  const year =
+    typeof router.query.year === "string" ? Number(router.query.year) : slugPaper.year;
   const search = typeof router.query.search === "string" ? router.query.search : "";
   const subject = typeof router.query.subject === "string" ? router.query.subject : "All Subjects";
   const topic = typeof router.query.topic === "string" ? router.query.topic : "All Topics";
@@ -272,6 +293,31 @@ export default function SolutionPage() {
   const practiceHref = `/previous-year?exam=${encodeURIComponent(paper.exam)}&year=${encodeURIComponent(
     paper.year
   )}#question-bank`;
+  const canonicalPath = `/solution/${slugifyPaper(paper.exam, paper.year)}`;
+  const paperTitle = getPaperDisplayTitle(paper);
+  const paperDescription = `View ${paperTitle} with ECE previous year questions, solutions, paper preview, download support, and related study resources.`;
+  const structuredData = [
+    ...generateStructuredData({
+      type: "topic",
+      title: paperTitle,
+      description: paperDescription,
+      path: canonicalPath,
+      subjectName: "Electronics and Communication Engineering",
+      chapterTitle: `${paper.exam} Previous Year Paper`,
+      keywords: `${paper.exam} ${paper.year} ECE previous paper, ${paper.exam} question paper, GATE ECE previous year questions, ECE solved paper`,
+      about: [
+        paper.exam,
+        "ECE previous year questions",
+        "question paper solutions",
+        ...(paper.topics || []),
+      ],
+    }),
+    buildBreadcrumbList([
+      { name: "Home", item: "/" },
+      { name: "Previous Papers", item: "/previous-year" },
+      { name: paperTitle, item: canonicalPath },
+    ]),
+  ];
 
   function handleDownloadPdf() {
     if (paper.pdfHref && typeof window !== "undefined") {
@@ -291,8 +337,12 @@ export default function SolutionPage() {
 
   return (
     <Layout
-      title={`${getPaperDisplayTitle(paper)} | ECE Exam Guide`}
-      description={`View ${getPaperDisplayTitle(paper)} inside ECE Exam Guide with paper preview, download, and related study resources.`}
+      title={`${paperTitle} | ECE Exam Guide`}
+      description={paperDescription}
+      canonicalUrl={generateCanonical(canonicalPath)}
+      keywords={`${paper.exam} ${paper.year} ECE previous paper, ${paper.exam} ECE question paper, ECE previous year questions, solved paper`}
+      structuredData={structuredData}
+      ogType="article"
       pageClassName="py-5 sm:py-6"
     >
       <div className="mx-auto max-w-[1440px] space-y-6">

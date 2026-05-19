@@ -8,6 +8,7 @@ import EducationalTheoryLayout, {
   EducationalInfoCard,
 } from "./EducationalTheoryLayout";
 import Layout from "./layout";
+import LearningTopicNavigationMenus from "./LearningTopicNavigationMenus";
 import { getLearningSubject, getRelatedLearningTopics } from "../lib/learning-utils";
 import { generateKeywords, SITE_URL } from "../lib/seo";
 
@@ -424,7 +425,12 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
           { label: "Electromagnetic Theory", href: "/subjects/electromagnetic-theory" },
           { label: topic.shortTitle },
         ]}
-        menu={<ElectromagneticChapterMenu topics={orderedTopics} currentSlug={topic.slug} />}
+        menu={
+          <div className="flex items-center gap-2">
+            <ElectromagneticChapterMenu topics={orderedTopics} currentSlug={topic.slug} />
+            <LearningTopicNavigationMenus topic={topic} />
+          </div>
+        }
         metrics={[
           { label: "Core question", value: topic.coreQuestion },
           { label: "Exam focus", value: topic.examFocus },

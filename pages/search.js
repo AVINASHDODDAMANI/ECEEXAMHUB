@@ -13,9 +13,12 @@ import {
 const RECENT_SEARCHES_KEY = "eceexamhub-recent-searches";
 
 const groupAccent = {
+  Chapters: "border-indigo-200 bg-indigo-50 text-indigo-800",
   Topics: "border-blue-200 bg-blue-50 text-blue-800",
   Subjects: "border-violet-200 bg-violet-50 text-violet-800",
   Concepts: "border-blue-200 bg-blue-50 text-blue-800",
+  Papers: "border-amber-200 bg-amber-50 text-amber-800",
+  Questions: "border-rose-200 bg-rose-50 text-rose-800",
   MCQs: "border-emerald-200 bg-emerald-50 text-emerald-800",
   PYQs: "border-orange-200 bg-orange-50 text-orange-800",
   Practice: "border-emerald-200 bg-emerald-50 text-emerald-800",
@@ -91,7 +94,7 @@ export default function SearchPage() {
   return (
     <Layout
       title="ECE Exam Guide | Search"
-      description="Search ECE Exam Guide topics, notes, MCQs, previous papers, and subject resources."
+      description="Search ECE Exam Guide questions, question papers, subjects, chapters, topics, concepts, notes, MCQs, and previous year solutions."
       noIndex
       searchValue={searchValue}
       onSearchChange={setSearchValue}
@@ -117,8 +120,8 @@ export default function SearchPage() {
             {hasQuery ? `Results for "${searchValue}"` : "Find topics, MCQs, notes, and subjects"}
           </h1>
           <p className="mt-2 max-w-3xl text-sm font-medium leading-7 text-slate-700">
-            Search understands short keywords like basic, current, voltage, KCL,
-            notes, and MCQs.
+            Search understands question text, paper year, exam name, subject,
+            chapter, topic, concept, formula, notes, and MCQs.
           </p>
         </section>
 

@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import Layout from "./layout";
+import LearningTopicNavigationMenus from "./LearningTopicNavigationMenus";
 import { getLearningSubject, getRelatedLearningTopics } from "../lib/learning-utils";
 import { generateKeywords, SITE_URL } from "../lib/seo";
 
@@ -207,7 +208,10 @@ export default function DigitalSignalProcessingTopicPage({ topic }) {
             <li className="text-slate-300">/</li>
             <li><span className="font-semibold text-portal-700">{topic.shortTitle}</span></li>
           </ol>
-          <DSPChapterMenu topics={orderedTopics} currentSlug={topic.slug} />
+          <div className="flex items-center gap-2">
+            <DSPChapterMenu topics={orderedTopics} currentSlug={topic.slug} />
+            <LearningTopicNavigationMenus topic={topic} />
+          </div>
         </nav>
 
         <header className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">

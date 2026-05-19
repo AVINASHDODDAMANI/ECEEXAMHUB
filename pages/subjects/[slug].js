@@ -11,6 +11,7 @@ import EducationalTheoryLayout, {
 import ElectromagneticSubjectHub from "../../components/ElectromagneticSubjectHub";
 import Layout from "../../components/layout";
 import NetworkTheoryDiagram from "../../components/NetworkTheoryDiagram";
+import SubjectTopicMenu from "../../components/SubjectTopicMenu";
 import { subjectDirectory } from "../../data/subject-directory";
 import {
   getSubjectSlug,
@@ -14050,21 +14051,24 @@ export default function SubjectTheoryPage({
                 </span>
               </li>
             </ol>
-            {subject.title === "Electromagnetic Theory" ? (
-              <ElectromagneticTheoryChapterMenu />
-          ) : subject.title === "VLSI Design" ? (
-            <VlsiDesignChapterMenu />
-          ) : subject.title === "Microprocessors" ? (
-            <MicroprocessorsChapterMenu />
-          ) : subject.title === "Embedded Systems" ? (
-            <EmbeddedSystemsChapterMenu />
-          ) : subject.title === "Digital Signal Processing" ? (
-            <DigitalSignalProcessingChapterMenu />
-          ) : subject.title === "Signals and Systems" ? (
-            <SignalsChapterMenu />
-            ) : subject.title === "Communication Systems" ? (
-              <CommunicationSystemsChapterMenu />
-            ) : null}
+            <div className="flex items-center gap-2">
+              <SubjectTopicMenu subjectTitle={subject.title} />
+              {subject.title === "Electromagnetic Theory" ? (
+                <ElectromagneticTheoryChapterMenu />
+              ) : subject.title === "VLSI Design" ? (
+                <VlsiDesignChapterMenu />
+              ) : subject.title === "Microprocessors" ? (
+                <MicroprocessorsChapterMenu />
+              ) : subject.title === "Embedded Systems" ? (
+                <EmbeddedSystemsChapterMenu />
+              ) : subject.title === "Digital Signal Processing" ? (
+                <DigitalSignalProcessingChapterMenu />
+              ) : subject.title === "Signals and Systems" ? (
+                <SignalsChapterMenu />
+              ) : subject.title === "Communication Systems" ? (
+                <CommunicationSystemsChapterMenu />
+              ) : null}
+            </div>
           </nav>
 
           <FallbackSubjectPage
@@ -14864,42 +14868,45 @@ export default function SubjectTheoryPage({
               </>
             ) : null}
           </ol>
-          {subject.title === "Network Analysis" ? (
-            <NetworkTopicMenu
-              concepts={concepts}
-              activeIndex={activeConceptIndex}
-              onSelectTopic={selectRoadmapTopic}
-            />
-          ) : subject.title === "Analog Electronics" ? (
-            <AnalogChapterMenu />
-          ) : subject.title === "Digital Electronics" ? (
-            <DigitalChapterMenu />
-          ) : subject.title === "Electromagnetic Theory" ? (
-            <ElectromagneticTheoryChapterMenu />
-          ) : subject.title === "Antenna & Wave Propagation" ? (
-            <AntennaWavePropagationChapterMenu />
-          ) : subject.title === "VLSI Design" ? (
-            <VlsiDesignChapterMenu />
-          ) : subject.title === "Microprocessors" ? (
-            <MicroprocessorsChapterMenu />
-          ) : subject.title === "Embedded Systems" ? (
-            <EmbeddedSystemsChapterMenu />
-          ) : subject.title === "Digital Signal Processing" ? (
-            <DigitalSignalProcessingChapterMenu />
-          ) : subject.title === "Signals and Systems" ? (
-            <SignalsChapterMenu />
-          ) : subject.title === "Communication Systems" ? (
-            <CommunicationSystemsChapterMenu />
-          ) : subject.title === "Control Systems" ? (
-            <ControlSystemsChapterMenu />
-          ) : concepts.length ? (
-            <SubjectConceptMenu
-              subjectTitle={subject.title}
-              concepts={concepts}
-              activeIndex={activeConceptIndex}
-              onSelectTopic={selectRoadmapTopic}
-            />
-          ) : null}
+          <div className="flex items-center gap-2">
+            <SubjectTopicMenu subjectTitle={subject.title} />
+            {subject.title === "Network Analysis" ? (
+              <NetworkTopicMenu
+                concepts={concepts}
+                activeIndex={activeConceptIndex}
+                onSelectTopic={selectRoadmapTopic}
+              />
+            ) : subject.title === "Analog Electronics" ? (
+              <AnalogChapterMenu />
+            ) : subject.title === "Digital Electronics" ? (
+              <DigitalChapterMenu />
+            ) : subject.title === "Electromagnetic Theory" ? (
+              <ElectromagneticTheoryChapterMenu />
+            ) : subject.title === "Antenna & Wave Propagation" ? (
+              <AntennaWavePropagationChapterMenu />
+            ) : subject.title === "VLSI Design" ? (
+              <VlsiDesignChapterMenu />
+            ) : subject.title === "Microprocessors" ? (
+              <MicroprocessorsChapterMenu />
+            ) : subject.title === "Embedded Systems" ? (
+              <EmbeddedSystemsChapterMenu />
+            ) : subject.title === "Digital Signal Processing" ? (
+              <DigitalSignalProcessingChapterMenu />
+            ) : subject.title === "Signals and Systems" ? (
+              <SignalsChapterMenu />
+            ) : subject.title === "Communication Systems" ? (
+              <CommunicationSystemsChapterMenu />
+            ) : subject.title === "Control Systems" ? (
+              <ControlSystemsChapterMenu />
+            ) : concepts.length ? (
+              <SubjectConceptMenu
+                subjectTitle={subject.title}
+                concepts={concepts}
+                activeIndex={activeConceptIndex}
+                onSelectTopic={selectRoadmapTopic}
+              />
+            ) : null}
+          </div>
         </nav>
 
         <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-panel sm:p-5">

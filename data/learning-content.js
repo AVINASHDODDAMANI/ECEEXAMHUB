@@ -189,21 +189,6 @@ const learningSubjects = [
         title: "Logic Implementation",
         topics: [
           {
-            slug: "logic-families",
-            title: "Logic Families",
-            summary:
-              "Compare TTL, CMOS, and ECL using speed, noise margin, fan-out, and power dissipation.",
-            estimatedTime: "30 min",
-            status: "ready",
-            concepts: ["Noise margin", "Power-delay product", "CMOS switching"],
-            subtopics: [
-              "TTL features",
-              "CMOS characteristics",
-              "ECL speed comparison",
-              "Noise margin and fan-out",
-            ],
-          },
-          {
             slug: "memories",
             title: "Memories",
             summary:
@@ -1680,60 +1665,7 @@ const topicLibrary = {
     insightSummary:
       "Flip-flops show up not only as direct theory questions but also inside counters, registers, and FSM design. Strong fundamentals here unlock many later digital questions.",
     relatedTopics: [
-      { subjectSlug: "digital", topicSlug: "logic-families" },
       { subjectSlug: "digital", topicSlug: "counters" },
-    ],
-  },
-  "digital/logic-families": {
-    learningGoals: [
-      "Compare CMOS, TTL, and ECL using core performance metrics.",
-      "Choose the right logic family from power and speed constraints.",
-    ],
-    overview: [
-      "Logic families define the electrical behavior of digital ICs. Exam questions often compare speed, power dissipation, fan-out, and noise margin.",
-      "CMOS is typically favored for low static power dissipation, while ECL is known for very high speed and TTL remains a classic comparison benchmark.",
-    ],
-    formulas: [
-      {
-        label: "Power-delay focus",
-        expression: "Lower power-delay product is generally preferred",
-        note: "It balances speed with energy efficiency.",
-      },
-    ],
-    keyConcepts: [
-      "CMOS has near-zero static power dissipation in the ideal steady state.",
-      "ECL trades higher power for faster switching.",
-      "Fan-out and noise margin often appear in short conceptual questions.",
-    ],
-    examples: [
-      {
-        title: "Pick the low-power family",
-        prompt: "Which family is usually chosen when low power dissipation is the main goal?",
-        steps: [
-          "Compare the standard behavior of TTL, ECL, and CMOS.",
-          "Recall that CMOS only draws significant current during switching.",
-        ],
-        answer: "CMOS is the typical low-power choice.",
-      },
-    ],
-    examPointers: [
-      "If the question asks for lowest static power, CMOS is a strong first check.",
-      "If it asks for very high speed, compare ECL immediately.",
-    ],
-    commonMistakes: [
-      "Treating low power and high speed as if they always come from the same family.",
-      "Forgetting that CMOS is strongest in static power savings, not necessarily every speed metric.",
-      "Ignoring fan-out and noise margin when the question is not directly about power.",
-    ],
-    quickRevision: [
-      "CMOS is the usual low-static-power answer.",
-      "ECL is the usual high-speed answer.",
-      "Logic-family questions are often solved by comparing power, speed, fan-out, and noise margin.",
-    ],
-    insightSummary:
-      "Logic-family questions are usually short, direct, and scoring. A compact comparison table is enough to convert them into quick marks.",
-    relatedTopics: [
-      { subjectSlug: "digital", topicSlug: "flip-flops" },
     ],
   },
   "signals/laplace-transform": {

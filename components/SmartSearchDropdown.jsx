@@ -30,9 +30,12 @@ function highlightText(text = "", query = "") {
 }
 
 const groupAccent = {
+  Chapters: "bg-indigo-50 text-indigo-700",
   Topics: "bg-blue-50 text-blue-700",
   Subjects: "bg-violet-50 text-violet-700",
   Concepts: "bg-blue-50 text-blue-700",
+  Papers: "bg-amber-50 text-amber-700",
+  Questions: "bg-rose-50 text-rose-700",
   MCQs: "bg-emerald-50 text-emerald-700",
   PYQs: "bg-orange-50 text-orange-700",
   Practice: "bg-emerald-50 text-emerald-700",

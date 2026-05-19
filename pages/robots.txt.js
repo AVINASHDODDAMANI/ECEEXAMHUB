@@ -6,13 +6,14 @@ Allow: /
 Allow: /subjects/
 Allow: /notes/
 Allow: /learn/
+Allow: /previous-year
+Allow: /solution/
 Disallow: /admin
 Disallow: /api
 Disallow: /search
 Disallow: /practice
 Disallow: /mcqs
 Disallow: /mock-tests
-Disallow: /previous-year
 Disallow: /ece-exams
 Disallow: /insights
 

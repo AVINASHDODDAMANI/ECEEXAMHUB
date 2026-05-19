@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import Layout from "./layout";
+import LearningTopicNavigationMenus from "./LearningTopicNavigationMenus";
 import { getRelatedLearningTopics } from "../lib/learning-utils";
 import { generateKeywords, SITE_URL } from "../lib/seo";
 
@@ -185,7 +186,7 @@ export default function CommunicationSystemTopicPage({ topic }) {
       pageClassName="py-3 sm:py-4"
     >
       <div className="mx-auto min-w-0 max-w-[1200px] pb-20">
-        <nav aria-label="Breadcrumb" className="mb-4 pt-1">
+        <nav aria-label="Breadcrumb" className="mb-4 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between">
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li>
               <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
@@ -212,6 +213,7 @@ export default function CommunicationSystemTopicPage({ topic }) {
               <span className="font-semibold text-portal-700">{topic.shortTitle}</span>
             </li>
           </ol>
+          <LearningTopicNavigationMenus topic={topic} />
         </nav>
 
         <header className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
