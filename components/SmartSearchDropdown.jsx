@@ -39,6 +39,10 @@ const groupAccent = {
   Notes: "bg-cyan-50 text-cyan-700",
 };
 
+const groupLabel = {
+  Concepts: "Theory",
+};
+
 export default function SmartSearchDropdown({
   query,
   groupedResults,
@@ -55,7 +59,7 @@ export default function SmartSearchDropdown({
             <section key={group.group} className="mb-3 last:mb-0">
               <div className="flex items-center justify-between px-3 py-2">
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">
-                  {group.group}
+                  {groupLabel[group.group] || group.group}
                 </p>
                 <span
                   className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${

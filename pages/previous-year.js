@@ -26,6 +26,13 @@ const paperTypeOptions = ["All Types", "Objective", "General Aptitude + Engineer
 
 const featuredExamOptions = [
   {
+    key: "ALL",
+    exam: "All Exams",
+    title: "All Exams",
+    subtitle: "Complete archive",
+    logo: "all",
+  },
+  {
     key: "BEL",
     exam: "BEL",
     title: "BEL",
@@ -49,6 +56,7 @@ const featuredExamOptions = [
   {
     key: "PSU",
     search: "BEL",
+    sortLabel: "PSU",
     title: "PSU",
     subtitle: "Public Sector Undertakings",
     logo: "psu",
@@ -56,6 +64,7 @@ const featuredExamOptions = [
   {
     key: "IES",
     search: "ESE",
+    sortLabel: "IES",
     title: "IES",
     subtitle: "IES (ESE)",
     logo: "ies",
@@ -63,6 +72,7 @@ const featuredExamOptions = [
   {
     key: "DRDO",
     search: "DRDO",
+    sortLabel: "DRDO",
     title: "DRDO",
     subtitle: "Defence Research & Development Org.",
     logo: "drdo",
@@ -70,27 +80,10 @@ const featuredExamOptions = [
   {
     key: "IOCL",
     search: "IOCL",
+    sortLabel: "IOCL",
     title: "IOCL",
     subtitle: "Indian Oil Corporation Ltd.",
     logo: "iocl",
-  },
-];
-
-const supportHighlights = [
-  {
-    title: "Filter Papers",
-    description: "Filter by year, subject and paper type",
-    icon: "filter",
-  },
-  {
-    title: "Exam-wise Library",
-    description: "Open papers by exam, year and paper type",
-    icon: "folder",
-  },
-  {
-    title: "Solutions Available",
-    description: "Detailed solutions wherever explanations are available",
-    icon: "document",
   },
 ];
 
@@ -160,13 +153,66 @@ const examHighlights = {
 const paperRoleLabels = {
   BEL: "Engineer Trainee (Electronics)",
   ISRO: "Scientist / Engineer (Electronics)",
-  GATE: "ECE Previous Paper",
+  GATE: "GATE ECE Previous Paper",
   BARC: "Scientific Officer (Electronics)",
+  ESE: "Engineering Services Examination",
+  DRDO: "Scientist / Engineer Electronics",
+  IOCL: "Engineer / Officer Electronics",
+  "SSC JE": "Junior Engineer Electronics",
+  "RRB JE": "Junior Engineer Electronics",
+  "State AE/JE": "Assistant / Junior Engineer Electronics",
 };
 
 function getPaperTypeFromExam(examName) {
   return examName === "GATE" ? "General Aptitude + Engineering" : "Objective";
 }
+
+function getExamCardSortLabel(card) {
+  return card.sortLabel || card.exam || card.search || card.title;
+}
+
+function getExamCardDisplayText(card) {
+  return card.subtitle || card.title;
+}
+
+function buildYearRange(startYear, endYear) {
+  return Array.from(
+    { length: startYear - endYear + 1 },
+    (_, index) => startYear - index
+  );
+}
+
+const previousPaperYearCatalog = [
+  { exam: "GATE", years: buildYearRange(2024, 2014) },
+  { exam: "ISRO", years: buildYearRange(2024, 2014) },
+  { exam: "BEL", years: buildYearRange(2024, 2014) },
+  { exam: "BARC", years: buildYearRange(2024, 2014) },
+  { exam: "ESE", years: buildYearRange(2024, 2014) },
+  { exam: "DRDO", years: buildYearRange(2024, 2014) },
+  { exam: "IOCL", years: buildYearRange(2024, 2014) },
+  { exam: "SSC JE", years: buildYearRange(2024, 2015) },
+  { exam: "RRB JE", years: buildYearRange(2024, 2015) },
+  { exam: "State AE/JE", years: buildYearRange(2024, 2014) },
+];
+
+const previousPaperCatalogEntries = previousPaperYearCatalog.flatMap((item) =>
+  item.years.map((year) => ({
+    id: `${item.exam}-${year}`,
+    exam: item.exam,
+    year,
+    title: `${item.exam} ${year} ECE Previous Paper`,
+    role: paperRoleLabels[item.exam] || "ECE Previous Paper",
+    paperType: getPaperTypeFromExam(item.exam),
+    subjects: ["Electronics"],
+    topics: ["Previous Paper"],
+    questionCount: 0,
+    solvedCount: 0,
+    repeatedCount: 0,
+    importantCount: 0,
+    sourceLabel: "Year-wise paper catalog",
+    summary: "Year-wise paper entry added to keep the archive complete.",
+  }))
+);
 
 function questionMatchesPaperType(question, selectedPaperType) {
   if (selectedPaperType === "All Types") {
@@ -222,6 +268,34 @@ function paperMatchesSelection(paper, selectedPaperType = "All Types", filters =
   return !normalizedSearch || searchText.includes(normalizedSearch);
 }
 
+function mergePaperEntry(current, paper) {
+  const subjectSet = new Set([
+    ...(current?.subjectSet || []),
+    ...(current?.subjects || []),
+    ...(paper.subjects || []),
+  ]);
+  const topicSet = new Set([
+    ...(current?.topicSet || []),
+    ...(current?.topics || []),
+    ...(paper.topics || []),
+  ]);
+
+  return {
+    ...(current || {}),
+    ...paper,
+    questionCount: Math.max(current?.questionCount || 0, paper.questionCount || 0),
+    solvedCount: Math.max(current?.solvedCount || 0, paper.solvedCount || 0),
+    repeatedCount: Math.max(current?.repeatedCount || 0, paper.repeatedCount || 0),
+    importantCount: Math.max(current?.importantCount || 0, paper.importantCount || 0),
+    isOfficialPdf: Boolean(current?.isOfficialPdf || paper.isOfficialPdf),
+    pdfHref: paper.pdfHref || current?.pdfHref,
+    sourceLabel: paper.sourceLabel || current?.sourceLabel,
+    summary: paper.summary || current?.summary,
+    subjectSet,
+    topicSet,
+  };
+}
+
 function buildPaperEntries(
   questions = [],
   selectedPaperType = "All Types",
@@ -230,85 +304,88 @@ function buildPaperEntries(
 ) {
   const paperMap = new Map();
 
+  previousPaperCatalogEntries
+    .filter((paper) => paperMatchesSelection(paper, selectedPaperType, filters, searchValue))
+    .forEach((paper) => {
+      paperMap.set(paper.id, {
+        ...paper,
+        subjectSet: new Set(paper.subjects || []),
+        topicSet: new Set(paper.topics || []),
+      });
+    });
+
   questions.forEach((question) => {
     const examList =
       Array.isArray(question.exam) && question.exam.length
         ? question.exam
         : ["General"];
 
-    examList.forEach((examName) => {
-      const paperType = getPaperTypeFromExam(examName);
+    examList
+      .filter(
+        (examName) =>
+          filters.exam === initialFilters.exam || examName === filters.exam
+      )
+      .forEach((examName) => {
+        const paperType = getPaperTypeFromExam(examName);
 
-      if (selectedPaperType !== "All Types" && paperType !== selectedPaperType) {
-        return;
-      }
+        if (selectedPaperType !== "All Types" && paperType !== selectedPaperType) {
+          return;
+        }
 
-      const key = `${examName}-${question.year}`;
-      const current =
-        paperMap.get(key) || {
-          id: key,
-          exam: examName,
-          year: question.year,
-          paperType,
-          questionCount: 0,
-          solvedCount: 0,
-          repeatedCount: 0,
-          importantCount: 0,
-          subjectSet: new Set(),
-          topicSet: new Set(),
-        };
+        const key = `${examName}-${question.year}`;
+        const current =
+          paperMap.get(key) || {
+            id: key,
+            exam: examName,
+            year: question.year,
+            title: `${examName} ${question.year} ECE Previous Paper`,
+            role: paperRoleLabels[examName] || "ECE Previous Paper",
+            paperType,
+            questionCount: 0,
+            solvedCount: 0,
+            repeatedCount: 0,
+            importantCount: 0,
+            subjectSet: new Set(),
+            topicSet: new Set(),
+          };
 
-      current.questionCount += 1;
+        current.questionCount += 1;
 
-      if (question.explanation) {
-        current.solvedCount += 1;
-      }
+        if (question.explanation) {
+          current.solvedCount += 1;
+        }
 
-      if ((question.tags || []).includes("repeated")) {
-        current.repeatedCount += 1;
-      }
+        if ((question.tags || []).includes("repeated")) {
+          current.repeatedCount += 1;
+        }
 
-      if ((question.tags || []).includes("important")) {
-        current.importantCount += 1;
-      }
+        if ((question.tags || []).includes("important")) {
+          current.importantCount += 1;
+        }
 
-      if (question.subject) {
-        current.subjectSet.add(question.subject);
-      }
+        if (question.subject) {
+          current.subjectSet.add(question.subject);
+        }
 
-      if (question.topic) {
-        current.topicSet.add(question.topic);
-      }
+        if (question.topic) {
+          current.topicSet.add(question.topic);
+        }
 
-      paperMap.set(key, current);
-    });
+        paperMap.set(key, current);
+      });
   });
 
   officialPreviousPapers
     .filter((paper) => paperMatchesSelection(paper, selectedPaperType, filters, searchValue))
     .forEach((paper) => {
       const key = `${paper.exam}-${paper.year}`;
-      if (paperMap.has(key)) {
-        const current = paperMap.get(key);
-        paperMap.set(key, {
-          ...current,
-          title: paper.title,
-          role: paper.role,
-          isOfficialPdf: true,
-          pdfHref: paper.pdfHref,
-          sourceLabel: paper.sourceLabel,
-          summary: paper.summary,
-          subjectSet: new Set([...(current.subjectSet || []), ...(paper.subjects || [])]),
-          topicSet: new Set([...(current.topicSet || []), ...(paper.topics || [])]),
-        });
-      } else {
-        paperMap.set(key, {
+      paperMap.set(
+        key,
+        mergePaperEntry(paperMap.get(key), {
           ...paper,
           isOfficialPdf: true,
-          subjectSet: new Set(paper.subjects || []),
-          topicSet: new Set(paper.topics || []),
-        });
-      }
+        })
+      );
     });
 
   return [...paperMap.values()]
@@ -532,6 +609,21 @@ function formatCurrentSelection(filters) {
   return parts.length ? parts.join(" / ") : "All exams / all years";
 }
 
+function getSelectionContextText(filters) {
+  const yearLabel = filters.year ? ` ${filters.year}` : "";
+  const subjectLabel =
+    filters.subject !== initialFilters.subject ? ` for ${filters.subject}` : "";
+  const topicLabel =
+    filters.topic !== initialFilters.topic ? `, ${filters.topic}` : "";
+
+  if (filters.exam === initialFilters.exam) {
+    return `Showing year-wise ECE previous papers from all listed exams${yearLabel}${subjectLabel}${topicLabel}.`;
+  }
+
+  const examLabel = filters.exam;
+  return `Showing year-wise ECE previous papers from ${examLabel}${yearLabel}${subjectLabel}${topicLabel}.`;
+}
+
 function buildNextFilters(current, field, value) {
   const nextValue = { ...current, [field]: value };
 
@@ -554,8 +646,24 @@ function getPaperTitle(paper) {
   return paper.role || paper.title || getPaperRoleLabel(paper.exam);
 }
 
+function getPaperContextLabel(paper) {
+  return `${paper.exam} exam | ECE branch | Year-wise previous paper`;
+}
+
 function getQuestionCountLabel(paper) {
-  return paper.questionCount ? `${paper.questionCount} questions` : "Official PDF";
+  if (paper.questionCount) {
+    return `${paper.questionCount} ${paper.questionCount === 1 ? "question" : "questions"}`;
+  }
+
+  return paper.isOfficialPdf ? "Official PDF" : "Questions pending";
+}
+
+function getPaperScopeLabel(paper) {
+  if (!paper.topicCount) {
+    return "Topics pending";
+  }
+
+  return `${paper.topicCount} ${paper.topicCount === 1 ? "topic" : "topics"} in this set`;
 }
 
 function getSolutionStatusLabel(paper) {
@@ -572,24 +680,40 @@ function mergeOfficialOptions(payload = {}, filters = initialFilters) {
   const matchingPapers = officialPreviousPapers.filter((paper) =>
     paperMatchesSelection(paper, "All Types", filters, "")
   );
+  const matchingCatalogPapers = previousPaperCatalogEntries.filter((paper) =>
+    paperMatchesSelection(paper, "All Types", filters, "")
+  );
   const appendUnique = (items = [], additions = []) =>
     Array.from(new Set([...(items || []), ...additions])).filter(Boolean);
 
   return {
     subjects: appendUnique(
       Array.isArray(payload.subjects) ? payload.subjects : SUBJECTS,
-      matchingPapers.flatMap((paper) => paper.subjects || [])
+      [
+        ...matchingPapers.flatMap((paper) => paper.subjects || []),
+        ...matchingCatalogPapers.flatMap((paper) => paper.subjects || []),
+      ]
     ),
     exams: appendUnique(
       Array.isArray(payload.exams) ? payload.exams : EXAMS,
-      matchingPapers.map((paper) => paper.exam)
+      [
+        ...matchingPapers.map((paper) => paper.exam),
+        ...matchingCatalogPapers.map((paper) => paper.exam),
+      ]
     ),
     topics: appendUnique(
       Array.isArray(payload.topics) ? payload.topics : ["All Topics"],
-      matchingPapers.flatMap((paper) => paper.topics || [])
+      [
+        ...matchingPapers.flatMap((paper) => paper.topics || []),
+        ...matchingCatalogPapers.flatMap((paper) => paper.topics || []),
+      ]
     ),
     years: Array.from(
-      new Set([...(Array.isArray(payload.years) ? payload.years : []), ...matchingPapers.map((paper) => paper.year)])
+      new Set([
+        ...(Array.isArray(payload.years) ? payload.years : []),
+        ...matchingPapers.map((paper) => paper.year),
+        ...matchingCatalogPapers.map((paper) => paper.year),
+      ])
     ).sort((left, right) => Number(right) - Number(left)),
   };
 }
@@ -964,6 +1088,16 @@ function PreviousPaperIcon({ type }) {
 }
 
 function ExamLogoBadge({ type, className = "" }) {
+  if (type === "all") {
+    return (
+      <span
+        className={`flex h-14 w-14 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 ${className}`}
+      >
+        <UiIcon type="layers" className="h-6 w-6" />
+      </span>
+    );
+  }
+
   if (type === "bel") {
     return (
       <span
@@ -1312,7 +1446,7 @@ export default function PreviousYearPage() {
         examName === "All Exams"
           ? visiblePapers
           : visiblePapers.filter((paper) => paper.exam === examName);
-      const examYears = Array.from(new Set(examQuestions.map((question) => question.year))).sort(
+      const examYears = Array.from(new Set(examPapers.map((paper) => paper.year))).sort(
         (left, right) => right - left
       );
 
@@ -1329,13 +1463,26 @@ export default function PreviousYearPage() {
     });
   }, [activeFilters.paperType, filterOptions.exams, questions, visiblePapers]);
   const featuredCards = useMemo(
-    () =>
-      featuredExamOptions.map((card) => ({
+    () => {
+      const cards = featuredExamOptions.map((card) => ({
         ...card,
         isSelected: card.exam
           ? activeFilters.exam === card.exam
           : search.trim().toLowerCase() === (card.search || "").toLowerCase(),
-      })),
+      }));
+      const allExamCard = cards.find((card) => card.key === "ALL");
+      const examCards = cards
+        .filter((card) => card.key !== "ALL")
+        .sort((left, right) => {
+          if (left.isSelected !== right.isSelected) {
+            return left.isSelected ? -1 : 1;
+          }
+
+          return getExamCardSortLabel(left).localeCompare(getExamCardSortLabel(right));
+        });
+
+      return allExamCard ? [allExamCard, ...examCards] : examCards;
+    },
     [activeFilters.exam, search]
   );
 
@@ -1385,6 +1532,14 @@ export default function PreviousYearPage() {
   }
 
   function handleExamCardSelect(card) {
+    if (card.key === "ALL") {
+      commitSelection("", {
+        ...initialFilters,
+        paperType: activeFilters.paperType,
+      });
+      return;
+    }
+
     commitSelection(card.search || "", {
       ...initialFilters,
       exam: card.exam || initialFilters.exam,
@@ -1434,68 +1589,43 @@ export default function PreviousYearPage() {
       pageClassName="py-5 sm:py-6"
     >
       <div className="mx-auto max-w-[1440px] space-y-6">
-        <nav
-          className="flex flex-wrap items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500"
-          aria-label="Breadcrumb"
-        >
-          <Link
-            href="/"
-            className="font-medium text-portal-600 transition hover:text-portal-700"
+        <section className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_14px_38px_rgba(15,23,42,0.06)] sm:p-6">
+          <nav
+            className="flex flex-wrap items-center gap-2 text-sm text-slate-500"
+            aria-label="Breadcrumb"
           >
-            Home
-          </Link>
-          <span aria-hidden="true" className="text-slate-300">
-            /
-          </span>
-          <span className="font-medium text-slate-700">Previous Papers</span>
-        </nav>
+            <Link
+              href="/"
+              className="font-semibold text-portal-700 transition hover:text-portal-800"
+            >
+              Home
+            </Link>
+            <span aria-hidden="true" className="text-slate-300">
+              /
+            </span>
+            <span className="font-semibold text-slate-800">Previous Papers</span>
+          </nav>
 
-        <section className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.12)]">
-          <div className="grid gap-0 lg:grid-cols-[1fr_430px]">
-            <div className="bg-slate-950 p-6 text-white sm:p-8">
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-cyan-200">
-                Previous paper command center
-              </p>
-              <h1 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-tight sm:text-5xl">
-                Practice Real ECE Exam Papers With Pattern Insights
+          <div className="mt-5 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
+                Previous Year Papers
               </h1>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-200 sm:text-base">
-                Open year-wise papers, filter by exam and subject, review solved questions, and use repeated patterns to guide your next revision session.
+              <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">
+                Browse exam-wise ECE papers, filter by year or subject, and open solved sets when available.
               </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a
-                  href="#paper-library"
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-extrabold text-slate-950 transition hover:bg-cyan-50"
-                >
-                  Browse Papers
-                </a>
-                <a
-                  href="#question-bank"
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
-                >
-                  Solve Questions
-                </a>
-              </div>
             </div>
 
-            <div className="bg-slate-50 p-5 sm:p-6">
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500">
-                Current archive
-              </p>
-              <h2 className="mt-2 text-2xl font-extrabold text-slate-950">
-                {selectedArchiveTitle}
-              </h2>
-              <div className="mt-5 grid grid-cols-2 gap-3">
-                {archiveMetrics.map((metric) => (
-                  <div key={metric.label} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-                    <p className="text-2xl font-extrabold text-slate-950">{metric.value}</p>
-                    <p className="mt-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-slate-500">
-                      {metric.label}
-                    </p>
-                    <p className="mt-2 text-sm leading-5 text-slate-600">{metric.detail}</p>
-                  </div>
-                ))}
-              </div>
+            <div className="flex flex-wrap gap-2">
+              {archiveMetrics.slice(0, 3).map((metric) => (
+                <span
+                  key={metric.label}
+                  className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700"
+                >
+                  <span className="font-extrabold text-slate-950">{metric.value}</span>{" "}
+                  {metric.label.toLowerCase()}
+                </span>
+              ))}
             </div>
           </div>
         </section>
@@ -1553,8 +1683,8 @@ export default function PreviousYearPage() {
                       </span>
                     </div>
 
-                    <h2 className="mt-2.5 text-[0.95rem] font-bold tracking-tight text-slate-900 sm:mt-3 sm:text-[1.1rem]">
-                      {card.title}
+                    <h2 className="mt-2.5 min-h-[2.5rem] text-[0.82rem] font-bold leading-5 tracking-tight text-slate-900 sm:mt-3 sm:text-[0.95rem]">
+                      {getExamCardDisplayText(card)}
                     </h2>
                   </button>
                 ))}
@@ -1598,8 +1728,8 @@ export default function PreviousYearPage() {
                         </span>
                       </div>
 
-                      <h2 className="mt-3 text-[1.05rem] font-bold tracking-tight text-slate-900">
-                        {card.title}
+                      <h2 className="mt-3 min-h-[2.5rem] text-sm font-bold leading-5 tracking-tight text-slate-900">
+                        {getExamCardDisplayText(card)}
                       </h2>
                     </button>
                   ))}
@@ -1692,9 +1822,12 @@ export default function PreviousYearPage() {
               <div className="border-b border-[#e9eef8] px-4 py-3 sm:px-6 sm:py-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-xs font-semibold text-slate-500 sm:text-sm">Current Selection</p>
+                    <p className="text-xs font-semibold text-slate-500 sm:text-sm">Selected Exam / Filter</p>
                     <p className="mt-1 text-base font-bold text-slate-900 sm:text-lg">
                       {formatCurrentSelection(activeFilters)}
+                    </p>
+                    <p className="mt-1 text-sm leading-6 text-slate-600">
+                      {getSelectionContextText(activeFilters)}
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -1746,6 +1879,9 @@ export default function PreviousYearPage() {
                               <p className="mt-3 text-base font-bold text-slate-900">
                                 {getPaperTitle(paper)}
                               </p>
+                              <p className="mt-1 text-sm leading-6 text-slate-600">
+                                {getPaperContextLabel(paper)}
+                              </p>
                             </div>
                             <span
                               className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
@@ -1759,7 +1895,7 @@ export default function PreviousYearPage() {
                           </div>
 
                           <p className="mt-2 text-sm leading-6 text-slate-600">
-                            {formatSubjectSummary(paper.subjects)} | {getQuestionCountLabel(paper)}
+                            {getQuestionCountLabel(paper)}
                           </p>
 
                           <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
@@ -1773,7 +1909,9 @@ export default function PreviousYearPage() {
                               <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
                                 Questions
                               </p>
-                              <p className="mt-1 font-semibold text-slate-800">{paper.questionCount || "PDF"}</p>
+                              <p className="mt-1 font-semibold text-slate-800">
+                                {paper.questionCount || (paper.isOfficialPdf ? "PDF" : "Pending")}
+                              </p>
                             </div>
                             <div className="rounded-xl border border-[#e4eaf6] bg-white px-3 py-2">
                               <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
@@ -1883,8 +2021,8 @@ export default function PreviousYearPage() {
                         <thead className="bg-[#fbfcff] text-sm text-slate-500">
                           <tr>
                             <th className="px-6 py-4 font-bold">Year</th>
-                            <th className="px-6 py-4 font-bold">Paper / Post</th>
-                            <th className="px-6 py-4 font-bold">Type</th>
+                            <th className="px-6 py-4 font-bold">Paper / Exam</th>
+                            <th className="px-6 py-4 font-bold">Exam Pattern</th>
                             <th className="px-6 py-4 font-bold">Questions</th>
                             <th className="px-6 py-4 font-bold">Pattern Signals</th>
                             <th className="px-6 py-4 font-bold">Solutions</th>
@@ -1922,7 +2060,10 @@ export default function PreviousYearPage() {
                                     {getPaperTitle(paper)}
                                   </p>
                                   <p className="mt-1 text-sm text-slate-500">
-                                    {formatSubjectSummary(paper.subjects)} | {getQuestionCountLabel(paper)}
+                                    {getPaperContextLabel(paper)}
+                                  </p>
+                                  <p className="mt-1 text-xs text-slate-500">
+                                    {getQuestionCountLabel(paper)}
                                   </p>
                                 </td>
                                 <td className="px-6 py-5 align-top">
@@ -1932,10 +2073,10 @@ export default function PreviousYearPage() {
                                 </td>
                                 <td className="px-6 py-5 align-top">
                                   <p className="text-sm font-bold text-slate-900">
-                                    {paper.questionCount || "PDF"}
+                                    {paper.questionCount || (paper.isOfficialPdf ? "PDF" : "Pending")}
                                   </p>
                                   <p className="mt-1 text-xs text-slate-500">
-                                    {paper.subjectCount} subjects | {paper.topicCount} topics
+                                    {getPaperScopeLabel(paper)}
                                   </p>
                                 </td>
                                 <td className="px-6 py-5 align-top">
@@ -2071,24 +2212,6 @@ export default function PreviousYearPage() {
                   />
                 </div>
               )}
-            </section>
-
-            <section className="overflow-hidden rounded-[24px] border border-[#e6edf9] bg-white">
-              <div className="grid divide-y divide-[#edf1f8] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-                {supportHighlights.map((item) => (
-                    <article key={item.title} className="p-4 sm:p-5">
-                    <div className="flex items-start gap-4">
-                      <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#f4f8ff] text-portal-600">
-                        <UiIcon type={item.icon} className="h-5 w-5" />
-                      </span>
-                      <div>
-                        <h3 className="text-lg font-bold text-slate-900 sm:text-xl">{item.title}</h3>
-                        <p className="mt-2 text-sm leading-6 sm:leading-7 text-slate-600">{item.description}</p>
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
             </section>
 
             <section

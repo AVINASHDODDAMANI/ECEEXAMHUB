@@ -7562,15 +7562,6 @@ function SubjectConceptMenu({ subjectTitle, concepts = [], activeIndex = 0, onSe
           id="subject-concept-menu"
           className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
         >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              {subjectTitle}
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-5 text-slate-700">
-              Jump to theory concepts and explanations.
-            </p>
-          </div>
-
           <div className="grid gap-2.5">
             <button
               type="button"
@@ -7588,9 +7579,6 @@ function SubjectConceptMenu({ subjectTitle, concepts = [], activeIndex = 0, onSe
                 <span className="min-w-0">
                   <span className="block text-sm font-black text-slate-950">
                     Overview
-                  </span>
-                  <span className="mt-1 block text-xs font-semibold text-slate-600">
-                    Start from subject basics
                   </span>
                 </span>
               </span>
@@ -7686,15 +7674,6 @@ function DigitalChapterMenu() {
           id="digital-chapter-menu"
           className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(26rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
         >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              Digital Electronics Structure
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
-              Chapter - Topics - Subtopics for GATE/PSU revision.
-            </p>
-          </div>
-
           <div className="grid gap-2">
             {DIGITAL_ELECTRONICS_CHAPTERS.map((chapter, chapterIndex) => {
               const routeHref = DIGITAL_CHAPTER_ROUTES[chapter.title] || "/subjects/digital-electronics";
@@ -7713,9 +7692,6 @@ function DigitalChapterMenu() {
                     <span className="min-w-0">
                       <span className="block text-sm font-black leading-snug text-slate-950">
                         {chapter.title}
-                      </span>
-                      <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
-                        {chapter.topics.map((topic) => topic.title).join(", ")}
                       </span>
                     </span>
                   </span>
@@ -7758,31 +7734,6 @@ function ElectromagneticTheoryChapterMenu() {
           id="electromagnetic-theory-chapter-menu"
           className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
         >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              Electromagnetic Theory Structure
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
-              Chapter - Topics - Subtopics for GATE/PSU revision.
-            </p>
-          </div>
-
-          <div className="mb-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-700">
-              Most Important Topics
-            </p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {ELECTROMAGNETIC_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
-                <span
-                  key={topic}
-                  className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700"
-                >
-                  {topic}
-                </span>
-              ))}
-            </div>
-          </div>
-
           <div className="grid gap-2">
             {ELECTROMAGNETIC_THEORY_CHAPTERS.map((chapter, chapterIndex) => {
               const routeHref =
@@ -7803,9 +7754,6 @@ function ElectromagneticTheoryChapterMenu() {
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-black leading-snug text-slate-950">
                       {chapter.title}
-                    </span>
-                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
-                      {chapter.topics.map((topic) => topic.title).join(", ")}
                     </span>
                   </span>
                 </span>
@@ -7848,31 +7796,6 @@ function AntennaWavePropagationChapterMenu() {
           id="antenna-wave-propagation-chapter-menu"
           className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(30rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
         >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              Antenna & Wave Propagation Structure
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
-              Chapter - Topics - Subtopics for GATE/PSU revision.
-            </p>
-          </div>
-
-          <div className="mb-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-700">
-              Most Important Topics
-            </p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {ANTENNA_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
-                <span
-                  key={topic}
-                  className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700"
-                >
-                  {topic}
-                </span>
-              ))}
-            </div>
-          </div>
-
           <div className="grid gap-2">
             {ANTENNA_WAVE_PROPAGATION_CHAPTERS.map((chapter, chapterIndex) => (
               <Link
@@ -7888,9 +7811,6 @@ function AntennaWavePropagationChapterMenu() {
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-black leading-snug text-slate-950">
                       {chapter.title}
-                    </span>
-                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
-                      {chapter.topics.map((topic) => topic.title).join(", ")}
                     </span>
                   </span>
                 </span>
@@ -8609,15 +8529,6 @@ function AnalogChapterMenu() {
           id="analog-chapter-menu"
           className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(23rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
         >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              Analog Electronics Chapter Flow
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
-              Open a chapter for focused theory, diagrams, and practice.
-            </p>
-          </div>
-
           <div className="grid gap-1.5">
             {ANALOG_CHAPTERS.map((chapter) => (
               <Link
@@ -8633,9 +8544,6 @@ function AnalogChapterMenu() {
                   <span className="min-w-0">
                     <span className="block text-sm font-black leading-snug text-slate-950">
                       {chapter.title}
-                    </span>
-                    <span className="mt-0.5 block text-xs font-semibold leading-4 text-slate-600">
-                      {chapter.examFocus}
                     </span>
                   </span>
                 </span>
@@ -13890,41 +13798,10 @@ function SubjectSeoDepthSection({
     )
     .slice(0, 6);
   const readyTopicLinks = learningTopics.slice(0, 6);
-  const examFocus = chapterMeta?.examFocus || [];
-  const keyConcepts = chapterMeta?.keyConcepts || chapterTitles;
-  const pyqFocusItems = [
-    `Identify which ${subject.title} formulas are repeatedly used in previous year questions.`,
-    "Mark whether the question is testing definition, derivation, numerical substitution, graph interpretation, or conceptual comparison.",
-    "Revise mistakes after every practice session instead of collecting unsolved questions for the final week.",
-    "Create a short formula sheet from solved PYQs and update it whenever a new pattern appears.",
-  ];
-  const studyPlanItems = [
-    {
-      week: "Week 1",
-      title: "Build fundamentals",
-      text: `Read the basic theory of ${subject.title}, understand terminology, and make short notes for every chapter before solving timed questions.`,
-    },
-    {
-      week: "Week 2",
-      title: "Solve chapter-wise problems",
-      text: `Practice MCQs and numerical problems from ${keyConcepts.slice(0, 3).join(", ")} so each concept is connected with exam-style application.`,
-    },
-    {
-      week: "Week 3",
-      title: "Revise formulas and PYQs",
-      text: "Go through previous year questions, classify repeated patterns, and revise the formulas or assumptions that caused wrong answers.",
-    },
-    {
-      week: "Week 4",
-      title: "Attempt mixed practice",
-      text: `Mix ${subject.title} with other ECE subjects to improve recall speed, accuracy, and confidence for full-length tests.`,
-    },
-  ];
-  const commonMistakes = [
-    `Studying ${subject.title} only from cards or summaries without reading full explanations.`,
-    "Memorizing formulas without knowing where each assumption is valid.",
-    "Solving PYQs only once and not converting mistakes into revision notes.",
-    "Jumping between subjects before finishing one chapter-wise revision cycle.",
+  const studyRouteItems = [
+    "Use the hamburger menu to move chapter by chapter instead of reading everything on the first page.",
+    "Open notes when you want the full explanation, then return here to continue navigation.",
+    "After finishing one chapter, solve questions before jumping to the next.",
   ];
 
   return (
@@ -13937,34 +13814,11 @@ function SubjectSeoDepthSection({
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">
             {subject.title} Notes
           </h2>
-          <div className="mt-3 space-y-3 text-sm leading-7 text-slate-700 sm:text-base">
-            <p>
-              {subject.title} is an important ECE subject because it connects
-              theory, formulas, numerical solving, and concept-based reasoning. On
-              ECE Exam Guide, this page works as a subject hub where students can
-              move from the syllabus overview to notes, formulas, practice, and
-              structured topic revision.
-            </p>
-            <p>
-              A strong preparation flow starts with fundamentals, then moves into
-              chapter-wise concepts such as {keyConcepts.slice(0, 5).join(", ")}.
-              After each chapter, students should revise the important formulas,
-              solve practice questions, and review mistakes before moving to the
-              next topic.
-            </p>
-            <p>
-              The goal is not only to memorize results. The better approach is to
-              understand assumptions, identify the correct method quickly, and
-              practice enough problems to recognize repeated question patterns.
-            </p>
-            <p>
-              This subject page is designed as a detailed authority page instead of
-              a simple directory. It gives search engines and students a clear
-              explanation of what the subject covers, how to study it, which
-              chapters matter for exams, how formulas should be revised, and where
-              to continue with notes, practice, and related learning pages.
-            </p>
-          </div>
+          <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
+            This page is the entry point for {subject.title}. Use it to open notes,
+            jump through chapters, and move into practice without repeating long
+            theory on the first page.
+          </p>
 
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
@@ -13982,129 +13836,15 @@ function SubjectSeoDepthSection({
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
-              <h3 className="text-base font-bold text-slate-950">
-                Exam Preparation Focus
-              </h3>
+              <h3 className="text-base font-bold text-slate-950">How To Use This Hub</h3>
               <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
-                {examFocus.map((item) => (
+                {studyRouteItems.map((item) => (
                   <li key={item} className="flex gap-2">
                     <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-emerald-600" />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
-            </div>
-          </div>
-
-          <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-4">
-            <h3 className="text-base font-bold text-slate-950">
-              Detailed Syllabus Coverage
-            </h3>
-            <p className="mt-2 text-sm leading-7 text-slate-700">
-              The {subject.title} syllabus should be studied as a connected chain,
-              not as isolated headings. Start with the core definitions and physical
-              meaning, then move into analytical methods, important formulas,
-              solved examples, and previous year question patterns. Chapters such
-              as {chapterTitles.slice(0, 6).join(", ")} should be revised with
-              handwritten notes, short formula summaries, and mixed practice so
-              the subject becomes useful in both objective questions and descriptive
-              university exam answers.
-            </p>
-            <p className="mt-3 text-sm leading-7 text-slate-700">
-              For competitive exams, give extra attention to problem statements
-              that combine two ideas in one question. A good revision session
-              should include one theory recap, one formula recap, five to ten
-              practice questions, and one quick mistake review. This process builds
-              topical authority for the learner and gives this page stronger
-              informational value than a normal link collection.
-            </p>
-          </div>
-
-          {formulaItems.length ? (
-            <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
-              <h3 className="text-base font-bold text-slate-950">
-                Important Formula Revision
-              </h3>
-              <div className="mt-3 grid gap-3 md:grid-cols-2">
-                {formulaItems.map((formula) => (
-                  <div
-                    key={`${formula.conceptTitle}-${formula.label}-${formula.expression}`}
-                    className="rounded-xl border border-slate-200 bg-white p-3"
-                  >
-                    <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
-                      {formula.conceptTitle}
-                    </p>
-                    <p className="mt-1 text-sm font-bold text-slate-950">
-                      {formula.expression}
-                    </p>
-                    <p className="mt-1 text-xs leading-5 text-slate-600">
-                      {formula.note}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : null}
-
-          <div className="mt-5 grid gap-4 lg:grid-cols-2">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
-              <h3 className="text-base font-bold text-slate-950">
-                PYQ Practice Method
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-slate-700">
-                Previous year questions are the best way to understand how
-                {` ${subject.title} `}is tested. Do not use PYQs only as a final
-                mock test. Use them chapter-wise after learning each topic, then
-                use mixed PYQs during revision to improve speed and retention.
-              </p>
-              <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
-                {pyqFocusItems.map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-orange-500" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
-              <h3 className="text-base font-bold text-slate-950">
-                Common Mistakes To Avoid
-              </h3>
-              <p className="mt-2 text-sm leading-7 text-slate-700">
-                Many students lose marks in {subject.title} because they revise
-                too broadly and practice too late. A better method is to learn a
-                chapter, write the formulas, solve questions immediately, and
-                revise wrong answers within the same week.
-              </p>
-              <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
-                {commonMistakes.map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-rose-500" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-4">
-            <h3 className="text-base font-bold text-slate-950">
-              30-Day Study Strategy
-            </h3>
-            <div className="mt-3 grid gap-3 md:grid-cols-2">
-              {studyPlanItems.map((item) => (
-                <div
-                  key={item.week}
-                  className="rounded-xl border border-slate-200 bg-slate-50/80 p-3"
-                >
-                  <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-portal-700">
-                    {item.week}
-                  </p>
-                  <h4 className="mt-1 text-sm font-bold text-slate-950">{item.title}</h4>
-                  <p className="mt-1 text-sm leading-6 text-slate-700">{item.text}</p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
@@ -15251,39 +14991,12 @@ export default function SubjectTheoryPage({
               notesHref={notesHref}
             />
 
-            {isConceptIntroPage ? (
-              <div className="mt-5">
-                {subject.title === "Digital Electronics" ? (
-                  <DigitalOverviewPanel />
-                ) : subject.title === "Electromagnetic Theory" ? (
-                  <ElectromagneticTheoryOverviewPanel />
-                ) : subject.title === "Antenna & Wave Propagation" ? (
-                  <AntennaWavePropagationOverviewPanel />
-                ) : subject.title === "VLSI Design" ? (
-                  <VlsiDesignOverviewPanel />
-                ) : subject.title === "Microprocessors" ? (
-                  <MicroprocessorsOverviewPanel />
-                ) : subject.title === "Embedded Systems" ? (
-                  <EmbeddedSystemsOverviewPanel />
-                ) : subject.title === "Digital Signal Processing" ? (
-                  <DigitalSignalProcessingOverviewPanel />
-                ) : subject.title === "Signals and Systems" ? (
-                  <SignalsOverviewPanel />
-                ) : subject.title === "Communication Systems" ? (
-                  <CommunicationSystemsOverviewPanel />
-                ) : subject.title === "Control Systems" ? (
-                  <ControlSystemsOverviewPanel />
-                ) : (
-                  <NetworkOverviewPanel overviewCards={theoryKnowledge.overviewCards} />
-                )}
-              </div>
-            ) : null}
           </>
         )}
 
         <section className="mt-5">
           <main className="min-w-0">
-            {shouldShowInlineConcept ? (
+            {shouldShowInlineConcept && !isConceptIntroPage ? (
               <section className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
                 <div className="divide-y divide-slate-200">
                 {theoryKnowledge.overviewCards.map((item, index) => (

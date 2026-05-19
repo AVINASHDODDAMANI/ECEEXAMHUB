@@ -11,25 +11,6 @@ const learningSubjects = [
         title: "Op-Amp Fundamentals",
         topics: [
           {
-            slug: "operational-amplifiers",
-            title: "Operational Amplifiers",
-            summary:
-              "Ideal assumptions, negative feedback intuition, and classic op-amp applications such as differentiators and integrators.",
-            estimatedTime: "40 min",
-            status: "ready",
-            concepts: [
-              "Virtual short and virtual ground",
-              "Closed-loop gain with feedback",
-              "Differentiator and integrator behavior",
-            ],
-            subtopics: [
-              "Ideal op-amp assumptions",
-              "Inverting and non-inverting amplifiers",
-              "Summing and subtractor circuits",
-              "Integrator and differentiator",
-            ],
-          },
-          {
             slug: "active-filters",
             title: "Active Filters",
             summary:
@@ -1618,74 +1599,6 @@ const topicLibrary = {
     insightSummary: "Applications questions become easier when you track how electromagnetic energy travels, reflects, couples, and is suppressed.",
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "vector-calculus" }],
   },
-  "analog/operational-amplifiers": {
-    learningGoals: [
-      "Use ideal op-amp assumptions to simplify circuits quickly.",
-      "Relate feedback topology to gain and stability behavior.",
-      "Identify differentiator and integrator responses in standard circuits.",
-    ],
-    overview: [
-      "An operational amplifier is a very high-gain differential amplifier. In exam problems, the ideal model lets you assume infinite input impedance, zero output impedance, and very large open-loop gain.",
-      "Negative feedback makes op-amp circuits predictable. Once feedback is active and the amplifier operates in its linear region, the input terminals sit at nearly the same voltage, which leads to the virtual short idea.",
-      "Most questions test whether you can identify the configuration, write the right gain expression, and connect the circuit behavior to frequency response.",
-    ],
-    formulas: [
-      {
-        label: "Inverting amplifier",
-        expression: "Vout = -(Rf / Rin) Vin",
-        note: "Output is 180 degrees out of phase with the input.",
-      },
-      {
-        label: "Non-inverting amplifier",
-        expression: "Vout = (1 + Rf / R1) Vin",
-        note: "High input impedance makes this common in sensor conditioning.",
-      },
-      {
-        label: "Ideal differentiator",
-        expression: "Vout = -Rf C (dVin / dt)",
-        note: "Magnitude increases with frequency, so noise sensitivity matters.",
-      },
-    ],
-    keyConcepts: [
-      "Virtual ground applies only when negative feedback keeps the op-amp in linear operation.",
-      "Bandwidth and slew-rate limits make the practical response differ from the ideal formulas.",
-      "Differentiators emphasize high-frequency content while integrators emphasize low-frequency content.",
-    ],
-    examples: [
-      {
-        title: "Identify the differentiator output",
-        prompt:
-          "A circuit has a capacitor at the input and a resistor in the feedback path. What output relation should you expect?",
-        steps: [
-          "Recognize the component placement as the standard differentiator topology.",
-          "Use the ideal differentiator relation between input derivative and output voltage.",
-          "Remember the negative sign comes from the inverting configuration.",
-        ],
-        answer:
-          "The output is proportional to the time derivative of the input: Vout = -Rf C (dVin / dt).",
-      },
-    ],
-    examPointers: [
-      "Differentiate between ideal assumptions and practical limitations in one line.",
-      "Look for capacitor and resistor placement to classify integrator vs differentiator instantly.",
-    ],
-    commonMistakes: [
-      "Applying virtual ground even when the op-amp is not under proper negative feedback.",
-      "Mixing up integrator and differentiator topologies by remembering only the formula and not the component placement.",
-      "Ignoring practical limits like bandwidth and noise sensitivity when reasoning about real differentiators.",
-    ],
-    quickRevision: [
-      "Virtual short means the two inputs are nearly equal only in linear operation with negative feedback.",
-      "Capacitor at input and resistor in feedback means differentiator.",
-      "Inverting gain is negative, non-inverting gain is positive and larger than one.",
-    ],
-    insightSummary:
-      "Analog questions often reward fast pattern recognition. If you can classify the feedback network in the first few seconds, the math becomes straightforward.",
-    relatedTopics: [
-      { subjectSlug: "analog", topicSlug: "active-filters" },
-      { subjectSlug: "signals", topicSlug: "laplace-transform" },
-    ],
-  },
   "digital/flip-flops": {
     learningGoals: [
       "Differentiate SR, JK, D, and T flip-flops using characteristic behavior.",
@@ -1878,7 +1791,6 @@ const topicLibrary = {
       "Laplace transform links directly into control systems, so it is one of the best topics for cross-subject payoff.",
     relatedTopics: [
       { subjectSlug: "control-systems", topicSlug: "time-response" },
-      { subjectSlug: "analog", topicSlug: "operational-amplifiers" },
     ],
   },
   "networks/resonance": {
@@ -2334,7 +2246,6 @@ const topicLibrary = {
     insightSummary:
       "Active-filter questions often become easy once the passband is identified. Structure first, formula second is the fastest route.",
     relatedTopics: [
-      { subjectSlug: "analog", topicSlug: "operational-amplifiers" },
       { subjectSlug: "signals", topicSlug: "sampling-theorem" },
     ],
   },

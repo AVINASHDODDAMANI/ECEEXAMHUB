@@ -22,6 +22,10 @@ const groupAccent = {
   Notes: "border-cyan-200 bg-cyan-50 text-cyan-800",
 };
 
+const groupLabel = {
+  Concepts: "Theory",
+};
+
 function readRecentSearches() {
   if (typeof window === "undefined") {
     return [];
@@ -141,7 +145,9 @@ export default function SearchPage() {
                 className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
               >
                 <div className="flex items-center justify-between gap-3">
-                  <h2 className="text-base font-bold text-slate-950">{group.group}</h2>
+                  <h2 className="text-base font-bold text-slate-950">
+                    {groupLabel[group.group] || group.group}
+                  </h2>
                   <span
                     className={`rounded-full border px-3 py-1 text-xs font-bold ${
                       groupAccent[group.group] || "border-slate-200 bg-slate-50 text-slate-700"

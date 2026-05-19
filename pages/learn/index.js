@@ -2,69 +2,225 @@ import Link from "next/link";
 import { useMemo, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/layout";
-import LearningTopicCard from "../../components/LearningTopicCard";
 import {
   getLearningSubjects,
   searchLearningContent,
 } from "../../lib/learning-utils";
 import { useLearningProgress } from "../../lib/use-learning-progress";
 
-function ProgressRing({ value = 0, label }) {
-  const safeValue = Math.max(0, Math.min(100, value));
-  const radius = 42;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (safeValue / 100) * circumference;
+function DashboardIcon({ name, className = "h-5 w-5" }) {
+  if (name === "book") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+        <path d="M5 6.25A2.25 2.25 0 0 1 7.25 4H19v14H7.25A2.25 2.25 0 0 0 5 20.25v-14Z" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M7.25 4v14A2.25 2.25 0 0 0 5 20.25H17.5" stroke="currentColor" strokeWidth="1.8" />
+      </svg>
+    );
+  }
+
+  if (name === "folder") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+        <path d="M4 8.5A2.5 2.5 0 0 1 6.5 6H10l1.7 1.8H17.5A2.5 2.5 0 0 1 20 10.3v6.2A2.5 2.5 0 0 1 17.5 19H6.5A2.5 2.5 0 0 1 4 16.5v-8Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (name === "test") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+        <rect x="5" y="4" width="14" height="16" rx="2.5" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M9 9h6M9 13h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="m9.2 16 1.4 1.4 3.2-3.2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (name === "trend") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+        <path d="M4 18h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="m6.5 14 4-4 3 2.4 4-5.4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (name === "streak") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+        <path d="M13.4 3c.5 2-1 3.4-2 4.6-1.2 1.4-2.1 2.6-2.1 4.5 0 1.8 1.2 3.4 2.9 3.9-.1-1.2.2-2.3 1-3.3 1.2-1.5 3-2.8 2.8-5.7 1.7 1.2 3 3.4 3 5.8A6 6 0 1 1 7 11.9C7 8.1 10.1 5.3 13.4 3Z" fill="currentColor" />
+      </svg>
+    );
+  }
+
+  if (name === "pulse") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+        <path d="M3.5 12h4l1.8-4 3.2 8 2.1-4h5.9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (name === "check") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+        <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.8" />
+        <path d="m8.8 12.2 2.1 2.2 4.4-4.8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (name === "warning") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+        <path d="M12 5 20 19H4L12 5Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M12 10v4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <circle cx="12" cy="16.6" r="1" fill="currentColor" />
+      </svg>
+    );
+  }
+
+  if (name === "notes") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+        <rect x="5" y="4" width="14" height="16" rx="2.5" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M9 9h6M9 13h6M9 17h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  if (name === "download") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+        <path d="M12 5v9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="m8.5 11.5 3.5 3.5 3.5-3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M5 19h14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  if (name === "bookmark") {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+        <path d="M7 5.5A1.5 1.5 0 0 1 8.5 4h7A1.5 1.5 0 0 1 17 5.5V20l-5-3-5 3V5.5Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      </svg>
+    );
+  }
 
   return (
-    <div className="flex items-center gap-4">
-      <div className="relative h-28 w-28 flex-none">
-        <svg className="h-28 w-28 -rotate-90" viewBox="0 0 104 104" aria-hidden="true">
-          <circle cx="52" cy="52" r={radius} stroke="#e2e8f0" strokeWidth="10" fill="none" />
-          <circle
-            cx="52"
-            cy="52"
-            r={radius}
-            stroke="#154a96"
-            strokeWidth="10"
-            fill="none"
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            strokeDashoffset={offset}
-          />
-        </svg>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-2xl font-extrabold text-slate-950">{safeValue}%</span>
-        </div>
-      </div>
-      <div>
-        <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
-          {label}
-        </p>
-        <p className="mt-2 text-sm leading-6 text-slate-600">
-          Completion is saved in this browser and updates as you mark topics complete.
-        </p>
-      </div>
-    </div>
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
   );
 }
 
 function DashboardCard({ children, className = "" }) {
   return (
-    <section className={`rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_14px_34px_rgba(15,23,42,0.08)] ${className}`}>
+    <section className={`rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_14px_34px_rgba(15,23,42,0.06)] ${className}`}>
       {children}
     </section>
   );
 }
 
-function SectionTitle({ eyebrow, title, description }) {
+function SectionHeader({ title, description, actionLabel, actionHref }) {
+  return (
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+      <div>
+        <h2 className="text-xl font-black tracking-tight text-slate-950">{title}</h2>
+        {description ? (
+          <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
+        ) : null}
+      </div>
+      {actionLabel && actionHref ? (
+        <Link href={actionHref} className="text-sm font-bold text-portal-700 transition hover:text-portal-800">
+          {actionLabel}
+        </Link>
+      ) : null}
+    </div>
+  );
+}
+
+function StatCard({ icon, value, label, note, tintClassName }) {
+  return (
+    <DashboardCard className="p-4">
+      <div className="flex items-center gap-4">
+        <div className={`flex h-14 w-14 flex-none items-center justify-center rounded-2xl ${tintClassName}`}>
+          <DashboardIcon name={icon} className="h-7 w-7" />
+        </div>
+        <div className="min-w-0">
+          <p className="text-3xl font-black tracking-tight text-slate-950">{value}</p>
+          <p className="mt-1 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">{label}</p>
+          <p className="mt-1 text-sm font-medium text-slate-500">{note}</p>
+        </div>
+      </div>
+    </DashboardCard>
+  );
+}
+
+function TinyWeekStreak() {
+  return (
+    <DashboardCard className="p-4">
+      <div className="flex items-center gap-4">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-100 text-orange-500">
+          <DashboardIcon name="streak" className="h-6 w-6" />
+        </div>
+        <div className="min-w-0">
+          <div className="flex items-end gap-2">
+            <span className="text-3xl font-black tracking-tight text-slate-950">12</span>
+            <span className="pb-1 text-sm font-bold text-slate-500">Day streak</span>
+          </div>
+          <p className="text-sm text-slate-500">Consistent study across the week.</p>
+        </div>
+        <div className="ml-auto hidden items-center gap-2 md:flex">
+          {["M", "T", "W", "T", "F", "S", "S"].map((day, index) => (
+            <div key={`${day}-${index}`} className="text-center">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">{day}</p>
+              <span
+                className={`mt-2 block h-5 w-5 rounded-full ${
+                  index === 6 ? "bg-orange-400" : "bg-[#1d63d8]"
+                }`}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </DashboardCard>
+  );
+}
+
+function SubjectBar({ label, percent, barClassName }) {
   return (
     <div>
-      <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
-        {eyebrow}
-      </p>
-      <h2 className="mt-2 text-xl font-extrabold text-slate-950">{title}</h2>
-      {description ? <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p> : null}
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-sm font-semibold text-slate-700">{label}</p>
+        <span className="text-sm font-bold text-slate-500">{percent}%</span>
+      </div>
+      <div className="mt-2 h-2.5 rounded-full bg-slate-100">
+        <div className={`h-2.5 rounded-full ${barClassName}`} style={{ width: `${percent}%` }} />
+      </div>
     </div>
+  );
+}
+
+function StatusPill({ children, className = "" }) {
+  return (
+    <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold ${className}`}>
+      {children}
+    </span>
+  );
+}
+
+function QuickLinkTile({ href, label, icon, tintClassName }) {
+  return (
+    <Link
+      href={href}
+      className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4 transition hover:border-slate-300 hover:shadow-sm"
+    >
+      <div className={`flex h-11 w-11 flex-none items-center justify-center rounded-2xl ${tintClassName}`}>
+        <DashboardIcon name={icon} className="h-5 w-5" />
+      </div>
+      <span className="text-sm font-semibold text-slate-800">{label}</span>
+    </Link>
   );
 }
 
@@ -88,354 +244,367 @@ export default function LearnPage() {
   const readyTopics = progressStats.readyTopics || [];
   const continueTopic =
     readyTopics.find((topic) => !progressMap[topic.topicKey]) || readyTopics[0];
-  const topSubjects = progressStats.subjects
-    .filter((subject) => subject.totalTopics > 0)
-    .slice()
-    .sort((left, right) => right.completionPercent - left.completionPercent)
-    .slice(0, 5);
-  const weakSubjects = progressStats.subjects
-    .filter((subject) => subject.totalTopics > 0 && subject.completionPercent < 60)
-    .slice()
-    .sort((left, right) => left.completionPercent - right.completionPercent)
-    .slice(0, 4);
-  const totalQuestionsSolved = Math.max(180, progressStats.completedCount * 18);
-  const studyHours = Math.max(8, Math.round(progressStats.completedCount * 1.4));
-  const masteryLevel =
-    progressStats.completionPercent >= 75
-      ? "Exam ready"
-      : progressStats.completionPercent >= 40
-        ? "Building mastery"
-        : "Foundation stage";
-  const todayTasks = [
-    ["Solve 15 MCQs", "/mcqs", "Practice weak-area recall for high-frequency ECE topics."],
-    ["Revise Control Systems", "/subjects/control-systems", "Recheck root locus, stability, and time response mistakes."],
-    ["Attempt one mock test", "/mock-tests", "Measure accuracy under time pressure."],
+  const activeSubjects = progressStats.subjects.filter((subject) => subject.totalTopics > 0);
+  const completedSubjects = activeSubjects.filter((subject) => subject.completionPercent >= 80).length;
+  const coveredPercent = progressStats.completionPercent || 0;
+  const questionsSolved = Math.max(1240, progressStats.completedCount * 18);
+  const testsTaken = Math.max(32, Math.round(progressStats.completedCount * 0.5));
+  const averageAccuracy = Math.min(92, 54 + Math.round(coveredPercent * 0.25));
+  const focusSubjects = activeSubjects.slice().sort((a, b) => b.completionPercent - a.completionPercent).slice(0, 5);
+  const weakTopicRows = [
+    "Root Locus",
+    "Fourier Transform",
+    "MOSFET Biasing",
+    "Two Port Networks",
+    "Laplace Transforms",
   ];
-  const quickActions = [
-    ["Take Quiz", "/mcqs"],
-    ["Solve PYQs", "/previous-year"],
-    ["Revise Notes", "/notes"],
-    ["Mock Test", "/mock-tests"],
+  const recentActivity = [
+    {
+      title: "Completed Test",
+      subtitle: "GATE ECE Mock Test 4",
+      meta: "Today, 9:30 AM",
+      tag: "72%",
+      icon: "check",
+      tintClassName: "bg-emerald-100 text-emerald-600",
+    },
+    {
+      title: "Studied Topic",
+      subtitle: "Operational Amplifiers",
+      meta: "Today, 8:15 AM",
+      tag: "",
+      icon: "book",
+      tintClassName: "bg-blue-100 text-blue-600",
+    },
+    {
+      title: "Added Note",
+      subtitle: "Laplace Transform Properties",
+      meta: "Yesterday, 7:45 PM",
+      tag: "",
+      icon: "notes",
+      tintClassName: "bg-violet-100 text-violet-600",
+    },
   ];
+  const upcomingTests = [
+    {
+      title: "GATE ECE Mock Test 5",
+      subtitle: "Full Length Mock Test",
+      date: "24 May, 2025",
+      time: "10:00 AM",
+      tintClassName: "bg-violet-100 text-violet-600",
+    },
+    {
+      title: "Control Systems - Test 3",
+      subtitle: "Chapter Test",
+      date: "25 May, 2025",
+      time: "09:00 AM",
+      tintClassName: "bg-emerald-100 text-emerald-600",
+    },
+    {
+      title: "Digital Electronics - Test 2",
+      subtitle: "Chapter Test",
+      date: "26 May, 2025",
+      time: "09:00 AM",
+      tintClassName: "bg-amber-100 text-amber-600",
+    },
+  ];
+  const searchPreview = search ? searchResults.slice(0, 3) : [];
 
   return (
     <Layout
       title="ECEExamHub | Learning Dashboard"
-      description="Personal ECE preparation dashboard with progress tracking, continue learning, daily tasks, weak-topic revision, mock test analytics, and subject learning modules."
+      description="Learning dashboard with subject mastery, tests, revision activity, quick links, and daily preparation focus."
       searchValue={search}
       onSearchChange={setSearch}
     >
-      <div className="space-y-6">
-        <section className="rounded-2xl border border-slate-200 bg-slate-950 p-5 text-white shadow-[0_24px_70px_rgba(15,23,42,0.18)]">
-          <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center">
+      <div className="space-y-5">
+        <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+          <DashboardCard className="bg-transparent p-0 shadow-none">
             <div>
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-cyan-200">
-                Learning dashboard
-              </p>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
-                Welcome back, future ECE ranker
+              <h1 className="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                Welcome back, Aspirant!
               </h1>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-200">
-                {progressStats.completionPercent}% syllabus completed. Today&apos;s focus is to resume one topic, solve practice questions, and close weak areas.
+              <p className="mt-2 text-base leading-7 text-slate-500">
+                Continue with your next topic, track progress, and keep revision on schedule.
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                ["Streak", "12 days"],
-                ["Study hours", `${studyHours}h`],
-                ["Questions", totalQuestionsSolved],
-              ].map(([label, value]) => (
-                <div key={label} className="rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-center">
-                  <p className="text-xl font-extrabold">{value}</p>
-                  <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-300">
-                    {label}
-                  </p>
+          </DashboardCard>
+          <TinyWeekStreak />
+        </section>
+
+        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <StatCard
+            icon="book"
+            value={Math.max(12, activeSubjects.length)}
+            label="Subjects"
+            note={`${completedSubjects} at strong completion`}
+            tintClassName="bg-blue-100 text-blue-600"
+          />
+          <StatCard
+            icon="folder"
+            value="500+"
+            label="Resources"
+            note="Notes, PDFs, and revision files"
+            tintClassName="bg-emerald-100 text-emerald-600"
+          />
+          <StatCard
+            icon="test"
+            value={testsTaken}
+            label="Tests Taken"
+            note="Mock and chapter tests combined"
+            tintClassName="bg-amber-100 text-amber-600"
+          />
+          <StatCard
+            icon="trend"
+            value={`${averageAccuracy}%`}
+            label="Average Accuracy"
+            note="Across recent practice attempts"
+            tintClassName="bg-violet-100 text-violet-600"
+          />
+        </section>
+
+        <section className="grid gap-4 xl:grid-cols-2">
+          <DashboardCard>
+            <SectionHeader
+              title="Continue Learning"
+              description="Resume the next incomplete topic from your current study path."
+              actionLabel="Open Path"
+              actionHref={continueTopic?.href || "/subjects"}
+            />
+            <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <div className="flex items-start gap-4">
+                <div className="flex h-14 w-14 flex-none items-center justify-center rounded-2xl bg-gradient-to-br from-[#625cf6] to-[#7f73ff] text-white shadow-sm">
+                  <DashboardIcon name="pulse" className="h-7 w-7" />
                 </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xl font-black tracking-tight text-slate-950">
+                        {continueTopic?.subjectName || "Analog Electronics"}
+                      </p>
+                      <p className="mt-1 text-sm text-slate-500">
+                        {continueTopic?.title || "BJT biasing and small signal models"}
+                      </p>
+                    </div>
+                    <StatusPill className="bg-blue-100 text-blue-700">
+                      {Math.max(68, coveredPercent)}%
+                    </StatusPill>
+                  </div>
+                  <div className="mt-5 h-2.5 rounded-full bg-slate-200">
+                    <div
+                      className="h-2.5 rounded-full bg-gradient-to-r from-[#1d63d8] to-[#2f7df6]"
+                      style={{ width: `${Math.max(68, coveredPercent)}%` }}
+                    />
+                  </div>
+                  <div className="mt-3 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    <span>Current module progress</span>
+                    <span>About 10 min to resume</span>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <Link
+                  href={continueTopic?.href || "/subjects"}
+                  className="inline-flex min-h-11 items-center justify-center rounded-xl bg-[#1d63d8] px-5 py-3 text-sm font-extrabold text-white shadow-[0_10px_24px_rgba(29,99,216,0.22)] transition hover:bg-[#1856bd]"
+                >
+                  Resume Topic
+                </Link>
+                <Link
+                  href={continueTopic?.href || "/subjects"}
+                  className="inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-50"
+                >
+                  View Details
+                </Link>
+              </div>
+            </div>
+          </DashboardCard>
+
+          <DashboardCard>
+            <SectionHeader
+              title="Upcoming Tests"
+              description="Scheduled mock tests and chapter tests."
+              actionLabel="View All"
+              actionHref="/mock-tests"
+            />
+            <div className="mt-5 grid gap-3">
+              {upcomingTests.map((test) => (
+                <Link
+                  key={test.title}
+                  href="/mock-tests"
+                  className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 transition hover:bg-white"
+                >
+                  <div className={`flex h-12 w-12 flex-none items-center justify-center rounded-2xl ${test.tintClassName}`}>
+                    <DashboardIcon name="test" className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-base font-semibold text-slate-900">{test.title}</p>
+                    <p className="mt-1 text-sm text-slate-500">{test.subtitle}</p>
+                  </div>
+                  <div className="text-right text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
+                    <p>{test.date}</p>
+                    <p className="mt-1">{test.time}</p>
+                  </div>
+                </Link>
               ))}
+            </div>
+          </DashboardCard>
+        </section>
+
+        <section className="overflow-hidden rounded-[24px] border border-slate-200 bg-gradient-to-r from-[#091641] via-[#102867] to-[#163983] text-white shadow-[0_20px_56px_rgba(9,22,65,0.16)]">
+          <div className="flex flex-col gap-4 px-5 py-5 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-blue-200">Preparation Overview</p>
+              <h2 className="mt-2 text-2xl font-black tracking-tight">Today&apos;s Study Status</h2>
+            </div>
+            <StatusPill className="bg-emerald-500/16 text-emerald-200">12 day streak</StatusPill>
+          </div>
+          <div className="grid gap-4 border-t border-white/10 px-5 py-5 md:grid-cols-3">
+            {[
+              [`${coveredPercent}%`, "Syllabus Covered"],
+              [questionsSolved.toLocaleString(), "Questions Solved"],
+              [Math.max(38, progressStats.completedCount), "Topics Completed"],
+            ].map(([value, label]) => (
+              <div key={label}>
+                <p className="text-4xl font-black tracking-tight">{value}</p>
+                <p className="mt-2 text-xs font-bold uppercase tracking-[0.18em] text-blue-200">{label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="border-t border-white/10 bg-white px-5 py-5 text-slate-900">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm font-black uppercase tracking-[0.16em] text-slate-500">Overall syllabus progress</p>
+              <span className="text-sm font-black text-[#1d63d8]">{coveredPercent}%</span>
+            </div>
+            <div className="mt-3 h-2.5 rounded-full bg-slate-100">
+              <div
+                className="h-2.5 rounded-full bg-gradient-to-r from-[#1d63d8] to-[#2a78f5]"
+                style={{ width: `${coveredPercent}%` }}
+              />
             </div>
           </div>
         </section>
 
-        <section className="grid gap-5 xl:grid-cols-[1.25fr_0.75fr]">
-          <DashboardCard className="border-portal-200 bg-portal-50">
-            <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center">
-              <div>
-                <SectionTitle
-                  eyebrow="Continue learning"
-                  title={continueTopic?.title || "Start your first topic"}
-                  description={
-                    continueTopic
-                      ? `${continueTopic.subjectName} • ${continueTopic.chapterTitle} • Resume from your next incomplete concept.`
-                      : "Pick an ECE subject and start building your preparation trail."
-                  }
+        <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+          <DashboardCard>
+            <SectionHeader
+              title="Subject Progress"
+              description="Coverage across your most active subjects."
+              actionLabel="View All"
+              actionHref="/subjects"
+            />
+            <div className="mt-5 grid gap-4">
+              {(focusSubjects.length ? focusSubjects : subjects.slice(0, 5)).map((subject, index) => (
+                <SubjectBar
+                  key={subject.slug || subject.name}
+                  label={subject.name}
+                  percent={subject.completionPercent || [82, 68, 54, 47, 36][index]}
+                  barClassName={["bg-emerald-500", "bg-blue-500", "bg-cyan-500", "bg-orange-500", "bg-violet-500"][index % 5]}
                 />
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <Link
-                    href={continueTopic?.href || "/subjects"}
-                    className="inline-flex min-h-11 items-center justify-center rounded-xl bg-portal-700 px-5 py-3 text-sm font-extrabold text-white shadow-[0_12px_28px_rgba(21,74,150,0.22)] transition hover:bg-portal-800"
-                  >
-                    Resume
-                  </Link>
-                  <Link
-                    href="/previous-year"
-                    className="inline-flex min-h-11 items-center justify-center rounded-xl border border-portal-300 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-100"
-                  >
-                    Practice PYQs
-                  </Link>
-                </div>
-              </div>
-              <div className="min-w-[220px] rounded-2xl border border-white bg-white p-4">
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500">
-                  Topic progress
-                </p>
-                <p className="mt-2 text-3xl font-extrabold text-slate-950">
-                  {progressStats.completedCount}/{progressStats.totalTopics}
-                </p>
-                <div className="mt-4 h-3 rounded-full bg-slate-100">
-                  <div
-                    className="h-3 rounded-full bg-portal-700"
-                    style={{ width: `${progressStats.completionPercent}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-          </DashboardCard>
-
-          <DashboardCard>
-            <ProgressRing value={progressStats.completionPercent} label={masteryLevel} />
-          </DashboardCard>
-        </section>
-
-        <section className="grid gap-5 xl:grid-cols-[0.95fr_1.05fr]">
-          <DashboardCard>
-            <SectionTitle
-              eyebrow="Today's tasks"
-              title="Your Daily Study Plan"
-              description="A dashboard should answer what to do next, not only where everything is stored."
-            />
-            <div className="mt-5 grid gap-3">
-              {todayTasks.map(([title, href, detail], index) => (
-                <Link key={title} href={href} className="flex gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 transition hover:border-portal-300 hover:bg-white">
-                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-white text-sm font-extrabold text-portal-700">
-                    {index + 1}
-                  </span>
-                  <span>
-                    <span className="block text-sm font-extrabold text-slate-950">{title}</span>
-                    <span className="mt-1 block text-sm leading-6 text-slate-600">{detail}</span>
-                  </span>
-                </Link>
               ))}
             </div>
           </DashboardCard>
 
           <DashboardCard>
-            <SectionTitle
-              eyebrow="Analytics"
-              title="Performance Snapshot"
-              description="Subject progress, estimated accuracy, and weak areas make the page feel like a real dashboard."
-            />
-            <div className="mt-5 grid gap-4 lg:grid-cols-[1fr_0.8fr]">
-              <div className="grid gap-3">
-                {topSubjects.map((subject) => (
-                  <div key={subject.slug}>
-                    <div className="flex justify-between text-sm font-bold text-slate-700">
-                      <span>{subject.name}</span>
-                      <span>{subject.completionPercent}%</span>
-                    </div>
-                    <div className="mt-2 h-2 rounded-full bg-slate-100">
-                      <div
-                        className="h-2 rounded-full bg-gradient-to-r from-portal-700 to-emerald-500"
-                        style={{ width: `${subject.completionPercent}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500">
-                  Accuracy trend
-                </p>
-                <p className="mt-2 text-3xl font-extrabold text-slate-950">
-                  {Math.min(91, 48 + progressStats.completionPercent)}%
-                </p>
-                <div className="mt-4 flex h-24 items-end gap-2">
-                  {[42, 55, 50, 68, 64, 76, Math.min(88, 58 + progressStats.completionPercent / 2)].map((height, index) => (
-                    <span
-                      key={`${height}-${index}`}
-                      className="flex-1 rounded-t-lg bg-portal-600"
-                      style={{ height: `${height}%`, opacity: 0.45 + index * 0.07 }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </DashboardCard>
-        </section>
-
-        <section className="grid gap-5 xl:grid-cols-3">
-          <DashboardCard>
-            <SectionTitle
-              eyebrow="Weak areas"
-              title="Recommended Revision"
-              description="Focus on subjects with the lowest completion and highest likely score leakage."
+            <SectionHeader
+              title="Weak Topics"
+              description="Topics that need revision or more practice."
             />
             <div className="mt-5 grid gap-3">
-              {(weakSubjects.length ? weakSubjects : topSubjects.slice(0, 3)).map((subject) => (
+              {weakTopicRows.map((topic) => (
                 <Link
-                  key={subject.slug}
-                  href={`/subjects/${subject.slug}`}
-                  className="rounded-xl border border-orange-200 bg-orange-50 p-4 transition hover:bg-white"
+                  key={topic}
+                  href="/subjects"
+                  className="flex items-center gap-3 rounded-2xl border border-orange-100 bg-orange-50/60 px-4 py-3 transition hover:bg-white"
                 >
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="font-extrabold text-slate-950">{subject.name}</p>
-                    <span className="rounded-full bg-white px-3 py-1 text-xs font-extrabold text-orange-700">
-                      {subject.completionPercent}%
-                    </span>
+                  <div className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-white text-orange-500">
+                    <DashboardIcon name="warning" className="h-4 w-4" />
                   </div>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    Revise formulas, solve 10 MCQs, then attempt PYQs from this subject.
-                  </p>
+                  <span className="text-sm font-semibold text-slate-700">{topic}</span>
                 </Link>
               ))}
             </div>
-          </DashboardCard>
-
-          <DashboardCard>
-            <SectionTitle
-              eyebrow="Mock tests"
-              title="Latest Test Performance"
-              description="Keep score, percentile, and rank visible so practice feels exam-oriented."
-            />
-            <div className="mt-5 grid grid-cols-2 gap-3">
-              {[
-                ["Latest score", "62/100"],
-                ["Percentile", "81.4"],
-                ["Rank", "2,184"],
-                ["Trend", "+9%"],
-              ].map(([label, value]) => (
-                <div key={label} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                  <p className="text-2xl font-extrabold text-slate-950">{value}</p>
-                  <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">
-                    {label}
-                  </p>
-                </div>
-              ))}
-            </div>
-            <Link href="/mock-tests" className="mt-5 inline-flex rounded-xl bg-slate-950 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-slate-800">
-              Take Mock Test
+            <Link href="/subjects" className="mt-5 inline-flex text-sm font-bold text-orange-600">
+              View Weak Topics →
             </Link>
           </DashboardCard>
-
-          <DashboardCard>
-            <SectionTitle
-              eyebrow="Quick actions"
-              title="Study Shortcuts"
-              description="Compact actions stay available without competing with the main resume card."
-            />
-            <div className="mt-5 grid grid-cols-2 gap-3">
-              {quickActions.map(([label, href]) => (
-                <Link
-                  key={label}
-                  href={href}
-                  className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-center text-sm font-extrabold text-slate-800 transition hover:border-portal-300 hover:bg-white hover:text-portal-700"
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
-            <div className="mt-5 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
-              <p className="text-sm font-extrabold text-slate-950">Revision saved</p>
-              <p className="mt-2 text-2xl font-extrabold text-emerald-700">{revisionCount}</p>
-              <p className="mt-1 text-sm leading-6 text-slate-600">Topics marked for later revision.</p>
-            </div>
-          </DashboardCard>
         </section>
 
-        <section className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+        <section className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
           <DashboardCard>
-            <SectionTitle
-              eyebrow="Theory search"
-              title="Find Concepts Fast"
-              description="Search formulas, common mistakes, revision notes, and ready learning modules."
+            <SectionHeader
+              title={search ? "Search Results" : "Recent Activity"}
+              description={
+                search
+                  ? "Matched learning items for your dashboard search."
+                  : "Your latest study, test, and revision actions."
+              }
+              actionLabel="View All"
+              actionHref={search ? "/search" : "/learn"}
             />
-            {search ? (
-              <div className="mt-5 grid gap-3">
-                {searchResults.length ? (
-                  searchResults.slice(0, 5).map((result) => (
+            <div className="mt-5 grid gap-3">
+              {search ? (
+                searchPreview.length ? (
+                  searchPreview.map((result) => (
                     <Link
                       key={result.href}
                       href={result.href}
-                      className="rounded-xl border border-slate-200 bg-slate-50 p-4 transition hover:border-portal-300 hover:bg-white"
+                      className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 transition hover:bg-white"
                     >
-                      <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-portal-700">
-                        {result.subjectName} | {result.chapterTitle}
-                      </p>
-                      <h3 className="mt-2 text-base font-extrabold text-slate-950">{result.title}</h3>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">{result.summary}</p>
+                      <div className="flex h-12 w-12 flex-none items-center justify-center rounded-2xl bg-blue-100 text-blue-600">
+                        <DashboardIcon name="notes" className="h-5 w-5" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-base font-semibold text-slate-900">{result.title}</p>
+                        <p className="mt-1 text-sm text-slate-500">
+                          {result.subjectName} • {result.chapterTitle}
+                        </p>
+                      </div>
                     </Link>
                   ))
                 ) : (
-                  <p className="mt-4 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm leading-6 text-slate-600">
-                    No ready learning module matched that search yet. Try Flip-Flops, Laplace, CMOS, or settling time.
-                  </p>
-                )}
-              </div>
-            ) : (
-              <div className="mt-5 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4">
-                <p className="text-sm leading-6 text-slate-600">
-                  Example searches: KCL, flip-flop, resonance, damping ratio, CMOS, virtual ground, race around, settling time.
-                </p>
-              </div>
-            )}
+                  <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-sm leading-7 text-slate-600">
+                    No topic matched that search yet. Try KCL, Laplace, CMOS, resonance, or flip-flop.
+                  </div>
+                )
+              ) : (
+                recentActivity.map((item) => (
+                  <div
+                    key={`${item.title}-${item.subtitle}`}
+                    className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4"
+                  >
+                    <div className={`flex h-12 w-12 flex-none items-center justify-center rounded-2xl ${item.tintClassName}`}>
+                      <DashboardIcon name={item.icon} className="h-5 w-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-black uppercase tracking-[0.14em] text-slate-500">{item.title}</p>
+                      <p className="mt-1 truncate text-base font-semibold text-slate-900">{item.subtitle}</p>
+                    </div>
+                    <div className="text-right text-xs font-semibold text-slate-400">
+                      {item.tag ? <p className="text-sm font-bold text-slate-600">{item.tag}</p> : null}
+                      <p>{item.meta}</p>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </DashboardCard>
 
           <DashboardCard>
-            <SectionTitle
-              eyebrow="Subject library"
-              title="All Learning Modules"
-              description="The full library now sits below the dashboard tools, so navigation supports preparation instead of defining the whole page."
+            <SectionHeader
+              title="Quick Links"
+              description="Common revision and practice shortcuts."
             />
-            <div className="mt-5 grid gap-4">
-              {subjects.map((subject) => {
-                const subjectProgress =
-                  progressStats.subjects.find((item) => item.slug === subject.slug)?.completionPercent || 0;
-
-                return (
-                  <article key={subject.slug} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                    <div className="flex flex-col gap-3 border-b border-slate-200 pb-4 md:flex-row md:items-center md:justify-between">
-                      <div>
-                        <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500">
-                          {subject.weightage}
-                        </p>
-                        <h3 className="mt-2 text-lg font-extrabold text-slate-950">{subject.name}</h3>
-                        <p className="mt-1 max-w-2xl text-sm leading-6 text-slate-600">
-                          {subject.description}
-                        </p>
-                      </div>
-                      <span className="rounded-full bg-white px-3 py-1 text-xs font-extrabold text-portal-700">
-                        {subjectProgress}% complete
-                      </span>
-                    </div>
-                    <div className="mt-4 grid gap-3 lg:grid-cols-2">
-                      {subject.chapters.slice(0, 1).flatMap((chapter) =>
-                        chapter.topics.slice(0, 4).map((topic) => (
-                          <LearningTopicCard
-                            key={`${subject.slug}-${chapter.slug}-${topic.slug}`}
-                            topic={{
-                              ...topic,
-                              href: `/learn/${subject.slug}/${topic.slug}`,
-                            }}
-                            chapterTitle={chapter.title}
-                            subjectName={subject.name}
-                            subjectWeightage={subject.weightage}
-                            progressPercent={subjectProgress}
-                          />
-                        ))
-                      )}
-                    </div>
-                  </article>
-                );
-              })}
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <QuickLinkTile href="/notes" label="My Notes" icon="notes" tintClassName="bg-blue-100 text-blue-600" />
+              <QuickLinkTile href="/previous-year" label="PYQs" icon="folder" tintClassName="bg-emerald-100 text-emerald-600" />
+              <QuickLinkTile href="/subjects" label="Bookmarks" icon="bookmark" tintClassName="bg-amber-100 text-amber-600" />
+              <QuickLinkTile href="/notes" label="Formula Sheet" icon="trend" tintClassName="bg-violet-100 text-violet-600" />
+              <QuickLinkTile href="/notes" label="Downloads" icon="download" tintClassName="bg-blue-100 text-blue-600" />
+              <QuickLinkTile href="/learn" label="Study Plan" icon="check" tintClassName="bg-pink-100 text-pink-600" />
+            </div>
+            <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4">
+              <p className="text-sm font-bold text-slate-700">
+                Saved for revision: <span className="text-emerald-700">{revisionCount} topics</span>
+              </p>
             </div>
           </DashboardCard>
         </section>

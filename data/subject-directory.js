@@ -3,7 +3,7 @@ export const subjectDirectory = [
     id: 1,
     title: "Network Analysis",
     search: "Network Analysis",
-    href: "/learn?search=network",
+    href: "/subjects/network-analysis",
     description:
       "Circuit laws, theorems, AC/DC analysis, two-port networks, graph theory, and filters.",
     icon: "network",
@@ -17,7 +17,7 @@ export const subjectDirectory = [
     id: 2,
     title: "Analog Electronics",
     search: "Analog Electronics",
-    href: "/learn?search=analog",
+    href: "/subjects/analog-electronics",
     description:
       "Diodes, BJTs, MOSFETs, amplifiers, op-amps, oscillators, and waveform generators.",
     icon: "analog",
@@ -31,7 +31,7 @@ export const subjectDirectory = [
     id: 3,
     title: "Digital Electronics",
     search: "Digital Electronics",
-    href: "/learn?search=digital",
+    href: "/subjects/digital-electronics",
     description:
       "Logic gates, combinational and sequential circuits, flip-flops, counters, and registers.",
     icon: "digital",
@@ -45,7 +45,7 @@ export const subjectDirectory = [
     id: 4,
     title: "Signals and Systems",
     search: "Signals and Systems",
-    href: "/learn?search=signals",
+    href: "/subjects/signals-and-systems",
     description:
       "Continuous and discrete signals, LTI systems, convolution, Fourier series, and Laplace transform.",
     icon: "signals",
@@ -59,7 +59,7 @@ export const subjectDirectory = [
     id: 5,
     title: "Communication Systems",
     search: "Communication Systems",
-    href: "/learn?search=communication",
+    href: "/subjects/communication-systems",
     description:
       "AM, FM, PM, digital modulation, noise, bandwidth, sampling theorem, and information theory.",
     icon: "communication",
@@ -73,7 +73,7 @@ export const subjectDirectory = [
     id: 6,
     title: "Electromagnetic Theory",
     search: "Electromagnetic Theory",
-    href: "/learn?search=electromagnetics",
+    href: "/subjects/electromagnetic-theory",
     description:
       "Maxwell's equations, wave equation, EM waves, boundary conditions, and transmission lines.",
     icon: "electromagnetic",
@@ -87,7 +87,7 @@ export const subjectDirectory = [
     id: 7,
     title: "Microprocessors",
     search: "Microprocessors",
-    href: "/learn?search=microprocessor",
+    href: "/subjects/microprocessors",
     description:
       "8085/8086 architecture, instruction set, addressing modes, interfacing, and timing basics.",
     icon: "microprocessor",
@@ -101,7 +101,7 @@ export const subjectDirectory = [
     id: 8,
     title: "Digital Signal Processing",
     search: "Digital Signal Processing",
-    href: "/learn?search=digital signal processing",
+    href: "/subjects/digital-signal-processing",
     description:
       "Sampling, DFT, FFT, IIR and FIR filters, z-transform, and spectral analysis.",
     icon: "processor",
@@ -115,7 +115,7 @@ export const subjectDirectory = [
     id: 9,
     title: "Control Systems",
     search: "Control Systems",
-    href: "/learn?search=control",
+    href: "/subjects/control-systems",
     description:
       "Laplace transform, block diagrams, stability, Routh-Hurwitz criterion, root locus, and Bode plots.",
     icon: "control",
@@ -129,7 +129,7 @@ export const subjectDirectory = [
     id: 10,
     title: "VLSI Design",
     search: "VLSI Design",
-    href: "/learn?search=VLSI",
+    href: "/subjects/vlsi-design",
     description:
       "Number systems, logic families, K-maps, minimization, CMOS design, PLDs, and ASIC flow.",
     icon: "satellite",
@@ -143,7 +143,7 @@ export const subjectDirectory = [
     id: 11,
     title: "Antenna & Wave Propagation",
     search: "Antenna and Wave Propagation",
-    href: "/learn?search=antenna",
+    href: "/subjects/antenna-and-wave-propagation",
     description:
       "Antenna types, radiation patterns, propagation modes, Friis equation, and fading.",
     icon: "antenna",
@@ -157,7 +157,7 @@ export const subjectDirectory = [
     id: 12,
     title: "Embedded Systems",
     search: "Embedded Systems",
-    href: "/learn?search=embedded",
+    href: "/subjects/embedded-systems",
     description:
       "Microcontrollers, interrupts, timers, serial communication, and RTOS basics.",
     icon: "chip",
