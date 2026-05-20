@@ -153,7 +153,7 @@ function OfficialQuestionPreview({ questions = [] }) {
   }
 
   return (
-    <section className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
+    <section className="mt-4 sm:rounded-xl sm:border sm:border-slate-200 sm:bg-slate-50 sm:p-5">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
@@ -171,7 +171,7 @@ function OfficialQuestionPreview({ questions = [] }) {
         </span>
       </div>
 
-      <div className="mt-4 grid gap-4">
+      <div className="mt-4 grid gap-4 sm:mt-5">
         {questions.map((question, index) => {
           const section = question.subject || "ECE";
           const previousSection = index > 0 ? questions[index - 1]?.subject || "ECE" : "";
@@ -185,7 +185,7 @@ function OfficialQuestionPreview({ questions = [] }) {
                   Section : {section}
                 </p>
               ) : null}
-              <article className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+              <article className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
                 <div className="flex flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">
                   <span>Q.{sectionQuestionNumber}</span>
                   <span className="text-slate-300">|</span>
