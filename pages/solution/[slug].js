@@ -140,6 +140,7 @@ function StudyLinks({ question }) {
 
 function OfficialQuestionPreview({ questions = [] }) {
   const [revealedAnswers, setRevealedAnswers] = useState({});
+  const [selectedAnswers, setSelectedAnswers] = useState({});
 
   if (!questions.length) {
     return null;
@@ -149,6 +150,13 @@ function OfficialQuestionPreview({ questions = [] }) {
     setRevealedAnswers((current) => ({
       ...current,
       [questionKey]: !current[questionKey],
+    }));
+  }
+
+  function selectAnswer(questionKey, option) {
+    setSelectedAnswers((current) => ({
+      ...current,
+      [questionKey]: option,
     }));
   }
 
@@ -162,9 +170,6 @@ function OfficialQuestionPreview({ questions = [] }) {
           <h3 className="mt-1 text-lg font-extrabold text-slate-950">
             Official paper questions
           </h3>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
-            Answers stay hidden by default so you can attempt each question first.
-          </p>
         </div>
         <span className="text-sm font-bold text-slate-500">
           {questions.length} questions
@@ -177,6 +182,11 @@ function OfficialQuestionPreview({ questions = [] }) {
           const previousSection = index > 0 ? questions[index - 1]?.subject || "ECE" : "";
           const showSectionHeading = section !== previousSection;
           const sectionQuestionNumber = getPreviewQuestionNumber(questions, index);
+          const questionKey = question._id || index;
+          const selectedAnswer = selectedAnswers[questionKey];
+          const isAnswerRevealed = revealedAnswers[questionKey];
+          const hasSelectedAnswer = Boolean(selectedAnswer);
+          const selectedAnswerIsCorrect = selectedAnswer === question.correctAnswer;
 
           return (
             <div key={question._id || `${question.question}-${index}`} className="grid gap-3">
@@ -203,53 +213,78 @@ function OfficialQuestionPreview({ questions = [] }) {
                 </p>
 
                 <div className="mt-4 grid gap-2">
-                  {(question.options || []).map((option, optionIndex) => (
-                    <div
-                      key={`${option}-${optionIndex}`}
-                      className={`rounded-xl border px-3 py-2 text-sm ${
-                        revealedAnswers[question._id || index] &&
-                        option === question.correctAnswer
-                          ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-                          : "border-slate-200 bg-slate-50 text-slate-700"
-                      }`}
-                    >
-                      <div className="flex items-start gap-3">
-                        <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-extrabold text-slate-500">
-                          {optionIndex + 1}
-                        </span>
-                        <span>
-                          {option}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+                  {(question.options || []).map((option, optionIndex) => {
+                      const isSelected = selectedAnswer === option;
+                      const isCorrectOption = option === question.correctAnswer;
+                      const showCorrectOption = hasSelectedAnswer && isCorrectOption;
+                      const showWrongOption = hasSelectedAnswer && isSelected && !isCorrectOption;
+
+                      return (
+                        <button
+                          type="button"
+                          key={`${option}-${optionIndex}`}
+                          onClick={() => selectAnswer(questionKey, option)}
+                          className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
+                            showCorrectOption
+                              ? "border-emerald-300 bg-emerald-50 text-emerald-800"
+                              : showWrongOption
+                                ? "border-rose-300 bg-rose-50 text-rose-800"
+                                : isSelected
+                                  ? "border-portal-300 bg-portal-50 text-portal-800"
+                                  : "border-slate-200 bg-slate-50 text-slate-700"
+                          }`}
+                        >
+                          <div className="flex items-start gap-3">
+                            <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-extrabold text-slate-500">
+                              {showCorrectOption ? "OK" : showWrongOption ? "X" : String.fromCharCode(65 + optionIndex)}
+                            </span>
+                            <span className="flex-1">
+                              {option}
+                            </span>
+                            {showCorrectOption ? (
+                              <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-emerald-700">
+                                Correct
+                              </span>
+                            ) : showWrongOption ? (
+                              <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-rose-700">
+                                Wrong
+                              </span>
+                            ) : null}
+                          </div>
+                        </button>
+                      );
+                  })}
                 </div>
 
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <button
                     type="button"
-                    onClick={() => toggleAnswer(question._id || index)}
+                    onClick={() => toggleAnswer(questionKey)}
                     className="inline-flex min-h-10 items-center justify-center rounded-xl border border-portal-300 bg-white px-4 py-2 text-sm font-extrabold text-portal-700 transition hover:bg-portal-50"
                   >
-                    {revealedAnswers[question._id || index] ? "Hide answer" : "Show answer"}
+                    {isAnswerRevealed ? "Hide answer" : "Show answer"}
                   </button>
-                  {revealedAnswers[question._id || index] ? (
+                  {isAnswerRevealed ? (
                     <p className="text-sm font-semibold text-emerald-700">
                       Answer: {question.correctAnswer}
                     </p>
+                  ) : selectedAnswer ? (
+                    <p className={`text-sm font-semibold ${selectedAnswerIsCorrect ? "text-emerald-700" : "text-rose-700"}`}>
+                      {selectedAnswerIsCorrect ? "Correct answer selected." : "Wrong answer selected. Correct option is highlighted."}
+                    </p>
                   ) : (
                     <p className="text-sm text-slate-500">
-                      Try the question first, then reveal the answer.
+                      Select an option, then reveal the answer.
                     </p>
                   )}
                 </div>
 
-                {revealedAnswers[question._id || index] && question.explanation ? (
+                {isAnswerRevealed && question.explanation ? (
                   <p className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
                     <span className="font-extrabold">Explanation:</span> {question.explanation}
                   </p>
                 ) : null}
-                {revealedAnswers[question._id || index] ? (
+                {isAnswerRevealed ? (
                   <StudyLinks question={question} />
                 ) : null}
               </article>
@@ -267,6 +302,7 @@ export default function SolutionPage() {
   const [questions, setQuestions] = useState(seedQuestions);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
+  const [siteUrl, setSiteUrl] = useState("");
 
   const slug = typeof router.query.slug === "string" ? router.query.slug : "";
   const slugPaper = parsePaperSlug(slug);
@@ -325,6 +361,12 @@ export default function SolutionPage() {
     };
   }, [exam, router.isReady, search, subject, topic, year]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setSiteUrl(window.location.origin);
+    }
+  }, []);
+
   const paper = useMemo(
     () => buildPaperSummary(questions, exam || "ECE", year || new Date().getFullYear()),
     [exam, questions, year]
@@ -334,8 +376,8 @@ export default function SolutionPage() {
     [paper, paperType, questions]
   );
   const viewerMarkup = useMemo(
-    () => buildPaperPdfMarkup(paper, paperQuestions),
-    [paper, paperQuestions]
+    () => buildPaperPdfMarkup(paper, paperQuestions, { siteUrl }),
+    [paper, paperQuestions, siteUrl]
   );
   const relatedPapers = useMemo(
     () => buildRelatedPapers(questions, paper),

@@ -297,7 +297,7 @@ export const controlSystemTopicPages = [
   },
   {
     slug: "control-system-design",
-    title: "Control System Design",
+    title: "Control System Design",  
     summary:
       "Control system design selects controllers and compensators so a system meets stability, accuracy, speed, overshoot, and robustness specifications.",
     coreQuestion: "How do we make the system satisfy performance specifications in practice?",
