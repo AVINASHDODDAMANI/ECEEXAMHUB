@@ -1,9 +1,9 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import Layout from "./layout";
 import LearningTopicNavigationMenus from "./LearningTopicNavigationMenus";
-import { getLearningSubject, getRelatedLearningTopics } from "../lib/learning-utils";
+import { getRelatedLearningTopics } from "../lib/learning-utils";
 import { generateKeywords, SITE_URL } from "../lib/seo";
 
 const VLSIVisualizer = dynamic(() => import("./visualizers/VLSIVisualizer"), {
@@ -58,72 +58,10 @@ function FAQCard({ question, answer }) {
   );
 }
 
-function VLSIChapterMenu({ topics = [], currentSlug }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open VLSI Design chapters"
-        aria-expanded={isOpen}
-        aria-controls="vlsi-topic-page-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
-
-      {isOpen ? (
-        <div id="vlsi-topic-page-menu" className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]">
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">VLSI Design Chapters</p>
-            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">Open any VLSI chapter page directly.</p>
-          </div>
-          <div className="grid gap-2">
-            {topics.map((item, index) => (
-              <Link
-                key={item.slug}
-                href={`/learn/vlsi-design/${item.slug}`}
-                onClick={() => setIsOpen(false)}
-                className={`rounded-xl border p-3 text-left transition ${
-                  item.slug === currentSlug
-                    ? "border-portal-300 bg-portal-50"
-                    : "border-slate-200 bg-[#f8fbff] hover:border-portal-300 hover:bg-white"
-                }`}
-              >
-                <span className="flex items-start gap-2.5">
-                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-sm font-black leading-snug text-slate-950">{item.title}</span>
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
 export default function VLSIDesignTopicPage({ topic }) {
   const relatedTopics = useMemo(() => getRelatedLearningTopics(topic.relatedTopics || []), [topic.relatedTopics]);
-  const orderedTopics = useMemo(() => {
-    const subject = getLearningSubject("vlsi-design");
-    return subject ? subject.chapters.flatMap((chapter) => chapter.topics.filter((item) => item.status === "ready")) : [];
-  }, []);
-  const currentIndex = orderedTopics.findIndex((item) => item.slug === topic.slug);
-  const previousTopic = currentIndex > 0 ? orderedTopics[currentIndex - 1] : null;
-  const nextTopic = currentIndex >= 0 && currentIndex < orderedTopics.length - 1 ? orderedTopics[currentIndex + 1] : null;
+  const previousTopic = topic.previous || null;
+  const nextTopic = topic.next || null;
 
   const faqItems = useMemo(
     () => [
@@ -208,10 +146,7 @@ export default function VLSIDesignTopicPage({ topic }) {
             <li className="text-slate-300">/</li>
             <li><span className="font-semibold text-portal-700">{topic.shortTitle}</span></li>
           </ol>
-          <div className="flex items-center gap-2">
-            <VLSIChapterMenu topics={orderedTopics} currentSlug={topic.slug} />
-            <LearningTopicNavigationMenus topic={topic} />
-          </div>
+          <LearningTopicNavigationMenus topic={topic} mode="subtopics" />
         </nav>
 
         <header className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
@@ -280,9 +215,9 @@ export default function VLSIDesignTopicPage({ topic }) {
               <article key={example.title} className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
                 <h3 className="text-base font-black text-slate-950">{example.title}</h3>
                 <p className="mt-2 text-sm leading-7 text-slate-700">{example.prompt}</p>
-                <ol className="mt-3 grid gap-2">
-                  {example.steps.map((step, index) => <li key={step} className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-700"><span className="font-black text-portal-700">{index + 1}.</span> {step}</li>)}
-                </ol>
+                <div className="mt-3 grid gap-2">
+                  {example.steps.map((step) => <div key={step} className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-700">{step}</div>)}
+                </div>
                 <div className="mt-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800">Answer: {example.answer}</div>
               </article>
             ))}

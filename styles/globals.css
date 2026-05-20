@@ -118,6 +118,34 @@ mjx-container[display="true"] {
   padding: 0.875rem;
 }
 
+@media (max-width: 639px) {
+  [id$="-menu"],
+  [id$="-popover"] {
+    position: fixed !important;
+    top: 4.75rem !important;
+    right: 0.75rem !important;
+    left: 0.75rem !important;
+    z-index: 80 !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: calc(100dvh - 6rem) !important;
+    margin-top: 0 !important;
+    overflow-y: auto !important;
+  }
+
+  [id$="-menu"] a,
+  [id$="-menu"] button,
+  [id$="-popover"] a,
+  [id$="-popover"] button {
+    min-width: 0;
+  }
+
+  [id$="-menu"] span,
+  [id$="-popover"] span {
+    overflow-wrap: anywhere;
+  }
+}
+
 .basic-concept-guide-content .stage-card,
 .basic-concept-guide-content .pro-stage-card,
 .basic-concept-guide-content .power-stage-card,

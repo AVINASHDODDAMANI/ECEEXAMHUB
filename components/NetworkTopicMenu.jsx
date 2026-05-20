@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useState } from "react";
 
 const networkTopics = [
@@ -10,7 +9,7 @@ const networkTopics = [
   {
     title: "Circuit Elements",
     href: "/circuit-elements",
-    subtopics: ["Resistor", "Capacitor", "Inductor", "Independent sources", "Dependent sources"],
+    subtopics: ["Resistor", "Capacitor", "Inductor", "Independent Voltage Source", "Independent Current Source", "Dependent Source", "Source Transformation"],
   },
   {
     title: "Circuit Laws",
@@ -20,170 +19,139 @@ const networkTopics = [
   {
     title: "Network Theorems",
     href: "/network-theorems",
-    subtopics: ["Superposition", "Thevenin theorem", "Norton theorem", "Maximum power transfer"],
+    subtopics: ["Superposition Theorem", "Thevenin's Theorem", "Norton's Theorem", "Maximum Power Transfer Theorem", "Reciprocity Theorem", "Millman's Theorem", "Star-Delta Transformation"],
   },
   {
     title: "DC Circuit Analysis",
     href: "/dc-circuit-analysis",
-    subtopics: ["Nodal analysis", "Mesh analysis", "Supernode", "Supermesh", "Dependent sources"],
+    subtopics: ["Basic Analysis", "Nodal Analysis", "Mesh Analysis", "Source Transformation", "Thevenin and Norton Methods", "Superposition Method"],
   },
   {
     title: "AC Fundamentals",
     href: "/ac-fundamentals",
-    subtopics: ["RMS value", "Phasors", "Impedance", "Reactance", "Power factor"],
+    subtopics: ["Alternating Current", "Basic AC Quantities", "RMS, Average, and Peak Values", "Phase and Phase Difference", "AC Circuit Elements", "Impedance", "Power Factor"],
   },
   {
     title: "AC Circuit Analysis",
     href: "/ac-circuit-analysis",
-    subtopics: ["Series RLC", "Parallel RLC", "Resonance", "Quality factor", "Bandwidth"],
+    subtopics: ["Sinusoidal Signals", "Phasor Representation", "Impedance", "Series RLC Circuit Analysis", "Parallel RLC Circuit Analysis", "Resonance", "Power Factor"],
   },
   {
     title: "Transient Analysis",
     href: "/transient-analysis",
-    subtopics: ["RC transient", "RL transient", "RLC transient", "Initial condition", "Final condition"],
+    subtopics: ["Transient Analysis", "RC Circuit Transient Analysis", "RC Discharging", "RL Circuit Transient Analysis", "Initial and Final Conditions", "General Transient Formula"],
   },
   {
     title: "Network Topology",
     href: "/network-topology",
-    subtopics: ["Graph", "Tree", "Twig and link", "Tie-set matrix", "Cut-set matrix"],
+    subtopics: ["Network Topology", "Basic Terms in Network Topology", "Tree in Network Topology", "Tie-Set or Loop Matrix", "Cut-Set or Node Separation", "Incidence Matrix"],
   },
   {
     title: "Laplace Transform Methods",
     href: "/laplace-transform-methods",
-    subtopics: ["s-domain model", "Initial value theorem", "Final value theorem", "Partial fractions"],
+    subtopics: ["Laplace Transform", "s-domain Circuit Model", "Initial and Final Value Theorems", "Partial Fractions", "Transfer Function"],
   },
   {
     title: "Frequency Domain Analysis",
     href: "/frequency-domain-analysis",
-    subtopics: ["Frequency response", "Bode idea", "Filter response", "Poles and zeros"],
+    subtopics: ["Frequency Domain Analysis", "Sinusoidal Signals and Phasors", "Impedance", "RLC Series Circuit Analysis", "Resonance", "Frequency Response"],
   },
   {
     title: "Two-Port Networks",
     href: "/two-port-networks",
-    subtopics: ["Z parameters", "Y parameters", "h parameters", "ABCD parameters", "Reciprocity"],
+    subtopics: ["Z-Parameters", "Y-Parameters", "h-Parameters", "ABCD Parameters", "Reciprocity and Symmetry", "Conversion Between Parameters"],
   },
   {
     title: "Filters",
     href: "/filters",
-    subtopics: ["Low-pass", "High-pass", "Band-pass", "Band-stop", "Cutoff frequency"],
+    subtopics: ["Low Pass Filter", "High Pass Filter", "Band Pass Filter", "Band Stop Filter", "Cutoff frequency", "Bandwidth"],
   },
   {
     title: "Network Functions",
     href: "/network-functions",
-    subtopics: ["Driving-point function", "Transfer function", "Poles", "Zeros", "Stability"],
+    subtopics: ["Network Function", "Driving point function", "Transfer function", "Poles", "Zeros", "Frequency Response from H(s)"],
   },
 ];
 
+function normalizeText(value = "") {
+  return String(value)
+    .toLowerCase()
+    .replace(/['']/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function findSubtopicTarget(label) {
+  const normalizedLabel = normalizeText(label);
+  const headings = Array.from(document.querySelectorAll("h2, h3"));
+
+  return (
+    headings.find((heading) => normalizeText(heading.textContent) === normalizedLabel) ||
+    headings.find((heading) => normalizeText(heading.textContent).includes(normalizedLabel)) ||
+    headings.find((heading) => normalizedLabel.includes(normalizeText(heading.textContent)))
+  );
+}
+
 export default function NetworkTopicMenu({ currentPath = "" }) {
-  const [isOpen, setIsOpen] = useState(false);
   const [isSubtopicOpen, setIsSubtopicOpen] = useState(false);
   const currentTopic = networkTopics.find((topic) => topic.href === currentPath);
   const currentSubtopics = currentTopic?.subtopics || [];
 
+  if (!currentSubtopics.length) {
+    return null;
+  }
+
+  function jumpToSubtopic(subtopic) {
+    const target = findSubtopicTarget(subtopic);
+
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.scrollY - 96;
+      window.scrollTo({ top: Math.max(top, 0), left: 0, behavior: "auto" });
+    }
+
+    setIsSubtopicOpen(false);
+  }
+
   return (
-    <div className="flex flex-none items-center gap-2">
-      <div className="relative">
-        <MenuButton
-          isOpen={isOpen}
-          label="Open Network Analysis topics"
-          onClick={() => {
-            setIsOpen((value) => !value);
-            setIsSubtopicOpen(false);
-          }}
-          controls="network-topic-popover"
-        />
+    <div className="relative flex-none">
+      <MenuButton
+        isOpen={isSubtopicOpen}
+        label={`Open ${currentTopic.title} subtopics`}
+        onClick={() => setIsSubtopicOpen((value) => !value)}
+        controls="network-subtopic-popover"
+      />
 
-        {isOpen ? (
-          <div
-            id="network-topic-popover"
-            className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(20rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-          >
-            <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-              <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-                Network Analysis Topics
-              </p>
-              <p className="mt-1 text-xs font-semibold leading-5 text-slate-700">
-                Jump directly to any topic in this subject.
-              </p>
-            </div>
-
-            <div className="grid gap-2">
-              {networkTopics.map((topic, index) => {
-                const isActive = currentPath === topic.href;
-
-                return (
-                  <Link
-                    key={topic.href}
-                    href={topic.href}
-                    onClick={() => setIsOpen(false)}
-                    className={`rounded-xl border p-3 text-left transition ${
-                      isActive
-                        ? "border-portal-300 bg-portal-50"
-                        : "border-slate-200 bg-[#f8fbff] hover:border-portal-300 hover:bg-white"
-                    }`}
-                  >
-                    <span className="flex items-center gap-3">
-                      <span className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-white text-xs font-black text-portal-700 shadow-sm">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block text-sm font-black text-slate-950">{topic.title}</span>
-                        <span className="mt-1 block text-xs font-semibold text-slate-600">
-                          {isActive ? "Current topic" : "Open topic"}
-                        </span>
-                      </span>
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
+      {isSubtopicOpen ? (
+        <div
+          id="network-subtopic-popover"
+          className="absolute right-0 z-30 mt-2 w-[min(20rem,calc(100vw-2rem))] rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+        >
+          <div className="mb-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2">
+            <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">
+              {currentTopic.title} Subtopics
+            </p>
+            <p className="mt-1 text-xs font-semibold leading-5 text-slate-700">
+              Quick view of subtopics inside this topic.
+            </p>
           </div>
-        ) : null}
-      </div>
 
-      {currentSubtopics.length ? (
-        <div className="relative">
-          <MenuButton
-            isOpen={isSubtopicOpen}
-            label={`Open ${currentTopic.title} subtopics`}
-            onClick={() => {
-              setIsSubtopicOpen((value) => !value);
-              setIsOpen(false);
-            }}
-            controls="network-subtopic-popover"
-          />
-
-          {isSubtopicOpen ? (
-            <div
-              id="network-subtopic-popover"
-              className="absolute right-0 z-30 mt-2 w-[min(20rem,calc(100vw-2rem))] rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-            >
-              <div className="mb-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2">
-                <p className="text-xs font-black uppercase tracking-[0.12em] text-emerald-700">
-                  {currentTopic.title} Subtopics
-                </p>
-                <p className="mt-1 text-xs font-semibold leading-5 text-slate-700">
-                  Quick view of subtopics inside this topic.
-                </p>
-              </div>
-
-              <div className="grid gap-2">
-                {currentSubtopics.map((subtopic, index) => (
-                  <div
-                    key={subtopic}
-                    className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3"
-                  >
-                    <span className="flex items-center gap-3">
-                      <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-xs font-black text-emerald-700 shadow-sm">
-                        {index + 1}
-                      </span>
-                      <span className="text-sm font-bold text-slate-900">{subtopic}</span>
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : null}
+          <div className="grid gap-2">
+            {currentSubtopics.map((subtopic, index) => (
+              <button
+                type="button"
+                key={subtopic}
+                onClick={() => jumpToSubtopic(subtopic)}
+                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-emerald-300 hover:bg-white"
+              >
+                <span className="flex items-center gap-3">
+                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-xs font-black text-emerald-700 shadow-sm">
+                    {index + 1}
+                  </span>
+                  <span className="text-sm font-bold text-slate-900">{subtopic}</span>
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       ) : null}
     </div>

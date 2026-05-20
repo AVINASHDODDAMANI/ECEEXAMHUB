@@ -398,10 +398,10 @@ export default function NetworkTheoremsPage() {
             Circuit Laws
           </Link>
           <Link
-            href="/subjects/network-analysis"
+            href="/dc-circuit-analysis"
             className="inline-flex justify-center rounded-xl bg-portal-600 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-portal-700"
           >
-            Finish Network Analysis
+            Next DC Circuit Analysis
           </Link>
         </div>
       </div>

@@ -75,6 +75,15 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/learn/networks/network-theorems-topic",
+        destination: "/network-theorems",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

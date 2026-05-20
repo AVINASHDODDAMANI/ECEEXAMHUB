@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { getLearningSubject } from "../lib/learning-utils";
 import { getSubjectPagePathByLearningSlug } from "../lib/seo";
 
-export default function LearningTopicNavigationMenus({ topic }) {
+export default function LearningTopicNavigationMenus({ topic, mode = "all" }) {
   const [openMenu, setOpenMenu] = useState("");
   const subject = useMemo(
     () => getLearningSubject(topic.subjectSlug),
@@ -27,13 +27,16 @@ export default function LearningTopicNavigationMenus({ topic }) {
   }, [subject]);
   const subtopics = topic.subtopics || [];
 
-  if (!subjectTopics.length && !subtopics.length) {
+  const showSubjectTopics = mode !== "subtopics" && subjectTopics.length > 0;
+  const showSubtopics = mode !== "topics" && subtopics.length > 0;
+
+  if (!showSubjectTopics && !showSubtopics) {
     return null;
   }
 
   return (
     <div className="flex flex-none items-center gap-2">
-      {subjectTopics.length ? (
+      {showSubjectTopics ? (
         <div className="relative">
           <MenuButton
             isOpen={openMenu === "topics"}
@@ -88,7 +91,7 @@ export default function LearningTopicNavigationMenus({ topic }) {
         </div>
       ) : null}
 
-      {subtopics.length ? (
+      {showSubtopics ? (
         <div className="relative">
           <MenuButton
             isOpen={openMenu === "subtopics"}

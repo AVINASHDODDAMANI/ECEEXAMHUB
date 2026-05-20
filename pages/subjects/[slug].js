@@ -11,7 +11,6 @@ import EducationalTheoryLayout, {
 import ElectromagneticSubjectHub from "../../components/ElectromagneticSubjectHub";
 import Layout from "../../components/layout";
 import NetworkTheoryDiagram from "../../components/NetworkTheoryDiagram";
-import SubjectTopicMenu from "../../components/SubjectTopicMenu";
 import { subjectDirectory } from "../../data/subject-directory";
 import {
   getSubjectSlug,
@@ -7458,7 +7457,7 @@ function NetworkTopicList({ compact = false, concepts = [], activeIndex = 0, onS
 
   return (
     <div className={compact ? "grid gap-2.5" : "grid gap-2.5"}>
-      {NETWORK_ANALYSIS_TOPIC_GROUPS.map((group, index) => {
+      {NETWORK_ANALYSIS_TOPIC_GROUPS.filter((group) => NETWORK_TOPIC_ROUTES[group.title]).map((group, index) => {
         const targetIndex = getTopicTargetIndex(group.title);
         const routeHref = NETWORK_TOPIC_ROUTES[group.title];
         const isActive = activeIndex === targetIndex;
@@ -7480,28 +7479,15 @@ function NetworkTopicList({ compact = false, concepts = [], activeIndex = 0, onS
           </>
         );
 
-        if (routeHref) {
-          return (
-            <Link
-              key={group.title}
-              href={routeHref}
-              onClick={() => handleTopicSelect(group.title)}
-              className={className}
-            >
-              {content}
-            </Link>
-          );
-        }
-
         return (
-          <button
+          <Link
             key={group.title}
-            type="button"
             onClick={() => handleTopicSelect(group.title)}
+            href={routeHref}
             className={className}
           >
             {content}
-          </button>
+          </Link>
         );
       })}
     </div>
@@ -12624,10 +12610,13 @@ function TopicJumpMenu({ label, topics = [], idPrefix, controlId }) {
 
   function scrollToTopic(title) {
     const targetId = `${idPrefix}-${toAnchorId(title)}`;
-    document.getElementById(targetId)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    const target = document.getElementById(targetId);
+
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.scrollY - 96;
+      window.scrollTo({ top: Math.max(top, 0), left: 0, behavior: "auto" });
+    }
+
     setIsOpen(false);
   }
 
@@ -14137,7 +14126,6 @@ export default function SubjectTheoryPage({
               </li>
             </ol>
             <div className="flex items-center gap-2">
-              <SubjectTopicMenu subjectTitle={subject.title} />
               {subject.title === "Electromagnetic Theory" ? (
                 <ElectromagneticTheoryChapterMenu />
               ) : subject.title === "VLSI Design" ? (
@@ -14152,6 +14140,8 @@ export default function SubjectTheoryPage({
                 <SignalsChapterMenu />
               ) : subject.title === "Communication Systems" ? (
                 <CommunicationSystemsChapterMenu />
+              ) : subject.title === "Control Systems" ? (
+                <ControlSystemsChapterMenu />
               ) : null}
             </div>
           </nav>
@@ -14463,7 +14453,7 @@ export default function SubjectTheoryPage({
             { label: "Network Analysis", href: "/subjects/network-analysis" },
             { label: "Basic Concepts" },
           ]}
-          menu={<NetworkTopicMenu concepts={concepts} activeIndex={0} onSelectTopic={() => {}} />}
+          menu={<BasicConceptSubtopicMenu topics={BASIC_CONCEPT_GUIDE} />}
           metrics={[
             { label: "Core question", value: "How do voltage, current, charge, power, and energy describe a circuit?" },
             { label: "Exam focus", value: "Definitions, sign convention, passive sign convention, element type, and power absorbed or delivered." },
@@ -14954,9 +14944,6 @@ export default function SubjectTheoryPage({
             ) : null}
           </ol>
           <div className="flex items-center gap-2">
-            {subject.title === "Control Systems" ? null : (
-              <SubjectTopicMenu subjectTitle={subject.title} />
-            )}
             {subject.title === "Network Analysis" ? (
               <NetworkTopicMenu
                 concepts={concepts}
@@ -15228,15 +15215,15 @@ export default function SubjectTheoryPage({
                     <h3 className="text-sm font-bold uppercase tracking-[0.08em] text-slate-900">
                       Step-by-Step Theory
                     </h3>
-                    <ol className="mt-2 list-decimal space-y-2.5 pl-5 text-sm leading-6 text-slate-700">
+                    <div className="mt-2 space-y-2.5 text-sm leading-6 text-slate-700">
                       {activeExplanation.map((line, index) => (
-                        <li
+                        <p
                           key={`${activeConcept.slug}-explanation-${index}`}
                         >
                           {line}
-                        </li>
+                        </p>
                       ))}
-                    </ol>
+                    </div>
                   </div>
 
                   <div>
@@ -15300,17 +15287,15 @@ export default function SubjectTheoryPage({
                   <p className="mt-2 text-sm font-semibold leading-6 text-slate-900">
                     {activeWorkedExample.prompt}
                   </p>
-                  <ol className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
+                  <div className="mt-3 space-y-2 text-sm leading-6 text-slate-700">
                     {activeWorkedExample.steps?.map((step, index) => (
-                      <li
+                      <p
                         key={`${activeConcept.slug}-worked-step-${index}`}
-                        className="flex gap-2.5"
                       >
-                        <span className="font-bold text-portal-700">{index + 1}.</span>
-                        <span>{step}</span>
-                      </li>
+                        {step}
+                      </p>
                     ))}
-                  </ol>
+                  </div>
                   <div className="mt-3 border-l-2 border-portal-400 pl-3">
                     <p className="text-xs font-bold uppercase tracking-[0.12em] text-portal-700">
                       Final Answer

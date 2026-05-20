@@ -416,12 +416,12 @@ export default function LearningTopicPage({ topic }) {
                   <h3 className="text-base font-semibold text-slate-900">{example.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-slate-700">{example.prompt}</p>
                   <div className="mt-3 grid gap-2">
-                    {example.steps.map((step, index) => (
+                    {example.steps.map((step) => (
                       <div
                         key={step}
                         className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-700"
                       >
-                        <span className="font-semibold text-slate-900">{index + 1}.</span> {step}
+                        {step}
                       </div>
                     ))}
                   </div>
@@ -573,12 +573,20 @@ export default function LearningTopicPage({ topic }) {
 }
 
 export async function getStaticPaths() {
-  const paths = getReadyLearningTopics().map((topic) => ({
-    params: {
-      subjectSlug: topic.subjectSlug,
-      topicSlug: topic.slug,
-    },
-  }));
+  const paths = getReadyLearningTopics()
+    .filter(
+      (topic) =>
+        !(
+          topic.subjectSlug === "networks" &&
+          topic.slug === "network-theorems-topic"
+        )
+    )
+    .map((topic) => ({
+      params: {
+        subjectSlug: topic.subjectSlug,
+        topicSlug: topic.slug,
+      },
+    }));
 
   return {
     paths,

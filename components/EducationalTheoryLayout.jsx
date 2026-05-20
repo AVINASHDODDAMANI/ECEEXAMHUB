@@ -49,13 +49,13 @@ export function EducationalExampleCard({ example }) {
       <h3 className="text-base font-black text-slate-950">{example.title}</h3>
       <p className="mt-2 text-sm leading-7 text-slate-700">{example.prompt}</p>
       {example.steps?.length ? (
-        <ol className="mt-3 grid gap-2">
-          {example.steps.map((step, index) => (
-            <li key={step} className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-700">
-              <span className="font-black text-portal-700">{index + 1}.</span> {step}
-            </li>
+        <div className="mt-3 grid gap-2">
+          {example.steps.map((step) => (
+            <div key={step} className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-700">
+              {step}
+            </div>
           ))}
-        </ol>
+        </div>
       ) : null}
       {example.answer ? (
         <div className="mt-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800">
