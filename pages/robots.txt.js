@@ -8,14 +8,14 @@ Allow: /notes/
 Allow: /learn/
 Allow: /previous-year
 Allow: /solution/
+Allow: /mcqs/
+Allow: /practice/
+Allow: /mock-tests
+Allow: /ece-exams
+Allow: /insights
 Disallow: /admin
 Disallow: /api
 Disallow: /search
-Disallow: /practice
-Disallow: /mcqs
-Disallow: /mock-tests
-Disallow: /ece-exams
-Disallow: /insights
 
 Sitemap: ${SITE_URL}/sitemap.xml`;
 }

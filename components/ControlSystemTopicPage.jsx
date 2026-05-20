@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Layout from "./layout";
+import ControlSystemSubtopicMenu from "./ControlSystemSubtopicMenu";
 import ControlSystemVisualizer from "./ControlSystemVisualizer";
 import { controlSystemTopicPages } from "../data/control-system-topic-pages";
 import { generateKeywords } from "../lib/seo";
@@ -44,6 +45,27 @@ function BulletList({ items, bulletClassName = "bg-portal-600" }) {
       ))}
     </ul>
   );
+}
+
+function getControlSystemSubtopics(topic) {
+  const subtopics = [
+    ...(topic.subtopics || []).map((label) => ({ label, targetId: "theory" })),
+    ...(topic.coreTheory || []).map((item) => ({ label: item.title, targetId: "theory" })),
+    ...(topic.formulas || []).map(([label]) => ({ label, targetId: "formulas" })),
+    ...(topic.examples || []).map(([label]) => ({ label, targetId: "examples" })),
+  ];
+  const seen = new Set();
+
+  return subtopics.filter((subtopic) => {
+    const key = subtopic.label.toLowerCase();
+
+    if (seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
 }
 
 const sectionLinks = [
@@ -117,7 +139,10 @@ export default function ControlSystemTopicPage({ topic }) {
       pageClassName="py-3 sm:py-4"
     >
       <div className="mx-auto min-w-0 max-w-[1200px] pb-20">
-        <nav aria-label="Breadcrumb" className="mb-4 pt-1">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-4 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between"
+        >
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
@@ -127,6 +152,10 @@ export default function ControlSystemTopicPage({ topic }) {
             <li className="text-slate-300">/</li>
             <li><span className="font-semibold text-portal-700">{topic.title}</span></li>
           </ol>
+          <ControlSystemSubtopicMenu
+            title={topic.shortTitle || topic.title}
+            subtopics={getControlSystemSubtopics(topic)}
+          />
         </nav>
 
         <header className="rounded-2xl border border-slate-200 bg-white p-5 shadow-panel sm:p-6">

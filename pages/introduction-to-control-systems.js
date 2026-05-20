@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Layout from "../components/layout";
+import ControlSystemSubtopicMenu from "../components/ControlSystemSubtopicMenu";
 import ControlSystemVisualizer from "../components/ControlSystemVisualizer";
 import { controlSystemTopicPages } from "../data/control-system-topic-pages";
 
@@ -56,6 +57,15 @@ const sectionLinks = [
   { id: "examples", label: "Examples" },
   { id: "faq", label: "FAQ" },
   { id: "practice", label: "Practice" },
+];
+
+const introSubtopics = [
+  { label: "Control system definition", targetId: "theory" },
+  { label: "Open-loop control system", targetId: "theory" },
+  { label: "Closed-loop control system", targetId: "theory" },
+  { label: "Feedback and error signal", targetId: "working" },
+  { label: "Closed-loop transfer function", targetId: "formulas" },
+  { label: "Real-world applications", targetId: "applications" },
 ];
 
 const faqItems = [
@@ -118,7 +128,10 @@ export default function IntroductionToControlSystemsPage() {
       pageClassName="py-3 sm:py-4"
     >
       <div className="mx-auto max-w-[1200px] pb-20">
-        <nav aria-label="Breadcrumb" className="mb-4 pt-1">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-4 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between"
+        >
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
@@ -128,6 +141,10 @@ export default function IntroductionToControlSystemsPage() {
             <li className="text-slate-300">/</li>
             <li><span className="font-semibold text-portal-700">Introduction to Control Systems</span></li>
           </ol>
+          <ControlSystemSubtopicMenu
+            title="Introduction"
+            subtopics={introSubtopics}
+          />
         </nav>
 
         <header className="rounded-2xl border border-slate-200 bg-white p-5 shadow-panel sm:p-6">

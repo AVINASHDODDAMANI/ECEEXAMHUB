@@ -8,8 +8,6 @@ import { officialPreviousPapers } from "../data/official-previous-papers";
 import { fetchFilters, fetchQuestions } from "../lib/api-client";
 import { EXAMS, SUBJECTS } from "../lib/question-utils";
 import {
-  buildPaperPdfMarkup,
-  getPaperQuestions,
   getSolvedPercentage,
   slugifyPaper,
 } from "../lib/paper-document";
@@ -205,7 +203,7 @@ function buildYearRange(startYear, endYear) {
 const previousPaperYearCatalog = [
   { exam: "GATE", years: buildYearRange(2024, 2014) },
   { exam: "ISRO", years: buildYearRange(2024, 2014) },
-  { exam: "BEL", years: buildYearRange(2024, 2014) },
+  { exam: "BEL", years: buildYearRange(2023, 2014) },
   { exam: "BARC", years: buildYearRange(2024, 2014) },
   { exam: "ESE", years: buildYearRange(2024, 2014) },
   { exam: "DRDO", years: buildYearRange(2024, 2014) },
@@ -487,36 +485,6 @@ function buildRouteQuery(searchValue, filters) {
   }
 
   return nextQuery;
-}
-
-function buildPaperHref(
-  paper,
-  filters = initialFilters,
-  searchValue = "",
-  hash = "question-bank"
-) {
-  const searchParams = new URLSearchParams({
-    exam: paper.exam,
-    year: String(paper.year),
-  });
-
-  if (searchValue.trim()) {
-    searchParams.set("search", searchValue.trim());
-  }
-
-  if (filters.subject !== initialFilters.subject) {
-    searchParams.set("subject", filters.subject);
-  }
-
-  if (filters.topic !== initialFilters.topic) {
-    searchParams.set("topic", filters.topic);
-  }
-
-  if (filters.paperType !== initialFilters.paperType) {
-    searchParams.set("paperType", filters.paperType);
-  }
-
-  return `/previous-year?${searchParams.toString()}${hash ? `#${hash}` : ""}`;
 }
 
 function buildSolutionHref(paper, filters = initialFilters, searchValue = "") {
@@ -1574,33 +1542,6 @@ export default function PreviousYearPage() {
     });
   }
 
-  function handlePaperPdf(paper) {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    if (paper.pdfHref) {
-      window.open(paper.pdfHref, "_blank", "noopener,noreferrer");
-      return;
-    }
-
-    const paperQuestions = getPaperQuestions(
-      visibleQuestions,
-      paper,
-      activeFilters.paperType
-    );
-    const pdfWindow = window.open("", "_blank", "noopener,noreferrer");
-
-    if (!pdfWindow) {
-      window.alert("Please allow pop-ups to generate the paper PDF.");
-      return;
-    }
-
-    pdfWindow.document.open();
-    pdfWindow.document.write(buildPaperPdfMarkup(paper, paperQuestions));
-    pdfWindow.document.close();
-  }
-
   return (
     <Layout
       title="ECE Exam Guide | Previous Papers"
@@ -1881,12 +1822,6 @@ export default function PreviousYearPage() {
                     {paginatedPapers.map((paper) => {
                       const hasSolutions = paper.solvedCount > 0;
                       const hasPaperAccess = hasSolutions || paper.isOfficialPdf;
-                      const practiceHref = buildPaperHref(
-                        paper,
-                        activeFilters,
-                        search,
-                        "question-bank"
-                      );
                       const solutionHref = buildSolutionHref(paper, activeFilters, search);
 
                       return (
@@ -1964,25 +1899,7 @@ export default function PreviousYearPage() {
                               <UiIcon type="eye" className="h-4 w-4" />
                               View Solution
                             </Link>
-                            <button
-                              type="button"
-                              onClick={() => handlePaperPdf(paper)}
-                              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-3 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-300 hover:bg-portal-50"
-                            >
-                              <UiIcon type="download" className="h-4 w-4" />
-                              Download PDF
-                            </button>
-                            <Link
-                              href={practiceHref}
-                              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-3 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-300 hover:bg-portal-50"
-                            >
-                              <UiIcon type="play" className="h-4 w-4" />
-                              Practice
-                            </Link>
                           </div>
-                          <p className="mt-2 text-xs text-slate-500">
-                            View Solution keeps the paper inside this website. Download PDF is optional.
-                          </p>
                         </article>
                       );
                     })}
@@ -2056,12 +1973,6 @@ export default function PreviousYearPage() {
                           {paginatedPapers.map((paper, index) => {
                             const hasSolutions = paper.solvedCount > 0;
                             const hasPaperAccess = hasSolutions || paper.isOfficialPdf;
-                            const practiceHref = buildPaperHref(
-                              paper,
-                              activeFilters,
-                              search,
-                              "question-bank"
-                            );
                             const solutionHref = buildSolutionHref(paper, activeFilters, search);
 
                             return (
@@ -2132,25 +2043,7 @@ export default function PreviousYearPage() {
                                       <UiIcon type="eye" className="h-4 w-4" />
                                       View Solution
                                     </Link>
-                                    <button
-                                      type="button"
-                                      onClick={() => handlePaperPdf(paper)}
-                                      className="inline-flex items-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-300 hover:bg-portal-50"
-                                    >
-                                      <UiIcon type="download" className="h-4 w-4" />
-                                      Download PDF
-                                    </button>
-                                    <Link
-                                      href={practiceHref}
-                                      className="inline-flex items-center gap-2 rounded-xl border border-[#dfe7f6] bg-white px-4 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-300 hover:bg-portal-50"
-                                    >
-                                      <UiIcon type="play" className="h-4 w-4" />
-                                      Practice
-                                    </Link>
                                   </div>
-                                  <p className="mt-2 text-xs text-slate-500">
-                                    Opens an in-website paper viewer
-                                  </p>
                                 </td>
                               </tr>
                             );

@@ -7292,6 +7292,89 @@ function ControlSystemsOverviewPanel() {
   );
 }
 
+function ControlSystemsSyllabusSection() {
+  return (
+    <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
+            Control Systems Structure
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">
+            Chapter - Topics - Subtopics
+          </h2>
+          <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
+            For Graduate Aptitude Test in Engineering and PSU exams, study Control
+            Systems in this order. Keep the chapter as the big unit, topics as the
+            revision blocks, and subtopics as the exact checklist for notes,
+            numericals, and interview preparation.
+          </p>
+        </div>
+        <div className="rounded-2xl border border-portal-200 bg-portal-50 px-4 py-3">
+          <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+            Study Hierarchy
+          </p>
+          <p className="mt-1 text-sm font-black text-slate-950">
+            Chapter - Topics - Subtopics
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-5 grid gap-4 lg:grid-cols-2">
+        {CONTROL_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => (
+          <article
+            key={chapter.title}
+            id={`control-systems-chapter-${chapterIndex + 1}`}
+            className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4"
+          >
+            <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
+              Chapter {chapterIndex + 1}
+            </p>
+            <h3 className="mt-1 text-lg font-bold leading-snug tracking-tight text-slate-950">
+              {chapter.title}
+            </h3>
+
+            <div className="mt-3 grid gap-3">
+              {chapter.topics.map((topic, topicIndex) => (
+                <div
+                  key={topic.title}
+                  className="rounded-xl border border-slate-200 bg-white px-3 py-3"
+                >
+                  <div className="flex gap-3">
+                    <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-portal-50 text-[11px] font-black text-portal-700">
+                      {chapterIndex + 1}.{topicIndex + 1}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-sm font-black leading-5 text-slate-950">
+                        {topic.title}
+                      </p>
+                      {topic.formula ? (
+                        <p className="mt-2 overflow-x-auto rounded-lg border border-portal-100 bg-[#f8fbff] px-3 py-2 font-mono text-xs font-bold text-slate-900">
+                          {topic.formula.replaceAll("$$", "")}
+                        </p>
+                      ) : null}
+                      {topic.subtopics.length ? (
+                        <ul className="mt-2 grid gap-1.5 text-sm leading-5 text-slate-700">
+                          {topic.subtopics.map((subtopic) => (
+                            <li key={subtopic} className="flex gap-2">
+                              <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-emerald-500" />
+                              <span>{subtopic}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function OverviewRow({ item }) {
   return (
     <article className="py-5 first:pt-0 last:pb-0">
@@ -8401,7 +8484,7 @@ function ControlSystemsChapterMenu() {
         type="button"
         onClick={() => setIsOpen((currentValue) => !currentValue)}
         className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Control Systems chapters"
+        aria-label="Open Control Systems topics"
         aria-expanded={isOpen}
         aria-controls="control-systems-chapter-menu"
       >
@@ -8423,10 +8506,10 @@ function ControlSystemsChapterMenu() {
         >
           <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
             <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              Control Systems Structure
+              Control Systems Topics
             </p>
             <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
-              Chapter - Topics - Subtopics for GATE/PSU revision.
+              Jump directly to any Control Systems topic.
             </p>
           </div>
 
@@ -8462,9 +8545,6 @@ function ControlSystemsChapterMenu() {
                   <span className="min-w-0">
                     <span className="block text-sm font-black leading-snug text-slate-950">
                       {chapter.title}
-                    </span>
-                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
-                      {chapter.topics.map((topic) => topic.title).join(", ")}
                     </span>
                   </span>
                 </span>
@@ -13772,6 +13852,11 @@ function FallbackSubjectPage({ subject, steps, totalConcepts, subjectSummary }) 
         <div className="mt-5">
           <CommunicationSystemsOverviewPanel />
         </div>
+      ) : subject.title === "Control Systems" ? (
+        <div className="mt-5">
+          <ControlSystemsOverviewPanel />
+          <ControlSystemsSyllabusSection />
+        </div>
       ) : null}
 
       {subject.title === "Analog Electronics" ? <AnalogElectronicsSection /> : null}
@@ -14869,7 +14954,9 @@ export default function SubjectTheoryPage({
             ) : null}
           </ol>
           <div className="flex items-center gap-2">
-            <SubjectTopicMenu subjectTitle={subject.title} />
+            {subject.title === "Control Systems" ? null : (
+              <SubjectTopicMenu subjectTitle={subject.title} />
+            )}
             {subject.title === "Network Analysis" ? (
               <NetworkTopicMenu
                 concepts={concepts}

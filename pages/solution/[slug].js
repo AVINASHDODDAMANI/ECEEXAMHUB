@@ -3,10 +3,12 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/layout";
 import { getOfficialPaper } from "../../data/official-previous-papers";
+import { getPracticeSlug } from "../../data/practice-sections";
 import seedQuestions from "../../data/questions";
 import { fetchQuestions } from "../../lib/api-client";
 import {
   buildPaperPdfMarkup,
+  getQuestionStudyLinks,
   getPaperQuestions,
   getPaperTypeFromExamName,
   getSolvedPercentage,
@@ -101,6 +103,41 @@ function getSolvedMetric(paper) {
   return `${getSolvedPercentage(paper.solvedCount, paper.questionCount)}%`;
 }
 
+function getPreviewQuestionNumber(questions = [], index = 0) {
+  const currentSection = questions[index]?.subject || "ECE";
+
+  return questions
+    .slice(0, index + 1)
+    .filter((question) => (question.subject || "ECE") === currentSection).length;
+}
+
+function StudyLinks({ question }) {
+  const studyLinks = getQuestionStudyLinks(question);
+
+  if (!studyLinks.length) {
+    return null;
+  }
+
+  return (
+    <div className="mt-3 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
+      <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-blue-700">
+        Study this concept
+      </p>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {studyLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="inline-flex min-h-9 items-center rounded-lg border border-blue-200 bg-white px-3 py-2 text-xs font-extrabold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100"
+          >
+            {link.label}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function OfficialQuestionPreview({ questions = [] }) {
   const [revealedAnswers, setRevealedAnswers] = useState({});
 
@@ -135,76 +172,90 @@ function OfficialQuestionPreview({ questions = [] }) {
       </div>
 
       <div className="mt-4 grid gap-4">
-        {questions.map((question, index) => (
-          <article
-            key={question._id || `${question.question}-${index}`}
-            className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
-          >
-            <div className="flex flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">
-              <span>Q.{index + 1}</span>
-              <span className="text-slate-300">|</span>
-              <span>{question.topic || "Previous Paper"}</span>
-              {question.questionId ? (
-                <>
-                  <span className="text-slate-300">|</span>
-                  <span>Question ID: {question.questionId}</span>
-                </>
+        {questions.map((question, index) => {
+          const section = question.subject || "ECE";
+          const previousSection = index > 0 ? questions[index - 1]?.subject || "ECE" : "";
+          const showSectionHeading = section !== previousSection;
+          const sectionQuestionNumber = getPreviewQuestionNumber(questions, index);
+
+          return (
+            <div key={question._id || `${question.question}-${index}`} className="grid gap-3">
+              {showSectionHeading ? (
+                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500">
+                  Section : {section}
+                </p>
               ) : null}
-            </div>
-
-            <p className="mt-3 text-base font-bold leading-7 text-slate-950">
-              {question.question}
-            </p>
-
-            <div className="mt-4 grid gap-2">
-              {(question.options || []).map((option, optionIndex) => (
-                <div
-                  key={`${option}-${optionIndex}`}
-                  className={`rounded-xl border px-3 py-2 text-sm ${
-                    revealedAnswers[question._id || index] &&
-                    option === question.correctAnswer
-                      ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-                      : "border-slate-200 bg-slate-50 text-slate-700"
-                  }`}
-                >
-                  <div className="flex items-start gap-3">
-                    <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-extrabold text-slate-500">
-                      {optionIndex + 1}
-                    </span>
-                    <span>
-                      {option}
-                    </span>
-                  </div>
+              <article className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div className="flex flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">
+                  <span>Q.{sectionQuestionNumber}</span>
+                  <span className="text-slate-300">|</span>
+                  <span>{question.topic || "Previous Paper"}</span>
+                  {question.questionId ? (
+                    <>
+                      <span className="text-slate-300">|</span>
+                      <span>Question ID: {question.questionId}</span>
+                    </>
+                  ) : null}
                 </div>
-              ))}
-            </div>
 
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              <button
-                type="button"
-                onClick={() => toggleAnswer(question._id || index)}
-                className="inline-flex min-h-10 items-center justify-center rounded-xl border border-portal-300 bg-white px-4 py-2 text-sm font-extrabold text-portal-700 transition hover:bg-portal-50"
-              >
-                {revealedAnswers[question._id || index] ? "Hide answer" : "Show answer"}
-              </button>
-              {revealedAnswers[question._id || index] ? (
-                <p className="text-sm font-semibold text-emerald-700">
-                  Answer: {question.correctAnswer}
+                <p className="mt-3 text-base font-bold leading-7 text-slate-950">
+                  {question.question}
                 </p>
-              ) : (
-                <p className="text-sm text-slate-500">
-                  Try the question first, then reveal the answer.
-                </p>
-              )}
-            </div>
 
-            {revealedAnswers[question._id || index] && question.explanation ? (
-              <p className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
-                <span className="font-extrabold">Explanation:</span> {question.explanation}
-              </p>
-            ) : null}
-          </article>
-        ))}
+                <div className="mt-4 grid gap-2">
+                  {(question.options || []).map((option, optionIndex) => (
+                    <div
+                      key={`${option}-${optionIndex}`}
+                      className={`rounded-xl border px-3 py-2 text-sm ${
+                        revealedAnswers[question._id || index] &&
+                        option === question.correctAnswer
+                          ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                          : "border-slate-200 bg-slate-50 text-slate-700"
+                      }`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-extrabold text-slate-500">
+                          {optionIndex + 1}
+                        </span>
+                        <span>
+                          {option}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => toggleAnswer(question._id || index)}
+                    className="inline-flex min-h-10 items-center justify-center rounded-xl border border-portal-300 bg-white px-4 py-2 text-sm font-extrabold text-portal-700 transition hover:bg-portal-50"
+                  >
+                    {revealedAnswers[question._id || index] ? "Hide answer" : "Show answer"}
+                  </button>
+                  {revealedAnswers[question._id || index] ? (
+                    <p className="text-sm font-semibold text-emerald-700">
+                      Answer: {question.correctAnswer}
+                    </p>
+                  ) : (
+                    <p className="text-sm text-slate-500">
+                      Try the question first, then reveal the answer.
+                    </p>
+                  )}
+                </div>
+
+                {revealedAnswers[question._id || index] && question.explanation ? (
+                  <p className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
+                    <span className="font-extrabold">Explanation:</span> {question.explanation}
+                  </p>
+                ) : null}
+                {revealedAnswers[question._id || index] ? (
+                  <StudyLinks question={question} />
+                ) : null}
+              </article>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
@@ -290,9 +341,8 @@ export default function SolutionPage() {
     () => buildRelatedPapers(questions, paper),
     [paper, questions]
   );
-  const practiceHref = `/previous-year?exam=${encodeURIComponent(paper.exam)}&year=${encodeURIComponent(
-    paper.year
-  )}#question-bank`;
+  const practiceSlug = getPracticeSlug(paper.exam);
+  const practiceHref = practiceSlug ? `/practice/${practiceSlug}` : "/practice";
   const canonicalPath = `/solution/${slugifyPaper(paper.exam, paper.year)}`;
   const paperTitle = getPaperDisplayTitle(paper);
   const paperDescription = `View ${paperTitle} with ECE previous year questions, solutions, paper preview, download support, and related study resources.`;
@@ -320,7 +370,38 @@ export default function SolutionPage() {
   ];
 
   function handleDownloadPdf() {
-    if (paper.pdfHref && typeof window !== "undefined") {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    if (paperQuestions.length) {
+      const pdfWindow = window.open("", "_blank");
+
+      if (!pdfWindow) {
+        window.alert("Please allow pop-ups to generate the paper PDF.");
+        return;
+      }
+
+      pdfWindow.document.open();
+      pdfWindow.document.write(viewerMarkup);
+      pdfWindow.document.close();
+      let printStarted = false;
+      const printPaper = () => {
+        if (printStarted || pdfWindow.closed) {
+          return;
+        }
+
+        printStarted = true;
+        pdfWindow.focus();
+        pdfWindow.print();
+      };
+
+      pdfWindow.addEventListener("load", printPaper);
+      window.setTimeout(printPaper, 500);
+      return;
+    }
+
+    if (paper.pdfHref) {
       window.open(paper.pdfHref, "_blank", "noopener,noreferrer");
       return;
     }
@@ -454,7 +535,20 @@ export default function SolutionPage() {
               <div className="mt-4 space-y-4">
                 <OfficialQuestionPreview questions={paperQuestions} />
                 <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600">
-                  Original BEL paper PDF is still available through the Download PDF button above.
+                  Download PDF now generates the clean ECE Exam Guide printable paper from these solved questions.
+                  {paper.pdfHref ? (
+                    <>
+                      {" "}
+                      <a
+                        href={paper.pdfHref}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-extrabold text-portal-700 underline decoration-portal-300 underline-offset-4"
+                      >
+                        Open original official PDF
+                      </a>
+                    </>
+                  ) : null}
                 </div>
               </div>
             ) : paper.pdfHref ? (
