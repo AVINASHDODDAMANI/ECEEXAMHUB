@@ -66,7 +66,7 @@ export default function Layout({
     try {
       return new URL(SITE_URL).hostname;
     } catch {
-      return "eceexamguide.in";
+      return "eceexamguide.vercel.app";
     }
   })();
 

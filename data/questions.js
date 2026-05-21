@@ -1,3 +1,5 @@
+import belDecember2023RemainingQuestions from "./bel-december-2023-remaining-questions";
+
 const questions = [
   {
     _id: "q1",
@@ -1232,6 +1234,7 @@ const questions = [
     chosenOption: "3",
     diagram: "",
   },
+  ...belDecember2023RemainingQuestions,
 ];
 
 export default questions;

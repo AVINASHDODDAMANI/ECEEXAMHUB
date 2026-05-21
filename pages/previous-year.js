@@ -1365,13 +1365,11 @@ export default function PreviousYearPage() {
   const importantCount = visibleQuestions.filter((question) =>
     (question.tags || []).includes("important")
   ).length;
-  const hasActiveSelection =
+  const hasQuestionBankSelection =
     Boolean(search.trim()) ||
-    activeFilters.exam !== initialFilters.exam ||
     activeFilters.year !== initialFilters.year ||
     activeFilters.subject !== initialFilters.subject ||
-    activeFilters.topic !== initialFilters.topic ||
-    activeFilters.paperType !== initialFilters.paperType;
+    activeFilters.topic !== initialFilters.topic;
   const latestYear = visiblePapers[0]?.year || filterOptions.years[0] || "--";
   const solutionCoverage = visibleQuestions.length
     ? Math.round((solvedCount / visibleQuestions.length) * 100)
@@ -2148,53 +2146,50 @@ export default function PreviousYearPage() {
           </div>
         </section>
 
-        <section className="rounded-[28px] border border-[#e2e9f7] bg-white p-5 shadow-[0_18px_60px_rgba(17,43,92,0.06)] sm:p-6">
-          <div className="flex flex-col gap-4 border-b border-[#e9eef8] pb-5 xl:flex-row xl:items-end xl:justify-between">
-            <div>
-              <h2
-                id="question-bank"
-                className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl"
-              >
-                Question Bank
-              </h2>
-              <p className="mt-1 text-sm leading-6 text-slate-600">
-                {formatCurrentSelection(activeFilters)}
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-4 text-sm text-slate-600 xl:justify-end">
-              <span>{visibleQuestions.length} questions in view</span>
-              <span>{solvedCount} with explanations</span>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            {loadError ? (
-              <EmptyState title="Unable to load previous year questions" message={loadError} />
-            ) : loading ? (
-              <EmptyState
-                title="Loading previous year questions"
-                message="Fetching solved questions from your current data source."
-              />
-            ) : !hasActiveSelection ? (
-              <EmptyState
-                title="Choose a paper to start practicing"
-                message="Use the exam cards or library rows above to open a focused question bank."
-              />
-            ) : visibleQuestions.length ? (
-              <div className="grid gap-4">
-                {visibleQuestions.map((question) => (
-                  <PreviousYearQuestionCard key={question._id} question={question} />
-                ))}
+        {hasQuestionBankSelection ? (
+          <section className="rounded-[28px] border border-[#e2e9f7] bg-white p-5 shadow-[0_18px_60px_rgba(17,43,92,0.06)] sm:p-6">
+            <div className="flex flex-col gap-4 border-b border-[#e9eef8] pb-5 xl:flex-row xl:items-end xl:justify-between">
+              <div>
+                <h2
+                  id="question-bank"
+                  className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl"
+                >
+                  Question Bank
+                </h2>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  {formatCurrentSelection(activeFilters)}
+                </p>
               </div>
-            ) : (
-              <EmptyState
-                title="No previous year questions found"
-                message="Adjust the filters or search term to bring relevant solved questions back into view."
-              />
-            )}
-          </div>
-        </section>
+
+              <div className="flex flex-wrap gap-4 text-sm text-slate-600 xl:justify-end">
+                <span>{visibleQuestions.length} questions in view</span>
+                <span>{solvedCount} with explanations</span>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              {loadError ? (
+                <EmptyState title="Unable to load previous year questions" message={loadError} />
+              ) : loading ? (
+                <EmptyState
+                  title="Loading previous year questions"
+                  message="Fetching solved questions from your current data source."
+                />
+              ) : visibleQuestions.length ? (
+                <div className="grid gap-4">
+                  {visibleQuestions.map((question) => (
+                    <PreviousYearQuestionCard key={question._id} question={question} />
+                  ))}
+                </div>
+              ) : (
+                <EmptyState
+                  title="No previous year questions found"
+                  message="Adjust the filters or search term to bring relevant solved questions back into view."
+                />
+              )}
+            </div>
+          </section>
+        ) : null}
       </div>
     </Layout>
   );

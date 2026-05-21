@@ -12,7 +12,8 @@ export default function PreviousYearQuestionCard({
 
   const isImportant = hasQuestionTag(question, "important");
   const isRepeated = hasQuestionTag(question, "repeated");
-  const isCorrect = submitted && selectedOption === question.correctAnswer;
+  const hasAnswerKey = Boolean(question.correctAnswer);
+  const isCorrect = hasAnswerKey && submitted && selectedOption === question.correctAnswer;
 
   function handleOptionSelect(option) {
     if (submitted) return;
@@ -52,11 +53,11 @@ export default function PreviousYearQuestionCard({
         </div>
       </div>
 
+      <p className="mt-3 text-sm leading-6 text-slate-800">{question.question}</p>
+
       <div className="mt-3 max-w-[560px]">
         <CircuitDiagram question={question} />
       </div>
-
-      <p className="mt-3 text-sm leading-6 text-slate-800">{question.question}</p>
       <p className="mt-1 text-sm leading-6 text-slate-500">
         Select an option to check your answer.
       </p>
@@ -64,8 +65,9 @@ export default function PreviousYearQuestionCard({
       <div className="mt-3 grid gap-2 md:grid-cols-2">
         {(question.options || []).map((option, index) => {
           const isSelected = selectedOption === option;
-          const showCorrect = submitted && option === question.correctAnswer;
-          const showIncorrect = submitted && isSelected && option !== question.correctAnswer;
+          const showCorrect = hasAnswerKey && submitted && option === question.correctAnswer;
+          const showIncorrect =
+            hasAnswerKey && submitted && isSelected && option !== question.correctAnswer;
 
           return (
             <button
@@ -104,7 +106,7 @@ export default function PreviousYearQuestionCard({
       ) : null}
 
       <div className="mt-4 flex flex-col gap-2 border-t border-slate-200 pt-3">
-        {submitted ? (
+        {submitted && hasAnswerKey ? (
           <div
             className={`rounded-lg border p-3 ${
               isCorrect ? "border-emerald-200 bg-emerald-50" : "border-rose-200 bg-rose-50"
@@ -128,7 +130,13 @@ export default function PreviousYearQuestionCard({
           </div>
         ) : null}
 
-        {submitted ? (
+        {submitted && !hasAnswerKey ? (
+          <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm font-medium text-amber-800">
+            Answer key pending for this uploaded paper question.
+          </div>
+        ) : null}
+
+        {submitted && hasAnswerKey ? (
           <button
             type="button"
             onClick={() => setShowExplanation((value) => !value)}
@@ -138,7 +146,7 @@ export default function PreviousYearQuestionCard({
           </button>
         ) : null}
 
-        {submitted && showExplanation ? (
+        {submitted && hasAnswerKey && showExplanation ? (
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slatebrand-500">
               Explanation

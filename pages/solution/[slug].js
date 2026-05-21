@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import CircuitDiagram from "../../components/CircuitDiagram";
 import Layout from "../../components/layout";
 import { getOfficialPaper } from "../../data/official-previous-papers";
 import { getPracticeSlug } from "../../data/practice-sections";
@@ -186,6 +187,7 @@ function OfficialQuestionPreview({ questions = [] }) {
           const selectedAnswer = selectedAnswers[questionKey];
           const isAnswerRevealed = revealedAnswers[questionKey];
           const hasSelectedAnswer = Boolean(selectedAnswer);
+          const hasAnswerKey = Boolean(question.correctAnswer);
           const selectedAnswerIsCorrect = selectedAnswer === question.correctAnswer;
 
           return (
@@ -200,24 +202,34 @@ function OfficialQuestionPreview({ questions = [] }) {
                   <span>Q.{sectionQuestionNumber}</span>
                   <span className="text-slate-300">|</span>
                   <span>{question.topic || "Previous Paper"}</span>
-                  {question.questionId ? (
-                    <>
-                      <span className="text-slate-300">|</span>
-                      <span>Question ID: {question.questionId}</span>
-                    </>
-                  ) : null}
                 </div>
 
                 <p className="mt-3 text-base font-bold leading-7 text-slate-950">
                   {question.question}
                 </p>
 
+                <div className="mt-3 max-w-[640px]">
+                  <CircuitDiagram question={question} />
+                </div>
+
+                {question.diagram?.includes(".pdf") ? (
+                  <a
+                    href={question.diagram}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-3 inline-flex min-h-10 items-center rounded-xl border border-portal-200 bg-portal-50 px-4 py-2 text-sm font-extrabold text-portal-700 transition hover:border-portal-300 hover:bg-white"
+                  >
+                    Open PDF figure
+                  </a>
+                ) : null}
+
                 <div className="mt-4 grid gap-2">
                   {(question.options || []).map((option, optionIndex) => {
                       const isSelected = selectedAnswer === option;
                       const isCorrectOption = option === question.correctAnswer;
-                      const showCorrectOption = hasSelectedAnswer && isCorrectOption;
-                      const showWrongOption = hasSelectedAnswer && isSelected && !isCorrectOption;
+                      const showCorrectOption = hasAnswerKey && hasSelectedAnswer && isCorrectOption;
+                      const showWrongOption =
+                        hasAnswerKey && hasSelectedAnswer && isSelected && !isCorrectOption;
 
                       return (
                         <button
@@ -257,14 +269,20 @@ function OfficialQuestionPreview({ questions = [] }) {
                 </div>
 
                 <div className="mt-4 flex flex-wrap items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => toggleAnswer(questionKey)}
-                    className="inline-flex min-h-10 items-center justify-center rounded-xl border border-portal-300 bg-white px-4 py-2 text-sm font-extrabold text-portal-700 transition hover:bg-portal-50"
-                  >
-                    {isAnswerRevealed ? "Hide answer" : "Show answer"}
-                  </button>
-                  {isAnswerRevealed ? (
+                  {hasAnswerKey ? (
+                    <button
+                      type="button"
+                      onClick={() => toggleAnswer(questionKey)}
+                      className="inline-flex min-h-10 items-center justify-center rounded-xl border border-portal-300 bg-white px-4 py-2 text-sm font-extrabold text-portal-700 transition hover:bg-portal-50"
+                    >
+                      {isAnswerRevealed ? "Hide answer" : "Show answer"}
+                    </button>
+                  ) : null}
+                  {!hasAnswerKey ? (
+                    <p className="text-sm font-semibold text-amber-700">
+                      Answer key pending for this uploaded paper question.
+                    </p>
+                  ) : isAnswerRevealed ? (
                     <p className="text-sm font-semibold text-emerald-700">
                       Answer: {question.correctAnswer}
                     </p>
