@@ -1,6 +1,14 @@
 import Link from "next/link";
 import Layout from "../components/layout";
 import { getPracticeSlug, practiceSections } from "../data/practice-sections";
+import { buildBreadcrumbList } from "../lib/seo";
+
+const practiceStructuredData = [
+  buildBreadcrumbList([
+    { name: "Home", item: "/" },
+    { name: "Practice", item: "/practice" },
+  ]),
+];
 
 function PracticeIcon() {
   return (
@@ -15,20 +23,38 @@ function PracticeIcon() {
 
 export default function PracticePage() {
   return (
-    <Layout title="ECEExamHub | Practice" pageClassName="py-3">
+    <Layout
+      title="ECE Practice Materials | Exam Question Sets"
+      description="Open ECE practice materials for exam-wise question sets, revision drills, and linked MCQ practice for electronics engineering preparation."
+      canonicalUrl="/practice"
+      structuredData={practiceStructuredData}
+      pageClassName="py-3"
+    >
       <div className="mx-auto max-w-[1200px]">
-        <div className="mb-5 flex items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-5 flex items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500"
+        >
           <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">
             Home
           </Link>
           <span className="text-slate-300" aria-hidden="true">/</span>
           <span className="font-medium text-slate-700">Practice</span>
-        </div>
+        </nav>
 
         <section className="rounded-xl border border-portal-200 bg-white p-5 shadow-portal">
           <h1 className="text-3xl font-bold tracking-tight text-portal-700 sm:text-4xl">
             Practice
           </h1>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">
+            Work through exam-focused practice sections, then use MCQs for faster topic checks.
+          </p>
+          <Link
+            href="/mcqs"
+            className="mt-4 inline-flex min-h-11 items-center rounded-xl border border-portal-200 bg-portal-50 px-4 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-300 hover:bg-white"
+          >
+            Practice subject-wise MCQs
+          </Link>
         </section>
 
         <section className="mt-5">

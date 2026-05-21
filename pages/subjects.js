@@ -4,7 +4,15 @@ import Layout from "../components/layout";
 import { subjectDirectory } from "../data/subject-directory";
 import { getSubjectSlug } from "../data/subject-theory-roadmaps";
 import { getLearningSubject } from "../lib/learning-utils";
+import { buildBreadcrumbList } from "../lib/seo";
 import { useLearningProgress } from "../lib/use-learning-progress";
+
+const subjectsStructuredData = [
+  buildBreadcrumbList([
+    { name: "Home", item: "/" },
+    { name: "Subjects", item: "/subjects" },
+  ]),
+];
 
 function SubjectIcon({ type }) {
   const common = "h-8 w-8";
@@ -244,40 +252,78 @@ export default function SubjectsPage() {
 
   return (
     <Layout
-      title="ECE Subjects Hub | Notes, PYQs, MCQs and Topic Roadmaps"
-      description="Explore subject-wise ECE study hubs with theory roadmaps, notes, previous year questions, revision paths, and learning progress across GATE, PSU, and semester preparation."
+      title="ECE Subjects Notes and Study Materials | ECE Exam Guide"
+      description="Explore electronics engineering subjects with ECE notes, syllabus-oriented study materials, MCQs, previous year papers, practice resources, and subject roadmaps."
       keywords="ECE subjects, gate ece subjects, ece notes, subject wise pyqs, electronics and communication subjects, ece study hub"
+      canonicalUrl="/subjects"
+      structuredData={subjectsStructuredData}
       pageClassName="py-4 sm:py-6"
     >
       <div className="mx-auto max-w-[1440px]">
-        <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm text-slate-600 shadow-sm backdrop-blur">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm text-slate-600 shadow-sm backdrop-blur"
+        >
           <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">
             Home
           </Link>
           <span className="text-slate-400" aria-hidden="true">/</span>
           <span className="font-semibold text-slate-800">Subjects</span>
-        </div>
+        </nav>
 
         <section className="mt-2">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
+            <article className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
                 Subject hubs
               </p>
-              <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950">
-                Choose the subject you want to study next.
-              </h2>
-              <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">
-                All subject theory notes are already added. These cards now help you compare subjects quickly by showing what the subject covers, how much content is mapped, how much you have completed, and where to go next for notes, search, or the full hub.
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
+                ECE Subjects Notes and Study Materials
+              </h1>
+              <p className="mt-4 max-w-4xl text-sm leading-7 text-slate-600 sm:text-base">
+                Explore the core ECE subjects that build Electronics and Communication Engineering preparation from fundamentals to exam practice. This subject hub brings together ECE notes, chapter roadmaps, syllabus-focused revision, and practice materials for students preparing for GATE, university exams, and technical recruitment tests. Start with electronics engineering subjects such as Network Analysis, Analog Electronics, Digital Electronics, Signals and Systems, Communication Systems, Control Systems, Microprocessors, and VLSI Design, then move into topic-wise resources that match your study plan.
               </p>
-            </div>
-            <Link
-              href="/learn"
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-portal-300 hover:text-portal-700"
+              <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-600 sm:text-base">
+                Each subject page helps you connect theory with active recall: use digital electronics notes for logic and sequential circuit revision, communication engineering notes for modulation and signal concepts, ECE MCQs for quick checks, and previous year papers to understand repeated exam patterns. The notes library supports concept review, while the MCQ and practice sections help test formulas, definitions, and problem-solving speed. Follow the syllabus, revise one subject at a time, and use these linked study materials to turn reading into focused ECE exam preparation.
+              </p>
+            </article>
+
+            <nav
+              aria-label="Subject study resources"
+              className="rounded-[24px] border border-slate-200 bg-slate-50 p-4 shadow-sm sm:p-5"
             >
-              Open dashboard
-            </Link>
+              <h2 className="text-lg font-extrabold tracking-tight text-slate-950">
+                Continue with resources
+              </h2>
+              <div className="mt-4 grid gap-2">
+                {[
+                  ["Browse ECE notes", "/notes"],
+                  ["Practice ECE MCQs", "/mcqs"],
+                  ["Open previous year papers", "/previous-year"],
+                  ["Study exam practice sets", "/practice"],
+                ].map(([label, href]) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-portal-300 hover:text-portal-700"
+                  >
+                    <span>{label}</span>
+                    <span aria-hidden="true">-&gt;</span>
+                  </Link>
+                ))}
+              </div>
+              <Link
+                href="/learn"
+                className="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-2xl bg-portal-700 px-4 py-3 text-sm font-extrabold text-white transition hover:bg-portal-800"
+              >
+                Open dashboard
+              </Link>
+            </nav>
           </div>
+
+          <h2 className="mt-7 text-2xl font-extrabold tracking-tight text-slate-950">
+            Choose the subject you want to study next
+          </h2>
 
           <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {subjectCards.map((subject) => (

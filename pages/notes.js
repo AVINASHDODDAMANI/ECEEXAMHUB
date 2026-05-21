@@ -3,6 +3,14 @@ import { useMemo, useState } from "react";
 import Layout from "../components/layout";
 import { subjectDirectory, subjectResources } from "../data/subject-directory";
 import { getSubjectSlug } from "../data/subject-theory-roadmaps";
+import { buildBreadcrumbList } from "../lib/seo";
+
+const notesStructuredData = [
+  buildBreadcrumbList([
+    { name: "Home", item: "/" },
+    { name: "Notes", item: "/notes" },
+  ]),
+];
 
 const NOTE_COLLECTIONS = [
   { id: "all", label: "All Notes" },
@@ -97,7 +105,13 @@ export default function NotesPage() {
     .slice(0, 4) || [];
 
   return (
-    <Layout title="ECEExamHub | Notes" pageClassName="py-3 sm:py-4">
+    <Layout
+      title="ECE Notes by Subject | Electronics Study Notes"
+      description="Browse subject-wise ECE notes for electronics engineering revision with chapter paths, formulas, linked MCQs, and previous year paper practice."
+      canonicalUrl="/notes"
+      structuredData={notesStructuredData}
+      pageClassName="py-3 sm:py-4"
+    >
       <div className="mx-auto max-w-[1200px] pb-12">
         <nav
           aria-label="Breadcrumb"
@@ -132,7 +146,7 @@ export default function NotesPage() {
 
             <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-4">
               <p className="text-sm font-bold text-slate-950">Quick resources</p>
-              <div className="mt-3 grid gap-2">
+              <nav aria-label="Notes study links" className="mt-3 grid gap-2">
                 {subjectResources.slice(1).map((resource) => (
                   <Link
                     key={resource.label}
@@ -143,8 +157,28 @@ export default function NotesPage() {
                     <span aria-hidden="true">-&gt;</span>
                   </Link>
                 ))}
-              </div>
+              </nav>
             </div>
+          </div>
+        </section>
+
+        <section className="mt-5 rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+          <h2 className="text-lg font-bold tracking-tight text-slate-950">
+            Move from notes to exam practice
+          </h2>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Link
+              href="/mcqs"
+              className="inline-flex min-h-11 items-center rounded-xl border border-portal-200 bg-portal-50 px-4 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-300 hover:bg-white"
+            >
+              Practice ECE MCQs
+            </Link>
+            <Link
+              href="/previous-year"
+              className="inline-flex min-h-11 items-center rounded-xl border border-orange-200 bg-orange-50 px-4 py-2.5 text-sm font-bold text-orange-700 transition hover:border-orange-300 hover:bg-white"
+            >
+              Solve previous year papers
+            </Link>
           </div>
         </section>
 

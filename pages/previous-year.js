@@ -1542,9 +1542,10 @@ export default function PreviousYearPage() {
 
   return (
     <Layout
-      title="ECE Exam Guide | Previous Papers"
+      title="ECE Previous Year Papers | GATE and PSU PYQs"
       description="Browse searchable ECE previous year question papers for GATE, ISRO, BEL, BARC, ESE, DRDO, IOCL, SSC JE, RRB JE, and State AE/JE with year-wise paper solutions."
       keywords="ECE previous year papers, GATE ECE previous papers, ECE question paper, solved previous year questions, ISRO ECE paper, BEL electronics paper"
+      canonicalUrl="/previous-year"
       structuredData={previousYearStructuredData}
       searchValue={search}
       onSearchChange={setSearch}

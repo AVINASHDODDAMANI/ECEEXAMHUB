@@ -2,6 +2,14 @@ import Link from "next/link";
 import Layout from "../components/layout";
 import { subjectDirectory } from "../data/subject-directory";
 import { getSubjectSlug } from "../data/subject-theory-roadmaps";
+import { buildBreadcrumbList } from "../lib/seo";
+
+const mcqsStructuredData = [
+  buildBreadcrumbList([
+    { name: "Home", item: "/" },
+    { name: "MCQs", item: "/mcqs" },
+  ]),
+];
 
 function McqTopicIcon() {
   return (
@@ -16,20 +24,32 @@ function McqTopicIcon() {
 
 export default function McqsPage() {
   return (
-    <Layout title="ECEExamHub | MCQs" pageClassName="py-3">
+    <Layout
+      title="ECE MCQs by Subject | Electronics Practice Questions"
+      description="Practice subject-wise ECE MCQs for electronics engineering topics, quick concept checks, and exam-focused revision across core ECE subjects."
+      canonicalUrl="/mcqs"
+      structuredData={mcqsStructuredData}
+      pageClassName="py-3"
+    >
       <div className="mx-auto max-w-[1200px]">
-        <div className="mb-5 flex items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-5 flex items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500"
+        >
           <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">
             Home
           </Link>
           <span className="text-slate-300" aria-hidden="true">/</span>
           <span className="font-medium text-slate-700">MCQs</span>
-        </div>
+        </nav>
 
         <section className="rounded-xl border border-portal-200 bg-white p-5 shadow-portal">
           <h1 className="text-3xl font-bold tracking-tight text-portal-700 sm:text-4xl">
             MCQs
           </h1>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">
+            Choose a subject to practice ECE MCQs after reviewing notes and syllabus topics.
+          </p>
         </section>
 
         <section className="mt-5">
