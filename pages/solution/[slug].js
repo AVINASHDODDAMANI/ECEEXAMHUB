@@ -314,7 +314,15 @@ function OfficialQuestionPreview({ questions = [] }) {
   );
 }
 
-export default function SolutionPage() {
+export async function getServerSideProps({ params }) {
+  return {
+    props: {
+      initialSlug: typeof params?.slug === "string" ? params.slug : "",
+    },
+  };
+}
+
+export default function SolutionPage({ initialSlug = "" }) {
   const router = useRouter();
   const viewerRef = useRef(null);
   const [questions, setQuestions] = useState(seedQuestions);
@@ -322,7 +330,7 @@ export default function SolutionPage() {
   const [loadError, setLoadError] = useState("");
   const [siteUrl, setSiteUrl] = useState("");
 
-  const slug = typeof router.query.slug === "string" ? router.query.slug : "";
+  const slug = typeof router.query.slug === "string" ? router.query.slug : initialSlug;
   const slugPaper = parsePaperSlug(slug);
   const exam = typeof router.query.exam === "string" ? router.query.exam : slugPaper.exam;
   const year =

@@ -7,6 +7,7 @@ import {
   SITE_ALTERNATE_NAMES,
   SITE_NAME,
   SITE_URL,
+  generateCanonical,
   shouldNoIndexPath,
 } from "../lib/seo";
 
@@ -57,7 +58,7 @@ export default function Layout({
 }) {
   const router = useRouter();
   const pathOnly = (router.asPath || "/").split("#")[0].split("?")[0] || "/";
-  const resolvedCanonicalUrl = canonicalUrl || `${SITE_URL}${pathOnly === "/" ? "" : pathOnly}`;
+  const resolvedCanonicalUrl = generateCanonical(canonicalUrl || pathOnly);
   const effectiveNoIndex = noIndex || shouldNoIndexPath(router.pathname || pathOnly, router.asPath || pathOnly);
   const structuredDataItems = Array.isArray(structuredData)
     ? [...defaultStructuredData, ...structuredData]
