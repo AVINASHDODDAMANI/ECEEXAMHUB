@@ -1,5 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Layout from "../components/layout";
+import { CircuitElementVisualizationGallery } from "./circuit-elements";
+import {
+  BasicConceptGuideContent,
+  SubjectCircuitVisualizationGallery,
+} from "./subjects/[slug]";
 
 const examples = [
   {
@@ -250,6 +255,60 @@ export default function DiagramLabPage() {
               "Network theorem steps and troubleshooting workflows.",
             ]}
           />
+        </section>
+
+        <section className="mt-5 rounded-[24px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+          <div className="max-w-4xl">
+            <p className="text-xs font-black uppercase tracking-[0.14em] text-portal-700">
+              Moved From Network Analysis
+            </p>
+            <h2 className="mt-2 text-xl font-black tracking-tight text-slate-950">
+              Basic Concepts circuit visualizations
+            </h2>
+            <p className="mt-2 text-sm leading-7 text-slate-700">
+              The animated Basic Concepts circuit guides now live here in AI Diagrams.
+              Subject pages use normal circuit diagrams for notation and exam reading.
+            </p>
+          </div>
+          <div className="mt-4">
+            <BasicConceptGuideContent withIntro={false} />
+          </div>
+        </section>
+
+        <section className="mt-5 rounded-[24px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+          <div className="max-w-4xl">
+            <p className="text-xs font-black uppercase tracking-[0.14em] text-portal-700">
+              Moved From Network Analysis
+            </p>
+            <h2 className="mt-2 text-xl font-black tracking-tight text-slate-950">
+              Circuit Elements circuit visualizations
+            </h2>
+            <p className="mt-2 text-sm leading-7 text-slate-700">
+              The animated Circuit Elements guides now live here in AI Diagrams.
+              The Circuit Elements topic page uses normal circuit diagrams for exam reading.
+            </p>
+          </div>
+          <div className="mt-4">
+            <CircuitElementVisualizationGallery />
+          </div>
+        </section>
+
+        <section className="mt-5 rounded-[24px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+          <div className="max-w-4xl">
+            <p className="text-xs font-black uppercase tracking-[0.14em] text-portal-700">
+              Moved From Subjects
+            </p>
+            <h2 className="mt-2 text-xl font-black tracking-tight text-slate-950">
+              Subject circuit visualizations
+            </h2>
+            <p className="mt-2 text-sm leading-7 text-slate-700">
+              Animated circuit and device visualizations from Subjects now live here.
+              Subject pages keep the study flow, exam notes, and normal circuit diagrams.
+            </p>
+          </div>
+          <div className="mt-4">
+            <SubjectCircuitVisualizationGallery />
+          </div>
         </section>
       </div>
     </Layout>

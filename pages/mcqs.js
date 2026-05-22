@@ -31,7 +31,7 @@ export default function McqsPage() {
       structuredData={mcqsStructuredData}
       pageClassName="py-3"
     >
-      <div className="mx-auto max-w-[1200px]">
+      <div className="mx-auto max-w-[1440px]">
         <nav
           aria-label="Breadcrumb"
           className="mb-5 flex items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500"

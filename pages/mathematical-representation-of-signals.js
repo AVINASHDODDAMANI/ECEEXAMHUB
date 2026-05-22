@@ -107,7 +107,7 @@ function AnimatedRepresentationExplanation() {
 export default function MathematicalRepresentationOfSignalsPage() {
   return (
     <Layout title="Mathematical Representation of Signals | Signals and Systems" description="Deep ECE theory notes on mathematical signal representation, continuous-time and discrete-time forms, standard signals, transformations, and engineering meaning." pageClassName="py-3 sm:py-4">
-      <div className="mx-auto max-w-[1200px] pb-20">
+      <div className="mx-auto max-w-[1440px] pb-20">
         <nav aria-label="Breadcrumb" className="mb-4 pt-1">
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>

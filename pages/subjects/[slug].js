@@ -8,7 +8,6 @@ import EducationalTheoryLayout, {
   EducationalFormulaGrid,
   EducationalInfoCard,
 } from "../../components/EducationalTheoryLayout";
-import ElectromagneticSubjectHub from "../../components/ElectromagneticSubjectHub";
 import Layout from "../../components/layout";
 import NetworkTheoryDiagram from "../../components/NetworkTheoryDiagram";
 import { subjectDirectory } from "../../data/subject-directory";
@@ -6575,7 +6574,41 @@ function BilateralUnilateralGuide() {
   );
 }
 
-function BasicConceptGuideContent({ withIntro = true }) {
+function BasicConceptCircuitDiagramGallery() {
+  const diagrams = [
+    {
+      type: "basic-circuit",
+      title: "Voltage, current, and resistance",
+      note: "Mark the source polarity, current direction, and resistor voltage before writing equations.",
+    },
+    {
+      type: "power-direction",
+      title: "Power and energy direction",
+      note: "The passive sign convention tells whether an element absorbs or delivers power.",
+    },
+    {
+      type: "basic-elements",
+      title: "Element behavior",
+      note: "Passive storage and direction-dependent behavior are easier to compare with circuit symbols.",
+    },
+  ];
+
+  return (
+    <div className="grid gap-4">
+      {diagrams.map((diagram) => (
+        <article key={diagram.type} className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+          <h4 className="text-sm font-black text-slate-950">{diagram.title}</h4>
+          <div className="mt-3 overflow-x-auto rounded-xl border border-slate-100 bg-slate-50/70 p-2">
+            <NetworkTheoryDiagram type={diagram.type} />
+          </div>
+          <p className="mt-2 text-sm leading-6 text-slate-600">{diagram.note}</p>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+export function BasicConceptGuideContent({ withIntro = true }) {
   return (
     <div
       id="fundamental-electrical-concepts"
@@ -7394,8 +7427,8 @@ function OverviewRow({ item }) {
           ))}
         </ul>
       ) : null}
-      {item.showBasicConceptGuide ? (
-        <BasicConceptGuideContent />
+        {item.showBasicConceptGuide ? (
+        <BasicConceptCircuitDiagramGallery />
       ) : null}
     </article>
   );
@@ -7434,7 +7467,7 @@ function ConceptRoadmapItem({ concept, index, isActive, status, onClick }) {
   );
 }
 
-function NetworkTopicList({ compact = false, concepts = [], activeIndex = 0, onSelectTopic }) {
+function NetworkTopicList({ compact = false, concepts = [], activeIndex = 0, onNavigateTopic }) {
   const router = useRouter();
 
   function getTopicTargetIndex(title) {
@@ -7447,12 +7480,12 @@ function NetworkTopicList({ compact = false, concepts = [], activeIndex = 0, onS
     return conceptIndex >= 0 ? conceptIndex + 1 : 1;
   }
 
-  function handleTopicSelect(title) {
-    if (!onSelectTopic) {
+  function handleTopicNavigate() {
+    if (!onNavigateTopic) {
       return;
     }
 
-    onSelectTopic(getTopicTargetIndex(title), NETWORK_TOPIC_TARGET_ANCHORS[title]);
+    onNavigateTopic();
   }
 
   return (
@@ -7482,7 +7515,7 @@ function NetworkTopicList({ compact = false, concepts = [], activeIndex = 0, onS
         return (
           <Link
             key={group.title}
-            onClick={() => handleTopicSelect(group.title)}
+            onClick={handleTopicNavigate}
             href={routeHref}
             className={className}
           >
@@ -7494,11 +7527,10 @@ function NetworkTopicList({ compact = false, concepts = [], activeIndex = 0, onS
   );
 }
 
-function MobileConceptRoadmap({ concepts, activeIndex, onSelectTopic }) {
+function MobileConceptRoadmap({ concepts, activeIndex }) {
   const [isRoadmapOpen, setIsRoadmapOpen] = useState(false);
 
-  function selectTopic(index) {
-    onSelectTopic(index);
+  function closeRoadmap() {
     setIsRoadmapOpen(false);
   }
 
@@ -7542,7 +7574,7 @@ function MobileConceptRoadmap({ concepts, activeIndex, onSelectTopic }) {
               compact
               concepts={concepts}
               activeIndex={activeIndex}
-              onSelectTopic={selectTopic}
+              onNavigateTopic={closeRoadmap}
             />
 
           </div>
@@ -7552,11 +7584,10 @@ function MobileConceptRoadmap({ concepts, activeIndex, onSelectTopic }) {
   );
 }
 
-function NetworkTopicMenu({ concepts, activeIndex, onSelectTopic }) {
+function NetworkTopicMenu({ concepts, activeIndex }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  function selectTopic(index, anchorId) {
-    onSelectTopic(index, anchorId);
+  function closeMenu() {
     setIsOpen(false);
   }
 
@@ -7590,7 +7621,7 @@ function NetworkTopicMenu({ concepts, activeIndex, onSelectTopic }) {
             compact
             concepts={concepts}
             activeIndex={activeIndex}
-            onSelectTopic={selectTopic}
+            onNavigateTopic={closeMenu}
           />
         </div>
       ) : null}
@@ -8761,6 +8792,29 @@ function StudyFlowCard({ step, index }) {
   );
 }
 
+function CircuitVisualizationMovedNotice({ title = "Circuit visualization moved" }) {
+  return (
+    <div className="grid h-full min-h-[180px] place-items-center rounded-2xl border border-dashed border-portal-200 bg-portal-50/60 p-4 text-center">
+      <div className="max-w-sm">
+        <p className="text-[11px] font-black uppercase tracking-[0.14em] text-portal-700">
+          AI Diagrams
+        </p>
+        <h3 className="mt-2 text-base font-bold text-slate-950">{title}</h3>
+        <p className="mt-2 text-sm leading-6 text-slate-700">
+          This circuit visualization is kept in AI Diagrams. Continue here with the
+          topic explanation, working steps, and exam notes.
+        </p>
+        <Link
+          href="/diagram-lab"
+          className="mt-3 inline-flex justify-center rounded-xl border border-portal-200 bg-white px-3 py-2 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
+        >
+          Open AI Diagrams
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function AnalogChapterMotionDiagram({ mode = "pn", title = "Analog circuit flow" }) {
   return (
     <svg viewBox="0 0 680 330" className="mx-auto h-auto w-[680px] max-w-none md:w-full" role="img" aria-label={`${title} animated circuit flow`}>
@@ -8893,8 +8947,8 @@ function AnalogChapterTopicCard({ topic, chapter, topicIndex }) {
             </div>
           ))}
         </div>
-        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
-          <AnalogChapterMotionDiagram mode={chapter.diagramMode} title={topic.title} />
+        <div className="rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title={`${topic.title} circuit visualization`} />
         </div>
       </div>
     </article>
@@ -8936,8 +8990,8 @@ function SemiconductorSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex
             ))}
           </ol>
         </div>
-        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
-          <AnalogChapterMotionDiagram mode="pn" title={subtopic.name} />
+        <div className="rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title={`${subtopic.name} visualization`} />
         </div>
       </div>
 
@@ -8981,14 +9035,14 @@ function SemiconductorFundamentalsDeepDiveContent({ chapter }) {
             </p>
           </div>
         </div>
-        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
-          <AnalogChapterMotionDiagram mode="pn" title="Atomic control to PN junction flow" />
+        <div className="rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title="Semiconductor junction visualization" />
         </div>
       </div>
 
       <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
         <h2 className="text-lg font-bold tracking-tight text-slate-950">
-          Animated Working: From Atom to Junction
+          Working Steps: From Atom to Junction
         </h2>
         <div className="mt-4 grid gap-3 lg:grid-cols-5">
           {chapter.workingSteps.map((step, index) => (
@@ -9177,8 +9231,8 @@ function DiodeApplicationSubtopicCard({ lesson, topicIndex, subtopic, subtopicIn
             ))}
           </ol>
         </div>
-        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
-          <DiodeApplicationDiagram visual={subtopic.visual} title={subtopic.name} />
+        <div className="rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title={`${subtopic.name} circuit visualization`} />
         </div>
       </div>
 
@@ -9220,14 +9274,14 @@ function DiodesApplicationsDeepDiveContent({ chapter }) {
             </p>
           </div>
         </div>
-        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
-          <DiodeApplicationDiagram visual="bridge" title="Diode application flow" />
+        <div className="rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title="Diode application visualization" />
         </div>
       </div>
 
       <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
         <h2 className="text-lg font-bold tracking-tight text-slate-950">
-          Animated Working: From Junction to DC Supply
+          Working Steps: From Junction to DC Supply
         </h2>
         <div className="mt-4 grid gap-3 lg:grid-cols-5">
           {chapter.workingSteps.map((step, index) => (
@@ -9391,8 +9445,8 @@ function BjtSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
             ))}
           </ol>
         </div>
-        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
-          <BjtDiagram visual={subtopic.visual} title={subtopic.name} />
+        <div className="rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title={`${subtopic.name} visualization`} />
         </div>
       </div>
 
@@ -9435,14 +9489,14 @@ function BjtDeepDiveContent({ chapter }) {
             </p>
           </div>
         </div>
-        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
-          <BjtDiagram visual="working" title="BJT carrier-control flow" />
+        <div className="rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title="BJT carrier-control visualization" />
         </div>
       </div>
 
       <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
         <h2 className="text-lg font-bold tracking-tight text-slate-950">
-          Animated Working: From Base Signal to Collector Output
+          Working Steps: From Base Signal to Collector Output
         </h2>
         <div className="mt-4 grid gap-3 lg:grid-cols-5">
           {chapter.workingSteps.map((step, index) => (
@@ -9617,8 +9671,8 @@ function BjtAmplifierSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex 
             ))}
           </ol>
         </div>
-        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
-          <BjtAmplifierDiagram visual={subtopic.visual} title={subtopic.name} />
+        <div className="rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title={`${subtopic.name} visualization`} />
         </div>
       </div>
       <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3">
@@ -9648,13 +9702,13 @@ function BjtAmplifiersDeepDiveContent({ chapter }) {
             </p>
           </div>
         </div>
-        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
-          <BjtAmplifierDiagram visual="ceamp" title="BJT amplifier signal flow" />
+        <div className="rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title="BJT amplifier visualization" />
         </div>
       </div>
 
       <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
-        <h2 className="text-lg font-bold tracking-tight text-slate-950">Animated Working: From Small Signal to Useful Power</h2>
+        <h2 className="text-lg font-bold tracking-tight text-slate-950">Working Steps: From Small Signal to Useful Power</h2>
         <div className="mt-4 grid gap-3 lg:grid-cols-5">
           {chapter.workingSteps.map((step, index) => (
             <div key={step} className="rounded-2xl border border-white bg-white p-3 shadow-sm">
@@ -9799,8 +9853,8 @@ function FetSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
             ))}
           </ol>
         </div>
-        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
-          <FetDiagram visual={subtopic.visual} title={subtopic.name} />
+        <div className="rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title={`${subtopic.name} visualization`} />
         </div>
       </div>
       <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3">
@@ -9830,13 +9884,13 @@ function FetDeepDiveContent({ chapter }) {
             </p>
           </div>
         </div>
-        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
-          <FetDiagram visual="enhancement" title="FET gate-field channel control" />
+        <div className="rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title="FET gate-field visualization" />
         </div>
       </div>
 
       <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
-        <h2 className="text-lg font-bold tracking-tight text-slate-950">Animated Working: Gate Field to Drain Current</h2>
+        <h2 className="text-lg font-bold tracking-tight text-slate-950">Working Steps: Gate Field to Drain Current</h2>
         <div className="mt-4 grid gap-3 lg:grid-cols-5">
           {chapter.workingSteps.map((step, index) => (
             <div key={step} className="rounded-2xl border border-white bg-white p-3 shadow-sm">
@@ -10281,8 +10335,8 @@ function FeedbackSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
             ))}
           </ol>
         </div>
-        <div className="overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
-          <FeedbackDiagram visual={subtopic.visual} title={subtopic.name} />
+        <div className="rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title={`${subtopic.name} visualization`} />
         </div>
       </div>
       <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-3">
@@ -10312,13 +10366,13 @@ function FeedbackDeepDiveContent({ chapter }) {
             </p>
           </div>
         </div>
-        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
-          <FeedbackDiagram visual="closed-loop" title="Negative feedback loop" />
+        <div className="rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title="Negative feedback visualization" />
         </div>
       </div>
 
       <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
-        <h2 className="text-lg font-bold tracking-tight text-slate-950">Animated Working: Output Sample to Input Correction</h2>
+        <h2 className="text-lg font-bold tracking-tight text-slate-950">Working Steps: Output Sample to Input Correction</h2>
         <div className="mt-4 grid gap-3 lg:grid-cols-5">
           {chapter.workingSteps.map((step, index) => (
             <div key={step} className="rounded-2xl border border-white bg-white p-3 shadow-sm">
@@ -10750,8 +10804,8 @@ function OscillatorsDeepDiveContent({ chapter }) {
             selective network.
           </p>
         </div>
-        <div className="diagram-placeholder overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
-          <OscillatorDiagram mode="loop" title="Oscillator feedback loop" />
+        <div className="diagram-placeholder rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title="Oscillator feedback visualization" />
         </div>
       </div>
 
@@ -10859,8 +10913,8 @@ function OscillatorsDeepDiveContent({ chapter }) {
         </TopicSection>
 
         <TopicSection title="Diagram Explanation">
-          <div className="diagram-placeholder overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
-            <OscillatorDiagram mode="loop" title="Block Diagram Here" />
+          <div className="diagram-placeholder rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+            <CircuitVisualizationMovedNotice title="Oscillator signal-flow visualization" />
           </div>
           <p>
             The block diagram shows output being sampled and returned through the feedback
@@ -10886,29 +10940,29 @@ function OscillatorsDeepDiveContent({ chapter }) {
             <section className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
               <h3 className="text-lg font-bold text-slate-950">Barkhausen Criterion</h3>
               <p className="mt-2">The Barkhausen criterion is the starting condition for sustained sinusoidal oscillation. It says the loop must return a signal that is neither weaker nor phase-opposed at the oscillation frequency.</p>
-              <div className="diagram-placeholder mt-3 overflow-x-auto rounded-2xl border border-portal-100 bg-white p-3">
-                <OscillatorDiagram mode="loop" title="Signal Flow Diagram" />
+              <div className="diagram-placeholder mt-3 rounded-2xl border border-portal-100 bg-white p-3">
+                <CircuitVisualizationMovedNotice title="Oscillator loop visualization" />
               </div>
             </section>
             <section className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
               <h3 className="text-lg font-bold text-slate-950">RC Oscillators</h3>
               <p className="mt-2">RC oscillators are preferred for low-frequency and audio-frequency generation because resistors and capacitors are easier to implement than large inductors.</p>
-              <div className="diagram-placeholder mt-3 overflow-x-auto rounded-2xl border border-portal-100 bg-white p-3">
-                <OscillatorDiagram mode="rc" title="RC Circuit Diagram Here" />
+              <div className="diagram-placeholder mt-3 rounded-2xl border border-portal-100 bg-white p-3">
+                <CircuitVisualizationMovedNotice title="RC oscillator circuit visualization" />
               </div>
             </section>
             <section className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
               <h3 className="text-lg font-bold text-slate-950">LC Oscillators</h3>
               <p className="mt-2">LC oscillators are useful at higher frequencies because the tank circuit naturally exchanges energy between magnetic and electric fields.</p>
-              <div className="diagram-placeholder mt-3 overflow-x-auto rounded-2xl border border-portal-100 bg-white p-3">
-                <OscillatorDiagram mode="lc" title="LC Circuit Diagram Here" />
+              <div className="diagram-placeholder mt-3 rounded-2xl border border-portal-100 bg-white p-3">
+                <CircuitVisualizationMovedNotice title="LC oscillator circuit visualization" />
               </div>
             </section>
             <section className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
               <h3 className="text-lg font-bold text-slate-950">Crystal Oscillator</h3>
               <p className="mt-2">A crystal oscillator uses mechanical resonance of quartz. Its frequency stability is much higher than ordinary RC or LC oscillators.</p>
-              <div className="diagram-placeholder mt-3 overflow-x-auto rounded-2xl border border-portal-100 bg-white p-3">
-                <OscillatorDiagram mode="crystal" title="Crystal Equivalent Circuit Diagram Here" />
+              <div className="diagram-placeholder mt-3 rounded-2xl border border-portal-100 bg-white p-3">
+                <CircuitVisualizationMovedNotice title="Crystal oscillator circuit visualization" />
               </div>
             </section>
           </div>
@@ -11090,8 +11144,8 @@ function OpAmpDeepDiveContent({ chapter }) {
             integrate, differentiate, filter, buffer, and shape signals.
           </p>
         </div>
-        <div className="diagram-placeholder overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
-          <OpAmpDiagram mode="inverting" title="Op-amp feedback action" />
+        <div className="diagram-placeholder rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title="Op-amp feedback visualization" />
         </div>
       </div>
 
@@ -11193,8 +11247,8 @@ function OpAmpDeepDiveContent({ chapter }) {
         </TopicSection>
 
         <TopicSection title="Diagram Explanation">
-          <div className="diagram-placeholder overflow-x-auto rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
-            <OpAmpDiagram mode="inverting" title="Circuit Diagram Here" />
+          <div className="diagram-placeholder rounded-2xl border border-portal-100 bg-[#f8fbff] p-3">
+            <CircuitVisualizationMovedNotice title="Inverting op-amp visualization" />
           </div>
           <p>
             The diagram shows the op-amp comparing its two input terminals. The feedback
@@ -11230,8 +11284,8 @@ function OpAmpDeepDiveContent({ chapter }) {
               <section key={heading} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
                 <h3 className="text-lg font-bold text-slate-950">{heading}</h3>
                 <p className="mt-2">{text}</p>
-                <div className="diagram-placeholder mt-3 overflow-x-auto rounded-2xl border border-portal-100 bg-white p-3">
-                  <OpAmpDiagram mode={mode} title={`${heading} Diagram Here`} />
+                <div className="diagram-placeholder mt-3 rounded-2xl border border-portal-100 bg-white p-3">
+                  <CircuitVisualizationMovedNotice title={`${heading} op-amp visualization`} />
                 </div>
               </section>
             ))}
@@ -12326,14 +12380,14 @@ function AnalogChapterDeepDiveContent({ chapter }) {
             </p>
           </div>
         </div>
-        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
-          <AnalogChapterMotionDiagram mode={chapter.diagramMode} title={`${chapter.title} flow`} />
+        <div className="rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title={`${chapter.title} circuit visualization`} />
         </div>
       </div>
 
       <section className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
         <h2 className="text-lg font-bold tracking-tight text-slate-950">
-          Animated Working: Step-by-Step Function
+          Working Steps: Step-by-Step Function
         </h2>
         <div className="mt-4 grid gap-3 lg:grid-cols-5">
           {chapter.workingSteps.map((step, index) => (
@@ -12369,7 +12423,7 @@ function AnalogChapterPage({ chapter }) {
 
   return (
     <Layout title={`ECE Exam Guide | ${chapter.title}`} pageClassName="py-3 sm:py-4">
-      <div className="mx-auto max-w-[1200px] pb-24">
+      <div className="mx-auto max-w-[1440px] pb-24">
         <nav
           aria-label="Breadcrumb"
           className="mb-5 flex items-start justify-between gap-3 pt-1"
@@ -12412,7 +12466,7 @@ function AnalogChapterPage({ chapter }) {
             Analog Electronics / Chapter {chapter.number}
           </p>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-            {chapter.title}: Topics, Subtopics, Circuit Flow, and Animated Working
+            {chapter.title}: Topics, Subtopics, Study Flow, and Working Steps
           </h1>
           <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-800 sm:text-base">
             Chapter-by-chapter GATE/PSU explanation with every topic and subtopic
@@ -12811,8 +12865,8 @@ function DiodeDeepDiveContent() {
           </div>
         </div>
 
-        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
-          <DiodeMotionDiagram />
+        <div className="rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title="Diode PN junction visualization" />
         </div>
       </div>
 
@@ -12868,9 +12922,7 @@ function DiodeDeepDiveContent() {
             diode arrangement redirects both half cycles so the load current remains in
             one direction.
           </p>
-          <div className="mt-4 overflow-x-auto">
-            <RectifierMotionDiagram />
-          </div>
+          <CircuitVisualizationMovedNotice title="Rectifier waveform visualization" />
         </section>
 
         <section
@@ -13242,8 +13294,8 @@ function BjtMosfetDeepDiveContent() {
           </div>
         </div>
 
-        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
-          <TransistorMotionDiagram />
+        <div className="rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title="BJT and MOSFET visualization" />
         </div>
       </div>
 
@@ -13561,11 +13613,11 @@ function AmplifierDeepDiveContent() {
           <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
             Learn amplifier gain, signal scaling, BJT and MOSFET amplifier action,
             phase shift, frequency response, bandwidth, amplifier classes, distortion,
-            and practical exam parameters with animated circuit motion.
+            and practical exam parameters with step-by-step circuit reading.
           </p>
         </div>
-        <div className="overflow-x-auto rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
-          <AmplifierMotionDiagram mode="gain" />
+        <div className="rounded-[24px] border border-portal-100 bg-[#f8fbff] p-3">
+          <CircuitVisualizationMovedNotice title="Amplifier visualization" />
         </div>
       </div>
 
@@ -13604,8 +13656,8 @@ function AmplifierDeepDiveContent() {
                   ))}
                 </ul>
               </div>
-              <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-[#f8fbff] p-3">
-                <AmplifierMotionDiagram mode={section.visual} />
+              <div className="rounded-2xl border border-slate-200 bg-[#f8fbff] p-3">
+                <CircuitVisualizationMovedNotice title={`${section.title} visualization`} />
               </div>
             </div>
           </article>
@@ -13973,6 +14025,218 @@ function SubjectSeoDepthSection({
   );
 }
 
+function MovedSubjectVisualizationCard({ title, children }) {
+  return (
+    <article className="overflow-hidden rounded-2xl border border-slate-200 bg-[#f8fbff] p-3 shadow-sm sm:p-4">
+      <h3 className="text-sm font-black text-slate-950">{title}</h3>
+      <div className="mt-3 overflow-x-auto rounded-2xl border border-white bg-white p-2">
+        {children}
+      </div>
+    </article>
+  );
+}
+
+const AMPLIFIER_VISUALIZATION_MODES = [
+  ["gain", "Signal amplification"],
+  ["system", "Amplifier as a system"],
+  ["block", "Basic amplifier model"],
+  ["types", "Amplifier classifications"],
+  ["bjt", "BJT amplifier motion"],
+  ["mosfet", "MOSFET amplifier motion"],
+  ["frequency", "Frequency response"],
+  ["classes", "Amplifier classes"],
+  ["distortion", "Amplifier distortion"],
+  ["parameters", "Practical amplifier parameters"],
+  ["compare", "BJT and MOSFET amplifier comparison"],
+];
+
+const OSCILLATOR_VISUALIZATION_MODES = [
+  ["loop", "Oscillator feedback loop"],
+  ["rc", "RC oscillator circuit"],
+  ["lc", "LC oscillator circuit"],
+  ["crystal", "Crystal oscillator equivalent circuit"],
+];
+
+const OPAMP_VISUALIZATION_MODES = [
+  ["inverting", "Inverting op-amp feedback"],
+  ["noninverting", "Non-inverting op-amp"],
+  ["follower", "Voltage follower"],
+  ["summing", "Summing amplifier"],
+  ["integrator", "Integrator"],
+  ["differentiator", "Differentiator"],
+  ["comparator", "Comparator"],
+  ["schmitt", "Schmitt trigger"],
+];
+
+export function SubjectCircuitVisualizationGallery() {
+  const semiconductorVisuals = SEMICONDUCTOR_TOPIC_LESSONS.flatMap((lesson) =>
+    lesson.subtopics.map((subtopic) => ({
+      title: subtopic.name,
+      mode: "pn",
+    }))
+  );
+  const diodeApplicationVisuals = DIODE_APPLICATION_TOPIC_LESSONS.flatMap((lesson) =>
+    lesson.subtopics.map((subtopic) => ({
+      title: subtopic.name,
+      visual: subtopic.visual,
+    }))
+  );
+  const bjtVisuals = BJT_TOPIC_LESSONS.flatMap((lesson) =>
+    lesson.subtopics.map((subtopic) => ({
+      title: subtopic.name,
+      visual: subtopic.visual,
+    }))
+  );
+  const bjtAmplifierVisuals = BJT_AMPLIFIER_TOPIC_LESSONS.flatMap((lesson) =>
+    lesson.subtopics.map((subtopic) => ({
+      title: subtopic.name,
+      visual: subtopic.visual,
+    }))
+  );
+  const fetVisuals = FET_TOPIC_LESSONS.flatMap((lesson) =>
+    lesson.subtopics.map((subtopic) => ({
+      title: subtopic.name,
+      visual: subtopic.visual,
+    }))
+  );
+  const feedbackVisuals = FEEDBACK_TOPIC_LESSONS.flatMap((lesson) =>
+    lesson.subtopics.map((subtopic) => ({
+      title: subtopic.name,
+      visual: subtopic.visual,
+    }))
+  );
+
+  return (
+    <div className="grid gap-5">
+      <section className="grid gap-3">
+        <h3 className="text-base font-black text-slate-950">
+          Analog Electronics chapter circuit flows
+        </h3>
+        <div className="grid gap-3 xl:grid-cols-2">
+          {ANALOG_CHAPTERS.flatMap((chapter) => [
+            <MovedSubjectVisualizationCard
+              key={`${chapter.slug}-chapter`}
+              title={`${chapter.title} chapter flow`}
+            >
+              <AnalogChapterMotionDiagram
+                mode={chapter.diagramMode}
+                title={`${chapter.title} flow`}
+              />
+            </MovedSubjectVisualizationCard>,
+            ...chapter.topics.map((topic) => (
+              <MovedSubjectVisualizationCard
+                key={`${chapter.slug}-${topic.title}`}
+                title={topic.title}
+              >
+                <AnalogChapterMotionDiagram
+                  mode={chapter.diagramMode}
+                  title={topic.title}
+                />
+              </MovedSubjectVisualizationCard>
+            )),
+          ])}
+        </div>
+      </section>
+
+      <section className="grid gap-3">
+        <h3 className="text-base font-black text-slate-950">
+          Semiconductor and diode circuit visualizations
+        </h3>
+        <div className="grid gap-3 xl:grid-cols-2">
+          <MovedSubjectVisualizationCard title="Atomic control to PN junction flow">
+            <AnalogChapterMotionDiagram mode="pn" title="Atomic control to PN junction flow" />
+          </MovedSubjectVisualizationCard>
+          {semiconductorVisuals.map((item) => (
+            <MovedSubjectVisualizationCard key={item.title} title={item.title}>
+              <AnalogChapterMotionDiagram mode={item.mode} title={item.title} />
+            </MovedSubjectVisualizationCard>
+          ))}
+          <MovedSubjectVisualizationCard title="Diode PN junction and forward bias">
+            <DiodeMotionDiagram />
+          </MovedSubjectVisualizationCard>
+          <MovedSubjectVisualizationCard title="Rectifier waveform">
+            <RectifierMotionDiagram />
+          </MovedSubjectVisualizationCard>
+          <MovedSubjectVisualizationCard title="Diode application flow">
+            <DiodeApplicationDiagram visual="bridge" title="Diode application flow" />
+          </MovedSubjectVisualizationCard>
+          {diodeApplicationVisuals.map((item) => (
+            <MovedSubjectVisualizationCard key={`${item.visual}-${item.title}`} title={item.title}>
+              <DiodeApplicationDiagram visual={item.visual} title={item.title} />
+            </MovedSubjectVisualizationCard>
+          ))}
+        </div>
+      </section>
+
+      <section className="grid gap-3">
+        <h3 className="text-base font-black text-slate-950">
+          Transistor and amplifier visualizations
+        </h3>
+        <div className="grid gap-3 xl:grid-cols-2">
+          <MovedSubjectVisualizationCard title="BJT and MOSFET operation">
+            <TransistorMotionDiagram />
+          </MovedSubjectVisualizationCard>
+          {AMPLIFIER_VISUALIZATION_MODES.map(([mode, title]) => (
+            <MovedSubjectVisualizationCard key={mode} title={title}>
+              <AmplifierMotionDiagram mode={mode} />
+            </MovedSubjectVisualizationCard>
+          ))}
+          <MovedSubjectVisualizationCard title="BJT carrier-control flow">
+            <BjtDiagram visual="working" title="BJT carrier-control flow" />
+          </MovedSubjectVisualizationCard>
+          {bjtVisuals.map((item) => (
+            <MovedSubjectVisualizationCard key={`bjt-${item.visual}-${item.title}`} title={item.title}>
+              <BjtDiagram visual={item.visual} title={item.title} />
+            </MovedSubjectVisualizationCard>
+          ))}
+          <MovedSubjectVisualizationCard title="BJT amplifier signal flow">
+            <BjtAmplifierDiagram visual="ceamp" title="BJT amplifier signal flow" />
+          </MovedSubjectVisualizationCard>
+          {bjtAmplifierVisuals.map((item) => (
+            <MovedSubjectVisualizationCard key={`bjt-amp-${item.visual}-${item.title}`} title={item.title}>
+              <BjtAmplifierDiagram visual={item.visual} title={item.title} />
+            </MovedSubjectVisualizationCard>
+          ))}
+          <MovedSubjectVisualizationCard title="FET gate-field channel control">
+            <FetDiagram visual="enhancement" title="FET gate-field channel control" />
+          </MovedSubjectVisualizationCard>
+          {fetVisuals.map((item) => (
+            <MovedSubjectVisualizationCard key={`fet-${item.visual}-${item.title}`} title={item.title}>
+              <FetDiagram visual={item.visual} title={item.title} />
+            </MovedSubjectVisualizationCard>
+          ))}
+          <MovedSubjectVisualizationCard title="Negative feedback loop">
+            <FeedbackDiagram visual="closed-loop" title="Negative feedback loop" />
+          </MovedSubjectVisualizationCard>
+          {feedbackVisuals.map((item) => (
+            <MovedSubjectVisualizationCard key={`feedback-${item.visual}-${item.title}`} title={item.title}>
+              <FeedbackDiagram visual={item.visual} title={item.title} />
+            </MovedSubjectVisualizationCard>
+          ))}
+        </div>
+      </section>
+
+      <section className="grid gap-3">
+        <h3 className="text-base font-black text-slate-950">
+          Oscillator and op-amp visualizations
+        </h3>
+        <div className="grid gap-3 xl:grid-cols-2">
+          {OSCILLATOR_VISUALIZATION_MODES.map(([mode, title]) => (
+            <MovedSubjectVisualizationCard key={`oscillator-${mode}`} title={title}>
+              <OscillatorDiagram mode={mode} title={title} />
+            </MovedSubjectVisualizationCard>
+          ))}
+          {OPAMP_VISUALIZATION_MODES.map(([mode, title]) => (
+            <MovedSubjectVisualizationCard key={`opamp-${mode}`} title={title}>
+              <OpAmpDiagram mode={mode} title={title} />
+            </MovedSubjectVisualizationCard>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function buildSubjectSeo(subject, theoryKnowledge, learningTopics = []) {
   const relatedLinks = getSubjectRelatedLinks(subject.title);
   const chapterNames = subjectTheoryRoadmaps[subject.title]?.map((step) => step.title) || [];
@@ -14101,7 +14365,7 @@ export default function SubjectTheoryPage({
         structuredData={seo.structuredData}
         pageClassName="py-3 sm:py-4"
       >
-        <div className="mx-auto max-w-[1200px]">
+        <div className="mx-auto max-w-[1440px]">
           <nav aria-label="Breadcrumb" className="mb-5 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between">
             <ol className="flex min-w-0 w-full flex-wrap items-center gap-2 rounded-2xl border border-white/80 bg-white/80 px-3 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur sm:w-auto sm:rounded-full sm:px-4">
               <li className="shrink-0">
@@ -14211,11 +14475,6 @@ export default function SubjectTheoryPage({
   const isQuizAnswered = typeof selectedQuizIndex === "number";
   const isQuizCorrect = isQuizAnswered && selectedQuizIndex === activeQuiz?.correctIndex;
   const analogStandaloneChapter = ANALOG_STANDALONE_PAGES[standaloneTopicPage];
-  const shouldUseElectromagneticSubjectHub =
-    subject.title === "Electromagnetic Theory" &&
-    isConceptIntroPage &&
-    !selectedLearningTopic;
-
   useEffect(() => {
     if (!selectedLearningTopicSlug) {
       return;
@@ -14349,11 +14608,11 @@ export default function SubjectTheoryPage({
         children: (
           <>
             <p>
-              This circuit motion explains how charge, current, voltage, power, and
-              element behavior appear in a simple Network Analysis circuit.
+              These normal circuit diagrams show how charge, current, voltage, power,
+              and element behavior are marked before solving Network Analysis problems.
             </p>
             <div className="mt-4">
-              <BasicConceptGuideContent withIntro={false} />
+              <BasicConceptCircuitDiagramGallery />
             </div>
           </>
         ),
@@ -14470,7 +14729,7 @@ export default function SubjectTheoryPage({
   if (standaloneTopicPage === "diodes") {
     return (
       <Layout title="ECE Exam Guide | Diodes" pageClassName="py-3 sm:py-4">
-        <div className="mx-auto max-w-[1200px] pb-24">
+        <div className="mx-auto max-w-[1440px] pb-24">
           <nav
             aria-label="Breadcrumb"
             className="mb-5 flex items-start justify-between gap-3 pt-1"
@@ -14623,7 +14882,7 @@ export default function SubjectTheoryPage({
             dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
           />
         </Head>
-        <div className="mx-auto max-w-[1200px] pb-24">
+        <div className="mx-auto max-w-[1440px] pb-24">
           <nav
             aria-label="Breadcrumb"
             className="mb-5 flex items-start justify-between gap-3 pt-1"
@@ -14782,7 +15041,7 @@ export default function SubjectTheoryPage({
             dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
           />
         </Head>
-        <div className="mx-auto max-w-[1200px] pb-24">
+        <div className="mx-auto max-w-[1440px] pb-24">
           <nav
             aria-label="Breadcrumb"
             className="mb-5 flex items-start justify-between gap-3 pt-1"
@@ -14897,7 +15156,7 @@ export default function SubjectTheoryPage({
       structuredData={seo.structuredData}
       pageClassName="py-3 sm:py-4"
     >
-      <div id="subject-roadmap-top" className="mx-auto max-w-[1500px] scroll-mt-40 pb-24 xl:pb-0">
+      <div id="subject-roadmap-top" className="mx-auto max-w-[1440px] scroll-mt-40 pb-24 xl:pb-0">
         <nav
           aria-label="Breadcrumb"
           className="mb-4 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between"
@@ -14948,7 +15207,6 @@ export default function SubjectTheoryPage({
               <NetworkTopicMenu
                 concepts={concepts}
                 activeIndex={activeConceptIndex}
-                onSelectTopic={selectRoadmapTopic}
               />
             ) : subject.title === "Analog Electronics" ? (
               <AnalogChapterMenu />
@@ -15050,30 +15308,13 @@ export default function SubjectTheoryPage({
           </div>
         </section>
 
-        {shouldUseElectromagneticSubjectHub ? (
-          <ElectromagneticSubjectHub
-            subject={subject}
-            chapterMeta={chapterMeta}
-            steps={steps}
-            concepts={concepts}
-            learningTopics={learningMeta.learningTopics || []}
-            notesHref={notesHref}
-            completionPercent={completionPercent}
-            completedTopics={completedTopics}
-            readyTopics={readyTopics}
-          />
-        ) : (
-          <>
-            <SubjectSeoDepthSection
-              subject={subject}
-              chapterMeta={chapterMeta}
-              concepts={concepts}
-              learningTopics={learningMeta.learningTopics || []}
-              notesHref={notesHref}
-            />
-
-          </>
-        )}
+        <SubjectSeoDepthSection
+          subject={subject}
+          chapterMeta={chapterMeta}
+          concepts={concepts}
+          learningTopics={learningMeta.learningTopics || []}
+          notesHref={notesHref}
+        />
 
         <section className="mt-5">
           <main className="min-w-0">

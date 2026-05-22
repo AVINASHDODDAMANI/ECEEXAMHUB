@@ -107,7 +107,7 @@ export default function KarnaughMapPage() {
       description="Deep educational guide to Karnaugh maps, grouping, prime implicants, essential prime implicants, don't-care conditions, and logic simplification."
       pageClassName="py-3 sm:py-4"
     >
-      <div className="mx-auto max-w-[1200px] pb-24">
+      <div className="mx-auto max-w-[1440px] pb-24">
         <nav aria-label="Breadcrumb" className="mb-5 flex items-start justify-between gap-3 pt-1">
           <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>

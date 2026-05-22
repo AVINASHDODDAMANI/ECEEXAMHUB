@@ -114,9 +114,10 @@ export default function EducationalTheoryLayout({
   sections = [],
   footer,
   navLabel,
+  containerClassName = "max-w-[1440px]",
 }) {
   return (
-    <div className="mx-auto min-w-0 max-w-[1200px] pb-20">
+    <div className={`mx-auto min-w-0 pb-20 ${containerClassName}`}>
       <nav
         aria-label="Breadcrumb"
         className="mb-4 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between"

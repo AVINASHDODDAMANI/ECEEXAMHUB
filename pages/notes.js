@@ -112,7 +112,7 @@ export default function NotesPage() {
       structuredData={notesStructuredData}
       pageClassName="py-3 sm:py-4"
     >
-      <div className="mx-auto max-w-[1200px] pb-12">
+      <div className="mx-auto max-w-[1440px] pb-12">
         <nav
           aria-label="Breadcrumb"
           className="mb-5 flex items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500"

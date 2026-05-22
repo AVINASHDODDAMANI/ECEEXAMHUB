@@ -362,16 +362,15 @@ const belDecember2023RemainingQuestions = [
       "1.33 μs",
       "6.67 μs"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "1.33 μs",
+    "explanation": "The 8085 NOP instruction uses 4 T-states. At 3 MHz, one clock period is 1/3 microsecond, so the execution time is 4/3 microseconds, approximately 1.33 microseconds.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512645",
@@ -395,16 +394,15 @@ const belDecember2023RemainingQuestions = [
       "Channel Bandwidth is inversely proportional to channel capacity.",
       "Channel Bandwidth has no effect on channel capacity."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Channel Bandwidth is directly proportional to channel capacity.",
+    "explanation": "Shannon channel capacity increases with bandwidth for a fixed signal-to-noise ratio because C = B log2(1 + S/N).",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512667",
@@ -421,23 +419,22 @@ const belDecember2023RemainingQuestions = [
   },
   {
     "_id": "bel-dec-2023-electronics-q30",
-    "question": "Refer to the official PDF figure for BEL Electronics Question 30.",
+    "question": "For an underdamped second-order system, the damping ratio (zeta) is:",
     "options": [
       "Between 0 and 1",
       "Equal to 1",
       "Less than 0",
       "Greater than 1"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Between 0 and 1",
+    "explanation": "A standard second-order system is underdamped when its damping ratio satisfies 0 < zeta < 1.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512649",
@@ -461,16 +458,15 @@ const belDecember2023RemainingQuestions = [
       "Directly proportional to resistance",
       "Inversely proportional to Q-factor"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Inversely proportional to Q-factor",
+    "explanation": "For a resonant circuit, bandwidth is related to quality factor by BW = f0 / Q. Higher Q gives a narrower bandwidth.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512594",
@@ -494,16 +490,15 @@ const belDecember2023RemainingQuestions = [
       "All I, II and III",
       "Only III Only"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Only II",
+    "explanation": "A closed-loop control system uses feedback to compare output with the reference and reduce error. The other statements do not define closed-loop operation.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512647",
@@ -527,16 +522,15 @@ const belDecember2023RemainingQuestions = [
       "1110101001",
       "11110101001"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "001110101001",
+    "explanation": "Convert each hexadecimal digit to four bits: 3 = 0011, A = 1010, and 9 = 1001. Therefore 3A9 = 001110101001.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512631",
@@ -560,16 +554,15 @@ const belDecember2023RemainingQuestions = [
       "It becomes zero",
       "It becomes maximum"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "It remains constant",
+    "explanation": "In phase modulation, the phase deviation depends on the instantaneous modulating signal. With zero modulating amplitude, there is no phase deviation from the carrier reference.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512662",
@@ -593,16 +586,15 @@ const belDecember2023RemainingQuestions = [
       "Emitter feedback bias",
       "Base bias"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Voltage divider bias",
+    "explanation": "Voltage-divider bias with emitter stabilization makes the BJT operating point less sensitive to beta and temperature changes.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512618",
@@ -626,16 +618,15 @@ const belDecember2023RemainingQuestions = [
       "A capacitor",
       "A resistor"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "A voltage source",
+    "explanation": "A biased diode clipper uses a DC voltage source with the diode branch to set the level at which clipping starts.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512616",
@@ -659,16 +650,15 @@ const belDecember2023RemainingQuestions = [
       "A ∨ B = B ∨ A",
       "(A ∨ B) ∨ C = A ∨ (B ∨ C)"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "(A ∧ B) ∧ C = A ∧ (B ∧ C)",
+    "explanation": "The marked option states an associative-law identity, not the commutative-law identity that swaps operand order.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512633",
@@ -692,16 +682,15 @@ const belDecember2023RemainingQuestions = [
       "The frequency of the output signal varies with time.",
       "The loop gain is less than one."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The amplitude of the output signal is constant.",
+    "explanation": "At sustained sinusoidal oscillation, the loop satisfies the oscillation condition and the output amplitude settles to a constant value.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512627",
@@ -725,16 +714,15 @@ const belDecember2023RemainingQuestions = [
       "Half of the source impedance",
       "Complex conjugate of the source impedance"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Complex conjugate of the source impedance",
+    "explanation": "For maximum average power transfer in an AC circuit, the load impedance must equal the complex conjugate of the source or Thevenin impedance.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512588",
@@ -758,16 +746,15 @@ const belDecember2023RemainingQuestions = [
       "It increases the quantization noise",
       "It decreases the quantization noise"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "It decreases the quantization noise",
+    "explanation": "More PCM quantization levels reduce the quantization step size, so the quantization error and quantization noise decrease.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512664",
@@ -791,16 +778,15 @@ const belDecember2023RemainingQuestions = [
       "It represents the damping ratio",
       "It is the frequency at which phase margin is minimum."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "It indicates the unity gain frequency",
+    "explanation": "The gain crossover frequency is the frequency at which the magnitude of the loop transfer function crosses unity, or 0 dB.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512653",
@@ -824,16 +810,15 @@ const belDecember2023RemainingQuestions = [
       "Increasing with frequency",
       "Constant"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Constant",
+    "explanation": "For distortionless transmission, all frequency components must experience the same delay. That corresponds to constant group delay.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512605",
@@ -857,16 +842,15 @@ const belDecember2023RemainingQuestions = [
       "4 bits for message, 7 bits for error correction",
       "3 bits for message, 4 bits for error correction"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "4 bits for message, 3 bits for error correction",
+    "explanation": "A Hamming (7,4) codeword has 7 total bits: 4 data bits and 3 parity bits used for error correction.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512669",
@@ -890,16 +874,15 @@ const belDecember2023RemainingQuestions = [
       "1.47 s",
       "3.33 s"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "1.71 s",
+    "explanation": "For a 555 astable multivibrator, T = 0.693 (R1 + 2R2) C. Substituting R1 = 47 kohm, R2 = 100 kohm, and C = 10 microfarad gives approximately 1.71 s.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512630",
@@ -916,23 +899,22 @@ const belDecember2023RemainingQuestions = [
   },
   {
     "_id": "bel-dec-2023-electronics-q45",
-    "question": "The characteristic equation of a system is given as s 3 + 3s 2 + 7s + k = 0, fi nd the range of values of k for which the system would be stable.",
+    "question": "The characteristic equation of a system is given as s^3 + 3s^2 + 7s + k = 0. Find the range of values of k for which the system would be stable.",
     "options": [
       "0 < k < 10",
       "0 < k < 21",
       "3 < k < 18",
       "4 < k < 10"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "0 < k < 21",
+    "explanation": "For the cubic polynomial s^3 + 3s^2 + 7s + k, the Routh stability conditions require k > 0 and 3 x 7 > k. Hence 0 < k < 21.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512650",
@@ -956,16 +938,15 @@ const belDecember2023RemainingQuestions = [
       "6",
       "11"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "8",
+    "explanation": "A 32-to-1 selection can be formed from eight 4-to-1 multiplexer blocks at the input grouping stage, matching the marked answer.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512637",
@@ -982,23 +963,22 @@ const belDecember2023RemainingQuestions = [
   },
   {
     "_id": "bel-dec-2023-electronics-q47",
-    "question": "What is a crucial factor to consider in designing an activefilter for high-frequency applications?",
+    "question": "What is a crucial factor to consider in designing an active filter for high-frequency applications?",
     "options": [
       "The open-loop gain of the operational amplifier",
       "The value of the input resistor",
       "The slew rate of the operational amplifier",
       "The power supply voltage of the operational amplifier"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The slew rate of the operational amplifier",
+    "explanation": "At high frequency and finite output swing, an op-amp needs sufficient slew rate to follow the signal without slew-induced distortion.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512624",
@@ -1018,20 +998,19 @@ const belDecember2023RemainingQuestions = [
     "question": "Poynting vector represents _______.",
     "options": [
       "The rate of energy transfer per unit area",
-      "Magneticfield per unit area",
-      "Electricfield per unit area",
-      "The rate offlux change per unit area"
+      "Magnetic field per unit area",
+      "Electric field per unit area",
+      "The rate of flux change per unit area"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The rate of energy transfer per unit area",
+    "explanation": "The Poynting vector gives electromagnetic power flow density, which is the rate of energy transfer per unit area.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512682",
@@ -1055,16 +1034,15 @@ const belDecember2023RemainingQuestions = [
       "Gated D Latch",
       "T Latch"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Gated D Latch",
+    "explanation": "A gated D latch is level-sensitive only while its enable input is active; during that interval its output follows changes at D.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512639",
@@ -1088,16 +1066,15 @@ const belDecember2023RemainingQuestions = [
       "360 degrees",
       "90 degrees"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "360 degrees",
+    "explanation": "The Barkhausen phase condition requires the total loop phase shift at oscillation to be 0 degrees modulo 360 degrees.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512626",
@@ -1121,16 +1098,15 @@ const belDecember2023RemainingQuestions = [
       "Transconductance (g m )",
       "Channel length modulation"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Transconductance (g m )",
+    "explanation": "The MOSFET transconductance sets signal-current conversion and strongly affects the gain-bandwidth behavior of a single-stage amplifier.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512621",

@@ -387,7 +387,7 @@ function ElementCard({ section, index }) {
           </div>
 
           <div className="mt-2.5">
-            <CircuitElementMotionDiagram title={section.title} steps={section.visualSteps} />
+            <CircuitElementDiagram title={section.title} />
           </div>
 
           <div className="mt-2.5 grid gap-2 md:grid-cols-2">
@@ -401,14 +401,256 @@ function ElementCard({ section, index }) {
             </div>
             <div className="rounded-xl border border-blue-200 bg-blue-50/70 p-2.5 shadow-sm">
               <p className="text-[10px] font-black uppercase tracking-[0.1em] text-blue-700">
-                How To Visualize
+                Diagram Reading
               </p>
-              <p className="mt-1 text-[13px] font-bold leading-5 text-slate-800">{section.animation}</p>
+              <p className="mt-1 text-[13px] font-bold leading-5 text-slate-800">
+                Read the element symbol, marked current direction, terminal polarity,
+                and connected source before applying {section.formula}.
+              </p>
             </div>
           </div>
         </div>
       </div>
     </article>
+  );
+}
+
+function CircuitElementDiagram({ title }) {
+  const label = `${title} circuit diagram`;
+
+  return (
+    <figure className="overflow-hidden rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm">
+      <figcaption className="mb-2 flex flex-wrap items-center justify-between gap-2">
+        <span className="text-[10px] font-black uppercase tracking-[0.1em] text-portal-700">
+          Normal Circuit Diagram
+        </span>
+        <span className="text-xs font-bold text-slate-500">{title}</span>
+      </figcaption>
+      <div className="overflow-x-auto rounded-lg border border-slate-100 bg-slate-50/80">
+        <svg
+          viewBox="0 0 720 250"
+          className="mx-auto h-auto min-w-[560px] max-w-full"
+          role="img"
+          aria-label={label}
+        >
+          <defs>
+            <marker id="ceStaticArrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+              <path d="M0 0l9 4.5L0 9z" fill="#154a96" />
+            </marker>
+          </defs>
+          <rect x="1" y="1" width="718" height="248" rx="18" fill="#f8fbff" stroke="#dbeafe" />
+          {title === "Resistor" ? (
+            <ResistorStaticDiagram />
+          ) : title === "Capacitor" ? (
+            <CapacitorStaticDiagram />
+          ) : title === "Inductor" ? (
+            <InductorStaticDiagram />
+          ) : title === "Independent Voltage Source" ? (
+            <VoltageSourceStaticDiagram />
+          ) : title === "Independent Current Source" ? (
+            <CurrentSourceStaticDiagram />
+          ) : title === "Dependent Source" ? (
+            <DependentSourceStaticDiagram />
+          ) : (
+            <SourceTransformationStaticDiagram />
+          )}
+        </svg>
+      </div>
+    </figure>
+  );
+}
+
+function StaticWire({ d }) {
+  return (
+    <path
+      d={d}
+      fill="none"
+      stroke="#111827"
+      strokeWidth="5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  );
+}
+
+function StaticResistor({ x = 320, y = 75 }) {
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      <path
+        d="M0 0h22l12-18 22 36 22-36 22 36 22-36 12 18h22"
+        fill="none"
+        stroke="#111827"
+        strokeWidth="5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <text x="63" y="-30" fill="#0f172a" fontSize="15" fontWeight="900">R</text>
+    </g>
+  );
+}
+
+function StaticBattery({ x = 176, y = 87 }) {
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      <path d="M0 0v76" stroke="#111827" strokeWidth="5" strokeLinecap="round" />
+      <path d="M24 -13v102" stroke="#111827" strokeWidth="5" strokeLinecap="round" />
+      <text x="42" y="13" fill="#dc2626" fontSize="18" fontWeight="900">+</text>
+      <text x="42" y="77" fill="#2563eb" fontSize="18" fontWeight="900">-</text>
+    </g>
+  );
+}
+
+function StaticCurrentArrow({ d, label, x, y }) {
+  return (
+    <g>
+      <path
+        d={d}
+        fill="none"
+        stroke="#154a96"
+        strokeWidth="3.5"
+        strokeLinecap="round"
+        markerEnd="url(#ceStaticArrow)"
+      />
+      <text x={x} y={y} fill="#154a96" fontSize="13" fontWeight="900">{label}</text>
+    </g>
+  );
+}
+
+function StaticElementLoop({ children }) {
+  return (
+    <g>
+      <StaticWire d="M200 75H320M476 75H560V190H200V163" />
+      <StaticBattery />
+      <StaticWire d="M200 75V87M200 163V190" />
+      <StaticCurrentArrow d="M252 48H424" label="i" x={334} y={38} />
+      {children}
+    </g>
+  );
+}
+
+function ResistorStaticDiagram() {
+  return (
+    <g>
+      <StaticElementLoop>
+        <StaticResistor />
+      </StaticElementLoop>
+      <text x="300" y="120" fill="#dc2626" fontSize="17" fontWeight="900">+</text>
+      <text x="468" y="120" fill="#2563eb" fontSize="17" fontWeight="900">-</text>
+      <text x="357" y="145" fill="#475569" fontSize="13" fontWeight="800">vR</text>
+      <text x="278" y="222" fill="#475569" fontSize="13" fontWeight="800">Closed loop with resistor voltage drop</text>
+    </g>
+  );
+}
+
+function CapacitorStaticDiagram() {
+  return (
+    <g>
+      <StaticElementLoop>
+        <StaticWire d="M320 75H370M430 75H476" />
+        <path d="M382 40v70M418 40v70" stroke="#111827" strokeWidth="6" strokeLinecap="round" />
+        <text x="393" y="32" fill="#0f172a" fontSize="15" fontWeight="900">C</text>
+      </StaticElementLoop>
+      <text x="360" y="135" fill="#dc2626" fontSize="17" fontWeight="900">+</text>
+      <text x="430" y="135" fill="#2563eb" fontSize="17" fontWeight="900">-</text>
+      <text x="385" y="156" fill="#475569" fontSize="13" fontWeight="800">vC</text>
+      <text x="269" y="222" fill="#475569" fontSize="13" fontWeight="800">Capacitor plates in a source-driven branch</text>
+    </g>
+  );
+}
+
+function InductorStaticDiagram() {
+  return (
+    <g>
+      <StaticElementLoop>
+        <StaticWire d="M320 75H350M456 75H476" />
+        <path
+          d="M350 75c8-30 23 30 36 0s23 30 36 0 23 30 34 0"
+          fill="none"
+          stroke="#111827"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
+        <text x="399" y="34" fill="#0f172a" fontSize="15" fontWeight="900">L</text>
+      </StaticElementLoop>
+      <text x="337" y="131" fill="#dc2626" fontSize="17" fontWeight="900">+</text>
+      <text x="456" y="131" fill="#2563eb" fontSize="17" fontWeight="900">-</text>
+      <text x="386" y="151" fill="#475569" fontSize="13" fontWeight="800">vL</text>
+      <text x="287" y="222" fill="#475569" fontSize="13" fontWeight="800">Inductor coil with current reference</text>
+    </g>
+  );
+}
+
+function VoltageSourceStaticDiagram() {
+  return (
+    <g>
+      <StaticWire d="M224 65H350M506 65H558V194H224V145" />
+      <circle cx="224" cy="105" r="40" fill="#fff" stroke="#111827" strokeWidth="5" />
+      <StaticWire d="M224 145V194" />
+      <text x="214" y="99" fill="#dc2626" fontSize="23" fontWeight="900">+</text>
+      <text x="218" y="127" fill="#2563eb" fontSize="23" fontWeight="900">-</text>
+      <text x="192" y="164" fill="#0f172a" fontSize="14" fontWeight="900">Vs</text>
+      <StaticResistor x={350} y={65} />
+      <StaticCurrentArrow d="M286 38H466" label="load current" x={331} y={29} />
+      <text x="305" y="222" fill="#475569" fontSize="13" fontWeight="800">Ideal voltage source feeding a load</text>
+    </g>
+  );
+}
+
+function CurrentSourceStaticDiagram() {
+  return (
+    <g>
+      <StaticWire d="M224 65H350M506 65H558V194H224V145" />
+      <circle cx="224" cy="105" r="40" fill="#fff" stroke="#111827" strokeWidth="5" />
+      <path d="M224 127V82" stroke="#059669" strokeWidth="5" strokeLinecap="round" markerEnd="url(#ceStaticArrow)" />
+      <StaticWire d="M224 145V194" />
+      <text x="190" y="164" fill="#0f172a" fontSize="14" fontWeight="900">Is</text>
+      <StaticResistor x={350} y={65} />
+      <text x="319" y="222" fill="#475569" fontSize="13" fontWeight="800">Current source setting branch current</text>
+    </g>
+  );
+}
+
+function DependentSourceStaticDiagram() {
+  return (
+    <g>
+      <circle cx="166" cy="121" r="33" fill="#fff" stroke="#111827" strokeWidth="4" />
+      <text x="143" y="126" fill="#154a96" fontSize="15" fontWeight="900">Vin</text>
+      <path d="M201 121H310" fill="none" stroke="#7c3aed" strokeWidth="3.5" strokeDasharray="8 7" />
+      <text x="212" y="100" fill="#7c3aed" fontSize="13" fontWeight="900">control</text>
+      <polygon points="416,57 500,121 416,185 332,121" fill="#fff" stroke="#111827" strokeWidth="5" />
+      <text x="386" y="116" fill="#7c3aed" fontSize="14" fontWeight="900">A Vin</text>
+      <text x="385" y="138" fill="#475569" fontSize="12" fontWeight="800">VCVS</text>
+      <StaticWire d="M500 93H560M500 149H560" />
+      <text x="570" y="99" fill="#dc2626" fontSize="19" fontWeight="900">+</text>
+      <text x="570" y="156" fill="#2563eb" fontSize="19" fontWeight="900">-</text>
+      <text x="356" y="222" fill="#475569" fontSize="13" fontWeight="800">Diamond symbol marks a dependent source</text>
+    </g>
+  );
+}
+
+function SourceTransformationStaticDiagram() {
+  return (
+    <g>
+      <text x="112" y="35" fill="#0f172a" fontSize="14" fontWeight="900">Voltage form</text>
+      <circle cx="118" cy="110" r="31" fill="#fff" stroke="#111827" strokeWidth="4" />
+      <text x="108" y="105" fill="#dc2626" fontSize="18" fontWeight="900">+</text>
+      <text x="111" y="129" fill="#2563eb" fontSize="18" fontWeight="900">-</text>
+      <StaticWire d="M149 110H184M340 110H366V190H118V141" />
+      <StaticResistor x={184} y={110} />
+      <circle cx="366" cy="110" r="5" fill="#154a96" />
+      <circle cx="366" cy="190" r="5" fill="#154a96" />
+      <text x="300" y="217" fill="#475569" fontSize="12" fontWeight="800">load terminals</text>
+      <path d="M386 120H446" stroke="#059669" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceStaticArrow)" />
+      <text x="392" y="104" fill="#047857" fontSize="13" fontWeight="900">I = V / R</text>
+      <text x="502" y="35" fill="#0f172a" fontSize="14" fontWeight="900">Current form</text>
+      <circle cx="514" cy="133" r="31" fill="#fff" stroke="#111827" strokeWidth="4" />
+      <path d="M514 153V111" stroke="#059669" strokeWidth="4" strokeLinecap="round" markerEnd="url(#ceStaticArrow)" />
+      <StaticWire d="M545 133H626V190H482V133H483" />
+      <StaticWire d="M545 78H626V133" />
+      <StaticResistor x={548} y={78} />
+      <circle cx="626" cy="133" r="5" fill="#154a96" />
+      <circle cx="626" cy="190" r="5" fill="#154a96" />
+    </g>
   );
 }
 
@@ -730,6 +972,20 @@ function CircuitElementMotionDiagram({ title, steps = [] }) {
           onSelectStep={setActiveStep}
         />
       </div>
+    </div>
+  );
+}
+
+export function CircuitElementVisualizationGallery() {
+  return (
+    <div className="grid gap-3">
+      {circuitElementSections.map((section) => (
+        <CircuitElementMotionDiagram
+          key={section.title}
+          title={section.title}
+          steps={section.visualSteps}
+        />
+      ))}
     </div>
   );
 }
@@ -1326,10 +1582,10 @@ function LearningHookPanel() {
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(280px,0.8fr)] lg:items-center">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.16em] text-portal-700">
-            Visual learning path
+            Circuit reading path
           </p>
           <h2 className="mt-2 text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
-            Understand circuit elements in 2 minutes with step-by-step animation.
+            Understand circuit elements from normal circuit diagrams.
           </h2>
           <p className="mt-2 max-w-3xl text-sm font-semibold leading-7 text-slate-800">
             See how resistors, capacitors, inductors, and sources affect current,
@@ -1337,7 +1593,7 @@ function LearningHookPanel() {
           </p>
         </div>
         <div className="grid gap-2 text-sm font-bold text-slate-800">
-          {["Watch the circuit motion", "Read the active step card", "Remember the formula", "Try exam MCQs"].map((item, index) => (
+          {["Read the source symbol", "Check current and polarity", "Remember the formula", "Try exam MCQs"].map((item, index) => (
             <div key={item} className="flex items-center gap-2 rounded-xl border border-blue-100 bg-white px-3 py-2 shadow-sm">
               <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-portal-600 text-xs font-black text-white">
                 {index + 1}
@@ -1424,7 +1680,7 @@ function ExamRetentionSection() {
 export default function CircuitElementsPage() {
   return (
     <Layout title="ECE Exam Guide | Circuit Elements" pageClassName="py-3 sm:py-4">
-      <div className="mx-auto max-w-[1200px] pb-24">
+      <div className="mx-auto max-w-[1440px] pb-24">
         <nav
           aria-label="Breadcrumb"
           className="mb-5 flex items-start justify-between gap-3 pt-1"
@@ -1465,7 +1721,7 @@ export default function CircuitElementsPage() {
             Network Analysis / Circuit Elements
           </p>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-            Understand Circuit Elements in 2 minutes with visual explanation
+            Understand Circuit Elements with normal circuit diagrams
           </h1>
           <p className="mt-3 max-w-3xl text-sm font-medium leading-7 text-slate-800 sm:text-base">
             You will learn how resistors, capacitors, inductors, and sources shape
