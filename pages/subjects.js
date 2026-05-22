@@ -329,86 +329,77 @@ export default function SubjectsPage() {
             {subjectCards.map((subject) => (
               <article
                 key={subject.title}
-                className="group relative overflow-hidden rounded-[24px] border border-slate-200 bg-white p-4 shadow-[0_14px_36px_rgba(15,23,42,0.06)] transition hover:-translate-y-0.5 hover:border-portal-300 hover:shadow-[0_18px_48px_rgba(15,23,42,0.1)]"
+                className="group relative overflow-hidden rounded-[24px] border border-slate-200 bg-white p-4 shadow-[0_14px_36px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-portal-300 hover:shadow-[0_22px_54px_rgba(15,23,42,0.12)]"
               >
-                <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#154a96_0%,#0f766e_100%)] opacity-0 transition group-hover:opacity-100" />
+                <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#154a96_0%,#0f766e_100%)] opacity-70 transition group-hover:opacity-100" />
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`flex h-12 w-12 flex-none items-center justify-center rounded-[18px] border ${subject.accent.bg} ${subject.accent.border} ${subject.accent.text}`}
+                      className={`flex h-12 w-12 flex-none items-center justify-center rounded-[18px] border transition duration-300 group-hover:scale-105 ${subject.accent.bg} ${subject.accent.border} ${subject.accent.text}`}
                     >
                       <SubjectIcon type={subject.icon} />
                     </div>
-                    <div>
-                      <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-slate-500">
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-slate-500">
                         {subject.positioning.level}
                       </p>
-                      <h3 className="mt-1 text-lg font-extrabold tracking-tight text-slate-950 group-hover:text-portal-700">
+                      <h3 className="mt-0.5 text-lg font-extrabold tracking-tight text-slate-950 transition group-hover:text-portal-700">
                         {subject.title}
                       </h3>
                     </div>
                   </div>
-                  <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-extrabold text-slate-600">
+                  <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600">
                     {subject.stats.chapterCount} chapters
                   </span>
                 </div>
 
                 <p className="mt-3 text-sm font-semibold text-portal-700">
-                  Best used for: {subject.positioning.value}
+                  {subject.positioning.value}
                 </p>
-                <p className="mt-1.5 text-sm leading-6 text-slate-600">
+                <p className="mt-1.5 line-clamp-2 min-h-10 text-sm leading-5 text-slate-500">
                   {subject.description}
                 </p>
 
-                <p className="mt-2 text-xs font-medium uppercase tracking-[0.12em] text-slate-500">
-                  {subject.stats.learningReadyCount} guided learning topics currently linked
-                </p>
-
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {subject.positioning.tags.map((tag) => (
-                    <span
-                      key={`${subject.title}-${tag}`}
-                      className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-600"
-                    >
+                <div className="mt-3 flex min-h-6 flex-wrap items-center gap-x-2 gap-y-1 text-xs font-semibold text-slate-500">
+                  <span>{subject.stats.learningReadyCount} topics linked</span>
+                  {subject.positioning.tags.slice(0, 1).map((tag) => (
+                    <span key={`${subject.title}-${tag}`} className="inline-flex items-center gap-2">
+                      <span aria-hidden="true" className="h-1 w-1 rounded-full bg-slate-300" />
                       {tag.replace("-", " ")}
                     </span>
                   ))}
                 </div>
 
-                <div className="mt-4 grid grid-cols-3 gap-2.5">
-                  {[
-                    ["Chapters", subject.stats.chapterCount],
-                    ["Done", subject.stats.completedTopics],
-                    ["Progress", `${subject.stats.completionPercent}%`],
-                  ].map(([label, value]) => (
-                    <div key={label} className="rounded-[18px] border border-slate-200 bg-slate-50 px-3 py-2.5">
-                      <p className="text-base font-extrabold text-slate-950">{value}</p>
-                      <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-500">
-                        {label}
-                      </p>
-                    </div>
-                  ))}
+                <div className="mt-4 rounded-[18px] border border-slate-200 bg-slate-50/80 px-3 py-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-xs font-semibold text-slate-500">
+                      {subject.stats.completedTopics} topics done
+                    </p>
+                    <p className="text-sm font-extrabold text-slate-950">
+                      {subject.stats.completionPercent}%
+                    </p>
+                  </div>
+                  <div className="mt-2 h-2 rounded-full bg-white">
+                    <div
+                      className="h-2 rounded-full bg-[linear-gradient(90deg,#154a96_0%,#0f766e_100%)] transition-all duration-500"
+                      style={{ width: `${Math.max(subject.stats.completionPercent, 6)}%` }}
+                    />
+                  </div>
                 </div>
 
-                <div className="mt-4 h-2 rounded-full bg-slate-100">
-                  <div
-                    className="h-2 rounded-full bg-[linear-gradient(90deg,#154a96_0%,#0f766e_100%)] transition-all"
-                    style={{ width: `${Math.max(subject.stats.completionPercent, 6)}%` }}
-                  />
-                </div>
-
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-4 flex items-center gap-2">
                   <Link
                     href={`/subjects/${subject.subjectSlug}`}
-                    className="inline-flex items-center justify-center rounded-[18px] bg-portal-700 px-4 py-2.5 text-sm font-extrabold text-white transition hover:bg-portal-800"
+                    className="inline-flex min-h-10 flex-1 items-center justify-center gap-2 rounded-[18px] bg-portal-700 px-4 py-2 text-sm font-extrabold text-white transition hover:bg-portal-800"
                   >
-                    Open Subject Hub
+                    <span>Open Hub</span>
+                    <span aria-hidden="true" className="transition group-hover:translate-x-0.5">-&gt;</span>
                   </Link>
                   <Link
                     href={`/notes/${subject.subjectSlug}`}
-                    className="inline-flex items-center justify-center rounded-[18px] border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-bold text-slate-700 transition hover:border-portal-300 hover:text-portal-700"
+                    className="inline-flex min-h-10 items-center justify-center rounded-[18px] border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 transition hover:border-portal-300 hover:text-portal-700"
                   >
-                    Open Notes
+                    Notes
                   </Link>
                 </div>
               </article>
