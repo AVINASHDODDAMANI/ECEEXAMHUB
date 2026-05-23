@@ -32,8 +32,10 @@ function highlightText(text = "", query = "") {
 const groupAccent = {
   Chapters: "bg-indigo-50 text-indigo-700",
   Topics: "bg-blue-50 text-blue-700",
+  Subtopics: "bg-sky-50 text-sky-700",
   Subjects: "bg-violet-50 text-violet-700",
   Concepts: "bg-blue-50 text-blue-700",
+  Formulas: "bg-teal-50 text-teal-700",
   Papers: "bg-amber-50 text-amber-700",
   Questions: "bg-rose-50 text-rose-700",
   MCQs: "bg-emerald-50 text-emerald-700",
@@ -50,6 +52,7 @@ export default function SmartSearchDropdown({
   query,
   groupedResults,
   suggestions = [],
+  topicSuggestions = [],
   onSelect,
 }) {
   const hasResults = groupedResults.some((group) => group.items.length);
@@ -57,6 +60,29 @@ export default function SmartSearchDropdown({
   return (
     <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-portal-200 bg-white text-left shadow-[0_24px_80px_rgba(15,23,42,0.18)] transition duration-150">
       <div className="max-h-[28rem] overflow-y-auto p-3">
+        {topicSuggestions.length ? (
+          <section className="mb-3 rounded-xl border border-sky-100 bg-sky-50/70 px-3 py-3">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-sky-700">
+              Topic suggestions
+            </p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {topicSuggestions.map((suggestion) => (
+                <Link
+                  key={`${suggestion.href}-${suggestion.label}`}
+                  href={suggestion.href}
+                  onClick={onSelect}
+                  className="inline-flex max-w-full items-center gap-2 rounded-full border border-sky-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-800 transition hover:border-portal-300 hover:text-portal-700"
+                >
+                  <span className="truncate">{suggestion.label}</span>
+                  <span className="text-[10px] uppercase tracking-[0.12em] text-sky-700">
+                    {suggestion.group}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
         {hasResults ? (
           groupedResults.map((group) => (
             <section key={group.group} className="mb-3 last:mb-0">

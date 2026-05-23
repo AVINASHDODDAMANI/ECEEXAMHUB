@@ -43,7 +43,7 @@ function isTopNavActive(pathname, href) {
 export default function Navbar({
   searchValue,
   onSearchChange,
-  searchPlaceholder = "Search subjects, topics, papers...",
+  searchPlaceholder = "Search Laplace transform, MOSFET, Bode plot...",
   searchTarget = "/search",
 }) {
   const router = useRouter();
@@ -81,6 +81,13 @@ export default function Navbar({
         : [],
     [deferredQuery, searchIndex, searchRuntime]
   );
+  const topicSuggestions = useMemo(
+    () =>
+      searchRuntime && deferredQuery.length >= 2
+        ? searchRuntime.getTopicSearchSuggestions(deferredQuery, searchIndex, 4)
+        : [],
+    [deferredQuery, searchIndex, searchRuntime]
+  );
   const shouldShowDropdown =
     isSearchOpen && deferredQuery.length >= 2 && Boolean(searchRuntime);
   const shouldShowSearchLoading =
@@ -105,8 +112,10 @@ export default function Navbar({
           seedQuestions: questionsModule.default || [],
           fetchQuestions: apiClientModule.fetchQuestions,
           buildSmartSearchIndex: smartSearchModule.buildSmartSearchIndex,
+          getSmartSearchResults: smartSearchModule.getSmartSearchResults,
           getGroupedSmartSearchResults: smartSearchModule.getGroupedSmartSearchResults,
           getSearchSuggestions: smartSearchModule.getSearchSuggestions,
+          getTopicSearchSuggestions: smartSearchModule.getTopicSearchSuggestions,
         };
 
         if (isMountedRef.current) {
@@ -222,10 +231,44 @@ export default function Navbar({
     void ensureSearchRuntime();
   }
 
-  function handleSearchSubmit(event) {
+  async function handleSearchSubmit(event) {
     event.preventDefault();
 
     const trimmedValue = resolvedSearchValue.trim();
+
+    if (trimmedValue && searchTarget === "/search") {
+      try {
+        const runtime = searchRuntime || (await ensureSearchRuntime());
+        const nextIndex =
+          searchIndex.length || !runtime
+            ? searchIndex
+            : runtime.buildSmartSearchIndex(searchQuestions.length ? searchQuestions : runtime.seedQuestions);
+        const normalizedQuery = trimmedValue.toLowerCase().replace(/[^a-z0-9]+/gi, " ").trim();
+        const exactMatches = nextIndex.filter(
+          (item) => item.title.toLowerCase().replace(/[^a-z0-9]+/gi, " ").trim() === normalizedQuery
+        );
+        const paperIntent = /\b(paper|papers|pyq|pyqs|previous|year|question|questions)\b/.test(
+          normalizedQuery
+        );
+        const rankedMatches = runtime.getSmartSearchResults(trimmedValue, nextIndex, 8);
+        const directMatch =
+          exactMatches.find((item) => item.group === "Subjects") ||
+          exactMatches.find((item) => item.group === "Chapters") ||
+          exactMatches.find((item) => item.group === "Topics") ||
+          exactMatches.find((item) => item.group === "Subtopics") ||
+          exactMatches[0] ||
+          (paperIntent ? rankedMatches.find((item) => item.group === "Papers") : null);
+
+        if (directMatch?.href) {
+          setIsSearchOpen(false);
+          router.push(directMatch.href);
+          return;
+        }
+      } catch {
+        // Fall back to the full search page if the lazy search index is unavailable.
+      }
+    }
+
     router.push({
       pathname: searchTarget,
       query: trimmedValue
@@ -236,8 +279,8 @@ export default function Navbar({
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-3 py-3 sm:px-6 sm:py-4 lg:px-8">
-        <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[auto_minmax(340px,1fr)_auto] lg:items-center lg:gap-6">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-2 px-3 py-2 sm:px-6 sm:py-3 lg:px-8">
+        <div className="flex flex-col gap-2 lg:grid lg:grid-cols-[auto_minmax(340px,1fr)_auto] lg:items-center lg:gap-4">
           <div className="grid grid-cols-[auto_minmax(136px,1fr)_auto] items-center gap-2 lg:flex lg:justify-between lg:gap-3">
             <Link href="/" className="min-w-0">
               <BrandLogo
@@ -283,6 +326,7 @@ export default function Navbar({
                   query={deferredQuery}
                   groupedResults={groupedResults}
                   suggestions={suggestions}
+                  topicSuggestions={topicSuggestions}
                   onSelect={() => setIsSearchOpen(false)}
                 />
               ) : null}
@@ -343,6 +387,7 @@ export default function Navbar({
                   query={deferredQuery}
                   groupedResults={groupedResults}
                   suggestions={suggestions}
+                  topicSuggestions={topicSuggestions}
                   onSelect={() => setIsSearchOpen(false)}
                 />
               ) : null}
@@ -377,7 +422,7 @@ export default function Navbar({
       <div className="bg-[linear-gradient(135deg,#103a78_0%,#0f4b9b_100%)] text-white">
         <div className="mx-auto max-w-[1440px] px-2 sm:px-6 lg:px-8">
           <div className="lg:hidden">
-            <nav className="grid grid-cols-4 gap-1.5 py-2">
+            <nav className="grid grid-cols-4 gap-1.5 py-1.5">
               {navItems.map((item) => {
                 const isActive = isTopNavActive(router.pathname, item.href);
 
@@ -385,7 +430,7 @@ export default function Navbar({
                   <Link
                     key={`mobile-${item.href}`}
                     href={item.href}
-                    className={`relative flex min-h-10 items-center justify-center rounded-xl px-1.5 py-2 text-center text-[11px] font-bold leading-tight transition sm:text-[12px] ${
+                    className={`relative flex min-h-9 items-center justify-center rounded-xl px-1.5 py-1.5 text-center text-[11px] font-bold leading-tight transition sm:text-[12px] ${
                       isActive ? activeNavClass : inactiveNavClass
                     }`}
                   >
@@ -399,7 +444,7 @@ export default function Navbar({
             </nav>
           </div>
 
-          <nav className="hidden items-center gap-1 overflow-x-auto whitespace-nowrap py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex lg:py-0">
+          <nav className="hidden items-center gap-1 overflow-x-auto whitespace-nowrap py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex lg:py-0">
             {navItems.map((item) => {
               const isActive = isTopNavActive(router.pathname, item.href);
 
@@ -407,7 +452,7 @@ export default function Navbar({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold transition sm:px-4 sm:py-3 sm:text-sm ${
+                  className={`relative whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold transition sm:px-4 sm:py-2.5 sm:text-sm ${
                     isActive ? activeNavClass : inactiveNavClass
                   }`}
                 >

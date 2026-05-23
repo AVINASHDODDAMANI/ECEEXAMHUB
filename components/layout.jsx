@@ -54,7 +54,7 @@ export default function Layout({
   searchValue = "",
   onSearchChange,
   hideNavbar = false,
-  pageClassName = "py-3 sm:py-4",
+  pageClassName = "py-2 sm:py-3",
 }) {
   const router = useRouter();
   const pathOnly = (router.asPath || "/").split("#")[0].split("?")[0] || "/";
@@ -117,7 +117,7 @@ export default function Layout({
         ))}
       </Head>
 
-      <div className="relative min-h-screen overflow-x-clip bg-[#f4f7fb]">
+      <div className="site-compact relative min-h-screen overflow-x-clip bg-[#f4f7fb]">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 top-0 h-[360px] bg-[radial-gradient(circle_at_top,rgba(21,74,150,0.12),transparent_62%)]"
@@ -129,7 +129,7 @@ export default function Layout({
         <div className="relative z-10">
           {!hideNavbar && <Navbar searchValue={searchValue} onSearchChange={onSearchChange} />}
           <main
-            className={`mx-auto w-full max-w-[1440px] px-3 pb-8 ${pageClassName} sm:px-6 sm:pb-10 lg:px-8`}
+            className={`mx-auto w-full max-w-[1440px] px-3 pb-5 ${pageClassName} sm:px-6 sm:pb-7 lg:px-8`}
           >
             {children}
           </main>

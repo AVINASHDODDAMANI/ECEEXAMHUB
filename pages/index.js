@@ -243,22 +243,22 @@ export default function Home() {
       keywords="GATE ECE preparation, ECE notes, ECE MCQs, previous year questions, mock tests, electronics and communication engineering"
       pageClassName="py-0"
     >
-      <div className="mx-auto max-w-[1320px] space-y-16 pb-14">
-        <section className="grid gap-10 pt-8 lg:grid-cols-[minmax(0,1fr)_560px] lg:items-center">
+      <div className="mx-auto max-w-[1320px] space-y-12 pb-8">
+        <section className="grid gap-8 pt-5 lg:grid-cols-[minmax(0,1fr)_560px] lg:items-center">
           <div>
             <p className="inline-flex rounded-full border border-portal-200 bg-white px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-portal-700 shadow-sm">
               Notes, PYQs, playlists, and structured ECE exam prep
             </p>
-            <h1 className="mt-6 max-w-4xl text-4xl font-extrabold tracking-tight text-slate-950 sm:text-5xl lg:text-[4.25rem] lg:leading-[1.02]">
+            <h1 className="mt-4 max-w-4xl text-4xl font-extrabold tracking-tight text-slate-950 sm:text-5xl lg:text-[4.25rem] lg:leading-[1.02]">
               ECE Exam Guide
             </h1>
-            <p className="mt-6 max-w-2xl text-lg font-semibold leading-8 text-slate-700">
+            <p className="mt-4 max-w-2xl text-lg font-semibold leading-8 text-slate-700">
               One place for Notes, PYQs, Playlists, and Smart Exam Preparation.
             </p>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base">
               Built for ECE students preparing for GATE, semester exams, and technical revisions with more structure than scattered Drive folders.
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
+            <div className="mt-5 flex flex-wrap gap-3">
               <Link
                 href="/learn"
                 className="inline-flex min-h-12 items-center justify-center rounded-xl bg-portal-700 px-6 py-3 text-sm font-extrabold text-white shadow-[0_18px_38px_rgba(21,74,150,0.24)] transition hover:bg-portal-800"
@@ -273,7 +273,7 @@ export default function Home() {
                 Take Mock Test
               </Link>
             </div>
-            <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {heroStats.map(([label, value]) => (
                 <div key={label} className="rounded-2xl border border-slate-200 bg-white/95 px-4 py-4 shadow-sm">
                   <p className="text-2xl font-extrabold text-slate-950">{value}</p>
@@ -302,14 +302,14 @@ export default function Home() {
           />
         </section>
 
-        <section className="rounded-[32px] border border-slate-200 bg-[radial-gradient(circle_at_top_left,#e0f2fe_0%,#ffffff_38%,#f8fafc_100%)] p-6 shadow-sm sm:p-7">
+        <section className="rounded-[28px] border border-slate-200 bg-[radial-gradient(circle_at_top_left,#e0f2fe_0%,#ffffff_38%,#f8fafc_100%)] p-5 shadow-sm sm:p-6">
           <SectionHeader
             align="left"
             eyebrow="Live on the platform"
             title="A Homepage That Feels Active"
             description="Students trust platforms that show movement. These blocks make the site feel updated, maintained, and worth returning to."
           />
-          <div className="mt-8 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="mt-5 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
             <div className="grid gap-5">
               <div className="rounded-2xl border border-cyan-200 bg-white p-5 shadow-sm">
                 <div className="flex items-center justify-between gap-3">
@@ -435,14 +435,14 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm sm:p-7">
+        <section className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
           <SectionHeader
             align="left"
             eyebrow="What to do first"
             title="One Clear Study Flow"
             description="The homepage now prioritizes a single learning path, then gives secondary choices only when they help a student move forward."
           />
-          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+          <div className="mt-5 grid gap-4 lg:grid-cols-3">
             {studyGroups.map((group, index) => (
               <div
                 key={group.title}
@@ -503,7 +503,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm sm:p-7">
+        <section className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
           <SectionHeader
             align="left"
             eyebrow="Student confidence"

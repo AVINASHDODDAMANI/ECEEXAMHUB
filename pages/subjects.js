@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import Layout from "../components/layout";
 import { subjectDirectory } from "../data/subject-directory";
 import { getSubjectSlug } from "../data/subject-theory-roadmaps";
-import { getLearningSubject } from "../lib/learning-utils";
+import { getLearningMasteryState, getLearningSubject } from "../lib/learning-utils";
 import { buildBreadcrumbList } from "../lib/seo";
 import { useLearningProgress } from "../lib/use-learning-progress";
 
@@ -257,12 +257,12 @@ export default function SubjectsPage() {
       keywords="ECE subjects, gate ece subjects, ece notes, subject wise pyqs, electronics and communication subjects, ece study hub"
       canonicalUrl="/subjects"
       structuredData={subjectsStructuredData}
-      pageClassName="py-4 sm:py-6"
+      pageClassName="py-3 sm:py-4"
     >
       <div className="mx-auto max-w-[1440px]">
         <nav
           aria-label="Breadcrumb"
-          className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm text-slate-600 shadow-sm backdrop-blur"
+          className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm text-slate-600 shadow-sm backdrop-blur"
         >
           <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">
             Home
@@ -280,7 +280,7 @@ export default function SubjectsPage() {
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
                 ECE Subjects Notes and Study Materials
               </h1>
-              <p className="mt-4 max-w-4xl text-sm leading-7 text-slate-600 sm:text-base">
+              <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-600 sm:text-base">
                 Explore the core ECE subjects that build Electronics and Communication Engineering preparation from fundamentals to exam practice. This subject hub brings together ECE notes, chapter roadmaps, syllabus-focused revision, and practice materials for students preparing for GATE, university exams, and technical recruitment tests. Start with electronics engineering subjects such as Network Analysis, Analog Electronics, Digital Electronics, Signals and Systems, Communication Systems, Control Systems, Microprocessors, and VLSI Design, then move into topic-wise resources that match your study plan.
               </p>
               <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-600 sm:text-base">
@@ -321,12 +321,19 @@ export default function SubjectsPage() {
             </nav>
           </div>
 
-          <h2 className="mt-7 text-2xl font-extrabold tracking-tight text-slate-950">
+          <h2 className="mt-5 text-2xl font-extrabold tracking-tight text-slate-950">
             Choose the subject you want to study next
           </h2>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {subjectCards.map((subject) => (
+              (() => {
+                const masteryState = getLearningMasteryState(
+                  subject.stats.completionPercent,
+                  subject.stats.completedTopics
+                );
+
+                return (
               <article
                 key={subject.title}
                 className="group relative overflow-hidden rounded-[24px] border border-slate-200 bg-white p-4 shadow-[0_14px_36px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-portal-300 hover:shadow-[0_22px_54px_rgba(15,23,42,0.12)]"
@@ -372,19 +379,27 @@ export default function SubjectsPage() {
 
                 <div className="mt-4 rounded-[18px] border border-slate-200 bg-slate-50/80 px-3 py-3">
                   <div className="flex items-center justify-between gap-3">
-                    <p className="text-xs font-semibold text-slate-500">
-                      {subject.stats.completedTopics} topics done
-                    </p>
-                    <p className="text-sm font-extrabold text-slate-950">
+                    <div>
+                      <p className="text-xs font-semibold text-slate-500">
+                        {subject.stats.completedTopics} topics done
+                      </p>
+                      <p className="mt-1 text-sm font-extrabold text-slate-950">
+                        {masteryState.label}
+                      </p>
+                    </div>
+                    <p className="rounded-full border border-white bg-white px-2.5 py-1 text-sm font-extrabold text-portal-700 shadow-sm">
                       {subject.stats.completionPercent}%
                     </p>
                   </div>
-                  <div className="mt-2 h-2 rounded-full bg-white">
+                  <div className="mt-3 h-3 overflow-hidden rounded-full bg-white">
                     <div
-                      className="h-2 rounded-full bg-[linear-gradient(90deg,#154a96_0%,#0f766e_100%)] transition-all duration-500"
+                      className="h-3 rounded-full bg-[linear-gradient(90deg,#154a96_0%,#0f766e_100%)] transition-all duration-500"
                       style={{ width: `${Math.max(subject.stats.completionPercent, 6)}%` }}
                     />
                   </div>
+                  <p className="mt-2 line-clamp-2 text-xs leading-5 text-slate-500">
+                    {masteryState.note}
+                  </p>
                 </div>
 
                 <div className="mt-4 flex items-center gap-2">
@@ -403,6 +418,8 @@ export default function SubjectsPage() {
                   </Link>
                 </div>
               </article>
+                );
+              })()
             ))}
           </div>
         </section>

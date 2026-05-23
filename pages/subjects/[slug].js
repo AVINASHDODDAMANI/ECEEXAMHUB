@@ -16,7 +16,11 @@ import {
   subjectTheoryKnowledge,
   subjectTheoryRoadmaps,
 } from "../../data/subject-theory-roadmaps";
-import { getLearningSubject } from "../../lib/learning-utils";
+import {
+  getLearningMasteryState,
+  getLearningSubject,
+  getLearningXp,
+} from "../../lib/learning-utils";
 import { useLearningProgress } from "../../lib/use-learning-progress";
 import {
   buildSubjectFaqs,
@@ -14595,7 +14599,7 @@ export default function SubjectTheoryPage({
   const seo = buildSubjectSeo(subject, theoryKnowledge, learningMeta.learningTopics || []);
   const [activeConceptIndex, setActiveConceptIndex] = useState(initialActiveConceptIndex);
   const [quizSelections, setQuizSelections] = useState({});
-  const { progressStats, isReady } = useLearningProgress();
+  const { progressStats, revisionCount, isReady } = useLearningProgress();
   const selectedLearningTopicSlug =
     typeof router.query.topic === "string" ? router.query.topic : "";
   const selectedLearningTopic = selectedLearningTopicSlug
@@ -14708,6 +14712,8 @@ export default function SubjectTheoryPage({
   const completionPercent = subjectProgress?.completionPercent || 0;
   const completedTopics = subjectProgress?.completedTopics || 0;
   const readyTopics = subjectProgress?.totalTopics || learningMeta.readyTopics || 0;
+  const masteryState = getLearningMasteryState(completionPercent, completedTopics);
+  const subjectXp = getLearningXp(completedTopics);
   const activeFormulaPreview =
     activeConcept?.formulas?.length > 0
       ? activeConcept.formulas.slice(0, 3)
@@ -15415,9 +15421,9 @@ export default function SubjectTheoryPage({
       <div id="subject-roadmap-top" className="mx-auto max-w-[1440px] scroll-mt-40 pb-24 xl:pb-0">
         <nav
           aria-label="Breadcrumb"
-          className="mb-4 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between"
+          className="mb-4 flex items-start justify-between gap-2 pt-1"
         >
-          <ol className="flex min-w-0 w-full flex-wrap items-center gap-2 rounded-2xl border border-white/80 bg-white/80 px-3 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur sm:w-auto sm:rounded-full sm:px-4">
+          <ol className="flex min-w-0 flex-1 flex-wrap items-center gap-2 rounded-2xl border border-white/80 bg-white/80 px-3 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur sm:w-auto sm:rounded-full sm:px-4">
             <li className="shrink-0">
               <Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">
                 Home
@@ -15522,22 +15528,52 @@ export default function SubjectTheoryPage({
 
             <div className="grid gap-3 rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
               <div>
-                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                  <h2 className="text-sm font-bold text-slate-950">Study Progress</h2>
-                  <span className="text-xs font-semibold text-slate-500">
-                    {isReady ? `${completionPercent}% Completed` : "Loading..."}
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h2 className="text-sm font-bold text-slate-950">Study Momentum</h2>
+                    <p className="mt-1 text-xl font-black tracking-tight text-slate-950">
+                      {isReady ? masteryState.label : "Loading..."}
+                    </p>
+                  </div>
+                  <span className="rounded-full border border-white bg-white px-3 py-1 text-sm font-black text-portal-700 shadow-sm">
+                    {completionPercent}%
                   </span>
                 </div>
-                <div className="mt-3 h-2 rounded-full bg-white">
+                <div className="mt-3 h-4 overflow-hidden rounded-full border border-white bg-white">
                   <div
-                    className="h-2 rounded-full bg-gradient-to-r from-emerald-500 to-portal-600 transition-all"
-                    style={{ width: `${completionPercent}%` }}
+                    className="h-full rounded-full bg-gradient-to-r from-emerald-500 via-cyan-500 to-portal-600 transition-all"
+                    style={{ width: `${Math.max(completionPercent, completionPercent ? 8 : 0)}%` }}
                   />
                 </div>
-                <p className="mt-2 text-xs font-medium text-slate-600">
-                  {completedTopics} / {readyTopics} ready topics completed
+                <p className="mt-2 text-xs font-semibold leading-5 text-slate-600">
+                  {masteryState.note}
                 </p>
               </div>
+
+              <div className="grid grid-cols-3 gap-2">
+                <div className="rounded-xl border border-white bg-white px-2.5 py-2">
+                  <p className="text-base font-black text-slate-950">{subjectXp}</p>
+                  <p className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                    XP
+                  </p>
+                </div>
+                <div className="rounded-xl border border-white bg-white px-2.5 py-2">
+                  <p className="text-base font-black text-slate-950">{completedTopics}/{readyTopics}</p>
+                  <p className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                    Topics
+                  </p>
+                </div>
+                <div className="rounded-xl border border-white bg-white px-2.5 py-2">
+                  <p className="text-base font-black text-slate-950">{revisionCount}</p>
+                  <p className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                    Revise
+                  </p>
+                </div>
+              </div>
+
+              <p className="rounded-xl border border-portal-100 bg-white px-3 py-2 text-xs font-semibold leading-5 text-slate-600">
+                Daily target: finish one topic, then save the concepts that need revision.
+              </p>
 
               <Link
                 href={learningMeta.continueHref || subject.href}

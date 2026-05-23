@@ -5,9 +5,11 @@ import Layout from "../components/layout";
 import questions from "../data/questions";
 import {
   buildSmartSearchIndex,
+  getGroupedSmartSearchItems,
   getGroupedSmartSearchResults,
   getPopularSearches,
   getSmartSearchResults,
+  getTopicSearchSuggestions,
 } from "../lib/smart-search";
 
 const RECENT_SEARCHES_KEY = "eceexamhub-recent-searches";
@@ -15,8 +17,10 @@ const RECENT_SEARCHES_KEY = "eceexamhub-recent-searches";
 const groupAccent = {
   Chapters: "border-indigo-200 bg-indigo-50 text-indigo-800",
   Topics: "border-blue-200 bg-blue-50 text-blue-800",
+  Subtopics: "border-sky-200 bg-sky-50 text-sky-800",
   Subjects: "border-violet-200 bg-violet-50 text-violet-800",
   Concepts: "border-blue-200 bg-blue-50 text-blue-800",
+  Formulas: "border-teal-200 bg-teal-50 text-teal-800",
   Papers: "border-amber-200 bg-amber-50 text-amber-800",
   Questions: "border-rose-200 bg-rose-50 text-rose-800",
   MCQs: "border-emerald-200 bg-emerald-50 text-emerald-800",
@@ -28,6 +32,25 @@ const groupAccent = {
 const groupLabel = {
   Concepts: "Theory",
 };
+
+const quickFilters = [
+  { id: "all", label: "All", groups: [] },
+  { id: "topics", label: "Topics", groups: ["Topics", "Subtopics", "Chapters", "Concepts"] },
+  { id: "formulas", label: "Formulas", groups: ["Formulas"] },
+  { id: "pyqs", label: "PYQs", groups: ["PYQs", "Questions", "Papers"] },
+  { id: "practice", label: "Practice", groups: ["Practice", "MCQs"] },
+  { id: "subjects", label: "Subjects", groups: ["Subjects", "Notes"] },
+];
+
+function filterResults(results = [], filterId = "all") {
+  const filter = quickFilters.find((item) => item.id === filterId) || quickFilters[0];
+
+  if (!filter.groups.length) {
+    return results;
+  }
+
+  return results.filter((item) => filter.groups.includes(item.group));
+}
 
 function readRecentSearches() {
   if (typeof window === "undefined") {
@@ -62,19 +85,31 @@ function writeRecentSearch(query) {
 export default function SearchPage() {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
+  const [activeFilter, setActiveFilter] = useState("all");
   const [recentSearches, setRecentSearches] = useState([]);
   const searchIndex = useMemo(() => buildSmartSearchIndex(questions), []);
-  const groupedResults = useMemo(
-    () => getGroupedSmartSearchResults(searchValue, searchIndex, 8),
+  const allResults = useMemo(
+    () => getSmartSearchResults(searchValue, searchIndex, searchIndex.length),
     [searchIndex, searchValue]
   );
-  const allResults = useMemo(
-    () => getSmartSearchResults(searchValue, searchIndex, 40),
+  const filteredResults = useMemo(
+    () => filterResults(allResults, activeFilter),
+    [activeFilter, allResults]
+  );
+  const groupedResults = useMemo(
+    () =>
+      activeFilter === "all"
+        ? getGroupedSmartSearchResults(searchValue, searchIndex, 150)
+        : getGroupedSmartSearchItems(filteredResults, 150),
+    [activeFilter, filteredResults, searchIndex, searchValue]
+  );
+  const topicSuggestions = useMemo(
+    () => getTopicSearchSuggestions(searchValue, searchIndex, 6),
     [searchIndex, searchValue]
   );
   const popularSearches = useMemo(() => getPopularSearches(6), []);
   const hasQuery = searchValue.trim().length > 0;
-  const hasResults = allResults.length > 0;
+  const hasResults = filteredResults.length > 0;
 
   useEffect(() => {
     if (!router.isReady) {
@@ -83,6 +118,7 @@ export default function SearchPage() {
 
     const nextQuery = typeof router.query.q === "string" ? router.query.q : "";
     setSearchValue(nextQuery);
+    setActiveFilter("all");
     setRecentSearches(readRecentSearches());
 
     if (nextQuery.trim()) {
@@ -117,11 +153,11 @@ export default function SearchPage() {
             Search
           </p>
           <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-            {hasQuery ? `Results for "${searchValue}"` : "Find topics, MCQs, notes, and subjects"}
+            {hasQuery ? `Results for "${searchValue}"` : "Search by the idea in your head"}
           </h1>
           <p className="mt-2 max-w-3xl text-sm font-medium leading-7 text-slate-700">
-            Search understands question text, paper year, exam name, subject,
-            chapter, topic, concept, formula, notes, and MCQs.
+            Search for a topic, formula, PYQ phrase, paper year, exam name,
+            subject, chapter, concept, notes, or MCQ.
           </p>
         </section>
 
@@ -137,6 +173,66 @@ export default function SearchPage() {
               }))}
               emptyText="Your recent searches will appear here."
             />
+          </section>
+        ) : null}
+
+        {hasQuery ? (
+          <section className="mt-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <h2 className="text-sm font-bold text-slate-950">Quick filters</h2>
+              </div>
+              <div className="flex flex-wrap gap-2" role="tablist" aria-label="Search result filters">
+                {quickFilters.map((filter) => {
+                  const count = filterResults(allResults, filter.id).length;
+                  const isActive = activeFilter === filter.id;
+
+                  return (
+                    <button
+                      key={filter.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      onClick={() => setActiveFilter(filter.id)}
+                      className={`inline-flex min-h-10 items-center gap-2 rounded-full border px-3 py-2 text-sm font-bold transition ${
+                        isActive
+                          ? "border-portal-600 bg-portal-600 text-white shadow-sm"
+                          : "border-slate-200 bg-slate-50 text-slate-700 hover:border-portal-300 hover:bg-white hover:text-portal-700"
+                      }`}
+                    >
+                      <span>{filter.label}</span>
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-xs ${
+                          isActive ? "bg-white/18 text-white" : "bg-white text-slate-500"
+                        }`}
+                      >
+                        {count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {hasQuery && topicSuggestions.length ? (
+          <section className="mt-5 rounded-2xl border border-sky-200 bg-sky-50/70 p-4">
+            <h2 className="text-sm font-bold text-slate-950">Topic suggestions</h2>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {topicSuggestions.map((item) => (
+                <Link
+                  key={`${item.href}-${item.label}`}
+                  href={item.href}
+                  className="inline-flex min-h-10 items-center gap-2 rounded-full border border-sky-200 bg-white px-3 py-2 text-sm font-bold text-slate-800 transition hover:border-portal-300 hover:text-portal-700"
+                >
+                  <span>{item.label}</span>
+                  <span className="text-[11px] uppercase tracking-[0.12em] text-sky-700">
+                    {item.group}
+                  </span>
+                </Link>
+              ))}
+            </div>
           </section>
         ) : null}
 
@@ -173,7 +269,7 @@ export default function SearchPage() {
           <section className="mt-5 grid gap-4 md:grid-cols-2">
             <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <h2 className="text-lg font-bold text-slate-950">
-                No exact result, but try these
+                No {activeFilter === "all" ? "exact" : activeFilter} result, but try these
               </h2>
               <p className="mt-2 text-sm font-medium leading-6 text-slate-700">
                 Use shorter keywords or open a related page below.

@@ -3,7 +3,9 @@ import { useMemo, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/layout";
 import {
+  getLearningMasteryState,
   getLearningSubjects,
+  getLearningXp,
   searchLearningContent,
 } from "../../lib/learning-utils";
 import { useLearningProgress } from "../../lib/use-learning-progress";
@@ -157,31 +159,32 @@ function StatCard({ icon, value, label, note, tintClassName }) {
   );
 }
 
-function TinyWeekStreak() {
+function StudyMomentum({ xp, masteryState, completedCount, revisionCount }) {
   return (
     <DashboardCard className="p-4">
-      <div className="flex items-center gap-4">
+      <div className="flex items-start gap-4">
         <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-100 text-orange-500">
           <DashboardIcon name="streak" className="h-6 w-6" />
         </div>
         <div className="min-w-0">
-          <div className="flex items-end gap-2">
-            <span className="text-3xl font-black tracking-tight text-slate-950">12</span>
-            <span className="pb-1 text-sm font-bold text-slate-500">Day streak</span>
+          <div className="flex flex-wrap items-end gap-x-2 gap-y-1">
+            <span className="text-3xl font-black tracking-tight text-slate-950">{xp}</span>
+            <span className="pb-1 text-sm font-bold text-slate-500">Study XP</span>
           </div>
-          <p className="text-sm text-slate-500">Consistent study across the week.</p>
+          <p className="text-sm font-semibold text-slate-700">{masteryState.label}</p>
+          <p className="mt-1 text-sm leading-6 text-slate-500">
+            Daily target: complete one topic and review {revisionCount || "one"} saved item.
+          </p>
         </div>
-        <div className="ml-auto hidden items-center gap-2 md:flex">
-          {["M", "T", "W", "T", "F", "S", "S"].map((day, index) => (
-            <div key={`${day}-${index}`} className="text-center">
-              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">{day}</p>
-              <span
-                className={`mt-2 block h-5 w-5 rounded-full ${
-                  index === 6 ? "bg-orange-400" : "bg-[#1d63d8]"
-                }`}
-              />
-            </div>
-          ))}
+        <div className="ml-auto hidden grid-cols-2 gap-2 md:grid">
+          <div className="rounded-xl bg-blue-50 px-3 py-2 text-right">
+            <p className="text-lg font-black text-slate-950">{completedCount}</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-blue-600">Done</p>
+          </div>
+          <div className="rounded-xl bg-emerald-50 px-3 py-2 text-right">
+            <p className="text-lg font-black text-slate-950">{revisionCount}</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-emerald-600">Revise</p>
+          </div>
         </div>
       </div>
     </DashboardCard>
@@ -189,14 +192,21 @@ function TinyWeekStreak() {
 }
 
 function SubjectBar({ label, percent, barClassName }) {
+  const masteryState = getLearningMasteryState(percent);
+
   return (
     <div>
       <div className="flex items-center justify-between gap-3">
         <p className="text-sm font-semibold text-slate-700">{label}</p>
-        <span className="text-sm font-bold text-slate-500">{percent}%</span>
+        <span className="text-sm font-bold text-slate-500">
+          {masteryState.label} | {percent}%
+        </span>
       </div>
-      <div className="mt-2 h-2.5 rounded-full bg-slate-100">
-        <div className={`h-2.5 rounded-full ${barClassName}`} style={{ width: `${percent}%` }} />
+      <div className="mt-2 h-3 overflow-hidden rounded-full bg-slate-100">
+        <div
+          className={`h-3 rounded-full ${barClassName}`}
+          style={{ width: `${Math.max(percent, percent ? 8 : 0)}%` }}
+        />
       </div>
     </div>
   );
@@ -245,19 +255,22 @@ export default function LearnPage() {
   const continueTopic =
     readyTopics.find((topic) => !progressMap[topic.topicKey]) || readyTopics[0];
   const activeSubjects = progressStats.subjects.filter((subject) => subject.totalTopics > 0);
-  const completedSubjects = activeSubjects.filter((subject) => subject.completionPercent >= 80).length;
   const coveredPercent = progressStats.completionPercent || 0;
-  const questionsSolved = Math.max(1240, progressStats.completedCount * 18);
-  const testsTaken = Math.max(32, Math.round(progressStats.completedCount * 0.5));
-  const averageAccuracy = Math.min(92, 54 + Math.round(coveredPercent * 0.25));
+  const masteryState = getLearningMasteryState(coveredPercent, progressStats.completedCount);
+  const studyXp = getLearningXp(progressStats.completedCount);
+  const continueSubjectProgress = activeSubjects.find(
+    (subject) => subject.slug === continueTopic?.subjectSlug
+  );
+  const continuePercent = continueSubjectProgress?.completionPercent || 0;
+  const continueMasteryState = getLearningMasteryState(
+    continuePercent,
+    continueSubjectProgress?.completedTopics || 0
+  );
   const focusSubjects = activeSubjects.slice().sort((a, b) => b.completionPercent - a.completionPercent).slice(0, 5);
-  const weakTopicRows = [
-    "Root Locus",
-    "Fourier Transform",
-    "MOSFET Biasing",
-    "Two Port Networks",
-    "Laplace Transforms",
-  ];
+  const prioritySubjects = activeSubjects
+    .slice()
+    .sort((a, b) => a.completionPercent - b.completionPercent)
+    .slice(0, 5);
   const recentActivity = [
     {
       title: "Completed Test",
@@ -328,36 +341,41 @@ export default function LearnPage() {
               </p>
             </div>
           </DashboardCard>
-          <TinyWeekStreak />
+          <StudyMomentum
+            xp={studyXp}
+            masteryState={masteryState}
+            completedCount={progressStats.completedCount}
+            revisionCount={revisionCount}
+          />
         </section>
 
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <StatCard
             icon="book"
-            value={Math.max(12, activeSubjects.length)}
-            label="Subjects"
-            note={`${completedSubjects} at strong completion`}
+            value={progressStats.completedCount}
+            label="Topics Done"
+            note={`${progressStats.totalTopics} ready topics on your path`}
             tintClassName="bg-blue-100 text-blue-600"
           />
           <StatCard
-            icon="folder"
-            value="500+"
-            label="Resources"
-            note="Notes, PDFs, and revision files"
+            icon="trend"
+            value={studyXp}
+            label="Study XP"
+            note="Earned from completed learning topics"
             tintClassName="bg-emerald-100 text-emerald-600"
           />
           <StatCard
-            icon="test"
-            value={testsTaken}
-            label="Tests Taken"
-            note="Mock and chapter tests combined"
+            icon="bookmark"
+            value={revisionCount}
+            label="Revision Queue"
+            note="Saved topics waiting for recall"
             tintClassName="bg-amber-100 text-amber-600"
           />
           <StatCard
-            icon="trend"
-            value={`${averageAccuracy}%`}
-            label="Average Accuracy"
-            note="Across recent practice attempts"
+            icon="pulse"
+            value={masteryState.label}
+            label="Mastery"
+            note={masteryState.note}
             tintClassName="bg-violet-100 text-violet-600"
           />
         </section>
@@ -386,18 +404,18 @@ export default function LearnPage() {
                       </p>
                     </div>
                     <StatusPill className="bg-blue-100 text-blue-700">
-                      {Math.max(68, coveredPercent)}%
+                      {continueMasteryState.label}
                     </StatusPill>
                   </div>
-                  <div className="mt-5 h-2.5 rounded-full bg-slate-200">
+                  <div className="mt-5 h-4 overflow-hidden rounded-full bg-slate-200">
                     <div
-                      className="h-2.5 rounded-full bg-gradient-to-r from-[#1d63d8] to-[#2f7df6]"
-                      style={{ width: `${Math.max(68, coveredPercent)}%` }}
+                      className="h-4 rounded-full bg-gradient-to-r from-emerald-500 to-[#2f7df6]"
+                      style={{ width: `${Math.max(continuePercent, continuePercent ? 8 : 0)}%` }}
                     />
                   </div>
-                  <div className="mt-3 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">
-                    <span>Current module progress</span>
-                    <span>About 10 min to resume</span>
+                  <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-slate-500">
+                    <span>{continuePercent}% subject coverage</span>
+                    <span>Daily target: finish this topic</span>
                   </div>
                 </div>
               </div>
@@ -455,13 +473,13 @@ export default function LearnPage() {
               <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-blue-200">Preparation Overview</p>
               <h2 className="mt-2 text-2xl font-black tracking-tight">Today&apos;s Study Status</h2>
             </div>
-            <StatusPill className="bg-emerald-500/16 text-emerald-200">12 day streak</StatusPill>
+            <StatusPill className="bg-emerald-500/16 text-emerald-200">{masteryState.label}</StatusPill>
           </div>
           <div className="grid gap-4 border-t border-white/10 px-5 py-5 md:grid-cols-3">
             {[
+              [studyXp.toLocaleString(), "Study XP"],
               [`${coveredPercent}%`, "Syllabus Covered"],
-              [questionsSolved.toLocaleString(), "Questions Solved"],
-              [Math.max(38, progressStats.completedCount), "Topics Completed"],
+              [revisionCount, "Revision Queue"],
             ].map(([value, label]) => (
               <div key={label}>
                 <p className="text-4xl font-black tracking-tight">{value}</p>
@@ -496,7 +514,7 @@ export default function LearnPage() {
                 <SubjectBar
                   key={subject.slug || subject.name}
                   label={subject.name}
-                  percent={subject.completionPercent || [82, 68, 54, 47, 36][index]}
+                  percent={subject.completionPercent || 0}
                   barClassName={["bg-emerald-500", "bg-blue-500", "bg-cyan-500", "bg-orange-500", "bg-violet-500"][index % 5]}
                 />
               ))}
@@ -505,25 +523,30 @@ export default function LearnPage() {
 
           <DashboardCard>
             <SectionHeader
-              title="Weak Topics"
-              description="Topics that need revision or more practice."
+              title="Priority Subjects"
+              description="Low-coverage subjects to pull back into your routine."
             />
             <div className="mt-5 grid gap-3">
-              {weakTopicRows.map((topic) => (
+              {prioritySubjects.map((subject) => (
                 <Link
-                  key={topic}
+                  key={subject.slug}
                   href="/subjects"
                   className="flex items-center gap-3 rounded-2xl border border-orange-100 bg-orange-50/60 px-4 py-3 transition hover:bg-white"
                 >
                   <div className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-white text-orange-500">
                     <DashboardIcon name="warning" className="h-4 w-4" />
                   </div>
-                  <span className="text-sm font-semibold text-slate-700">{topic}</span>
+                  <span className="min-w-0 flex-1 text-sm font-semibold text-slate-700">
+                    {subject.name}
+                  </span>
+                  <span className="text-xs font-bold text-orange-700">
+                    {subject.completionPercent}%
+                  </span>
                 </Link>
               ))}
             </div>
             <Link href="/subjects" className="mt-5 inline-flex text-sm font-bold text-orange-600">
-              View Weak Topics →
+              Open subjects -&gt;
             </Link>
           </DashboardCard>
         </section>

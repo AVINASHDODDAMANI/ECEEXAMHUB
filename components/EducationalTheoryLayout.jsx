@@ -6,7 +6,7 @@ export function EducationalBulletList({ items = [], bulletClassName = "bg-portal
   }
 
   return (
-    <ul className="mt-3 grid min-w-0 gap-2 text-sm leading-7 text-slate-700 sm:text-base">
+    <ul className="mt-2.5 grid min-w-0 gap-1.5 text-sm leading-7 text-slate-700 sm:text-base">
       {items.map((item) => (
         <li key={item} className="flex min-w-0 gap-2.5">
           <span className={`mt-2.5 h-1.5 w-1.5 flex-none rounded-full ${bulletClassName}`} />
@@ -23,9 +23,9 @@ export function EducationalFormulaGrid({ formulas = [] }) {
   }
 
   return (
-    <div className="mt-4 grid gap-3 md:grid-cols-2">
+    <div className="mt-3 grid gap-2.5 md:grid-cols-2">
       {formulas.map((formula) => (
-        <article key={formula.label} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+        <article key={formula.label} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3.5">
           <h3 className="text-sm font-black uppercase tracking-[0.12em] text-slate-500">
             {formula.label}
           </h3>
@@ -45,7 +45,7 @@ export function EducationalExampleCard({ example }) {
   }
 
   return (
-    <article className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+    <article className="mt-3 rounded-2xl border border-slate-200 bg-slate-50/80 p-3.5">
       <h3 className="text-base font-black text-slate-950">{example.title}</h3>
       <p className="mt-2 text-sm leading-7 text-slate-700">{example.prompt}</p>
       {example.steps?.length ? (
@@ -81,7 +81,7 @@ export function EducationalInfoCard({ title, children, tone = "slate" }) {
       : "text-slate-500";
 
   return (
-    <div className={`rounded-2xl border p-4 ${toneClassName}`}>
+    <div className={`rounded-2xl border p-3.5 ${toneClassName}`}>
       <h3 className={`text-sm font-black uppercase tracking-[0.12em] ${titleClassName}`}>
         {title}
       </h3>
@@ -94,7 +94,7 @@ export function EducationalTopicSection({ id, title, children }) {
   return (
     <section
       id={id}
-      className="min-w-0 scroll-mt-28 overflow-hidden rounded-[26px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
+      className="min-w-0 scroll-mt-28 overflow-hidden rounded-[22px] border border-slate-200 bg-white p-3.5 shadow-sm sm:p-4"
     >
       <h2 className="text-xl font-black tracking-tight text-slate-950 sm:text-2xl">{title}</h2>
       <div className="mt-3 min-w-0 text-sm leading-7 text-slate-700 sm:text-base">
@@ -117,10 +117,10 @@ export default function EducationalTheoryLayout({
   containerClassName = "max-w-[1440px]",
 }) {
   return (
-    <div className={`mx-auto min-w-0 pb-20 ${containerClassName}`}>
+    <div className={`mx-auto min-w-0 pb-12 ${containerClassName}`}>
       <nav
         aria-label="Breadcrumb"
-        className="mb-4 flex flex-col gap-3 pt-1 sm:flex-row sm:items-start sm:justify-between"
+        className="mb-3 flex flex-col gap-2 pt-1 sm:flex-row sm:items-start sm:justify-between"
       >
         <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
           {breadcrumbs.map((item, index) => (
@@ -139,7 +139,7 @@ export default function EducationalTheoryLayout({
         {menu}
       </nav>
 
-      <header className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+      <header className="rounded-[24px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
         <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
           {eyebrow}
         </p>
@@ -150,7 +150,7 @@ export default function EducationalTheoryLayout({
           {summary}
         </p>
         {metrics.length ? (
-          <div className="mt-4 grid gap-3 text-sm text-slate-700 md:grid-cols-3">
+          <div className="mt-3 grid gap-2.5 text-sm text-slate-700 md:grid-cols-3">
             {metrics.map((metric) => (
               <div key={metric.label} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
                 <p className="font-bold text-slate-950">{metric.label}</p>
@@ -163,7 +163,7 @@ export default function EducationalTheoryLayout({
 
       <nav
         aria-label={navLabel || `${title} topic sections`}
-        className="sticky top-20 z-20 mt-4 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-sm backdrop-blur"
+        className="sticky top-20 z-20 mt-3 rounded-2xl border border-slate-200 bg-white/95 p-2.5 shadow-sm backdrop-blur"
       >
         <div className="flex gap-2 overflow-x-auto pb-1">
           {sections.map((section) => (
@@ -178,7 +178,7 @@ export default function EducationalTheoryLayout({
         </div>
       </nav>
 
-      <article className="mt-5 grid gap-5">
+      <article className="mt-4 grid gap-4">
         {sections.map((section) => (
           <EducationalTopicSection key={section.id} id={section.id} title={section.title}>
             {section.children}
@@ -186,7 +186,7 @@ export default function EducationalTheoryLayout({
         ))}
       </article>
 
-      {footer ? <div className="mt-5">{footer}</div> : null}
+      {footer ? <div className="mt-4">{footer}</div> : null}
     </div>
   );
 }

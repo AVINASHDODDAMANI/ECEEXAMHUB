@@ -126,9 +126,9 @@ mjx-container[display="true"] {
     right: 0.75rem !important;
     left: auto !important;
     z-index: 80 !important;
-    width: min(21rem, calc(100vw - 1.5rem)) !important;
+    width: min(60vw, 18rem) !important;
     max-width: none !important;
-    max-height: min(58dvh, 24rem) !important;
+    max-height: min(60dvh, 24rem) !important;
     margin-top: 0 !important;
     overflow-y: auto !important;
     border-radius: 1rem !important;
@@ -146,6 +146,30 @@ mjx-container[display="true"] {
   [id$="-menu"] span,
   [id$="-popover"] span {
     overflow-wrap: anywhere;
+  }
+
+  [id$="-menu"] .text-base,
+  [id$="-popover"] .text-base {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+  }
+
+  [id$="-menu"] .text-sm,
+  [id$="-popover"] .text-sm {
+    font-size: 0.8125rem !important;
+    line-height: 1.125rem !important;
+  }
+
+  [id$="-menu"] .text-xs,
+  [id$="-popover"] .text-xs {
+    font-size: 0.6875rem !important;
+    line-height: 0.95rem !important;
+  }
+
+  [id$="-menu"] .text-\[11px\],
+  [id$="-popover"] .text-\[11px\] {
+    font-size: 0.625rem !important;
+    line-height: 0.875rem !important;
   }
 
   [id$="-menu"] .grid,
@@ -172,6 +196,95 @@ mjx-container[display="true"] {
 .basic-concept-guide-content .bu-stage-card p:last-child {
   color: #334155;
   font-weight: 600;
+}
+
+.site-compact .space-y-16 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 2.5rem;
+}
+
+.site-compact .space-y-12 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 2rem;
+}
+
+.site-compact .space-y-10 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 1.75rem;
+}
+
+.site-compact .pb-24 {
+  padding-bottom: 3rem;
+}
+
+.site-compact .pb-20 {
+  padding-bottom: 2.5rem;
+}
+
+.site-compact .py-10 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.site-compact .py-8 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.site-compact .pt-8 {
+  padding-top: 1.25rem;
+}
+
+.site-compact .mt-10 {
+  margin-top: 2rem;
+}
+
+.site-compact .mt-8 {
+  margin-top: 1.5rem;
+}
+
+.site-compact .mt-7 {
+  margin-top: 1.25rem;
+}
+
+.site-compact .mt-6 {
+  margin-top: 1.25rem;
+}
+
+.site-compact .gap-10 {
+  gap: 1.75rem;
+}
+
+.site-compact .gap-8 {
+  gap: 1.5rem;
+}
+
+.site-compact .gap-6 {
+  gap: 1.25rem;
+}
+
+.site-compact .rounded-\[32px\],
+.site-compact .rounded-\[30px\],
+.site-compact .rounded-\[28px\],
+.site-compact .rounded-\[26px\] {
+  border-radius: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .site-compact .sm\:p-7 {
+    padding: 1.5rem;
+  }
+
+  .site-compact .sm\:p-6 {
+    padding: 1.25rem;
+  }
+
+  .site-compact .sm\:py-8 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .site-compact .sm\:py-6 {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
 }
 
 @media (max-width: 640px) {
