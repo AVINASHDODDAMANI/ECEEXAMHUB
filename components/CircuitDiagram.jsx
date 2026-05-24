@@ -183,6 +183,63 @@ function BelTheveninDependentSourceCircuit() {
   );
 }
 
+function BelSignalFlowGraphDiagram() {
+  return (
+    <svg
+      viewBox="0 0 640 250"
+      className="h-auto w-full"
+      role="img"
+      aria-label="BEL signal flow graph showing forward paths from R(s) to Y(s)"
+    >
+      <rect width="640" height="250" rx="16" fill="#ffffff" />
+
+      <g stroke="#7aa0cf" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M20 154h42" />
+        <path d="M62 154L116 104" />
+        <path d="M62 154L116 204" />
+        <path d="M116 104H320" />
+        <path d="M116 204H320" />
+        <path d="M320 104H406" />
+        <path d="M320 204H406" />
+        <path d="M406 104L458 154" />
+        <path d="M406 204L458 154" />
+        <path d="M458 154h40" />
+        <path d="M116 104C168 62 220 26 278 26C316 26 336 44 336 76V104" />
+      </g>
+
+      <g fill="#3569b8" fontSize="14" fontWeight="500">
+        <text x="47" y="186">R(s)</text>
+        <text x="472" y="186">Y(s)</text>
+        <text x="102" y="141">G1</text>
+        <text x="102" y="173">G5</text>
+        <text x="170" y="129">G2</text>
+        <text x="176" y="188">G6</text>
+        <text x="308" y="129">G3</text>
+        <text x="314" y="188">G7</text>
+        <text x="398" y="141">G4</text>
+        <text x="398" y="173">G8</text>
+        <text x="150" y="42">H1</text>
+      </g>
+
+      <g fill="#3569b8">
+        <path d="M82 136l-8 6 8 6z" />
+        <path d="M82 172l-8 6 8 6z" />
+        <path d="M212 104l-8 -6v12z" />
+        <path d="M350 104l-8 -6v12z" />
+        <path d="M212 204l-8 -6v12z" />
+        <path d="M350 204l-8 -6v12z" />
+        <path d="M438 136l8 6 -10 2z" />
+        <path d="M438 172l8 -6 -10 -2z" />
+        <path d="M192 42l8 -6 -2 10z" />
+      </g>
+
+      <text x="24" y="236" fill="#0f172a" fontSize="16" fontWeight="500">
+        Count the forward paths in the signal flow graph.
+      </text>
+    </svg>
+  );
+}
+
 function QuestionImageDiagram({ src, alt }) {
   return (
     <img
@@ -208,6 +265,10 @@ export default function CircuitDiagram({ question }) {
 
   if (diagram === "bel-dec-2023-q19-circuit") {
     return <BelTheveninDependentSourceCircuit />;
+  }
+
+  if (diagram === "bel-may-2025-q1044-sfg") {
+    return <BelSignalFlowGraphDiagram />;
   }
 
   if (isImageDiagram(diagram)) {

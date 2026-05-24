@@ -1,13 +1,26 @@
 import { getIndexableRoutes, generateCanonical } from "../lib/seo";
 
 function buildSitemapXml() {
-  const lastModified = new Date().toISOString();
-  const urls = getIndexableRoutes()
+  const manualRoutes = [
+    { path: "/", priority: 1.0, lastModified: new Date() },
+    { path: "/notes/network-analysis", priority: 0.8, lastModified: new Date() },
+    { path: "/previous-year/bel-2023", priority: 0.7, lastModified: new Date() },
+  ];
+  const uniqueRoutes = [
+    ...getIndexableRoutes().map((route) => ({
+      ...route,
+      lastModified: new Date(),
+    })),
+    ...manualRoutes,
+  ].filter((route, index, routes) => {
+    return routes.findIndex((item) => item.path === route.path) === index;
+  });
+  const urls = uniqueRoutes
     .map(
       (route) => `
   <url>
     <loc>${generateCanonical(route.path)}</loc>
-    <lastmod>${lastModified}</lastmod>
+    <lastmod>${route.lastModified.toISOString()}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>${route.priority.toFixed(1)}</priority>
   </url>`

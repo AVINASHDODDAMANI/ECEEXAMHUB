@@ -7,6 +7,13 @@ import { subjectDirectory } from "../../data/subject-directory";
 import seedQuestions from "../../data/questions";
 import { getSubjectSlug } from "../../data/subject-theory-roadmaps";
 import { fetchQuestions } from "../../lib/api-client";
+import {
+  generateCanonical,
+  generateDescription,
+  generateKeywords,
+  generateStructuredData,
+  generateTitle,
+} from "../../lib/seo";
 
 const questionSubjectMap = {
   "Network Analysis": "Networks",
@@ -51,6 +58,49 @@ export default function McqTopicPage({ subject }) {
     () => seedQuestions.filter((question) => question.subject === questionSubject),
     [questionSubject]
   );
+  const topicNames = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          initialQuestions
+            .map((question) => question.topic)
+            .filter(Boolean)
+        )
+      ).slice(0, 10),
+    [initialQuestions]
+  );
+  const seoTitle = generateTitle({ type: "mcq", subjectName: subject.title });
+  const seoDescription = generateDescription({
+    type: "mcq",
+    subjectName: subject.title,
+    topics: topicNames,
+  });
+  const seoKeywords = generateKeywords({
+    title: `${subject.title} MCQs`,
+    subjectName: subject.title,
+    topicNames,
+    extraKeywords: [
+      "mcq practice",
+      "multiple choice questions",
+      "objective questions",
+      "previous year questions",
+    ],
+  });
+  const canonicalUrl = generateCanonical(`/mcqs/${getSubjectSlug(subject.title)}`);
+  const structuredData = generateStructuredData({
+    type: "mcq",
+    title: `${subject.title} MCQs`,
+    description: seoDescription,
+    path: `/mcqs/${getSubjectSlug(subject.title)}`,
+    subjectName: subject.title,
+    keywords: seoKeywords,
+    about: topicNames,
+    breadcrumbItems: [
+      { name: "Home", item: "/" },
+      { name: "MCQs", item: "/mcqs" },
+      { name: subject.title, item: `/mcqs/${getSubjectSlug(subject.title)}` },
+    ],
+  });
   const [questions, setQuestions] = useState(initialQuestions);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
@@ -92,7 +142,13 @@ export default function McqTopicPage({ subject }) {
   }, [initialQuestions, questionSubject]);
 
   return (
-    <Layout title={`ECEExamHub | ${subject.title} MCQs`}>
+    <Layout
+      title={seoTitle}
+      description={seoDescription}
+      keywords={seoKeywords}
+      canonicalUrl={canonicalUrl}
+      structuredData={structuredData}
+    >
       <div className="mx-auto max-w-[1100px]">
         <div className="mb-5 flex items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500">
           <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">

@@ -147,6 +147,7 @@ export default function Layout({
           content={effectiveNoIndex ? "noindex, nofollow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"}
           key="googlebot"
         />
+        <link rel="icon" href="/favicon.ico" key="favicon" />
         <link rel="canonical" href={resolvedCanonicalUrl} key="canonical" />
         <link rel="manifest" href="/site.webmanifest" key="manifest" />
         <meta name="application-name" content={SITE_NAME} key="application-name" />

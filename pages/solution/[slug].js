@@ -492,7 +492,11 @@ export async function getServerSideProps({ params }) {
   };
 }
 
-export default function SolutionPage({ initialSlug = "" }) {
+export default function SolutionPage({
+  initialSlug = "",
+  seoOverride = null,
+  introContent = null,
+}) {
   const router = useRouter();
   const viewerRef = useRef(null);
   const [questions, setQuestions] = useState(seedQuestions);
@@ -582,8 +586,14 @@ export default function SolutionPage({ initialSlug = "" }) {
   const practiceSlug = getPracticeSlug(paper.exam);
   const practiceHref = practiceSlug ? `/practice/${practiceSlug}` : "/practice";
   const canonicalPath = `/solution/${slugifyPaper(paper.exam, paper.year)}`;
-  const paperTitle = getPaperDisplayTitle(paper);
-  const paperDescription = `View ${paperTitle} with ECE previous year questions, solutions, paper preview, download support, and related study resources.`;
+  const defaultPaperTitle = getPaperDisplayTitle(paper);
+  const paperTitle = seoOverride?.heading || defaultPaperTitle;
+  const paperDescription =
+    seoOverride?.description ||
+    `View ${defaultPaperTitle} with ECE previous year questions, solutions, paper preview, download support, and related study resources.`;
+  const pageTitle = seoOverride?.title
+    ? `${seoOverride.title} | ECE Exam Guide`
+    : `${paperTitle} | ECE Exam Guide`;
   const structuredData = [
     ...generateStructuredData({
       type: "topic",
@@ -656,7 +666,7 @@ export default function SolutionPage({ initialSlug = "" }) {
 
   return (
     <Layout
-      title={`${paperTitle} | ECE Exam Guide`}
+      title={pageTitle}
       description={paperDescription}
       canonicalUrl={generateCanonical(canonicalPath)}
       keywords={`${paper.exam} ${paper.year} ECE previous paper, ${paper.exam} ECE question paper, ECE previous year questions, solved paper`}
@@ -679,68 +689,108 @@ export default function SolutionPage({ initialSlug = "" }) {
           </span>
         </nav>
 
-        <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.12)]">
-          <div className="grid gap-0 lg:grid-cols-[1fr_420px]">
-            <div className="bg-slate-950 p-6 text-white sm:p-8">
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-cyan-200">
-                In-website solution viewer
-              </p>
-              <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-5xl">
-                {getPaperDisplayTitle(paper)}
-              </h1>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-200 sm:text-base">
-                Read the paper inside the platform with clean navigation and related study resources. Download is available as a secondary action.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a
-                  href="#viewer"
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-extrabold text-slate-950 transition hover:bg-cyan-50"
-                >
-                  View Solution
-                </a>
-                <button
-                  type="button"
-                  onClick={handleDownloadPdf}
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
-                >
-                  Download PDF
-                </button>
-                <Link
-                  href={practiceHref}
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/20 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
-                >
-                  Practice Online
-                </Link>
+        <section className="overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_14px_32px_rgba(15,23,42,0.08)]">
+          <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_220px]">
+            <div className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(59,130,246,0.3),_transparent_30%),linear-gradient(135deg,_#0c4286_0%,_#0a3875_45%,_#062956_100%)] p-3 text-white sm:p-3.5 lg:p-3.5">
+              <div className="absolute inset-0 opacity-25">
+                <div className="absolute -left-10 top-8 h-44 w-44 rounded-full bg-sky-400 blur-3xl" />
+                <div className="absolute right-0 top-0 h-full w-[42%] bg-[linear-gradient(180deg,transparent,rgba(255,255,255,0.05))]" />
+              </div>
+              <div className="relative z-10 max-w-2xl">
+                <div className="inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/8 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.12em] text-sky-100 backdrop-blur-sm sm:px-3 sm:py-1.5 sm:text-[11px]">
+                  <span className="inline-flex h-4 w-4 items-center justify-center rounded-md bg-white/12 sm:h-5 sm:w-5">
+                    <svg viewBox="0 0 20 20" className="h-2.5 w-2.5 text-white sm:h-3 sm:w-3" aria-hidden="true">
+                      <path fill="currentColor" d="M5 2.5A1.5 1.5 0 0 0 3.5 4v12A1.5 1.5 0 0 0 5 17.5h10A1.5 1.5 0 0 0 16.5 16V7.8a1.5 1.5 0 0 0-.44-1.06l-3.3-3.3A1.5 1.5 0 0 0 11.7 3H5Zm6 .9v2.85c0 .41.34.75.75.75h2.85L11 3.4ZM6.5 9.25c0-.41.34-.75.75-.75h5.5a.75.75 0 1 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75Zm0 3c0-.41.34-.75.75-.75h5.5a.75.75 0 1 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75Z" />
+                    </svg>
+                  </span>
+                  Previous Paper
+                </div>
+                <h1 className="mt-2.5 max-w-3xl text-[1.2rem] font-extrabold leading-tight tracking-tight text-white sm:text-[1.45rem] lg:text-[1.65rem]">
+                  {paperTitle}
+                </h1>
+                <div className="mt-2 h-px w-full max-w-[180px] bg-gradient-to-r from-sky-200/40 via-sky-200/15 to-transparent sm:max-w-[220px]" />
+                <p className="mt-2 max-w-lg text-[11px] leading-5 text-slate-100/90 sm:text-[12px] sm:leading-5">
+                  {introContent?.summary ||
+                    "Go through solved BEL questions with clear explanations and easy navigation, all in one place."}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  <a
+                    href="#viewer"
+                    className="inline-flex min-h-8 items-center justify-center rounded-lg bg-white px-3 py-1.5 text-[11px] font-extrabold text-[#0c4286] shadow-[0_8px_18px_rgba(255,255,255,0.12)] transition hover:bg-sky-50 sm:min-h-9 sm:px-3.5 sm:py-1.5"
+                  >
+                    View Solution
+                  </a>
+                  <button
+                    type="button"
+                    onClick={handleDownloadPdf}
+                    className="inline-flex min-h-8 items-center justify-center rounded-lg border border-white/25 px-3 py-1.5 text-[11px] font-bold text-white transition hover:bg-white/10 sm:min-h-9 sm:px-3.5 sm:py-1.5"
+                  >
+                    Download PDF
+                  </button>
+                  <Link
+                    href={practiceHref}
+                    className="inline-flex min-h-8 items-center justify-center rounded-lg border border-white/25 px-3 py-1.5 text-[11px] font-bold text-white transition hover:bg-white/10 sm:min-h-9 sm:px-3.5 sm:py-1.5"
+                  >
+                    Practice Online
+                  </Link>
+                </div>
               </div>
             </div>
 
-            <div className="bg-slate-50 p-5 sm:p-6">
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500">
-                Paper info
-              </p>
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                {[
-                  ["Questions", getQuestionMetric(paper, paperQuestions)],
-                  ["Solved", getSolvedMetric(paper)],
-                  ["Repeated", paper.repeatedCount],
-                  ["Important", paper.importantCount],
-                ].map(([label, value]) => (
-                  <div key={label} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-                    <p className="text-2xl font-extrabold text-slate-950">{value}</p>
-                    <p className="mt-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-slate-500">
-                      {label}
-                    </p>
-                  </div>
-                ))}
+            <div className="relative overflow-hidden bg-[linear-gradient(180deg,#0b3a79_0%,#0a3268_100%)] p-2.5 text-white sm:p-3 lg:p-3">
+              <div className="absolute inset-0 opacity-20">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_62%_28%,rgba(96,165,250,0.42),transparent_16%),linear-gradient(135deg,transparent_0%,rgba(255,255,255,0.06)_100%)]" />
               </div>
-              {loadError ? (
-                <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
-                  {loadError}
-                </p>
-              ) : null}
+              <div className="relative z-10 flex h-full flex-col items-center justify-center gap-2.5">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[radial-gradient(circle,_rgba(76,129,255,0.96),_rgba(29,78,216,0.94))] shadow-[0_10px_20px_rgba(15,23,42,0.34)] ring-1 ring-white/10 sm:h-20 sm:w-20 lg:h-22 lg:w-22">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-[14px] border border-white/15 bg-white/10 backdrop-blur-sm sm:h-12 sm:w-12 lg:h-14 lg:w-14 lg:rounded-[18px]">
+                    <svg viewBox="0 0 120 120" className="h-7 w-7 text-white sm:h-8 sm:w-8 lg:h-9 lg:w-9" aria-hidden="true">
+                      <rect x="35" y="35" width="50" height="50" rx="8" fill="none" stroke="currentColor" strokeWidth="6" />
+                      <path d="M23 45h12M23 60h12M23 75h12M85 23v12M60 23v12M35 23v12M98 45H86M98 60H86M98 75H86M35 98V86M60 98V86M85 98V86" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="w-full rounded-[14px] border border-white/12 bg-white/8 p-2 backdrop-blur-sm sm:p-2.5">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-sky-100/90 sm:text-[11px] sm:tracking-[0.16em]">
+                    Paper Info
+                  </p>
+                  <div className="mt-2 grid grid-cols-2 gap-1.5 sm:mt-2.5 sm:gap-2">
+                    {[
+                      ["Questions", getQuestionMetric(paper, paperQuestions)],
+                      ["Solved", getSolvedMetric(paper)],
+                      ["Repeated", paper.repeatedCount],
+                      ["Important", paper.importantCount],
+                    ].map(([label, value]) => (
+                      <div key={label} className="rounded-lg border border-white/12 bg-white p-2 text-slate-950 shadow-sm sm:rounded-lg sm:p-2.5">
+                        <p className="text-base font-extrabold sm:text-lg">{value}</p>
+                        <p className="mt-0.5 text-[9px] font-extrabold uppercase tracking-[0.1em] text-slate-500">
+                          {label}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  {loadError ? (
+                    <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
+                      {loadError}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
             </div>
           </div>
         </section>
+
+        {introContent ? (
+          <section className="rounded-[18px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+            <h2 className="text-2xl font-extrabold tracking-tight text-slate-950">
+              {introContent.heading}
+            </h2>
+            <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
+              {introContent.body}
+            </p>
+          </section>
+        ) : null}
 
         <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
           <div id="viewer" className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:p-4">
@@ -856,3 +906,4 @@ export default function SolutionPage({ initialSlug = "" }) {
     </Layout>
   );
 }
+

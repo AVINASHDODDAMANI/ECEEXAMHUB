@@ -151,6 +151,7 @@ export default function LearningTopicPage({ topic }) {
     subjectName: topic.subjectName,
     chapterTitle: topic.chapterTitle,
     summary: topic.summary,
+    topics: topic.subtopics || [],
   });
   const seoKeywords = generateKeywords({
     title: topic.title,

@@ -260,6 +260,20 @@ export default function Home() {
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link
+                href="/notes/network-analysis"
+                className="inline-flex min-h-11 items-center rounded-xl border border-portal-200 bg-white px-4 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-300 hover:bg-portal-50"
+              >
+                Network Analysis Notes
+              </Link>
+              <Link
+                href="/previous-year/bel-2023"
+                className="inline-flex min-h-11 items-center rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm font-bold text-orange-700 transition hover:border-orange-300 hover:bg-orange-50"
+              >
+                BEL 2023 Previous Paper
+              </Link>
+            </div>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link
                 href="/learn"
                 className="inline-flex min-h-12 items-center justify-center rounded-xl bg-portal-700 px-6 py-3 text-sm font-extrabold text-white shadow-[0_18px_38px_rgba(21,74,150,0.24)] transition hover:bg-portal-800"
               >

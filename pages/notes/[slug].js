@@ -92,18 +92,20 @@ const TAB_OPTIONS = [
   { id: "use", label: "Real-Life Use" },
 ];
 
-function buildNotesSeo(subject, theoryKnowledge) {
+function buildNotesSeo(subject, theoryKnowledge, seoOverride = null) {
   const relatedLinks = getSubjectRelatedLinks(subject.title);
   const topicNames =
     theoryKnowledge?.concepts?.map((concept) => concept.shortTitle || concept.title) ||
     relatedLinks.map((item) => item.title);
   const faqItems = buildSubjectFaqs(subject.title, topicNames);
-  const title = generateTitle({ type: "notes", subjectName: subject.title });
-  const description = generateDescription({
+  const defaultTitle = generateTitle({ type: "notes", subjectName: subject.title });
+  const defaultDescription = generateDescription({
     type: "notes",
     subjectName: subject.title,
     topics: topicNames,
   });
+  const title = seoOverride?.title || defaultTitle;
+  const description = seoOverride?.description || defaultDescription;
   const keywords = generateKeywords({
     subjectName: subject.title,
     topicNames,
@@ -323,8 +325,8 @@ function ChapterOutlineGrid({ concepts = [] }) {
   );
 }
 
-function FallbackNotesPage({ subject, steps }) {
-  const seo = buildNotesSeo(subject);
+function FallbackNotesPage({ subject, steps, seoOverride }) {
+  const seo = buildNotesSeo(subject, null, seoOverride);
 
   return (
     <Layout
@@ -397,8 +399,9 @@ export default function NoteTopicPage({
   steps,
   theoryKnowledge,
   learningMeta,
+  seoOverride,
 }) {
-  const seo = buildNotesSeo(subject, theoryKnowledge);
+  const seo = buildNotesSeo(subject, theoryKnowledge, seoOverride);
   const chapterMeta = CHAPTER_META[subject.title];
   const { progressStats, isReady } = useLearningProgress();
   const [activeConceptIndex, setActiveConceptIndex] = useState(0);
@@ -420,7 +423,7 @@ export default function NoteTopicPage({
   }, [subject.title]);
 
   if (!theoryKnowledge || !chapterMeta) {
-    return <FallbackNotesPage subject={subject} steps={steps} />;
+    return <FallbackNotesPage subject={subject} steps={steps} seoOverride={seoOverride} />;
   }
 
   const concepts = theoryKnowledge.concepts || [];
@@ -770,6 +773,54 @@ export default function NoteTopicPage({
             </div>
           </div>
         </section>
+
+        {subject.title === "Network Analysis" ? (
+          <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+            <div className="max-w-4xl">
+              <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                Network Analysis Notes
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+                Download Network Analysis notes, formulas, important questions, and previous
+                year paper support for ECE students. This page is designed for quick revision
+                as well as concept building, so you can move from basic circuit laws to
+                systematic problem solving without depending only on short formula lists.
+              </p>
+              <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+                Network Analysis is one of the most important foundation subjects in ECE
+                because it teaches how to read a circuit, choose the right method, and solve
+                it with confidence. Once nodal equations, mesh equations, source
+                transformations, and equivalent theorems become clear, later subjects like
+                analog electronics, control systems, and communication circuits also become
+                easier to understand.
+              </p>
+
+              <h3 className="mt-6 text-xl font-bold text-slate-900">Topics Covered</h3>
+              <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
+                These notes focus on the high-value topics that usually appear in university
+                exams, GATE ECE revision, and practice sets for circuit problem solving.
+              </p>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
+                <li>
+                  <strong>Nodal Analysis:</strong> learn how to choose a reference node and
+                  write KCL-based equations cleanly.
+                </li>
+                <li>
+                  <strong>Mesh Analysis:</strong> solve planar circuits step by step using loop
+                  currents and KVL relations.
+                </li>
+                <li>
+                  <strong>Thevenin Theorem:</strong> reduce a complex linear network into an
+                  equivalent voltage source and resistance.
+                </li>
+                <li>
+                  <strong>Norton Theorem:</strong> convert circuit networks into an equivalent
+                  current source form for faster analysis.
+                </li>
+              </ul>
+            </div>
+          </section>
+        ) : null}
 
         <MobileRoadmap
           concepts={concepts}
