@@ -234,13 +234,13 @@ function OfficialQuestionPreview({ questions = [] }) {
         </span>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [-webkit-overflow-scrolling:touch] [overscroll-behavior-inline:contain] [touch-action:pan-x] sm:flex-wrap sm:overflow-visible">
         {sectionTabs.map((tab) => (
           <button
             key={tab.key}
             type="button"
             onClick={() => jumpToQuestion(tab.firstIndex)}
-            className={`inline-flex min-h-10 items-center justify-center rounded-xl border px-4 py-2 text-sm font-extrabold transition ${
+            className={`inline-flex min-h-10 shrink-0 items-center justify-center rounded-xl border px-3 py-2 text-xs font-extrabold transition sm:px-4 sm:text-sm ${
               activeSectionTab === tab.key
                 ? "border-portal-700 bg-portal-700 text-white"
                 : "border-slate-200 bg-white text-slate-700 hover:border-portal-300 hover:text-portal-700"
@@ -271,7 +271,7 @@ function OfficialQuestionPreview({ questions = [] }) {
         </button>
         <div
           ref={questionStripRef}
-          className="flex-1 overflow-x-auto pb-2 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-track]:bg-slate-100"
+          className="question-strip-scroll flex-1 overflow-x-auto pb-2 [-webkit-overflow-scrolling:touch] [overscroll-behavior-inline:contain] [scrollbar-width:thin] [touch-action:pan-x] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-track]:bg-slate-100"
         >
           <div className="flex min-w-max items-center gap-2">
             {questions.map((question, index) => {
@@ -314,13 +314,13 @@ function OfficialQuestionPreview({ questions = [] }) {
           Section : {section}
         </p>
         <article className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
-          <div className="flex flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">
+          <div className="flex min-w-0 flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">
             <span>Q.{sectionQuestionNumber}</span>
             <span className="text-slate-300">|</span>
-            <span>{currentQuestion.topic || "Previous Paper"}</span>
+            <span className="min-w-0 break-words">{currentQuestion.topic || "Previous Paper"}</span>
           </div>
 
-          <p className="mt-3 text-base font-bold leading-7 text-slate-950">
+          <p className="mt-3 break-words text-sm font-bold leading-7 text-slate-950 sm:text-base">
             {currentQuestion.question}
           </p>
 
@@ -362,11 +362,11 @@ function OfficialQuestionPreview({ questions = [] }) {
                             : "border-slate-200 bg-slate-50 text-slate-700"
                     }`}
                   >
-                    <div className="flex items-start gap-3">
+                    <div className="flex min-w-0 items-start gap-3">
                       <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-extrabold text-slate-500">
                         {showCorrectOption ? "OK" : showWrongOption ? "X" : String.fromCharCode(65 + optionIndex)}
                       </span>
-                      <span className="flex-1">
+                      <span className="min-w-0 flex-1 break-words">
                         {option}
                       </span>
                       {showCorrectOption ? (
@@ -423,23 +423,23 @@ function OfficialQuestionPreview({ questions = [] }) {
           ) : null}
         </article>
 
-        <div className="flex items-center justify-between gap-3">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:gap-3">
           <button
             type="button"
             onClick={() => setCurrentQuestionIndex((index) => Math.max(0, index - 1))}
             disabled={!canGoPrevious}
-            className="inline-flex min-h-11 min-w-[124px] items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-700 transition hover:border-portal-300 hover:text-portal-700 disabled:cursor-not-allowed disabled:opacity-45"
+            className="inline-flex min-h-11 min-w-0 items-center justify-center rounded-xl border border-slate-200 bg-white px-2 py-2 text-xs font-extrabold text-slate-700 transition hover:border-portal-300 hover:text-portal-700 disabled:cursor-not-allowed disabled:opacity-45 sm:px-4 sm:text-sm"
           >
             Previous Que
           </button>
-          <span className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-700">
+          <span className="whitespace-nowrap rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-extrabold text-slate-700 sm:px-4">
             {currentQuestionIndex + 1} / {questions.length}
           </span>
           <button
             type="button"
             onClick={() => setCurrentQuestionIndex((index) => Math.min(questions.length - 1, index + 1))}
             disabled={!canGoNext}
-            className="inline-flex min-h-11 min-w-[124px] items-center justify-center rounded-xl border border-portal-300 bg-portal-50 px-4 py-2 text-sm font-extrabold text-portal-700 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-45"
+            className="inline-flex min-h-11 min-w-0 items-center justify-center rounded-xl border border-portal-300 bg-portal-50 px-2 py-2 text-xs font-extrabold text-portal-700 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-45 sm:px-4 sm:text-sm"
           >
             Next Que
           </button>
