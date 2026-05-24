@@ -32,6 +32,11 @@ const SUBJECT_TO_LEARNING_SLUG = {
   "Control Systems": "control-systems",
 };
 
+const DEDICATED_NOTE_SLUGS = new Set([
+  "network-analysis",
+  "digital-electronics",
+]);
+
 const CHAPTER_META = {
   "Network Analysis": {
     subtitle: "The foundation of all electrical and electronic circuits",
@@ -1194,9 +1199,12 @@ export default function NoteTopicPage({
 
 export function getStaticPaths() {
   return {
-    paths: subjectDirectory.map((subject) => ({
-      params: { slug: getSubjectSlug(subject.title) },
-    })),
+    paths: subjectDirectory
+      .map((subject) => getSubjectSlug(subject.title))
+      .filter((slug) => !DEDICATED_NOTE_SLUGS.has(slug))
+      .map((slug) => ({
+        params: { slug },
+      })),
     fallback: false,
   };
 }

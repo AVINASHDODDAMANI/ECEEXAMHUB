@@ -93,22 +93,39 @@ function normalizePayload(rawPayload = {}) {
   return payload;
 }
 
+function getQuestionKey(question, fallbackIndex) {
+  return String(question?._id || question?.id || question?.questionId || fallbackIndex);
+}
+
+function mergeQuestions(primaryQuestions = [], fallbackQuestions = []) {
+  const questionMap = new Map();
+
+  fallbackQuestions.forEach((question, index) => {
+    questionMap.set(getQuestionKey(question, `seed-${index}`), question);
+  });
+
+  primaryQuestions.forEach((question, index) => {
+    questionMap.set(getQuestionKey(question, `db-${index}`), question);
+  });
+
+  return Array.from(questionMap.values());
+}
+
 export default async function handler(req, res) {
   if (req.method === "GET") {
     const { subject, topic, exam, year, search } = req.query;
+    const seedFilteredQuestions = filterQuestions(seedQuestions, {
+      subject,
+      topic,
+      exam,
+      year,
+      search,
+    });
 
     if (!process.env.MONGODB_URI) {
-      const questions = filterQuestions(seedQuestions, {
-        subject,
-        topic,
-        exam,
-        year,
-        search,
-      });
-
       return res.status(200).json({
         source: "seed",
-        questions,
+        questions: seedFilteredQuestions,
       });
     }
 
@@ -148,24 +165,18 @@ export default async function handler(req, res) {
         ];
       }
 
-      const questions = await Question.find(filters).sort({ year: -1, createdAt: -1 });
+      const questions = await Question.find(filters)
+        .sort({ year: -1, createdAt: -1 })
+        .lean();
 
       return res.status(200).json({
-        source: "mongodb",
-        questions,
+        source: questions.length ? "mongodb+seed" : "seed",
+        questions: mergeQuestions(questions, seedFilteredQuestions),
       });
     } catch (error) {
-      const questions = filterQuestions(seedQuestions, {
-        subject,
-        topic,
-        exam,
-        year,
-        search,
-      });
-
       return res.status(200).json({
         source: "seed-fallback",
-        questions,
+        questions: seedFilteredQuestions,
         message:
           error.message ||
           "MongoDB unavailable. Falling back to local seed questions.",
