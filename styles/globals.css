@@ -122,17 +122,17 @@ mjx-container[display="true"] {
   [id$="-menu"],
   [id$="-popover"] {
     position: fixed !important;
-    top: 5rem !important;
-    right: 0.75rem !important;
+    top: 7.5rem !important;
+    right: 0.5rem !important;
     left: auto !important;
     z-index: 80 !important;
-    width: min(60vw, 18rem) !important;
+    width: min(52vw, 15rem) !important;
     max-width: none !important;
-    max-height: min(60dvh, 24rem) !important;
+    max-height: min(48dvh, 18rem) !important;
     margin-top: 0 !important;
     overflow-y: auto !important;
-    border-radius: 1rem !important;
-    padding: 0.5rem !important;
+    border-radius: 0.875rem !important;
+    padding: 0.375rem !important;
   }
 
   [id$="-menu"] a,
@@ -140,7 +140,7 @@ mjx-container[display="true"] {
   [id$="-popover"] a,
   [id$="-popover"] button {
     min-width: 0;
-    padding: 0.625rem !important;
+    padding: 0.5rem !important;
   }
 
   [id$="-menu"] span,

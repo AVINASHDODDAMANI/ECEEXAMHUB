@@ -1,10 +1,10 @@
 
 > eceexamhub@1.0.0 dev
-> next dev --hostname 127.0.0.1 --port 3001
+> next dev --webpack --hostname 127.0.0.1 --port 3001
 
-▲ Next.js 16.2.6 (Turbopack)
+▲ Next.js 16.2.6 (webpack)
 - Local:         http://127.0.0.1:3001
 - Network:       http://127.0.0.1:3001
 - Environments: .env.local
-✓ Ready in 445ms
+✓ Ready in 525ms
 [?25h

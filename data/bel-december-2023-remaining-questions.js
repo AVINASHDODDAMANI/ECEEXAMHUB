@@ -1130,16 +1130,15 @@ const belDecember2023RemainingQuestions = [
       "Charge enclosed times ε₀",
       "Electricflux density times the area"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Charge enclosed divided by ε₀",
+    "explanation": "By Gauss's law, the total electric flux through a closed surface in free space equals the enclosed charge divided by ε₀.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512679",
@@ -1163,16 +1162,15 @@ const belDecember2023RemainingQuestions = [
       "Concentration gradient of carriers.",
       "Applied voltage."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Applied voltage.",
+    "explanation": "The official key shown for this BEL question marks applied voltage as the answer.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512607",
@@ -1196,16 +1194,15 @@ const belDecember2023RemainingQuestions = [
       "Purely reactive",
       "Maximum"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Purely resistive",
+    "explanation": "At resonance in a series RLC circuit, inductive and capacitive reactances cancel, so the impedance is purely resistive.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512593",
@@ -1229,16 +1226,15 @@ const belDecember2023RemainingQuestions = [
       "The product of the loop gain and the feedback factor must be one.",
       "The product of the loop gain and the feedback factor must be greater than one."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The product of the loop gain and the feedback factor must be one.",
+    "explanation": "Barkhausen criterion for sustained oscillation requires loop gain magnitude |Aβ| = 1 with net phase shift 0 degrees or an integral multiple of 360 degrees.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512625",
@@ -1262,16 +1258,15 @@ const belDecember2023RemainingQuestions = [
       "The resistance is equal to the sum of the two delta resistances connected to the common terminal.",
       "The resistance is equal to the sum of the two delta resistances connected to the common terminal, divided by the total number of resistances in the delta network."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The resistance is equal to the product of the two delta resistances connected to the common terminal, divided by the sum of all three delta resistances.",
+    "explanation": "In delta-to-wye conversion, each star resistance equals the product of the two adjacent delta resistances divided by the sum of all three delta resistances.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512587",
@@ -1295,16 +1290,15 @@ const belDecember2023RemainingQuestions = [
       "Connecting the bulk terminal to the positive supply",
       "Fabricating the nMOS transistors"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Fabricating the nMOS transistors",
+    "explanation": "In a twin-tub CMOS process, the p-well region is used as the body region for fabricating nMOS transistors.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512613",
@@ -1328,16 +1322,15 @@ const belDecember2023RemainingQuestions = [
       "The system's transfer function",
       "The output of the system for that input"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The output of the system for that input",
+    "explanation": "For an LTI system, output y(t) is the convolution of the input x(t) with the impulse response h(t).",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512603",
@@ -1361,16 +1354,15 @@ const belDecember2023RemainingQuestions = [
       "It degrades signal quality",
       "It enhances channel bandwidth"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "It degrades signal quality",
+    "explanation": "White noise adds random power across the signal bandwidth and reduces received signal quality by lowering effective SNR.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512657",
@@ -1394,16 +1386,15 @@ const belDecember2023RemainingQuestions = [
       "2/3",
       "1"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "2/3",
+    "explanation": "VSWR S = (1 + |Γ|) / (1 - |Γ|). For S = 5, |Γ| = (S - 1) / (S + 1) = 4/6 = 2/3.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512676",
@@ -1427,16 +1418,15 @@ const belDecember2023RemainingQuestions = [
       "It increases the input impedance",
       "It amplifies the input signal"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "It provides negative feedback to stabilize the bias point",
+    "explanation": "The emitter resistor provides emitter degeneration, creating negative feedback that stabilizes the BJT bias point against temperature and beta variations.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512619",
@@ -1460,16 +1450,15 @@ const belDecember2023RemainingQuestions = [
       "35 W",
       "30 W"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "10 W",
+    "explanation": "Using the marked official answer, the radiated power for the given four-element broadside array is 10 W.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512678",
@@ -1493,16 +1482,15 @@ const belDecember2023RemainingQuestions = [
       "1/8",
       "1/6"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "1/6",
+    "explanation": "For a d.c. input, set s = 0. G(0) = 2 / [(1)(3)(4)] = 2/12 = 1/6.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512652",
@@ -1526,16 +1514,15 @@ const belDecember2023RemainingQuestions = [
       "Sum: 10010, Carry: 0",
       "Sum: 1000, Carry: 1"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Sum: 1000, Carry: 1",
+    "explanation": "1101 + 1011 = 11000 in binary. A 4-bit adder reports the lower four sum bits as 1000 with final carry 1.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512634",
@@ -1559,16 +1546,15 @@ const belDecember2023RemainingQuestions = [
       "1.33 μW m -2",
       "2.66 μW m -2"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "26.6 μW m -2",
+    "explanation": "In the far field, electric field varies inversely with distance and power density varies as E^2. Increasing distance from 30 m to 300 m reduces E by 10 and power density by 100, giving 26.6 μW m^-2.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512685",
@@ -1592,16 +1578,15 @@ const belDecember2023RemainingQuestions = [
       "Diffusion",
       "Lithography"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Lithography",
+    "explanation": "Lithography is the semiconductor fabrication step used to define or pattern selected wafer areas before etching, removal, or deposition.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512611",
@@ -1625,16 +1610,15 @@ const belDecember2023RemainingQuestions = [
       "CMOS",
       "TTL"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "CMOS",
+    "explanation": "CMOS has very low static power consumption, making it the preferred logic family for battery-powered digital circuits.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512640",
@@ -1658,16 +1642,15 @@ const belDecember2023RemainingQuestions = [
       "To demodulate the signal",
       "To convert the signal to a lower frequency"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "To facilitate easier and more selectivefiltering",
+    "explanation": "The IF stage converts signals to a fixed intermediate frequency, where stable, selective filtering is easier to implement.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512663",
@@ -1691,16 +1674,15 @@ const belDecember2023RemainingQuestions = [
       "Ionospheric effects",
       "Multipath propagation"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Multipath propagation",
+    "explanation": "In urban areas, GPS signals reflect from buildings and other structures, producing multipath propagation and degrading accuracy.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512675",
@@ -1724,16 +1706,15 @@ const belDecember2023RemainingQuestions = [
       "The syndrome vector will point to the position of the error.",
       "The error cannot be corrected."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The syndrome vector will point to the position of the error.",
+    "explanation": "For a single-bit error in a Hamming code, the nonzero syndrome identifies the bit position that must be corrected.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512670",
@@ -1757,16 +1738,15 @@ const belDecember2023RemainingQuestions = [
       "M = Ac. Am",
       "M = Ac/ Am"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "m = Am/ Ac",
+    "explanation": "In amplitude modulation, the modulation index is the ratio of message-signal amplitude to carrier amplitude.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512658",
@@ -1790,16 +1770,15 @@ const belDecember2023RemainingQuestions = [
       "It allows negative as well as positive parts of the input signal to pass.",
       "It blocks all negative parts of the input signal."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "It blocks all positive parts of the input signal.",
+    "explanation": "A positive clipper removes or clips the positive portion of the waveform when the diode conducts.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512617",
@@ -1823,16 +1802,15 @@ const belDecember2023RemainingQuestions = [
       "The MOSFET conducts maximum current.",
       "The MOSFET is in the cutoff mode and no currentflows between the drain and the source."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The MOSFET is in the cutoff mode and no currentflows between the drain and the source.",
+    "explanation": "For an n-channel enhancement MOSFET, when VGS is below threshold voltage VT, no inversion channel forms and the device is cut off.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512615",
@@ -1856,16 +1834,15 @@ const belDecember2023RemainingQuestions = [
       "It stabilizes the DC operating point.",
       "It enhances the linearity of the amplifier."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "It decreases the high-frequency gain.",
+    "explanation": "Miller capacitance increases the effective input capacitance and rolls off the amplifier response at high frequencies.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512622",
@@ -1889,16 +1866,15 @@ const belDecember2023RemainingQuestions = [
       "reverse; forward",
       "forward; forward"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "forward; reverse",
+    "explanation": "In active mode, a BJT has its base-emitter junction forward biased and collector-base junction reverse biased.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512610",
@@ -1922,16 +1898,15 @@ const belDecember2023RemainingQuestions = [
       "The ratio of the number of photons emitted into free space per second to the number of electrons injected into LED per second.",
       "The number of photons absorbed per second."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The ratio of the number of photons emitted into free space per second to the number of electrons injected into LED per second.",
+    "explanation": "LED quantum efficiency measures emitted photons per injected carrier, indicating how effectively electrical carriers are converted into light.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512614",
@@ -1955,16 +1930,15 @@ const belDecember2023RemainingQuestions = [
       "1010",
       "1101"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "1110",
+    "explanation": "For binary 1011, the Gray-code MSB is 1 and each next bit is the XOR of adjacent binary bits: 1, 1, 1, 0.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512636",
@@ -1988,16 +1962,15 @@ const belDecember2023RemainingQuestions = [
       "0011",
       "0110"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "0011",
+    "explanation": "Right shifting 1101 by two places with zeros shifted in gives 0011.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512642",
@@ -2021,16 +1994,15 @@ const belDecember2023RemainingQuestions = [
       "The bandwidth is equal to the sum of the carrier frequency and twice the highest frequency of the message signal.",
       "The bandwidth is equal to the carrier frequency."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The bandwidth is twice the highest frequency of the message signal.",
+    "explanation": "For standard AM, the transmission bandwidth is twice the highest modulating frequency because upper and lower sidebands are produced.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512659",
@@ -2054,16 +2026,15 @@ const belDecember2023RemainingQuestions = [
       "To initiate the timing interval",
       "To toggle the output to the reverse state"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "To initiate the timing interval",
+    "explanation": "In a 555 monostable circuit, the external trigger starts the one-shot pulse and initiates the timing interval.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512629",
@@ -2087,16 +2058,15 @@ const belDecember2023RemainingQuestions = [
       "Low-passfiltering",
       "Quantization"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Low-passfiltering",
+    "explanation": "Interpolation inserts samples during upsampling, then uses low-pass filtering to remove imaging components.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512602",
@@ -2120,16 +2090,15 @@ const belDecember2023RemainingQuestions = [
       "H = -log 2 (M)",
       "H = -Mlog 2 (M)"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "H = log 2 (M)",
+    "explanation": "For M equiprobable symbols, each has probability 1/M, so entropy H = -M(1/M)log2(1/M) = log2(M).",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512668",
@@ -2153,16 +2122,15 @@ const belDecember2023RemainingQuestions = [
       "one variation in the narrower dimension and none in the broader dimension",
       "multiple variations in the broader dimension"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "one variation in the broader dimension and none in the narrower dimension",
+    "explanation": "In TE10 mode, the first index indicates one half-wave variation along the broader dimension and the second index indicates no variation along the narrower dimension.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512684",
@@ -2186,16 +2154,15 @@ const belDecember2023RemainingQuestions = [
       "Twice the highest frequency of the modulating signal.",
       "Twice the frequency deviation."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Twice the highest frequency of the modulating signal.",
+    "explanation": "For narrowband FM with a very small modulation index, the bandwidth is approximated as twice the highest modulating frequency.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512661",
@@ -2219,16 +2186,15 @@ const belDecember2023RemainingQuestions = [
       "The ratio of the feedback resistor to the input resistor",
       "The sum of the input and feedback resistors"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The ratio of the feedback resistor to the input resistor",
+    "explanation": "The closed-loop gain of a non-inverting op-amp is set by the resistor ratio, commonly A_v = 1 + Rf/Rin.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512623",
@@ -2252,16 +2218,15 @@ const belDecember2023RemainingQuestions = [
       "The sampling frequency is too high",
       "The signal is non-periodic"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The sampling frequency is too low",
+    "explanation": "Aliasing occurs when the sampling frequency is below the Nyquist rate, causing spectral overlap.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512598",
@@ -2285,16 +2250,15 @@ const belDecember2023RemainingQuestions = [
       "The capacitance of the load",
       "The power supply voltage"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The input resistance of the gate",
+    "explanation": "TTL fan-out is limited by how much input current the driven gates require, which is represented here by the input resistance/load of the gates.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512638",
@@ -2318,16 +2282,15 @@ const belDecember2023RemainingQuestions = [
       "Decreasing the required transmission power.",
       "Ensuring proper modulation."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Ensuring that the signal path is free from obstacles.",
+    "explanation": "Fresnel-zone clearance is needed in line-of-sight links to reduce obstruction losses and maintain reliable propagation.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512673",
@@ -2351,16 +2314,15 @@ const belDecember2023RemainingQuestions = [
       "Current density J",
       "Electricfield E"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The normal component of the Electric displacementfield (D)",
+    "explanation": "At a dielectric boundary with no free surface charge, the normal component of electric displacement density D is continuous.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512681",
@@ -2384,16 +2346,15 @@ const belDecember2023RemainingQuestions = [
       "Reconstruct the frequency components from time domain signal",
       "Convert frequency domain signal to time domain"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Convert frequency domain signal to time domain",
+    "explanation": "The inverse fast Fourier transform converts frequency-domain samples back into the corresponding time-domain signal.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512600",
@@ -2417,16 +2378,15 @@ const belDecember2023RemainingQuestions = [
       "Total nodes - 2",
       "Total nodes + 1"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Total nodes - 1",
+    "explanation": "One node is chosen as the reference node, so KCL equations are written for the remaining total nodes minus one.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512586",
@@ -2443,23 +2403,22 @@ const belDecember2023RemainingQuestions = [
   },
   {
     "_id": "bel-dec-2023-electronics-q92",
-    "question": "Refer to the official PDF figure for BEL Electronics Question 92.",
+    "question": "The Region of Convergence (ROC) of the Z transform for which of the following discrete-time sequences is NOT |z| > 1?",
     "options": [
-      "2.",
-      "4.",
-      "Option 3 shown in official PDF",
-      "Option 4 shown in official PDF"
+      "cos ωn u(n)",
+      "1/n; n > 0",
+      "δ(n)",
+      "u(n)"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "δ(n)",
+    "explanation": "The Z-transform of δ(n) is 1, so its ROC is the entire z-plane, not the region |z| > 1.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512601",
@@ -2483,16 +2442,15 @@ const belDecember2023RemainingQuestions = [
       "4",
       "2"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "4",
+    "explanation": "In the 8085, the opcode fetch machine cycle takes 4 T-states.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512643",
@@ -2516,16 +2474,15 @@ const belDecember2023RemainingQuestions = [
       "By the location of the magnitude peak",
       "By analysing the slope of the phase plot"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "By counting the number of phase crossings",
+    "explanation": "The marked official answer determines the system order from the phase plot by counting phase crossings.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512646",
@@ -2544,21 +2501,20 @@ const belDecember2023RemainingQuestions = [
     "_id": "bel-dec-2023-electronics-q95",
     "question": "What is the length of the linear convolution of two sequences of length M and N?",
     "options": [
-      "2.",
-      "4.",
-      "Option 3 shown in official PDF",
-      "Option 4 shown in official PDF"
+      "M + N - 1",
+      "M + N",
+      "M*N",
+      "M*N - 1"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "M + N - 1",
+    "explanation": "The linear convolution of sequences with lengths M and N has length M + N - 1.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512604",
@@ -2582,16 +2538,15 @@ const belDecember2023RemainingQuestions = [
       "An external control signal",
       "The clock signal at the same time"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The output of the precedingflip- fl op",
+    "explanation": "In an asynchronous counter, each flip-flop after the first is clocked by the output of the preceding flip-flop.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512641",
@@ -2615,16 +2570,15 @@ const belDecember2023RemainingQuestions = [
       "400 mA",
       "100 mA"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "400 mA",
+    "explanation": "Maximum Zener current is I = P/Vz = 4 W / 10 V = 0.4 A = 400 mA.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512609",
@@ -2648,16 +2602,15 @@ const belDecember2023RemainingQuestions = [
       "Operate in the forward-biased region.",
       "Enhance power dissipation."
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "Operate in the reverse breakdown region.",
+    "explanation": "A Zener diode is designed to operate safely in reverse breakdown for voltage regulation.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512608",
@@ -2681,16 +2634,15 @@ const belDecember2023RemainingQuestions = [
       "The electromotive force around a closed loop is equal to the time rate of change of magneticflux through the loop",
       "The magneticflux through a closed surface is zero"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "The electromotive force around a closed loop is equal to the time rate of change of magneticflux through the loop",
+    "explanation": "Faraday's law states that the induced emf around a closed loop equals the negative time rate of change of magnetic flux through the loop; the marked option gives this relationship.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512680",
@@ -2714,16 +2666,15 @@ const belDecember2023RemainingQuestions = [
       "2.2 s",
       "2.2 ms"
     ],
-    "correctAnswer": "",
-    "explanation": "",
+    "correctAnswer": "1.1 s",
+    "explanation": "For a 555 monostable multivibrator, pulse width T = 1.1RC. With R = 100 kΩ and C = 10 μF, T = 1.1 x 100000 x 10^-5 = 1.1 s.",
     "subject": "Question based on Electronics Engineering",
     "topic": "Official BEL Electronics Paper",
     "exam": [
       "BEL"
     ],
     "tags": [
-      "official-paper",
-      "answer-key-pending"
+      "official-paper"
     ],
     "year": 2023,
     "questionId": "630680512628",

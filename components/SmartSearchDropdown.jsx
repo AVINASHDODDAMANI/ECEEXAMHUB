@@ -112,9 +112,11 @@ export default function SmartSearchDropdown({
                         <p className="text-sm font-bold text-slate-900">
                           {highlightText(item.title, query)}
                         </p>
-                        <p className="mt-1 text-xs uppercase tracking-[0.18em] text-portal-600">
-                          {highlightText(item.subtitle, query)}
-                        </p>
+                        {item.group !== "Papers" ? (
+                          <p className="mt-1 text-xs uppercase tracking-[0.18em] text-portal-600">
+                            {highlightText(item.subtitle, query)}
+                          </p>
+                        ) : null}
                         <p className="mt-2 text-sm leading-6 text-slate-600">
                           {highlightText(item.description, query)}
                         </p>

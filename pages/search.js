@@ -292,9 +292,11 @@ function SearchResultCard({ item }) {
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-sm font-bold text-slate-950">{item.title}</p>
-          <p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
-            {item.subtitle}
-          </p>
+          {item.group !== "Papers" ? (
+            <p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-portal-700">
+              {item.subtitle}
+            </p>
+          ) : null}
           <p className="mt-2 text-sm font-medium leading-6 text-slate-700">
             {item.description}
           </p>

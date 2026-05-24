@@ -249,7 +249,7 @@ export default function Navbar({
         );
         const paperIntent = /\b(paper|papers|pyq|pyqs|previous|year|question|questions)\b/.test(
           normalizedQuery
-        );
+        ) || (/\b(19|20)\d{2}\b/.test(normalizedQuery) && /\b(gate|isro|bel|barc|ese|ies|drdo|iocl|ssc|rrb|ae|je|state)\b/.test(normalizedQuery));
         const rankedMatches = runtime.getSmartSearchResults(trimmedValue, nextIndex, 8);
         const directMatch =
           exactMatches.find((item) => item.group === "Subjects") ||

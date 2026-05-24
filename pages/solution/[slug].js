@@ -140,12 +140,52 @@ function StudyLinks({ question }) {
 }
 
 function OfficialQuestionPreview({ questions = [] }) {
+  const questionStripRef = useRef(null);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [revealedAnswers, setRevealedAnswers] = useState({});
   const [selectedAnswers, setSelectedAnswers] = useState({});
 
   if (!questions.length) {
     return null;
   }
+
+  const currentQuestion = questions[currentQuestionIndex] || questions[0];
+  const section = currentQuestion.subject || "ECE";
+  const questionKey = currentQuestion._id || currentQuestionIndex;
+  const selectedAnswer = selectedAnswers[questionKey];
+  const isAnswerRevealed = revealedAnswers[questionKey];
+  const hasSelectedAnswer = Boolean(selectedAnswer);
+  const hasAnswerKey = Boolean(currentQuestion.correctAnswer);
+  const selectedAnswerIsCorrect = selectedAnswer === currentQuestion.correctAnswer;
+  const sectionQuestionNumber = getPreviewQuestionNumber(questions, currentQuestionIndex);
+  const canGoPrevious = currentQuestionIndex > 0;
+  const canGoNext = currentQuestionIndex < questions.length - 1;
+  const sectionTabs = [
+    {
+      key: "general-aptitude",
+      label: "General Aptitude",
+      match: (question) => question.subject === "General Aptitude",
+    },
+    {
+      key: "reasoning",
+      label: "Reasoning",
+      match: (question) => question.subject === "Reasoning",
+    },
+    {
+      key: "related-subject",
+      label: "Related Subject",
+      match: (question) =>
+        question.subject !== "General Aptitude" && question.subject !== "Reasoning",
+    },
+  ]
+    .map((tab) => ({
+      ...tab,
+      firstIndex: questions.findIndex(tab.match),
+      count: questions.filter(tab.match).length,
+    }))
+    .filter((tab) => tab.firstIndex >= 0);
+  const activeSectionTab =
+    sectionTabs.find((tab) => tab.match(currentQuestion))?.key || sectionTabs[0]?.key;
 
   function toggleAnswer(questionKey) {
     setRevealedAnswers((current) => ({
@@ -161,6 +201,23 @@ function OfficialQuestionPreview({ questions = [] }) {
     }));
   }
 
+  function jumpToQuestion(index) {
+    setCurrentQuestionIndex(index);
+  }
+
+  function scrollQuestionStrip(direction) {
+    const scrollContainer = questionStripRef.current;
+
+    if (!scrollContainer) {
+      return;
+    }
+
+    scrollContainer.scrollBy({
+      left: direction * Math.max(240, Math.floor(scrollContainer.clientWidth * 0.75)),
+      behavior: "smooth",
+    });
+  }
+
   return (
     <section className="mt-4 sm:rounded-xl sm:border sm:border-slate-200 sm:bg-slate-50 sm:p-5">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
@@ -173,142 +230,220 @@ function OfficialQuestionPreview({ questions = [] }) {
           </h3>
         </div>
         <span className="text-sm font-bold text-slate-500">
-          {questions.length} questions
+          Question {currentQuestionIndex + 1} of {questions.length}
         </span>
       </div>
 
-      <div className="mt-4 grid gap-4 sm:mt-5">
-        {questions.map((question, index) => {
-          const section = question.subject || "ECE";
-          const previousSection = index > 0 ? questions[index - 1]?.subject || "ECE" : "";
-          const showSectionHeading = section !== previousSection;
-          const sectionQuestionNumber = getPreviewQuestionNumber(questions, index);
-          const questionKey = question._id || index;
-          const selectedAnswer = selectedAnswers[questionKey];
-          const isAnswerRevealed = revealedAnswers[questionKey];
-          const hasSelectedAnswer = Boolean(selectedAnswer);
-          const hasAnswerKey = Boolean(question.correctAnswer);
-          const selectedAnswerIsCorrect = selectedAnswer === question.correctAnswer;
+      <div className="mt-4 flex flex-wrap gap-2">
+        {sectionTabs.map((tab) => (
+          <button
+            key={tab.key}
+            type="button"
+            onClick={() => jumpToQuestion(tab.firstIndex)}
+            className={`inline-flex min-h-10 items-center justify-center rounded-xl border px-4 py-2 text-sm font-extrabold transition ${
+              activeSectionTab === tab.key
+                ? "border-portal-700 bg-portal-700 text-white"
+                : "border-slate-200 bg-white text-slate-700 hover:border-portal-300 hover:text-portal-700"
+            }`}
+          >
+            {tab.label}
+            <span
+              className={`ml-2 rounded-lg px-2 py-0.5 text-xs ${
+                activeSectionTab === tab.key
+                  ? "bg-white/15 text-white"
+                  : "bg-slate-100 text-slate-500"
+              }`}
+            >
+              {tab.count}
+            </span>
+          </button>
+        ))}
+      </div>
 
-          return (
-            <div key={question._id || `${question.question}-${index}`} className="grid gap-3">
-              {showSectionHeading ? (
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500">
-                  Section : {section}
-                </p>
-              ) : null}
-              <article className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
-                <div className="flex flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">
-                  <span>Q.{sectionQuestionNumber}</span>
-                  <span className="text-slate-300">|</span>
-                  <span>{question.topic || "Previous Paper"}</span>
-                </div>
+      <div className="mt-4 flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => scrollQuestionStrip(-1)}
+          aria-label="Scroll question numbers left"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-lg font-extrabold text-slate-700 transition hover:border-portal-300 hover:text-portal-700"
+        >
+          &lt;
+        </button>
+        <div
+          ref={questionStripRef}
+          className="flex-1 overflow-x-auto pb-2 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-track]:bg-slate-100"
+        >
+          <div className="flex min-w-max items-center gap-2">
+            {questions.map((question, index) => {
+              const isActive = index === currentQuestionIndex;
+              const hasAnswer = Boolean(selectedAnswers[question._id || index]);
 
-                <p className="mt-3 text-base font-bold leading-7 text-slate-950">
-                  {question.question}
-                </p>
+              return (
+                <button
+                  key={question._id || `${question.question}-${index}`}
+                  type="button"
+                  onClick={() => jumpToQuestion(index)}
+                  aria-label={`Open question ${index + 1}`}
+                  aria-current={isActive ? "true" : undefined}
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border text-sm font-extrabold transition ${
+                    isActive
+                      ? "border-portal-700 bg-portal-700 text-white shadow-sm"
+                      : hasAnswer
+                        ? "border-emerald-200 bg-emerald-50 text-emerald-700 hover:border-emerald-300"
+                        : "border-slate-200 bg-white text-slate-700 hover:border-portal-300 hover:text-portal-700"
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => scrollQuestionStrip(1)}
+          aria-label="Scroll question numbers right"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-lg font-extrabold text-slate-700 transition hover:border-portal-300 hover:text-portal-700"
+        >
+          &gt;
+        </button>
+      </div>
 
-                <div className="mt-3 max-w-[640px]">
-                  <CircuitDiagram question={question} />
-                </div>
+      <div className="mt-4 grid gap-3 sm:mt-5">
+        <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500">
+          Section : {section}
+        </p>
+        <article className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+          <div className="flex flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">
+            <span>Q.{sectionQuestionNumber}</span>
+            <span className="text-slate-300">|</span>
+            <span>{currentQuestion.topic || "Previous Paper"}</span>
+          </div>
 
-                {question.diagram?.includes(".pdf") ? (
-                  <a
-                    href={question.diagram}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-3 inline-flex min-h-10 items-center rounded-xl border border-portal-200 bg-portal-50 px-4 py-2 text-sm font-extrabold text-portal-700 transition hover:border-portal-300 hover:bg-white"
+          <p className="mt-3 text-base font-bold leading-7 text-slate-950">
+            {currentQuestion.question}
+          </p>
+
+          <div className="mt-3 max-w-[640px]">
+            <CircuitDiagram question={currentQuestion} />
+          </div>
+
+          {currentQuestion.diagram?.includes(".pdf") ? (
+            <a
+              href={currentQuestion.diagram}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-3 inline-flex min-h-10 items-center rounded-xl border border-portal-200 bg-portal-50 px-4 py-2 text-sm font-extrabold text-portal-700 transition hover:border-portal-300 hover:bg-white"
+            >
+              Open PDF figure
+            </a>
+          ) : null}
+
+          <div className="mt-4 grid gap-2">
+            {(currentQuestion.options || []).map((option, optionIndex) => {
+                const isSelected = selectedAnswer === option;
+                const isCorrectOption = option === currentQuestion.correctAnswer;
+                const showCorrectOption = hasAnswerKey && hasSelectedAnswer && isCorrectOption;
+                const showWrongOption =
+                  hasAnswerKey && hasSelectedAnswer && isSelected && !isCorrectOption;
+
+                return (
+                  <button
+                    type="button"
+                    key={`${option}-${optionIndex}`}
+                    onClick={() => selectAnswer(questionKey, option)}
+                    className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
+                      showCorrectOption
+                        ? "border-emerald-300 bg-emerald-50 text-emerald-800"
+                        : showWrongOption
+                          ? "border-rose-300 bg-rose-50 text-rose-800"
+                          : isSelected
+                            ? "border-portal-300 bg-portal-50 text-portal-800"
+                            : "border-slate-200 bg-slate-50 text-slate-700"
+                    }`}
                   >
-                    Open PDF figure
-                  </a>
-                ) : null}
+                    <div className="flex items-start gap-3">
+                      <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-extrabold text-slate-500">
+                        {showCorrectOption ? "OK" : showWrongOption ? "X" : String.fromCharCode(65 + optionIndex)}
+                      </span>
+                      <span className="flex-1">
+                        {option}
+                      </span>
+                      {showCorrectOption ? (
+                        <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-emerald-700">
+                          Correct
+                        </span>
+                      ) : showWrongOption ? (
+                        <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-rose-700">
+                          Wrong
+                        </span>
+                      ) : null}
+                    </div>
+                  </button>
+                );
+            })}
+          </div>
 
-                <div className="mt-4 grid gap-2">
-                  {(question.options || []).map((option, optionIndex) => {
-                      const isSelected = selectedAnswer === option;
-                      const isCorrectOption = option === question.correctAnswer;
-                      const showCorrectOption = hasAnswerKey && hasSelectedAnswer && isCorrectOption;
-                      const showWrongOption =
-                        hasAnswerKey && hasSelectedAnswer && isSelected && !isCorrectOption;
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            {hasAnswerKey ? (
+              <button
+                type="button"
+                onClick={() => toggleAnswer(questionKey)}
+                className="inline-flex min-h-10 items-center justify-center rounded-xl border border-portal-300 bg-white px-4 py-2 text-sm font-extrabold text-portal-700 transition hover:bg-portal-50"
+              >
+                {isAnswerRevealed ? "Hide answer" : "Show answer"}
+              </button>
+            ) : null}
+            {!hasAnswerKey ? (
+              <p className="text-sm font-semibold text-amber-700">
+                Answer key pending for this uploaded paper question.
+              </p>
+            ) : isAnswerRevealed ? (
+              <p className="text-sm font-semibold text-emerald-700">
+                Answer: {currentQuestion.correctAnswer}
+              </p>
+            ) : selectedAnswer ? (
+              <p className={`text-sm font-semibold ${selectedAnswerIsCorrect ? "text-emerald-700" : "text-rose-700"}`}>
+                {selectedAnswerIsCorrect ? "Correct answer selected." : "Wrong answer selected. Correct option is highlighted."}
+              </p>
+            ) : (
+              <p className="text-sm text-slate-500">
+                Select an option, then reveal the answer.
+              </p>
+            )}
+          </div>
 
-                      return (
-                        <button
-                          type="button"
-                          key={`${option}-${optionIndex}`}
-                          onClick={() => selectAnswer(questionKey, option)}
-                          className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
-                            showCorrectOption
-                              ? "border-emerald-300 bg-emerald-50 text-emerald-800"
-                              : showWrongOption
-                                ? "border-rose-300 bg-rose-50 text-rose-800"
-                                : isSelected
-                                  ? "border-portal-300 bg-portal-50 text-portal-800"
-                                  : "border-slate-200 bg-slate-50 text-slate-700"
-                          }`}
-                        >
-                          <div className="flex items-start gap-3">
-                            <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-extrabold text-slate-500">
-                              {showCorrectOption ? "OK" : showWrongOption ? "X" : String.fromCharCode(65 + optionIndex)}
-                            </span>
-                            <span className="flex-1">
-                              {option}
-                            </span>
-                            {showCorrectOption ? (
-                              <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-emerald-700">
-                                Correct
-                              </span>
-                            ) : showWrongOption ? (
-                              <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-rose-700">
-                                Wrong
-                              </span>
-                            ) : null}
-                          </div>
-                        </button>
-                      );
-                  })}
-                </div>
+          {isAnswerRevealed && currentQuestion.explanation ? (
+            <p className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
+              <span className="font-extrabold">Explanation:</span> {currentQuestion.explanation}
+            </p>
+          ) : null}
+          {isAnswerRevealed ? (
+            <StudyLinks question={currentQuestion} />
+          ) : null}
+        </article>
 
-                <div className="mt-4 flex flex-wrap items-center gap-3">
-                  {hasAnswerKey ? (
-                    <button
-                      type="button"
-                      onClick={() => toggleAnswer(questionKey)}
-                      className="inline-flex min-h-10 items-center justify-center rounded-xl border border-portal-300 bg-white px-4 py-2 text-sm font-extrabold text-portal-700 transition hover:bg-portal-50"
-                    >
-                      {isAnswerRevealed ? "Hide answer" : "Show answer"}
-                    </button>
-                  ) : null}
-                  {!hasAnswerKey ? (
-                    <p className="text-sm font-semibold text-amber-700">
-                      Answer key pending for this uploaded paper question.
-                    </p>
-                  ) : isAnswerRevealed ? (
-                    <p className="text-sm font-semibold text-emerald-700">
-                      Answer: {question.correctAnswer}
-                    </p>
-                  ) : selectedAnswer ? (
-                    <p className={`text-sm font-semibold ${selectedAnswerIsCorrect ? "text-emerald-700" : "text-rose-700"}`}>
-                      {selectedAnswerIsCorrect ? "Correct answer selected." : "Wrong answer selected. Correct option is highlighted."}
-                    </p>
-                  ) : (
-                    <p className="text-sm text-slate-500">
-                      Select an option, then reveal the answer.
-                    </p>
-                  )}
-                </div>
-
-                {isAnswerRevealed && question.explanation ? (
-                  <p className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
-                    <span className="font-extrabold">Explanation:</span> {question.explanation}
-                  </p>
-                ) : null}
-                {isAnswerRevealed ? (
-                  <StudyLinks question={question} />
-                ) : null}
-              </article>
-            </div>
-          );
-        })}
+        <div className="flex items-center justify-between gap-3">
+          <button
+            type="button"
+            onClick={() => setCurrentQuestionIndex((index) => Math.max(0, index - 1))}
+            disabled={!canGoPrevious}
+            className="inline-flex min-h-11 min-w-[124px] items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-700 transition hover:border-portal-300 hover:text-portal-700 disabled:cursor-not-allowed disabled:opacity-45"
+          >
+            Previous Que
+          </button>
+          <span className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-extrabold text-slate-700">
+            {currentQuestionIndex + 1} / {questions.length}
+          </span>
+          <button
+            type="button"
+            onClick={() => setCurrentQuestionIndex((index) => Math.min(questions.length - 1, index + 1))}
+            disabled={!canGoNext}
+            className="inline-flex min-h-11 min-w-[124px] items-center justify-center rounded-xl border border-portal-300 bg-portal-50 px-4 py-2 text-sm font-extrabold text-portal-700 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-45"
+          >
+            Next Que
+          </button>
+        </div>
       </div>
     </section>
   );

@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getLearningSubject } from "../lib/learning-utils";
 import { getSubjectPagePathByLearningSlug } from "../lib/seo";
 
 export default function LearningTopicNavigationMenus({ topic, mode = "all" }) {
   const [openMenu, setOpenMenu] = useState("");
+  const menuRootRef = useRef(null);
   const subject = useMemo(
     () => getLearningSubject(topic.subjectSlug),
     [topic.subjectSlug]
@@ -30,12 +31,38 @@ export default function LearningTopicNavigationMenus({ topic, mode = "all" }) {
   const showSubjectTopics = mode !== "subtopics" && subjectTopics.length > 0;
   const showSubtopics = mode !== "topics" && subtopics.length > 0;
 
+  useEffect(() => {
+    if (!openMenu) {
+      return undefined;
+    }
+
+    function handlePointerDown(event) {
+      if (!menuRootRef.current?.contains(event.target)) {
+        setOpenMenu("");
+      }
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        setOpenMenu("");
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [openMenu]);
+
   if (!showSubjectTopics && !showSubtopics) {
     return null;
   }
 
   return (
-    <div className="flex flex-none items-center gap-2">
+    <div ref={menuRootRef} className="flex flex-none items-center gap-2">
       {showSubjectTopics ? (
         <div className="relative">
           <MenuButton
