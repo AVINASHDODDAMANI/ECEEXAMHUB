@@ -139,7 +139,65 @@ function StudyLinks({ question }) {
   );
 }
 
-function OfficialQuestionPreview({ questions = [] }) {
+function buildQuestionSectionTabs(questions = [], exam = "") {
+  const examName = String(exam).toUpperCase();
+  const gateTabs = [
+    {
+      key: "general-aptitude",
+      label: "General Aptitude",
+      match: (question) => question.subject === "General Aptitude",
+    },
+    {
+      key: "engineering-mathematics",
+      label: "Engineering Mathematics",
+      match: (question) => question.subject === "Engineering Mathematics",
+    },
+    {
+      key: "ece-subjects",
+      label: "ECE Subjects",
+      match: (question) =>
+        question.subject !== "General Aptitude" &&
+        question.subject !== "Engineering Mathematics",
+    },
+  ];
+  const belTabs = [
+    {
+      key: "general-aptitude",
+      label: "General Aptitude",
+      match: (question) => question.subject === "General Aptitude",
+    },
+    {
+      key: "reasoning",
+      label: "Reasoning",
+      match: (question) => question.subject === "Reasoning",
+    },
+    {
+      key: "related-subject",
+      label: "Related Subject",
+      match: (question) =>
+        question.subject !== "General Aptitude" && question.subject !== "Reasoning",
+    },
+  ];
+  const fallbackTabs = Array.from(
+    new Set(questions.map((question) => question.subject || "ECE"))
+  ).map((subject) => ({
+    key: subject.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+    label: subject,
+    match: (question) => (question.subject || "ECE") === subject,
+  }));
+  const sectionTabs =
+    examName === "GATE" ? gateTabs : examName === "BEL" ? belTabs : fallbackTabs;
+
+  return sectionTabs
+    .map((tab) => ({
+      ...tab,
+      firstIndex: questions.findIndex(tab.match),
+      count: questions.filter(tab.match).length,
+    }))
+    .filter((tab) => tab.firstIndex >= 0);
+}
+
+function OfficialQuestionPreview({ questions = [], exam = "" }) {
   const questionStripRef = useRef(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [revealedAnswers, setRevealedAnswers] = useState({});
@@ -160,30 +218,7 @@ function OfficialQuestionPreview({ questions = [] }) {
   const sectionQuestionNumber = getPreviewQuestionNumber(questions, currentQuestionIndex);
   const canGoPrevious = currentQuestionIndex > 0;
   const canGoNext = currentQuestionIndex < questions.length - 1;
-  const sectionTabs = [
-    {
-      key: "general-aptitude",
-      label: "General Aptitude",
-      match: (question) => question.subject === "General Aptitude",
-    },
-    {
-      key: "reasoning",
-      label: "Reasoning",
-      match: (question) => question.subject === "Reasoning",
-    },
-    {
-      key: "related-subject",
-      label: "Related Subject",
-      match: (question) =>
-        question.subject !== "General Aptitude" && question.subject !== "Reasoning",
-    },
-  ]
-    .map((tab) => ({
-      ...tab,
-      firstIndex: questions.findIndex(tab.match),
-      count: questions.filter(tab.match).length,
-    }))
-    .filter((tab) => tab.firstIndex >= 0);
+  const sectionTabs = buildQuestionSectionTabs(questions, exam);
   const activeSectionTab =
     sectionTabs.find((tab) => tab.match(currentQuestion))?.key || sectionTabs[0]?.key;
 
@@ -715,8 +750,8 @@ export default function SolutionPage({ initialSlug = "" }) {
                   Question Paper Preview
                 </p>
                 <h2 className="mt-1 text-xl font-extrabold text-slate-950">
-                  {paper.pdfHref && paperQuestions.length
-                    ? "Official paper question viewer"
+                  {paperQuestions.length
+                    ? "Interactive question viewer"
                     : paper.pdfHref
                       ? "Official paper viewer"
                       : "Embedded solution viewer"}
@@ -734,11 +769,11 @@ export default function SolutionPage({ initialSlug = "" }) {
               <div className="flex min-h-[540px] items-center justify-center text-sm font-semibold text-slate-600">
                 Loading embedded paper viewer...
               </div>
-            ) : paper.pdfHref && paperQuestions.length ? (
+            ) : paperQuestions.length ? (
               <div className="mt-4 space-y-4">
-                <OfficialQuestionPreview questions={paperQuestions} />
+                <OfficialQuestionPreview questions={paperQuestions} exam={paper.exam} />
                 <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600">
-                  Download PDF now generates the clean ECE Exam Guide printable paper from these solved questions.
+                  Download PDF generates the clean ECE Exam Guide printable paper from these solved questions.
                   {paper.pdfHref ? (
                     <>
                       {" "}
