@@ -1,5 +1,24 @@
 export const officialPreviousPapers = [
   {
+    id: "bel-engineer-electronics-may-2025",
+    exam: "BEL",
+    year: 2025,
+    title: "BEL Engineer Electronics Paper - May 2025",
+    role: "Engineer (Electronics)",
+    paperType: "Objective",
+    subjects: ["General Aptitude", "Electronics"],
+    topics: ["Articles", "Proper Nouns"],
+    questionCount: 2,
+    solvedCount: 2,
+    repeatedCount: 0,
+    importantCount: 0,
+    subjectCount: 2,
+    topicCount: 2,
+    sourceLabel: "BEL May 2025 added questions",
+    summary:
+      "BEL May 2025 ECE paper entry with newly added General Aptitude questions for in-site practice and review.",
+  },
+  {
     id: "bel-probationary-engineer-electronics-december-2023",
     exam: "BEL",
     year: 2023,
