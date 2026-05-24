@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import Footer from "./Footer";
 import Navbar from "./navbar";
 import {
@@ -41,6 +42,35 @@ const defaultStructuredData = [
   },
 ];
 
+function closeExpandedPopupMenus(eventTarget = null) {
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  const openButtons = Array.from(
+    document.querySelectorAll('button[aria-expanded="true"][aria-controls]')
+  );
+
+  openButtons.forEach((button) => {
+    const controlId = button.getAttribute("aria-controls");
+    const controlledElement = controlId ? document.getElementById(controlId) : null;
+    const isPopupMenu = /menu|popover/i.test(controlId || "");
+
+    if (!isPopupMenu) {
+      return;
+    }
+
+    if (
+      eventTarget &&
+      (button.contains(eventTarget) || controlledElement?.contains(eventTarget))
+    ) {
+      return;
+    }
+
+    button.click();
+  });
+}
+
 export default function Layout({
   children,
   title = SITE_NAME,
@@ -70,6 +100,33 @@ export default function Layout({
       return "eceexamguide.vercel.app";
     }
   })();
+
+  useEffect(() => {
+    let lastScrollX = window.scrollX;
+    let lastScrollY = window.scrollY;
+
+    function handlePointerDown(event) {
+      closeExpandedPopupMenus(event.target);
+    }
+
+    function handleScroll() {
+      const moved = Math.abs(window.scrollX - lastScrollX) + Math.abs(window.scrollY - lastScrollY);
+      lastScrollX = window.scrollX;
+      lastScrollY = window.scrollY;
+
+      if (moved > 8) {
+        closeExpandedPopupMenus();
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>

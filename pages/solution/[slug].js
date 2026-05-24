@@ -254,7 +254,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
   }
 
   return (
-    <section className="mt-4 min-w-0 overflow-hidden sm:rounded-xl sm:border sm:border-slate-200 sm:bg-slate-50 sm:p-5">
+    <section className="mt-4 w-full min-w-0 max-w-full overflow-hidden sm:rounded-xl sm:border sm:border-slate-200 sm:bg-slate-50 sm:p-5">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
@@ -269,13 +269,13 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
         </span>
       </div>
 
-      <div className="mt-4 flex min-w-0 gap-2 overflow-x-auto pb-1 [-webkit-overflow-scrolling:touch] [overscroll-behavior-inline:contain] [touch-action:pan-x] sm:flex-wrap sm:overflow-visible">
+      <div className="mt-4 flex w-full min-w-0 max-w-full snap-x gap-2 overflow-x-auto pb-2 [-webkit-overflow-scrolling:touch] [overscroll-behavior-inline:contain] [scrollbar-width:thin] [touch-action:pan-x] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-track]:bg-slate-100 sm:flex-wrap sm:overflow-visible sm:pb-1">
         {sectionTabs.map((tab) => (
           <button
             key={tab.key}
             type="button"
             onClick={() => jumpToQuestion(tab.firstIndex)}
-            className={`inline-flex min-h-10 shrink-0 items-center justify-center rounded-xl border px-4 py-2 text-sm font-extrabold transition ${
+            className={`inline-flex min-h-10 shrink-0 snap-start items-center justify-center rounded-xl border px-4 py-2 text-sm font-extrabold transition ${
               activeSectionTab === tab.key
                 ? "border-portal-700 bg-portal-700 text-white"
                 : "border-slate-200 bg-white text-slate-700 hover:border-portal-300 hover:text-portal-700"
@@ -295,7 +295,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
         ))}
       </div>
 
-      <div className="mt-4 flex min-w-0 items-center gap-2">
+      <div className="mt-4 flex w-full min-w-0 max-w-full items-center gap-2">
         <button
           type="button"
           onClick={() => scrollQuestionStrip(-1)}
@@ -306,9 +306,9 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
         </button>
         <div
           ref={questionStripRef}
-          className="min-w-0 flex-1 overflow-x-auto pb-2 [-webkit-overflow-scrolling:touch] [overscroll-behavior-inline:contain] [scrollbar-width:thin] [touch-action:pan-x] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-track]:bg-slate-100"
+          className="min-w-0 flex-1 snap-x overflow-x-auto pb-2 [-webkit-overflow-scrolling:touch] [overscroll-behavior-inline:contain] [scrollbar-width:thin] [touch-action:pan-x] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-track]:bg-slate-100"
         >
-          <div className="flex min-w-max items-center gap-2">
+          <div className="flex min-w-max items-center gap-2 pr-1">
             {questions.map((question, index) => {
               const isActive = index === currentQuestionIndex;
               const hasAnswer = Boolean(selectedAnswers[question._id || index]);
@@ -320,7 +320,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
                   onClick={() => jumpToQuestion(index)}
                   aria-label={`Open question ${index + 1}`}
                   aria-current={isActive ? "true" : undefined}
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border text-sm font-extrabold transition ${
+                  className={`flex h-10 w-10 shrink-0 snap-start items-center justify-center rounded-lg border text-sm font-extrabold transition ${
                     isActive
                       ? "border-portal-700 bg-portal-700 text-white shadow-sm"
                       : hasAnswer
@@ -348,7 +348,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
         <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500">
           Section : {section}
         </p>
-        <article className="min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+        <article className="w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
           <div className="flex min-w-0 flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">
             <span>Q.{sectionQuestionNumber}</span>
             <span className="text-slate-300">|</span>
@@ -419,7 +419,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
             })}
           </div>
 
-          <div className="mt-4 flex min-w-0 flex-wrap items-center gap-3">
+          <div className="mt-4 flex min-w-0 flex-wrap items-center gap-3 overflow-hidden">
             {hasAnswerKey ? (
               <button
                 type="button"
@@ -743,7 +743,7 @@ export default function SolutionPage({ initialSlug = "" }) {
         </section>
 
         <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
-          <div id="viewer" className="rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:p-4">
+          <div id="viewer" className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:p-4">
             <div className="flex flex-col gap-3 border-b border-slate-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">

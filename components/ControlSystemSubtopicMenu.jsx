@@ -1,7 +1,47 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function ControlSystemSubtopicMenu({ title, subtopics = [] }) {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRootRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
+    let lastScrollX = window.scrollX;
+    let lastScrollY = window.scrollY;
+
+    function handlePointerDown(event) {
+      if (!menuRootRef.current?.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    }
+
+    function handleScroll() {
+      const moved = Math.abs(window.scrollX - lastScrollX) + Math.abs(window.scrollY - lastScrollY);
+
+      if (moved > 8) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isOpen]);
 
   if (!subtopics.length) {
     return null;
@@ -16,7 +56,7 @@ export default function ControlSystemSubtopicMenu({ title, subtopics = [] }) {
   }
 
   return (
-    <div className="relative flex-none">
+    <div ref={menuRootRef} className="relative flex-none">
       <button
         type="button"
         onClick={() => setIsOpen((value) => !value)}

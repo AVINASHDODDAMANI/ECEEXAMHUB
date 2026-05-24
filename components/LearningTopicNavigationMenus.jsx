@@ -36,6 +36,9 @@ export default function LearningTopicNavigationMenus({ topic, mode = "all" }) {
       return undefined;
     }
 
+    let lastScrollX = window.scrollX;
+    let lastScrollY = window.scrollY;
+
     function handlePointerDown(event) {
       if (!menuRootRef.current?.contains(event.target)) {
         setOpenMenu("");
@@ -48,12 +51,22 @@ export default function LearningTopicNavigationMenus({ topic, mode = "all" }) {
       }
     }
 
+    function handleScroll() {
+      const moved = Math.abs(window.scrollX - lastScrollX) + Math.abs(window.scrollY - lastScrollY);
+
+      if (moved > 8) {
+        setOpenMenu("");
+      }
+    }
+
     document.addEventListener("pointerdown", handlePointerDown);
     document.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [openMenu]);
 

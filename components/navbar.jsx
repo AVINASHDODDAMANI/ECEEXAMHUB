@@ -70,7 +70,7 @@ export default function Navbar({
   const groupedResults = useMemo(
     () =>
       searchRuntime && deferredQuery.length >= 2
-        ? searchRuntime.getGroupedSmartSearchResults(deferredQuery, searchIndex)
+        ? searchRuntime.getGroupedSmartSearchResults(deferredQuery, searchIndex, 3)
         : [],
     [deferredQuery, searchIndex, searchRuntime]
   );
@@ -84,7 +84,7 @@ export default function Navbar({
   const topicSuggestions = useMemo(
     () =>
       searchRuntime && deferredQuery.length >= 2
-        ? searchRuntime.getTopicSearchSuggestions(deferredQuery, searchIndex, 4)
+        ? searchRuntime.getTopicSearchSuggestions(deferredQuery, searchIndex, 3)
         : [],
     [deferredQuery, searchIndex, searchRuntime]
   );
