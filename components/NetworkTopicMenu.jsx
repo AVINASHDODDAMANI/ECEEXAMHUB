@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 const networkTopics = [
   {
@@ -94,35 +94,8 @@ function findSubtopicTarget(label) {
 
 export default function NetworkTopicMenu({ currentPath = "" }) {
   const [isSubtopicOpen, setIsSubtopicOpen] = useState(false);
-  const menuRootRef = useRef(null);
   const currentTopic = networkTopics.find((topic) => topic.href === currentPath);
   const currentSubtopics = currentTopic?.subtopics || [];
-
-  useEffect(() => {
-    if (!isSubtopicOpen) {
-      return undefined;
-    }
-
-    function handlePointerDown(event) {
-      if (!menuRootRef.current?.contains(event.target)) {
-        setIsSubtopicOpen(false);
-      }
-    }
-
-    function handleKeyDown(event) {
-      if (event.key === "Escape") {
-        setIsSubtopicOpen(false);
-      }
-    }
-
-    document.addEventListener("pointerdown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isSubtopicOpen]);
 
   if (!currentSubtopics.length) {
     return null;
@@ -140,7 +113,7 @@ export default function NetworkTopicMenu({ currentPath = "" }) {
   }
 
   return (
-    <div ref={menuRootRef} className="relative flex-none">
+    <div className="relative flex-none">
       <MenuButton
         isOpen={isSubtopicOpen}
         label={`Open ${currentTopic.title} subtopics`}
