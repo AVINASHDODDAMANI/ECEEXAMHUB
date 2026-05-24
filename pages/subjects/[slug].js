@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import EducationalTheoryLayout, {
   EducationalBulletList,
@@ -7590,13 +7590,40 @@ function MobileConceptRoadmap({ concepts, activeIndex }) {
 
 function NetworkTopicMenu({ concepts, activeIndex }) {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRootRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
+    function handlePointerDown(event) {
+      if (!menuRootRef.current?.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
 
   function closeMenu() {
     setIsOpen(false);
   }
 
   return (
-    <div className="relative flex-none">
+    <div ref={menuRootRef} className="relative flex-none">
       <button
         type="button"
         onClick={() => setIsOpen((currentValue) => !currentValue)}
