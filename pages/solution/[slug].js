@@ -234,13 +234,13 @@ function OfficialQuestionPreview({ questions = [] }) {
         </span>
       </div>
 
-      <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [-webkit-overflow-scrolling:touch] [overscroll-behavior-inline:contain] [touch-action:pan-x] sm:flex-wrap sm:overflow-visible">
+      <div className="mt-4 grid gap-2 sm:flex sm:flex-wrap">
         {sectionTabs.map((tab) => (
           <button
             key={tab.key}
             type="button"
             onClick={() => jumpToQuestion(tab.firstIndex)}
-            className={`inline-flex min-h-10 shrink-0 items-center justify-center rounded-xl border px-3 py-2 text-xs font-extrabold transition sm:px-4 sm:text-sm ${
+            className={`inline-flex min-h-10 min-w-0 items-center justify-center rounded-xl border px-3 py-2 text-xs font-extrabold transition sm:px-4 sm:text-sm ${
               activeSectionTab === tab.key
                 ? "border-portal-700 bg-portal-700 text-white"
                 : "border-slate-200 bg-white text-slate-700 hover:border-portal-300 hover:text-portal-700"
@@ -260,7 +260,24 @@ function OfficialQuestionPreview({ questions = [] }) {
         ))}
       </div>
 
-      <div className="mt-4 flex items-center gap-2">
+      <label className="mt-4 flex flex-col gap-2 rounded-xl border border-slate-200 bg-white p-3 sm:hidden">
+        <span className="text-xs font-extrabold uppercase tracking-[0.14em] text-slate-500">
+          Jump to question
+        </span>
+        <select
+          value={currentQuestionIndex}
+          onChange={(event) => jumpToQuestion(Number(event.target.value))}
+          className="min-h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-extrabold text-slate-800 outline-none focus:border-portal-300"
+        >
+          {questions.map((question, index) => (
+            <option key={question._id || `${question.question}-${index}`} value={index}>
+              Question {index + 1} - {question.topic || question.subject || "Previous Paper"}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <div className="mt-4 hidden items-center gap-2 sm:flex">
         <button
           type="button"
           onClick={() => scrollQuestionStrip(-1)}
@@ -271,7 +288,7 @@ function OfficialQuestionPreview({ questions = [] }) {
         </button>
         <div
           ref={questionStripRef}
-          className="question-strip-scroll flex-1 overflow-x-auto pb-2 [-webkit-overflow-scrolling:touch] [overscroll-behavior-inline:contain] [scrollbar-width:thin] [touch-action:pan-x] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-track]:bg-slate-100"
+          className="flex-1 overflow-x-auto pb-2 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-track]:bg-slate-100"
         >
           <div className="flex min-w-max items-center gap-2">
             {questions.map((question, index) => {

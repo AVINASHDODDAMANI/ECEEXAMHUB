@@ -119,15 +119,6 @@ mjx-container[display="true"] {
 }
 
 @media (max-width: 639px) {
-  .question-strip-scroll {
-    cursor: grab;
-    scroll-snap-type: x proximity;
-  }
-
-  .question-strip-scroll button {
-    scroll-snap-align: center;
-  }
-
   [id$="-menu"],
   [id$="-popover"] {
     position: fixed !important;

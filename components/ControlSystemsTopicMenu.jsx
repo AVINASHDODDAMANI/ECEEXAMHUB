@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const controlSystemTopics = [
   { title: "Introduction to Control Systems", href: "/introduction-to-control-systems" },
@@ -16,9 +16,36 @@ const controlSystemTopics = [
 
 export default function ControlSystemsTopicMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRootRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
+    function handlePointerDown(event) {
+      if (!menuRootRef.current?.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
 
   return (
-    <div className="relative flex-none">
+    <div ref={menuRootRef} className="relative flex-none">
       <button
         type="button"
         onClick={() => setIsOpen((value) => !value)}
