@@ -15074,13 +15074,24 @@ const SUBJECT_LANDING_CONTENT = {
   "Network Analysis": {
     description:
       "Learn the fundamentals of electrical circuits and the methods used to calculate voltage, current, resistance and power in electrical networks. Build strong concepts and problem-solving skills step by step.",
-    what:
-      "Network Analysis is the study of electrical circuits and the techniques used to determine voltages, currents, resistances and power in electrical networks.",
+    what: [
+      "Network Analysis is the study of how electrical circuits behave when different electrical components are connected together. It helps us understand how current flows, how voltage is distributed, and how electrical energy moves through a circuit.",
+      "In electrical engineering, a network simply means a combination of electrical components connected by wires. These components can include resistors, capacitors, inductors, voltage sources, current sources, switches, and many other devices. When these components are connected together, they form an electrical network or circuit.",
+      "The main purpose of Network Analysis is to calculate and understand important electrical quantities such as current flowing through the circuit, voltage across components, resistance offered by elements, and power consumed or supplied.",
+      "For example, when you use a mobile charger, laptop, fan, or any electronic device, there is an electrical circuit working inside it. Engineers use Network Analysis to study those circuits and ensure they work properly, safely, and efficiently.",
+    ],
     why: [
-      "Foundation of Electrical Engineering",
-      "Used in electronics and power systems",
-      "Helps solve real-world circuits",
-      "Important for exams and interviews",
+      "Many students ask the same question when they start this subject: \"Why do we need to study Network Analysis?\"",
+      "The answer is simple: Network Analysis is the foundation of almost every electrical and electronic system we use in daily life. Before an engineer can design, build, or troubleshoot any circuit, they must first understand how electricity behaves inside that circuit. That understanding comes from Network Analysis.",
+      "This subject teaches us how to analyze electrical circuits by finding the current flowing through them, the voltage across different components, and the power consumed or delivered in the system. Without these basics, it becomes very difficult to understand advanced electrical or electronic subjects.",
+      "Network Analysis is considered one of the core subjects in electrical and electronics engineering because many advanced topics directly depend on it. Subjects like power systems, analog electronics, digital electronics, communication systems, control systems, and embedded systems all use the concepts learned in Network Analysis.",
+      "For example, in power systems, engineers use Network Analysis to study how electrical power flows from generating stations to homes and industries. It helps in understanding transmission lines, fault conditions, and power distribution.",
+      "In electronics, every device, whether it is a mobile phone, laptop, television, or charger, contains electronic circuits. Network Analysis helps engineers design these circuits correctly and ensure they work efficiently.",
+      "In communication systems, signals travel through different electronic networks. Understanding how circuits respond to signals is important for designing reliable communication devices such as radios, antennas, routers, and wireless systems.",
+      "In embedded systems, microcontrollers and processors interact with sensors, motors, displays, and other hardware components through electrical circuits. Network Analysis helps engineers understand how these interconnected systems behave.",
+      "Another important reason for studying Network Analysis is that it improves problem-solving ability. The subject teaches students how to think logically, break complex circuits into simpler parts, and solve problems step by step. This analytical thinking is very important for every engineer.",
+      "Most importantly, Network Analysis is not just a theoretical subject. The concepts learned here are applied in real-world systems everywhere around us, from household appliances to industrial machines, electric vehicles, renewable energy systems, and modern electronic devices.",
+      "That is why Network Analysis is considered one of the most important building blocks for anyone pursuing electrical or electronics engineering.",
     ],
     where: [
       "Electrical Engineering",
@@ -15489,6 +15500,7 @@ function buildSubjectLandingCards(subjectTitle) {
       title: `Why Learn ${subjectTitle}?`,
       icon: "target",
       color: "green",
+      prose: subjectTitle === "Network Analysis",
       items: content.why,
     },
     {
@@ -15639,39 +15651,52 @@ function NetworkHeroCircuit() {
   );
 }
 
-function NetworkLandingCard({ card }) {
+function NetworkLandingCard({ card, index }) {
   const styles = NETWORK_COLOR_STYLES[card.color] || NETWORK_COLOR_STYLES.blue;
 
   return (
-    <article className="rounded-lg border border-slate-200 bg-white p-6 shadow-[0_8px_24px_rgba(15,23,42,0.08)]">
-      <div className="flex items-start gap-4">
+    <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-[0_8px_24px_rgba(15,23,42,0.08)] sm:p-6">
+      <div className="grid gap-4 sm:grid-cols-[auto_1fr] sm:items-start">
         <span className={`flex h-14 w-14 flex-none items-center justify-center rounded-full ${styles.iconBg}`}>
           <NetworkLandingIcon name={card.icon} />
         </span>
         <div className="min-w-0">
-          <h2 className="max-w-[13rem] text-lg font-black leading-snug text-[#061642]">
+          <p className="text-sm font-black uppercase tracking-[0.14em] text-[#0b58b4]">
+            Step {index + 1}
+          </p>
+          <h2 className="mt-1 text-2xl font-black leading-snug text-[#061642]">
             {card.title}
           </h2>
-          <span className={`mt-4 block h-0.5 w-11 ${styles.underline}`} />
+          <span className={`mt-3 block h-0.5 w-14 ${styles.underline}`} />
+
+          {card.text ? (
+            <div className="mt-5 grid gap-3 text-base leading-8 text-slate-950">
+              {(Array.isArray(card.text) ? card.text : [card.text]).map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          ) : card.prose ? (
+            <div className="mt-5 grid gap-3 text-base leading-8 text-slate-950">
+              {card.items.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          ) : (
+            <ol className="mt-5 grid gap-3 text-base leading-7 text-slate-950">
+              {card.items.map((item, itemIndex) => (
+                <li key={item} className="flex gap-3">
+                  {card.numbered ? (
+                    <span className={`w-5 flex-none font-black ${styles.number}`}>{itemIndex + 1}.</span>
+                  ) : (
+                    <span className={`mt-3 h-1.5 w-1.5 flex-none rounded-full ${styles.bullet}`} />
+                  )}
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ol>
+          )}
         </div>
       </div>
-
-      {card.text ? (
-        <p className="mt-5 text-base leading-7 text-slate-950">{card.text}</p>
-      ) : (
-        <ol className="mt-5 grid gap-3 text-base leading-6 text-slate-950">
-          {card.items.map((item, index) => (
-            <li key={item} className="flex gap-3">
-              {card.numbered ? (
-                <span className={`w-4 flex-none font-medium ${styles.number}`}>{index + 1}.</span>
-              ) : (
-                <span className={`mt-2.5 h-1.5 w-1.5 flex-none rounded-full ${styles.bullet}`} />
-              )}
-              <span>{item}</span>
-            </li>
-          ))}
-        </ol>
-      )}
     </article>
   );
 }
@@ -15752,9 +15777,9 @@ function NetworkAnalysisLandingPage({ subject, seo, concepts, activeConceptIndex
             <h2 className="text-2xl font-black uppercase text-[#0b58b4]">Overview</h2>
             <span className="h-px flex-1 bg-slate-200" />
           </div>
-          <div className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {landingCards.map((card) => (
-              <NetworkLandingCard key={card.title} card={card} />
+          <div className="mt-7 grid gap-4">
+            {landingCards.map((card, index) => (
+              <NetworkLandingCard key={card.title} card={card} index={index} />
             ))}
           </div>
         </section>
