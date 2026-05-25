@@ -23,7 +23,7 @@ const footerHighlights = ["Free Core Resources", "Structured Notes", "PYQ Practi
 
 export default function Footer() {
   return (
-    <footer className="mt-8 border-t border-slate-200 bg-white/95 backdrop-blur">
+    <footer className="mt-8 border-t border-slate-200 bg-[#fffdf8]/95 backdrop-blur">
       <div className="mx-auto grid max-w-[1440px] gap-4 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.55fr)_minmax(260px,0.55fr)] lg:items-start lg:px-8">
         <div>
           <BrandLogo
@@ -80,7 +80,7 @@ export default function Footer() {
         </nav>
       </div>
 
-      <div className="border-t border-slate-200 bg-[#f8fafc]">
+      <div className="border-t border-slate-200 bg-[#f7faf5]">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-2 px-4 py-3 text-sm text-slate-500 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <p>&copy; 2026 ECE Exam Guide. Structured preparation for ECE students.</p>
           <div className="flex gap-4">

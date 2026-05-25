@@ -15228,6 +15228,253 @@ const SUBJECT_LANDING_CONTENT = {
   },
 };
 
+const NETWORK_STUDY_FORMULAS = [
+  {
+    title: "Ohm's Law",
+    formula: "V = I R",
+    meaning: "V is voltage in volts, I is current in amperes, and R is resistance in ohms.",
+    explanation:
+      "Use Ohm's Law for a resistor when any two quantities are known. It tells how much voltage is needed to push a current through a resistance.",
+  },
+  {
+    title: "Electrical Power",
+    formula: "P = V I",
+    variants: ["P = I^2 R", "P = V^2 / R"],
+    meaning: "P is power in watts. Positive power means the element absorbs energy.",
+    explanation:
+      "Use the first formula when voltage and current are known. Use the other two resistor power formulas after applying Ohm's Law.",
+  },
+  {
+    title: "Kirchhoff's Current Law (KCL)",
+    formula: "I1 + I2 + ... = 0",
+    meaning: "The algebraic sum of currents meeting at a node is zero.",
+    explanation:
+      "Use KCL at junctions. Current entering a node must equal current leaving the node, so it is the main law behind nodal analysis.",
+  },
+  {
+    title: "Kirchhoff's Voltage Law (KVL)",
+    formula: "V1 + V2 + ... = 0",
+    meaning: "The algebraic sum of voltage rises and drops around a closed loop is zero.",
+    explanation:
+      "Use KVL around loops. It is the main law behind mesh analysis and helps write equations for closed circuit paths.",
+  },
+  {
+    title: "Series Resistance",
+    formula: "Req = R1 + R2 + R3 + ...",
+    meaning: "Req is the equivalent resistance of resistors connected in series.",
+    explanation:
+      "Use this only when the same current flows through every resistor. Series resistors add directly.",
+  },
+  {
+    title: "Parallel Resistance",
+    formula: "1 / Req = 1 / R1 + 1 / R2 + 1 / R3 + ...",
+    meaning: "Req is the single resistance that can replace all parallel branches.",
+    explanation:
+      "Use this only when every branch has the same voltage across it. For two resistors, Req = R1R2 / (R1 + R2).",
+  },
+];
+
+const NETWORK_IMPORTANT_QUESTIONS = [
+  "What is Network Analysis and why is it important for ECE students?",
+  "State and explain Ohm's Law, KCL, and KVL with circuit examples.",
+  "When should nodal analysis be used instead of mesh analysis?",
+  "Explain Thevenin's theorem and Norton's theorem with applications.",
+  "How do capacitors and inductors behave in DC steady state?",
+  "What is the difference between DC analysis, AC analysis, and transient analysis?",
+];
+
+const NETWORK_INTERNAL_LINKS = [
+  {
+    title: "Circuit Laws",
+    href: "/circuit-laws",
+    description: "Start here for Ohm's Law, Kirchhoff's Current Law, and Kirchhoff's Voltage Law.",
+  },
+  {
+    title: "DC Circuit Analysis",
+    href: "/dc-circuit-analysis",
+    description: "Use KCL and KVL in nodal analysis, mesh analysis, and resistor-network problems.",
+  },
+  {
+    title: "Network Theorems",
+    href: "/network-theorems",
+    description: "Learn Thevenin, Norton, superposition, and maximum power transfer methods.",
+  },
+  {
+    title: "AC Circuit Analysis",
+    href: "/ac-circuit-analysis",
+    description: "Move from DC circuits to phasors, impedance, resonance, and AC power.",
+  },
+  {
+    title: "Transient Analysis",
+    href: "/transient-analysis",
+    description: "Study RC, RL, and RLC switching response with initial and final conditions.",
+  },
+  {
+    title: "Two-Port Networks",
+    href: "/two-port-networks",
+    description: "Connect network analysis with Z, Y, h, and ABCD parameters.",
+  },
+];
+
+function NetworkEducationalContent() {
+  return (
+    <section className="mt-6 rounded-lg border border-slate-200 bg-white p-5 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
+      <div className="max-w-4xl">
+        <p className="text-sm font-black uppercase tracking-[0.14em] text-[#0b58b4]">
+          Network Analysis Explained
+        </p>
+        <h2 className="mt-2 text-3xl font-black tracking-normal text-[#061642]">
+          Network Analysis for Beginners
+        </h2>
+        <p className="mt-4 text-base leading-8 text-slate-700">
+          These Network Analysis notes for ECE students are written for beginners
+          who want the subject explained in a simple order. The goal is to understand
+          what a circuit is doing before memorizing formulas. Once voltage, current,
+          resistance, source polarity, node voltage, and loop current become clear,
+          most Network Analysis problems become a matter of choosing the right method.
+        </p>
+        <p className="mt-3 text-base leading-8 text-slate-700">
+          Students often search for network analysis explained, network analysis
+          formulas, network analysis important questions, and network analysis ECE
+          notes because this subject connects basic electrical quantities with
+          real circuit solving. A good preparation page should therefore include
+          definitions, formulas, examples, and solved problems in one place.
+        </p>
+      </div>
+
+      <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="grid gap-4">
+          <article className="rounded-lg border border-slate-200 bg-[#f8fbff] p-5">
+            <h2 className="text-2xl font-black text-[#061642]">
+              Network Analysis Definitions
+            </h2>
+            <div className="mt-4 grid gap-3 text-base leading-7 text-slate-700 md:grid-cols-2">
+              <p>
+                <strong className="text-slate-950">Node:</strong> a junction where two
+                or more circuit elements are connected.
+              </p>
+              <p>
+                <strong className="text-slate-950">Branch:</strong> a path that contains
+                one circuit element or a connected group of elements.
+              </p>
+              <p>
+                <strong className="text-slate-950">Loop:</strong> any closed path in an
+                electrical network.
+              </p>
+              <p>
+                <strong className="text-slate-950">Mesh:</strong> a loop that does not
+                contain another loop inside it.
+              </p>
+            </div>
+          </article>
+
+          <article className="rounded-lg border border-slate-200 bg-white p-5">
+            <h2 className="text-2xl font-black text-[#061642]">
+              Network Analysis Formulas
+            </h2>
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              {NETWORK_STUDY_FORMULAS.map((item) => (
+                <div key={item.title} className="rounded-lg border border-slate-200 bg-[#f8fbff] p-4">
+                  <h3 className="text-lg font-black text-slate-950">{item.title}</h3>
+                  <div className="mt-3 rounded-md bg-white px-4 py-3">
+                    <p className="text-xl font-black tracking-normal text-[#0b58b4]">
+                      {item.formula}
+                    </p>
+                    {item.variants?.length ? (
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {item.variants.map((variant) => (
+                          <span
+                            key={variant}
+                            className="rounded-md border border-blue-100 bg-blue-50 px-2.5 py-1 text-sm font-black text-[#0b58b4]"
+                          >
+                            {variant}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+                  <p className="mt-3 text-sm font-semibold leading-6 text-slate-700">
+                    {item.meaning}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    {item.explanation}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </article>
+        </div>
+
+        <aside className="rounded-lg border border-blue-200 bg-[#f0f8ff] p-5">
+          <h2 className="text-2xl font-black text-[#061642]">
+            Network Analysis Important Questions
+          </h2>
+          <ul className="mt-4 grid gap-3 text-base leading-7 text-slate-700">
+            {NETWORK_IMPORTANT_QUESTIONS.map((question) => (
+              <li key={question} className="flex gap-3">
+                <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-[#0b58b4]" />
+                <span>{question}</span>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      </div>
+
+      <div className="mt-5 grid gap-4 lg:grid-cols-2">
+        <article className="rounded-lg border border-slate-200 bg-white p-5">
+          <h2 className="text-2xl font-black text-[#061642]">
+            Example: How to Read a Circuit
+          </h2>
+          <p className="mt-3 text-base leading-8 text-slate-700">
+            Suppose a 10 V source is connected to two series resistors, R1 = 2 ohm
+            and R2 = 3 ohm. Because the resistors are in series, the same current
+            flows through both. The equivalent resistance is 5 ohm, so the circuit
+            current is I = V/R = 10/5 = 2 A. The voltage across R2 is V2 = IR2 =
+            2 x 3 = 6 V.
+          </p>
+        </article>
+
+        <article className="rounded-lg border border-slate-200 bg-[#f8fbff] p-5">
+          <h2 className="text-2xl font-black text-[#061642]">
+            Solved Problem Method
+          </h2>
+          <ol className="mt-3 grid gap-3 text-base leading-7 text-slate-700">
+            <li>1. Identify whether elements are in series, parallel, or a mixed network.</li>
+            <li>2. Mark the required quantity: voltage, current, resistance, or power.</li>
+            <li>3. Choose the method: direct reduction, KCL, KVL, nodal, mesh, or theorem.</li>
+            <li>4. Substitute values carefully and keep units in the final answer.</li>
+            <li>5. Check whether the answer is physically reasonable for the circuit.</li>
+          </ol>
+        </article>
+      </div>
+
+      <section className="mt-5 rounded-lg border border-slate-200 bg-white p-5">
+        <h2 className="text-2xl font-black text-[#061642]">
+          Network Analysis Topic-Wise Notes
+        </h2>
+        <p className="mt-3 text-base leading-8 text-slate-700">
+          Study Network Analysis in this order so each page supports the next one:
+          begin with circuit laws, then move to DC circuit analysis where mesh
+          analysis and nodal analysis are used, then continue to network theorems,
+          AC circuit analysis, transient analysis, and two-port networks.
+        </p>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {NETWORK_INTERNAL_LINKS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="rounded-lg border border-slate-200 bg-[#f8fbff] p-4 transition hover:border-portal-300 hover:bg-white"
+            >
+              <h3 className="text-lg font-black text-[#061642]">{item.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{item.description}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+    </section>
+  );
+}
+
 function buildSubjectLandingCards(subjectTitle) {
   const content = SUBJECT_LANDING_CONTENT[subjectTitle] || SUBJECT_LANDING_CONTENT["Network Analysis"];
 
@@ -15402,9 +15649,9 @@ function NetworkLandingCard({ card }) {
           <NetworkLandingIcon name={card.icon} />
         </span>
         <div className="min-w-0">
-          <h3 className="max-w-[13rem] text-lg font-black leading-snug text-[#061642]">
+          <h2 className="max-w-[13rem] text-lg font-black leading-snug text-[#061642]">
             {card.title}
-          </h3>
+          </h2>
           <span className={`mt-4 block h-0.5 w-11 ${styles.underline}`} />
         </div>
       </div>
@@ -15473,7 +15720,7 @@ function NetworkAnalysisLandingPage({ subject, seo, concepts, activeConceptIndex
             <div className="grid h-full gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(320px,0.72fr)] lg:items-center">
               <div>
                 <h1 className="text-5xl font-black leading-none tracking-normal text-[#061642] sm:text-6xl">
-                  {subject.title}
+                  {subject.title} Notes for ECE Students
                 </h1>
                 <span className="mt-7 block h-1 w-28 bg-[#1d68bd]" />
                 <p className="mt-8 max-w-[560px] text-lg leading-8 text-slate-950">
@@ -15489,7 +15736,7 @@ function NetworkAnalysisLandingPage({ subject, seo, concepts, activeConceptIndex
           <aside className="flex min-h-[350px] flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-6 text-center shadow-[0_8px_24px_rgba(15,23,42,0.05)]">
             <NetworkLandingIcon name="clipboard" className="h-12 w-12 text-[#0b58b4]" />
             <h2 className="mt-7 text-xl font-black text-[#0b58b4]">
-              Topics <span className="text-base">(Coming Soon)</span>
+              {subject.title} Topics <span className="text-base">(Coming Soon)</span>
             </h2>
             <p className="mt-7 text-left text-lg leading-8 text-slate-950">
               In this section, I will explain each and every topic and subtopic step
@@ -15511,6 +15758,8 @@ function NetworkAnalysisLandingPage({ subject, seo, concepts, activeConceptIndex
             ))}
           </div>
         </section>
+
+        {subject.title === "Network Analysis" ? <NetworkEducationalContent /> : null}
 
         <section className="mt-6 overflow-hidden rounded-lg border border-blue-300 bg-[#f0f8ff] px-6 py-5">
           <div className="grid gap-5 sm:grid-cols-[88px_minmax(0,1fr)_160px] sm:items-center">

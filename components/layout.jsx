@@ -175,14 +175,14 @@ export default function Layout({
         ))}
       </Head>
 
-      <div className="site-compact relative min-h-screen overflow-x-clip bg-[#f4f7fb]">
+      <div className="site-compact relative min-h-screen overflow-x-clip bg-[#f3f6f0]">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-[360px] bg-[radial-gradient(circle_at_top,rgba(21,74,150,0.12),transparent_62%)]"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[360px] bg-[radial-gradient(circle_at_top,rgba(37,93,145,0.07),transparent_62%)]"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(255,255,255,0))]"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[linear-gradient(180deg,rgba(255,253,248,0.72),rgba(255,253,248,0))]"
         />
         <div className="relative z-10">
           {!hideNavbar && <Navbar searchValue={searchValue} onSearchChange={onSearchChange} />}

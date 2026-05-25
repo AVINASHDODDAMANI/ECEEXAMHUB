@@ -9,16 +9,16 @@ module.exports = {
     extend: {
       colors: {
         portal: {
-          50: "#f7fbff",
-          100: "#eef5ff",
-          200: "#d7e4f6",
-          300: "#adc3e6",
-          400: "#6d93cf",
-          500: "#2f66c7",
-          600: "#154a96",
-          700: "#123b79",
-          800: "#102f60",
-          900: "#0b2145",
+          50: "#f4f8ff",
+          100: "#eaf2fb",
+          200: "#d4e3f3",
+          300: "#aac4df",
+          400: "#759dc6",
+          500: "#4779ab",
+          600: "#255d91",
+          700: "#1f4b75",
+          800: "#1d3e60",
+          900: "#18324f",
         },
         slatebrand: {
           50: "#f6f7fb",
@@ -40,8 +40,8 @@ module.exports = {
         },
       },
       boxShadow: {
-        panel: "0 20px 45px rgba(15, 23, 42, 0.08)",
-        portal: "0 10px 30px rgba(16, 47, 96, 0.08)",
+        panel: "0 14px 34px rgba(31, 50, 75, 0.07)",
+        portal: "0 10px 24px rgba(31, 75, 117, 0.07)",
       },
       backgroundImage: {
         mesh:

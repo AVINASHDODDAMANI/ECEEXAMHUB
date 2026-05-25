@@ -21,8 +21,8 @@ const navItems = [
   { href: "/ece-exams", label: "Resources", mobileLabel: "Resources" },
 ];
 
-const activeNavClass = "bg-white/14 text-white shadow-[inset_0_-2px_0_rgba(255,255,255,0.96)]";
-const inactiveNavClass = "text-blue-100/95 hover:bg-white/8 hover:text-white";
+const activeNavClass = "bg-white/16 text-white shadow-[inset_0_-2px_0_rgba(255,255,255,0.9)]";
+const inactiveNavClass = "text-blue-50/90 hover:bg-white/10 hover:text-white";
 const utilityLinks = [
   { href: "/mcqs", label: "Practice MCQs" },
   { href: "/mock-tests", label: "Mock Test" },
@@ -278,7 +278,7 @@ export default function Navbar({
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-[#fffdf8]/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1440px] flex-col gap-2 px-3 py-2 sm:px-6 sm:py-3 lg:px-8">
         <div className="flex flex-col gap-2 lg:grid lg:grid-cols-[auto_minmax(340px,1fr)_auto] lg:items-center lg:gap-4">
           <div className="grid grid-cols-[auto_minmax(136px,1fr)_auto] items-center gap-2 lg:flex lg:justify-between lg:gap-3">
@@ -294,7 +294,7 @@ export default function Navbar({
             <div ref={mobileSearchRef} className="relative min-w-0 lg:hidden">
               <form
                 onSubmit={handleSearchSubmit}
-                className="flex h-10 items-center gap-2 rounded-full border border-slate-200/90 bg-slate-50 px-3 text-sm shadow-[0_8px_20px_rgba(15,23,42,0.06)] transition focus-within:border-portal-300 focus-within:bg-white focus-within:shadow-[0_10px_26px_rgba(21,74,150,0.12)]"
+                className="flex h-10 items-center gap-2 rounded-full border border-[#dce5ee] bg-[#f7faf5] px-3 text-sm shadow-[0_8px_20px_rgba(31,50,75,0.055)] transition focus-within:border-portal-300 focus-within:bg-[#fffdf8] focus-within:shadow-[0_10px_24px_rgba(37,93,145,0.10)]"
               >
                 <input
                   type="search"
@@ -350,7 +350,7 @@ export default function Navbar({
                 setIsSearchOpen(false);
                 router.push("/subjects");
               }}
-              className="relative z-10 inline-flex h-10 flex-none items-center justify-center rounded-xl border border-portal-200 bg-[#f8fbff] px-3 text-xs font-bold text-portal-800 shadow-sm transition hover:bg-white lg:hidden"
+              className="relative z-10 inline-flex h-10 flex-none items-center justify-center rounded-xl border border-portal-200 bg-[#f4f8ff] px-3 text-xs font-bold text-portal-800 shadow-sm transition hover:bg-[#fffdf8] lg:hidden"
             >
               Browse
             </Link>
@@ -360,7 +360,7 @@ export default function Navbar({
             <div ref={desktopSearchRef} className="relative w-full">
               <form
                 onSubmit={handleSearchSubmit}
-                className="flex h-11 items-center gap-2 rounded-full border border-slate-200/90 bg-slate-50 px-4 text-sm shadow-[0_8px_22px_rgba(15,23,42,0.06)] transition focus-within:border-portal-300 focus-within:bg-white focus-within:shadow-[0_12px_30px_rgba(21,74,150,0.12)]"
+                className="flex h-11 items-center gap-2 rounded-full border border-[#dce5ee] bg-[#f7faf5] px-4 text-sm shadow-[0_8px_22px_rgba(31,50,75,0.055)] transition focus-within:border-portal-300 focus-within:bg-[#fffdf8] focus-within:shadow-[0_12px_26px_rgba(37,93,145,0.10)]"
               >
                 <input
                   type="search"
@@ -424,7 +424,7 @@ export default function Navbar({
         </div>
       </div>
 
-      <div className="bg-[linear-gradient(135deg,#103a78_0%,#0f4b9b_100%)] text-white">
+      <div className="bg-[linear-gradient(135deg,#1b456d_0%,#255d91_100%)] text-white">
         <div className="mx-auto max-w-[1440px] px-2 sm:px-6 lg:px-8">
           <div className="lg:hidden">
             <nav className="grid grid-cols-4 gap-1.5 py-1.5">
