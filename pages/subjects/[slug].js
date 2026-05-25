@@ -14056,62 +14056,147 @@ function SubjectSeoDepthSection({
   );
 }
 
+const NETWORK_CORE_IDEAS = [
+  {
+    title: "Voltage",
+    formula: "V = W / Q",
+    description:
+      "Voltage is the electrical pressure or potential difference that pushes charge through a circuit.",
+  },
+  {
+    title: "Current",
+    formula: "I = Q / t",
+    description:
+      "Current is the rate of flow of electric charge through a conductor or branch.",
+  },
+  {
+    title: "Resistance",
+    formula: "R = V / I",
+    description:
+      "Resistance opposes current flow and converts electrical energy into heat or useful load power.",
+  },
+  {
+    title: "Power",
+    formula: "P = VI",
+    description:
+      "Electrical power tells how fast energy is delivered by a source or consumed by an element.",
+  },
+  {
+    title: "Energy",
+    formula: "E = Pt",
+    description:
+      "Energy is the total electrical work transferred or stored over a time interval.",
+  },
+];
+
 const NETWORK_GUIDE_MODULES = [
   {
-    title: "Circuit foundations",
+    title: "Basic concepts",
     description:
-      "Begin with Ohm's law, KCL, KVL, source behavior, node-voltage method, mesh-current method, source transformation, and star-delta conversion.",
+      "Start with voltage, current, resistance, power, energy, circuit reading, source behavior, and sign conventions.",
+  },
+  {
+    title: "Circuit laws",
+    description:
+      "Use Ohm's law, KCL, and KVL to describe current and voltage behavior in real circuit connections.",
+  },
+  {
+    title: "Solving methods",
+    description:
+      "Apply nodal analysis, mesh analysis, source transformation, and star-delta conversion when simple reduction is not enough.",
   },
   {
     title: "Network theorems",
     description:
-      "Use Superposition, Thevenin, Norton, Maximum Power Transfer, and related theorem ideas to reduce a circuit before the calculation grows.",
+      "Simplify circuits using Superposition, Thevenin, Norton, Maximum Power Transfer, and related theorem ideas.",
   },
   {
-    title: "AC circuit analysis",
+    title: "AC analysis",
     description:
-      "Move from sinusoids to phasors, impedance, RL/RC/RLC circuits, resonance, AC power, and power factor.",
+      "Move from sinusoids to phasors, impedance, power factor, resonance, and frequency-dependent circuit behavior.",
   },
   {
-    title: "Transient response",
+    title: "Transients",
     description:
-      "Study what changes after switching in RC, RL, and RLC circuits by tracking initial conditions, final conditions, and time constants.",
+      "Study switching behavior in RL, RC, and RLC circuits using initial conditions, final values, and time constants.",
   },
   {
-    title: "Transform and two-port methods",
+    title: "Laplace and two-port methods",
     description:
-      "Connect Laplace methods, network functions, poles and zeros, filters, and two-port parameters to larger circuit models.",
+      "Use s-domain analysis, network functions, poles and zeros, filters, and two-port parameters for larger circuit models.",
   },
 ];
 
 const NETWORK_GUIDE_FORMULAS = [
-  ["Ohm's law", "V = IR", "The first check for resistor voltage and current."],
-  ["Voltage divider", "Vi = (Ri / sum R) V", "Useful after confirming a true series path."],
-  ["Current divider", "Ii = (G i / sum G) I", "A quick branch-current relation for parallel paths."],
-  ["AC resonance", "fr = 1 / (2 pi sqrt(LC))", "The key frequency in ideal LC resonance."],
-  ["Real power", "P = VI cos(phi)", "Power depends on both magnitude and phase."],
-  ["Laplace impedance", "ZL = sL, ZC = 1 / sC", "Transforms turn differential behavior into algebra."],
+  ["Ohm's law", "V = IR", "Connects voltage, current, and resistance. It is the first check in most resistor circuits."],
+  ["KCL", "sum I = 0", "Current is conserved at a node. This is the base of nodal analysis."],
+  ["KVL", "sum V = 0", "Voltage rises and drops balance around a closed loop. This is the base of mesh analysis."],
+  ["Series resistors", "Req = R1 + R2 + ...", "Use when the same current passes through every resistor in the chain."],
+  ["Parallel resistors", "1 / Req = 1 / R1 + 1 / R2 + ...", "Use when every branch has the same voltage across it."],
+  ["AC power", "P = VI cos(phi)", "Shows why phase angle and power factor matter in AC circuits."],
+];
+
+const NETWORK_LEARNING_OUTCOMES = [
+  "Circuit laws",
+  "Network theorems",
+  "AC analysis",
+  "Transient response",
+  "Laplace transform",
+  "Two-port networks",
+  "Resonance",
+  "Problem solving",
+];
+
+const NETWORK_ENGINEER_STEPS = [
+  "Read the circuit carefully and mark nodes, branches, polarities, and assumed current directions.",
+  "Identify known values, unknown quantities, source types, and the element where the answer is required.",
+  "Choose the best method: direct reduction, nodal, mesh, source transformation, or a theorem.",
+  "Write equations using KCL, KVL, element relations, and consistent sign convention.",
+  "Solve the equations, then check whether the sign, unit, and magnitude are physically reasonable.",
+];
+
+const NETWORK_STRUGGLES = [
+  {
+    title: "Wrong current direction",
+    description:
+      "Current direction can be assumed at the start. A negative answer simply means the actual current flows opposite to the assumed arrow.",
+  },
+  {
+    title: "Polarity mistakes",
+    description:
+      "Use passive sign convention consistently so voltage drops, current entry points, and absorbed power do not get mixed.",
+  },
+  {
+    title: "KVL loop errors",
+    description:
+      "Keep one loop direction while adding voltage rises and drops. Most loop mistakes come from changing sign rules mid-equation.",
+  },
+  {
+    title: "Choosing the wrong method",
+    description:
+      "Some circuits are faster with nodal analysis, some with mesh analysis, and some with Thevenin or Norton reduction.",
+  },
+  {
+    title: "AC phase confusion",
+    description:
+      "Leading and lagging relationships must be clear before using impedance, power factor, resonance, or phasor diagrams.",
+  },
 ];
 
 function NetworkAnalysisSubjectGuide({ notesHref }) {
-  const prerequisites = [
-    "Comfort with algebra, fractions, and simultaneous equations.",
-    "Basic complex numbers before phasors and AC numericals.",
-    "A first look at derivatives and differential equations for transients.",
-    "Simple electricity ideas such as voltage, current, resistance, and power.",
-  ];
   const studySteps = [
-    "Read the circuit first: mark polarities, directions, known values, and the quantity being asked.",
-    "Choose the method that fits the circuit instead of forcing every problem into one theorem.",
-    "Keep a short formula sheet, but earn each formula by solving examples with it.",
-    "Finish every chapter with numericals and previous year questions while the concept is still fresh.",
+    "Understand each idea visually before memorizing formulas.",
+    "Learn laws and formulas with the condition where each one applies.",
+    "Solve simple DC circuits first, then increase circuit complexity gradually.",
+    "Practice method selection: reduction, nodal, mesh, or theorem-based solving.",
+    "Solve previous year questions and revise short notes regularly.",
   ];
   const applicationAreas = [
-    "Power supplies and regulated DC stages",
-    "Filters, resonant networks, and frequency-selective circuits",
-    "Amplifier bias and small-signal circuit models",
-    "Communication and signal-processing front ends",
-    "PCB debugging, load checks, and embedded hardware interfaces",
+    "Power supplies, adapters, and regulated DC stages",
+    "Audio amplifiers, filters, and resonant networks",
+    "RF, communication, and signal-processing front ends",
+    "PCB circuits, embedded hardware, and sensor interfaces",
+    "Electric vehicles, robotics, automation, and load checks",
   ];
   const examPointers = [
     "KCL, KVL, nodal, and mesh analysis reward clean equations more than memorized shortcuts.",
@@ -14119,27 +14204,106 @@ function NetworkAnalysisSubjectGuide({ notesHref }) {
     "AC questions often turn on impedance, phase, power factor, or resonance conditions.",
     "Transient questions are easier after checking initial and final values before writing the response.",
   ];
-  const resources = [
+  const questionTypes = [
     {
-      title: "Notes",
-      body: "Use the chapter notes for definitions, solved structure, and quick revision before practice.",
-      href: notesHref,
-      label: "Open notes",
+      title: "Direct concept questions",
+      description:
+        "Definitions, element types, source behavior, passive sign convention, and the meaning of voltage, current, power, and energy.",
     },
     {
-      title: "Practice",
-      body: "Solve topic questions after each method so theorem selection becomes instinctive.",
-      href: "/practice?search=Network%20Analysis",
-      label: "Practice questions",
+      title: "Equation-writing questions",
+      description:
+        "KCL, KVL, nodal analysis, mesh analysis, source transformation, and star-delta conversion.",
     },
     {
-      title: "PYQs",
-      body: "Previous year papers show the recurring patterns in circuits, AC analysis, and transients.",
-      href: "/previous-year",
-      label: "Open PYQs",
+      title: "Theorem-based questions",
+      description:
+        "Superposition, Thevenin, Norton, maximum power transfer, reciprocity, Millman, and compensation theorem problems.",
+    },
+    {
+      title: "AC and transient numericals",
+      description:
+        "Impedance, phasors, resonance, power factor, RC/RL/RLC response, time constant, and initial/final value reasoning.",
     },
   ];
-
+  const theoryDeepDive = [
+    {
+      title: "1. What a network really means",
+      paragraphs: [
+        "An electrical network is a group of connected electrical elements. These elements may be resistors, capacitors, inductors, voltage sources, current sources, dependent sources, switches, or loads. Once they are connected together, the behavior of one part affects the behavior of another part.",
+        "Network Analysis means finding unknown voltages, currents, powers, energy storage, equivalent resistance, impedance, transfer function, or response of that connected circuit. The goal is not only to get a numerical answer, but to understand why the circuit behaves that way.",
+      ],
+      points: [
+        "A node is a point where two or more elements meet.",
+        "A branch is a path containing one element or one group of elements.",
+        "A loop is any closed path in a circuit.",
+        "A mesh is a loop that does not contain another loop inside it.",
+      ],
+    },
+    {
+      title: "2. Basic electrical quantities",
+      paragraphs: [
+        "Voltage is the potential difference between two points. It tells how much energy is available per unit charge. Current is the rate at which charge flows through a branch. Resistance opposes current flow. Power tells whether an element is absorbing energy or delivering energy.",
+        "These quantities must always be read with direction and polarity. A current arrow and a voltage polarity are not decoration; they decide the sign of the answer. If the final current is negative, it usually means the real current flows opposite to the assumed direction.",
+      ],
+      points: [
+        "Voltage is measured across two points.",
+        "Current is measured through a branch.",
+        "Power is positive when an element absorbs energy.",
+        "Power is negative when an element delivers energy.",
+      ],
+    },
+    {
+      title: "3. Circuit laws are conservation laws",
+      paragraphs: [
+        "Kirchhoff's Current Law is based on conservation of charge. At any node, the total current entering must equal the total current leaving. This is why KCL is the natural law for nodal analysis.",
+        "Kirchhoff's Voltage Law is based on conservation of energy. Around a closed loop, the algebraic sum of all voltage rises and drops is zero. This is why KVL is the natural law for mesh analysis.",
+      ],
+      points: [
+        "Use KCL when the circuit has many current branches and fewer important nodes.",
+        "Use KVL when the circuit is planar and loop currents are easy to define.",
+        "Always choose one sign convention and follow it throughout the problem.",
+      ],
+    },
+    {
+      title: "4. How solving methods are chosen",
+      paragraphs: [
+        "A good circuit solver first studies the shape of the network. If resistors are clearly in series or parallel, reduce them directly. If many branches meet at nodes, nodal analysis is usually faster. If the circuit has clear loops and no crossing branches, mesh analysis is often convenient.",
+        "Network theorems are used when the circuit can be simplified around a load. Thevenin and Norton are especially useful when only one load branch is important, or when the load value changes.",
+      ],
+      points: [
+        "Use reduction for simple series-parallel circuits.",
+        "Use nodal analysis for node-voltage questions.",
+        "Use mesh analysis for loop-current questions.",
+        "Use Thevenin or Norton when a load terminal is the focus.",
+      ],
+    },
+    {
+      title: "5. DC, AC, and transient behavior",
+      paragraphs: [
+        "In DC steady state, resistors dominate the calculation. Capacitors behave like open circuits after a long time, and inductors behave like short circuits after a long time, assuming ideal elements.",
+        "In AC analysis, voltage and current change sinusoidally. Resistors, capacitors, and inductors are handled using impedance. This introduces phase, so the answer has both magnitude and angle. That is why phasors, complex numbers, power factor, and resonance become important.",
+        "In transient analysis, the circuit is observed immediately after switching and as time passes. Capacitor voltage cannot change instantly, and inductor current cannot change instantly. These two continuity rules are the key to RC, RL, and RLC transient problems.",
+      ],
+      points: [
+        "DC analysis asks: what is the final steady value?",
+        "AC analysis asks: what are magnitude and phase?",
+        "Transient analysis asks: how does the circuit move from initial value to final value?",
+      ],
+    },
+    {
+      title: "6. What exam questions actually test",
+      paragraphs: [
+        "Most Network Analysis questions are not testing a new formula. They test whether you can identify the correct circuit condition. For example, a voltage-divider formula works only when elements are in true series. A current-divider formula works only when branches are in true parallel.",
+        "The best preparation is to connect every formula with its condition, every theorem with its use case, and every answer with a unit and physical meaning.",
+      ],
+      points: [
+        "Before solving, identify the required quantity.",
+        "Before using a formula, check its condition.",
+        "After solving, check sign, unit, and practical meaning.",
+      ],
+    },
+  ];
   return (
     <section className="mt-5 overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-panel">
       <div className="grid gap-5 border-b border-slate-200 px-4 py-5 sm:px-5 lg:grid-cols-[minmax(0,1fr)_360px]">
@@ -14148,26 +14312,30 @@ function NetworkAnalysisSubjectGuide({ notesHref }) {
             Network Analysis Guide
           </p>
           <h2 className="mt-2 max-w-3xl text-2xl font-bold tracking-tight text-slate-950">
-            Learn to read a circuit before you try to solve it
+            A beginner-friendly introduction to circuit problem solving
           </h2>
           <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
-            Network Analysis is where circuit problem solving becomes disciplined. It
-            teaches you how voltage, current, power, and stored energy behave in an
-            interconnected electrical network, then gives you reliable methods to
-            calculate what the circuit is doing.
+            Network Analysis is the foundation subject that explains how voltage,
+            current, power, and energy behave inside electrical circuits. It turns a
+            circuit diagram into equations, then into answers that describe the real
+            behavior of sources, resistors, capacitors, inductors, and loads.
           </p>
           <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-600 sm:text-base">
-            That foundation carries into analog electronics, signals, control,
-            communication circuits, and hardware design. When the basics are clear,
-            advanced subjects feel less like separate formula collections and more
-            like extensions of the same circuit reasoning.
+            This is why it matters in ECE and EE: the same reasoning appears in
+            analog electronics, control systems, communication circuits, embedded
+            hardware, PCB design, GATE preparation, interviews, and real debugging.
           </p>
         </div>
 
         <aside className="rounded-[24px] border border-portal-100 bg-portal-50/70 p-4">
-          <h3 className="text-base font-bold text-slate-950">Before you begin</h3>
+          <h3 className="text-base font-bold text-slate-950">Why students should care</h3>
           <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700">
-            {prerequisites.map((item) => (
+            {[
+              "Builds strong circuit-solving skills.",
+              "Required for Analog Electronics and Control Systems.",
+              "Used in Communication Engineering and hardware design.",
+              "Essential for GATE ECE, GATE EE, placements, and interviews.",
+            ].map((item) => (
               <li key={item} className="flex gap-2">
                 <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
                 <span>{item}</span>
@@ -14177,14 +14345,132 @@ function NetworkAnalysisSubjectGuide({ notesHref }) {
         </aside>
       </div>
 
+      <div className="border-b border-slate-200 px-4 py-5 sm:px-5">
+        <h3 className="text-lg font-bold tracking-tight text-slate-950">
+          Core circuit ideas
+        </h3>
+        <p className="mt-2 max-w-4xl text-sm leading-7 text-slate-600">
+          These quantities are more than symbols. Understanding their physical
+          meaning makes KCL, KVL, power calculations, AC analysis, and transients
+          much easier to read.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {NETWORK_CORE_IDEAS.map((idea) => (
+            <article
+              key={idea.title}
+              className="rounded-[20px] border border-slate-200 bg-slate-50/80 p-4"
+            >
+              <h4 className="text-base font-bold text-slate-950">{idea.title}</h4>
+              <p className="mt-2 rounded-xl bg-white px-3 py-2 text-sm font-bold text-portal-800">
+                {idea.formula}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{idea.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className="border-t border-slate-200 px-4 py-5 sm:px-5">
+        <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_380px]">
+          <div>
+            <h3 className="text-lg font-bold tracking-tight text-slate-950">
+              Overview of Network Analysis
+            </h3>
+            <p className="mt-2 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
+              Network Analysis teaches why a circuit behaves in a particular way,
+              what quantities must be calculated, where each method should be used,
+              and how to convert a circuit diagram into correct mathematical steps.
+              It is the bridge between seeing a circuit and understanding its actual
+              voltage, current, power, frequency, and time-domain behavior.
+            </p>
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              {[
+                ["Why", "To understand and solve electrical circuits logically instead of guessing formulas."],
+                ["What", "Sources, resistors, capacitors, inductors, nodes, loops, branches, impedance, and network response."],
+                ["Where", "Analog circuits, filters, power supplies, communication circuits, control systems, PCB debugging, and measurements."],
+                ["How", "Read the network, choose a method, write KCL/KVL or theorem equations, solve, and verify units and signs."],
+                ["Importance", "It is the base for almost every circuit subject in ECE and EE, including GATE/PSU problem solving."],
+                ["Meaning", "A network is an interconnection of electrical elements; analysis means finding how electrical quantities behave inside it."],
+              ].map(([title, description]) => (
+                <article
+                  key={title}
+                  className="rounded-[20px] border border-slate-200 bg-slate-50/80 p-4"
+                >
+                  <h4 className="text-sm font-bold uppercase tracking-[0.12em] text-portal-700">
+                    {title}
+                  </h4>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <aside className="rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
+            <h3 className="text-base font-bold text-slate-950">Question types to expect</h3>
+            <div className="mt-3 grid gap-3">
+              {questionTypes.map((item) => (
+                <article key={item.title} className="rounded-2xl border border-slate-200 bg-white p-3">
+                  <h4 className="text-sm font-bold text-slate-900">{item.title}</h4>
+                  <p className="mt-1.5 text-sm leading-6 text-slate-600">{item.description}</p>
+                </article>
+              ))}
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div className="border-t border-slate-200 bg-white px-4 py-5 sm:px-5">
+        <div className="max-w-5xl">
+          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">
+            Theory Deep Dive
+          </p>
+          <h3 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">
+            In-depth explanation of Network Analysis
+          </h3>
+          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+            Read this section like class notes. It explains the theory behind the
+            subject before you jump into formulas, MCQs, or previous year problems.
+          </p>
+        </div>
+        <div className="mt-5 grid gap-4">
+          {theoryDeepDive.map((section) => (
+            <article
+              key={section.title}
+              className="rounded-[24px] border border-slate-200 bg-slate-50/70 p-4 sm:p-5"
+            >
+              <h4 className="text-lg font-bold tracking-tight text-slate-950">
+                {section.title}
+              </h4>
+              <div className="mt-3 grid gap-3 text-sm leading-7 text-slate-700 sm:text-base">
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+              <div className="mt-4 grid gap-2 md:grid-cols-3">
+                {section.points.map((point) => (
+                  <p
+                    key={point}
+                    className="rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 text-slate-700"
+                  >
+                    {point}
+                  </p>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
       <div className="grid gap-5 px-4 py-5 sm:px-5 xl:grid-cols-[minmax(0,1fr)_380px]">
         <div>
           <h3 className="text-lg font-bold tracking-tight text-slate-950">
-            What the subject covers
+            Learning roadmap
           </h3>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-            Study it as a sequence. Each module gives the next one better footing,
-            from circuit laws to transforms and multiport models.
+          <p className="mt-2 max-w-4xl text-sm leading-7 text-slate-600">
+            Network Analysis must be learned step by step because each topic builds
+            the next one. Circuit laws come before solving methods; solving methods
+            make theorems useful; AC, transients, and Laplace methods become easier
+            only after that base is stable.
           </p>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {NETWORK_GUIDE_MODULES.map((module, index) => (
@@ -14202,12 +14488,17 @@ function NetworkAnalysisSubjectGuide({ notesHref }) {
 
         <aside className="grid gap-4">
           <div className="rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
-            <h3 className="text-base font-bold text-slate-950">Why it matters</h3>
-            <p className="mt-2 text-sm leading-7 text-slate-700">
-              Network Analysis is a core ECE and EE subject because exams and real
-              circuits both ask the same first question: can you turn a schematic
-              into correct equations and a meaningful answer?
-            </p>
+            <h3 className="text-base font-bold text-slate-950">What you will learn</h3>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {NETWORK_LEARNING_OUTCOMES.map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-700"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
           <div className="rounded-[24px] border border-slate-200 bg-white p-4">
             <h3 className="text-base font-bold text-slate-950">Where you use it</h3>
@@ -14228,9 +14519,10 @@ function NetworkAnalysisSubjectGuide({ notesHref }) {
           <h3 className="text-lg font-bold tracking-tight text-slate-950">
             Formula quick view
           </h3>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
-            Keep these relations close, but use them with the circuit condition that
-            makes them valid.
+          <p className="mt-2 max-w-4xl text-sm leading-7 text-slate-600">
+            These formulas are the basic tools used to solve almost every electrical
+            network problem. Learn not only the equation, but also when and why it
+            is valid.
           </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {NETWORK_GUIDE_FORMULAS.map(([label, formula, note]) => (
@@ -14246,7 +14538,7 @@ function NetworkAnalysisSubjectGuide({ notesHref }) {
         </div>
 
         <aside className="rounded-[24px] border border-slate-200 bg-white p-4">
-          <h3 className="text-base font-bold text-slate-950">A practical study routine</h3>
+          <h3 className="text-base font-bold text-slate-950">Smart study strategy</h3>
           <ol className="mt-3 grid gap-3 text-sm leading-6 text-slate-700">
             {studySteps.map((item, index) => (
               <li key={item} className="flex gap-3">
@@ -14258,8 +14550,8 @@ function NetworkAnalysisSubjectGuide({ notesHref }) {
             ))}
           </ol>
           <p className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-3 py-3 text-sm leading-6 text-amber-950">
-            Common mistake: memorizing a theorem name before learning when that
-            theorem actually simplifies the circuit.
+            Best habit: solve enough examples that method selection becomes natural,
+            not a last-minute guess.
           </p>
         </aside>
       </div>
@@ -14267,46 +14559,94 @@ function NetworkAnalysisSubjectGuide({ notesHref }) {
       <div className="grid gap-5 border-t border-slate-200 px-4 py-5 sm:px-5 xl:grid-cols-[minmax(0,1fr)_380px]">
         <div>
           <h3 className="text-lg font-bold tracking-tight text-slate-950">
-            Build your preparation around problems
+            How engineers think while solving circuits
           </h3>
           <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-700">
-            A good Network Analysis session has a short concept review and a longer
-            solving block. Use notes to understand the method, then practice enough
-            numericals to recognize the right starting point under exam pressure.
+            Circuit solving is not memorization. It is a repeatable process: read
+            the network, choose the method, write correct equations, solve carefully,
+            and check whether the answer makes physical sense.
           </p>
-          <div className="mt-4 grid gap-3 md:grid-cols-3">
-            {resources.map((resource) => (
-              <article key={resource.title} className="rounded-[22px] border border-slate-200 bg-slate-50/70 p-4">
-                <h4 className="text-base font-bold text-slate-950">{resource.title}</h4>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{resource.body}</p>
-                <Link
-                  href={resource.href}
-                  className="mt-3 inline-flex text-sm font-bold text-portal-700 transition hover:text-portal-800"
-                >
-                  {resource.label} -&gt;
-                </Link>
-              </article>
+          <ol className="mt-4 grid gap-3 md:grid-cols-2">
+            {NETWORK_ENGINEER_STEPS.map((step, index) => (
+              <li
+                key={step}
+                className="flex gap-3 rounded-[20px] border border-slate-200 bg-slate-50/70 p-4 text-sm leading-6 text-slate-700"
+              >
+                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-slate-950 text-xs font-bold text-white">
+                  {index + 1}
+                </span>
+                <span>{step}</span>
+              </li>
             ))}
-          </div>
-          <p className="mt-4 max-w-4xl rounded-[22px] border border-slate-200 bg-white px-4 py-3 text-sm leading-7 text-slate-600">
-            For a deeper reference pass, keep one standard circuit-analysis text
-            beside the notes. Hayt and Sadiku are common choices. A steady lecture
-            playlist can help with phasors or transient intuition, but the subject
-            starts to stick when the screen gives way to solved circuits.
-          </p>
+          </ol>
         </div>
 
         <aside className="rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
-          <h3 className="text-base font-bold text-slate-950">Exam focus</h3>
-          <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700">
-            {examPointers.map((item) => (
-              <li key={item} className="flex gap-2">
-                <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-orange-500" />
-                <span>{item}</span>
-              </li>
+          <h3 className="text-base font-bold text-slate-950">Why students struggle</h3>
+          <div className="mt-3 grid gap-3">
+            {NETWORK_STRUGGLES.map((item) => (
+              <div key={item.title} className="border-b border-slate-200 pb-3 last:border-b-0 last:pb-0">
+                <h4 className="text-sm font-bold text-slate-900">{item.title}</h4>
+                <p className="mt-1 text-sm leading-6 text-slate-600">{item.description}</p>
+              </div>
             ))}
-          </ul>
+          </div>
         </aside>
+      </div>
+
+      <div className="border-t border-slate-200 px-4 py-5 sm:px-5">
+        <h3 className="text-lg font-bold tracking-tight text-slate-950">Exam focus</h3>
+        <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          {examPointers.map((item) => (
+            <p
+              key={item}
+              className="rounded-[20px] border border-slate-200 bg-slate-50/80 p-4 text-sm leading-6 text-slate-700"
+            >
+              {item}
+            </p>
+          ))}
+        </div>
+      </div>
+
+      <div className="border-t border-slate-200 bg-slate-950 px-4 py-5 text-white sm:px-5">
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+          <div>
+            <h3 className="text-xl font-bold tracking-tight">
+              Master electrical circuits step by step
+            </h3>
+            <p className="mt-2 max-w-4xl text-sm leading-7 text-slate-200 sm:text-base">
+              Build the analytical skills needed for advanced electronics
+              engineering, GATE preparation, technical interviews, and real-world
+              circuit design.
+            </p>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-2 lg:flex">
+            <Link
+              href="/basic-concepts"
+              className="inline-flex justify-center rounded-xl bg-white px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-slate-100"
+            >
+              Start Learning
+            </Link>
+            <Link
+              href="/subjects/network-analysis"
+              className="inline-flex justify-center rounded-xl border border-white/20 px-4 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+            >
+              Explore Topics
+            </Link>
+            <Link
+              href="/practice?search=Network%20Analysis"
+              className="inline-flex justify-center rounded-xl border border-white/20 px-4 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+            >
+              Solve Practice
+            </Link>
+            <Link
+              href="/previous-year"
+              className="inline-flex justify-center rounded-xl border border-white/20 px-4 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+            >
+              PYQs
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -14587,6 +14927,636 @@ function buildSubjectSeo(subject, theoryKnowledge, learningTopics = []) {
   };
 }
 
+const NETWORK_LANDING_CARDS = [
+  {
+    title: "What is Network Analysis?",
+    icon: "question",
+    color: "blue",
+    text:
+      "Network Analysis is the study of electrical circuits and the techniques used to determine voltages, currents, resistances and power in electrical networks.",
+  },
+  {
+    title: "Why Learn Network Analysis?",
+    icon: "target",
+    color: "green",
+    items: [
+      "Foundation of Electrical Engineering",
+      "Used in electronics and power systems",
+      "Helps solve real-world circuits",
+      "Important for exams and interviews",
+    ],
+  },
+  {
+    title: "Where is it Used?",
+    icon: "pin",
+    color: "orange",
+    items: [
+      "Electrical Engineering",
+      "Electronics",
+      "Communication Systems",
+      "Embedded Systems",
+      "Power Systems",
+      "Control Systems",
+    ],
+  },
+  {
+    title: "What Will You Learn?",
+    icon: "book",
+    color: "purple",
+    items: [
+      "Ohm's Law",
+      "Kirchhoff's Laws",
+      "Mesh Analysis",
+      "Nodal Analysis",
+      "Network Theorems",
+      "AC / DC Circuits",
+      "Transients",
+    ],
+  },
+  {
+    title: "Types of Questions",
+    icon: "clipboard",
+    color: "cyan",
+    items: [
+      "Numerical Problems",
+      "Conceptual Questions",
+      "Circuit Solving Questions",
+      "Theorem Based Questions",
+      "Application Based Questions",
+    ],
+  },
+  {
+    title: "How to Understand This Subject?",
+    icon: "bulb",
+    color: "yellow",
+    numbered: true,
+    items: [
+      "Learn concepts first",
+      "Understand circuit diagrams",
+      "Learn formulas and theorems",
+      "Practice numerical problems daily",
+      "Analyze and verify results",
+      "Revise and make notes",
+    ],
+  },
+  {
+    title: "Importance of Network Analysis",
+    icon: "star",
+    color: "pink",
+    items: [
+      "Core subject for engineers",
+      "Helps design electrical systems",
+      "Improves analytical thinking",
+      "Basis for advanced subjects",
+      "Essential for competitive exams",
+    ],
+  },
+  {
+    title: "What You Will Gain?",
+    icon: "growth",
+    color: "blue",
+    items: [
+      "Strong fundamentals",
+      "Problem solving skills",
+      "Confidence in circuit analysis",
+      "Better performance in exams",
+      "Real world application knowledge",
+    ],
+  },
+];
+
+const NETWORK_COLOR_STYLES = {
+  blue: {
+    iconBg: "bg-blue-100 text-blue-700",
+    underline: "bg-blue-600",
+    bullet: "bg-blue-600",
+    number: "text-blue-700",
+  },
+  green: {
+    iconBg: "bg-green-100 text-green-700",
+    underline: "bg-green-600",
+    bullet: "bg-green-600",
+    number: "text-green-700",
+  },
+  orange: {
+    iconBg: "bg-orange-100 text-orange-700",
+    underline: "bg-orange-500",
+    bullet: "bg-orange-500",
+    number: "text-orange-600",
+  },
+  purple: {
+    iconBg: "bg-violet-100 text-violet-700",
+    underline: "bg-violet-600",
+    bullet: "bg-violet-600",
+    number: "text-violet-700",
+  },
+  cyan: {
+    iconBg: "bg-cyan-100 text-cyan-700",
+    underline: "bg-cyan-600",
+    bullet: "bg-cyan-600",
+    number: "text-cyan-700",
+  },
+  yellow: {
+    iconBg: "bg-amber-100 text-amber-600",
+    underline: "bg-amber-500",
+    bullet: "bg-amber-500",
+    number: "text-amber-600",
+  },
+  pink: {
+    iconBg: "bg-rose-100 text-rose-600",
+    underline: "bg-rose-500",
+    bullet: "bg-rose-500",
+    number: "text-rose-600",
+  },
+};
+
+const SUBJECT_LANDING_CONTENT = {
+  "Network Analysis": {
+    description:
+      "Learn the fundamentals of electrical circuits and the methods used to calculate voltage, current, resistance and power in electrical networks. Build strong concepts and problem-solving skills step by step.",
+    what:
+      "Network Analysis is the study of electrical circuits and the techniques used to determine voltages, currents, resistances and power in electrical networks.",
+    why: [
+      "Foundation of Electrical Engineering",
+      "Used in electronics and power systems",
+      "Helps solve real-world circuits",
+      "Important for exams and interviews",
+    ],
+    where: [
+      "Electrical Engineering",
+      "Electronics",
+      "Communication Systems",
+      "Embedded Systems",
+      "Power Systems",
+      "Control Systems",
+    ],
+    learn: [
+      "Ohm's Law",
+      "Kirchhoff's Laws",
+      "Mesh Analysis",
+      "Nodal Analysis",
+      "Network Theorems",
+      "AC / DC Circuits",
+      "Transients",
+    ],
+    journey:
+      "Network Analysis is the key to understanding how electrical circuits work. Let's build a strong foundation together and solve any network with confidence!",
+  },
+  "Analog Electronics": {
+    description:
+      "Learn how diodes, BJTs, MOSFETs, amplifiers, op-amps, oscillators and filters process real electrical signals. Build device-level understanding step by step.",
+    what:
+      "Analog Electronics is the study of semiconductor devices and circuits that work with continuously varying voltage and current signals.",
+    why: [
+      "Foundation for practical circuit design",
+      "Used in amplifiers and signal conditioning",
+      "Important for power supplies and filters",
+      "High-value topic for exams and interviews",
+    ],
+    where: [
+      "Amplifier Design",
+      "Power Supplies",
+      "Audio Electronics",
+      "Sensor Interfaces",
+      "Communication Circuits",
+      "Instrumentation",
+    ],
+    learn: [
+      "Diodes",
+      "BJT and MOSFET",
+      "Biasing",
+      "Amplifiers",
+      "Op-Amps",
+      "Oscillators",
+      "Filters",
+    ],
+    journey:
+      "Analog Electronics helps you understand how real circuits amplify, shape, switch, and condition signals with confidence.",
+  },
+  "Digital Electronics": {
+    description:
+      "Learn binary systems, Boolean algebra, logic gates, K-maps, combinational circuits, flip-flops, counters and registers in a clear exam-focused order.",
+    what:
+      "Digital Electronics is the study of circuits that represent and process information using binary logic levels.",
+    why: [
+      "Foundation for modern digital systems",
+      "Used in processors and controllers",
+      "Builds logic design skills",
+      "Important for GATE, PSU and interviews",
+    ],
+    where: [
+      "Microprocessors",
+      "Embedded Systems",
+      "VLSI Design",
+      "Control Hardware",
+      "Digital Communication",
+      "Computer Architecture",
+    ],
+    learn: [
+      "Number Systems",
+      "Boolean Algebra",
+      "Logic Gates",
+      "K-Maps",
+      "Combinational Circuits",
+      "Flip-Flops",
+      "Counters",
+    ],
+    journey:
+      "Digital Electronics turns binary ideas into working logic circuits, giving you a strong base for processors, embedded systems and VLSI.",
+  },
+  "Signals and Systems": {
+    description:
+      "Learn signal representation, system properties, convolution, Fourier tools, Laplace transform, sampling and frequency-domain analysis step by step.",
+    what:
+      "Signals and Systems explains how signals are represented, transformed and processed by systems in time and frequency domains.",
+    why: [
+      "Foundation for DSP and communication",
+      "Improves transform-based problem solving",
+      "Connects math with engineering systems",
+      "Essential for exams and advanced subjects",
+    ],
+    where: [
+      "Digital Signal Processing",
+      "Communication Systems",
+      "Control Systems",
+      "Image Processing",
+      "Audio Processing",
+      "Biomedical Signals",
+    ],
+    learn: [
+      "Signal Types",
+      "System Properties",
+      "Convolution",
+      "Fourier Series",
+      "Fourier Transform",
+      "Laplace Transform",
+      "Sampling",
+    ],
+    journey:
+      "Signals and Systems gives you the language to understand how real-world waveforms move through engineering systems.",
+  },
+  "Communication Systems": {
+    description:
+      "Learn modulation, sampling, analog communication, digital communication, noise, information theory and receiver concepts in a structured way.",
+    what:
+      "Communication Systems is the study of how information is transmitted, received and protected over wired or wireless channels.",
+    why: [
+      "Foundation for telecom and wireless systems",
+      "Connects signals with real transmission",
+      "Important for bandwidth and noise analysis",
+      "High-yield subject for ECE exams",
+    ],
+    where: [
+      "Wireless Communication",
+      "Mobile Networks",
+      "Satellite Links",
+      "Broadcast Systems",
+      "Data Communication",
+      "IoT Connectivity",
+    ],
+    learn: [
+      "AM, FM and PM",
+      "Sampling",
+      "PCM",
+      "Digital Modulation",
+      "Noise",
+      "SNR",
+      "Information Theory",
+    ],
+    journey:
+      "Communication Systems helps you understand how information travels reliably through noise, bandwidth limits and real channels.",
+  },
+};
+
+function buildSubjectLandingCards(subjectTitle) {
+  const content = SUBJECT_LANDING_CONTENT[subjectTitle] || SUBJECT_LANDING_CONTENT["Network Analysis"];
+
+  return [
+    {
+      title: `What is ${subjectTitle}?`,
+      icon: "question",
+      color: "blue",
+      text: content.what,
+    },
+    {
+      title: `Why Learn ${subjectTitle}?`,
+      icon: "target",
+      color: "green",
+      items: content.why,
+    },
+    {
+      title: "Where is it Used?",
+      icon: "pin",
+      color: "orange",
+      items: content.where,
+    },
+    {
+      title: "What Will You Learn?",
+      icon: "book",
+      color: "purple",
+      items: content.learn,
+    },
+    ...NETWORK_LANDING_CARDS.slice(4),
+  ];
+}
+
+function SubjectLandingMenu({ subjectTitle, concepts, activeConceptIndex }) {
+  if (subjectTitle === "Network Analysis") {
+    return <NetworkTopicMenu concepts={concepts} activeIndex={activeConceptIndex} />;
+  }
+
+  if (subjectTitle === "Analog Electronics") {
+    return <AnalogChapterMenu />;
+  }
+
+  if (subjectTitle === "Digital Electronics") {
+    return <DigitalChapterMenu />;
+  }
+
+  if (subjectTitle === "Signals and Systems") {
+    return <SignalsChapterMenu />;
+  }
+
+  if (subjectTitle === "Communication Systems") {
+    return <CommunicationSystemsChapterMenu />;
+  }
+
+  return null;
+}
+
+function NetworkLandingIcon({ name, className = "h-8 w-8" }) {
+  const common = {
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2.4",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": "true",
+  };
+
+  if (name === "target") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <circle cx="12" cy="12" r="8" />
+        <circle cx="12" cy="12" r="4" />
+        <path d="M15 9l5-5M17 4h3v3" />
+      </svg>
+    );
+  }
+
+  if (name === "pin") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z" />
+        <circle cx="12" cy="9" r="2.2" />
+      </svg>
+    );
+  }
+
+  if (name === "book") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H20v18H7.5A3.5 3.5 0 0 0 4 23V5.5Z" />
+        <path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H20" />
+      </svg>
+    );
+  }
+
+  if (name === "clipboard") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <path d="M9 4h6l1 3H8l1-3Z" />
+        <path d="M7 6H5v15h14V6h-2" />
+        <path d="M9 12h6M9 16h6" />
+      </svg>
+    );
+  }
+
+  if (name === "bulb") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <path d="M9 18h6M10 22h4" />
+        <path d="M8.5 14.5A6 6 0 1 1 15.5 14c-.9.7-1.5 1.7-1.5 3h-4c0-1.1-.5-2-1.5-2.5Z" />
+      </svg>
+    );
+  }
+
+  if (name === "star") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <path d="M12 3.5l2.6 5.2 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8L12 3.5Z" />
+      </svg>
+    );
+  }
+
+  if (name === "growth") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <path d="M4 19V9M10 19V5M16 19v-7M22 19H2" />
+        <path d="M4 13l5-5 4 4 7-7M20 5h-4M20 5v4" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" className={className} {...common}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M9.4 9a2.8 2.8 0 0 1 5.3 1.2c0 2.2-2.7 2.4-2.7 4.3" />
+      <path d="M12 18h.01" />
+    </svg>
+  );
+}
+
+function NetworkHeroCircuit() {
+  return (
+    <svg viewBox="0 0 500 250" className="h-auto w-full max-w-[470px]" role="img" aria-label="Network analysis circuit diagram">
+      <path d="M70 165V72h58" fill="none" stroke="#334155" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M325 72h58v93H252" fill="none" stroke="#334155" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M70 165h182V72h36" fill="none" stroke="#334155" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="70" cy="118" r="24" fill="#f8fbff" stroke="#334155" strokeWidth="3" />
+      <path d="M70 102v12M70 123v12M58 114h24" stroke="#334155" strokeWidth="2.6" strokeLinecap="round" />
+      <text x="36" y="122" fill="#334155" fontSize="18" fontWeight="700">V<tspan baselineShift="sub" fontSize="12">s</tspan></text>
+      <path d="M128 72h14l8-14 16 28 16-28 16 28 16-28 8 14h31" fill="none" stroke="#334155" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="165" y="44" fill="#334155" fontSize="18" fontWeight="700">R<tspan baselineShift="sub" fontSize="12">1</tspan></text>
+      <path d="M288 72h14l8-14 16 28 16-28 16 28 16-28 8 14h1" fill="none" stroke="#334155" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="333" y="44" fill="#334155" fontSize="18" fontWeight="700">R<tspan baselineShift="sub" fontSize="12">2</tspan></text>
+      <path d="M252 72v35M252 142v23" stroke="#334155" strokeWidth="3" strokeLinecap="round" />
+      <path d="M252 107l-14 8 28 16-28 16 28 16-14 8" fill="none" stroke="#334155" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" transform="translate(0 -7)" />
+      <text x="272" y="123" fill="#334155" fontSize="18" fontWeight="700">R<tspan baselineShift="sub" fontSize="12">3</tspan></text>
+      <circle cx="252" cy="72" r="5" fill="#334155" />
+      <circle cx="252" cy="165" r="5" fill="#334155" />
+      <path d="M207 54h62" stroke="#315f9f" strokeWidth="3" strokeLinecap="round" />
+      <path d="M269 54l-10-7m10 7l-10 7" stroke="#315f9f" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="225" y="39" fill="#334155" fontSize="18" fontWeight="700">I</text>
+    </svg>
+  );
+}
+
+function NetworkLandingCard({ card }) {
+  const styles = NETWORK_COLOR_STYLES[card.color] || NETWORK_COLOR_STYLES.blue;
+
+  return (
+    <article className="rounded-lg border border-slate-200 bg-white p-6 shadow-[0_8px_24px_rgba(15,23,42,0.08)]">
+      <div className="flex items-start gap-4">
+        <span className={`flex h-14 w-14 flex-none items-center justify-center rounded-full ${styles.iconBg}`}>
+          <NetworkLandingIcon name={card.icon} />
+        </span>
+        <div className="min-w-0">
+          <h3 className="max-w-[13rem] text-lg font-black leading-snug text-[#061642]">
+            {card.title}
+          </h3>
+          <span className={`mt-4 block h-0.5 w-11 ${styles.underline}`} />
+        </div>
+      </div>
+
+      {card.text ? (
+        <p className="mt-5 text-base leading-7 text-slate-950">{card.text}</p>
+      ) : (
+        <ol className="mt-5 grid gap-3 text-base leading-6 text-slate-950">
+          {card.items.map((item, index) => (
+            <li key={item} className="flex gap-3">
+              {card.numbered ? (
+                <span className={`w-4 flex-none font-medium ${styles.number}`}>{index + 1}.</span>
+              ) : (
+                <span className={`mt-2.5 h-1.5 w-1.5 flex-none rounded-full ${styles.bullet}`} />
+              )}
+              <span>{item}</span>
+            </li>
+          ))}
+        </ol>
+      )}
+    </article>
+  );
+}
+
+function NetworkAnalysisLandingPage({ subject, seo, concepts, activeConceptIndex }) {
+  const content = SUBJECT_LANDING_CONTENT[subject.title] || SUBJECT_LANDING_CONTENT["Network Analysis"];
+  const landingCards = buildSubjectLandingCards(subject.title);
+
+  return (
+    <Layout
+      title={seo.title}
+      description={seo.description}
+      keywords={seo.keywords}
+      canonicalUrl={seo.canonicalUrl}
+      structuredData={seo.structuredData}
+      pageClassName="py-3 sm:py-4"
+    >
+      <div className="mx-auto max-w-[1360px] pb-8">
+        <nav aria-label="Breadcrumb" className="mb-4 flex items-start justify-between gap-3">
+          <ol className="flex min-w-0 flex-1 flex-wrap items-center gap-3 px-0 py-2 text-base text-[#0b58b4]">
+            <li className="shrink-0">
+              <Link href="/" className="font-medium transition hover:text-[#061642]">
+                Home
+              </Link>
+            </li>
+            <li className="shrink-0 text-[#0b58b4]">/</li>
+            <li className="shrink-0">
+              <Link href="/subjects" className="font-medium transition hover:text-[#061642]">
+                Subjects
+              </Link>
+            </li>
+            <li className="shrink-0 text-[#0b58b4]">/</li>
+            <li className="min-w-0">
+              <span className="font-black text-[#061642]">{subject.title}</span>
+            </li>
+          </ol>
+          <SubjectLandingMenu
+            subjectTitle={subject.title}
+            concepts={concepts}
+            activeConceptIndex={activeConceptIndex}
+          />
+        </nav>
+
+        <section className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_250px]">
+          <div className="overflow-hidden rounded-xl bg-[#eaf5ff] px-6 py-8 sm:px-12 lg:min-h-[350px]">
+            <div className="grid h-full gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(320px,0.72fr)] lg:items-center">
+              <div>
+                <h1 className="text-5xl font-black leading-none tracking-normal text-[#061642] sm:text-6xl">
+                  {subject.title}
+                </h1>
+                <span className="mt-7 block h-1 w-28 bg-[#1d68bd]" />
+                <p className="mt-8 max-w-[560px] text-lg leading-8 text-slate-950">
+                  {content.description}
+                </p>
+              </div>
+              <div className="flex justify-center lg:justify-end">
+                <NetworkHeroCircuit />
+              </div>
+            </div>
+          </div>
+
+          <aside className="flex min-h-[350px] flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-6 text-center shadow-[0_8px_24px_rgba(15,23,42,0.05)]">
+            <NetworkLandingIcon name="clipboard" className="h-12 w-12 text-[#0b58b4]" />
+            <h2 className="mt-7 text-xl font-black text-[#0b58b4]">
+              Topics <span className="text-base">(Coming Soon)</span>
+            </h2>
+            <p className="mt-7 text-left text-lg leading-8 text-slate-950">
+              In this section, I will explain each and every topic and subtopic step
+              by step in depth.
+            </p>
+            <NetworkLandingIcon name="book" className="mt-7 h-12 w-12 text-slate-600" />
+          </aside>
+        </section>
+
+        <section className="mt-6">
+          <div className="flex items-center gap-5">
+            <NetworkLandingIcon name="clipboard" className="h-8 w-8 text-[#0b58b4]" />
+            <h2 className="text-2xl font-black uppercase text-[#0b58b4]">Overview</h2>
+            <span className="h-px flex-1 bg-slate-200" />
+          </div>
+          <div className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {landingCards.map((card) => (
+              <NetworkLandingCard key={card.title} card={card} />
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-6 overflow-hidden rounded-lg border border-blue-300 bg-[#f0f8ff] px-6 py-5">
+          <div className="grid gap-5 sm:grid-cols-[88px_minmax(0,1fr)_160px] sm:items-center">
+            <span className="flex h-20 w-20 items-center justify-center rounded-full border border-blue-300 bg-blue-50 text-[#1d68bd]">
+              <svg viewBox="0 0 24 24" className="h-12 w-12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M22 10L12 5 2 10l10 5 10-5Z" />
+                <path d="M6 12.5v4.5c3.8 2.4 8.2 2.4 12 0v-4.5" />
+                <path d="M2 10v7" />
+              </svg>
+            </span>
+            <div>
+              <h2 className="text-2xl font-black text-[#0b58b4]">Start Your Journey</h2>
+              <p className="mt-2 text-base leading-7 text-slate-950">
+                {content.journey}
+              </p>
+            </div>
+            <svg viewBox="0 0 150 105" className="hidden h-24 w-36 justify-self-end text-[#1d68bd] sm:block" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M20 90h110" />
+              <path d="M28 90V72h16v18M58 90V62h16v28M88 90V48h16v42M118 90V28h16v62" />
+              <path d="M24 58l26-20 24 10 48-36" />
+              <path d="M122 12h16v16" />
+            </svg>
+          </div>
+        </section>
+
+        <section className="mt-6 rounded-lg border border-slate-200 bg-white p-5 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
+          <h2 className="text-2xl font-black text-[#061642]">{subject.title} FAQ</h2>
+          <div className="mt-5 grid gap-3">
+            {seo.faqItems.map((item) => (
+              <details
+                key={item.question}
+                className="rounded-lg border border-slate-200 bg-[#f8fbff] p-4"
+              >
+                <summary className="cursor-pointer text-base font-black text-[#061642]">
+                  {item.question}
+                </summary>
+                <p className="mt-3 text-base leading-7 text-slate-700">{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      </div>
+    </Layout>
+  );
+}
+
 export default function SubjectTheoryPage({
   subject,
   steps,
@@ -14719,6 +15689,27 @@ export default function SubjectTheoryPage({
   const isConceptIntroPage = activeConceptIndex === 0;
   const activeConceptDataIndex = isConceptIntroPage ? 0 : activeConceptIndex - 1;
   const activeConcept = concepts[activeConceptDataIndex] || concepts[0];
+
+  if (
+    [
+      "Network Analysis",
+      "Analog Electronics",
+      "Digital Electronics",
+      "Signals and Systems",
+      "Communication Systems",
+    ].includes(subject.title) &&
+    isConceptIntroPage
+  ) {
+    return (
+      <NetworkAnalysisLandingPage
+        subject={subject}
+        seo={seo}
+        concepts={concepts}
+        activeConceptIndex={activeConceptIndex}
+      />
+    );
+  }
+
   const isExternalDiodeConcept =
     subject.title === "Analog Electronics" &&
     ["diodes-and-pn-junction", "transistor-basics", "amplifier-fundamentals"].includes(activeConcept?.slug) &&
@@ -15627,17 +16618,19 @@ export default function SubjectTheoryPage({
           </div>
         </section>
 
-        <SubjectSeoDepthSection
-          subject={subject}
-          chapterMeta={chapterMeta}
-          concepts={concepts}
-          learningTopics={learningMeta.learningTopics || []}
-          notesHref={notesHref}
-        />
-
         {subject.title === "Network Analysis" && isConceptIntroPage ? (
           <NetworkAnalysisSubjectGuide notesHref={notesHref} />
         ) : null}
+
+        {subject.title === "Network Analysis" && isConceptIntroPage ? null : (
+          <SubjectSeoDepthSection
+            subject={subject}
+            chapterMeta={chapterMeta}
+            concepts={concepts}
+            learningTopics={learningMeta.learningTopics || []}
+            notesHref={notesHref}
+          />
+        )}
 
         <section className="mt-5">
           <main className="min-w-0">
@@ -15981,96 +16974,100 @@ export default function SubjectTheoryPage({
 
         </section>
 
-        <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
-            Why Students Search {subject.title} Notes
-          </h2>
-          <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-            {seo.introParagraph}
-          </p>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-            {seo.relatedLinks.map((item) => (
-              <Link
-                key={`${item.href}-${item.title}`}
-                href={item.href}
-                className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:border-portal-200 hover:bg-portal-50"
-              >
-                <h3 className="text-base font-bold text-slate-900">{item.title}</h3>
-                {item.summary ? (
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{item.summary}</p>
-                ) : null}
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
-            Important {subject.title} Pages
-          </h2>
-          <p className="mt-2 text-sm leading-7 text-slate-600 sm:text-base">
-            These are the core pages that help students move through the full {subject.title.toLowerCase()}
-            preparation journey, from subject overview to notes and topic-wise learning.
-          </p>
-
-          <div className="mt-5 grid gap-3 md:grid-cols-3">
-            <Link
-              href={`/notes/${getSubjectSlug(subject.title)}`}
-              className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:-translate-y-0.5 hover:border-portal-300 hover:bg-white hover:shadow-sm"
-            >
-              <span className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700">
-                Notes
-              </span>
-              <h3 className="mt-3 text-base font-bold text-slate-900">{subject.title} Notes</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-600">
-                Open chapter-wise notes, formula revision, and structured concept summaries.
+        {subject.title === "Network Analysis" && isConceptIntroPage ? null : (
+          <>
+            <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+              <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+                Why Students Search {subject.title} Notes
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+                {seo.introParagraph}
               </p>
-            </Link>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                {seo.relatedLinks.map((item) => (
+                  <Link
+                    key={`${item.href}-${item.title}`}
+                    href={item.href}
+                    className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:border-portal-200 hover:bg-portal-50"
+                  >
+                    <h3 className="text-base font-bold text-slate-900">{item.title}</h3>
+                    {item.summary ? (
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{item.summary}</p>
+                    ) : null}
+                  </Link>
+                ))}
+              </div>
+            </section>
 
-            <Link
-              href={learningMeta.continueHref || subject.href}
-              className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:-translate-y-0.5 hover:border-portal-300 hover:bg-white hover:shadow-sm"
-            >
-              <span className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700">
-                Learn
-              </span>
-              <h3 className="mt-3 text-base font-bold text-slate-900">{subject.title} Learning Topics</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-600">
-                Go deeper with exam-focused topic pages, explanations, and guided learning flow.
+            <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
+              <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+                Important {subject.title} Pages
+              </h2>
+              <p className="mt-2 text-sm leading-7 text-slate-600 sm:text-base">
+                These are the core pages that help students move through the full {subject.title.toLowerCase()}
+                preparation journey, from subject overview to notes and topic-wise learning.
               </p>
-            </Link>
 
-            <Link
-              href={`/search?q=${encodeURIComponent(subject.title)}`}
-              className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:-translate-y-0.5 hover:border-portal-300 hover:bg-white hover:shadow-sm"
-            >
-              <span className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700">
-                Search
-              </span>
-              <h3 className="mt-3 text-base font-bold text-slate-900">Search {subject.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-600">
-                Find formulas, concepts, theory pages, and related content across the site.
-              </p>
-            </Link>
-          </div>
-
-          <div className="mt-5">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-portal-700">
-              Popular Searches
-            </p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {seo.searchIntents.map((item) => (
+              <div className="mt-5 grid gap-3 md:grid-cols-3">
                 <Link
-                  key={item}
-                  href={`/search?q=${encodeURIComponent(item)}`}
-                  className="rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-portal-300 hover:bg-white hover:text-portal-700"
+                  href={`/notes/${getSubjectSlug(subject.title)}`}
+                  className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:-translate-y-0.5 hover:border-portal-300 hover:bg-white hover:shadow-sm"
                 >
-                  {item}
+                  <span className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700">
+                    Notes
+                  </span>
+                  <h3 className="mt-3 text-base font-bold text-slate-900">{subject.title} Notes</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    Open chapter-wise notes, formula revision, and structured concept summaries.
+                  </p>
                 </Link>
-              ))}
-            </div>
-          </div>
-        </section>
+
+                <Link
+                  href={learningMeta.continueHref || subject.href}
+                  className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:-translate-y-0.5 hover:border-portal-300 hover:bg-white hover:shadow-sm"
+                >
+                  <span className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700">
+                    Learn
+                  </span>
+                  <h3 className="mt-3 text-base font-bold text-slate-900">{subject.title} Learning Topics</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    Go deeper with exam-focused topic pages, explanations, and guided learning flow.
+                  </p>
+                </Link>
+
+                <Link
+                  href={`/search?q=${encodeURIComponent(subject.title)}`}
+                  className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-4 transition hover:-translate-y-0.5 hover:border-portal-300 hover:bg-white hover:shadow-sm"
+                >
+                  <span className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700">
+                    Search
+                  </span>
+                  <h3 className="mt-3 text-base font-bold text-slate-900">Search {subject.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    Find formulas, concepts, theory pages, and related content across the site.
+                  </p>
+                </Link>
+              </div>
+
+              <div className="mt-5">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-portal-700">
+                  Popular Searches
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {seo.searchIntents.map((item) => (
+                    <Link
+                      key={item}
+                      href={`/search?q=${encodeURIComponent(item)}`}
+                      className="rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-portal-300 hover:bg-white hover:text-portal-700"
+                    >
+                      {item}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </>
+        )}
 
         <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
           <h2 className="text-2xl font-bold tracking-tight text-slate-900">

@@ -65,6 +65,17 @@ a {
   outline-offset: 2px;
 }
 
+.navbar-search-input,
+.navbar-search-input:focus,
+.navbar-search-input:focus-visible {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
 img,
 svg,
 video,

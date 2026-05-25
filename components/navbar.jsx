@@ -302,7 +302,7 @@ export default function Navbar({
                   onChange={(event) => handleSearchChange(event.target.value)}
                   onFocus={handleSearchFocus}
                   placeholder="Search"
-                  className="min-w-0 flex-1 appearance-none border-0 bg-transparent p-0 text-[13px] font-medium text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none"
+                  className="navbar-search-input min-w-0 flex-1 appearance-none border-0 bg-transparent p-0 text-[13px] font-medium text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none"
                 />
                 <button
                   type="submit"
@@ -345,7 +345,12 @@ export default function Navbar({
 
             <Link
               href="/subjects"
-              className="inline-flex h-10 flex-none items-center justify-center rounded-xl border border-portal-200 bg-[#f8fbff] px-3 text-xs font-bold text-portal-800 shadow-sm transition hover:bg-white lg:hidden"
+              onClick={(event) => {
+                event.preventDefault();
+                setIsSearchOpen(false);
+                router.push("/subjects");
+              }}
+              className="relative z-10 inline-flex h-10 flex-none items-center justify-center rounded-xl border border-portal-200 bg-[#f8fbff] px-3 text-xs font-bold text-portal-800 shadow-sm transition hover:bg-white lg:hidden"
             >
               Browse
             </Link>
@@ -363,7 +368,7 @@ export default function Navbar({
                   onChange={(event) => handleSearchChange(event.target.value)}
                   onFocus={handleSearchFocus}
                   placeholder={searchPlaceholder}
-                  className="min-w-0 flex-1 appearance-none border-0 bg-transparent p-0 text-base font-medium text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none"
+                  className="navbar-search-input min-w-0 flex-1 appearance-none border-0 bg-transparent p-0 text-base font-medium text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none"
                 />
                 <button
                   type="submit"
