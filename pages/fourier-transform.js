@@ -179,7 +179,7 @@ function SpectrumVisualizer() {
 export default function FourierTransformPage() {
   return (
     <Layout
-      title="Fourier Transform in Signals and Systems | ECE Theory Notes"
+      title="Fourier Transform GATE ECE Notes + Properties + PYQs | Signals"
       description="Learn Fourier Transform with conceptual intuition, CTFT formula, physical meaning, properties, convolution theorem, spectra, solved examples, FAQs, GATE notes, and interview questions."
       keywords="Fourier transform signals and systems, CTFT, frequency spectrum, Fourier transform properties, convolution theorem, GATE ECE"
       structuredData={structuredData}

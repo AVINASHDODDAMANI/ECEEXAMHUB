@@ -244,7 +244,7 @@ function ZParameterDerivationPanel() {
 
 export default function TwoPortNetworksPage() {
   return (
-    <Layout title="ECE Exam Guide | Two-Port Networks" pageClassName="py-3 sm:py-4">
+    <Layout title="Two-Port Networks GATE ECE Notes + Parameters + PYQs" pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav aria-label="Breadcrumb" className="mb-5 flex items-start justify-between gap-3 pt-1">
           <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">

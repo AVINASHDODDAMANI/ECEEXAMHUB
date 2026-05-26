@@ -121,7 +121,7 @@ const structuredData = [
 export default function IntroductionToControlSystemsPage() {
   return (
     <Layout
-      title="Introduction to Control Systems | GATE ECE Notes"
+      title="Introduction to Control Systems GATE ECE Notes + Formulas + PYQs"
       description="Learn introduction to control systems with open-loop and closed-loop intuition, animated feedback visualization, formulas, examples, GATE notes, FAQ, and practice questions."
       keywords="Introduction to Control Systems, open-loop control system, closed-loop control system, feedback control, automatic voltage regulator, GATE ECE"
       structuredData={structuredData}

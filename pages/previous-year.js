@@ -203,7 +203,7 @@ function buildYearRange(startYear, endYear) {
 const previousPaperYearCatalog = [
   { exam: "GATE", years: buildYearRange(2024, 2014) },
   { exam: "ISRO", years: buildYearRange(2024, 2014) },
-  { exam: "BEL", years: buildYearRange(2025, 2014) },
+  { exam: "BEL", years: buildYearRange(2025, 2014).filter((year) => year !== 2024) },
   { exam: "BARC", years: buildYearRange(2024, 2014) },
   { exam: "ESE", years: buildYearRange(2024, 2014) },
   { exam: "DRDO", years: buildYearRange(2024, 2014) },
@@ -396,7 +396,7 @@ function buildPaperEntries(
   officialPreviousPapers
     .filter((paper) => paperMatchesSelection(paper, selectedPaperType, filters, searchValue))
     .forEach((paper) => {
-      const key = `${paper.exam}-${paper.year}`;
+      const key = paper.id || `${paper.exam}-${paper.year}`;
       paperMap.set(
         key,
         mergePaperEntry(paperMap.get(key), {
@@ -411,6 +411,8 @@ function buildPaperEntries(
       id: paper.id,
       exam: paper.exam,
       year: paper.year,
+      month: paper.month,
+      slug: paper.slug,
       title: paper.title,
       role: paper.role,
       paperType: paper.paperType,
@@ -419,7 +421,7 @@ function buildPaperEntries(
       repeatedCount: paper.repeatedCount,
       importantCount: paper.importantCount,
       subjectCount: paper.subjectSet.size,
-      topicCount: paper.topicSet.size,
+      topicCount: paper.topicCount || paper.topicSet.size,
       subjects: [...paper.subjectSet],
       topics: [...paper.topicSet],
       isOfficialPdf: Boolean(paper.isOfficialPdf),
@@ -492,6 +494,15 @@ function buildSolutionHref(paper, filters = initialFilters, searchValue = "") {
     exam: paper.exam,
     year: String(paper.year),
   });
+  const solutionSlug = paper.slug || slugifyPaper(paper.exam, paper.year);
+
+  if (paper.month) {
+    searchParams.set("month", paper.month);
+  }
+
+  if (paper.id && paper.isOfficialPdf) {
+    searchParams.set("paperId", paper.id);
+  }
 
   if (searchValue.trim()) {
     searchParams.set("search", searchValue.trim());
@@ -509,7 +520,7 @@ function buildSolutionHref(paper, filters = initialFilters, searchValue = "") {
     searchParams.set("paperType", filters.paperType);
   }
 
-  return `/solution/${slugifyPaper(paper.exam, paper.year)}?${searchParams.toString()}`;
+  return `/solution/${solutionSlug}?${searchParams.toString()}`;
 }
 
 function getExamHighlight(examName) {
@@ -631,11 +642,12 @@ function getPaperRoleLabel(examName) {
 }
 
 function getPaperTitle(paper) {
-  return paper.role || paper.title || getPaperRoleLabel(paper.exam);
+  return paper.title || paper.role || getPaperRoleLabel(paper.exam);
 }
 
 function getPaperContextLabel(paper) {
-  return `${paper.exam} exam | ECE branch | Year-wise previous paper`;
+  const monthLabel = paper.month ? `${paper.month} ${paper.year}` : paper.year;
+  return `${paper.exam} exam | ECE branch | ${monthLabel} previous paper`;
 }
 
 function getQuestionCountLabel(paper) {

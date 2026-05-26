@@ -2,7 +2,7 @@ import Link from "next/link";
 import Layout from "../components/layout";
 import { SITE_URL } from "../lib/seo";
 
-const pageTitle = "ADC and DAC Converters | Digital Electronics Notes for ECE";
+const pageTitle = "ADC and DAC Converters GATE ECE Notes + Formulas + PYQs | Digital Electronics";
 const pageDescription =
   "Learn Analog to Digital and Digital to Analog Converters with ADC/DAC working, resolution, quantization error, R-2R DAC, flash ADC, SAR ADC, dual-slope ADC, formulas, examples, and GATE notes.";
 const canonicalUrl =

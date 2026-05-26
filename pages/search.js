@@ -11,6 +11,7 @@ import {
   getSmartSearchResults,
   getTopicSearchSuggestions,
 } from "../lib/smart-search";
+import { sanitizeSearchInput } from "../lib/sanitize";
 
 const RECENT_SEARCHES_KEY = "eceexamhub-recent-searches";
 
@@ -71,11 +72,17 @@ function writeRecentSearch(query) {
     return;
   }
 
+  const safeQuery = sanitizeSearchInput(query);
+
+  if (!safeQuery) {
+    return;
+  }
+
   const currentSearches = readRecentSearches();
   const nextSearches = [
-    query,
+    safeQuery,
     ...currentSearches.filter(
-      (item) => item.toLowerCase() !== query.toLowerCase()
+      (item) => item.toLowerCase() !== safeQuery.toLowerCase()
     ),
   ].slice(0, 5);
 
@@ -116,7 +123,7 @@ export default function SearchPage() {
       return;
     }
 
-    const nextQuery = typeof router.query.q === "string" ? router.query.q : "";
+    const nextQuery = sanitizeSearchInput(router.query.q);
     setSearchValue(nextQuery);
     setActiveFilter("all");
     setRecentSearches(readRecentSearches());

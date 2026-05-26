@@ -187,7 +187,7 @@ function SpectrumSketch() {
 export default function FourierSeriesPage() {
   return (
     <Layout
-      title="Fourier Series in Signals and Systems | ECE Theory Notes"
+      title="Fourier Series GATE ECE Notes + Formulas + PYQs | Signals"
       description="Learn Fourier Series with deep intuition, trigonometric and exponential forms, coefficient derivation, harmonic spectrum, solved examples, FAQs, GATE notes, and interview questions."
       keywords="Fourier series signals and systems, trigonometric Fourier series, exponential Fourier series, Fourier coefficients, harmonic spectrum, GATE ECE"
       structuredData={structuredData}

@@ -22,37 +22,66 @@ import {
 } from "../../lib/seo";
 
 function parsePaperSlug(slug = "") {
+  const monthMatch = String(slug).match(/^(.+)-(january|february|march|april|may|june|july|august|september|october|november|december)-(\d{4})$/i);
+
+  if (monthMatch) {
+    return {
+      exam: monthMatch[1].replace(/-/g, " ").toUpperCase(),
+      month: monthMatch[2].replace(/^\w/, (letter) => letter.toUpperCase()),
+      year: Number(monthMatch[3]),
+      paperSlug: String(slug),
+    };
+  }
+
   const match = String(slug).match(/^(.+)-(\d{4})$/);
 
   if (!match) {
-    return { exam: "", year: 0 };
+    return { exam: "", month: "", year: 0, paperSlug: String(slug) };
   }
 
   return {
     exam: match[1].replace(/-/g, " ").toUpperCase(),
+    month: "",
     year: Number(match[2]),
+    paperSlug: String(slug),
   };
 }
 
-function buildPaperSummary(questions = [], exam, year) {
-  const officialPaper = getOfficialPaper(exam, year);
+function buildPaperSummary(questions = [], exam, year, options = {}) {
+  const officialPaper = getOfficialPaper({
+    exam,
+    year,
+    id: options.paperId,
+    slug: options.paperSlug,
+    month: options.month,
+  });
   const paperQuestions = questions.filter(
-    (question) => question.year === year && (question.exam || []).includes(exam)
+    (question) =>
+      question.year === year &&
+      (question.exam || []).includes(exam) &&
+      (!officialPaper?.month || !question.month || question.month === officialPaper.month)
   );
   const subjectSet = new Set(paperQuestions.map((question) => question.subject).filter(Boolean));
   const topicSet = new Set(paperQuestions.map((question) => question.topic).filter(Boolean));
 
   return {
     id: officialPaper?.id || `${exam}-${year}`,
+    slug: officialPaper?.slug,
     exam,
     year,
+    month: officialPaper?.month || options.month || "",
     paperType: getPaperTypeFromExamName(exam),
     title: officialPaper?.title,
     role: officialPaper?.role,
     questionCount: officialPaper?.questionCount || paperQuestions.length,
-    solvedCount: paperQuestions.filter((question) => question.explanation).length,
-    repeatedCount: paperQuestions.filter((question) => (question.tags || []).includes("repeated")).length,
-    importantCount: paperQuestions.filter((question) => (question.tags || []).includes("important")).length,
+    solvedCount:
+      officialPaper?.solvedCount ?? paperQuestions.filter((question) => question.explanation).length,
+    repeatedCount:
+      officialPaper?.repeatedCount ??
+      paperQuestions.filter((question) => (question.tags || []).includes("repeated")).length,
+    importantCount:
+      officialPaper?.importantCount ??
+      paperQuestions.filter((question) => (question.tags || []).includes("important")).length,
     subjectCount: officialPaper?.subjectCount || subjectSet.size,
     topicCount: officialPaper?.topicCount || topicSet.size,
     subjects: officialPaper?.subjects || [...subjectSet],
@@ -90,6 +119,10 @@ function buildRelatedPapers(questions = [], currentPaper) {
 
 function getPaperDisplayTitle(paper) {
   return paper.title || `${paper.exam} ${paper.year} ECE Previous Paper`;
+}
+
+function getPaperSolutionSlug(paper) {
+  return paper.slug || slugifyPaper(paper.exam, paper.year);
 }
 
 function getQuestionMetric(paper, paperQuestions = []) {
@@ -567,9 +600,16 @@ export default function SolutionPage({
     }
   }, []);
 
+  const paperId = typeof router.query.paperId === "string" ? router.query.paperId : "";
+  const paperMonth = typeof router.query.month === "string" ? router.query.month : slugPaper.month;
   const paper = useMemo(
-    () => buildPaperSummary(questions, exam || "ECE", year || new Date().getFullYear()),
-    [exam, questions, year]
+    () =>
+      buildPaperSummary(questions, exam || "ECE", year || new Date().getFullYear(), {
+        month: paperMonth,
+        paperId,
+        paperSlug: slugPaper.paperSlug,
+      }),
+    [exam, paperId, paperMonth, slugPaper.paperSlug, questions, year]
   );
   const paperQuestions = useMemo(
     () => getPaperQuestions(questions, paper, paperType),
@@ -585,7 +625,7 @@ export default function SolutionPage({
   );
   const practiceSlug = getPracticeSlug(paper.exam);
   const practiceHref = practiceSlug ? `/practice/${practiceSlug}` : "/practice";
-  const canonicalPath = `/solution/${slugifyPaper(paper.exam, paper.year)}`;
+  const canonicalPath = `/solution/${getPaperSolutionSlug(paper)}`;
   const defaultPaperTitle = getPaperDisplayTitle(paper);
   const paperTitle = seoOverride?.heading || defaultPaperTitle;
   const paperDescription =

@@ -27,7 +27,7 @@ function FormulaCard({ title, formula, children }) {
 export default function NumberSystemsAndCodesPage() {
   return (
     <Layout
-      title="Number Systems and Codes | Digital Electronics"
+      title="Number Systems and Codes GATE ECE Notes + Conversions + PYQs"
       description="Deep theory notes on number systems, conversions, binary arithmetic, complements, and digital codes for ECE, GATE, PSU, and interviews."
       pageClassName="py-3 sm:py-4"
     >

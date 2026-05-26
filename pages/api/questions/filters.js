@@ -2,6 +2,7 @@ import Question from "../../../models/Question";
 import seedQuestions from "../../../data/questions";
 import { connectToDatabase } from "../../../lib/mongodb";
 import { EXAMS, SUBJECTS, filterQuestions } from "../../../lib/question-utils";
+import { sanitizeSearchInput, sanitizeSlugLikeInput } from "../../../lib/sanitize";
 
 function toSortedList(values = []) {
   return Array.from(new Set(values.filter(Boolean))).sort((left, right) =>
@@ -95,7 +96,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method not allowed." });
   }
 
-  const { subject, topic, exam, year } = req.query;
+  const subject = sanitizeSlugLikeInput(req.query.subject, 120);
+  const topic = sanitizeSearchInput(req.query.topic, 200);
+  const exam = sanitizeSlugLikeInput(req.query.exam, 60);
+  const year = sanitizeSearchInput(req.query.year, 4);
 
   if (!process.env.MONGODB_URI) {
     return res.status(200).json(

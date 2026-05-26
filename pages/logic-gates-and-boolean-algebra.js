@@ -92,7 +92,7 @@ function GateAnimation() {
 export default function LogicGatesAndBooleanAlgebraPage() {
   return (
     <Layout
-      title="Logic Gates and Boolean Algebra | Digital Electronics"
+      title="Logic Gates and Boolean Algebra GATE ECE Notes + K-Map PYQs"
       description="Professional Digital Electronics theory on logic gates, Boolean algebra, De Morgan's theorem, SOP, POS, and logic simplification for ECE exams."
       pageClassName="py-3 sm:py-4"
     >

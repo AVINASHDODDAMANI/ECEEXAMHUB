@@ -4,6 +4,10 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import "../styles/globals.css";
 
+const googleSiteVerification =
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
+  "jhFrRO_BMQtPKAZBDFQyUiyjIu7kLsHh7RO7ovnXYkc";
+
 export default function App({ Component, pageProps }) {
   const router = useRouter();
 
@@ -26,10 +30,12 @@ export default function App({ Component, pageProps }) {
     <>
       <Head>
         <meta name="theme-color" content="#123b79" />
-        <meta
-          name="google-site-verification"
-          content="jhFrRO_BMQtPKAZBDFQyUiyjIu7kLsHh7RO7ovnXYkc"
-        />
+        {googleSiteVerification ? (
+          <meta
+            name="google-site-verification"
+            content={googleSiteVerification}
+          />
+        ) : null}
         <meta
           name="format-detection"
           content="telephone=no, date=no, email=no, address=no"

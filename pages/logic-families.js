@@ -77,7 +77,7 @@ function LogicFamilyAnimation() {
 
 export default function LogicFamiliesPage() {
   return (
-    <Layout title="Logic Families | Digital Electronics" description="Deep theory notes on TTL, CMOS, fan-in, fan-out, noise margin, propagation delay, power dissipation, and logic-family comparison." pageClassName="py-3 sm:py-4">
+    <Layout title="Logic Families GATE ECE Notes + CMOS TTL Formulas + PYQs" description="Deep theory notes on TTL, CMOS, fan-in, fan-out, noise margin, propagation delay, power dissipation, and logic-family comparison." pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav aria-label="Breadcrumb" className="mb-5 flex items-start justify-between gap-3 pt-1">
           <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { isNavigationActive } from "../lib/site-navigation";
+import { sanitizeSearchInput } from "../lib/sanitize";
 import { BrandLogo } from "./BrandIdentity";
 
 const SmartSearchDropdown = dynamic(() => import("./SmartSearchDropdown"), {
@@ -190,8 +191,7 @@ export default function Navbar({
       return;
     }
 
-    const nextSearch =
-      typeof router.query.search === "string" ? router.query.search : "";
+    const nextSearch = sanitizeSearchInput(router.query.search);
     setLocalSearch(nextSearch);
   }, [hasSearch, router.query.search]);
 
@@ -216,10 +216,12 @@ export default function Navbar({
   }, [router.asPath]);
 
   function handleSearchChange(value) {
+    const safeValue = sanitizeSearchInput(value);
+
     if (hasSearch) {
-      onSearchChange(value);
+      onSearchChange(safeValue);
     } else {
-      setLocalSearch(value);
+      setLocalSearch(safeValue);
     }
 
     setIsSearchOpen(true);
@@ -234,7 +236,7 @@ export default function Navbar({
   async function handleSearchSubmit(event) {
     event.preventDefault();
 
-    const trimmedValue = resolvedSearchValue.trim();
+    const trimmedValue = sanitizeSearchInput(resolvedSearchValue);
 
     if (trimmedValue && searchTarget === "/search") {
       try {

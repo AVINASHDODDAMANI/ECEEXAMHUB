@@ -95,7 +95,7 @@ function topicDetail(topic, index) {
 
   return {
     shortTitle: topic.title,
-    metaTitle: `${topic.title} | Embedded Systems Notes for GATE and PSU`,
+    metaTitle: `${topic.title} GATE ECE Embedded Systems Notes + PYQs + Revision`,
     metaDescription: `Learn ${topic.title} with Embedded Systems notes, GATE Embedded Systems revision, PSU exam focus, interview-ready intuition, and lightweight animated visualization.`,
     keywords:
       "Embedded Systems notes, GATE Embedded Systems, Embedded C tutorial, Microcontroller programming, Embedded Systems for PSU, RTOS interview questions",

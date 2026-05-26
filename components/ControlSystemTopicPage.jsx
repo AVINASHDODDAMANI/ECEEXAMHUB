@@ -132,7 +132,7 @@ export default function ControlSystemTopicPage({ topic }) {
 
   return (
     <Layout
-      title={`${topic.title} | Control Systems Notes for GATE ECE`}
+      title={`${topic.title} GATE ECE Notes + Formulas + Solved Examples | Control Systems`}
       description={`${topic.summary} Includes intuition, animated visualization, formulas, solved examples, exam notes, and practice for GATE ECE and university exams.`}
       keywords={seoKeywords}
       structuredData={structuredData}

@@ -86,7 +86,7 @@ function SequentialAnimation() {
 
 export default function SequentialCircuitsPage() {
   return (
-    <Layout title="Sequential Circuits | Digital Electronics" description="Deep theory notes on latches, flip-flops, truth tables, excitation tables, characteristic equations, timing, and clocked storage." pageClassName="py-3 sm:py-4">
+    <Layout title="Sequential Circuits GATE ECE Notes + Flip-Flop Formulas + PYQs" description="Deep theory notes on latches, flip-flops, truth tables, excitation tables, characteristic equations, timing, and clocked storage." pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav aria-label="Breadcrumb" className="mb-5 flex items-start justify-between gap-3 pt-1">
           <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">

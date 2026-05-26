@@ -2,6 +2,13 @@ import Question from "../../../models/Question";
 import seedQuestions from "../../../data/questions";
 import { connectToDatabase } from "../../../lib/mongodb";
 import { filterQuestions } from "../../../lib/question-utils";
+import {
+  sanitizeDiagramReference,
+  sanitizeSearchInput,
+  sanitizeSlugLikeInput,
+  sanitizeStoredText,
+  sanitizeStoredTextList,
+} from "../../../lib/sanitize";
 
 function escapeRegex(text) {
   return String(text).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -20,13 +27,13 @@ function isAdminAuthorized(req) {
 
 function normalizePayload(rawPayload = {}) {
   const options = Array.isArray(rawPayload.options)
-    ? rawPayload.options.map((option) => String(option || "").trim())
+    ? rawPayload.options.map((option) => sanitizeStoredText(option, { maxLength: 1000 }))
     : [];
   const exam = Array.isArray(rawPayload.exam)
     ? Array.from(
         new Set(
           rawPayload.exam
-            .map((item) => String(item || "").trim())
+            .map((item) => sanitizeSlugLikeInput(item, 60))
             .filter(Boolean)
         )
       )
@@ -35,23 +42,23 @@ function normalizePayload(rawPayload = {}) {
     ? Array.from(
         new Set(
           rawPayload.tags
-            .map((item) => String(item || "").trim().toLowerCase())
+            .map((item) => sanitizeSlugLikeInput(item, 60).toLowerCase())
             .filter(Boolean)
         )
       )
     : [];
 
   const payload = {
-    question: String(rawPayload.question || "").trim(),
+    question: sanitizeStoredText(rawPayload.question),
     options,
-    correctAnswer: String(rawPayload.correctAnswer || "").trim(),
-    explanation: String(rawPayload.explanation || "").trim(),
-    subject: String(rawPayload.subject || "").trim(),
-    topic: String(rawPayload.topic || "").trim(),
+    correctAnswer: sanitizeStoredText(rawPayload.correctAnswer, { maxLength: 1000 }),
+    explanation: sanitizeStoredText(rawPayload.explanation),
+    subject: sanitizeSlugLikeInput(rawPayload.subject, 120),
+    topic: sanitizeStoredText(rawPayload.topic, { maxLength: 200 }),
     exam,
-    tags,
+    tags: sanitizeStoredTextList(tags, { maxLength: 60 }),
     year: Number(rawPayload.year),
-    diagram: String(rawPayload.diagram || "").trim(),
+    diagram: sanitizeDiagramReference(rawPayload.diagram),
   };
 
   if (!payload.question) {
@@ -113,7 +120,11 @@ function mergeQuestions(primaryQuestions = [], fallbackQuestions = []) {
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
-    const { subject, topic, exam, year, search } = req.query;
+    const subject = sanitizeSlugLikeInput(req.query.subject, 120);
+    const topic = sanitizeSearchInput(req.query.topic, 200);
+    const exam = sanitizeSlugLikeInput(req.query.exam, 60);
+    const year = sanitizeSearchInput(req.query.year, 4);
+    const search = sanitizeSearchInput(req.query.search);
     const seedFilteredQuestions = filterQuestions(seedQuestions, {
       subject,
       topic,

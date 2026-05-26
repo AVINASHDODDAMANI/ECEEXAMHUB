@@ -113,7 +113,7 @@ function AnimatedSignalExplanation() {
 
 export default function IntroductionToSignalsPage() {
   return (
-    <Layout title="Introduction to Signals | Signals and Systems" description="Deep ECE theory notes on signals, classifications, mathematical representation, signal behavior, and applications." pageClassName="py-3 sm:py-4">
+    <Layout title="Introduction to Signals GATE ECE Notes + Formulas + PYQs | Signals and Systems" description="Deep ECE theory notes on signals, classifications, mathematical representation, signal behavior, and applications." pageClassName="py-3 sm:py-4">
       <div className="mx-auto min-w-0 max-w-[1440px] pb-20">
         <nav aria-label="Breadcrumb" className="mb-4 pt-1">
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">

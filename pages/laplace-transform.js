@@ -178,7 +178,7 @@ function SPlaneSketch() {
 export default function LaplaceTransformPage() {
   return (
     <Layout
-      title="Laplace Transform in Signals and Systems | ECE Theory Notes"
+      title="Laplace Transform GATE ECE Notes + Properties + PYQs | Signals"
       description="Learn Laplace Transform with s-domain intuition, ROC, poles and zeros, formulas, system response, solved examples, FAQs, GATE notes, and interview questions."
       keywords="Laplace transform signals and systems, s-domain, region of convergence, ROC, poles and zeros, LTI system response, GATE ECE"
       structuredData={structuredData}

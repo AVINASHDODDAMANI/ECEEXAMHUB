@@ -12453,7 +12453,7 @@ function AnalogChapterPage({ chapter }) {
   }));
 
   return (
-    <Layout title={`ECE Exam Guide | ${chapter.title}`} pageClassName="py-3 sm:py-4">
+    <Layout title={`${chapter.title} GATE ECE Notes + Formulas + PYQs | Analog Electronics`} pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav
           aria-label="Breadcrumb"
@@ -15745,7 +15745,7 @@ function NetworkAnalysisLandingPage({ subject, seo, concepts, activeConceptIndex
             <div className="grid h-full gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(320px,0.72fr)] lg:items-center">
               <div>
                 <h1 className="text-5xl font-black leading-none tracking-normal text-[#061642] sm:text-6xl">
-                  {subject.title} Notes for ECE Students
+                  {subject.title} GATE ECE Notes, PYQs, and Formulas
                 </h1>
                 <span className="mt-7 block h-1 w-28 bg-[#1d68bd]" />
                 <p className="mt-8 max-w-[560px] text-lg leading-8 text-slate-950">
@@ -16255,7 +16255,7 @@ export default function SubjectTheoryPage({
     );
 
     return (
-      <Layout title="ECE Exam Guide | Basic Concepts" pageClassName="py-3 sm:py-4">
+      <Layout title="Basic Concepts GATE ECE Notes + Formulas + PYQs | Network Analysis" pageClassName="py-3 sm:py-4">
         <EducationalTheoryLayout
           eyebrow="Network Analysis"
           title="Basic Concepts"
@@ -16282,7 +16282,7 @@ export default function SubjectTheoryPage({
 
   if (standaloneTopicPage === "diodes") {
     return (
-      <Layout title="ECE Exam Guide | Diodes" pageClassName="py-3 sm:py-4">
+      <Layout title="Diodes GATE ECE Notes + PN Junction Formulas + PYQs" pageClassName="py-3 sm:py-4">
         <div className="mx-auto max-w-[1440px] pb-24">
           <nav
             aria-label="Breadcrumb"
@@ -16360,7 +16360,7 @@ export default function SubjectTheoryPage({
 
   if (standaloneTopicPage === "bjt-mosfet") {
     const pageTitle =
-      "BJT and MOSFET Explained | Structure, Working, Regions and Characteristics";
+      "BJT and MOSFET GATE ECE Notes + Regions + PYQs | Analog Electronics";
     const pageDescription =
       "Learn BJT and MOSFET working step by step with structure, current relations, operating regions, characteristics, amplifier and switch applications, and comparison.";
     const canonicalUrl = `${SITE_URL}/bjt-and-mosfet`;
@@ -16519,7 +16519,7 @@ export default function SubjectTheoryPage({
 
   if (standaloneTopicPage === "amplifiers") {
     const pageTitle =
-      "Amplifiers Explained | Gain, BJT, MOSFET, Frequency Response and Classes";
+      "Amplifiers GATE ECE Notes + Gain Formulas + PYQs | Analog Electronics";
     const pageDescription =
       "Learn amplifiers step by step with gain, BJT amplifier, MOSFET amplifier, phase shift, frequency response, bandwidth, classes, distortion and practical parameters.";
     const canonicalUrl = `${SITE_URL}/amplifiers`;

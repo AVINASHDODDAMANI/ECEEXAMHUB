@@ -77,7 +77,7 @@ const structuredData = [
 export default function SamplingTheoremPage() {
   return (
     <Layout
-      title="Sampling Theorem in Signals and Systems | ECE Theory Notes"
+      title="Sampling Theorem GATE ECE Notes + Nyquist Formula + PYQs"
       description="Learn Sampling Theorem with Nyquist rate intuition, aliasing, reconstruction, frequency-domain behavior, solved examples, GATE notes, and interview questions."
       keywords="Sampling Theorem signals and systems, Nyquist rate, aliasing, reconstruction, anti-aliasing filter, sampled signals, GATE ECE"
       structuredData={structuredData}

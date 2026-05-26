@@ -103,7 +103,7 @@ function KMapAnimation() {
 export default function KarnaughMapPage() {
   return (
     <Layout
-      title="Karnaugh Map (K-Map) | Digital Electronics"
+      title="Karnaugh Map (K-Map) GATE ECE Notes + Boolean PYQs | Digital Electronics"
       description="Deep educational guide to Karnaugh maps, grouping, prime implicants, essential prime implicants, don't-care conditions, and logic simplification."
       pageClassName="py-3 sm:py-4"
     >

@@ -97,7 +97,7 @@ function topicDetail(topic, index) {
 
   return {
     shortTitle: topic.title,
-    metaTitle: `${topic.title} | GATE DSP Notes and PSU Tutorial`,
+    metaTitle: `${topic.title} GATE ECE DSP Notes + Formulas + Solved Examples`,
     metaDescription: `Learn ${topic.title} for GATE ECE, PSU exams, university DSP notes, and DSP interview questions with intuition, formulas, examples, and animated visualization.`,
     keywords:
       "GATE DSP notes, Digital Signal Processing for PSU, DSP tutorial, university DSP notes, DSP interview questions",

@@ -1182,7 +1182,7 @@ const microprocessorTopicDetails = Object.fromEntries(
   microprocessorTopicSeed.map(([slug, shortTitle, introLine, intuition, formula]) => [
     `microprocessors/${slug}`,
     {
-      metaTitle: `${shortTitle} | GATE ECE Microprocessors Notes`,
+      metaTitle: `${shortTitle} GATE ECE Microprocessors Notes + PYQs + Revision`,
       metaDescription: `Learn ${shortTitle} with animated step-by-step visualization, 8085 notes, 8086 architecture links, PSU Microprocessors tips, and university exam preparation.`,
       keywords:
         "GATE ECE Microprocessors, PSU Microprocessors, 8085 notes, 8086 architecture, university exam preparation",
@@ -1274,7 +1274,7 @@ const microprocessorTopicDetails = Object.fromEntries(
 const topicLibrary = {
   ...microprocessorTopicDetails,
   "electromagnetics/vector-calculus": {
-    metaTitle: "Vector Calculus | GATE ECE Electromagnetic Theory Notes",
+    metaTitle: "Vector Calculus GATE ECE EMFT Notes + Formulas + PYQs",
     metaDescription:
       "Learn vector calculus for GATE ECE Electromagnetic Theory with gradient, divergence, curl, coordinate systems, field visualization, EMFT notes, and PSU exam tips.",
     keywords:
@@ -1309,7 +1309,7 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "electrostatics" }],
   },
   "electromagnetics/electrostatics": {
-    metaTitle: "Electrostatics | GATE ECE Electromagnetic Theory Notes",
+    metaTitle: "Electrostatics GATE ECE EMFT Notes + Formulas + PYQs",
     metaDescription:
       "Study electrostatics for GATE ECE Electromagnetic Theory with Coulomb force, electric field lines, Gauss surface, potential gradient, EMFT notes, and PSU tips.",
     keywords:
@@ -1339,7 +1339,7 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "conductors-and-dielectrics" }],
   },
   "electromagnetics/conductors-and-dielectrics": {
-    metaTitle: "Conductors and Dielectrics | EMFT Notes for GATE ECE",
+    metaTitle: "Conductors and Dielectrics GATE ECE EMFT Notes + Formulas + PYQs",
     metaDescription:
       "Learn conductors and dielectrics with charge distribution, polarization, capacitance, boundary conditions, EMFT notes, GATE ECE and PSU preparation.",
     keywords:
@@ -1366,7 +1366,7 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "magnetostatics" }],
   },
   "electromagnetics/magnetostatics": {
-    metaTitle: "Magnetostatics | GATE ECE Electromagnetic Theory Notes",
+    metaTitle: "Magnetostatics GATE ECE EMFT Notes + Formulas + PYQs",
     metaDescription:
       "Study magnetostatics with magnetic field around current, right-hand rule, Biot-Savart law, Ampere loop, EMFT notes, and PSU preparation.",
     keywords:
@@ -1396,7 +1396,7 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "electromagnetic-induction" }],
   },
   "electromagnetics/electromagnetic-induction": {
-    metaTitle: "Electromagnetic Induction | EMFT Notes for GATE ECE",
+    metaTitle: "Electromagnetic Induction GATE ECE EMFT Notes + Formulas + PYQs",
     metaDescription:
       "Learn Faraday law, Lenz law, changing magnetic flux, induced EMF, self and mutual inductance with EMFT notes for GATE ECE and PSU exams.",
     keywords:
@@ -1423,7 +1423,7 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "maxwells-equations" }],
   },
   "electromagnetics/maxwells-equations": {
-    metaTitle: "Maxwell's Equations | GATE ECE Electromagnetic Theory Notes",
+    metaTitle: "Maxwell's Equations GATE ECE EMFT Notes + Formulas + PYQs",
     metaDescription:
       "Understand Maxwell's equations, integral and differential forms, displacement current, field coupling, EMFT notes, GATE ECE and PSU preparation.",
     keywords:
@@ -1450,7 +1450,7 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "electromagnetic-waves" }],
   },
   "electromagnetics/electromagnetic-waves": {
-    metaTitle: "Electromagnetic Waves | EMFT Notes for GATE ECE",
+    metaTitle: "Electromagnetic Waves GATE ECE EMFT Notes + Formulas + PYQs",
     metaDescription:
       "Learn plane wave propagation, E and H fields, Poynting vector, attenuation in conductors, EMFT notes, GATE ECE and PSU exam preparation.",
     keywords:
@@ -1477,7 +1477,7 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "transmission-lines" }],
   },
   "electromagnetics/transmission-lines": {
-    metaTitle: "Transmission Lines | GATE ECE Electromagnetic Theory Notes",
+    metaTitle: "Transmission Lines GATE ECE EMFT Notes + Formulas + PYQs",
     metaDescription:
       "Study transmission lines with signal propagation, reflection coefficient, SWR, impedance matching, EMFT notes, GATE ECE and PSU preparation.",
     keywords:
@@ -1504,7 +1504,7 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "waveguides" }],
   },
   "electromagnetics/waveguides": {
-    metaTitle: "Waveguides | EMFT Notes for GATE ECE",
+    metaTitle: "Waveguides GATE ECE EMFT Notes + Formulas + PYQs",
     metaDescription:
       "Learn rectangular waveguides, TE TM TEM modes, cutoff frequency, phase and group velocity with EMFT notes for GATE ECE and PSU exams.",
     keywords:
@@ -1531,7 +1531,7 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "antennas" }],
   },
   "electromagnetics/antennas": {
-    metaTitle: "Antennas | GATE ECE Electromagnetic Theory Notes",
+    metaTitle: "Antennas GATE ECE EMFT Notes + Formulas + PYQs",
     metaDescription:
       "Study antennas with dipole radiation, radiation pattern, gain, directivity, antenna arrays, EMFT notes, GATE ECE and PSU preparation.",
     keywords:
@@ -1558,7 +1558,7 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "electromagnetic-compatibility-and-applications" }],
   },
   "electromagnetics/electromagnetic-compatibility-and-applications": {
-    metaTitle: "Electromagnetic Compatibility and Applications | EMFT Notes",
+    metaTitle: "Electromagnetic Compatibility GATE ECE EMFT Notes + PYQs",
     metaDescription:
       "Learn EMC, shielding, electromagnetic interference, radar basics, microwave applications, noise suppression, EMFT notes, GATE ECE and PSU preparation.",
     keywords:

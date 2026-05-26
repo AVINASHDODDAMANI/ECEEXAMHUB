@@ -87,7 +87,7 @@ const structuredData = [
 export default function ZTransformPage() {
   return (
     <Layout
-      title="Z-Transform in Signals and Systems | ECE Theory Notes"
+      title="Z-Transform GATE ECE Notes + ROC Formulas + PYQs | Signals"
       description="Learn Z-Transform with discrete-time intuition, ROC, poles and zeros, unit circle, inverse Z-transform, difference equations, solved examples, GATE notes, and interview questions."
       keywords="Z-Transform signals and systems, ROC of Z-transform, unit circle, poles and zeros, discrete-time LTI systems, DSP, GATE ECE"
       structuredData={structuredData}

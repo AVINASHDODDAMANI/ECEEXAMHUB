@@ -78,7 +78,7 @@ const structuredData = [
 export default function FrequencyResponseAndFiltersPage() {
   return (
     <Layout
-      title="Frequency Response and Filters | Signals and Systems ECE Notes"
+      title="Frequency Response and Filters GATE ECE Notes + Formulas + PYQs"
       description="Learn frequency response and filters with LTI system intuition, magnitude and phase response, cutoff frequency, bandwidth, ideal filters, solved examples, GATE notes, and interview questions."
       keywords="frequency response and filters signals and systems, LTI frequency response, magnitude response, phase response, cutoff frequency, bandwidth, ideal filters, GATE ECE"
       structuredData={structuredData}

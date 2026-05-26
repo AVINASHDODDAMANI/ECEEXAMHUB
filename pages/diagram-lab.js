@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import DOMPurify from "dompurify";
 import Layout from "../components/layout";
 import { CircuitElementVisualizationGallery } from "./circuit-elements";
 import {
@@ -58,6 +59,7 @@ const examples = [
 ];
 
 const defaultDiagram = examples[0].value;
+const MAX_DIAGRAM_TEXT_LENGTH = 6000;
 
 function HelpCard({ title, items }) {
   return (
@@ -110,9 +112,12 @@ export default function DiagramLabPage() {
 
       try {
         const { svg } = await mermaid.render(renderId, diagramText);
+        const safeSvg = DOMPurify.sanitize(svg, {
+          USE_PROFILES: { svg: true, svgFilters: true },
+        });
 
         if (!isCancelled) {
-          setRenderedSvg(svg);
+          setRenderedSvg(safeSvg);
           setErrorMessage("");
         }
       } catch (error) {
@@ -194,7 +199,9 @@ export default function DiagramLabPage() {
 
             <textarea
               value={diagramText}
-              onChange={(event) => setDiagramText(event.target.value)}
+              onChange={(event) =>
+                setDiagramText(event.target.value.slice(0, MAX_DIAGRAM_TEXT_LENGTH))
+              }
               spellCheck={false}
               className="mt-4 min-h-[420px] w-full resize-y rounded-2xl border border-slate-200 bg-slate-950 p-4 font-mono text-sm leading-6 text-blue-50 outline-none transition focus:border-portal-300 focus:ring-4 focus:ring-portal-100"
             />

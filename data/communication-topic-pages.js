@@ -211,7 +211,7 @@ const communicationTopicPages = [
     summary:
       "Communication Systems starts with one central story: information must travel from source to destination through hardware and a channel that may add noise or distortion.",
     metaTitle:
-      "Introduction to Communication Systems | GATE ECE Communication Systems Notes",
+      "Introduction to Communication Systems GATE ECE Notes + Formulas + PYQs",
     metaDescription:
       "Learn Introduction to Communication Systems with source-transmitter-channel-receiver flow, beginner intuition, animated explanation, exam tips, and Communication Systems notes for GATE ECE and university exam preparation.",
     keywords:
@@ -325,7 +325,7 @@ const communicationTopicPages = [
     summary:
       "Signals and spectra explain how the same communication waveform can be viewed in time and frequency, which is essential for bandwidth, filtering, and modulation understanding.",
     metaTitle:
-      "Signals and Spectra | Communication Systems Notes for GATE ECE",
+      "Signals and Spectra GATE ECE Communication Notes + Formulas + PYQs",
     metaDescription:
       "Study Signals and Spectra with time-domain to frequency-domain intuition, bandwidth and PSD explanation, step-by-step visuals, and exam-oriented Communication Systems notes for GATE ECE.",
     keywords:
@@ -440,7 +440,7 @@ const communicationTopicPages = [
     summary:
       "Amplitude Modulation varies the carrier amplitude according to the message and introduces carrier, upper sideband, and lower sideband components in the spectrum.",
     metaTitle:
-      "Amplitude Modulation (AM) | Communication Systems Notes for GATE ECE",
+      "Amplitude Modulation (AM) GATE ECE Notes + Formulas + PYQs",
     metaDescription:
       "Learn AM waveform formation, modulation index, envelope detection, sidebands, and AM spectrum with animated Communication Systems notes for GATE ECE and PSU preparation.",
     keywords:
@@ -559,7 +559,7 @@ const communicationTopicPages = [
     summary:
       "Angle Modulation changes the carrier angle through frequency or phase variation, leading to FM and PM with strong noise-performance advantages.",
     metaTitle:
-      "Angle Modulation | FM and PM Notes for GATE ECE",
+      "Angle Modulation GATE ECE FM PM Notes + Formulas + PYQs",
     metaDescription:
       "Study Angle Modulation with FM and PM comparison, instantaneous frequency, deviation, bandwidth intuition, and animated Communication Systems notes for GATE ECE.",
     keywords:
@@ -678,7 +678,7 @@ const communicationTopicPages = [
     summary:
       "Pulse Modulation turns information into sampled pulses and compares how pulse amplitude, width, or position can represent a message.",
     metaTitle:
-      "Pulse Modulation | PAM PWM PPM Notes for GATE ECE",
+      "Pulse Modulation GATE ECE PAM PWM PPM Notes + Formulas + PYQs",
     metaDescription:
       "Learn Pulse Modulation with sampling, PAM, PWM, PPM, aliasing, and Nyquist explanation using animated Communication Systems notes for GATE ECE and university exams.",
     keywords:
@@ -793,7 +793,7 @@ const communicationTopicPages = [
     summary:
       "Digital Communication converts analog or discrete information into binary-friendly forms using sampling, quantization, encoding, and tracking methods such as PCM and delta modulation.",
     metaTitle:
-      "Digital Communication | PCM and Quantization Notes for GATE ECE",
+      "Digital Communication GATE ECE PCM Notes + Formulas + PYQs",
     metaDescription:
       "Study Digital Communication with PCM encoding, quantization, binary flow, delta modulation, and quantization error intuition using Communication Systems notes for GATE ECE.",
     keywords:
@@ -908,7 +908,7 @@ const communicationTopicPages = [
     summary:
       "Digital Modulation maps bits and symbols onto carrier changes, leading to ASK, FSK, PSK, QPSK, and QAM families with different bandwidth and noise tradeoffs.",
     metaTitle:
-      "Digital Modulation Techniques | ASK FSK PSK QAM Notes for GATE ECE",
+      "Digital Modulation Techniques GATE ECE Notes + Formulas + PYQs",
     metaDescription:
       "Learn Digital Modulation Techniques with ASK, FSK, PSK, QPSK constellation, QAM mapping, and symbol flow using animated Communication Systems notes for GATE ECE.",
     keywords:
@@ -1023,7 +1023,7 @@ const communicationTopicPages = [
     summary:
       "Noise in Communication Systems explains how unwanted random disturbances degrade signal quality and why SNR, bandwidth, and modulation choice matter.",
     metaTitle:
-      "Noise in Communication Systems | SNR Notes for GATE ECE",
+      "Noise in Communication Systems GATE ECE SNR Notes + Formulas + PYQs",
     metaDescription:
       "Study Noise in Communication Systems with signal-plus-noise intuition, SNR, internal vs external noise, AM sensitivity, and FM immunity using GATE ECE Communication Systems notes.",
     keywords:
@@ -1138,7 +1138,7 @@ const communicationTopicPages = [
     summary:
       "Information Theory measures uncertainty, information content, and the ultimate rate limits of reliable communication through entropy and channel capacity.",
     metaTitle:
-      "Information Theory | Entropy and Channel Capacity Notes for GATE ECE",
+      "Information Theory GATE ECE Entropy Notes + Formulas + PYQs",
     metaDescription:
       "Learn Information Theory with entropy, information content, channel capacity, coding intuition, and exam-focused Communication Systems notes for GATE ECE and PSU.",
     keywords:
@@ -1253,7 +1253,7 @@ const communicationTopicPages = [
     summary:
       "Communication Receivers recover useful information from weak, noisy RF signals using tuned amplification, frequency conversion, IF filtering, and detection.",
     metaTitle:
-      "Communication Receivers | Superheterodyne Notes for GATE ECE",
+      "Communication Receivers GATE ECE Superheterodyne Notes + PYQs",
     metaDescription:
       "Study Communication Receivers with superheterodyne receiver path, mixer and IF stage, detection, and frequency conversion intuition using GATE ECE Communication Systems notes.",
     keywords:
@@ -1363,7 +1363,7 @@ const communicationTopicPages = [
     summary:
       "Antennas and Propagation Basics explain how electromagnetic energy is radiated, directed, and carried through ground, sky, and space-wave paths.",
     metaTitle:
-      "Antennas and Propagation Basics | Communication Systems Notes for GATE ECE",
+      "Antennas and Propagation Basics GATE ECE Notes + Formulas + PYQs",
     metaDescription:
       "Learn Antennas and Propagation Basics with radiation, directivity, propagation modes, and signal path visualization using Communication Systems notes for GATE ECE and PSU.",
     keywords:

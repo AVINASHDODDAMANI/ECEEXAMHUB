@@ -1679,7 +1679,7 @@ function ExamRetentionSection() {
 
 export default function CircuitElementsPage() {
   return (
-    <Layout title="ECE Exam Guide | Circuit Elements" pageClassName="py-3 sm:py-4">
+    <Layout title="Circuit Elements GATE ECE Notes + Formulas + PYQs | Network Analysis" pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav
           aria-label="Breadcrumb"

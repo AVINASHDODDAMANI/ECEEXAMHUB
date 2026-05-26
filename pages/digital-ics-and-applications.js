@@ -2,7 +2,7 @@ import Link from "next/link";
 import Layout from "../components/layout";
 import { SITE_URL } from "../lib/seo";
 
-const pageTitle = "Digital ICs and Applications | Digital Electronics Notes for ECE";
+const pageTitle = "Digital ICs and Applications GATE ECE Notes + Formulas + PYQs | Digital Electronics";
 const pageDescription =
   "Learn Digital ICs and Applications with timing circuits, clock signals, pulse generation, 555 timer modes, propagation delay, duty cycle, formulas, examples, interview questions, and GATE notes.";
 const canonicalUrl = `${SITE_URL}/digital-ics-and-applications`;

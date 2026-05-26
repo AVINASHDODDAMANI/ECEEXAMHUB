@@ -112,7 +112,7 @@ function AnimatedSystemExplanation() {
 
 export default function SystemsAndTheirPropertiesPage() {
   return (
-    <Layout title="Systems and Their Properties | Signals and Systems" description="Deep ECE theory notes on systems, linearity, time invariance, causality, stability, memory, invertibility, and system classification." pageClassName="py-3 sm:py-4">
+    <Layout title="Systems and Their Properties GATE ECE Notes + Formulas + PYQs | Signals" description="Deep ECE theory notes on systems, linearity, time invariance, causality, stability, memory, invertibility, and system classification." pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-20">
         <nav aria-label="Breadcrumb" className="mb-4 pt-1">
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">

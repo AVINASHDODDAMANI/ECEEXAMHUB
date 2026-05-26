@@ -1,9 +1,10 @@
 import Question from "../../../models/Question";
 import seedQuestions from "../../../data/questions";
 import { connectToDatabase } from "../../../lib/mongodb";
+import { sanitizeSlugLikeInput } from "../../../lib/sanitize";
 
 export default async function handler(req, res) {
-  const { id } = req.query;
+  const id = sanitizeSlugLikeInput(req.query.id, 120);
 
   if (req.method !== "GET") {
     return res.status(405).json({ message: "Method not allowed." });

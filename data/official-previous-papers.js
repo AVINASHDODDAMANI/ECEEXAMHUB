@@ -1,8 +1,10 @@
 export const officialPreviousPapers = [
   {
     id: "bel-engineer-electronics-may-2025",
+    slug: "bel-may-2025",
     exam: "BEL",
     year: 2025,
+    month: "May",
     title: "BEL Probationary Engineer (ECE) Paper - May 2025",
     role: "Probationary Engineer (ECE)",
     paperType: "Objective",
@@ -131,10 +133,47 @@ export const officialPreviousPapers = [
     repeatedCount: 0,
     importantCount: 0,
     subjectCount: 3,
-    topicCount: 125,
+    topicCount: 119,
     sourceLabel: "BEL May 2025 added questions",
     summary:
-      "BEL May 2025 ECE paper entry with newly added General Aptitude questions for in-site practice and review.",
+      "Completed BEL Probationary Engineer ECE paper from May 2025 with 125 solved objective questions for in-site practice and review.",
+  },
+  {
+    id: "bel-probationary-engineer-ece-december-2025",
+    slug: "bel-december-2025",
+    exam: "BEL",
+    year: 2025,
+    month: "December",
+    title: "BEL Probationary Engineer (ECE) Paper - December 2025",
+    role: "Probationary Engineer (ECE)",
+    paperType: "Objective",
+    subjects: ["Reasoning", "General Aptitude", "Electronics"],
+    topics: [
+      "Reasoning Ability",
+      "General Aptitude",
+      "Engineering Mathematics",
+      "Network Analysis",
+      "Analog Electronics",
+      "Digital Electronics",
+      "Signals and Systems",
+      "Communication Systems",
+      "Control Systems",
+      "Electromagnetic Theory",
+      "Microprocessors",
+      "Digital Signal Processing",
+      "VLSI Design",
+      "Antenna and Wave Propagation",
+      "Embedded Systems",
+    ],
+    questionCount: 125,
+    solvedCount: 125,
+    repeatedCount: 0,
+    importantCount: 0,
+    subjectCount: 3,
+    topicCount: 119,
+    sourceLabel: "BEL December 2025 completed questions",
+    summary:
+      "Completed BEL Probationary Engineer ECE paper from December 2025 with 125 solved objective questions for in-site practice and review.",
   },
   {
     id: "bel-probationary-engineer-electronics-december-2023",
@@ -199,6 +238,26 @@ export const officialPreviousPapers = [
 ];
 
 export function getOfficialPaper(exam, year) {
+  if (typeof exam === "object" && exam) {
+    const { id, slug, month, exam: examName, year: paperYear } = exam;
+
+    return officialPreviousPapers.find((paper) => {
+      if (id && paper.id === id) {
+        return true;
+      }
+
+      if (slug && paper.slug === slug) {
+        return true;
+      }
+
+      return (
+        paper.exam === examName &&
+        Number(paper.year) === Number(paperYear) &&
+        (!month || String(paper.month || "").toLowerCase() === String(month).toLowerCase())
+      );
+    });
+  }
+
   return officialPreviousPapers.find(
     (paper) => paper.exam === exam && Number(paper.year) === Number(year)
   );

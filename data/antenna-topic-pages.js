@@ -107,7 +107,7 @@ function topicDetail(topic, index) {
 
   return {
     shortTitle: topic.title,
-    metaTitle: `${topic.title} | GATE Antenna and Wave Propagation Notes`,
+    metaTitle: `${topic.title} GATE ECE Antenna Notes + Formulas + PYQs`,
     metaDescription: `Learn ${topic.title} for GATE ECE, PSU exams, university microwave and antenna notes, and antenna interview questions with formulas, intuition, examples, and animated visualization.`,
     keywords:
       "GATE Antenna and Wave Propagation notes, Wave propagation for PSU, Antenna engineering tutorial, Antenna interview questions, Microwave and antenna notes",

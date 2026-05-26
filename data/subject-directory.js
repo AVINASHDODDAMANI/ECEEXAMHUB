@@ -173,7 +173,7 @@ export const subjectResources = [
   { label: "Notes", href: "/notes", color: "text-green-700", bg: "bg-green-50", border: "border-green-200" },
   {
     label: "Previous Year Questions",
-    href: "/previous-year",
+    href: "/gate-ece-pyq",
     color: "text-blue-700",
     bg: "bg-blue-50",
     border: "border-blue-200",
@@ -181,14 +181,14 @@ export const subjectResources = [
   { label: "MCQs", href: "/mcqs", color: "text-violet-700", bg: "bg-violet-50", border: "border-violet-200" },
   {
     label: "Formula Sheets",
-    href: "/learn?search=formula",
+    href: "/gate-ece-formulas",
     color: "text-orange-700",
     bg: "bg-orange-50",
     border: "border-orange-200",
   },
   {
     label: "Important Questions",
-    href: "/practice?search=important",
+    href: "/ece-important-questions",
     color: "text-rose-700",
     bg: "bg-rose-50",
     border: "border-rose-200",
