@@ -63,7 +63,20 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  compress: true,
   poweredByHeader: false,
+  images: {
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+    deviceSizes: [360, 414, 640, 768, 1024, 1280, 1440],
+    imageSizes: [64, 96, 128, 256, 384],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.openai.com",
+      },
+    ],
+  },
   turbopack: {
     root: __dirname,
   },
@@ -72,6 +85,33 @@ const nextConfig = {
       {
         source: "/:path*",
         headers: securityHeaders,
+      },
+      {
+        source: "/brand/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/papers/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=604800, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
+        source: "/pdf.worker.min.mjs",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
       },
     ];
   },

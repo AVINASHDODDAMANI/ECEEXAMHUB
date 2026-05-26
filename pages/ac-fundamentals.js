@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import Layout from "../components/layout";
 import NetworkTopicMenu from "../components/NetworkTopicMenu";
 
@@ -147,11 +148,13 @@ function ImageGrid({ images = [], alt }) {
   return (
     <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
       {images.map((src, index) => (
-        <div key={src} className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
-          <img
+        <div key={src} className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+          <Image
             src={src}
             alt={`${alt} ${index + 1}`}
-            className="h-full min-h-[180px] w-full object-contain"
+            fill
+            sizes="(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 92vw"
+            className="object-contain"
             loading="lazy"
           />
         </div>

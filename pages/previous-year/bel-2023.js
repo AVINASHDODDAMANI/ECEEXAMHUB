@@ -7,19 +7,19 @@ export default function Bel2023PreviousYearPage(props) {
 export function getServerSideProps() {
   return {
     props: {
-      initialSlug: "bel-2023",
+      initialSlug: "bel-december-2023",
       seoOverride: {
-        title: "BEL Previous Year Question Paper 2023 PDF",
-        heading: "BEL Previous Year Question Paper 2023",
+        title: "BEL December 2023 Previous Year Question Paper PDF",
+        heading: "BEL December 2023 Previous Year Question Paper",
         description:
-          "Download BEL previous year question paper 2023 PDF for ECE preparation.",
+          "Download BEL December 2023 previous year question paper PDF for ECE preparation.",
       },
       introContent: {
-        heading: "BEL Previous Year Question Paper 2023",
+        heading: "BEL December 2023 Previous Year Question Paper",
         summary:
-          "Download BEL previous year papers with solutions for Electronics and Communication Engineering.",
+          "Download BEL December 2023 previous year paper with solutions for Electronics and Communication Engineering.",
         body:
-          "Download BEL previous year papers with solutions for Electronics and Communication Engineering. This page helps you revise the BEL 2023 paper pattern, practice objective questions, and connect each question back to the theory topics that matter most for ECE preparation.",
+          "Download BEL December 2023 previous year paper with solutions for Electronics and Communication Engineering. This page helps you revise the BEL December 2023 paper pattern, practice objective questions, and connect each question back to the theory topics that matter most for ECE preparation.",
       },
     },
   };

@@ -5,10 +5,14 @@ import Footer from "./Footer";
 import Navbar from "./navbar";
 import {
   DEFAULT_OG_IMAGE,
+  DEFAULT_META_DESCRIPTION,
   SITE_ALTERNATE_NAMES,
   SITE_NAME,
   SITE_URL,
+  generatePageDescription,
+  generatePageKeywords,
   generateCanonical,
+  normalizeMetaTitle,
   shouldNoIndexPath,
 } from "../lib/seo";
 
@@ -74,7 +78,7 @@ function closeExpandedPopupMenus(eventTarget = null) {
 export default function Layout({
   children,
   title = SITE_NAME,
-  description = "ECE Exam Guide, also known as ECE Exam Hub, helps ECE students learn concepts, solve previous papers, practice MCQs, revise notes, and prepare for GATE, ESE, PSU, and university exams.",
+  description = "",
   canonicalUrl = "",
   keywords = "",
   ogType = "website",
@@ -89,6 +93,15 @@ export default function Layout({
   const router = useRouter();
   const pathOnly = (router.asPath || "/").split("#")[0].split("?")[0] || "/";
   const resolvedCanonicalUrl = generateCanonical(canonicalUrl || pathOnly);
+  const resolvedTitle = normalizeMetaTitle(title);
+  const resolvedDescription = String(description || "").trim()
+    ? String(description).replace(/\s+/g, " ").trim()
+    : title === SITE_NAME
+      ? DEFAULT_META_DESCRIPTION
+      : generatePageDescription(title, pathOnly);
+  const resolvedKeywords = String(keywords || "").trim()
+    ? String(keywords).replace(/\s+/g, " ").trim()
+    : generatePageKeywords(title, pathOnly);
   const effectiveNoIndex = noIndex || shouldNoIndexPath(router.pathname || pathOnly, router.asPath || pathOnly);
   const structuredDataItems = Array.isArray(structuredData)
     ? [...defaultStructuredData, ...structuredData]
@@ -131,9 +144,9 @@ export default function Layout({
   return (
     <>
       <Head>
-        <title>{title}</title>
-        <meta name="description" content={description} key="description" />
-        {keywords ? <meta name="keywords" content={keywords} key="keywords" /> : null}
+        <title>{resolvedTitle}</title>
+        <meta name="description" content={resolvedDescription} key="description" />
+        <meta name="keywords" content={resolvedKeywords} key="keywords" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content={SITE_NAME} key="author" />
         <meta name="publisher" content={SITE_NAME} key="publisher" />
@@ -154,18 +167,21 @@ export default function Layout({
         <meta name="apple-mobile-web-app-title" content={SITE_NAME} key="apple-title" />
         <meta property="og:site_name" content={SITE_NAME} key="og:site_name" />
         <meta property="og:type" content={ogType} key="og:type" />
-        <meta property="og:title" content={title} key="og:title" />
-        <meta property="og:description" content={description} key="og:description" />
+        <meta property="og:title" content={resolvedTitle} key="og:title" />
+        <meta property="og:description" content={resolvedDescription} key="og:description" />
         <meta property="og:url" content={resolvedCanonicalUrl} key="og:url" />
         {ogImage ? <meta property="og:image" content={ogImage} key="og:image" /> : null}
-        {ogImage ? <meta property="og:image:alt" content={title} key="og:image:alt" /> : null}
+        {ogImage ? <meta property="og:image:alt" content={resolvedTitle} key="og:image:alt" /> : null}
+        {ogImage ? <meta property="og:image:width" content="1200" key="og:image:width" /> : null}
+        {ogImage ? <meta property="og:image:height" content="630" key="og:image:height" /> : null}
         <meta property="og:locale" content="en_IN" key="og:locale" />
         <meta name="twitter:card" content="summary_large_image" key="twitter:card" />
         <meta name="twitter:domain" content={twitterDomain} key="twitter:domain" />
         <meta name="twitter:url" content={resolvedCanonicalUrl} key="twitter:url" />
-        <meta name="twitter:title" content={title} key="twitter:title" />
-        <meta name="twitter:description" content={description} key="twitter:description" />
+        <meta name="twitter:title" content={resolvedTitle} key="twitter:title" />
+        <meta name="twitter:description" content={resolvedDescription} key="twitter:description" />
         {ogImage ? <meta name="twitter:image" content={ogImage} key="twitter:image" /> : null}
+        {ogImage ? <meta name="twitter:image:alt" content={resolvedTitle} key="twitter:image:alt" /> : null}
         {structuredDataItems.map((item, index) => (
           <script
             key={`structured-data-${index}`}

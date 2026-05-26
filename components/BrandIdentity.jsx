@@ -6,6 +6,8 @@ export function BrandMark({
     <img
       src="/brand/ece-exam-guide-mark-v2.svg"
       alt={alt}
+      width="48"
+      height="48"
       className={className}
       decoding="async"
       loading="eager"
