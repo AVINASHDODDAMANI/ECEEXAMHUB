@@ -216,7 +216,10 @@ export default function Navbar({
   }, [router.asPath]);
 
   function handleSearchChange(value) {
-    const safeValue = sanitizeSearchInput(value);
+    const safeValue = String(value || "")
+      .replace(/[\u0000-\u001F\u007F]/g, "")
+      .replace(/\s+/g, " ")
+      .slice(0, 120);
 
     if (hasSearch) {
       onSearchChange(safeValue);

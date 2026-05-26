@@ -244,9 +244,12 @@ function questionMatchesPaperType(question, selectedPaperType) {
 
 function paperMatchesSelection(paper, selectedPaperType = "All Types", filters = initialFilters, searchValue = "") {
   const normalizedSearch = searchValue.trim().toLowerCase();
+  const compactSearch = normalizedSearch.replace(/[^a-z0-9]+/g, "");
   const searchText = [
     paper.exam,
     paper.year,
+    paper.month,
+    paper.slug,
     paper.title,
     paper.role,
     paper.sourceLabel,
@@ -256,6 +259,7 @@ function paperMatchesSelection(paper, selectedPaperType = "All Types", filters =
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
+  const compactSearchText = searchText.replace(/[^a-z0-9]+/g, "");
 
   if (selectedPaperType !== "All Types" && paper.paperType !== selectedPaperType) {
     return false;
@@ -283,7 +287,11 @@ function paperMatchesSelection(paper, selectedPaperType = "All Types", filters =
     return false;
   }
 
-  return !normalizedSearch || searchText.includes(normalizedSearch);
+  return (
+    !normalizedSearch ||
+    searchText.includes(normalizedSearch) ||
+    (compactSearch && compactSearchText.includes(compactSearch))
+  );
 }
 
 function mergePaperEntry(current, paper) {
@@ -321,10 +329,23 @@ function buildPaperEntries(
   searchValue = ""
 ) {
   const paperMap = new Map();
+  const officialExamYearKeys = new Set(
+    officialPreviousPapers.map((paper) => `${paper.exam}-${paper.year}`)
+  );
+  const officialPaperByExamYearMonth = new Map(
+    officialPreviousPapers.map((paper) => [
+      [paper.exam, paper.year, paper.month].filter(Boolean).join("-"),
+      paper,
+    ])
+  );
 
   previousPaperCatalogEntries
     .filter((paper) => paperMatchesSelection(paper, selectedPaperType, filters, searchValue))
     .forEach((paper) => {
+      if (officialExamYearKeys.has(`${paper.exam}-${paper.year}`)) {
+        return;
+      }
+
       paperMap.set(paper.id, {
         ...paper,
         subjectSet: new Set(paper.subjects || []),
@@ -350,14 +371,21 @@ function buildPaperEntries(
           return;
         }
 
-        const key = `${examName}-${question.year}`;
+        const officialQuestionPaper = officialPaperByExamYearMonth.get(
+          [examName, question.year, question.month].filter(Boolean).join("-")
+        );
+        const key = officialQuestionPaper?.id || `${examName}-${question.year}`;
         const current =
           paperMap.get(key) || {
             id: key,
             exam: examName,
             year: question.year,
-            title: `${examName} ${question.year} ECE Previous Paper`,
-            role: paperRoleLabels[examName] || "ECE Previous Paper",
+            month: officialQuestionPaper?.month || question.month,
+            slug: officialQuestionPaper?.slug,
+            title:
+              officialQuestionPaper?.title ||
+              `${examName} ${question.year} ECE Previous Paper`,
+            role: officialQuestionPaper?.role || paperRoleLabels[examName] || "ECE Previous Paper",
             paperType,
             questionCount: 0,
             solvedCount: 0,
@@ -366,6 +394,10 @@ function buildPaperEntries(
             subjectSet: new Set(),
             topicSet: new Set(),
           };
+
+        if (!question.month && officialExamYearKeys.has(`${examName}-${question.year}`)) {
+          return;
+        }
 
         current.questionCount += 1;
 
@@ -651,6 +683,10 @@ function getPaperContextLabel(paper) {
 }
 
 function getQuestionCountLabel(paper) {
+  if (!isPaperAvailable(paper)) {
+    return "Questions pending";
+  }
+
   if (paper.questionCount) {
     return `${paper.questionCount} ${paper.questionCount === 1 ? "question" : "questions"}`;
   }
@@ -659,6 +695,10 @@ function getQuestionCountLabel(paper) {
 }
 
 function getPaperScopeLabel(paper) {
+  if (!isPaperAvailable(paper)) {
+    return "Topics pending";
+  }
+
   if (!paper.topicCount) {
     return "Topics pending";
   }
@@ -667,6 +707,10 @@ function getPaperScopeLabel(paper) {
 }
 
 function getSolutionStatusLabel(paper) {
+  if (!isPaperAvailable(paper)) {
+    return "Pending";
+  }
+
   if (paper.isOfficialPdf && !paper.solvedCount) {
     return "Official paper";
   }
@@ -674,6 +718,28 @@ function getSolutionStatusLabel(paper) {
   return paper.solvedCount
     ? `${getSolvedPercentage(paper.solvedCount, paper.questionCount)}% solved`
     : "Limited";
+}
+
+function isPaperAvailable(paper) {
+  return Boolean(paper?.isOfficialPdf);
+}
+
+function getQuestionMetricLabel(paper) {
+  if (!isPaperAvailable(paper)) {
+    return "Pending";
+  }
+
+  return paper.questionCount || (paper.isOfficialPdf ? "PDF" : "Pending");
+}
+
+function getSolvedMetricLabel(paper) {
+  if (!isPaperAvailable(paper)) {
+    return "Pending";
+  }
+
+  return paper.questionCount
+    ? `${getSolvedPercentage(paper.solvedCount, paper.questionCount)}%`
+    : "Source";
 }
 
 function mergeOfficialOptions(payload = {}, filters = initialFilters) {
@@ -1561,12 +1627,12 @@ export default function PreviousYearPage() {
       structuredData={previousYearStructuredData}
       searchValue={search}
       onSearchChange={setSearch}
-      pageClassName="py-5 sm:py-6"
+      pageClassName="py-3 sm:py-6"
     >
-      <div className="mx-auto max-w-[1440px] space-y-6">
-        <section className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_14px_38px_rgba(15,23,42,0.06)] sm:p-6">
+      <div className="mx-auto max-w-[1440px] space-y-3 sm:space-y-6">
+        <section className="rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_10px_24px_rgba(15,23,42,0.05)] sm:rounded-[24px] sm:p-6 sm:shadow-[0_14px_38px_rgba(15,23,42,0.06)]">
           <nav
-            className="flex flex-wrap items-center gap-2 text-sm text-slate-500"
+            className="flex flex-wrap items-center gap-1.5 text-xs text-slate-500 sm:gap-2 sm:text-sm"
             aria-label="Breadcrumb"
           >
             <Link
@@ -1581,21 +1647,21 @@ export default function PreviousYearPage() {
             <span className="font-semibold text-slate-800">Previous Papers</span>
           </nav>
 
-          <div className="mt-5 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="mt-3 flex flex-col gap-3 sm:mt-5 sm:gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <h1 className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
+              <h1 className="text-2xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
                 Previous Year Papers
               </h1>
-              <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">
+              <p className="mt-1.5 text-xs leading-5 text-slate-600 sm:mt-3 sm:text-base sm:leading-7">
                 Browse exam-wise ECE papers, filter by year or subject, and open solved sets when available.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {archiveMetrics.slice(0, 3).map((metric) => (
                 <span
                   key={metric.label}
-                  className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700"
+                  className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-700 sm:rounded-xl sm:px-3 sm:py-2 sm:text-sm"
                 >
                   <span className="font-extrabold text-slate-950">{metric.value}</span>{" "}
                   {metric.label.toLowerCase()}
@@ -1605,41 +1671,41 @@ export default function PreviousYearPage() {
           </div>
         </section>
 
-        <section className="overflow-hidden rounded-[30px] border border-[#e2e9f7] bg-white shadow-[0_18px_60px_rgba(17,43,92,0.08)]">
-          <div className="space-y-5 p-3 sm:space-y-6 sm:p-6">
-            <section className="space-y-4">
-              <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <section className="overflow-hidden rounded-2xl border border-[#e2e9f7] bg-white shadow-[0_10px_32px_rgba(17,43,92,0.06)] sm:rounded-[30px] sm:shadow-[0_18px_60px_rgba(17,43,92,0.08)]">
+          <div className="space-y-3 p-2.5 sm:space-y-6 sm:p-6">
+            <section className="space-y-3 sm:space-y-4">
+              <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
                 <div>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-portal-700 sm:text-xs sm:tracking-[0.18em]">
                     Exam archive
                   </p>
-                  <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
+                  <h2 className="mt-1 text-xl font-extrabold tracking-tight text-slate-950 sm:mt-2 sm:text-2xl">
                     Select Exam Family
                   </h2>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                  <p className="mt-1 text-xs leading-5 text-slate-600 sm:mt-2 sm:text-sm sm:leading-6">
                     Choose an exam family to open a focused previous-paper library with year-wise practice.
                   </p>
                 </div>
-                <div className="grid gap-2 sm:grid-cols-3">
+                <div className="grid gap-1.5 sm:grid-cols-3 sm:gap-2">
                   {patternMetrics.map(([label, value, detail]) => (
-                    <div key={label} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-                      <p className="text-lg font-extrabold text-slate-950">{value}</p>
-                      <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">
+                    <div key={label} className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2 sm:rounded-xl sm:px-4 sm:py-3">
+                      <p className="text-base font-extrabold text-slate-950 sm:text-lg">{value}</p>
+                      <p className="text-[10px] font-extrabold uppercase tracking-[0.1em] text-slate-500 sm:text-[11px] sm:tracking-[0.12em]">
                         {label}
                       </p>
-                      <p className="mt-1 text-xs text-slate-500">{detail}</p>
+                      <p className="mt-0.5 text-[11px] text-slate-500 sm:mt-1 sm:text-xs">{detail}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:hidden">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:hidden">
                 {featuredCards.map((card) => (
                   <button
                     key={`mobile-${card.key}`}
                     type="button"
                     onClick={() => handleExamCardSelect(card)}
-                    className={`group flex min-h-[110px] w-full flex-col rounded-[16px] border bg-white p-3 text-left shadow-[0_12px_32px_rgba(15,23,42,0.04)] transition sm:min-h-[126px] sm:rounded-[18px] sm:p-3.5 ${
+                    className={`group flex min-h-[84px] w-full flex-col rounded-xl border bg-white p-2.5 text-left shadow-[0_8px_20px_rgba(15,23,42,0.035)] transition sm:min-h-[126px] sm:rounded-[18px] sm:p-3.5 ${
                       card.isSelected
                         ? "border-portal-500 ring-1 ring-portal-500"
                         : "border-[#e3eaf7] hover:border-portal-300"
@@ -1658,7 +1724,7 @@ export default function PreviousYearPage() {
                       </span>
                     </div>
 
-                    <h2 className="mt-2.5 min-h-[2.5rem] text-[0.82rem] font-bold leading-5 tracking-tight text-slate-900 sm:mt-3 sm:text-[0.95rem]">
+                    <h2 className="mt-1.5 min-h-[2rem] text-[0.78rem] font-bold leading-4 tracking-tight text-slate-900 sm:mt-3 sm:min-h-[2.5rem] sm:text-[0.95rem] sm:leading-5">
                       {getExamCardDisplayText(card)}
                     </h2>
                   </button>
@@ -1723,9 +1789,9 @@ export default function PreviousYearPage() {
 
             <section
               id="filters"
-              className="rounded-[24px] border border-[#e6edf9] bg-[#fbfdff] p-2.5 sm:p-4"
+              className="rounded-2xl border border-[#e6edf9] bg-[#fbfdff] p-2 sm:rounded-[24px] sm:p-4"
             >
-              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_180px] sm:gap-3">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_180px] sm:gap-3">
                 <FilterTile label="Year" icon="calendar">
                   <SelectControl
                     value={filterForm.year}
@@ -1769,7 +1835,7 @@ export default function PreviousYearPage() {
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="inline-flex items-center justify-center gap-1.5 rounded-[16px] border border-[#dfe7f6] bg-white px-3 py-3 text-xs font-semibold text-slate-700 shadow-sm transition hover:border-portal-300 hover:text-portal-700 sm:gap-2 sm:rounded-[18px] sm:px-4 sm:py-4 sm:text-sm"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#dfe7f6] bg-white px-3 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:border-portal-300 hover:text-portal-700 sm:gap-2 sm:rounded-[18px] sm:px-4 sm:py-4 sm:text-sm"
                 >
                   <UiIcon type="refresh" className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   Reset Filters
@@ -1777,11 +1843,11 @@ export default function PreviousYearPage() {
               </div>
 
               {activeFilterBadges.length ? (
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-2.5 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2">
                   {activeFilterBadges.map((badge) => (
                     <span
                       key={badge}
-                      className="rounded-full border border-[#dfe7f6] bg-white px-2.5 py-1 text-xs font-medium text-slate-700 sm:px-3 sm:py-1.5 sm:text-sm"
+                      className="rounded-full border border-[#dfe7f6] bg-white px-2 py-0.5 text-[11px] font-medium text-slate-700 sm:px-3 sm:py-1.5 sm:text-sm"
                     >
                       {badge}
                     </span>
@@ -1792,24 +1858,24 @@ export default function PreviousYearPage() {
 
             <section
               id="paper-library"
-              className="overflow-hidden rounded-[24px] border border-[#e6edf9] bg-white"
+              className="overflow-hidden rounded-2xl border border-[#e6edf9] bg-white sm:rounded-[24px]"
             >
-              <div className="border-b border-[#e9eef8] px-4 py-3 sm:px-6 sm:py-4">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="border-b border-[#e9eef8] px-3 py-2.5 sm:px-6 sm:py-4">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
                   <div>
-                    <p className="text-xs font-semibold text-slate-500 sm:text-sm">Selected Exam / Filter</p>
-                    <p className="mt-1 text-base font-bold text-slate-900 sm:text-lg">
+                    <p className="text-[11px] font-semibold text-slate-500 sm:text-sm">Selected Exam / Filter</p>
+                    <p className="mt-0.5 text-sm font-bold text-slate-900 sm:mt-1 sm:text-lg">
                       {formatCurrentSelection(activeFilters)}
                     </p>
-                    <p className="mt-1 text-sm leading-6 text-slate-600">
+                    <p className="mt-0.5 text-xs leading-5 text-slate-600 sm:mt-1 sm:text-sm sm:leading-6">
                       {getSelectionContextText(activeFilters)}
                     </p>
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full border border-[#dfe7f6] bg-[#f7faff] px-2.5 py-1 text-xs font-semibold text-portal-700 sm:px-3 sm:py-1.5 sm:text-sm">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    <span className="rounded-full border border-[#dfe7f6] bg-[#f7faff] px-2 py-0.5 text-[11px] font-semibold text-portal-700 sm:px-3 sm:py-1.5 sm:text-sm">
                       {visiblePapers.length} papers
                     </span>
-                    <span className="rounded-full border border-[#dfe7f6] bg-white px-2.5 py-1 text-xs font-semibold text-slate-600 sm:px-3 sm:py-1.5 sm:text-sm">
+                    <span className="rounded-full border border-[#dfe7f6] bg-white px-2 py-0.5 text-[11px] font-semibold text-slate-600 sm:px-3 sm:py-1.5 sm:text-sm">
                       Latest {latestYear}
                     </span>
                   </div>
@@ -1829,95 +1895,98 @@ export default function PreviousYearPage() {
                 </div>
               ) : visiblePapers.length ? (
                 <>
-                  <div className="grid gap-3 p-4 sm:p-5 lg:hidden">
+                  <div className="grid gap-2.5 p-2.5 sm:gap-3 sm:p-5 lg:hidden">
                     {paginatedPapers.map((paper) => {
-                      const hasSolutions = paper.solvedCount > 0;
-                      const hasPaperAccess = hasSolutions || paper.isOfficialPdf;
+                      const hasPaperAccess = isPaperAvailable(paper);
                       const solutionHref = buildSolutionHref(paper, activeFilters, search);
 
                       return (
                         <article
                           key={paper.id}
-                          className="rounded-[20px] border border-[#e4eaf6] bg-[#fbfdff] p-4 shadow-[0_10px_30px_rgba(15,23,42,0.04)]"
+                          className="rounded-2xl border border-[#e4eaf6] bg-[#fbfdff] p-3 shadow-[0_8px_22px_rgba(15,23,42,0.035)] sm:rounded-[20px] sm:p-4 sm:shadow-[0_10px_30px_rgba(15,23,42,0.04)]"
                         >
-                          <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-start justify-between gap-2.5 sm:gap-3">
                             <div>
-                              <span className="inline-flex rounded-full bg-[#eef5ff] px-3 py-1 text-xs font-bold text-portal-700">
+                              <span className="inline-flex rounded-full bg-[#eef5ff] px-2.5 py-0.5 text-[11px] font-bold text-portal-700 sm:px-3 sm:py-1 sm:text-xs">
                                 {paper.year}
                               </span>
-                              <p className="mt-3 text-base font-bold text-slate-900">
+                              <p className="mt-2 text-sm font-bold text-slate-900 sm:mt-3 sm:text-base">
                                 {getPaperTitle(paper)}
                               </p>
-                              <p className="mt-1 text-sm leading-6 text-slate-600">
+                              <p className="mt-0.5 text-xs leading-5 text-slate-600 sm:mt-1 sm:text-sm sm:leading-6">
                                 {getPaperContextLabel(paper)}
                               </p>
                             </div>
                             <span
-                              className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+                              className={`inline-flex rounded-full px-2 py-0.5 text-[11px] font-semibold sm:px-3 sm:py-1 sm:text-xs ${
                                 hasPaperAccess
                                   ? "bg-emerald-50 text-emerald-700"
-                                  : "bg-slate-100 text-slate-600"
+                                  : "bg-amber-50 text-amber-700"
                               }`}
                             >
-                              {hasPaperAccess ? "Available" : "Limited"}
+                              {hasPaperAccess ? "Available" : "Pending"}
                             </span>
                           </div>
 
-                          <p className="mt-2 text-sm leading-6 text-slate-600">
+                          <p className="mt-1.5 text-xs leading-5 text-slate-600 sm:mt-2 sm:text-sm sm:leading-6">
                             {getQuestionCountLabel(paper)}
                           </p>
 
-                          <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
-                            <div className="rounded-xl border border-[#e4eaf6] bg-white px-3 py-2">
-                              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                          <div className="mt-2 grid grid-cols-2 gap-1.5 text-xs sm:mt-3 sm:gap-2 sm:text-sm">
+                            <div className="rounded-lg border border-[#e4eaf6] bg-white px-2.5 py-1.5 sm:rounded-xl sm:px-3 sm:py-2">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400 sm:text-[11px]">
                                 Type
                               </p>
-                              <p className="mt-1 font-semibold text-slate-800">{paper.paperType}</p>
+                              <p className="mt-0.5 font-semibold text-slate-800 sm:mt-1">{paper.paperType}</p>
                             </div>
-                            <div className="rounded-xl border border-[#e4eaf6] bg-white px-3 py-2">
-                              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                            <div className="rounded-lg border border-[#e4eaf6] bg-white px-2.5 py-1.5 sm:rounded-xl sm:px-3 sm:py-2">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400 sm:text-[11px]">
                                 Questions
                               </p>
-                              <p className="mt-1 font-semibold text-slate-800">
-                                {paper.questionCount || (paper.isOfficialPdf ? "PDF" : "Pending")}
+                              <p className="mt-0.5 font-semibold text-slate-800 sm:mt-1">
+                                {getQuestionMetricLabel(paper)}
                               </p>
                             </div>
-                            <div className="rounded-xl border border-[#e4eaf6] bg-white px-3 py-2">
-                              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                            <div className="rounded-lg border border-[#e4eaf6] bg-white px-2.5 py-1.5 sm:rounded-xl sm:px-3 sm:py-2">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400 sm:text-[11px]">
                                 Solved
                               </p>
-                              <p className="mt-1 font-semibold text-slate-800">
-                                {paper.questionCount
-                                  ? `${getSolvedPercentage(paper.solvedCount, paper.questionCount)}%`
-                                  : "Source"}
+                              <p className="mt-0.5 font-semibold text-slate-800 sm:mt-1">
+                                {getSolvedMetricLabel(paper)}
                               </p>
                             </div>
-                            <div className="rounded-xl border border-[#e4eaf6] bg-white px-3 py-2">
-                              <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400">
+                            <div className="rounded-lg border border-[#e4eaf6] bg-white px-2.5 py-1.5 sm:rounded-xl sm:px-3 sm:py-2">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400 sm:text-[11px]">
                                 Signals
                               </p>
-                              <p className="mt-1 font-semibold text-slate-800">
+                              <p className="mt-0.5 font-semibold text-slate-800 sm:mt-1">
                                 {paper.repeatedCount + paper.importantCount}
                               </p>
                             </div>
                           </div>
 
-                          <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                            <Link
-                              href={solutionHref}
-                              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-portal-700 px-3 py-2.5 text-sm font-bold text-white transition hover:bg-portal-800"
-                            >
-                              <UiIcon type="eye" className="h-4 w-4" />
-                              View Solution
-                            </Link>
+                          <div className="mt-2.5 grid gap-2 sm:mt-4 sm:grid-cols-3">
+                            {hasPaperAccess ? (
+                              <Link
+                                href={solutionHref}
+                                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-portal-700 px-3 py-2 text-xs font-bold text-white transition hover:bg-portal-800 sm:gap-2 sm:rounded-xl sm:py-2.5 sm:text-sm"
+                              >
+                                <UiIcon type="eye" className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                                View Solution
+                              </Link>
+                            ) : (
+                              <span className="inline-flex w-full items-center justify-center rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-bold text-amber-700 sm:rounded-xl sm:py-2.5 sm:text-sm">
+                                Pending
+                              </span>
+                            )}
                           </div>
                         </article>
                       );
                     })}
 
-                    <div className="rounded-[20px] border border-[#e4eaf6] bg-white p-4 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">
-                      <div className="flex flex-col gap-4">
-                        <p className="text-sm text-slate-600">
+                    <div className="rounded-2xl border border-[#e4eaf6] bg-white p-3 shadow-[0_8px_22px_rgba(15,23,42,0.035)] sm:rounded-[20px] sm:p-4 sm:shadow-[0_10px_30px_rgba(15,23,42,0.04)]">
+                      <div className="flex flex-col gap-3 sm:gap-4">
+                        <p className="text-xs text-slate-600 sm:text-sm">
                           Showing {pageStart} to {pageEnd} of {visiblePapers.length} papers
                         </p>
 
@@ -1967,7 +2036,7 @@ export default function PreviousYearPage() {
                   </div>
 
                   <div className="hidden overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:block">
-                    <div className="min-w-[1220px]">
+                    <div className="min-w-[980px]">
                       <table className="min-w-full text-left">
                         <thead className="bg-[#fbfcff] text-sm text-slate-500">
                           <tr>
@@ -1975,15 +2044,12 @@ export default function PreviousYearPage() {
                             <th className="px-6 py-4 font-bold">Paper / Exam</th>
                             <th className="px-6 py-4 font-bold">Exam Pattern</th>
                             <th className="px-6 py-4 font-bold">Questions</th>
-                            <th className="px-6 py-4 font-bold">Pattern Signals</th>
-                            <th className="px-6 py-4 font-bold">Solutions</th>
                             <th className="px-6 py-4 font-bold">Action</th>
                           </tr>
                         </thead>
                         <tbody>
                           {paginatedPapers.map((paper, index) => {
-                            const hasSolutions = paper.solvedCount > 0;
-                            const hasPaperAccess = hasSolutions || paper.isOfficialPdf;
+                            const hasPaperAccess = isPaperAvailable(paper);
                             const solutionHref = buildSolutionHref(paper, activeFilters, search);
 
                             return (
@@ -2018,42 +2084,27 @@ export default function PreviousYearPage() {
                                 </td>
                                 <td className="px-6 py-5 align-top">
                                   <p className="text-sm font-bold text-slate-900">
-                                    {paper.questionCount || (paper.isOfficialPdf ? "PDF" : "Pending")}
+                                    {getQuestionMetricLabel(paper)}
                                   </p>
                                   <p className="mt-1 text-xs text-slate-500">
                                     {getPaperScopeLabel(paper)}
                                   </p>
                                 </td>
                                 <td className="px-6 py-5 align-top">
-                                  <div className="flex flex-wrap gap-2">
-                                    <span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-bold text-orange-700">
-                                      {paper.repeatedCount} repeated
-                                    </span>
-                                    <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700">
-                                      {paper.importantCount} important
-                                    </span>
-                                  </div>
-                                </td>
-                                <td className="px-6 py-5 align-top">
-                                  <span
-                                    className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-                                      hasPaperAccess
-                                        ? "bg-emerald-50 text-emerald-700"
-                                        : "bg-slate-100 text-slate-600"
-                                    }`}
-                                  >
-                                    {getSolutionStatusLabel(paper)}
-                                  </span>
-                                </td>
-                                <td className="px-6 py-5 align-top">
                                   <div className="flex items-center gap-3">
-                                    <Link
-                                      href={solutionHref}
-                                      className="inline-flex items-center gap-2 rounded-xl bg-portal-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-portal-800"
-                                    >
-                                      <UiIcon type="eye" className="h-4 w-4" />
-                                      View Solution
-                                    </Link>
+                                    {hasPaperAccess ? (
+                                      <Link
+                                        href={solutionHref}
+                                        className="inline-flex items-center gap-2 rounded-xl bg-portal-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-portal-800"
+                                      >
+                                        <UiIcon type="eye" className="h-4 w-4" />
+                                        View Solution
+                                      </Link>
+                                    ) : (
+                                      <span className="inline-flex items-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-bold text-amber-700">
+                                        Pending
+                                      </span>
+                                    )}
                                   </div>
                                 </td>
                               </tr>

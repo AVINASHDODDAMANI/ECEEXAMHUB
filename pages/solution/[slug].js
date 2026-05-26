@@ -98,11 +98,18 @@ function buildRelatedPapers(questions = [], currentPaper) {
 
   questions.forEach((question) => {
     (question.exam || []).forEach((examName) => {
-      const key = `${examName}-${question.year}`;
+      const key = [examName, question.year, question.month].filter(Boolean).join("-");
+      const officialPaper = getOfficialPaper({
+        exam: examName,
+        year: question.year,
+        month: question.month,
+      });
       const current =
         paperMap.get(key) || {
           exam: examName,
           year: question.year,
+          month: question.month || officialPaper?.month || "",
+          slug: officialPaper?.slug,
           count: 0,
         };
 
@@ -112,13 +119,27 @@ function buildRelatedPapers(questions = [], currentPaper) {
   });
 
   return [...paperMap.values()]
-    .filter((paper) => paper.exam !== currentPaper.exam || paper.year !== currentPaper.year)
-    .sort((left, right) => right.year - left.year || left.exam.localeCompare(right.exam))
+    .filter(
+      (paper) =>
+        paper.exam !== currentPaper.exam ||
+        paper.year !== currentPaper.year ||
+        (paper.month || "") !== (currentPaper.month || "")
+    )
+    .sort(
+      (left, right) =>
+        right.year - left.year ||
+        left.exam.localeCompare(right.exam) ||
+        String(left.month || "").localeCompare(String(right.month || ""))
+    )
     .slice(0, 6);
 }
 
 function getPaperDisplayTitle(paper) {
   return paper.title || `${paper.exam} ${paper.year} ECE Previous Paper`;
+}
+
+function getPaperShortTitle(paper) {
+  return [paper.exam, paper.month, paper.year].filter(Boolean).join(" ");
 }
 
 function getPaperSolutionSlug(paper) {
@@ -725,7 +746,7 @@ export default function SolutionPage({
           </Link>
           <span aria-hidden="true">&gt;</span>
           <span className="font-extrabold text-slate-800">
-            {paper.exam} {paper.year}
+            {getPaperShortTitle(paper)}
           </span>
         </nav>
 
@@ -906,12 +927,16 @@ export default function SolutionPage({
               <div className="mt-4 grid gap-3">
                 {relatedPapers.map((item) => (
                   <Link
-                    key={`${item.exam}-${item.year}`}
-                    href={`/solution/${slugifyPaper(item.exam, item.year)}?exam=${encodeURIComponent(item.exam)}&year=${encodeURIComponent(item.year)}`}
+                    key={`${item.exam}-${item.year}-${item.month || ""}`}
+                    href={
+                      item.slug
+                        ? `/solution/${item.slug}`
+                        : `/solution/${slugifyPaper(item.exam, item.year)}?exam=${encodeURIComponent(item.exam)}&year=${encodeURIComponent(item.year)}`
+                    }
                     className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-portal-300 hover:bg-white"
                   >
                     <p className="font-extrabold text-slate-950">
-                      {item.exam} {item.year}
+                      {getPaperShortTitle(item)}
                     </p>
                     <p className="mt-1 text-sm text-slate-600">{item.count} questions</p>
                   </Link>
