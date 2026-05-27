@@ -3,9 +3,17 @@ import { useEffect, useMemo, useState } from "react";
 import CircuitDiagram from "../../components/CircuitDiagram";
 import EmptyState from "../../components/EmptyState";
 import Layout from "../../components/layout";
+import { getOfficialPaper } from "../../data/official-previous-papers";
 import { getPracticeSlug, practiceSections } from "../../data/practice-sections";
 import seedQuestions from "../../data/questions";
 import { fetchQuestions } from "../../lib/api-client";
+
+const belPracticePaper = getOfficialPaper({
+  slug: "bel-may-2025",
+  exam: "BEL",
+  year: 2025,
+  month: "May",
+});
 
 function buildTenQuestionSet(examQuestions, allQuestions) {
   const selected = [];
@@ -21,6 +29,32 @@ function buildTenQuestionSet(examQuestions, allQuestions) {
   });
 
   return selected;
+}
+
+function isBelMay2025Question(question) {
+  return (
+    question.year === 2025 &&
+    (question.exam || []).includes("BEL") &&
+    (question.month === "May" || String(question._id || "").startsWith("bel-may-2025-"))
+  );
+}
+
+function buildPracticeQuestions(section, sourceQuestions) {
+  if (section.exam === "BEL") {
+    const paperQuestions = sourceQuestions.filter(isBelMay2025Question);
+
+    return paperQuestions.length
+      ? paperQuestions
+      : buildTenQuestionSet(
+          seedQuestions.filter((question) => (question.exam || []).includes(section.exam)),
+          seedQuestions
+        );
+  }
+
+  return buildTenQuestionSet(
+    sourceQuestions.filter((question) => (question.exam || []).includes(section.exam)),
+    seedQuestions
+  );
 }
 
 function PracticeSkeleton() {
@@ -50,18 +84,19 @@ function PracticeSkeleton() {
 
 export default function PracticeExamPage({ section }) {
   const initialQuestions = useMemo(
-    () =>
-      buildTenQuestionSet(
-        seedQuestions.filter((question) => (question.exam || []).includes(section.exam)),
-        seedQuestions
-      ),
+    () => buildPracticeQuestions(section, seedQuestions),
     [section.exam]
   );
   const [questions, setQuestions] = useState(initialQuestions);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
-  const practiceQuestions = buildTenQuestionSet(questions, seedQuestions);
+  const isBelPractice = section.exam === "BEL";
+  const practicePaper = isBelPractice ? belPracticePaper : null;
+  const practiceQuestions = buildPracticeQuestions(section, questions);
+  const heroDescription = isBelPractice
+    ? "Practice the complete BEL Probationary Engineer (ECE) May 2025 paper with all solved objective questions."
+    : "Mixed MCQ questions from all available subjects.";
 
   useEffect(() => {
     let mounted = true;
@@ -73,14 +108,14 @@ export default function PracticeExamPage({ section }) {
 
       try {
         const data = await fetchQuestions(
-          { exam: section.exam },
+          isBelPractice
+            ? { exam: section.exam, year: String(practicePaper?.year || 2025) }
+            : { exam: section.exam },
           { signal: controller.signal }
         );
 
         if (mounted) {
-          const nextQuestions = data.length
-            ? buildTenQuestionSet(data, seedQuestions)
-            : initialQuestions;
+          const nextQuestions = data.length ? buildPracticeQuestions(section, data) : initialQuestions;
           setQuestions(nextQuestions);
           setSelectedAnswers({});
         }
@@ -102,7 +137,7 @@ export default function PracticeExamPage({ section }) {
       mounted = false;
       controller.abort();
     };
-  }, [initialQuestions, section.exam]);
+  }, [initialQuestions, isBelPractice, practicePaper?.year, section]);
 
   function handleAnswer(questionId, option) {
     setSelectedAnswers((current) => {
@@ -121,17 +156,41 @@ export default function PracticeExamPage({ section }) {
           <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">
             Home
           </Link>
-          <span className="text-slate-300" aria-hidden="true">/</span>
-          <Link href="/practice" className="font-medium text-portal-600 transition hover:text-portal-700">
-            Practice
-          </Link>
-          <span className="text-slate-300" aria-hidden="true">/</span>
-          <span className="font-medium text-slate-700">{section.label}</span>
+          <span className="text-slate-300" aria-hidden="true">
+            {isBelPractice ? ">" : "/"}
+          </span>
+          {isBelPractice ? (
+            <>
+              <Link
+                href="/previous-year"
+                className="font-medium text-portal-600 transition hover:text-portal-700"
+              >
+                Previous Papers
+              </Link>
+              <span className="text-slate-300" aria-hidden="true">&gt;</span>
+              <Link
+                href="/solution/bel-may-2025"
+                className="font-medium text-portal-600 transition hover:text-portal-700"
+              >
+                BEL May 2025
+              </Link>
+              <span className="text-slate-300" aria-hidden="true">/</span>
+              <span className="font-medium text-slate-700">{section.label}</span>
+            </>
+          ) : (
+            <>
+              <Link href="/practice" className="font-medium text-portal-600 transition hover:text-portal-700">
+                Practice
+              </Link>
+              <span className="text-slate-300" aria-hidden="true">/</span>
+              <span className="font-medium text-slate-700">{section.label}</span>
+            </>
+          )}
         </div>
 
         <section className="rounded-xl border border-portal-200 bg-white p-5 shadow-portal sm:p-6">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-portal-600">
-            {section.title}
+            {isBelPractice ? "BEL May 2025 Reference Practice" : section.title}
           </p>
           <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -139,8 +198,21 @@ export default function PracticeExamPage({ section }) {
                 {section.label}
               </h1>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-                Mixed MCQ questions from all available subjects.
+                {heroDescription}
               </p>
+              {isBelPractice ? (
+                <div className="mt-4 flex flex-wrap gap-2 text-xs font-bold text-slate-600">
+                  <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+                    {practicePaper?.title || "BEL Probationary Engineer (ECE) Paper - May 2025"}
+                  </span>
+                  <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+                    {practicePaper?.paperType || "Objective"}
+                  </span>
+                  <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+                    {practicePaper?.solvedCount || practiceQuestions.length} solved
+                  </span>
+                </div>
+              ) : null}
             </div>
             <span className="rounded-lg border border-portal-200 bg-portal-50 px-3 py-2 text-sm font-bold text-portal-700">
               {loading ? "Loading..." : `${practiceQuestions.length} questions`}

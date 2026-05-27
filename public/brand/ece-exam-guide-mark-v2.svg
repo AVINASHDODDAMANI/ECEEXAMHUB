@@ -1,28 +1,36 @@
-<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="brandOrangeV2" x1="56" y1="30" x2="95" y2="92" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FF8E0A"/>
-      <stop offset="1" stop-color="#FF5B00"/>
+    <linearGradient id="guideBlue" x1="43" y1="31" x2="219" y2="218" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1e6fb8"/>
+      <stop offset="1" stop-color="#0d4c8f"/>
+    </linearGradient>
+    <linearGradient id="guideOrange" x1="43" y1="94" x2="168" y2="185" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff8a1d"/>
+      <stop offset="1" stop-color="#ff6b00"/>
     </linearGradient>
   </defs>
 
-  <g transform="translate(55 64) scale(0.96) translate(-64 -64)">
-    <g transform="translate(-4 0)">
-      <path d="M31 40.5C31 37.5 33.5 35 36.5 35H55.5C57.2 35 58.5 36.3 58.5 38C58.5 39.7 57.2 41 55.5 41H39V55H52.5C54.2 55 55.5 56.3 55.5 58C55.5 59.7 54.2 61 52.5 61H39V75H55.5C57.2 75 58.5 76.3 58.5 78C58.5 79.7 57.2 81 55.5 81H36.5C33.5 81 31 78.5 31 75.5V40.5Z" fill="#0D2A66"/>
-    </g>
-    <g transform="translate(20 0)">
-      <path d="M76 47.4C72.7 43.7 67.9 41.4 62.6 41.4C52.7 41.4 44.6 49.8 44.6 60.1C44.6 70.4 52.7 78.7 62.6 78.7C67.9 78.7 72.8 76.4 76.1 72.6" stroke="url(#brandOrangeV2)" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </g>
-    <g transform="translate(38 0)">
-      <path d="M97.5 47.4C94.2 43.7 89.4 41.4 84.1 41.4C74.2 41.4 66.1 49.8 66.1 60.1C66.1 70.4 74.2 78.7 84.1 78.7C89.5 78.7 94.4 76.4 97.7 72.5" stroke="#0D2A66" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M97 60.1H87.4" stroke="#0D2A66" stroke-width="9.5" stroke-linecap="round"/>
-    </g>
-    <path d="M31.2 60.1H39.2L42.7 56.3L46 64.2L49.6 49.2L54.1 60.1H68.2L71.6 56.3L75 64.2L78.5 49.2L82.9 60.1H101.8L105.2 56.3L108.6 64.2L112.1 49.2L116.5 60.1H126.4" stroke="#FF3B30" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
-    <g transform="translate(92 20) scale(0.88)">
-      <path d="M0 9L14 3L28 9L14 15L0 9Z" fill="#0D2A66"/>
-      <path d="M8 12.2C11.7 14.7 16.3 14.7 20 12.2" stroke="#0D2A66" stroke-width="3.2" stroke-linecap="round"/>
-      <path d="M24 10.5V19.5" stroke="#0D2A66" stroke-width="2.1" stroke-linecap="round"/>
-      <path d="M24 19.6L26.4 22L24 24.4L21.6 22L24 19.6Z" fill="#FF6B00"/>
-    </g>
+  <rect width="256" height="256" rx="42" fill="white"/>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="M70 142H30" stroke="url(#guideOrange)" stroke-width="11"/>
+    <circle cx="24" cy="142" r="8.5" fill="white" stroke="url(#guideOrange)" stroke-width="8"/>
+
+    <path d="M79 177H54" stroke="url(#guideBlue)" stroke-width="10"/>
+    <circle cx="45" cy="177" r="8.5" fill="white" stroke="url(#guideBlue)" stroke-width="7"/>
+
+    <path d="M76 130V102L122 82V36" stroke="url(#guideBlue)" stroke-width="10"/>
+    <circle cx="122" cy="26" r="8.5" fill="white" stroke="url(#guideBlue)" stroke-width="7"/>
+
+    <path
+      d="M199 75C182.5 59.9 161.2 51.7 138.7 52C92.7 52.5 55.6 89.9 55.6 136C55.6 181.8 92.7 219 138.6 219C181.8 219 217.3 186.2 221.5 144.1"
+      stroke="url(#guideBlue)"
+      stroke-width="16"
+    />
+    <path
+      d="M173.5 91.6C163.9 84.2 152 80 139.2 80C108.4 80 83.5 105.1 83.5 136C83.5 166.9 108.4 192 139.2 192C159.1 192 176.5 181.6 186.4 166"
+      stroke="url(#guideOrange)"
+      stroke-width="14"
+    />
+    <path d="M144 143H220" stroke="url(#guideBlue)" stroke-width="17"/>
   </g>
 </svg>
