@@ -1,4 +1,5 @@
-import SubjectTheoryPage, { getSubjectTheoryProps } from "./subjects/[slug]";
+import SubjectTheoryPage from "./subjects/[slug]";
+import { getSubjectTheoryProps } from "../lib/subject-theory-props";
 
 export default SubjectTheoryPage;
 

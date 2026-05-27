@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const isDevelopment = process.env.NODE_ENV === "development";
+const devWatchIgnorePattern =
+  /(^|[\\/])(?:\.git|\.next|node_modules)(?:[\\/]|$)|(?:^|[\\/])next-dev(?:-\d+)?\.log$|(?:^|[\\/])next-dev(?:-\d+)?\.err\.log$|\.log$/;
 
 const cspDirectives = [
   "default-src 'self'",
@@ -7,7 +9,9 @@ const cspDirectives = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  "connect-src 'self'",
+  isDevelopment
+    ? "connect-src 'self' http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:*"
+    : "connect-src 'self'",
   "media-src 'self'",
   "object-src 'none'",
   "base-uri 'self'",
@@ -15,7 +19,7 @@ const cspDirectives = [
   "frame-ancestors 'none'",
   "manifest-src 'self'",
   "worker-src 'self' blob:",
-  "upgrade-insecure-requests",
+  !isDevelopment ? "upgrade-insecure-requests" : "",
 ].filter(Boolean);
 
 const securityHeaders = [
@@ -40,10 +44,14 @@ const securityHeaders = [
     value:
       "camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), accelerometer=(), gyroscope=(), magnetometer=()",
   },
-  {
-    key: "Strict-Transport-Security",
-    value: "max-age=63072000; includeSubDomains; preload",
-  },
+  ...(!isDevelopment
+    ? [
+        {
+          key: "Strict-Transport-Security",
+          value: "max-age=63072000; includeSubDomains; preload",
+        },
+      ]
+    : []),
   {
     key: "Cross-Origin-Opener-Policy",
     value: "same-origin",
@@ -65,6 +73,16 @@ const securityHeaders = [
 const nextConfig = {
   compress: true,
   poweredByHeader: false,
+  webpack(config, { dev }) {
+    if (dev) {
+      config.watchOptions = {
+        ...(config.watchOptions || {}),
+        ignored: devWatchIgnorePattern,
+      };
+    }
+
+    return config;
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 30,

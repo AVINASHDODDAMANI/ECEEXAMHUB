@@ -22,6 +22,7 @@ import {
   getLearningXp,
 } from "../../lib/learning-utils";
 import { useLearningProgress } from "../../lib/use-learning-progress";
+import { getSubjectTheoryProps } from "../../lib/subject-theory-props";
 import {
   buildSubjectFaqs,
   generateCanonical,
@@ -17477,39 +17478,6 @@ export function getStaticPaths() {
       params: { slug: getSubjectSlug(subject.title) },
     })),
     fallback: false,
-  };
-}
-
-export function getSubjectTheoryProps(subjectSlug, extraProps = {}) {
-  const subject = subjectDirectory.find(
-    (item) => getSubjectSlug(item.title) === subjectSlug
-  );
-  const learningSubjectSlug = SUBJECT_TO_LEARNING_SLUG[subject.title] || "";
-  const learningSubject = learningSubjectSlug ? getLearningSubject(learningSubjectSlug) : null;
-  const learningTopics = learningSubject
-    ? learningSubject.chapters.flatMap((chapter) =>
-        chapter.topics.map((topic) => ({
-          ...topic,
-          href: getSubjectContextTopicHref(subject.title, topic),
-        }))
-      )
-    : [];
-  const readyTopics = learningTopics.filter((topic) => topic.status === "ready");
-
-  return {
-    props: {
-      subject,
-      steps: subjectTheoryRoadmaps[subject.title] || [],
-      learningMeta: {
-        learningSubjectSlug,
-        totalTopics: learningTopics.length,
-        readyTopics: readyTopics.length,
-        continueHref: readyTopics[0]?.href || subject.href,
-        learningTopics: readyTopics,
-      },
-      ...extraProps,
-    },
-    revalidate: 86400,
   };
 }
 
