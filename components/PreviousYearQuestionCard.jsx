@@ -2,21 +2,55 @@ import { useState } from "react";
 import CircuitDiagram from "./CircuitDiagram";
 import { formatQuestionTag, hasQuestionTag } from "../lib/question-utils";
 
+function getCorrectAnswers(question = {}) {
+  return Array.isArray(question.correctAnswers) && question.correctAnswers.length
+    ? question.correctAnswers
+    : question.correctAnswer
+      ? [question.correctAnswer]
+      : [];
+}
+
+function sameAnswerSet(left = [], right = []) {
+  return (
+    left.length === right.length &&
+    left.every((answer) => right.includes(answer))
+  );
+}
+
 export default function PreviousYearQuestionCard({
   question,
   showTopicMeta = true,
 }) {
   const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
 
   const isImportant = hasQuestionTag(question, "important");
   const isRepeated = hasQuestionTag(question, "repeated");
-  const hasAnswerKey = Boolean(question.correctAnswer);
-  const isCorrect = hasAnswerKey && submitted && selectedOption === question.correctAnswer;
+  const correctAnswers = getCorrectAnswers(question);
+  const isMultiAnswer = correctAnswers.length > 1 || question.questionType === "MSQ";
+  const hasAnswerKey = correctAnswers.length > 0;
+  const submittedAnswers = isMultiAnswer ? selectedOptions : [selectedOption].filter(Boolean);
+  const selectedAnswerText = submittedAnswers.join(", ");
+  const isCorrect =
+    hasAnswerKey &&
+    submitted &&
+    (isMultiAnswer
+      ? sameAnswerSet(submittedAnswers, correctAnswers)
+      : selectedOption === correctAnswers[0]);
 
   function handleOptionSelect(option) {
     if (submitted) return;
+    if (isMultiAnswer) {
+      setSelectedOptions((current) =>
+        current.includes(option)
+          ? current.filter((item) => item !== option)
+          : [...current, option]
+      );
+      return;
+    }
+
     setSelectedOption(option);
     setSubmitted(true);
   }
@@ -59,15 +93,17 @@ export default function PreviousYearQuestionCard({
         <CircuitDiagram question={question} />
       </div>
       <p className="mt-1 text-sm leading-6 text-slate-500">
-        Select an option to check your answer.
+        {isMultiAnswer ? "Select all correct options, then submit." : "Select an option to check your answer."}
       </p>
 
       <div className="mt-3 grid gap-2 md:grid-cols-2">
         {(question.options || []).map((option, index) => {
-          const isSelected = selectedOption === option;
-          const showCorrect = hasAnswerKey && submitted && option === question.correctAnswer;
+          const isSelected = isMultiAnswer
+            ? selectedOptions.includes(option)
+            : selectedOption === option;
+          const showCorrect = hasAnswerKey && submitted && correctAnswers.includes(option);
           const showIncorrect =
-            hasAnswerKey && submitted && isSelected && option !== question.correctAnswer;
+            hasAnswerKey && submitted && isSelected && !correctAnswers.includes(option);
 
           return (
             <button
@@ -91,6 +127,17 @@ export default function PreviousYearQuestionCard({
           );
         })}
       </div>
+
+      {isMultiAnswer && !submitted ? (
+        <button
+          type="button"
+          onClick={() => setSubmitted(true)}
+          disabled={!selectedOptions.length}
+          className="mt-3 rounded-lg border border-slatebrand-300 bg-white px-3 py-2 text-sm font-medium text-slatebrand-700 transition hover:bg-slatebrand-50 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          Submit Answer
+        </button>
+      ) : null}
 
       {(question.tags || []).length ? (
         <div className="mt-3 flex flex-wrap gap-2">
@@ -120,7 +167,7 @@ export default function PreviousYearQuestionCard({
               {isCorrect ? "Correct answer" : "Wrong answer"}
             </p>
             <p className="mt-2 text-sm font-medium text-slate-900">
-              Your answer: {selectedOption}
+              Your answer: {selectedAnswerText}
             </p>
             {!isCorrect ? (
               <p className="mt-2 text-sm font-medium text-slate-700">

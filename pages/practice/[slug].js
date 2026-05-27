@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/router";
 import CircuitDiagram from "../../components/CircuitDiagram";
 import EmptyState from "../../components/EmptyState";
 import Layout from "../../components/layout";
@@ -44,7 +45,7 @@ function buildPracticeQuestions(section, sourceQuestions) {
     const paperQuestions = sourceQuestions.filter(isBelMay2025Question);
 
     return paperQuestions.length
-      ? paperQuestions
+      ? buildTenQuestionSet(paperQuestions, seedQuestions)
       : buildTenQuestionSet(
           seedQuestions.filter((question) => (question.exam || []).includes(section.exam)),
           seedQuestions
@@ -83,6 +84,7 @@ function PracticeSkeleton() {
 }
 
 export default function PracticeExamPage({ section }) {
+  const router = useRouter();
   const initialQuestions = useMemo(
     () => buildPracticeQuestions(section, seedQuestions),
     [section.exam]
@@ -92,10 +94,16 @@ export default function PracticeExamPage({ section }) {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
   const isBelPractice = section.exam === "BEL";
+  const isMockMode = router.query.mode === "mock";
   const practicePaper = isBelPractice ? belPracticePaper : null;
   const practiceQuestions = buildPracticeQuestions(section, questions);
+  const pageLabel = isMockMode ? `${section.exam} Mock Test` : section.label;
   const heroDescription = isBelPractice
-    ? "Practice the complete BEL Probationary Engineer (ECE) May 2025 paper with all solved objective questions."
+    ? isMockMode
+      ? "Attempt a focused BEL May 2025-style mock with the same previous-paper context and solved objective format."
+      : "Practice a focused BEL May 2025-style set with the same previous-paper context and solved objective format."
+    : isMockMode
+      ? "Attempt a timed mock-style question set from the available exam practice bank."
     : "Mixed MCQ questions from all available subjects.";
 
   useEffect(() => {
@@ -150,16 +158,27 @@ export default function PracticeExamPage({ section }) {
   }
 
   return (
-    <Layout title={`ECEExamHub | ${section.label}`}>
+    <Layout title={`ECEExamHub | ${pageLabel}`}>
       <div className="mx-auto max-w-[1100px]">
         <div className="mb-5 flex items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500">
           <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">
             Home
           </Link>
           <span className="text-slate-300" aria-hidden="true">
-            {isBelPractice ? ">" : "/"}
+            {isBelPractice && !isMockMode ? ">" : "/"}
           </span>
-          {isBelPractice ? (
+          {isMockMode ? (
+            <>
+              <Link
+                href="/mock-tests"
+                className="font-medium text-portal-600 transition hover:text-portal-700"
+              >
+                Mock Tests
+              </Link>
+              <span className="text-slate-300" aria-hidden="true">/</span>
+              <span className="font-medium text-slate-700">{pageLabel}</span>
+            </>
+          ) : isBelPractice ? (
             <>
               <Link
                 href="/previous-year"
@@ -175,7 +194,7 @@ export default function PracticeExamPage({ section }) {
                 BEL May 2025
               </Link>
               <span className="text-slate-300" aria-hidden="true">/</span>
-              <span className="font-medium text-slate-700">{section.label}</span>
+              <span className="font-medium text-slate-700">{pageLabel}</span>
             </>
           ) : (
             <>
@@ -183,19 +202,23 @@ export default function PracticeExamPage({ section }) {
                 Practice
               </Link>
               <span className="text-slate-300" aria-hidden="true">/</span>
-              <span className="font-medium text-slate-700">{section.label}</span>
+              <span className="font-medium text-slate-700">{pageLabel}</span>
             </>
           )}
         </div>
 
         <section className="rounded-xl border border-portal-200 bg-white p-5 shadow-portal sm:p-6">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-portal-600">
-            {isBelPractice ? "BEL May 2025 Reference Practice" : section.title}
+            {isMockMode
+              ? "Mock Test Session"
+              : isBelPractice
+                ? "BEL May 2025 Reference Practice"
+                : section.title}
           </p>
           <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-                {section.label}
+                {pageLabel}
               </h1>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
                 {heroDescription}
@@ -209,7 +232,7 @@ export default function PracticeExamPage({ section }) {
                     {practicePaper?.paperType || "Objective"}
                   </span>
                   <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
-                    {practicePaper?.solvedCount || practiceQuestions.length} solved
+                    {practiceQuestions.length}-question practice structure
                   </span>
                 </div>
               ) : null}

@@ -251,6 +251,21 @@ function buildQuestionSectionTabs(questions = [], exam = "") {
     .filter((tab) => tab.firstIndex >= 0);
 }
 
+function getCorrectAnswers(question = {}) {
+  return Array.isArray(question.correctAnswers) && question.correctAnswers.length
+    ? question.correctAnswers
+    : question.correctAnswer
+      ? [question.correctAnswer]
+      : [];
+}
+
+function sameAnswerSet(left = [], right = []) {
+  return (
+    left.length === right.length &&
+    left.every((answer) => right.includes(answer))
+  );
+}
+
 function OfficialQuestionPreview({ questions = [], exam = "" }) {
   const questionStripRef = useRef(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -265,10 +280,20 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
   const section = currentQuestion.subject || "ECE";
   const questionKey = currentQuestion._id || currentQuestionIndex;
   const selectedAnswer = selectedAnswers[questionKey];
+  const correctAnswers = getCorrectAnswers(currentQuestion);
+  const isMultiAnswer = correctAnswers.length > 1 || currentQuestion.questionType === "MSQ";
+  const selectedAnswerList = Array.isArray(selectedAnswer)
+    ? selectedAnswer
+    : selectedAnswer
+      ? [selectedAnswer]
+      : [];
+  const selectedAnswerText = selectedAnswerList.join(", ");
   const isAnswerRevealed = revealedAnswers[questionKey];
-  const hasSelectedAnswer = Boolean(selectedAnswer);
-  const hasAnswerKey = Boolean(currentQuestion.correctAnswer);
-  const selectedAnswerIsCorrect = selectedAnswer === currentQuestion.correctAnswer;
+  const hasSelectedAnswer = selectedAnswerList.length > 0;
+  const hasAnswerKey = correctAnswers.length > 0;
+  const selectedAnswerIsCorrect = isMultiAnswer
+    ? sameAnswerSet(selectedAnswerList, correctAnswers)
+    : selectedAnswer === correctAnswers[0];
   const sectionQuestionNumber = getPreviewQuestionNumber(questions, currentQuestionIndex);
   const canGoPrevious = currentQuestionIndex > 0;
   const canGoNext = currentQuestionIndex < questions.length - 1;
@@ -286,7 +311,11 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
   function selectAnswer(questionKey, option) {
     setSelectedAnswers((current) => ({
       ...current,
-      [questionKey]: option,
+      [questionKey]: isMultiAnswer
+        ? (Array.isArray(current[questionKey]) ? current[questionKey] : []).includes(option)
+          ? current[questionKey].filter((item) => item !== option)
+          : [...(Array.isArray(current[questionKey]) ? current[questionKey] : []), option]
+        : option,
     }));
   }
 
@@ -430,8 +459,8 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
 
           <div className="mt-4 grid gap-2">
             {(currentQuestion.options || []).map((option, optionIndex) => {
-                const isSelected = selectedAnswer === option;
-                const isCorrectOption = option === currentQuestion.correctAnswer;
+                const isSelected = selectedAnswerList.includes(option);
+                const isCorrectOption = correctAnswers.includes(option);
                 const showCorrectOption = hasAnswerKey && hasSelectedAnswer && isCorrectOption;
                 const showWrongOption =
                   hasAnswerKey && hasSelectedAnswer && isSelected && !isCorrectOption;
@@ -493,7 +522,9 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
               </p>
             ) : selectedAnswer ? (
               <p className={`text-sm font-semibold ${selectedAnswerIsCorrect ? "text-emerald-700" : "text-rose-700"}`}>
-                {selectedAnswerIsCorrect ? "Correct answer selected." : "Wrong answer selected. Correct option is highlighted."}
+                {selectedAnswerIsCorrect
+                  ? "Correct answer selected."
+                  : `Selected: ${selectedAnswerText}. Correct option is highlighted.`}
               </p>
             ) : (
               <p className="min-w-0 break-words text-sm text-slate-500">

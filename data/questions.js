@@ -1,5 +1,6 @@
 import belDecember2023RemainingQuestions from "./bel-december-2023-remaining-questions";
 import belDecember2025Questions from "./bel-december-2025-questions";
+import gate2025Questions from "./gate-2025-questions";
 
 const questions = [
   {
@@ -4232,6 +4233,7 @@ const questions = [
     chosenOption: "-",
     diagram: "",
   },
+  ...gate2025Questions,
   ...belDecember2025Questions,
   ...belDecember2023RemainingQuestions,
 ];

@@ -201,7 +201,7 @@ function buildYearRange(startYear, endYear) {
 }
 
 const previousPaperYearCatalog = [
-  { exam: "GATE", years: buildYearRange(2024, 2014) },
+  { exam: "GATE", years: buildYearRange(2025, 2014) },
   { exam: "ISRO", years: buildYearRange(2024, 2014) },
   { exam: "BEL", years: buildYearRange(2025, 2014).filter((year) => year !== 2024) },
   { exam: "BARC", years: buildYearRange(2024, 2014) },

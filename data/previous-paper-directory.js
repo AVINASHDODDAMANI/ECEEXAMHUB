@@ -3,7 +3,7 @@ export const previousPaperDirectory = [
     id: 1,
     title: "GATE ECE",
     href: "/previous-year?exam=GATE",
-    meta: "2014 - 2024 Papers",
+    meta: "2014 - 2025 Papers",
     description: "PYQs, cutoffs, important topics, and solution-linked paper practice.",
     icon: "gate",
     accent: {
