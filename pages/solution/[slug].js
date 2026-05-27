@@ -803,15 +803,6 @@ export default function SolutionPage({
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_62%_28%,rgba(96,165,250,0.42),transparent_16%),linear-gradient(135deg,transparent_0%,rgba(255,255,255,0.06)_100%)]" />
               </div>
               <div className="relative z-10 flex h-full flex-col items-center justify-center gap-2.5">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[radial-gradient(circle,_rgba(76,129,255,0.96),_rgba(29,78,216,0.94))] shadow-[0_10px_20px_rgba(15,23,42,0.34)] ring-1 ring-white/10 sm:h-20 sm:w-20 lg:h-22 lg:w-22">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-[14px] border border-white/15 bg-white/10 backdrop-blur-sm sm:h-12 sm:w-12 lg:h-14 lg:w-14 lg:rounded-[18px]">
-                    <svg viewBox="0 0 120 120" className="h-7 w-7 text-white sm:h-8 sm:w-8 lg:h-9 lg:w-9" aria-hidden="true">
-                      <rect x="35" y="35" width="50" height="50" rx="8" fill="none" stroke="currentColor" strokeWidth="6" />
-                      <path d="M23 45h12M23 60h12M23 75h12M85 23v12M60 23v12M35 23v12M98 45H86M98 60H86M98 75H86M35 98V86M60 98V86M85 98V86" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                </div>
-
                 <div className="w-full rounded-[14px] border border-white/12 bg-white/8 p-2 backdrop-blur-sm sm:p-2.5">
                   <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-sky-100/90 sm:text-[11px] sm:tracking-[0.16em]">
                     Paper Info

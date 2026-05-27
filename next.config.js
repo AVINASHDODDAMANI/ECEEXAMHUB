@@ -136,6 +136,17 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "www.eceexamguide.com",
+          },
+        ],
+        destination: "https://eceexamguide.com/:path*",
+        permanent: true,
+      },
+      {
         source: "/learn/networks/network-theorems-topic",
         destination: "/network-theorems",
         permanent: true,

@@ -1,4 +1,6 @@
-import { getIndexableRoutes, generateCanonical } from "../lib/seo";
+import { getIndexableRoutes } from "../lib/seo";
+
+const SITEMAP_SITE_URL = "https://eceexamguide.com";
 
 function escapeXml(value = "") {
   return String(value)
@@ -7,6 +9,28 @@ function escapeXml(value = "") {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
+}
+
+function buildSitemapUrl(path = "/") {
+  const rawPath = String(path || "/").trim();
+  let sitemapPath = rawPath.split("#")[0].split("?")[0] || "/";
+
+  if (/^https?:\/\//i.test(sitemapPath)) {
+    try {
+      sitemapPath = new URL(sitemapPath).pathname || "/";
+    } catch {
+      sitemapPath = "/";
+    }
+  }
+
+  const pathWithLeadingSlash = sitemapPath.startsWith("/")
+    ? sitemapPath
+    : `/${sitemapPath}`;
+  const normalizedPath = pathWithLeadingSlash === "/"
+    ? "/"
+    : pathWithLeadingSlash.replace(/\/+$/, "");
+
+  return `${SITEMAP_SITE_URL}${normalizedPath}`;
 }
 
 function buildSitemapXml() {
@@ -21,7 +45,7 @@ function buildSitemapXml() {
     .map(
       (route) => `
   <url>
-    <loc>${escapeXml(generateCanonical(route.path))}</loc>
+    <loc>${escapeXml(buildSitemapUrl(route.path))}</loc>
     <lastmod>${route.lastModified.toISOString()}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority.toFixed(1)}</priority>

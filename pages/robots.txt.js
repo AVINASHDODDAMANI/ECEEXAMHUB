@@ -1,4 +1,4 @@
-import { SITE_URL } from "../lib/seo";
+const ROBOTS_SITE_URL = "https://eceexamguide.com";
 
 function buildRobotsTxt() {
   return `User-agent: *
@@ -17,7 +17,7 @@ Disallow: /admin
 Disallow: /api
 Disallow: /search
 
-Sitemap: ${SITE_URL}/sitemap.xml`;
+Sitemap: ${ROBOTS_SITE_URL}/sitemap.xml`;
 }
 
 export async function getServerSideProps({ res }) {

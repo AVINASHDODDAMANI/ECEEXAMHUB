@@ -3,13 +3,13 @@
 ## Google Search Console
 
 1. Open Google Search Console: https://search.google.com/search-console
-2. Add the production property for `https://eceexamguide.vercel.app`.
+2. Add the production property for `https://eceexamguide.com`.
 3. Choose the HTML meta tag verification method.
 4. Copy only the token from the meta tag content value.
 5. Set `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` in Vercel project environment variables.
 6. Redeploy the site.
 7. Click Verify in Search Console.
-8. Submit the sitemap URL: `https://eceexamguide.vercel.app/sitemap.xml`.
+8. Submit the sitemap URL: `https://eceexamguide.com/sitemap.xml`.
 
 The app already emits:
 
@@ -21,7 +21,7 @@ The app already emits:
 
 Check the deployed site here:
 
-https://transparencyreport.google.com/safe-browsing/search?url=https:%2F%2Feceexamguide.vercel.app
+https://transparencyreport.google.com/safe-browsing/search?url=https:%2F%2Feceexamguide.com
 
 Use this after deployment and after any security-sensitive change, especially uploads,
 third-party scripts, redirects, or generated HTML/SVG rendering.

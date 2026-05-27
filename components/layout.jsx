@@ -110,7 +110,7 @@ export default function Layout({
     try {
       return new URL(SITE_URL).hostname;
     } catch {
-      return "eceexamguide.vercel.app";
+      return "eceexamguide.com";
     }
   })();
 
@@ -162,6 +162,7 @@ export default function Layout({
         />
         <link rel="icon" href="/favicon.ico" sizes="any" key="favicon" />
         <link rel="icon" href="/brand/ece-exam-guide-mark-v2.svg" type="image/svg+xml" key="favicon-svg" />
+        <link rel="icon" href="/favicon-48x48.png" type="image/png" sizes="48x48" key="favicon-48" />
         <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" key="favicon-32" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" key="apple-touch-icon" />
         <link rel="canonical" href={resolvedCanonicalUrl} key="canonical" />
