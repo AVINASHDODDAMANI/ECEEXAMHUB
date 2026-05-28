@@ -50,6 +50,8 @@ export default function Navbar({
   const [searchQuestions, setSearchQuestions] = useState([]);
   const [searchRuntime, setSearchRuntime] = useState(null);
   const [isSearchBooting, setIsSearchBooting] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const desktopSearchRef = useRef(null);
   const mobileSearchRef = useRef(null);
   const isMountedRef = useRef(true);
@@ -209,7 +211,45 @@ export default function Navbar({
 
   useEffect(() => {
     setIsSearchOpen(false);
+    setIsMobileMenuOpen(false);
   }, [router.asPath]);
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    async function loadAuthUser() {
+      try {
+        const response = await fetch("/api/auth/me", { credentials: "same-origin" });
+        const data = await response.json();
+
+        if (!isCancelled) {
+          setAuthUser(data.user || null);
+        }
+      } catch {
+        if (!isCancelled) {
+          setAuthUser(null);
+        }
+      }
+    }
+
+    loadAuthUser();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [router.asPath]);
+
+  async function handleLogout() {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "same-origin",
+      });
+    } finally {
+      setAuthUser(null);
+      router.push("/");
+    }
+  }
 
   function handleSearchChange(value) {
     const safeValue = String(value || "")
@@ -403,24 +443,136 @@ export default function Navbar({
               </div>
             ) : null}
           </div>
-          <Link
-            href="/learn"
-            className="inline-flex h-11 items-center justify-center rounded-md bg-[#061b4f] px-7 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#0b2a70]"
-          >
-            Login
-          </Link>
-          <Link
-            href="/contact"
-            className="inline-flex h-11 items-center justify-center rounded-md bg-[#ff7417] px-7 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#e96009]"
-          >
-            Sign Up
-          </Link>
+          {authUser ? (
+            <>
+              <Link
+                href="/learn"
+                className="inline-flex h-11 max-w-[190px] items-center justify-center truncate rounded-md bg-[#061b4f] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#0b2a70]"
+              >
+                {authUser.name || authUser.email || authUser.phone || "Account"}
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="inline-flex h-11 items-center justify-center rounded-md border border-slate-200 px-5 text-sm font-extrabold text-[#071d49] shadow-sm transition hover:border-[#ff7417] hover:text-[#ff7417]"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="inline-flex h-11 items-center justify-center rounded-md bg-[#061b4f] px-7 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#0b2a70]"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className="inline-flex h-11 items-center justify-center rounded-md bg-[#ff7417] px-7 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#e96009]"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
 
         <div ref={mobileSearchRef} className="relative min-w-0 flex-1 lg:hidden">
           {searchBox}
         </div>
+
+        <button
+          type="button"
+          onClick={() => setIsMobileMenuOpen((value) => !value)}
+          className="flex h-11 w-11 flex-none items-center justify-center rounded-lg border border-slate-200 bg-white text-[#071d49] shadow-sm transition hover:border-[#ff7417] hover:text-[#ff7417] lg:hidden"
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-main-nav"
+        >
+          <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            {isMobileMenuOpen ? (
+              <path
+                d="M6 6l12 12M18 6 6 18"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+              />
+            ) : (
+              <path
+                d="M4 7h16M4 12h16M4 17h16"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+              />
+            )}
+          </svg>
+        </button>
       </div>
+
+      {isMobileMenuOpen ? (
+        <div
+          id="mobile-main-nav"
+          className="border-t border-slate-200 bg-white px-3 py-3 shadow-[0_18px_45px_rgba(15,23,42,0.12)] lg:hidden"
+        >
+          <nav className="grid gap-1">
+            {navItems.map((item) => {
+              const isActive = isTopNavActive(router.pathname, item.href);
+
+              return (
+                <Link
+                  key={`mobile-menu-${item.href}`}
+                  href={item.href}
+                  className={`flex min-h-11 items-center justify-between rounded-lg px-3 py-2 text-sm font-extrabold transition ${
+                    isActive ? "bg-orange-50 text-[#ff7417]" : "text-[#071d49] hover:bg-slate-50"
+                  }`}
+                >
+                  <span>{item.mobileLabel || item.label}</span>
+                  {item.hasMenu ? (
+                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="m7 5 5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  ) : null}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="mt-3 grid grid-cols-2 gap-2 border-t border-slate-100 pt-3">
+            {authUser ? (
+              <>
+                <Link
+                  href="/learn"
+                  className="flex h-11 min-w-0 items-center justify-center truncate rounded-md bg-[#061b4f] px-3 text-sm font-extrabold text-white"
+                >
+                  {authUser.name || "Account"}
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="h-11 rounded-md border border-slate-200 px-3 text-sm font-extrabold text-[#071d49]"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="flex h-11 items-center justify-center rounded-md bg-[#061b4f] px-3 text-sm font-extrabold text-white"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  className="flex h-11 items-center justify-center rounded-md bg-[#ff7417] px-3 text-sm font-extrabold text-white"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      ) : null}
 
       <nav className="grid grid-cols-4 gap-1 border-t border-slate-100 px-2 py-1.5 lg:hidden">
         {navItems.slice(0, 4).map((item) => {

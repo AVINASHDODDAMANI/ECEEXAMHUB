@@ -318,22 +318,22 @@ export default function Home() {
           aria-hidden="true"
           className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(44,121,210,0.25)_1px,transparent_1px),linear-gradient(90deg,rgba(44,121,210,0.22)_1px,transparent_1px)] [background-size:72px_72px]"
         />
-        <div className="relative mx-auto grid max-w-[1320px] gap-8 px-5 py-12 sm:px-8 lg:grid-cols-[minmax(0,1fr)_520px] lg:items-center lg:py-16">
+        <div className="relative mx-auto grid max-w-[1320px] gap-8 px-4 py-8 sm:px-8 sm:py-12 lg:grid-cols-[minmax(0,1fr)_520px] lg:items-center lg:py-16">
           <div>
-            <h1 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-normal text-white sm:text-5xl lg:text-[3.8rem]">
+            <h1 className="max-w-3xl text-[2.35rem] font-extrabold leading-[1.08] tracking-normal text-white min-[380px]:text-[2.75rem] sm:text-5xl lg:text-[3.8rem]">
               ECE Exam Guide
               <span className="block text-[#ff7a1a]">for ECE Exam Success</span>
             </h1>
-            <p className="mt-5 max-w-2xl text-lg font-medium leading-8 text-white/90">
+            <p className="mt-4 max-w-2xl text-base font-medium leading-7 !text-white/90 sm:mt-5 sm:text-lg sm:leading-8">
               Find high-quality quick notes, PYQ papers, study materials and resources designed
               to help ECE students excel in their exams.
             </p>
 
-            <form onSubmit={handleHomeSearch} className="mt-7 flex max-w-[590px] overflow-hidden rounded-lg border border-white/20 bg-white p-1.5 shadow-[0_18px_45px_rgba(0,0,0,0.25)]">
+            <form onSubmit={handleHomeSearch} className="mt-6 grid max-w-[590px] grid-cols-[2.75rem_minmax(0,1fr)] gap-1.5 overflow-hidden rounded-lg border border-white/20 bg-white p-1.5 shadow-[0_18px_45px_rgba(0,0,0,0.25)] sm:mt-7 sm:flex sm:gap-0">
               <label htmlFor="home-search" className="sr-only">
                 Search quick notes, subjects, PYQ papers
               </label>
-              <span className="flex w-12 items-center justify-center text-[#061f45]">
+              <span className="flex h-12 w-11 items-center justify-center text-[#061f45] sm:w-12">
                 <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                   <path d="M14.167 14.167 17.5 17.5M15.833 9.167A6.667 6.667 0 1 1 2.5 9.167a6.667 6.667 0 0 1 13.333 0Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                 </svg>
@@ -347,25 +347,25 @@ export default function Home() {
                 placeholder="Search quick notes, subjects, PYQ papers, concepts, numericals..."
                 className="min-w-0 flex-1 border-0 bg-transparent px-1 text-sm font-semibold text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0"
               />
-              <button className="rounded-md bg-[#ff7417] px-7 py-3 text-sm font-extrabold text-white transition hover:bg-[#e96009]">
+              <button className="col-span-2 h-12 rounded-md bg-[#ff7417] px-5 text-sm font-extrabold text-white transition hover:bg-[#e96009] sm:col-auto sm:px-7 sm:py-3">
                 Search
               </button>
             </form>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-7 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-4 lg:grid-cols-4">
               {stats.map(([value, label, icon], index) => (
                 <div
                   key={label}
-                  className={`flex items-center gap-4 ${index ? "lg:border-l lg:border-white/25 lg:pl-5" : ""}`}
+                  className={`flex min-h-[92px] items-center gap-3 rounded-lg border border-white/15 bg-white/5 p-3 sm:gap-4 sm:bg-transparent sm:p-0 ${index ? "lg:border-l lg:border-white/25 lg:pl-5" : ""}`}
                 >
-                  <span className="flex h-12 w-12 flex-none items-center justify-center rounded-full border border-[#ff7417] text-[#ff7417]">
-                    <LineIcon type={icon} className="h-6 w-6" />
+                  <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full border border-[#ff7417] text-[#ff7417] sm:h-12 sm:w-12">
+                    <LineIcon type={icon} className="h-5 w-5 sm:h-6 sm:w-6" />
                   </span>
-                  <span>
-                    <span className="block text-xl font-extrabold leading-tight text-white">
+                  <span className="min-w-0">
+                    <span className="block text-base font-extrabold leading-tight text-white sm:text-xl">
                       {value}
                     </span>
-                    <span className="mt-1 block text-xs font-semibold text-white/85">{label}</span>
+                    <span className="mt-1 block text-[11px] font-semibold leading-4 !text-white/85 sm:text-xs">{label}</span>
                   </span>
                 </div>
               ))}
