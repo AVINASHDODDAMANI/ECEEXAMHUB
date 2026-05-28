@@ -45,14 +45,16 @@ const groupAccent = {
 };
 
 const groupLabel = {
+  Subjects: "Notes",
   Concepts: "Theory",
+  Notes: "Quick Notes",
 };
 
 const groupTone = {
   Chapters: "CH",
   Topics: "TOP",
   Subtopics: "SUB",
-  Subjects: "SUBJ",
+  Subjects: "NOTE",
   Concepts: "LEARN",
   Formulas: "FX",
   Papers: "PAPER",
@@ -60,7 +62,7 @@ const groupTone = {
   MCQs: "MCQ",
   PYQs: "PYQ",
   Practice: "TEST",
-  Notes: "NOTE",
+  Notes: "QNOTE",
 };
 
 export default function SmartSearchDropdown({

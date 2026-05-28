@@ -96,9 +96,9 @@ export default function AntennaWavePropagationTopicPage({ topic }) {
       {
         "@context": "https://schema.org",
         "@type": "LearningResource",
-        name: `${topic.shortTitle} Antenna and Wave Propagation Notes`,
+        name: `${topic.shortTitle} Antenna and Wave Propagation Quick Notes`,
         description: topic.metaDescription,
-        learningResourceType: "Theory Notes",
+        learningResourceType: "Theory Quick Notes",
         educationalLevel: "Undergraduate engineering",
         teaches: topic.shortTitle,
         keywords: seoKeywords,
@@ -117,7 +117,7 @@ export default function AntennaWavePropagationTopicPage({ topic }) {
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-          { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+          { "@type": "ListItem", position: 2, name: "Notes", item: `${SITE_URL}/subjects` },
           { "@type": "ListItem", position: 3, name: "Antenna & Wave Propagation", item: `${SITE_URL}/subjects/antenna-and-wave-propagation` },
           { "@type": "ListItem", position: 4, name: topic.shortTitle, item: `${SITE_URL}/learn/antenna-wave-propagation/${topic.slug}` },
         ],
@@ -140,7 +140,7 @@ export default function AntennaWavePropagationTopicPage({ topic }) {
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/antenna-and-wave-propagation" className="font-medium text-slate-600 transition hover:text-portal-700">Antenna & Wave Propagation</Link></li>
             <li className="text-slate-300">/</li>

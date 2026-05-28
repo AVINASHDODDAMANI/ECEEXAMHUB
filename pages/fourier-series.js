@@ -89,7 +89,7 @@ const structuredData = [
     name: "Fourier Series in Signals and Systems",
     description:
       "Conceptual ECE theory notes on Fourier series, harmonic representation, trigonometric and exponential forms, coefficients, spectra, examples, FAQs, and GATE preparation.",
-    learningResourceType: "Theory Notes",
+    learningResourceType: "Theory Quick Notes",
     educationalLevel: "Undergraduate engineering",
     teaches: [
       "Periodic signal representation",
@@ -187,8 +187,8 @@ function SpectrumSketch() {
 export default function FourierSeriesPage() {
   return (
     <Layout
-      title="Fourier Series GATE ECE Notes + Formulas + PYQs | Signals"
-      description="Learn Fourier Series with deep intuition, trigonometric and exponential forms, coefficient derivation, harmonic spectrum, solved examples, FAQs, GATE notes, and interview questions."
+      title="Fourier Series GATE ECE Quick Notes + Formulas + PYQs | Signals"
+      description="Learn Fourier Series with deep intuition, trigonometric and exponential forms, coefficient derivation, harmonic spectrum, solved examples, FAQs, GATE quick notes, and interview questions."
       keywords="Fourier series signals and systems, trigonometric Fourier series, exponential Fourier series, Fourier coefficients, harmonic spectrum, GATE ECE"
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
@@ -198,7 +198,7 @@ export default function FourierSeriesPage() {
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/signals-and-systems" className="font-medium text-slate-600 transition hover:text-portal-700">Signals and Systems</Link></li>
             <li className="text-slate-300">/</li>
@@ -387,7 +387,7 @@ export default function FourierSeriesPage() {
             <BulletList items={["What is the physical meaning of Fourier series?", "Why does a periodic signal have a discrete spectrum?", "What are harmonics?", "How does symmetry simplify Fourier series?", "Why are sinusoids useful for LTI system analysis?", "What is the difference between trigonometric and exponential Fourier series?"]} />
           </TopicSection>
 
-          <TopicSection id="exam-notes" title="Exam-Oriented Notes">
+          <TopicSection id="exam-notes" title="Exam-Oriented Quick Notes">
             <BulletList items={["Check periodicity and period before writing formulas.", "Use even symmetry to set sine coefficients to zero.", "Use odd symmetry to set cosine and DC coefficients to zero.", "Half-wave symmetry removes even harmonics in many standard waveforms.", "Line spacing in spectrum is equal to fundamental frequency \(f_0\)."]} />
           </TopicSection>
 

@@ -123,9 +123,9 @@ export default function CommunicationSystemTopicPage({ topic }) {
       {
         "@context": "https://schema.org",
         "@type": "LearningResource",
-        name: `${topic.shortTitle} Communication Systems Notes`,
+        name: `${topic.shortTitle} Communication Systems Quick Notes`,
         description: topic.metaDescription,
-        learningResourceType: "Theory Notes",
+        learningResourceType: "Theory Quick Notes",
         educationalLevel: "Undergraduate engineering",
         teaches: topic.shortTitle,
         keywords: seoKeywords,
@@ -155,7 +155,7 @@ export default function CommunicationSystemTopicPage({ topic }) {
           {
             "@type": "ListItem",
             position: 2,
-            name: "Subjects",
+            name: "Notes",
             item: `${SITE_URL}/subjects`,
           },
           {
@@ -195,9 +195,7 @@ export default function CommunicationSystemTopicPage({ topic }) {
             </li>
             <li className="text-slate-300">/</li>
             <li>
-              <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
-                Subjects
-              </Link>
+              <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link>
             </li>
             <li className="text-slate-300">/</li>
             <li>
@@ -252,7 +250,7 @@ export default function CommunicationSystemTopicPage({ topic }) {
               href="/notes/communications"
               className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-4 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
             >
-              Open Communication Systems notes
+              Open Communication Systems quick notes
             </Link>
             <Link
               href="/practice?search=Communication%20Systems"
@@ -343,7 +341,7 @@ export default function CommunicationSystemTopicPage({ topic }) {
 
           <TopicSection id="formulas" title="Important Formulas and Quick Revision Takeaways">
             <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-              Keep these formula highlights and quick revision points ready for Communication Systems notes revision.
+              Keep these formula highlights and quick revision points ready for Communication Systems quick notes revision.
             </p>
             <FormulaGrid formulas={topic.formulas} />
             <div className="mt-4 grid gap-3 md:grid-cols-2">
@@ -426,7 +424,7 @@ export default function CommunicationSystemTopicPage({ topic }) {
 
           <TopicSection id="related-topics" title="Related Communication Systems Topics">
             <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-              Use these internal links to continue through Communication Systems notes in a logical exam-friendly sequence.
+              Use these internal links to continue through Communication Systems quick notes in a logical exam-friendly sequence.
             </p>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {relatedTopics.map((relatedTopic) => (

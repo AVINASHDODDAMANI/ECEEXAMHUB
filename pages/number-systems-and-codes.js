@@ -27,7 +27,7 @@ function FormulaCard({ title, formula, children }) {
 export default function NumberSystemsAndCodesPage() {
   return (
     <Layout
-      title="Number Systems and Codes GATE ECE Notes + Conversions + PYQs"
+      title="Number Systems and Codes GATE ECE Quick Notes + Conversions + PYQs"
       description="Deep theory notes on number systems, conversions, binary arithmetic, complements, and digital codes for ECE, GATE, PSU, and interviews."
       pageClassName="py-3 sm:py-4"
     >
@@ -41,9 +41,7 @@ export default function NumberSystemsAndCodesPage() {
             </li>
             <li className="text-slate-300">/</li>
             <li>
-              <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
-                Subjects
-              </Link>
+              <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link>
             </li>
             <li className="text-slate-300">/</li>
             <li>
@@ -347,7 +345,7 @@ export default function NumberSystemsAndCodesPage() {
             </ul>
           </TopicSection>
 
-          <TopicSection title="Exam-Oriented Notes">
+          <TopicSection title="Exam-Oriented Quick Notes">
             <ul className="grid gap-2">
               <li>For binary to decimal, write powers of 2 above each bit before calculating.</li>
               <li>For binary to hexadecimal, group bits in fours from the right side.</li>

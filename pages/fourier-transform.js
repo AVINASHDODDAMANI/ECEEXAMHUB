@@ -88,8 +88,8 @@ const structuredData = [
     "@type": "LearningResource",
     name: "Fourier Transform in Signals and Systems",
     description:
-      "Conceptual ECE notes on Fourier Transform, spectra, CTFT, DTFT intuition, transform properties, convolution property, examples, FAQs, GATE notes, and interview preparation.",
-    learningResourceType: "Theory Notes",
+      "Conceptual ECE notes on Fourier Transform, spectra, CTFT, DTFT intuition, transform properties, convolution property, examples, FAQs, GATE quick notes, and interview preparation.",
+    learningResourceType: "Theory Quick Notes",
     educationalLevel: "Undergraduate engineering",
     teaches: [
       "Fourier Transform",
@@ -179,8 +179,8 @@ function SpectrumVisualizer() {
 export default function FourierTransformPage() {
   return (
     <Layout
-      title="Fourier Transform GATE ECE Notes + Properties + PYQs | Signals"
-      description="Learn Fourier Transform with conceptual intuition, CTFT formula, physical meaning, properties, convolution theorem, spectra, solved examples, FAQs, GATE notes, and interview questions."
+      title="Fourier Transform GATE ECE Quick Notes + Properties + PYQs | Signals"
+      description="Learn Fourier Transform with conceptual intuition, CTFT formula, physical meaning, properties, convolution theorem, spectra, solved examples, FAQs, GATE quick notes, and interview questions."
       keywords="Fourier transform signals and systems, CTFT, frequency spectrum, Fourier transform properties, convolution theorem, GATE ECE"
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
@@ -190,7 +190,7 @@ export default function FourierTransformPage() {
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/signals-and-systems" className="font-medium text-slate-600 transition hover:text-portal-700">Signals and Systems</Link></li>
             <li className="text-slate-300">/</li>
@@ -370,7 +370,7 @@ export default function FourierTransformPage() {
             <BulletList items={["What is the physical meaning of Fourier Transform?", "Why does an aperiodic signal have continuous spectrum?", "What happens to spectrum when a signal is delayed?", "How does convolution become multiplication in frequency domain?", "Why are sinusoids important for LTI systems?", "What is bandwidth from Fourier Transform viewpoint?"]} />
           </TopicSection>
 
-          <TopicSection id="exam-notes" title="Exam-Oriented Notes">
+          <TopicSection id="exam-notes" title="Exam-Oriented Quick Notes">
             <BulletList items={["Memorize core transform pairs, but depend on properties for speed.", "Time delay changes phase only.", "Narrower pulse in time usually means wider spectrum.", "Convolution in time becomes multiplication in frequency.", "Multiplication in time becomes convolution in frequency."]} />
           </TopicSection>
 

@@ -15,7 +15,7 @@ const faqs = [
   {
     question: "How should I start preparing from this website?",
     answer:
-      "Start with Subjects, choose one core subject, read the chapter flow, then move to related notes and practice questions. Once the basics feel stable, use PYQs and mock tests to check speed, accuracy, and repeated exam patterns.",
+      "Start with Notes, choose one core topic area, read the chapter flow, then move to related quick notes and practice questions. Once the basics feel stable, use PYQs and mock tests to check speed, accuracy, and repeated exam patterns.",
   },
   {
     question: "Why do some topics open as separate pages?",
@@ -61,7 +61,7 @@ export default function FaqPage() {
 
         <div className="mt-6 flex flex-wrap gap-3">
           <Link href="/subjects" className="rounded-xl bg-portal-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-portal-800">
-            Start With Subjects
+            Start With Notes
           </Link>
           <Link href="/contact" className="rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50">
             Report an Issue

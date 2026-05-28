@@ -96,9 +96,9 @@ export default function VLSIDesignTopicPage({ topic }) {
       {
         "@context": "https://schema.org",
         "@type": "LearningResource",
-        name: `${topic.shortTitle} VLSI Design Notes`,
+        name: `${topic.shortTitle} VLSI Design Quick Notes`,
         description: topic.metaDescription,
-        learningResourceType: "Theory Notes",
+        learningResourceType: "Theory Quick Notes",
         educationalLevel: "Undergraduate engineering",
         teaches: topic.shortTitle,
         keywords: seoKeywords,
@@ -117,7 +117,7 @@ export default function VLSIDesignTopicPage({ topic }) {
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-          { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+          { "@type": "ListItem", position: 2, name: "Notes", item: `${SITE_URL}/subjects` },
           { "@type": "ListItem", position: 3, name: "VLSI Design", item: `${SITE_URL}/subjects/vlsi-design` },
           { "@type": "ListItem", position: 4, name: topic.shortTitle, item: `${SITE_URL}/learn/vlsi-design/${topic.slug}` },
         ],
@@ -140,7 +140,7 @@ export default function VLSIDesignTopicPage({ topic }) {
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/vlsi-design" className="font-medium text-slate-600 transition hover:text-portal-700">VLSI Design</Link></li>
             <li className="text-slate-300">/</li>
@@ -185,7 +185,7 @@ export default function VLSIDesignTopicPage({ topic }) {
 
           <TopicSection id="visualization" title="Step-by-Step Visualization">
             <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-              This lightweight SVG animation explains {topic.shortTitle} for GATE VLSI notes, CMOS design tutorial revision, VLSI design for PSU, semiconductor design notes, and VLSI interview questions.
+              This lightweight SVG animation explains {topic.shortTitle} for GATE VLSI notes, CMOS design tutorial revision, VLSI design for PSU, semiconductor design quick notes, and VLSI interview questions.
             </p>
             <div className="mt-4"><VLSIVisualizer slug={topic.slug} /></div>
           </TopicSection>

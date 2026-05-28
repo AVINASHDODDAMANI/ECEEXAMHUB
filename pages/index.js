@@ -1,563 +1,518 @@
 import Link from "next/link";
 import Layout from "../components/layout";
-import { previousPaperDirectory } from "../data/previous-paper-directory";
-import { subjectDirectory } from "../data/subject-directory";
-import { getSubjectSlug } from "../data/subject-theory-roadmaps";
-import { getReadyLearningTopics } from "../lib/learning-utils";
-import { useLearningProgress } from "../lib/use-learning-progress";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { getSearchRedirectHref } from "../lib/search-redirects";
 
-function MiniIcon({ type }) {
-  const common = {
-    className: "h-5 w-5",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    "aria-hidden": true,
-  };
-
-  const paths = {
-    play: "M8 5v14l11-7L8 5Z",
-    target: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-5a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z",
-    chart: "M4 19V5m0 14h16M8 16v-5m4 5V7m4 9v-8",
-    spark: "M12 3l1.9 5.4L19 10l-5.1 1.6L12 17l-1.9-5.4L5 10l5.1-1.6L12 3Zm6 10 1 2.8 3 1-3 1-1 2.8-1-2.8-3-1 3-1 1-2.8Z",
-    paper: "M7 3h7l4 4v14H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm7 0v5h4M8 13h7M8 17h5",
-    brain: "M9 4a3 3 0 0 0-3 3v1a4 4 0 0 0 0 8v1a3 3 0 0 0 5 2.2A3 3 0 0 0 16 17v-1a4 4 0 0 0 0-8V7a3 3 0 0 0-5-2.2A3 3 0 0 0 9 4Z",
+function LineIcon({ type, className = "h-8 w-8" }) {
+  const icons = {
+    notes: (
+      <>
+        <path d="M5 5.5h6.5a3 3 0 0 1 3 3V19a3 3 0 0 0-3-3H5V5.5Z" />
+        <path d="M19 5.5h-6.5a3 3 0 0 0-3 3V19a3 3 0 0 1 3-3H19V5.5Z" />
+        <path d="M8 9h3M16 9h-3M8 12h3M16 12h-3" />
+      </>
+    ),
+    paper: (
+      <>
+        <path d="M7 3.5h7l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 20V5A1.5 1.5 0 0 1 7.5 3.5Z" />
+        <path d="M14 3.5V8h4M9 12h6M9 15h6M9 18h3" />
+      </>
+    ),
+    cloud: (
+      <>
+        <path d="M8 18h9a4 4 0 0 0 .8-7.92A6 6 0 0 0 6.4 8.5 4.5 4.5 0 0 0 8 18Z" />
+        <path d="M12 12v7M9.5 15.5 12 18l2.5-2.5" />
+      </>
+    ),
+    target: (
+      <>
+        <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
+        <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" />
+        <path d="M12 13a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM16 8l4-4M18 4h2v2" />
+      </>
+    ),
+    digital: (
+      <>
+        <rect x="7" y="7" width="10" height="10" rx="1.5" />
+        <path d="M9 3v4M12 3v4M15 3v4M9 17v4M12 17v4M15 17v4M3 9h4M3 12h4M3 15h4M17 9h4M17 12h4M17 15h4" />
+      </>
+    ),
+    analog: (
+      <>
+        <path d="M3 12h4l2-5 4 10 2-5h6" />
+        <circle cx="12" cy="12" r="9" />
+      </>
+    ),
+    signal: <path d="M5 12h1M9 7v10M12 4v16M15 7v10M18 10v4M21 12h-1" />,
+    communication: (
+      <>
+        <path d="M12 21V10M8 21h8M9 10a3 3 0 0 1 6 0M6 8a6 6 0 0 1 12 0M3 6a9 9 0 0 1 18 0" />
+        <path d="M12 10.5v.01" />
+      </>
+    ),
+    control: (
+      <>
+        <path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" />
+        <path d="M12 2.5v3M12 18.5v3M4.5 4.5l2.1 2.1M17.4 17.4l2.1 2.1M2.5 12h3M18.5 12h3M4.5 19.5l2.1-2.1M17.4 6.6l2.1-2.1" />
+      </>
+    ),
+    network: (
+      <>
+        <circle cx="12" cy="5" r="2" />
+        <circle cx="5" cy="19" r="2" />
+        <circle cx="19" cy="19" r="2" />
+        <path d="M11.1 6.8 6 17M12.9 6.8 18 17M7 19h10" />
+      </>
+    ),
+    magnet: (
+      <>
+        <path d="M7 5v7a5 5 0 0 0 10 0V5" />
+        <path d="M7 5h4M13 5h4M7 9h4M13 9h4" />
+      </>
+    ),
+    chip: (
+      <>
+        <rect x="7" y="7" width="10" height="10" rx="2" />
+        <path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4" />
+      </>
+    ),
+    users: (
+      <>
+        <path d="M16 20a4 4 0 0 0-8 0M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM20 19a3 3 0 0 0-4-2.8M17 9.4a2.5 2.5 0 1 0-1-4.8M4 19a3 3 0 0 1 4-2.8M7 9.4a2.5 2.5 0 1 1 1-4.8" />
+      </>
+    ),
+    calendar: (
+      <>
+        <rect x="4" y="5" width="16" height="16" rx="2" />
+        <path d="M8 3v4M16 3v4M4 10h16M8 14h3M8 17h6" />
+      </>
+    ),
+    bulb: (
+      <>
+        <path d="M9 18h6M10 21h4M8.5 15.5a6 6 0 1 1 7 0c-.8.6-1.2 1.3-1.4 2.5H9.9c-.2-1.2-.6-1.9-1.4-2.5Z" />
+      </>
+    ),
+    calculator: (
+      <>
+        <rect x="6" y="3" width="12" height="18" rx="2" />
+        <path d="M9 7h6M9 11h.01M12 11h.01M15 11h.01M9 15h.01M12 15h.01M15 15h.01M9 18h.01M12 18h.01M15 18h.01" />
+      </>
+    ),
+    route: (
+      <>
+        <circle cx="6" cy="6" r="2" />
+        <circle cx="18" cy="18" r="2" />
+        <path d="M8 6h4a4 4 0 0 1 0 8H8a4 4 0 0 0 0 8h8" />
+      </>
+    ),
+    formula: (
+      <>
+        <path d="M7 4h10M9 4c2 4-2 12 0 16M5 20h8M14 12l5 5M19 12l-5 5" />
+      </>
+    ),
+    diagram: (
+      <>
+        <rect x="4" y="4" width="5" height="5" rx="1" />
+        <rect x="15" y="4" width="5" height="5" rx="1" />
+        <rect x="9.5" y="15" width="5" height="5" rx="1" />
+        <path d="M9 6.5h6M12 9v6" />
+      </>
+    ),
+    checklist: (
+      <>
+        <path d="M9 5h6M9 5a3 3 0 0 1 6 0M7 5H5.5A1.5 1.5 0 0 0 4 6.5v13A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5v-13A1.5 1.5 0 0 0 18.5 5H17" />
+        <path d="m8 12 1.5 1.5L12 11M8 17h6" />
+      </>
+    ),
   };
 
   return (
-    <svg {...common}>
-      <path
-        d={paths[type] || paths.spark}
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <g
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
-      />
+      >
+        {icons[type] || icons.notes}
+      </g>
     </svg>
   );
 }
 
-function SectionHeader({ eyebrow, title, description, align = "left" }) {
+function HeroBooks() {
+  const books = [
+    ["COMMUNICATION SYSTEMS", "bg-[#0d2a66]", "w-[93%]"],
+    ["SIGNALS & SYSTEMS", "bg-[#f97316]", "w-[98%]"],
+    ["DIGITAL ELECTRONICS", "bg-[#082456]", "w-[91%]"],
+    ["CONTROL SYSTEMS", "bg-[#4c2a92]", "w-[96%]"],
+    ["NETWORK THEORY", "bg-[#071f4a]", "w-[89%]"],
+  ];
+
   return (
-    <div className={align === "left" ? "max-w-2xl" : "mx-auto max-w-3xl text-center"}>
-      <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
-        {eyebrow}
-      </p>
-      <h2 className="mt-3 max-w-3xl text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
-        {title}
-      </h2>
-      <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">{description}</p>
+    <div className="relative mx-auto hidden h-[380px] w-full max-w-[470px] lg:block">
+      <div className="absolute inset-0 rounded-full border border-blue-400/20" />
+      <div className="absolute inset-8 rounded-full border border-blue-400/20" />
+      <div className="absolute right-0 top-8 h-56 w-64 opacity-40">
+        {[0, 1, 2, 3, 4].map((index) => (
+          <span
+            key={index}
+            className="absolute right-0 h-px bg-blue-300/40"
+            style={{ top: `${index * 42}px`, width: `${150 + index * 22}px` }}
+          />
+        ))}
+      </div>
+
+      <div className="absolute bottom-4 right-6 w-[360px]">
+        <div className="relative mx-auto mb-[-8px] h-24 w-72">
+          <div className="absolute left-8 top-4 h-16 w-48 rounded-b-[50%] bg-[#061936] shadow-xl" />
+          <div className="absolute left-0 top-0 h-16 w-72 -skew-x-12 bg-[linear-gradient(145deg,#1f4b8d,#071b3f)] shadow-2xl" />
+          <div className="absolute right-8 top-8 h-1.5 w-20 rounded-full bg-orange-500" />
+          <div className="absolute right-7 top-8 h-20 w-1 rounded-full bg-orange-500" />
+          <div className="absolute right-5 top-[82px] h-7 w-3 rounded-full bg-orange-500" />
+        </div>
+
+        <div className="grid gap-1.5">
+          {books.map(([label, color, width], index) => (
+            <div
+              key={label}
+              className={`${width} ${color} relative ml-auto h-[52px] rounded-l-xl rounded-r-sm border border-white/10 px-6 py-3 text-sm font-extrabold tracking-wide text-white shadow-[0_16px_22px_rgba(0,0,0,0.32)]`}
+              style={{ transform: `translateX(${index % 2 === 0 ? 0 : -16}px)` }}
+            >
+              <span>{label}</span>
+              <span className="absolute right-0 top-1 h-[44px] w-20 rounded-l-2xl bg-white shadow-inner" />
+              <span className="absolute bottom-1 right-0 h-1 w-24 rounded-l-full bg-orange-500" />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
 
-function DashboardPreview({ completionPercent, completedTopics }) {
-  const subjectBars = [
-    ["Network Theory", 82, "bg-emerald-500"],
-    ["Analog Electronics", 68, "bg-portal-600"],
-    ["Signals", 54, "bg-cyan-500"],
-    ["Control Systems", 47, "bg-orange-500"],
-  ];
-
+function ResourceRow({ icon, title, text, cta, children }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_28px_80px_rgba(15,23,42,0.14)]">
-      <div className="flex items-center justify-between border-b border-slate-200 bg-slate-950 px-5 py-4 text-white">
-        <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-200">
-            Live prep dashboard
-          </p>
-          <h2 className="mt-1 text-lg font-extrabold">Today&apos;s GATE ECE focus</h2>
-        </div>
-        <div className="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-200">
-          12 day streak
-        </div>
+    <section className="grid gap-6 rounded-xl bg-white p-5 shadow-[0_16px_45px_rgba(15,23,42,0.06)] lg:grid-cols-[210px_1fr] lg:items-center">
+      <div>
+        <span className="text-[#061b4f]">
+          <LineIcon type={icon} className="h-8 w-8" />
+        </span>
+        <h2 className="mt-3 text-2xl font-extrabold leading-tight text-[#071d49]">{title}</h2>
+        <p className="mt-3 text-sm font-medium leading-6 text-[#243653]">{text}</p>
+        <Link
+          href={cta[1]}
+          className="mt-4 inline-flex h-10 items-center rounded-md bg-[#061b4f] px-4 text-xs font-extrabold text-white transition hover:bg-[#0b2a70]"
+        >
+          {cta[0]} <span className="ml-2">-&gt;</span>
+        </Link>
       </div>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">{children}</div>
+    </section>
+  );
+}
 
-      <div className="grid gap-4 p-4">
-        <div className="grid gap-3 sm:grid-cols-3">
-          {[
-            ["Syllabus", `${completionPercent || 72}%`],
-            ["Solved", "1,240"],
-            ["Topics", completedTopics || 38],
-          ].map(([label, value]) => (
-            <div key={label} className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-              <p className="text-2xl font-extrabold text-slate-950">{value}</p>
-              <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">
-                {label}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <div className="rounded-xl border border-portal-200 bg-portal-50 p-4">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
-                Continue learning
-              </p>
-              <h3 className="mt-2 text-xl font-extrabold text-slate-950">
-                Analog Electronics
-              </h3>
-              <p className="mt-1 text-sm font-semibold text-slate-600">
-                BJT biasing and small signal models
-              </p>
-            </div>
-            <span className="rounded-full bg-white px-3 py-1 text-xs font-extrabold text-portal-700">
-              68%
-            </span>
-          </div>
-          <div className="mt-4 h-2 rounded-full bg-white">
-            <div className="h-2 w-[68%] rounded-full bg-portal-700" />
-          </div>
-        </div>
-
-        <div className="grid gap-4 lg:grid-cols-[1fr_0.78fr]">
-          <div className="rounded-xl border border-slate-200 p-4">
-            <p className="text-sm font-extrabold text-slate-950">Subject mastery</p>
-            <div className="mt-4 grid gap-3">
-              {subjectBars.map(([label, value, color]) => (
-                <div key={label}>
-                  <div className="flex justify-between text-xs font-bold text-slate-600">
-                    <span>{label}</span>
-                    <span>{value}%</span>
-                  </div>
-                  <div className="mt-1 h-2 rounded-full bg-slate-100">
-                    <div className={`h-2 rounded-full ${color}`} style={{ width: `${value}%` }} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="rounded-xl border border-orange-200 bg-orange-50 p-4">
-            <p className="text-sm font-extrabold text-slate-950">Weak topics</p>
-            <div className="mt-3 grid gap-2">
-              {["Root locus", "Fourier transform", "MOSFET biasing"].map((item) => (
-                <span key={item} className="rounded-lg bg-white px-3 py-2 text-xs font-bold text-slate-700">
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+function ContentCard({ title, meta, action, href, icon, badge, warm = false }) {
+  return (
+    <Link
+      href={href}
+      className="flex min-h-[160px] flex-col rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-[#ff7417] hover:shadow-[0_14px_35px_rgba(15,23,42,0.10)]"
+    >
+      {icon ? (
+        <span className={`mb-4 flex h-14 w-14 items-center justify-center rounded-full ${warm ? "bg-orange-100 text-[#061b4f]" : "bg-[#173d78] text-white"}`}>
+          <LineIcon type={icon} className="h-8 w-8" />
+        </span>
+      ) : null}
+      {badge ? (
+        <span className={`mb-3 w-fit rounded px-2 py-0.5 text-[10px] font-extrabold text-white ${badge === "NEW" ? "bg-green-500" : "bg-violet-600"}`}>
+          {badge}
+        </span>
+      ) : null}
+      <h3 className="text-base font-extrabold leading-snug text-[#071d49]">{title}</h3>
+      <p className="mt-3 text-xs font-semibold leading-5 text-[#243653]">{meta}</p>
+      <span className="mt-auto pt-5 text-xs font-extrabold text-[#ff5f00]">
+        {action} <span aria-hidden="true">-&gt;</span>
+      </span>
+    </Link>
   );
 }
 
 export default function Home() {
-  const { progressStats } = useLearningProgress();
-  const readyTopics = getReadyLearningTopics();
-
-  const heroStats = [
-    ["Subjects", "12"],
-    ["Resources", "500+"],
-    ["Updates", "Weekly"],
-    ["Prep", "GATE + Semester"],
+  const router = useRouter();
+  const [homeSearchValue, setHomeSearchValue] = useState("");
+  const stats = [
+    ["New", "Student Community", "users"],
+    ["Growing", "Quick Notes Library", "paper"],
+    ["Coming Soon", "More PYQ Papers", "checklist"],
+    ["Regular", "Content Updates", "cloud"],
   ];
 
-  const outcomes = [
-    ["Crack GATE faster", "Follow a subject-wise plan that turns scattered preparation into a weekly exam routine.", "target"],
-    ["Track weak topics", "See where accuracy drops and revise the exact ECE concepts that cost marks.", "chart"],
-    ["Practice PYQs efficiently", "Move from theory to previous year patterns while the concept is still fresh.", "paper"],
-    ["Revise with AI guidance", "Use assistant-style prompts for formulas, mistakes, and next-step recommendations.", "brain"],
+  const notes = [
+    ["Analog Electronics", "120+ Quick Notes", "analog", "/notes/analog-electronics"],
+    ["Digital Electronics", "150+ Quick Notes", "digital", "/notes/digital-electronics"],
+    ["Signals & Systems", "90+ Quick Notes", "signal", "/notes/signals-and-systems"],
+    ["Communication Systems", "110+ Quick Notes", "communication", "/notes/communication-systems"],
+    ["Control Systems", "80+ Quick Notes", "control", "/notes/control-systems"],
   ];
 
-  const studyGroups = [
-    {
-      step: "01",
-      title: "Build the base",
-      description: "Start with a subject hub, then move into structured notes before you begin solving under pressure.",
-      accent: "border-portal-300 bg-white",
-      resources: [
-        ["Subject Hubs", "/subjects"],
-        ["Notes Library", "/notes"],
-      ],
-    },
-    {
-      step: "02",
-      title: "Practice by pattern",
-      description: "Shift from concepts to active recall with topic MCQs and previous year questions while the chapter is still fresh.",
-      accent: "border-emerald-200 bg-emerald-50/70",
-      resources: [
-        ["Topic MCQs", "/mcqs"],
-        ["Latest PYQs", "/previous-year"],
-      ],
-    },
-    {
-      step: "03",
-      title: "Measure and improve",
-      description: "Use mocks, weak-topic tracking, and guided revision to turn study sessions into visible score gains.",
-      accent: "border-orange-200 bg-orange-50/80",
-      resources: [
-        ["Mock Tests", "/mock-tests"],
-        ["Learning Path", "/learn"],
-      ],
-    },
+  const pyqs = [
+    ["GATE ECE 2025 Paper", "55 solved questions with MSQ support", "NEW", "/solution/gate-2025"],
+    ["BEL ECE December 2025 Paper", "125 solved objective questions", "NEW", "/solution/bel-december-2025"],
+    ["BEL ECE May 2025 Paper", "125 solved objective questions", "NEW", "/solution/bel-may-2025"],
+    ["BEL Electronics December 2023 Paper", "125 official paper questions", "UPDATED", "/solution/bel-december-2023"],
   ];
 
-  const testimonials = [
-    ["The dashboard view makes revision feel measurable instead of random.", "Ananya", "GATE ECE aspirant"],
-    ["PYQs next to concepts helped me revise faster before tests.", "Rohit", "Final year ECE student"],
-    ["Weak-topic tracking is exactly what an exam platform should show first.", "Meera", "PSU preparation"],
+  const theories = [
+    ["Fourier Series", "Explained with examples and applications", "route", "/fourier-series"],
+    ["Laplace Transform", "Properties, theorems and solved examples", "route", "/laplace-transform"],
+    ["Control System Stability", "Routh, Nyquist, Bode explained", "control", "/stability-analysis"],
+    ["Communication Theory", "Modulation, demodulation and theory basics", "communication", "/communication-systems-notes"],
+    ["Semiconductor Basics", "Diodes, BJTs, MOSFETs and characteristics", "bulb", "/semiconductor-fundamentals"],
   ];
 
-  const trendingSubjects = subjectDirectory.slice(0, 3).map((subject, index) => ({
-    title: subject.title,
-    href: `/subjects/${getSubjectSlug(subject.title)}`,
-    pulse: ["4.8k this week", "4.2k this week", "3.9k this week"][index],
-    tag: ["High momentum", "Exam favorite", "Fast revision"][index],
-  }));
-
-  const recentNotes = readyTopics.slice(0, 3).map((topic, index) => ({
-    title: topic.title,
-    href: topic.href,
-    subject: topic.subjectName,
-    stamp: ["Added 2 days ago", "Added this week", "Fresh revision"][index],
-  }));
-
-  const latestPyqs = previousPaperDirectory.slice(0, 3).map((paper, index) => ({
-    title: paper.title,
-    href: paper.href,
-    meta: paper.meta,
-    stamp: ["Latest set", "Updated set", "Most solved"][index],
-  }));
-
-  const announcements = [
-    {
-      title: "Weekly subject updates",
-      text: "New notes, refreshed PYQ links, and smarter navigation are now added every week.",
-    },
-    {
-      title: "Semester + GATE flow",
-      text: "The platform now highlights the fastest path from theory to practice for both prep styles.",
-    },
-    {
-      title: "More activity signals coming",
-      text: "Trending resources, download insights, and recent additions now have a dedicated home on the landing page.",
-    },
+  const numericals = [
+    ["Network Theorem Problems", "40+ Problems", "/network-theorems"],
+    ["Control Systems Numericals", "35+ Problems", "/control-system-design"],
+    ["Signals & Systems Problems", "45+ Problems", "/systems-and-their-properties"],
+    ["Analog Electronics Numericals", "50+ Problems", "/analog-to-digital-and-digital-to-analog-converters"],
+    ["Digital Electronics Numericals", "60+ Problems", "/digital-ics-and-applications"],
   ];
+
+  const featureBand = [
+    ["Exam Focused Content", "Curated by ECE experts", "target", "text-[#ff7417]"],
+    ["Easy to Understand", "Simple language & neat diagrams", "diagram", "text-emerald-400"],
+    ["Updated Regularly", "Latest papers & new content", "checklist", "text-blue-400"],
+    ["Download & Study Anywhere", "Access on all devices", "cloud", "text-violet-400"],
+  ];
+
+  const revision = [
+    ["Formula Sheet", "Download PDF", "formula", "/gate-ece-formulas"],
+    ["One Page Revision", "Short & crisp quick notes", "paper", "/notes"],
+    ["Important Diagrams", "High yield diagrams", "diagram", "/diagram-lab"],
+    ["Last Minute Prep", "High weightage topics", "checklist", "/ece-important-questions"],
+    ["Most Expected Qs", "Important questions", "paper", "/ece-important-questions"],
+  ];
+
+  function handleHomeSearch(event) {
+    event.preventDefault();
+
+    const query = homeSearchValue.trim();
+
+    if (!query) {
+      return;
+    }
+
+    router.push(getSearchRedirectHref(query) || `/search?q=${encodeURIComponent(query)}`);
+  }
 
   return (
     <Layout
-      title="ECE Exam Guide - GATE ECE Notes, PYQs, MCQs & Mock Tests"
-      description="Prepare for GATE ECE and Electronics and Communication exams with structured notes, practice questions, PYQs, mock tests, progress tracking, and smart revision workflows."
-      keywords="GATE ECE preparation, ECE notes, ECE MCQs, previous year questions, mock tests, electronics and communication engineering"
-      pageClassName="py-0"
+      title="ECE Exam Guide - Your Complete Guide to ECE Exam Success"
+      description="Find high-quality ECE quick notes, previous year question papers, study materials, and exam resources for GATE, PSU, and university exam preparation."
+      keywords="ECE Exam Guide, ECE quick notes, ECE notes, ECE PYQ papers, electronics and communication engineering, GATE ECE quick revision"
+      pageClassName="!px-0 py-0"
     >
-      <div className="mx-auto max-w-[1320px] space-y-12 pb-8">
-        <section className="grid gap-8 pt-5 lg:grid-cols-[minmax(0,1fr)_560px] lg:items-center">
+      <section className="relative overflow-hidden bg-[#061f45]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_40%,rgba(34,105,188,0.42),transparent_35%),linear-gradient(135deg,#071c3d_0%,#092e63_54%,#041a38_100%)]" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(44,121,210,0.25)_1px,transparent_1px),linear-gradient(90deg,rgba(44,121,210,0.22)_1px,transparent_1px)] [background-size:72px_72px]"
+        />
+        <div className="relative mx-auto grid max-w-[1320px] gap-8 px-5 py-12 sm:px-8 lg:grid-cols-[minmax(0,1fr)_520px] lg:items-center lg:py-16">
           <div>
-            <p className="inline-flex rounded-full border border-portal-200 bg-white px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-portal-700 shadow-sm">
-              Notes, PYQs, playlists, and structured ECE exam prep
-            </p>
-            <h1 className="mt-4 max-w-4xl text-4xl font-extrabold tracking-tight text-slate-950 sm:text-5xl lg:text-[4.25rem] lg:leading-[1.02]">
+            <h1 className="max-w-3xl text-4xl font-extrabold leading-tight tracking-normal text-white sm:text-5xl lg:text-[3.8rem]">
               ECE Exam Guide
+              <span className="block text-[#ff7a1a]">for ECE Exam Success</span>
             </h1>
-            <p className="mt-4 max-w-2xl text-lg font-semibold leading-8 text-slate-700">
-              One place for Notes, PYQs, Playlists, and Smart Exam Preparation.
+            <p className="mt-5 max-w-2xl text-lg font-medium leading-8 text-white/90">
+              Find high-quality quick notes, PYQ papers, study materials and resources designed
+              to help ECE students excel in their exams.
             </p>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base">
-              Built for ECE students preparing for GATE, semester exams, and technical revisions with more structure than scattered Drive folders.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <Link
-                href="/notes/network-analysis"
-                className="inline-flex min-h-11 items-center rounded-xl border border-portal-200 bg-white px-4 py-2.5 text-sm font-bold text-portal-700 transition hover:border-portal-300 hover:bg-portal-50"
-              >
-                Network Analysis Notes
-              </Link>
-              <Link
-                href="/previous-year/bel-2023"
-                className="inline-flex min-h-11 items-center rounded-xl border border-orange-200 bg-white px-4 py-2.5 text-sm font-bold text-orange-700 transition hover:border-orange-300 hover:bg-orange-50"
-              >
-                BEL 2023 Previous Paper
-              </Link>
-            </div>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <Link
-                href="/learn"
-                className="inline-flex min-h-12 items-center justify-center rounded-xl bg-portal-700 px-6 py-3 text-sm font-extrabold text-white shadow-[0_18px_38px_rgba(21,74,150,0.24)] transition hover:bg-portal-800"
-              >
-                Start Learning
-                <span className="ml-2">-&gt;</span>
-              </Link>
-              <Link
-                href="/mock-tests"
-                className="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-800 transition hover:border-orange-300 hover:text-orange-700"
-              >
-                Take Mock Test
-              </Link>
-            </div>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-              {heroStats.map(([label, value]) => (
-                <div key={label} className="rounded-2xl border border-slate-200 bg-white/95 px-4 py-4 shadow-sm">
-                  <p className="text-2xl font-extrabold text-slate-950">{value}</p>
-                  <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
-                    {label}
-                  </p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-4 flex flex-wrap gap-2 text-xs font-bold text-slate-600">
-              {[
-                "Structured subject-wise navigation",
-                "Faster revision than random folders",
-                "Clear path from concept to PYQ",
-              ].map((item) => (
-                <span key={item} className="rounded-full bg-slate-100 px-3 py-2">
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
 
-          <DashboardPreview
-            completionPercent={progressStats.completionPercent}
-            completedTopics={progressStats.completedCount}
-          />
-        </section>
+            <form onSubmit={handleHomeSearch} className="mt-7 flex max-w-[590px] overflow-hidden rounded-lg border border-white/20 bg-white p-1.5 shadow-[0_18px_45px_rgba(0,0,0,0.25)]">
+              <label htmlFor="home-search" className="sr-only">
+                Search quick notes, subjects, PYQ papers
+              </label>
+              <span className="flex w-12 items-center justify-center text-[#061f45]">
+                <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M14.167 14.167 17.5 17.5M15.833 9.167A6.667 6.667 0 1 1 2.5 9.167a6.667 6.667 0 0 1 13.333 0Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </span>
+              <input
+                id="home-search"
+                name="q"
+                type="search"
+                value={homeSearchValue}
+                onChange={(event) => setHomeSearchValue(event.target.value)}
+                placeholder="Search quick notes, subjects, PYQ papers, concepts, numericals..."
+                className="min-w-0 flex-1 border-0 bg-transparent px-1 text-sm font-semibold text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0"
+              />
+              <button className="rounded-md bg-[#ff7417] px-7 py-3 text-sm font-extrabold text-white transition hover:bg-[#e96009]">
+                Search
+              </button>
+            </form>
 
-        <section className="rounded-[28px] border border-slate-200 bg-[radial-gradient(circle_at_top_left,#e0f2fe_0%,#ffffff_38%,#f8fafc_100%)] p-5 shadow-sm sm:p-6">
-          <SectionHeader
-            align="left"
-            eyebrow="Live on the platform"
-            title="A Homepage That Feels Active"
-            description="Students trust platforms that show movement. These blocks make the site feel updated, maintained, and worth returning to."
-          />
-          <div className="mt-5 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
-            <div className="grid gap-5">
-              <div className="rounded-2xl border border-cyan-200 bg-white p-5 shadow-sm">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-extrabold text-slate-950">Trending This Week</p>
-                  <span className="rounded-full bg-cyan-50 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-cyan-700">
-                    Live
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {stats.map(([value, label, icon], index) => (
+                <div
+                  key={label}
+                  className={`flex items-center gap-4 ${index ? "lg:border-l lg:border-white/25 lg:pl-5" : ""}`}
+                >
+                  <span className="flex h-12 w-12 flex-none items-center justify-center rounded-full border border-[#ff7417] text-[#ff7417]">
+                    <LineIcon type={icon} className="h-6 w-6" />
                   </span>
-                </div>
-                <div className="mt-4 grid gap-3">
-                  {trendingSubjects.map((item) => (
-                    <Link key={item.title} href={item.href} className="rounded-xl border border-slate-200 bg-slate-50 p-3 transition hover:border-cyan-300 hover:bg-cyan-50">
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <p className="text-sm font-extrabold text-slate-950">{item.title}</p>
-                          <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
-                            {item.tag}
-                          </p>
-                        </div>
-                        <span className="text-xs font-extrabold text-cyan-700">{item.pulse}</span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-emerald-200 bg-white p-5 shadow-sm">
-                <p className="text-sm font-extrabold text-slate-950">Recently Added Notes</p>
-                <div className="mt-4 grid gap-3">
-                  {recentNotes.map((item) => (
-                    <Link key={item.href} href={item.href} className="rounded-xl border border-slate-200 bg-slate-50 p-3 transition hover:border-emerald-300 hover:bg-emerald-50">
-                      <p className="text-sm font-extrabold text-slate-950">{item.title}</p>
-                      <div className="mt-1 flex items-center justify-between gap-3 text-xs font-bold text-slate-500">
-                        <span>{item.subject}</span>
-                        <span className="text-emerald-700">{item.stamp}</span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="grid gap-5">
-              <div className="rounded-2xl border border-orange-200 bg-white p-5 shadow-sm">
-                <p className="text-sm font-extrabold text-slate-950">Latest PYQs</p>
-                <div className="mt-4 grid gap-3">
-                  {latestPyqs.map((item) => (
-                    <Link key={item.href} href={item.href} className="rounded-xl border border-slate-200 bg-slate-50 p-3 transition hover:border-orange-300 hover:bg-orange-50">
-                      <p className="text-sm font-extrabold text-slate-950">{item.title}</p>
-                      <div className="mt-1 flex items-center justify-between gap-3 text-xs font-bold text-slate-500">
-                        <span>{item.meta}</span>
-                        <span className="text-orange-700">{item.stamp}</span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-violet-200 bg-white p-5 shadow-sm">
-                <p className="text-sm font-extrabold text-slate-950">Announcements</p>
-                <div className="mt-4 grid gap-3">
-                  {announcements.map((item) => (
-                    <div key={item.title} className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                      <p className="text-sm font-extrabold text-slate-950">{item.title}</p>
-                      <p className="mt-1 text-xs leading-6 text-slate-600">{item.text}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-            <SectionHeader
-              align="left"
-              eyebrow="Exam outcomes"
-              title="Built Around Marks, Speed, and Confidence"
-              description="Students do not need another static notes archive. They need a system that tells them what to learn, what to practice, and what to fix next."
-            />
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {outcomes.map(([title, text, icon]) => (
-                <div key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700">
-                    <MiniIcon type={icon} />
+                  <span>
+                    <span className="block text-xl font-extrabold leading-tight text-white">
+                      {value}
+                    </span>
+                    <span className="mt-1 block text-xs font-semibold text-white/85">{label}</span>
                   </span>
-                  <h3 className="mt-4 text-base font-extrabold text-slate-950">{title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-[28px] border border-orange-200 bg-orange-50 p-6 shadow-sm">
-            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-orange-700">
-              PYQ engine
-            </p>
-            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
-              Practice Previous Year Questions With Purpose
-            </h2>
-            <p className="mt-3 text-sm leading-7 text-slate-700">
-              Use PYQs to identify repeat patterns, mark high-value topics, and connect exam questions back to the exact subject module.
-            </p>
-            <div className="mt-5 rounded-xl bg-white p-4">
-              <div className="flex items-center justify-between text-sm font-bold text-slate-700">
-                <span>PYQ readiness</span>
-                <span>76%</span>
-              </div>
-              <div className="mt-2 h-2 rounded-full bg-slate-100">
-                <div className="h-2 w-[76%] rounded-full bg-orange-500" />
-              </div>
-              <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-                {["GATE", "ESE", "PSU"].map((item) => (
-                  <span key={item} className="rounded-lg bg-slate-50 px-2 py-2 text-xs font-extrabold text-slate-700">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <Link href="/previous-year" className="mt-5 inline-flex rounded-xl bg-orange-600 px-5 py-3 text-sm font-extrabold text-white transition hover:bg-orange-700">
-              Solve PYQs -&gt;
-            </Link>
-          </div>
-        </section>
+          <HeroBooks />
+        </div>
+      </section>
 
-        <section className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-          <SectionHeader
-            align="left"
-            eyebrow="What to do first"
-            title="One Clear Study Flow"
-            description="The homepage now prioritizes a single learning path, then gives secondary choices only when they help a student move forward."
-          />
-          <div className="mt-5 grid gap-4 lg:grid-cols-3">
-            {studyGroups.map((group, index) => (
+      <section className="bg-[#f5f8fc] px-5 py-7 sm:px-8">
+        <div className="mx-auto max-w-[1320px] space-y-7">
+          <ResourceRow
+            icon="calendar"
+            title="Important Quick Notes"
+            text="Well-structured quick notes for fast revision and exam preparation."
+            cta={["View All Quick Notes", "/notes"]}
+          >
+            {notes.map(([title, meta, icon, href]) => (
+              <ContentCard
+                key={title}
+                title={title}
+                meta={meta}
+                action="Download Quick Notes"
+                href={href}
+                icon={icon}
+              />
+            ))}
+          </ResourceRow>
+
+          <ResourceRow
+            icon="paper"
+            title="Latest Updated PYQs"
+            text="Stay ahead with the most recently updated papers."
+            cta={["View All PYQs", "/previous-year"]}
+          >
+            {pyqs.map(([title, meta, badge, href]) => (
+              <ContentCard
+                key={title}
+                title={title}
+                meta={meta}
+                action="View Paper"
+                href={href}
+                badge={badge}
+              />
+            ))}
+          </ResourceRow>
+
+          <ResourceRow
+            icon="bulb"
+            title="Important Theory Concepts"
+            text="Key theory concepts with easy explanations and diagrams."
+            cta={["Explore Concepts", "/subjects"]}
+          >
+            {theories.map(([title, meta, icon, href]) => (
+              <ContentCard
+                key={title}
+                title={title}
+                meta={meta}
+                action="Read More"
+                href={href}
+                icon={icon}
+                warm
+              />
+            ))}
+          </ResourceRow>
+
+          <ResourceRow
+            icon="calculator"
+            title="Important Numericals"
+            text="Practice important numericals with step-by-step solutions."
+            cta={["View All Numericals", "/practice"]}
+          >
+            {numericals.map(([title, meta, href]) => (
+              <ContentCard
+                key={title}
+                title={title}
+                meta={meta}
+                action="Solve Now"
+                href={href}
+              />
+            ))}
+          </ResourceRow>
+
+          <section className="grid gap-5 rounded-xl bg-[#061f55] px-6 py-6 text-white shadow-[0_18px_45px_rgba(6,31,85,0.22)] md:grid-cols-4">
+            {featureBand.map(([title, text, icon, color], index) => (
               <div
-                key={group.title}
-                className={`rounded-[28px] border p-5 shadow-sm ${group.accent} ${
-                  index === 0 ? "lg:-translate-y-1" : ""
+                key={title}
+                className={`flex items-center gap-4 ${index ? "border-t border-white/20 pt-5 md:border-l md:border-t-0 md:pl-6 md:pt-0" : ""}`}
+              >
+                <span className={`flex h-14 w-14 flex-none items-center justify-center rounded-xl border border-current ${color}`}>
+                  <LineIcon type={icon} className="h-7 w-7" />
+                </span>
+                <span>
+                  <span className="block text-base font-extrabold text-white">{title}</span>
+                  <span className="mt-1 block text-sm font-medium text-white/85">{text}</span>
+                </span>
+              </div>
+            ))}
+          </section>
+
+          <section className="rounded-xl bg-white p-5 shadow-[0_16px_45px_rgba(15,23,42,0.06)]">
+            <div className="text-center">
+              <h2 className="text-2xl font-extrabold text-[#071d49]">Quick Revision Hub</h2>
+              <div className="mx-auto mt-1 h-1 w-12 rounded-full bg-[#ff7417]" />
+            </div>
+            <div className="mt-6 grid gap-4 md:grid-cols-5">
+              {revision.map(([title, meta, icon, href]) => (
+                <Link
+                  key={title}
+                  href={href}
+                  className="flex min-h-[84px] items-center gap-4 rounded-lg border border-slate-200 bg-white p-4 transition hover:border-[#ff7417] hover:shadow-sm"
+                >
+                  <span className="text-[#ff7417]">
+                    <LineIcon type={icon} className="h-8 w-8" />
+                  </span>
+                  <span>
+                    <span className="block text-sm font-extrabold text-[#071d49]">{title}</span>
+                    <span className="mt-1 block text-xs font-semibold text-[#243653]">{meta}</span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          <div className="grid overflow-hidden rounded-xl bg-[#061f55] shadow-[0_18px_45px_rgba(6,31,85,0.22)] md:grid-cols-4">
+            {stats.map(([value, label, icon], index) => (
+              <div
+                key={label}
+                className={`flex items-center justify-center gap-5 px-6 py-7 ${
+                  index ? "border-t border-white/20 md:border-l md:border-t-0" : ""
                 }`}
               >
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
-                  Step {group.step}
-                </p>
-                <h3 className="mt-3 text-2xl font-extrabold text-slate-950">{group.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{group.description}</p>
-                <div className="mt-6 grid gap-3">
-                  {group.resources.map(([label, href]) => (
-                    <Link
-                      key={label}
-                      href={href}
-                      className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-portal-300 hover:text-portal-700"
-                    >
-                      <span>{label}</span>
-                      <span aria-hidden="true">-&gt;</span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div>
-            <SectionHeader
-              align="left"
-              eyebrow="AI study assistant"
-              title="Ask What to Revise Next"
-              description="A preparation platform feels premium when it can interpret performance. This section positions the assistant as a guide for formulas, mistakes, weak topics, and daily plans."
-            />
-            <div className="mt-5 flex flex-wrap gap-3">
-              {["Explain this formula", "Find weak topics", "Make a 45 min plan"].map((item) => (
-                <span key={item} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700">
-                  {item}
+                <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[#ff7417] text-[#ff7417]">
+                  <LineIcon type={icon} className="h-7 w-7" />
                 </span>
-              ))}
-            </div>
-          </div>
-          <div className="rounded-2xl border border-slate-200 bg-slate-950 p-5 text-white shadow-[0_24px_70px_rgba(15,23,42,0.18)]">
-            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-cyan-200">
-              Smart revision prompt
-            </p>
-            <div className="mt-4 grid gap-3">
-              <div className="rounded-xl bg-white/10 p-4 text-sm leading-6 text-slate-100">
-                I scored 42% in Control Systems. What should I revise before my next mock?
+                <span>
+                  <span className="block text-2xl font-extrabold leading-tight text-white">
+                    {value}
+                  </span>
+                  <span className="text-sm font-semibold text-white/86">{label}</span>
+                </span>
               </div>
-              <div className="rounded-xl bg-cyan-400/15 p-4 text-sm leading-6 text-cyan-50">
-                Start with root locus rules, then solve 10 stability MCQs, revise Bode plot margins, and finish with 5 PYQs from frequency response.
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-          <SectionHeader
-            align="left"
-            eyebrow="Student confidence"
-            title="A Homepage That Feels Like Progress"
-            description="The messaging now focuses on measurable preparation outcomes instead of only listing available resources."
-          />
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
-            {testimonials.map(([quote, name, role]) => (
-              <figure key={name} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                <blockquote className="text-sm font-semibold leading-7 text-slate-700">
-                  &ldquo;{quote}&rdquo;
-                </blockquote>
-                <figcaption className="mt-4">
-                  <p className="font-extrabold text-slate-950">{name}</p>
-                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-                    {role}
-                  </p>
-                </figcaption>
-              </figure>
             ))}
           </div>
-        </section>
-
-        <section className="rounded-2xl bg-[linear-gradient(135deg,#123b79_0%,#0f766e_100%)] px-5 py-7 text-white shadow-[0_18px_40px_rgba(21,74,150,0.26)]">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-blue-100">
-                Primary action
-              </p>
-              <h2 className="mt-2 text-2xl font-extrabold">Start Learning and Track Your Next Win</h2>
-              <p className="mt-2 text-sm leading-6 text-blue-50">
-                Open your dashboard, resume a topic, and let progress guide the next study session.
-              </p>
-            </div>
-            <Link href="/learn" className="inline-flex min-h-12 items-center justify-center rounded-xl bg-white px-6 py-3 text-center text-sm font-extrabold text-portal-800 transition hover:bg-blue-50">
-              Start Learning -&gt;
-            </Link>
-          </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </Layout>
   );
 }

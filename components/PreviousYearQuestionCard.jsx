@@ -10,6 +10,12 @@ function getCorrectAnswers(question = {}) {
       : [];
 }
 
+function getCorrectAnswerText(question = {}) {
+  const correctAnswers = getCorrectAnswers(question);
+
+  return question.correctAnswer || correctAnswers.join(", ");
+}
+
 function sameAnswerSet(left = [], right = []) {
   return (
     left.length === right.length &&
@@ -29,7 +35,12 @@ export default function PreviousYearQuestionCard({
   const isImportant = hasQuestionTag(question, "important");
   const isRepeated = hasQuestionTag(question, "repeated");
   const correctAnswers = getCorrectAnswers(question);
+  const correctAnswerText = getCorrectAnswerText(question);
   const isMultiAnswer = correctAnswers.length > 1 || question.questionType === "MSQ";
+  const maxSelectableAnswers =
+    isMultiAnswer && correctAnswers.length > 1
+      ? correctAnswers.length
+      : question.options?.length || 0;
   const hasAnswerKey = correctAnswers.length > 0;
   const submittedAnswers = isMultiAnswer ? selectedOptions : [selectedOption].filter(Boolean);
   const selectedAnswerText = submittedAnswers.join(", ");
@@ -43,11 +54,17 @@ export default function PreviousYearQuestionCard({
   function handleOptionSelect(option) {
     if (submitted) return;
     if (isMultiAnswer) {
-      setSelectedOptions((current) =>
-        current.includes(option)
-          ? current.filter((item) => item !== option)
-          : [...current, option]
-      );
+      setSelectedOptions((current) => {
+        if (current.includes(option)) {
+          return current.filter((item) => item !== option);
+        }
+
+        if (current.length >= maxSelectableAnswers) {
+          return current;
+        }
+
+        return [...current, option];
+      });
       return;
     }
 
@@ -93,7 +110,9 @@ export default function PreviousYearQuestionCard({
         <CircuitDiagram question={question} />
       </div>
       <p className="mt-1 text-sm leading-6 text-slate-500">
-        {isMultiAnswer ? "Select all correct options, then submit." : "Select an option to check your answer."}
+        {isMultiAnswer
+          ? `Select exactly ${maxSelectableAnswers} options, then submit.`
+          : "Select an option to check your answer."}
       </p>
 
       <div className="mt-3 grid gap-2 md:grid-cols-2">
@@ -101,6 +120,10 @@ export default function PreviousYearQuestionCard({
           const isSelected = isMultiAnswer
             ? selectedOptions.includes(option)
             : selectedOption === option;
+          const isSelectionLimitReached =
+            isMultiAnswer &&
+            !isSelected &&
+            selectedOptions.length >= maxSelectableAnswers;
           const showCorrect = hasAnswerKey && submitted && correctAnswers.includes(option);
           const showIncorrect =
             hasAnswerKey && submitted && isSelected && !correctAnswers.includes(option);
@@ -114,13 +137,25 @@ export default function PreviousYearQuestionCard({
                 showCorrect
                   ? "border-emerald-400 bg-emerald-50 text-emerald-800"
                   : showIncorrect
-                  ? "border-rose-300 bg-rose-50 text-rose-700"
-                  : isSelected
-                  ? "border-slatebrand-300 bg-slatebrand-50 text-slatebrand-900"
-                  : "border-slate-200 bg-slate-50 text-slate-800 hover:border-slatebrand-300 hover:bg-white"
-              } ${submitted ? "cursor-default" : "cursor-pointer"}`}
+                ? "border-rose-300 bg-rose-50 text-rose-700"
+                : isSelected
+                ? "border-slatebrand-300 bg-slatebrand-50 text-slatebrand-900"
+                : "border-slate-200 bg-slate-50 text-slate-800 hover:border-slatebrand-300 hover:bg-white"
+              } ${submitted ? "cursor-default" : isSelectionLimitReached ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
               disabled={submitted}
             >
+              {isMultiAnswer ? (
+                <span
+                  aria-hidden="true"
+                  className={`mr-2 mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded border text-[11px] font-extrabold ${
+                    isSelected
+                      ? "border-slatebrand-700 bg-slatebrand-700 text-white"
+                      : "border-slate-300 bg-white text-transparent"
+                  }`}
+                >
+                  ✓
+                </span>
+              ) : null}
               <span className="mr-2 font-semibold">{String.fromCharCode(65 + index)}.</span>
               <span>{option}</span>
             </button>
@@ -171,7 +206,7 @@ export default function PreviousYearQuestionCard({
             </p>
             {!isCorrect ? (
               <p className="mt-2 text-sm font-medium text-slate-700">
-                Correct answer: {question.correctAnswer}
+                Correct answer: {correctAnswerText}
               </p>
             ) : null}
           </div>

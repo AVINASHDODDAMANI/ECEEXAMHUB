@@ -127,7 +127,7 @@ export default function SeoLandingPage({ page }) {
 
         <section className="mt-5 rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <h2 className="text-xl font-black tracking-tight text-slate-950">
-            Subject-Wise ECE Revision
+            Notes-Wise ECE Revision
           </h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {subjectDirectory.slice(0, 6).map((subject) => (

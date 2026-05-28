@@ -52,13 +52,13 @@ export default function InsightsPage() {
 
   return (
     <Layout
-      title="ECEExamHub | Insights"
+      title="ECE Exam Guide | Insights"
       searchValue={search}
       onSearchChange={setSearch}
     >
       <section className="grid gap-4 md:grid-cols-3">
         <StatCard label="Visible Questions" value={loading ? "..." : filteredQuestions.length} tone="dark" />
-        <StatCard label="Subjects Covered" value={loading ? "..." : insightData.length} tone="light" />
+        <StatCard label="Notes Covered" value={loading ? "..." : insightData.length} tone="light" />
         <StatCard
           label="Selected Exam"
           value={exam === "All Exams" ? "Mixed" : exam}

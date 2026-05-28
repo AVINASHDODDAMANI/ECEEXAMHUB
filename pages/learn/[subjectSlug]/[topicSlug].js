@@ -124,7 +124,7 @@ export default function LearningTopicPage({ topic }) {
       },
       {
         question: `How is ${topic.title} useful for GATE ECE and university exams?`,
-        answer: `${topic.title} is useful for ${topic.subjectName} notes because it combines concept clarity, formula-based revision, and exam-style worked examples for ECE students.`,
+        answer: `${topic.title} is useful for ${topic.subjectName} quick notes because it combines concept clarity, formula-based revision, and exam-style worked examples for ECE students.`,
       },
       {
         question: `Which topics should I revise after ${topic.title}?`,
@@ -171,7 +171,7 @@ export default function LearningTopicPage({ topic }) {
     about: [...(topic.keyConcepts || []), ...(topic.subtopics || [])],
     breadcrumbItems: [
       { name: "Home", item: "/" },
-      { name: "Subjects", item: "/subjects" },
+      { name: "Notes", item: "/subjects" },
       { name: topic.subjectName, item: getSubjectPagePathByLearningSlug(topic.subjectSlug) },
       { name: topic.chapterTitle, item: canonicalUrl },
       { name: topic.title, item: canonicalUrl },
@@ -191,16 +191,16 @@ export default function LearningTopicPage({ topic }) {
   const subjectNotesHref = getNotesPagePathByLearningSlug(topic.subjectSlug);
   const crossLinks = [
     {
-      title: `${topic.subjectName} Subject Hub`,
+      title: `${topic.subjectName} Notes Hub`,
       description: `Open the full ${topic.subjectName} roadmap, chapter flow, and subject-level revision guidance.`,
       href: subjectHubHref,
       badge: "Subject",
     },
     {
-      title: `${topic.subjectName} Notes`,
-      description: `Move to chapter-wise ${topic.subjectName.toLowerCase()} notes for broader revision and faster recap.`,
+      title: `${topic.subjectName} Quick Notes`,
+      description: `Move to chapter-wise ${topic.subjectName.toLowerCase()} quick notes for broader revision and faster recap.`,
       href: subjectNotesHref,
-      badge: "Notes",
+      badge: "Quick Notes",
     },
     {
       title: `${topic.subjectName} Practice`,
@@ -488,7 +488,7 @@ export default function LearningTopicPage({ topic }) {
           <section className="mt-6 rounded-[1rem] border border-slate-200 bg-white p-4 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-900">Related Topics</h2>
             <p className="mt-1 text-sm leading-6 text-slate-600">
-              Continue with the next topic once these notes feel clear.
+              Continue with the next topic once these quick notes feel clear.
             </p>
             <div className="mt-4 grid gap-3 md:grid-cols-2">
               {relatedTopics.map((relatedTopic) => (
@@ -526,7 +526,7 @@ export default function LearningTopicPage({ topic }) {
           <h2 className="text-lg font-semibold text-slate-900">Continue This Subject</h2>
           <p className="mt-1 text-sm leading-6 text-slate-600">
             Use these internal paths to move from this topic into the main subject hub,
-            full notes, and broader revision across {topic.subjectName}.
+            full quick notes, and broader revision across {topic.subjectName}.
           </p>
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             {crossLinks.map((item) => (
@@ -552,7 +552,7 @@ export default function LearningTopicPage({ topic }) {
           <h2 className="text-lg font-semibold text-slate-900">{topic.title} FAQ</h2>
           <p className="mt-1 text-sm leading-6 text-slate-600">
             Quick answers for students searching {topic.title.toLowerCase()} explained,
-            {` ${topic.subjectName.toLowerCase()} notes, and GATE ECE preparation.`}
+            {` ${topic.subjectName.toLowerCase()} quick notes, and GATE ECE preparation.`}
           </p>
           <div className="mt-4 grid gap-3">
             {faqItems.map((item) => (

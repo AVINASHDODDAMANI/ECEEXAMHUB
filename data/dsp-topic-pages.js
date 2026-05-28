@@ -97,10 +97,10 @@ function topicDetail(topic, index) {
 
   return {
     shortTitle: topic.title,
-    metaTitle: `${topic.title} GATE ECE DSP Notes + Formulas + Solved Examples`,
-    metaDescription: `Learn ${topic.title} for GATE ECE, PSU exams, university DSP notes, and DSP interview questions with intuition, formulas, examples, and animated visualization.`,
+    metaTitle: `${topic.title} GATE ECE DSP Quick Notes + Formulas + Solved Examples`,
+    metaDescription: `Learn ${topic.title} for GATE ECE, PSU exams, university DSP quick notes, and DSP interview questions with intuition, formulas, examples, and animated visualization.`,
     keywords:
-      "GATE DSP notes, Digital Signal Processing for PSU, DSP tutorial, university DSP notes, DSP interview questions",
+      "GATE DSP quick notes, Digital Signal Processing for PSU, DSP tutorial, university DSP quick notes, DSP interview questions",
     coreQuestion: `What should I understand first in ${topic.title}?`,
     examFocus: topic.concepts.slice(0, 3).join(", "),
     engineeringUse:

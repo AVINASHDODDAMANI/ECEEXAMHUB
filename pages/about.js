@@ -8,7 +8,7 @@ const values = [
   },
   {
     title: "One connected preparation flow",
-    text: "Students should not jump between random notes, questions, and videos. The platform connects subjects, notes, practice, PYQs, and mock tests in one place.",
+    text: "Students should not jump between random notes, questions, and videos. The platform connects notes, quick notes, practice, PYQs, and mock tests in one place.",
   },
   {
     title: "Revision that respects exam pressure",
@@ -79,7 +79,7 @@ export default function AboutPage() {
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/subjects" className="rounded-xl bg-portal-700 px-5 py-3 text-sm font-bold text-white transition hover:bg-portal-800">
-              Browse Subjects
+              Browse Notes
             </Link>
             <Link href="/mock-tests" className="rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50">
               Try Mock Tests

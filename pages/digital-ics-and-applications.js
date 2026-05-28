@@ -2,7 +2,7 @@ import Link from "next/link";
 import Layout from "../components/layout";
 import { SITE_URL } from "../lib/seo";
 
-const pageTitle = "Digital ICs and Applications GATE ECE Notes + Formulas + PYQs | Digital Electronics";
+const pageTitle = "Digital ICs and Applications GATE ECE Quick Notes + Formulas + PYQs | Digital Electronics";
 const pageDescription =
   "Learn Digital ICs and Applications with timing circuits, clock signals, pulse generation, 555 timer modes, propagation delay, duty cycle, formulas, examples, interview questions, and GATE notes.";
 const canonicalUrl = `${SITE_URL}/digital-ics-and-applications`;
@@ -16,7 +16,7 @@ const structuredData = [
     headline: pageTitle,
     description: pageDescription,
     url: canonicalUrl,
-    learningResourceType: "Study notes",
+    learningResourceType: "Study quick notes",
     educationalLevel: "Undergraduate engineering",
     teaches: [
       "Digital IC timing behavior",
@@ -44,7 +44,7 @@ const structuredData = [
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-      { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+      { "@type": "ListItem", position: 2, name: "Notes", item: `${SITE_URL}/subjects` },
       {
         "@type": "ListItem",
         position: 3,
@@ -155,7 +155,7 @@ export default function DigitalIcsPage() {
           <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/digital-electronics" className="font-medium text-slate-600 transition hover:text-portal-700">Digital Electronics</Link></li>
             <li className="text-slate-300">/</li>
@@ -327,7 +327,7 @@ export default function DigitalIcsPage() {
             </ul>
           </TopicSection>
 
-          <TopicSection title="Exam-Oriented Notes">
+          <TopicSection title="Exam-Oriented Quick Notes">
             <ul className="grid gap-2">
               <li>{"For clock questions, start with $$ f=1/T $$."}</li>
               <li>{"For 555 monostable questions, remember $$ T_p\\approx1.1RC $$."}</li>

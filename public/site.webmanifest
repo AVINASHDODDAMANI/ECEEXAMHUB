@@ -1,7 +1,7 @@
 {
   "name": "ECE Exam Guide",
   "short_name": "ECE Guide",
-  "description": "ECE Exam Guide, also known as ECE Exam Hub, provides structured ECE preparation with subject-wise notes, MCQs, previous papers, and exam-focused revision.",
+  "description": "ECE Exam Guide provides structured ECE preparation with subject-wise quick notes, MCQs, previous papers, and exam-focused revision.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

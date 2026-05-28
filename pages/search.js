@@ -12,6 +12,7 @@ import {
   getTopicSearchSuggestions,
 } from "../lib/smart-search";
 import { sanitizeSearchInput } from "../lib/sanitize";
+import { getSearchRedirectHref } from "../lib/search-redirects";
 
 const RECENT_SEARCHES_KEY = "eceexamhub-recent-searches";
 
@@ -31,7 +32,9 @@ const groupAccent = {
 };
 
 const groupLabel = {
+  Subjects: "Notes",
   Concepts: "Theory",
+  Notes: "Quick Notes",
 };
 
 const quickFilters = [
@@ -40,7 +43,7 @@ const quickFilters = [
   { id: "formulas", label: "Formulas", groups: ["Formulas"] },
   { id: "pyqs", label: "PYQs", groups: ["PYQs", "Questions", "Papers"] },
   { id: "practice", label: "Practice", groups: ["Practice", "MCQs"] },
-  { id: "subjects", label: "Subjects", groups: ["Subjects", "Notes"] },
+  { id: "subjects", label: "Notes", groups: ["Subjects", "Notes"] },
 ];
 
 function filterResults(results = [], filterId = "all") {
@@ -124,6 +127,13 @@ export default function SearchPage() {
     }
 
     const nextQuery = sanitizeSearchInput(router.query.q);
+    const redirectHref = getSearchRedirectHref(nextQuery);
+
+    if (redirectHref) {
+      router.replace(redirectHref);
+      return;
+    }
+
     setSearchValue(nextQuery);
     setActiveFilter("all");
     setRecentSearches(readRecentSearches());
@@ -137,7 +147,7 @@ export default function SearchPage() {
   return (
     <Layout
       title="ECE Exam Guide | Search"
-      description="Search ECE Exam Guide questions, question papers, subjects, chapters, topics, concepts, notes, MCQs, and previous year solutions."
+      description="Search ECE Exam Guide questions, question papers, notes, chapters, topics, concepts, quick notes, MCQs, and previous year solutions."
       noIndex
       searchValue={searchValue}
       onSearchChange={setSearchValue}
@@ -149,7 +159,7 @@ export default function SearchPage() {
           </Link>
           <span className="text-slate-300" aria-hidden="true">/</span>
           <Link href="/subjects" className="font-medium text-portal-600 transition hover:text-portal-700">
-            Subjects
+            Notes
           </Link>
           <span className="text-slate-300" aria-hidden="true">/</span>
           <span className="font-medium text-slate-700">Search</span>
@@ -164,7 +174,7 @@ export default function SearchPage() {
           </h1>
           <p className="mt-2 max-w-3xl text-sm font-medium leading-7 text-slate-700">
             Search for a topic, formula, PYQ phrase, paper year, exam name,
-            subject, chapter, concept, notes, or MCQ.
+            notes, chapter, concept, quick notes, or MCQ.
           </p>
         </section>
 

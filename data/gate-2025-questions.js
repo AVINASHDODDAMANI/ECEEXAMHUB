@@ -259,7 +259,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "14",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -282,7 +282,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "15",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q15-capacity-plot",
   },
   {
@@ -306,7 +306,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "16",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q16-nyquist",
   },
   {
@@ -329,7 +329,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "17",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q17-discrete-system",
   },
   {
@@ -352,7 +352,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "18",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -370,7 +370,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "19",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q19-network",
   },
   {
@@ -394,7 +394,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "20",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q20-parallel-admittance",
   },
   {
@@ -417,7 +417,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "21",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q21-small-signal-bjt",
   },
   {
@@ -435,7 +435,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "22",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q22-bjt-bias",
   },
   {
@@ -453,7 +453,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "23",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -471,7 +471,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "24",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q24-full-adder",
   },
   {
@@ -514,7 +514,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "26",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q26-root-locus",
   },
   {
@@ -542,7 +542,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "27",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -562,7 +562,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "28",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -590,7 +590,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "29",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -618,7 +618,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "30",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -638,7 +638,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "31",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -674,7 +674,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "33",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -692,7 +692,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "34",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q34-bandpass-filter",
   },
   {
@@ -710,7 +710,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "35",
     marks: 1,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q35-dac",
   },
   {
@@ -733,7 +733,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "36",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -756,7 +756,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "37",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -779,7 +779,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "38",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -797,7 +797,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "39",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q39-lti-meter",
   },
   {
@@ -820,7 +820,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "40",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q40-two-port",
   },
   {
@@ -838,7 +838,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "41",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -861,7 +861,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "42",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -884,7 +884,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "43",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q43-mos-differential",
   },
   {
@@ -902,7 +902,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "44",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -920,7 +920,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "45",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q45-sequential",
   },
   {
@@ -938,7 +938,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "46",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -956,7 +956,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "47",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -974,7 +974,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "48",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -992,7 +992,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "49",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "gate-2025-q49-charge-sheet",
   },
   {
@@ -1010,7 +1010,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "50",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -1080,7 +1080,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "53",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -1100,7 +1100,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "54",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
   {
@@ -1128,7 +1128,7 @@ const gate2025Questions = [
     year: 2025,
     questionId: "55",
     marks: 2,
-    section: "ECE Subjects",
+    section: "ECE Notes",
     diagram: "",
   },
 ];

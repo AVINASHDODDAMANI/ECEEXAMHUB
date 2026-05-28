@@ -3,17 +3,34 @@ import { useMemo, useState } from "react";
 import Layout from "../components/layout";
 import { subjectDirectory, subjectResources } from "../data/subject-directory";
 import { getSubjectSlug } from "../data/subject-theory-roadmaps";
-import { buildBreadcrumbList } from "../lib/seo";
+import { SITE_URL, buildBreadcrumbList } from "../lib/seo";
 
 const notesStructuredData = [
   buildBreadcrumbList([
     { name: "Home", item: "/" },
-    { name: "Notes", item: "/notes" },
+    { name: "Quick Notes", item: "/notes" },
   ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "ECE Quick Notes by Subject",
+    url: `${SITE_URL}/notes`,
+    description:
+      "Subject-wise ECE quick notes for GATE ECE, PSU exams, university revision, formulas, MCQs, and previous year paper practice.",
+    isPartOf: {
+      "@id": `${SITE_URL}/#website`,
+    },
+    about: [
+      "Electronics and Communication Engineering",
+      "GATE ECE preparation",
+      "ECE quick notes",
+      "Previous year question practice",
+    ],
+  },
 ];
 
 const NOTE_COLLECTIONS = [
-  { id: "all", label: "All Notes" },
+  { id: "all", label: "All Quick Notes" },
   { id: "circuits", label: "Circuits" },
   { id: "systems", label: "Systems" },
   { id: "hardware", label: "Hardware" },
@@ -106,8 +123,9 @@ export default function NotesPage() {
 
   return (
     <Layout
-      title="ECE Notes by Subject | Electronics Study Notes"
-      description="Browse subject-wise ECE notes for electronics engineering revision with chapter paths, formulas, linked MCQs, and previous year paper practice."
+      title="ECE Quick Notes by Subject | Electronics Study Notes"
+      description="Browse subject-wise ECE quick notes for electronics engineering revision with chapter paths, formulas, linked MCQs, and previous year paper practice."
+      keywords="ECE quick notes, GATE ECE quick notes, electronics quick notes, ECE notes PDF, subject wise ECE notes, electronics and communication engineering notes, ECE revision notes"
       canonicalUrl="/notes"
       structuredData={notesStructuredData}
       pageClassName="py-3 sm:py-4"
@@ -121,32 +139,32 @@ export default function NotesPage() {
             Home
           </Link>
           <span className="text-slate-300" aria-hidden="true">/</span>
-          <span className="font-medium text-slate-700">Notes</span>
+          <span className="font-medium text-slate-700">Quick Notes</span>
         </nav>
 
         <section className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-panel">
           <div className="grid gap-5 p-5 lg:grid-cols-[minmax(0,1fr)_360px] sm:p-6">
             <div>
               <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-portal-700">
-                ECE Notes Library
+                ECE Quick Notes Library
               </p>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
-                Notes
+                Quick Notes
               </h1>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">
-                Open subject-wise notes for theory revision, formulas, chapter flow, and linked practice.
+                Open subject-wise quick notes for theory revision, formulas, chapter flow, and linked practice.
               </p>
 
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                <NotesMetric label="Subjects" value={subjectDirectory.length} />
+                <NotesMetric label="Notes" value={subjectDirectory.length} />
                 <NotesMetric label="Collections" value={NOTE_COLLECTIONS.length - 1} />
-                <NotesMetric label="Study paths" value="Notes + PYQs" />
+                <NotesMetric label="Study paths" value="Quick Notes + PYQs" />
               </div>
             </div>
 
             <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-4">
               <p className="text-sm font-bold text-slate-950">Quick resources</p>
-              <nav aria-label="Notes study links" className="mt-3 grid gap-2">
+              <nav aria-label="Quick Notes study links" className="mt-3 grid gap-2">
                 {subjectResources.slice(1).map((resource) => (
                   <Link
                     key={resource.label}
@@ -164,7 +182,7 @@ export default function NotesPage() {
 
         <section className="mt-5 rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <h2 className="text-lg font-bold tracking-tight text-slate-950">
-            Move from notes to exam practice
+            Move from quick notes to exam practice
           </h2>
           <div className="mt-3 flex flex-wrap gap-2">
             <Link
@@ -186,7 +204,7 @@ export default function NotesPage() {
           <div className="flex flex-col gap-4 border-b border-slate-200 pb-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <h2 className="text-2xl font-bold tracking-tight text-slate-950">
-                Browse Subject Notes
+                Browse Subject Quick Notes
               </h2>
               <p className="mt-1 text-sm leading-6 text-slate-600">
                 Select a subject to preview its note path before opening the full chapter page.
@@ -194,7 +212,7 @@ export default function NotesPage() {
             </div>
 
             <label className="relative block w-full lg:w-[340px]">
-              <span className="sr-only">Search notes</span>
+              <span className="sr-only">Search quick notes</span>
               <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
                 <SearchIcon />
               </span>
@@ -202,7 +220,7 @@ export default function NotesPage() {
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search notes or topics"
+                placeholder="Search quick notes or topics"
                 className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-3 text-sm font-medium text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-portal-300 focus:bg-white"
               />
             </label>
@@ -261,9 +279,9 @@ export default function NotesPage() {
 
               {!visibleSubjects.length ? (
                 <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 sm:col-span-2">
-                  <p className="text-base font-bold text-slate-900">No notes matched</p>
+                  <p className="text-base font-bold text-slate-900">No quick notes matched</p>
                   <p className="mt-1 text-sm leading-6 text-slate-600">
-                    Try another subject name or switch back to All Notes.
+                    Try another subject name or switch back to All Quick Notes.
                   </p>
                 </div>
               ) : null}
@@ -306,7 +324,7 @@ export default function NotesPage() {
                       href={getNotesHref(selectedSubject)}
                       className="inline-flex min-h-11 items-center justify-center rounded-xl bg-portal-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-portal-700"
                     >
-                      Open Notes
+                      Open Quick Notes
                     </Link>
                     <Link
                       href={selectedSubject.href}
@@ -319,7 +337,7 @@ export default function NotesPage() {
               ) : (
                 <div className="flex min-h-[320px] items-center">
                   <p className="text-sm leading-7 text-slate-600">
-                    Choose another collection or clear the search to preview available notes.
+                    Choose another collection or clear the search to preview available quick notes.
                   </p>
                 </div>
               )}

@@ -77,13 +77,13 @@ function LogicFamilyAnimation() {
 
 export default function LogicFamiliesPage() {
   return (
-    <Layout title="Logic Families GATE ECE Notes + CMOS TTL Formulas + PYQs" description="Deep theory notes on TTL, CMOS, fan-in, fan-out, noise margin, propagation delay, power dissipation, and logic-family comparison." pageClassName="py-3 sm:py-4">
+    <Layout title="Logic Families GATE ECE Quick Notes + CMOS TTL Formulas + PYQs" description="Deep theory notes on TTL, CMOS, fan-in, fan-out, noise margin, propagation delay, power dissipation, and logic-family comparison." pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav aria-label="Breadcrumb" className="mb-5 flex items-start justify-between gap-3 pt-1">
           <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/digital-electronics" className="font-medium text-slate-600 transition hover:text-portal-700">Digital Electronics</Link></li>
             <li className="text-slate-300">/</li>
@@ -303,7 +303,7 @@ export default function LogicFamiliesPage() {
             </ul>
           </TopicSection>
 
-          <TopicSection title="Exam-Oriented Notes">
+          <TopicSection title="Exam-Oriented Quick Notes">
             <ul className="grid gap-2">
               <li>CMOS has very high input impedance and low static power.</li>
               <li>TTL generally has stronger bipolar drive but higher power consumption.</li>

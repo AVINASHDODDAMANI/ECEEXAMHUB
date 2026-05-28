@@ -67,7 +67,7 @@ export default function DigitalSignalProcessingTopicPage({ topic }) {
     () => [
       {
         question: `Why is ${topic.shortTitle} important for GATE DSP?`,
-        answer: `${topic.shortTitle} is useful for GATE DSP notes, Digital Signal Processing for PSU exams, university DSP notes, and DSP interview questions because it builds the link between signal intuition and numerical solving.`,
+        answer: `${topic.shortTitle} is useful for GATE DSP quick notes, Digital Signal Processing for PSU exams, university DSP quick notes, and DSP interview questions because it builds the link between signal intuition and numerical solving.`,
       },
       {
         question: `How should I revise ${topic.shortTitle} for PSU exams?`,
@@ -96,9 +96,9 @@ export default function DigitalSignalProcessingTopicPage({ topic }) {
       {
         "@context": "https://schema.org",
         "@type": "LearningResource",
-        name: `${topic.shortTitle} Digital Signal Processing Notes`,
+        name: `${topic.shortTitle} Digital Signal Processing Quick Notes`,
         description: topic.metaDescription,
-        learningResourceType: "Theory Notes",
+        learningResourceType: "Theory Quick Notes",
         educationalLevel: "Undergraduate engineering",
         teaches: topic.shortTitle,
         keywords: seoKeywords,
@@ -117,7 +117,7 @@ export default function DigitalSignalProcessingTopicPage({ topic }) {
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-          { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+          { "@type": "ListItem", position: 2, name: "Notes", item: `${SITE_URL}/subjects` },
           { "@type": "ListItem", position: 3, name: "Digital Signal Processing", item: `${SITE_URL}/subjects/digital-signal-processing` },
           { "@type": "ListItem", position: 4, name: topic.shortTitle, item: `${SITE_URL}/learn/dsp/${topic.slug}` },
         ],
@@ -140,7 +140,7 @@ export default function DigitalSignalProcessingTopicPage({ topic }) {
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/digital-signal-processing" className="font-medium text-slate-600 transition hover:text-portal-700">Digital Signal Processing</Link></li>
             <li className="text-slate-300">/</li>
@@ -185,7 +185,7 @@ export default function DigitalSignalProcessingTopicPage({ topic }) {
 
           <TopicSection id="visualization" title="Step-by-Step Visualization">
             <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-              This lightweight SVG animation explains {topic.shortTitle} for GATE DSP notes, Digital Signal Processing for PSU exams, university DSP notes, and DSP interview questions.
+              This lightweight SVG animation explains {topic.shortTitle} for GATE DSP quick notes, Digital Signal Processing for PSU exams, university DSP quick notes, and DSP interview questions.
             </p>
             <div className="mt-4"><DSPVisualizer slug={topic.slug} /></div>
           </TopicSection>

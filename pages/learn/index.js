@@ -324,7 +324,7 @@ export default function LearnPage() {
 
   return (
     <Layout
-      title="ECEExamHub | Learning Dashboard"
+      title="ECE Exam Guide | Learning Dashboard"
       description="Learning dashboard with subject mastery, tests, revision activity, quick links, and daily preparation focus."
       searchValue={search}
       onSearchChange={setSearch}
@@ -523,8 +523,8 @@ export default function LearnPage() {
 
           <DashboardCard>
             <SectionHeader
-              title="Priority Subjects"
-              description="Low-coverage subjects to pull back into your routine."
+              title="Priority Notes"
+              description="Low-coverage notes to pull back into your routine."
             />
             <div className="mt-5 grid gap-3">
               {prioritySubjects.map((subject) => (
@@ -546,7 +546,7 @@ export default function LearnPage() {
               ))}
             </div>
             <Link href="/subjects" className="mt-5 inline-flex text-sm font-bold text-orange-600">
-              Open subjects -&gt;
+              Open notes -&gt;
             </Link>
           </DashboardCard>
         </section>
@@ -617,7 +617,7 @@ export default function LearnPage() {
               description="Common revision and practice shortcuts."
             />
             <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <QuickLinkTile href="/notes" label="My Notes" icon="notes" tintClassName="bg-blue-100 text-blue-600" />
+              <QuickLinkTile href="/notes" label="My Quick Notes" icon="notes" tintClassName="bg-blue-100 text-blue-600" />
               <QuickLinkTile href="/previous-year" label="PYQs" icon="folder" tintClassName="bg-emerald-100 text-emerald-600" />
               <QuickLinkTile href="/subjects" label="Bookmarks" icon="bookmark" tintClassName="bg-amber-100 text-amber-600" />
               <QuickLinkTile href="/notes" label="Formula Sheet" icon="trend" tintClassName="bg-violet-100 text-violet-600" />

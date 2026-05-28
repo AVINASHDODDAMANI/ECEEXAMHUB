@@ -60,8 +60,8 @@ const structuredData = [
     "@type": "LearningResource",
     name: "Sampling Theorem in Signals and Systems",
     description:
-      "Conceptual ECE notes on Sampling Theorem, Nyquist rate, aliasing, reconstruction, anti-aliasing filters, solved examples, GATE notes, and interview preparation.",
-    learningResourceType: "Theory Notes",
+      "Conceptual ECE notes on Sampling Theorem, Nyquist rate, aliasing, reconstruction, anti-aliasing filters, solved examples, GATE quick notes, and interview preparation.",
+    learningResourceType: "Theory Quick Notes",
     educationalLevel: "Undergraduate engineering",
     teaches: [
       "Sampling Theorem",
@@ -77,8 +77,8 @@ const structuredData = [
 export default function SamplingTheoremPage() {
   return (
     <Layout
-      title="Sampling Theorem GATE ECE Notes + Nyquist Formula + PYQs"
-      description="Learn Sampling Theorem with Nyquist rate intuition, aliasing, reconstruction, frequency-domain behavior, solved examples, GATE notes, and interview questions."
+      title="Sampling Theorem GATE ECE Quick Notes + Nyquist Formula + PYQs"
+      description="Learn Sampling Theorem with Nyquist rate intuition, aliasing, reconstruction, frequency-domain behavior, solved examples, GATE quick notes, and interview questions."
       keywords="Sampling Theorem signals and systems, Nyquist rate, aliasing, reconstruction, anti-aliasing filter, sampled signals, GATE ECE"
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
@@ -88,7 +88,7 @@ export default function SamplingTheoremPage() {
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/signals-and-systems" className="font-medium text-slate-600 transition hover:text-portal-700">Signals and Systems</Link></li>
             <li className="text-slate-300">/</li>
@@ -302,7 +302,7 @@ export default function SamplingTheoremPage() {
             <BulletList items={["State Sampling Theorem in simple engineering language.", "Why must sampling frequency be at least twice the highest signal frequency?", "What is aliasing and why is it dangerous?", "Why is an anti-aliasing filter used before an ADC?", "What happens in the frequency domain after sampling?", "Why do practical systems sample above the exact Nyquist rate?", "How is Sampling Theorem used in audio or communication receivers?"]} />
           </TopicSection>
 
-          <TopicSection id="exam-notes" title="Exam Notes">
+          <TopicSection id="exam-notes" title="Exam Quick Notes">
             <BulletList items={["Always identify the maximum frequency component $$f_m$$ first.", "Nyquist rate is $$2f_m$$, while Nyquist interval is $$1/(2f_m)$$.", "If $$f_s<2f_m$$, aliasing occurs.", "Spectrum replicas are spaced by $$f_s$$.", "Ideal reconstruction requires a low-pass filter after sampling.", "In numerical problems, convert units carefully: Hz, kHz, seconds, milliseconds, microseconds."]} />
           </TopicSection>
 

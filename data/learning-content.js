@@ -1182,14 +1182,14 @@ const microprocessorTopicDetails = Object.fromEntries(
   microprocessorTopicSeed.map(([slug, shortTitle, introLine, intuition, formula]) => [
     `microprocessors/${slug}`,
     {
-      metaTitle: `${shortTitle} GATE ECE Microprocessors Notes + PYQs + Revision`,
+      metaTitle: `${shortTitle} GATE ECE Microprocessors Quick Notes + PYQs + Revision`,
       metaDescription: `Learn ${shortTitle} with animated step-by-step visualization, 8085 notes, 8086 architecture links, PSU Microprocessors tips, and university exam preparation.`,
       keywords:
         "GATE ECE Microprocessors, PSU Microprocessors, 8085 notes, 8086 architecture, university exam preparation",
       shortTitle,
       coreQuestion: `How does ${shortTitle} help explain processor operation?`,
       examFocus:
-        "Processor architecture, instruction execution, bus activity, timing, interrupts, interfacing, 8085 notes, and 8086 architecture.",
+        "Processor architecture, instruction execution, bus activity, timing, interrupts, interfacing, 8085 quick notes, and 8086 architecture.",
       engineeringUse:
         "Used in embedded systems, instrumentation, control hardware, peripheral interfacing, industrial automation, and processor-based products.",
       intro: [
@@ -1274,17 +1274,17 @@ const microprocessorTopicDetails = Object.fromEntries(
 const topicLibrary = {
   ...microprocessorTopicDetails,
   "electromagnetics/vector-calculus": {
-    metaTitle: "Vector Calculus GATE ECE EMFT Notes + Formulas + PYQs",
+    metaTitle: "Vector Calculus GATE ECE EMFT Quick Notes + Formulas + PYQs",
     metaDescription:
-      "Learn vector calculus for GATE ECE Electromagnetic Theory with gradient, divergence, curl, coordinate systems, field visualization, EMFT notes, and PSU exam tips.",
+      "Learn vector calculus for GATE ECE Electromagnetic Theory with gradient, divergence, curl, coordinate systems, field visualization, EMFT quick notes, and PSU exam tips.",
     keywords:
-      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, vector calculus, university exam preparation",
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT quick notes, vector calculus, university exam preparation",
     shortTitle: "Vector Calculus",
     coreQuestion: "How do gradient, divergence, and curl describe the behavior of a field?",
     examFocus: "Coordinate systems, gradient direction, divergence source strength, curl rotation, Gauss theorem, and Stokes theorem.",
     engineeringUse: "Used to describe electric fields, magnetic fields, flux flow, circulation, and wave behavior.",
     intro: [
-      "Vector Calculus is the language of Electromagnetic Theory. It converts field pictures into equations that can be used in GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, and university exam preparation.",
+      "Vector Calculus is the language of Electromagnetic Theory. It converts field pictures into equations that can be used in GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT quick notes, and university exam preparation.",
       "Instead of treating gradient, divergence, and curl as isolated formulas, read them as three questions: where does the field increase, where does it spread out, and where does it rotate?",
     ],
     intuition:
@@ -1309,11 +1309,11 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "electrostatics" }],
   },
   "electromagnetics/electrostatics": {
-    metaTitle: "Electrostatics GATE ECE EMFT Notes + Formulas + PYQs",
+    metaTitle: "Electrostatics GATE ECE EMFT Quick Notes + Formulas + PYQs",
     metaDescription:
-      "Study electrostatics for GATE ECE Electromagnetic Theory with Coulomb force, electric field lines, Gauss surface, potential gradient, EMFT notes, and PSU tips.",
+      "Study electrostatics for GATE ECE Electromagnetic Theory with Coulomb force, electric field lines, Gauss surface, potential gradient, EMFT quick notes, and PSU tips.",
     keywords:
-      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, electrostatics, university exam preparation",
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT quick notes, electrostatics, university exam preparation",
     shortTitle: "Electrostatics",
     coreQuestion: "How do stationary charges create electric field, flux, potential, and force?",
     examFocus: "Coulomb law, electric field intensity, flux density, Gauss law, potential, potential gradient, and energy density.",
@@ -1339,11 +1339,11 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "conductors-and-dielectrics" }],
   },
   "electromagnetics/conductors-and-dielectrics": {
-    metaTitle: "Conductors and Dielectrics GATE ECE EMFT Notes + Formulas + PYQs",
+    metaTitle: "Conductors and Dielectrics GATE ECE EMFT Quick Notes + Formulas + PYQs",
     metaDescription:
-      "Learn conductors and dielectrics with charge distribution, polarization, capacitance, boundary conditions, EMFT notes, GATE ECE and PSU preparation.",
+      "Learn conductors and dielectrics with charge distribution, polarization, capacitance, boundary conditions, EMFT quick notes, GATE ECE and PSU preparation.",
     keywords:
-      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, conductors and dielectrics, university exam preparation",
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT quick notes, conductors and dielectrics, university exam preparation",
     shortTitle: "Conductors and Dielectrics",
     coreQuestion: "How do materials reshape electric fields and boundary behavior?",
     examFocus: "Conductor properties, boundary conditions, capacitance, dielectric polarization, and permittivity.",
@@ -1366,11 +1366,11 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "magnetostatics" }],
   },
   "electromagnetics/magnetostatics": {
-    metaTitle: "Magnetostatics GATE ECE EMFT Notes + Formulas + PYQs",
+    metaTitle: "Magnetostatics GATE ECE EMFT Quick Notes + Formulas + PYQs",
     metaDescription:
-      "Study magnetostatics with magnetic field around current, right-hand rule, Biot-Savart law, Ampere loop, EMFT notes, and PSU preparation.",
+      "Study magnetostatics with magnetic field around current, right-hand rule, Biot-Savart law, Ampere loop, EMFT quick notes, and PSU preparation.",
     keywords:
-      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, magnetostatics, university exam preparation",
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT quick notes, magnetostatics, university exam preparation",
     shortTitle: "Magnetostatics",
     coreQuestion: "How do steady currents create magnetic fields and magnetic force?",
     examFocus: "Biot-Savart law, Ampere circuital law, magnetic flux density, vector potential, magnetic forces, and torque.",
@@ -1396,11 +1396,11 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "electromagnetic-induction" }],
   },
   "electromagnetics/electromagnetic-induction": {
-    metaTitle: "Electromagnetic Induction GATE ECE EMFT Notes + Formulas + PYQs",
+    metaTitle: "Electromagnetic Induction GATE ECE EMFT Quick Notes + Formulas + PYQs",
     metaDescription:
-      "Learn Faraday law, Lenz law, changing magnetic flux, induced EMF, self and mutual inductance with EMFT notes for GATE ECE and PSU exams.",
+      "Learn Faraday law, Lenz law, changing magnetic flux, induced EMF, self and mutual inductance with EMFT quick notes for GATE ECE and PSU exams.",
     keywords:
-      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, electromagnetic induction, university exam preparation",
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT quick notes, electromagnetic induction, university exam preparation",
     shortTitle: "Electromagnetic Induction",
     coreQuestion: "How does changing magnetic flux create induced EMF?",
     examFocus: "Faraday law, Lenz law, self inductance, mutual inductance, and magnetic energy.",
@@ -1423,11 +1423,11 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "maxwells-equations" }],
   },
   "electromagnetics/maxwells-equations": {
-    metaTitle: "Maxwell's Equations GATE ECE EMFT Notes + Formulas + PYQs",
+    metaTitle: "Maxwell's Equations GATE ECE EMFT Quick Notes + Formulas + PYQs",
     metaDescription:
-      "Understand Maxwell's equations, integral and differential forms, displacement current, field coupling, EMFT notes, GATE ECE and PSU preparation.",
+      "Understand Maxwell's equations, integral and differential forms, displacement current, field coupling, EMFT quick notes, GATE ECE and PSU preparation.",
     keywords:
-      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, Maxwell equations, university exam preparation",
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT quick notes, Maxwell equations, university exam preparation",
     shortTitle: "Maxwell's Equations",
     coreQuestion: "How do electric and magnetic fields couple in space and time?",
     examFocus: "Four Maxwell equations, integral vs differential forms, displacement current, and physical interpretation.",
@@ -1450,11 +1450,11 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "electromagnetic-waves" }],
   },
   "electromagnetics/electromagnetic-waves": {
-    metaTitle: "Electromagnetic Waves GATE ECE EMFT Notes + Formulas + PYQs",
+    metaTitle: "Electromagnetic Waves GATE ECE EMFT Quick Notes + Formulas + PYQs",
     metaDescription:
-      "Learn plane wave propagation, E and H fields, Poynting vector, attenuation in conductors, EMFT notes, GATE ECE and PSU exam preparation.",
+      "Learn plane wave propagation, E and H fields, Poynting vector, attenuation in conductors, EMFT quick notes, GATE ECE and PSU exam preparation.",
     keywords:
-      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, electromagnetic waves, university exam preparation",
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT quick notes, electromagnetic waves, university exam preparation",
     shortTitle: "Electromagnetic Waves",
     coreQuestion: "How do electric and magnetic fields carry energy through space?",
     examFocus: "Wave equation, plane waves, uniform plane waves, propagation media, Poynting vector, and attenuation.",
@@ -1477,11 +1477,11 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "transmission-lines" }],
   },
   "electromagnetics/transmission-lines": {
-    metaTitle: "Transmission Lines GATE ECE EMFT Notes + Formulas + PYQs",
+    metaTitle: "Transmission Lines GATE ECE EMFT Quick Notes + Formulas + PYQs",
     metaDescription:
-      "Study transmission lines with signal propagation, reflection coefficient, SWR, impedance matching, EMFT notes, GATE ECE and PSU preparation.",
+      "Study transmission lines with signal propagation, reflection coefficient, SWR, impedance matching, EMFT quick notes, GATE ECE and PSU preparation.",
     keywords:
-      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, transmission lines, university exam preparation",
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT quick notes, transmission lines, university exam preparation",
     shortTitle: "Transmission Lines",
     coreQuestion: "How does a high-frequency signal travel and reflect along a line?",
     examFocus: "Line parameters, telegrapher equations, reflection coefficient, SWR, and impedance matching.",
@@ -1504,11 +1504,11 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "waveguides" }],
   },
   "electromagnetics/waveguides": {
-    metaTitle: "Waveguides GATE ECE EMFT Notes + Formulas + PYQs",
+    metaTitle: "Waveguides GATE ECE EMFT Quick Notes + Formulas + PYQs",
     metaDescription:
-      "Learn rectangular waveguides, TE TM TEM modes, cutoff frequency, phase and group velocity with EMFT notes for GATE ECE and PSU exams.",
+      "Learn rectangular waveguides, TE TM TEM modes, cutoff frequency, phase and group velocity with EMFT quick notes for GATE ECE and PSU exams.",
     keywords:
-      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, waveguides, university exam preparation",
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT quick notes, waveguides, university exam preparation",
     shortTitle: "Waveguides",
     coreQuestion: "How do hollow conducting structures guide electromagnetic waves?",
     examFocus: "Rectangular waveguides, TE/TM/TEM modes, cutoff frequency, phase velocity, and group velocity.",
@@ -1531,11 +1531,11 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "antennas" }],
   },
   "electromagnetics/antennas": {
-    metaTitle: "Antennas GATE ECE EMFT Notes + Formulas + PYQs",
+    metaTitle: "Antennas GATE ECE EMFT Quick Notes + Formulas + PYQs",
     metaDescription:
-      "Study antennas with dipole radiation, radiation pattern, gain, directivity, antenna arrays, EMFT notes, GATE ECE and PSU preparation.",
+      "Study antennas with dipole radiation, radiation pattern, gain, directivity, antenna arrays, EMFT quick notes, GATE ECE and PSU preparation.",
     keywords:
-      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, antennas, university exam preparation",
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT quick notes, antennas, university exam preparation",
     shortTitle: "Antennas",
     coreQuestion: "How does guided electrical energy become radiated electromagnetic energy?",
     examFocus: "Radiation pattern, gain, directivity, efficiency, dipole antenna, arrays, and radiation mechanism.",
@@ -1558,11 +1558,11 @@ const topicLibrary = {
     relatedTopics: [{ subjectSlug: "electromagnetics", topicSlug: "electromagnetic-compatibility-and-applications" }],
   },
   "electromagnetics/electromagnetic-compatibility-and-applications": {
-    metaTitle: "Electromagnetic Compatibility GATE ECE EMFT Notes + PYQs",
+    metaTitle: "Electromagnetic Compatibility GATE ECE EMFT Quick Notes + PYQs",
     metaDescription:
-      "Learn EMC, shielding, electromagnetic interference, radar basics, microwave applications, noise suppression, EMFT notes, GATE ECE and PSU preparation.",
+      "Learn EMC, shielding, electromagnetic interference, radar basics, microwave applications, noise suppression, EMFT quick notes, GATE ECE and PSU preparation.",
     keywords:
-      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, electromagnetic compatibility, university exam preparation",
+      "GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT quick notes, electromagnetic compatibility, university exam preparation",
     shortTitle: "EMC and Applications",
     coreQuestion: "How do we control unwanted electromagnetic interaction in real systems?",
     examFocus: "Shielding, interference, microwave applications, radar basics, and noise suppression.",

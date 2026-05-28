@@ -69,8 +69,8 @@ const structuredData = [
     "@type": "LearningResource",
     name: "Z-Transform in Signals and Systems",
     description:
-      "Conceptual ECE notes on Z-Transform, ROC, poles and zeros, unit circle, inverse Z-transform, difference equations, stability, solved examples, GATE notes, and interview preparation.",
-    learningResourceType: "Theory Notes",
+      "Conceptual ECE notes on Z-Transform, ROC, poles and zeros, unit circle, inverse Z-transform, difference equations, stability, solved examples, GATE quick notes, and interview preparation.",
+    learningResourceType: "Theory Quick Notes",
     educationalLevel: "Undergraduate engineering",
     teaches: [
       "Z-Transform",
@@ -87,8 +87,8 @@ const structuredData = [
 export default function ZTransformPage() {
   return (
     <Layout
-      title="Z-Transform GATE ECE Notes + ROC Formulas + PYQs | Signals"
-      description="Learn Z-Transform with discrete-time intuition, ROC, poles and zeros, unit circle, inverse Z-transform, difference equations, solved examples, GATE notes, and interview questions."
+      title="Z-Transform GATE ECE Quick Notes + ROC Formulas + PYQs | Signals"
+      description="Learn Z-Transform with discrete-time intuition, ROC, poles and zeros, unit circle, inverse Z-transform, difference equations, solved examples, GATE quick notes, and interview questions."
       keywords="Z-Transform signals and systems, ROC of Z-transform, unit circle, poles and zeros, discrete-time LTI systems, DSP, GATE ECE"
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
@@ -98,7 +98,7 @@ export default function ZTransformPage() {
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/signals-and-systems" className="font-medium text-slate-600 transition hover:text-portal-700">Signals and Systems</Link></li>
             <li className="text-slate-300">/</li>
@@ -311,7 +311,7 @@ export default function ZTransformPage() {
             <BulletList items={interviewQuestions} />
           </TopicSection>
 
-          <TopicSection id="exam-notes" title="Exam Notes">
+          <TopicSection id="exam-notes" title="Exam Quick Notes">
             <BulletList items={["For right-sided sequences, ROC is outside the outermost pole.", "For left-sided sequences, ROC is inside the innermost pole.", "For two-sided sequences, ROC lies between poles.", "A causal discrete-time LTI system is stable only if all poles are inside the unit circle.", "A stable system has ROC including $$|z|=1$$.", "Check whether the problem asks for one-sided or two-sided Z-transform before using initial conditions."]} />
           </TopicSection>
 

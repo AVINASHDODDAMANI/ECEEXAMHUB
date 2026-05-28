@@ -2,7 +2,7 @@ import Link from "next/link";
 import Layout from "../components/layout";
 import { SITE_URL } from "../lib/seo";
 
-const pageTitle = "ADC and DAC Converters GATE ECE Notes + Formulas + PYQs | Digital Electronics";
+const pageTitle = "ADC and DAC Converters GATE ECE Quick Notes + Formulas + PYQs | Digital Electronics";
 const pageDescription =
   "Learn Analog to Digital and Digital to Analog Converters with ADC/DAC working, resolution, quantization error, R-2R DAC, flash ADC, SAR ADC, dual-slope ADC, formulas, examples, and GATE notes.";
 const canonicalUrl =
@@ -17,7 +17,7 @@ const structuredData = [
     headline: pageTitle,
     description: pageDescription,
     url: canonicalUrl,
-    learningResourceType: "Study notes",
+    learningResourceType: "Study quick notes",
     educationalLevel: "Undergraduate engineering",
     teaches: [
       "ADC working principle",
@@ -45,7 +45,7 @@ const structuredData = [
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-      { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+      { "@type": "ListItem", position: 2, name: "Notes", item: `${SITE_URL}/subjects` },
       {
         "@type": "ListItem",
         position: 3,
@@ -185,7 +185,7 @@ export default function AdcDacPage() {
           <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/digital-electronics" className="font-medium text-slate-600 transition hover:text-portal-700">Digital Electronics</Link></li>
             <li className="text-slate-300">/</li>
@@ -359,7 +359,7 @@ export default function AdcDacPage() {
             </ul>
           </TopicSection>
 
-          <TopicSection title="Exam-Oriented Notes">
+          <TopicSection title="Exam-Oriented Quick Notes">
             <ul className="grid gap-2">
               <li>Flash ADC needs $$ 2^n-1 $$ comparators.</li>
               <li>SAR ADC conversion time is approximately proportional to number of bits.</li>

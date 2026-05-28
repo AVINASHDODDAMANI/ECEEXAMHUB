@@ -95,10 +95,10 @@ function topicDetail(topic, index) {
 
   return {
     shortTitle: topic.title,
-    metaTitle: `${topic.title} GATE ECE Embedded Systems Notes + PYQs + Revision`,
-    metaDescription: `Learn ${topic.title} with Embedded Systems notes, GATE Embedded Systems revision, PSU exam focus, interview-ready intuition, and lightweight animated visualization.`,
+    metaTitle: `${topic.title} GATE ECE Embedded Systems Quick Notes + PYQs + Revision`,
+    metaDescription: `Learn ${topic.title} with Embedded Systems quick notes, GATE Embedded Systems revision, PSU exam focus, interview-ready intuition, and lightweight animated visualization.`,
     keywords:
-      "Embedded Systems notes, GATE Embedded Systems, Embedded C tutorial, Microcontroller programming, Embedded Systems for PSU, RTOS interview questions",
+      "Embedded Systems quick notes, GATE Embedded Systems, Embedded C tutorial, Microcontroller programming, Embedded Systems for PSU, RTOS interview questions",
     coreQuestion: `What engineering idea makes ${topic.title} useful in real embedded products?`,
     examFocus: topic.concepts.slice(0, 3).join(", "),
     engineeringUse:

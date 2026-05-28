@@ -107,8 +107,8 @@ function topicDetail(topic, index) {
 
   return {
     shortTitle: topic.title,
-    metaTitle: `${topic.title} GATE ECE Antenna Notes + Formulas + PYQs`,
-    metaDescription: `Learn ${topic.title} for GATE ECE, PSU exams, university microwave and antenna notes, and antenna interview questions with formulas, intuition, examples, and animated visualization.`,
+    metaTitle: `${topic.title} GATE ECE Antenna Quick Notes + Formulas + PYQs`,
+    metaDescription: `Learn ${topic.title} for GATE ECE, PSU exams, university microwave and antenna quick notes, and antenna interview questions with formulas, intuition, examples, and animated visualization.`,
     keywords:
       "GATE Antenna and Wave Propagation notes, Wave propagation for PSU, Antenna engineering tutorial, Antenna interview questions, Microwave and antenna notes",
     coreQuestion: `What is the engineering intuition behind ${topic.title}?`,

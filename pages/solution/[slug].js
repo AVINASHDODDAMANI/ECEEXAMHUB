@@ -208,7 +208,7 @@ function buildQuestionSectionTabs(questions = [], exam = "") {
     },
     {
       key: "ece-subjects",
-      label: "ECE Subjects",
+      label: "ECE Notes",
       match: (question) =>
         question.subject !== "General Aptitude" &&
         question.subject !== "Engineering Mathematics",
@@ -259,6 +259,12 @@ function getCorrectAnswers(question = {}) {
       : [];
 }
 
+function getCorrectAnswerText(question = {}) {
+  const correctAnswers = getCorrectAnswers(question);
+
+  return question.correctAnswer || correctAnswers.join(", ");
+}
+
 function sameAnswerSet(left = [], right = []) {
   return (
     left.length === right.length &&
@@ -282,6 +288,10 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
   const selectedAnswer = selectedAnswers[questionKey];
   const correctAnswers = getCorrectAnswers(currentQuestion);
   const isMultiAnswer = correctAnswers.length > 1 || currentQuestion.questionType === "MSQ";
+  const maxSelectableAnswers =
+    isMultiAnswer && correctAnswers.length > 1
+      ? correctAnswers.length
+      : currentQuestion.options?.length || 0;
   const selectedAnswerList = Array.isArray(selectedAnswer)
     ? selectedAnswer
     : selectedAnswer
@@ -291,6 +301,8 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
   const isAnswerRevealed = revealedAnswers[questionKey];
   const hasSelectedAnswer = selectedAnswerList.length > 0;
   const hasAnswerKey = correctAnswers.length > 0;
+  const correctAnswerText = getCorrectAnswerText(currentQuestion);
+  const shouldGradeSelection = Boolean(isAnswerRevealed) || (!isMultiAnswer && hasSelectedAnswer);
   const selectedAnswerIsCorrect = isMultiAnswer
     ? sameAnswerSet(selectedAnswerList, correctAnswers)
     : selectedAnswer === correctAnswers[0];
@@ -312,9 +324,21 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
     setSelectedAnswers((current) => ({
       ...current,
       [questionKey]: isMultiAnswer
-        ? (Array.isArray(current[questionKey]) ? current[questionKey] : []).includes(option)
-          ? current[questionKey].filter((item) => item !== option)
-          : [...(Array.isArray(current[questionKey]) ? current[questionKey] : []), option]
+        ? (() => {
+            const currentAnswers = Array.isArray(current[questionKey])
+              ? current[questionKey]
+              : [];
+
+            if (currentAnswers.includes(option)) {
+              return currentAnswers.filter((item) => item !== option);
+            }
+
+            if (currentAnswers.length >= maxSelectableAnswers) {
+              return currentAnswers;
+            }
+
+            return [...currentAnswers, option];
+          })()
         : option,
     }));
   }
@@ -457,30 +481,53 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
             </a>
           ) : null}
 
+          <p className="mt-3 text-sm font-semibold text-slate-600">
+            {isMultiAnswer
+              ? `Multiple correct options may apply. Select exactly ${maxSelectableAnswers} options, then reveal the answer.`
+              : "Select one option, then reveal the answer."}
+          </p>
+
           <div className="mt-4 grid gap-2">
             {(currentQuestion.options || []).map((option, optionIndex) => {
                 const isSelected = selectedAnswerList.includes(option);
                 const isCorrectOption = correctAnswers.includes(option);
-                const showCorrectOption = hasAnswerKey && hasSelectedAnswer && isCorrectOption;
+                const isSelectionLimitReached =
+                  isMultiAnswer &&
+                  !isSelected &&
+                  selectedAnswerList.length >= maxSelectableAnswers;
+                const showCorrectOption = hasAnswerKey && shouldGradeSelection && isCorrectOption;
                 const showWrongOption =
-                  hasAnswerKey && hasSelectedAnswer && isSelected && !isCorrectOption;
+                  hasAnswerKey && shouldGradeSelection && isSelected && !isCorrectOption;
 
                 return (
                   <button
                     type="button"
                     key={`${option}-${optionIndex}`}
                     onClick={() => selectAnswer(questionKey, option)}
+                    aria-pressed={isSelected}
                     className={`rounded-xl border px-3 py-2 text-left text-sm transition ${
                       showCorrectOption
                         ? "border-emerald-300 bg-emerald-50 text-emerald-800"
                         : showWrongOption
                           ? "border-rose-300 bg-rose-50 text-rose-800"
                           : isSelected
-                            ? "border-portal-300 bg-portal-50 text-portal-800"
-                            : "border-slate-200 bg-slate-50 text-slate-700"
-                    }`}
+                        ? "border-portal-300 bg-portal-50 text-portal-800"
+                        : "border-slate-200 bg-slate-50 text-slate-700"
+                    } ${isSelectionLimitReached ? "cursor-not-allowed opacity-60" : ""}`}
                   >
                     <div className="flex min-w-0 items-start gap-3">
+                      {isMultiAnswer ? (
+                        <span
+                          aria-hidden="true"
+                          className={`mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded border text-[11px] font-extrabold ${
+                            isSelected
+                              ? "border-portal-700 bg-portal-700 text-white"
+                              : "border-slate-300 bg-white text-transparent"
+                          }`}
+                        >
+                          ✓
+                        </span>
+                      ) : null}
                       <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-extrabold text-slate-500">
                         {showCorrectOption ? "OK" : showWrongOption ? "X" : String.fromCharCode(65 + optionIndex)}
                       </span>
@@ -494,6 +541,10 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
                       ) : showWrongOption ? (
                         <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-rose-700">
                           Wrong
+                        </span>
+                      ) : isMultiAnswer && isSelected ? (
+                        <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-portal-700">
+                          Selected
                         </span>
                       ) : null}
                     </div>
@@ -518,17 +569,29 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
               </p>
             ) : isAnswerRevealed ? (
               <p className="text-sm font-semibold text-emerald-700">
-                Answer: {currentQuestion.correctAnswer}
+                Answer: {correctAnswerText}
               </p>
-            ) : selectedAnswer ? (
-              <p className={`text-sm font-semibold ${selectedAnswerIsCorrect ? "text-emerald-700" : "text-rose-700"}`}>
-                {selectedAnswerIsCorrect
+            ) : hasSelectedAnswer ? (
+              <p
+                className={`text-sm font-semibold ${
+                  isMultiAnswer
+                    ? "text-portal-700"
+                    : selectedAnswerIsCorrect
+                      ? "text-emerald-700"
+                      : "text-rose-700"
+                }`}
+              >
+                {isMultiAnswer
+                  ? `Selected: ${selectedAnswerText}. Reveal the answer to check the complete set.`
+                  : selectedAnswerIsCorrect
                   ? "Correct answer selected."
                   : `Selected: ${selectedAnswerText}. Correct option is highlighted.`}
               </p>
             ) : (
               <p className="min-w-0 break-words text-sm text-slate-500">
-                Select an option, then reveal the answer.
+                {isMultiAnswer
+                  ? `Select exactly ${maxSelectableAnswers} options, then reveal the answer.`
+                  : "Select an option, then reveal the answer."}
               </p>
             )}
           </div>
@@ -974,7 +1037,7 @@ export default function SolutionPage({
                 {[
                   ["Important PYQs", "/practice?search=important"],
                   ["Repeated Questions", "/previous-year?search=repeated"],
-                  ["Subject Notes", "/notes"],
+                  ["Subject Quick Notes", "/notes"],
                   ["Mock Tests", "/mock-tests"],
                 ].map(([label, href]) => (
                   <Link

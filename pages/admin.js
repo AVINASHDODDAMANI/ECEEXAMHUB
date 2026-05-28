@@ -45,7 +45,7 @@ export default function AdminPage() {
   }, []);
 
   return (
-    <Layout title="ECEExamHub | Admin" noIndex>
+    <Layout title="ECE Exam Guide | Admin" noIndex>
       <section className="grid gap-4 md:grid-cols-3">
         <StatCard label="Admin Mode" value="Enabled" tone="dark" />
         <StatCard

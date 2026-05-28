@@ -3,7 +3,7 @@ export const seoLandingPages = {
     path: "/gate-ece-pyq",
     title: "GATE ECE PYQ PDF + Previous Year Questions + Solutions",
     description:
-      "Practice GATE ECE previous year questions with subject-wise links, solved paper paths, formulas, and revision resources for electronics engineering preparation.",
+      "Practice GATE ECE previous year questions with notes-wise links, solved paper paths, formulas, and revision resources for electronics engineering preparation.",
     eyebrow: "GATE ECE PYQ",
     heading: "GATE ECE Previous Year Questions",
     summary:
@@ -17,51 +17,51 @@ export const seoLandingPages = {
     ],
     sections: [
       {
-        title: "Start With High-Weightage Subjects",
-        text: "Begin with Network Analysis, Signals and Systems, Communication Systems, Control Systems, Digital Electronics, and Analog Electronics before moving to the remaining subjects.",
+        title: "Start With High-Weightage Notes",
+        text: "Begin with Network Analysis, Signals and Systems, Communication Systems, Control Systems, Digital Electronics, and Analog Electronics notes before moving to the remaining areas.",
       },
       {
         title: "Use PYQs After Formula Revision",
         text: "Revise formulas first, then solve previous year questions topic by topic. This makes mistakes easier to diagnose.",
       },
       {
-        title: "Connect Papers With Notes",
-        text: "After each paper session, return to the notes page for the subject where mistakes are repeated.",
+        title: "Connect Papers With Quick Notes",
+        text: "After each paper session, return to the quick notes page for the subject where mistakes are repeated.",
       },
     ],
     links: [
       { label: "GATE Practice", href: "/practice/gate" },
       { label: "Previous Year Papers", href: "/previous-year" },
-      { label: "Network Analysis Notes", href: "/notes/network-analysis" },
-      { label: "Communication Systems Notes", href: "/notes/communication-systems" },
+      { label: "Network Analysis Quick Notes", href: "/notes/network-analysis" },
+      { label: "Communication Systems Quick Notes", href: "/notes/communication-systems" },
     ],
     keywords:
       "GATE ECE PYQ, GATE ECE previous year questions, GATE ECE question paper, GATE ECE solved questions, electronics PYQ",
   },
   "ece-handwritten-notes": {
     path: "/ece-handwritten-notes",
-    title: "ECE Handwritten Notes PDF for GATE ECE + Formulas + PYQs",
+    title: "ECE Handwritten Quick Notes PDF for GATE ECE + Formulas + PYQs",
     description:
-      "Find subject-wise ECE handwritten notes style revision pages with formulas, theory flow, important questions, and previous year question support.",
-    eyebrow: "ECE Notes",
-    heading: "ECE Handwritten Notes",
+      "Find notes-wise ECE handwritten notes style revision pages with formulas, theory flow, important questions, and previous year question support.",
+    eyebrow: "ECE Quick Notes",
+    heading: "ECE Handwritten Quick Notes",
     summary:
       "A search-focused notes hub for students looking for handwritten-style ECE notes, concise formulas, and chapter-wise revision.",
-    primaryAction: { label: "Browse Notes", href: "/notes" },
+    primaryAction: { label: "Browse Quick Notes", href: "/notes" },
     secondaryAction: { label: "Open Formula Pages", href: "/gate-ece-formulas" },
     metrics: [
-      { label: "Subjects", value: "12" },
+      { label: "Notes", value: "12" },
       { label: "Format", value: "Revision" },
       { label: "Focus", value: "GATE ECE" },
     ],
     sections: [
       {
-        title: "Subject-Wise Notes",
+        title: "Notes-Wise Quick Notes",
         text: "Open notes for Network Analysis, Analog Electronics, Digital Electronics, Signals, Communication, EMFT, Control Systems, DSP, VLSI, Microprocessors, Antenna, and Embedded Systems.",
       },
       {
         title: "Formula-First Revision",
-        text: "Use each notes page to move from theory to formulas and then into solved examples or PYQ practice.",
+        text: "Use each quick notes page to move from theory to formulas and then into solved examples or PYQ practice.",
       },
       {
         title: "Quick Exam Reading",
@@ -69,9 +69,9 @@ export const seoLandingPages = {
       },
     ],
     links: [
-      { label: "All ECE Notes", href: "/notes" },
-      { label: "Network Analysis Notes", href: "/notes/network-analysis" },
-      { label: "Digital Electronics Notes", href: "/notes/digital-electronics" },
+      { label: "All ECE Quick Notes", href: "/notes" },
+      { label: "Network Analysis Quick Notes", href: "/notes/network-analysis" },
+      { label: "Digital Electronics Quick Notes", href: "/notes/digital-electronics" },
       { label: "Important Questions", href: "/ece-important-questions" },
     ],
     keywords:
@@ -81,12 +81,12 @@ export const seoLandingPages = {
     path: "/gate-ece-formulas",
     title: "GATE ECE Formulas PDF + Subject Wise Formula Revision",
     description:
-      "Revise GATE ECE formulas subject wise with links to Network Analysis, Signals, Control Systems, Communication Systems, DSP, Digital Electronics, and more.",
+      "Revise GATE ECE formulas notes wise with links to Network Analysis, Signals, Control Systems, Communication Systems, DSP, Digital Electronics, and more.",
     eyebrow: "Formula Revision",
     heading: "GATE ECE Formulas",
     summary:
       "A formula-first landing page for students who want fast GATE ECE revision before solving questions.",
-    primaryAction: { label: "Browse Notes", href: "/notes" },
+    primaryAction: { label: "Browse Quick Notes", href: "/notes" },
     secondaryAction: { label: "Solve PYQs", href: "/gate-ece-pyq" },
     metrics: [
       { label: "Intent", value: "Formulas" },
@@ -120,12 +120,12 @@ export const seoLandingPages = {
     path: "/network-analysis-pyq",
     title: "Network Analysis PYQ for GATE ECE + Formulas + Solutions",
     description:
-      "Practice Network Analysis PYQs for GATE ECE with links to circuit laws, network theorems, AC analysis, transients, two-port networks, notes, and formulas.",
+      "Practice Network Analysis PYQs for GATE ECE with links to circuit laws, network theorems, AC analysis, transients, two-port networks, quick notes, and formulas.",
     eyebrow: "Network Analysis PYQ",
     heading: "Network Analysis PYQs",
     summary:
       "A dedicated entry point for students searching Network Analysis previous year questions, formulas, and solved circuit practice.",
-    primaryAction: { label: "Open Network Notes", href: "/notes/network-analysis" },
+    primaryAction: { label: "Open Network Quick Notes", href: "/notes/network-analysis" },
     secondaryAction: { label: "Practice Questions", href: "/mcqs/network-analysis" },
     metrics: [
       { label: "Subject", value: "Networks" },
@@ -147,7 +147,7 @@ export const seoLandingPages = {
       },
     ],
     links: [
-      { label: "Network Analysis Notes", href: "/notes/network-analysis" },
+      { label: "Network Analysis Quick Notes", href: "/notes/network-analysis" },
       { label: "Network Theorems", href: "/network-theorems" },
       { label: "Two-Port Networks", href: "/two-port-networks" },
       { label: "Network MCQs", href: "/mcqs/network-analysis" },
@@ -157,18 +157,18 @@ export const seoLandingPages = {
   },
   "communication-systems-notes": {
     path: "/communication-systems-notes",
-    title: "Communication Systems Notes for GATE ECE PDF + PYQs + Formulas",
+    title: "Communication Systems Quick Notes for GATE ECE PDF + PYQs + Formulas",
     description:
-      "Study Communication Systems notes for GATE ECE with AM, FM, PM, sampling, PCM, digital modulation, noise, information theory, receivers, formulas, and PYQ links.",
-    eyebrow: "Communication Notes",
-    heading: "Communication Systems Notes",
+      "Study Communication Systems quick notes for GATE ECE with AM, FM, PM, sampling, PCM, digital modulation, noise, information theory, receivers, formulas, and PYQ links.",
+    eyebrow: "Communication Quick Notes",
+    heading: "Communication Systems Quick Notes",
     summary:
-      "A high-intent landing page for Communication Systems notes, formulas, PYQs, and topic-wise GATE ECE revision.",
-    primaryAction: { label: "Open Full Notes", href: "/notes/communication-systems" },
-    secondaryAction: { label: "Open Subject Hub", href: "/subjects/communication-systems" },
+      "A high-intent landing page for Communication Systems quick notes, formulas, PYQs, and topic-wise GATE ECE revision.",
+    primaryAction: { label: "Open Full Quick Notes", href: "/notes/communication-systems" },
+    secondaryAction: { label: "Open Notes Hub", href: "/subjects/communication-systems" },
     metrics: [
       { label: "Subject", value: "Communication" },
-      { label: "Mode", value: "Notes + PYQs" },
+      { label: "Mode", value: "Quick Notes + PYQs" },
       { label: "Exam", value: "GATE ECE" },
     ],
     sections: [
@@ -186,27 +186,27 @@ export const seoLandingPages = {
       },
     ],
     links: [
-      { label: "Communication Notes", href: "/notes/communication-systems" },
-      { label: "Communication Subject Hub", href: "/subjects/communication-systems" },
+      { label: "Communication Quick Notes", href: "/notes/communication-systems" },
+      { label: "Communication Notes Hub", href: "/subjects/communication-systems" },
       { label: "Information Theory", href: "/learn/communications/information-theory" },
       { label: "Digital Modulation", href: "/learn/communications/digital-modulation-techniques" },
     ],
     keywords:
-      "Communication Systems notes, GATE ECE Communication Systems, communication formulas, AM FM notes, digital communication PYQ",
+      "Communication Systems quick notes, GATE ECE Communication Systems, communication formulas, AM FM notes, digital communication PYQ",
   },
   "ece-important-questions": {
     path: "/ece-important-questions",
     title: "ECE Important Questions for GATE + PSU + University Exams",
     description:
-      "Find ECE important questions by subject with links to MCQs, PYQs, notes, formulas, and practice paths for GATE, PSU, and university exams.",
+      "Find ECE important questions by notes area with links to MCQs, PYQs, quick notes, formulas, and practice paths for GATE, PSU, and university exams.",
     eyebrow: "Important Questions",
     heading: "ECE Important Questions",
     summary:
-      "Use this page to move quickly into the subjects and question types that matter most for ECE exam preparation.",
+      "Use this page to move quickly into the notes areas and question types that matter most for ECE exam preparation.",
     primaryAction: { label: "Practice MCQs", href: "/mcqs" },
     secondaryAction: { label: "Solve Previous Papers", href: "/previous-year" },
     metrics: [
-      { label: "Subjects", value: "12" },
+      { label: "Notes", value: "12" },
       { label: "Practice", value: "MCQ + PYQ" },
       { label: "Exams", value: "GATE + PSU" },
     ],

@@ -106,13 +106,13 @@ function AnimatedRepresentationExplanation() {
 
 export default function MathematicalRepresentationOfSignalsPage() {
   return (
-    <Layout title="Mathematical Representation of Signals GATE ECE Notes + Formulas + PYQs" description="Deep ECE theory notes on mathematical signal representation, continuous-time and discrete-time forms, standard signals, transformations, and engineering meaning." pageClassName="py-3 sm:py-4">
+    <Layout title="Mathematical Representation of Signals GATE ECE Quick Notes + Formulas + PYQs" description="Deep ECE theory notes on mathematical signal representation, continuous-time and discrete-time forms, standard signals, transformations, and engineering meaning." pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-20">
         <nav aria-label="Breadcrumb" className="mb-4 pt-1">
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/signals-and-systems" className="font-medium text-slate-600 transition hover:text-portal-700">Signals and Systems</Link></li>
             <li className="text-slate-300">/</li>
@@ -281,7 +281,7 @@ export default function MathematicalRepresentationOfSignalsPage() {
             <BulletList items={["What is the difference between $$x(t)$$ and $$x[n]$$?", "Why do we use standard signals like impulse and step?", "How does time shifting affect a waveform?", "What is the physical meaning of phase?", "How do you convert a continuous-time signal into a discrete-time sequence?", "Why are sinusoids important in ECE?"]} />
           </TopicSection>
 
-          <TopicSection title="Exam-Oriented Notes">
+          <TopicSection title="Exam-Oriented Quick Notes">
             <BulletList items={["For delay, use $$x(t-t_0)$$.", "For advance, use $$x(t+t_0)$$.", "For sampling, substitute $$t=nT_s$$.", "For time reversal, use $$x(-t)$$.", "Always identify whether the independent variable is $$t$$ or $$n$$ before solving."]} />
           </TopicSection>
 

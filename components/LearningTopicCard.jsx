@@ -87,7 +87,7 @@ export default function LearningTopicCard({
         </Link>
       ) : (
         <div className="mt-4 rounded-xl border border-dashed border-portal-300 bg-[#f8fbff] px-4 py-3 text-sm text-slate-500">
-          Chapter structure is ready. Detailed notes and integrated question sets are queued next.
+          Chapter structure is ready. Detailed quick notes and integrated question sets are queued next.
         </div>
       )}
     </article>

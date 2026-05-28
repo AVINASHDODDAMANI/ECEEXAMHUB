@@ -158,7 +158,7 @@ export default function PracticeExamPage({ section }) {
   }
 
   return (
-    <Layout title={`ECEExamHub | ${pageLabel}`}>
+    <Layout title={`ECE Exam Guide | ${pageLabel}`}>
       <div className="mx-auto max-w-[1100px]">
         <div className="mb-5 flex items-center gap-2.5 border-b border-portal-100 pb-4 pt-1 text-sm text-slate-500">
           <Link href="/" className="font-medium text-portal-600 transition hover:text-portal-700">

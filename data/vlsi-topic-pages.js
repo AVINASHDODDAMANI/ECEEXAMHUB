@@ -117,8 +117,8 @@ function topicDetail(topic, index) {
 
   return {
     shortTitle: topic.title,
-    metaTitle: `${topic.title} GATE ECE VLSI Notes + CMOS Formulas + PYQs`,
-    metaDescription: `Learn ${topic.title} for GATE ECE, PSU exams, university semiconductor design notes, and VLSI interview questions with intuition, formulas, examples, and animated visualization.`,
+    metaTitle: `${topic.title} GATE ECE VLSI Quick Notes + CMOS Formulas + PYQs`,
+    metaDescription: `Learn ${topic.title} for GATE ECE, PSU exams, university semiconductor design quick notes, and VLSI interview questions with intuition, formulas, examples, and animated visualization.`,
     keywords:
       "GATE VLSI notes, CMOS design tutorial, VLSI interview questions, VLSI design for PSU, semiconductor design notes",
     coreQuestion: `What is the practical VLSI intuition behind ${topic.title}?`,

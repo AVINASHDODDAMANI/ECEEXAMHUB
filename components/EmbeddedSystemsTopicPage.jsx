@@ -66,7 +66,7 @@ export default function EmbeddedSystemsTopicPage({ topic }) {
     () => [
       {
         question: `Why is ${topic.shortTitle} important for GATE Embedded Systems?`,
-        answer: `${topic.shortTitle} connects Embedded Systems notes with microcontroller programming, Embedded C tutorial ideas, PSU exam preparation, university revision, and interview questions.`,
+        answer: `${topic.shortTitle} connects Embedded Systems quick notes with microcontroller programming, Embedded C tutorial ideas, PSU exam preparation, university revision, and interview questions.`,
       },
       {
         question: `How should I revise ${topic.shortTitle} for PSU exams and interviews?`,
@@ -95,9 +95,9 @@ export default function EmbeddedSystemsTopicPage({ topic }) {
       {
         "@context": "https://schema.org",
         "@type": "LearningResource",
-        name: `${topic.shortTitle} Embedded Systems Notes`,
+        name: `${topic.shortTitle} Embedded Systems Quick Notes`,
         description: topic.metaDescription,
-        learningResourceType: "Theory Notes",
+        learningResourceType: "Theory Quick Notes",
         educationalLevel: "Undergraduate engineering",
         teaches: topic.shortTitle,
         keywords: seoKeywords,
@@ -116,7 +116,7 @@ export default function EmbeddedSystemsTopicPage({ topic }) {
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-          { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+          { "@type": "ListItem", position: 2, name: "Notes", item: `${SITE_URL}/subjects` },
           { "@type": "ListItem", position: 3, name: "Embedded Systems", item: `${SITE_URL}/subjects/embedded-systems` },
           { "@type": "ListItem", position: 4, name: topic.shortTitle, item: `${SITE_URL}/learn/embedded-systems/${topic.slug}` },
         ],
@@ -139,7 +139,7 @@ export default function EmbeddedSystemsTopicPage({ topic }) {
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/embedded-systems" className="font-medium text-slate-600 transition hover:text-portal-700">Embedded Systems</Link></li>
             <li className="text-slate-300">/</li>
@@ -184,7 +184,7 @@ export default function EmbeddedSystemsTopicPage({ topic }) {
 
           <TopicSection id="visualization" title="Step-by-Step Visualization">
             <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-              This lightweight SVG animation explains {topic.shortTitle} for Embedded Systems notes, GATE Embedded Systems, Embedded Systems for PSU, microcontroller programming, Embedded C tutorial revision, and RTOS interview questions.
+              This lightweight SVG animation explains {topic.shortTitle} for Embedded Systems quick notes, GATE Embedded Systems, Embedded Systems for PSU, microcontroller programming, Embedded C tutorial revision, and RTOS interview questions.
             </p>
             <div className="mt-4"><EmbeddedSystemVisualizer slug={topic.slug} /></div>
           </TopicSection>

@@ -261,7 +261,7 @@ function TopicCard({ topic, index }) {
 
 export default function DcCircuitAnalysisPage() {
   return (
-    <Layout title="DC Circuit Analysis GATE ECE Notes + Formulas + PYQs | Network Analysis" pageClassName="py-3 sm:py-4">
+    <Layout title="DC Circuit Analysis GATE ECE Quick Notes + Formulas + PYQs | Network Analysis" pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav aria-label="Breadcrumb" className="mb-5 flex items-start justify-between gap-3 pt-1">
           <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
@@ -272,9 +272,7 @@ export default function DcCircuitAnalysisPage() {
             </li>
             <li className="text-slate-300">/</li>
             <li>
-              <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
-                Subjects
-              </Link>
+              <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link>
             </li>
             <li className="text-slate-300">/</li>
             <li>

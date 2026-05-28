@@ -170,7 +170,7 @@ export const subjectDirectory = [
 ];
 
 export const subjectResources = [
-  { label: "Notes", href: "/notes", color: "text-green-700", bg: "bg-green-50", border: "border-green-200" },
+  { label: "Quick Notes", href: "/notes", color: "text-green-700", bg: "bg-green-50", border: "border-green-200" },
   {
     label: "Previous Year Questions",
     href: "/gate-ece-pyq",

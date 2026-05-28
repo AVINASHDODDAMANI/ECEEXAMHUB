@@ -102,7 +102,7 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
     () => [
       {
         question: `Why is ${topic.shortTitle} important for GATE ECE Electromagnetic Theory?`,
-        answer: `${topic.shortTitle} connects field intuition with formula-based problem solving, which is why it appears in GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT notes, and university exam preparation.`,
+        answer: `${topic.shortTitle} connects field intuition with formula-based problem solving, which is why it appears in GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT quick notes, and university exam preparation.`,
       },
       {
         question: `How should I revise ${topic.shortTitle} for PSU Electromagnetic Theory?`,
@@ -131,9 +131,9 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
       {
         "@context": "https://schema.org",
         "@type": "LearningResource",
-        name: `${topic.shortTitle} Electromagnetic Theory Notes`,
+        name: `${topic.shortTitle} Electromagnetic Theory Quick Notes`,
         description: topic.metaDescription,
-        learningResourceType: "Theory Notes",
+        learningResourceType: "Theory Quick Notes",
         educationalLevel: "Undergraduate engineering",
         teaches: topic.shortTitle,
         keywords: seoKeywords,
@@ -155,7 +155,7 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-          { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+          { "@type": "ListItem", position: 2, name: "Notes", item: `${SITE_URL}/subjects` },
           { "@type": "ListItem", position: 3, name: "Electromagnetic Theory", item: `${SITE_URL}/subjects/electromagnetic-theory` },
           { "@type": "ListItem", position: 4, name: topic.shortTitle, item: `${SITE_URL}/learn/electromagnetics/${topic.slug}` },
         ],
@@ -224,7 +224,7 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
           <p>
             This lightweight SVG animation explains {topic.shortTitle} step by step
             for GATE ECE Electromagnetic Theory, PSU Electromagnetic Theory, EMFT
-            notes, and university exam preparation.
+            quick notes, and university exam preparation.
           </p>
           <div className="mt-4">
             <ElectromagneticTheoryVisualizer slug={topic.slug} />
@@ -345,7 +345,7 @@ export default function ElectromagneticTheoryTopicPage({ topic }) {
         summary={topic.summary}
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "Subjects", href: "/subjects" },
+          { label: "Notes", href: "/subjects" },
           { label: "Electromagnetic Theory", href: "/subjects/electromagnetic-theory" },
           { label: topic.shortTitle },
         ]}

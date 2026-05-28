@@ -112,13 +112,13 @@ function AnimatedSystemExplanation() {
 
 export default function SystemsAndTheirPropertiesPage() {
   return (
-    <Layout title="Systems and Their Properties GATE ECE Notes + Formulas + PYQs | Signals" description="Deep ECE theory notes on systems, linearity, time invariance, causality, stability, memory, invertibility, and system classification." pageClassName="py-3 sm:py-4">
+    <Layout title="Systems and Their Properties GATE ECE Quick Notes + Formulas + PYQs | Signals" description="Deep ECE theory notes on systems, linearity, time invariance, causality, stability, memory, invertibility, and system classification." pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-20">
         <nav aria-label="Breadcrumb" className="mb-4 pt-1">
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/signals-and-systems" className="font-medium text-slate-600 transition hover:text-portal-700">Signals and Systems</Link></li>
             <li className="text-slate-300">/</li>
@@ -280,7 +280,7 @@ export default function SystemsAndTheirPropertiesPage() {
             <BulletList items={["What is a system in Signals and Systems?", "How do you test linearity?", "Is every memoryless system causal?", "Why are real-time systems usually causal?", "What does BIBO stability mean physically?", "Give one practical example of a time-varying system."]} />
           </TopicSection>
 
-          <TopicSection title="Exam-Oriented Notes">
+          <TopicSection title="Exam-Oriented Quick Notes">
             <BulletList items={["For linearity, always test both additivity and homogeneity.", "For time invariance, delay the input first and compare with delayed output.", "For causality, check whether output uses future input like $$x(t+1)$$.", "For stability, try bounded inputs that may expose unbounded output.", "LTI systems are important because convolution and frequency response become powerful tools."]} />
           </TopicSection>
 

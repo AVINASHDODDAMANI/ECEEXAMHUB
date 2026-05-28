@@ -108,7 +108,7 @@ const convolutionStructuredData = [
     name: "Convolution in Signals and Systems",
     description:
       "A professor-style ECE tutorial on convolution in signals and systems, covering intuition, continuous-time convolution, discrete-time convolution, LTI system response, graphical convolution, the convolution theorem, solved examples, FAQs, and exam preparation.",
-    learningResourceType: "Theory Notes",
+    learningResourceType: "Theory Quick Notes",
     educationalLevel: "Undergraduate engineering",
     teaches: [
       "Convolution integral",
@@ -144,7 +144,7 @@ const convolutionStructuredData = [
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
-      { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+      { "@type": "ListItem", position: 2, name: "Notes", item: `${SITE_URL}/subjects` },
       { "@type": "ListItem", position: 3, name: "Signals and Systems", item: `${SITE_URL}/subjects/signals-and-systems` },
       { "@type": "ListItem", position: 4, name: "Convolution", item: `${SITE_URL}/convolution` },
     ],
@@ -231,7 +231,7 @@ export default function ConvolutionPage() {
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/signals-and-systems" className="font-medium text-slate-600 transition hover:text-portal-700">Signals and Systems</Link></li>
             <li className="text-slate-300">/</li>
@@ -527,7 +527,7 @@ export default function ConvolutionPage() {
             <BulletList items={["What is convolution physically?", "Why does LTI system output use convolution?", "What is impulse response?", "Why do we flip one signal in graphical convolution?", "How is convolution used in filtering?", "What is the difference between convolution and multiplication?", "How would you explain convolution to someone who knows only impulse response?"]} />
           </TopicSection>
 
-          <TopicSection id="exam-notes" title="Exam-Oriented Notes">
+          <TopicSection id="exam-notes" title="Exam-Oriented Quick Notes">
             <BulletList items={["For finite discrete sequences, output length is $$L_x+L_h-1$$.", "Impulse convolved with any signal gives the same signal.", "A shifted impulse shifts the signal: $$x(t)*\\delta(t-t_0)=x(t-t_0)$$.", "Convolution is commutative, associative, and distributive.", "Graphical convolution requires careful overlap limits.", "For LTI systems, output equals input convolved with impulse response."]} />
           </TopicSection>
 

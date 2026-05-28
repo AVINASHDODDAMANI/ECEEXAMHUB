@@ -1679,7 +1679,7 @@ function ExamRetentionSection() {
 
 export default function CircuitElementsPage() {
   return (
-    <Layout title="Circuit Elements GATE ECE Notes + Formulas + PYQs | Network Analysis" pageClassName="py-3 sm:py-4">
+    <Layout title="Circuit Elements GATE ECE Quick Notes + Formulas + PYQs | Network Analysis" pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav
           aria-label="Breadcrumb"
@@ -1693,9 +1693,7 @@ export default function CircuitElementsPage() {
             </li>
             <li className="text-slate-300">/</li>
             <li>
-              <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
-                Subjects
-              </Link>
+              <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link>
             </li>
             <li className="text-slate-300">/</li>
             <li>
@@ -1738,7 +1736,7 @@ export default function CircuitElementsPage() {
               href="/notes/network-analysis"
               className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
             >
-              Download Notes
+              Download Quick Notes
             </Link>
             <Link
               href="/circuit-laws"
@@ -1771,7 +1769,7 @@ export default function CircuitElementsPage() {
             href="/notes/network-analysis"
             className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
           >
-            Download Notes
+            Download Quick Notes
           </Link>
           <Link
             href="/circuit-laws"

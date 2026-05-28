@@ -87,13 +87,13 @@ function CombinationalAnimation() {
 
 export default function CombinationalCircuitsPage() {
   return (
-    <Layout title="Combinational Circuits GATE ECE Notes + Boolean Formulas + PYQs | Digital Electronics" description="Deep theory notes on adders, subtractors, MUX, DEMUX, encoders, decoders, comparators, and combinational circuit design." pageClassName="py-3 sm:py-4">
+    <Layout title="Combinational Circuits GATE ECE Quick Notes + Boolean Formulas + PYQs | Digital Electronics" description="Deep theory notes on adders, subtractors, MUX, DEMUX, encoders, decoders, comparators, and combinational circuit design." pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav aria-label="Breadcrumb" className="mb-5 flex items-start justify-between gap-3 pt-1">
           <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/digital-electronics" className="font-medium text-slate-600 transition hover:text-portal-700">Digital Electronics</Link></li>
             <li className="text-slate-300">/</li>
@@ -303,7 +303,7 @@ export default function CombinationalCircuitsPage() {
             </ul>
           </TopicSection>
 
-          <TopicSection title="Exam-Oriented Notes">
+          <TopicSection title="Exam-Oriented Quick Notes">
             <ul className="grid gap-2">
               <li>Half adder has no carry-in; full adder includes carry-in.</li>
               <li>For MUX realization, select lines become variables and data inputs become 0, 1, or remaining variables.</li>

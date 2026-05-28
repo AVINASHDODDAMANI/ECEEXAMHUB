@@ -88,8 +88,8 @@ const structuredData = [
     "@type": "LearningResource",
     name: "Laplace Transform in Signals and Systems",
     description:
-      "Conceptual ECE notes on Laplace Transform, s-domain intuition, region of convergence, poles and zeros, system response, examples, FAQs, GATE notes, and interview preparation.",
-    learningResourceType: "Theory Notes",
+      "Conceptual ECE notes on Laplace Transform, s-domain intuition, region of convergence, poles and zeros, system response, examples, FAQs, GATE quick notes, and interview preparation.",
+    learningResourceType: "Theory Quick Notes",
     educationalLevel: "Undergraduate engineering",
     teaches: [
       "Laplace Transform",
@@ -178,8 +178,8 @@ function SPlaneSketch() {
 export default function LaplaceTransformPage() {
   return (
     <Layout
-      title="Laplace Transform GATE ECE Notes + Properties + PYQs | Signals"
-      description="Learn Laplace Transform with s-domain intuition, ROC, poles and zeros, formulas, system response, solved examples, FAQs, GATE notes, and interview questions."
+      title="Laplace Transform GATE ECE Quick Notes + Properties + PYQs | Signals"
+      description="Learn Laplace Transform with s-domain intuition, ROC, poles and zeros, formulas, system response, solved examples, FAQs, GATE quick notes, and interview questions."
       keywords="Laplace transform signals and systems, s-domain, region of convergence, ROC, poles and zeros, LTI system response, GATE ECE"
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
@@ -189,7 +189,7 @@ export default function LaplaceTransformPage() {
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/signals-and-systems" className="font-medium text-slate-600 transition hover:text-portal-700">Signals and Systems</Link></li>
             <li className="text-slate-300">/</li>
@@ -378,7 +378,7 @@ export default function LaplaceTransformPage() {
             <BulletList items={["What does the real part of \(s\) represent?", "Why is ROC necessary in Laplace Transform?", "How do poles affect time response?", "When is a causal LTI system stable?", "How is Fourier Transform related to Laplace Transform?", "Why does convolution become multiplication in the s-domain?"]} />
           </TopicSection>
 
-          <TopicSection id="exam-notes" title="Exam-Oriented Notes">
+          <TopicSection id="exam-notes" title="Exam-Oriented Quick Notes">
             <BulletList items={["Always write ROC along with \(X(s)\).", "For causal right-sided signals, ROC lies to the right of the rightmost pole.", "A stable system must have ROC including the \(j\omega\)-axis.", "For causal stable systems, all poles must lie in the left half-plane.", "Use pole-zero plots to infer response before doing algebra."]} />
           </TopicSection>
 

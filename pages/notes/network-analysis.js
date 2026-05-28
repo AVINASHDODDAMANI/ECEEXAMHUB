@@ -11,9 +11,9 @@ const SUBJECT_TITLE = "Network Analysis";
 const LEARNING_SUBJECT_SLUG = "networks";
 const QUESTION_SUBJECT = "Networks";
 const SEO_OVERRIDE = {
-  title: "Network Analysis Notes for GATE ECE PDF + PYQs + Formulas",
+  title: "Network Analysis Quick Notes for GATE ECE PDF + PYQs + Formulas",
   description:
-    "Download Network Analysis notes, formulas and previous year questions for ECE students.",
+    "Download Network Analysis quick notes, formulas and previous year questions for ECE students.",
 };
 
 export default function NetworkAnalysisNotesPage(props) {

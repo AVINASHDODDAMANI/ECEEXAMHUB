@@ -2,9 +2,9 @@ import Link from "next/link";
 import { BrandLogo } from "./BrandIdentity";
 
 const footerLinks = [
-  { label: "Subjects", href: "/subjects" },
+  { label: "Notes", href: "/subjects" },
   { label: "Mock Tests", href: "/mock-tests" },
-  { label: "Notes", href: "/notes" },
+  { label: "Quick Notes", href: "/notes" },
   { label: "PYQs", href: "/previous-year" },
   { label: "Practice", href: "/practice" },
   { label: "Dashboard", href: "/learn" },
@@ -19,7 +19,7 @@ const trustLinks = [
   { label: "Terms", href: "/terms" },
 ];
 
-const footerHighlights = ["Free Core Resources", "Structured Notes", "PYQ Practice", "Progress Tracking"];
+const footerHighlights = ["Free Core Resources", "Structured Quick Notes", "PYQ Practice", "Progress Tracking"];
 
 export default function Footer() {
   return (
@@ -34,7 +34,7 @@ export default function Footer() {
           />
           <p className="mt-2 max-w-md text-sm leading-6 text-slate-600">
             Focused preparation for Electronics and Communication Engineering with
-            subject-wise learning, previous year questions, mock tests, notes,
+            notes-wise learning, previous year questions, mock tests, quick notes,
             and exam-oriented practice.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -74,7 +74,7 @@ export default function Footer() {
             ))}
           </div>
           <p className="mt-3 text-sm leading-6 text-slate-600">
-            Found a mistake in notes, formulas, links, or questions? Send the page URL
+            Found a mistake in quick notes, formulas, links, or questions? Send the page URL
             through Contact so it can be reviewed clearly.
           </p>
         </nav>

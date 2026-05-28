@@ -92,8 +92,8 @@ const structuredData = [
     "@type": "LearningResource",
     name: "Introduction to Control Systems",
     description:
-      "Conceptual ECE notes on control systems, open-loop and closed-loop control, feedback, system types, examples, GATE notes, and interview preparation.",
-    learningResourceType: "Theory Notes",
+      "Conceptual ECE notes on control systems, open-loop and closed-loop control, feedback, system types, examples, GATE quick notes, and interview preparation.",
+    learningResourceType: "Theory Quick Notes",
     educationalLevel: "Undergraduate engineering",
     teaches: [
       "Control system definition",
@@ -121,7 +121,7 @@ const structuredData = [
 export default function IntroductionToControlSystemsPage() {
   return (
     <Layout
-      title="Introduction to Control Systems GATE ECE Notes + Formulas + PYQs"
+      title="Introduction to Control Systems GATE ECE Quick Notes + Formulas + PYQs"
       description="Learn introduction to control systems with open-loop and closed-loop intuition, animated feedback visualization, formulas, examples, GATE notes, FAQ, and practice questions."
       keywords="Introduction to Control Systems, open-loop control system, closed-loop control system, feedback control, automatic voltage regulator, GATE ECE"
       structuredData={structuredData}
@@ -135,7 +135,7 @@ export default function IntroductionToControlSystemsPage() {
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/control-systems" className="font-medium text-slate-600 transition hover:text-portal-700">Control Systems</Link></li>
             <li className="text-slate-300">/</li>
@@ -333,7 +333,7 @@ export default function IntroductionToControlSystemsPage() {
             <BulletList items={["What is a control system?", "What is the difference between open-loop and closed-loop control?", "Why is feedback used?", "Give examples of temperature control, speed control, and AVR.", "What are the advantages and disadvantages of closed-loop systems?", "What is error signal in a feedback system?", "Classify control systems as linear/nonlinear and continuous/discrete with examples."]} />
           </TopicSection>
 
-          <TopicSection id="exam-notes" title="Exam Notes">
+          <TopicSection id="exam-notes" title="Exam Quick Notes">
             <BulletList items={["Open-loop systems are simple but cannot automatically correct error.", "Closed-loop systems use feedback and can reject disturbances better.", "Negative feedback generally improves accuracy and robustness.", "Closed-loop transfer function for negative feedback is $$G(s)/(1+G(s)H(s))$$.", "Always check whether feedback is unity or non-unity.", "System classification questions are usually quick scoring in GATE/PSU exams."]} />
           </TopicSection>
 

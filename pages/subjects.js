@@ -4,14 +4,31 @@ import Layout from "../components/layout";
 import { subjectDirectory } from "../data/subject-directory";
 import { getSubjectSlug } from "../data/subject-theory-roadmaps";
 import { getLearningMasteryState, getLearningSubject } from "../lib/learning-utils";
-import { buildBreadcrumbList } from "../lib/seo";
+import { SITE_URL, buildBreadcrumbList } from "../lib/seo";
 import { useLearningProgress } from "../lib/use-learning-progress";
 
 const subjectsStructuredData = [
   buildBreadcrumbList([
     { name: "Home", item: "/" },
-    { name: "Subjects", item: "/subjects" },
+    { name: "Notes", item: "/subjects" },
   ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "ECE Notes by Subject",
+    url: `${SITE_URL}/subjects`,
+    description:
+      "Subject-wise ECE notes hub for GATE ECE, PSU exams, university revision, formulas, MCQs, and previous year paper practice.",
+    isPartOf: {
+      "@id": `${SITE_URL}/#website`,
+    },
+    about: [
+      "ECE notes",
+      "GATE ECE notes",
+      "Electronics and Communication Engineering",
+      "Subject wise ECE notes",
+    ],
+  },
 ];
 
 function SubjectIcon({ type }) {
@@ -252,9 +269,9 @@ export default function SubjectsPage() {
 
   return (
     <Layout
-      title="ECE Subjects Notes and Study Materials | ECE Exam Guide"
-      description="Explore electronics engineering subjects with ECE notes, syllabus-oriented study materials, MCQs, previous year papers, practice resources, and subject roadmaps."
-      keywords="ECE subjects, gate ece subjects, ece notes, subject wise pyqs, electronics and communication subjects, ece study hub"
+      title="ECE Notes by Subject | GATE ECE Notes and Study Materials"
+      description="Explore ECE notes by subject with quick notes, syllabus-oriented study materials, MCQs, previous year papers, practice resources, and chapter roadmaps for GATE ECE and university exams."
+      keywords="ECE notes, GATE ECE notes, ECE notes by subject, subject wise ECE notes, electronics notes, communication engineering notes, ECE quick notes, ECE study material"
       canonicalUrl="/subjects"
       structuredData={subjectsStructuredData}
       pageClassName="py-3 sm:py-4"
@@ -268,28 +285,28 @@ export default function SubjectsPage() {
             Home
           </Link>
           <span className="text-slate-400" aria-hidden="true">/</span>
-          <span className="font-semibold text-slate-800">Subjects</span>
+          <span className="font-semibold text-slate-800">Notes</span>
         </nav>
 
         <section className="mt-2">
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
             <article className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
-                Subject hubs
+                Notes hub
               </p>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
-                ECE Subjects Notes and Study Materials
+                ECE Notes by Subject
               </h1>
               <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-600 sm:text-base">
-                Explore the core ECE subjects that build Electronics and Communication Engineering preparation from fundamentals to exam practice. This subject hub brings together ECE notes, chapter roadmaps, syllabus-focused revision, and practice materials for students preparing for GATE, university exams, and technical recruitment tests. Start with electronics engineering subjects such as Network Analysis, Analog Electronics, Digital Electronics, Signals and Systems, Communication Systems, Control Systems, Microprocessors, and VLSI Design, then move into topic-wise resources that match your study plan.
+                Explore core ECE notes that build Electronics and Communication Engineering preparation from fundamentals to exam practice. This notes hub brings together ECE quick notes, chapter roadmaps, syllabus-focused revision, and practice materials for students preparing for GATE, university exams, and technical recruitment tests. Start with electronics engineering notes such as Network Analysis, Analog Electronics, Digital Electronics, Signals and Systems, Communication Systems, Control Systems, Microprocessors, and VLSI Design, then move into topic-wise resources that match your study plan.
               </p>
               <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-600 sm:text-base">
-                Each subject page helps you connect theory with active recall: use digital electronics notes for logic and sequential circuit revision, communication engineering notes for modulation and signal concepts, ECE MCQs for quick checks, and previous year papers to understand repeated exam patterns. The notes library supports concept review, while the MCQ and practice sections help test formulas, definitions, and problem-solving speed. Follow the syllabus, revise one subject at a time, and use these linked study materials to turn reading into focused ECE exam preparation.
+                Each notes page helps you connect theory with active recall: use digital electronics notes for logic and sequential circuit revision, communication engineering notes for modulation and signal concepts, ECE MCQs for quick checks, and previous year papers to understand repeated exam patterns. The quick notes library supports concept review, while the MCQ and practice sections help test formulas, definitions, and problem-solving speed. Follow the syllabus, revise one topic at a time, and use these linked study materials to turn reading into focused ECE exam preparation.
               </p>
             </article>
 
             <nav
-              aria-label="Subject study resources"
+            aria-label="Notes study resources"
               className="rounded-[24px] border border-slate-200 bg-slate-50 p-4 shadow-sm sm:p-5"
             >
               <h2 className="text-lg font-extrabold tracking-tight text-slate-950">
@@ -297,7 +314,7 @@ export default function SubjectsPage() {
               </h2>
               <div className="mt-4 grid gap-2">
                 {[
-                  ["Browse ECE notes", "/notes"],
+                  ["Browse ECE quick notes", "/notes"],
                   ["Practice ECE MCQs", "/mcqs"],
                   ["Open previous year papers", "/previous-year"],
                   ["Study exam practice sets", "/practice"],
@@ -322,7 +339,7 @@ export default function SubjectsPage() {
           </div>
 
           <h2 className="mt-5 text-2xl font-extrabold tracking-tight text-slate-950">
-            Choose the subject you want to study next
+            Choose the notes you want to study next
           </h2>
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
@@ -408,7 +425,7 @@ export default function SubjectsPage() {
                     prefetch={false}
                     className="inline-flex min-h-10 flex-1 items-center justify-center gap-2 rounded-[18px] bg-portal-700 px-4 py-2 text-sm font-extrabold text-white transition hover:bg-portal-800"
                   >
-                    <span>Open Hub</span>
+                    <span>Open Notes</span>
                     <span aria-hidden="true" className="transition group-hover:translate-x-0.5">-&gt;</span>
                   </Link>
                   <Link
@@ -416,7 +433,7 @@ export default function SubjectsPage() {
                     prefetch={false}
                     className="inline-flex min-h-10 items-center justify-center rounded-[18px] border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 transition hover:border-portal-300 hover:text-portal-700"
                   >
-                    Notes
+                    Quick Notes
                   </Link>
                 </div>
               </article>

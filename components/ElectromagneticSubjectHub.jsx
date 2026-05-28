@@ -82,7 +82,7 @@ export default function ElectromagneticSubjectHub({
       tone: "primary",
     },
     {
-      title: "Open EMFT Notes",
+      title: "Open EMFT Quick Notes",
       description: "Use chapter-wise notes when you need fast revision before class tests, internals, or semester exams.",
       href: notesHref,
       tone: "default",
@@ -127,7 +127,7 @@ export default function ElectromagneticSubjectHub({
             <div className="mt-4 grid gap-3">
               {[
                 "Vector calculus, electrostatics, Maxwell equations, and wave propagation are connected as one study flow.",
-                "Quick actions take you straight into learning, notes, and practice instead of making you hunt across the site.",
+                "Quick actions take you straight into learning, quick notes, and practice instead of making you hunt across the site.",
                 "Formula preview and topic selection help you identify what to revise before the next exam or mock.",
               ].map((item) => (
                 <div key={item} className="rounded-2xl bg-slate-950/18 px-4 py-3 text-sm leading-6 text-blue-50">

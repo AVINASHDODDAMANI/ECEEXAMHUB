@@ -303,14 +303,14 @@ export default function DiagramLabPage() {
         <section className="mt-5 rounded-[24px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
           <div className="max-w-4xl">
             <p className="text-xs font-black uppercase tracking-[0.14em] text-portal-700">
-              Moved From Subjects
+              Moved From Notes
             </p>
             <h2 className="mt-2 text-xl font-black tracking-tight text-slate-950">
               Subject circuit visualizations
             </h2>
             <p className="mt-2 text-sm leading-7 text-slate-700">
-              Animated circuit and device visualizations from Subjects now live here.
-              Subject pages keep the study flow, exam notes, and normal circuit diagrams.
+              Animated circuit and device visualizations from Notes now live here.
+              Subject pages keep the study flow, exam quick notes, and normal circuit diagrams.
             </p>
           </div>
           <div className="mt-4">

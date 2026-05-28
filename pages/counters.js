@@ -85,13 +85,13 @@ function CounterAnimation() {
 
 export default function CountersPage() {
   return (
-    <Layout title="Counters GATE ECE Notes + Flip-Flop Formulas + PYQs | Digital Electronics" description="Deep theory notes on asynchronous counters, synchronous counters, up/down counters, mod-N counters, ring counters, and Johnson counters." pageClassName="py-3 sm:py-4">
+    <Layout title="Counters GATE ECE Quick Notes + Flip-Flop Formulas + PYQs | Digital Electronics" description="Deep theory notes on asynchronous counters, synchronous counters, up/down counters, mod-N counters, ring counters, and Johnson counters." pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav aria-label="Breadcrumb" className="mb-5 flex items-start justify-between gap-3 pt-1">
           <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/digital-electronics" className="font-medium text-slate-600 transition hover:text-portal-700">Digital Electronics</Link></li>
             <li className="text-slate-300">/</li>
@@ -300,7 +300,7 @@ export default function CountersPage() {
             </ul>
           </TopicSection>
 
-          <TopicSection title="Exam-Oriented Notes">
+          <TopicSection title="Exam-Oriented Quick Notes">
             <ul className="grid gap-2">
               <li>For mod-N counters, use smallest n satisfying $$ 2^n \\ge N $$.</li>
               <li>Asynchronous counters have accumulated propagation delay.</li>

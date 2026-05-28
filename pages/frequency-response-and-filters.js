@@ -60,8 +60,8 @@ const structuredData = [
     "@type": "LearningResource",
     name: "Frequency Response and Filters in Signals and Systems",
     description:
-      "Conceptual ECE notes on frequency response, LTI filters, magnitude response, phase response, cutoff frequency, bandwidth, ideal filters, solved examples, GATE notes, and interview preparation.",
-    learningResourceType: "Theory Notes",
+      "Conceptual ECE notes on frequency response, LTI filters, magnitude response, phase response, cutoff frequency, bandwidth, ideal filters, solved examples, GATE quick notes, and interview preparation.",
+    learningResourceType: "Theory Quick Notes",
     educationalLevel: "Undergraduate engineering",
     teaches: [
       "Frequency response",
@@ -78,8 +78,8 @@ const structuredData = [
 export default function FrequencyResponseAndFiltersPage() {
   return (
     <Layout
-      title="Frequency Response and Filters GATE ECE Notes + Formulas + PYQs"
-      description="Learn frequency response and filters with LTI system intuition, magnitude and phase response, cutoff frequency, bandwidth, ideal filters, solved examples, GATE notes, and interview questions."
+      title="Frequency Response and Filters GATE ECE Quick Notes + Formulas + PYQs"
+      description="Learn frequency response and filters with LTI system intuition, magnitude and phase response, cutoff frequency, bandwidth, ideal filters, solved examples, GATE quick notes, and interview questions."
       keywords="frequency response and filters signals and systems, LTI frequency response, magnitude response, phase response, cutoff frequency, bandwidth, ideal filters, GATE ECE"
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
@@ -89,7 +89,7 @@ export default function FrequencyResponseAndFiltersPage() {
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/signals-and-systems" className="font-medium text-slate-600 transition hover:text-portal-700">Signals and Systems</Link></li>
             <li className="text-slate-300">/</li>
@@ -322,7 +322,7 @@ export default function FrequencyResponseAndFiltersPage() {
             <BulletList items={["What is frequency response in an LTI system?", "Why is the impulse response enough to determine frequency response?", "What is the difference between magnitude response and phase response?", "How does a low-pass filter remove high-frequency noise?", "What is bandwidth and why does it matter in communication systems?", "Why are ideal filters impossible to realize exactly?", "How are FIR and IIR filters different in practical DSP?"]} />
           </TopicSection>
 
-          <TopicSection id="exam-notes" title="Exam Notes">
+          <TopicSection id="exam-notes" title="Exam Quick Notes">
             <BulletList items={["For LTI systems, remember $$Y(\\omega)=X(\\omega)H(\\omega)$$.", "Magnitude response decides passband and stopband behavior.", "Phase response decides delay and waveform distortion.", "Low-pass filters are common before ADC sampling.", "Bandwidth of a band-pass filter is $$f_H-f_L$$.", "For distortionless transmission, magnitude should be constant and phase should be linear over the signal band."]} />
           </TopicSection>
 

@@ -111,7 +111,7 @@ export default function ControlSystemTopicPage({ topic }) {
       "@type": "LearningResource",
       name: `${topic.title} in Control Systems`,
       description: topic.summary,
-      learningResourceType: "Theory Notes",
+      learningResourceType: "Theory Quick Notes",
       educationalLevel: "Undergraduate engineering",
       teaches: topic.title,
       keywords: seoKeywords,
@@ -132,8 +132,8 @@ export default function ControlSystemTopicPage({ topic }) {
 
   return (
     <Layout
-      title={`${topic.title} GATE ECE Notes + Formulas + Solved Examples | Control Systems`}
-      description={`${topic.summary} Includes intuition, animated visualization, formulas, solved examples, exam notes, and practice for GATE ECE and university exams.`}
+      title={`${topic.title} GATE ECE Quick Notes + Formulas + Solved Examples | Control Systems`}
+      description={`${topic.summary} Includes intuition, animated visualization, formulas, solved examples, exam quick notes, and practice for GATE ECE and university exams.`}
       keywords={seoKeywords}
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
@@ -146,7 +146,7 @@ export default function ControlSystemTopicPage({ topic }) {
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/control-systems" className="font-medium text-slate-600 transition hover:text-portal-700">Control Systems</Link></li>
             <li className="text-slate-300">/</li>
@@ -294,7 +294,7 @@ export default function ControlSystemTopicPage({ topic }) {
             <BulletList items={topic.interview} />
           </TopicSection>
 
-          <TopicSection id="exam-notes" title="Exam Notes">
+          <TopicSection id="exam-notes" title="Exam Quick Notes">
             <BulletList items={topic.examNotes} />
           </TopicSection>
 

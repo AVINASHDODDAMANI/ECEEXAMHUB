@@ -113,13 +113,13 @@ function AnimatedSignalExplanation() {
 
 export default function IntroductionToSignalsPage() {
   return (
-    <Layout title="Introduction to Signals GATE ECE Notes + Formulas + PYQs | Signals and Systems" description="Deep ECE theory notes on signals, classifications, mathematical representation, signal behavior, and applications." pageClassName="py-3 sm:py-4">
+    <Layout title="Introduction to Signals GATE ECE Quick Notes + Formulas + PYQs | Signals and Systems" description="Deep ECE theory notes on signals, classifications, mathematical representation, signal behavior, and applications." pageClassName="py-3 sm:py-4">
       <div className="mx-auto min-w-0 max-w-[1440px] pb-20">
         <nav aria-label="Breadcrumb" className="mb-4 pt-1">
           <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
             <li><Link href="/" className="font-medium text-slate-600 transition hover:text-portal-700">Home</Link></li>
             <li className="text-slate-300">/</li>
-            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Subjects</Link></li>
+            <li><Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link></li>
             <li className="text-slate-300">/</li>
             <li><Link href="/subjects/signals-and-systems" className="font-medium text-slate-600 transition hover:text-portal-700">Signals and Systems</Link></li>
             <li className="text-slate-300">/</li>
@@ -282,7 +282,7 @@ export default function IntroductionToSignalsPage() {
             <BulletList items={["What is a signal in engineering terms?", "Is every discrete-time signal digital? Explain.", "Why is a sinusoid called a power signal?", "What physical information is carried by amplitude, frequency, and phase?", "Why do communication systems often use sinusoidal carriers?", "How is a sensor output related to a signal?"]} />
           </TopicSection>
 
-          <TopicSection title="Exam-Oriented Notes">
+          <TopicSection title="Exam-Oriented Quick Notes">
             <BulletList items={["A nonzero periodic signal is generally a power signal, not an energy signal.", "For periodic signals, calculate average power over one period instead of infinite limits.", "Always check whether time is continuous $$t$$ or discrete $$n$$.", "For sinusoidal signals, remember $$T=1/f$$ and $$\\omega=2\\pi f$$.", "Phase shift changes waveform position but not amplitude or frequency."]} />
           </TopicSection>
 

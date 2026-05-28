@@ -10214,7 +10214,7 @@ function FetDeepDiveContent({ chapter }) {
           </ul>
         </TopicSection>
 
-        <TopicSection title="Exam-Oriented Notes">
+        <TopicSection title="Exam-Oriented Quick Notes">
           <ul className="grid gap-2">
             <li>For enhancement MOSFET, first check whether gate-source voltage is above threshold.</li>
             <li>{"Use triode condition $$ V_{DS}<V_{GS}-V_T $$ before applying triode-region equations."}</li>
@@ -10668,7 +10668,7 @@ function FeedbackDeepDiveContent({ chapter }) {
           </ul>
         </TopicSection>
 
-        <TopicSection title="Exam-Oriented Notes">
+        <TopicSection title="Exam-Oriented Quick Notes">
           <ul className="grid gap-2">
             <li>{"For negative feedback, use $$ A_f=A/(1+A\\beta) $$."}</li>
             <li>{"The factor $$ 1+A\\beta $$ appears in gain stability, bandwidth improvement, distortion reduction, and noise reduction."}</li>
@@ -11068,7 +11068,7 @@ function OscillatorsDeepDiveContent({ chapter }) {
           </ul>
         </TopicSection>
 
-        <TopicSection title="Exam-Oriented Notes">
+        <TopicSection title="Exam-Oriented Quick Notes">
           <ul className="grid gap-2">
             <li>Barkhausen criterion requires both magnitude and phase conditions.</li>
             <li>Three-section RC phase-shift oscillator needs total RC phase shift of 180 degrees plus amplifier phase shift of 180 degrees.</li>
@@ -11394,7 +11394,7 @@ function OpAmpDeepDiveContent({ chapter }) {
           </ul>
         </TopicSection>
 
-        <TopicSection title="Exam-Oriented Notes">
+        <TopicSection title="Exam-Oriented Quick Notes">
           <ul className="grid gap-2">
             <li>Use virtual short only with negative feedback and unsaturated output.</li>
             <li>Input current into ideal op-amp terminals is zero.</li>
@@ -11922,7 +11922,7 @@ function ActiveFiltersWaveformDeepDiveContent({ chapter }) {
           </ul>
         </TopicSection>
 
-        <TopicSection title="Exam-Oriented Notes">
+        <TopicSection title="Exam-Oriented Quick Notes">
           <ul className="grid gap-2">
             <li>{"For first-order RC filters, remember $$ f_c = 1/(2\\pi RC) $$ and check unit conversion first."}</li>
             <li>At cutoff, output magnitude is 0.707 of passband output and phase shift is 45 degrees for a first-order RC section.</li>
@@ -12299,7 +12299,7 @@ function PowerSuppliesDeepDiveContent({ chapter }) {
           </ul>
         </TopicSection>
 
-        <TopicSection title="Exam-Oriented Notes">
+        <TopicSection title="Exam-Oriented Quick Notes">
           <ul className="grid gap-2">
             <li>{"Always convert transformer RMS voltage to peak using $$ V_m=\\sqrt{2}V_{rms} $$ before estimating capacitor voltage."}</li>
             <li>Bridge rectifier conduction path contains two diodes, so subtract approximately two diode drops for silicon diodes.</li>
@@ -12454,7 +12454,7 @@ function AnalogChapterPage({ chapter }) {
   }));
 
   return (
-    <Layout title={`${chapter.title} GATE ECE Notes + Formulas + PYQs | Analog Electronics`} pageClassName="py-3 sm:py-4">
+    <Layout title={`${chapter.title} GATE ECE Quick Notes + Formulas + PYQs | Analog Electronics`} pageClassName="py-3 sm:py-4">
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav
           aria-label="Breadcrumb"
@@ -12468,9 +12468,7 @@ function AnalogChapterPage({ chapter }) {
             </li>
             <li className="text-slate-300">/</li>
             <li>
-              <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
-                Subjects
-              </Link>
+              <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link>
             </li>
             <li className="text-slate-300">/</li>
             <li>
@@ -12515,7 +12513,7 @@ function AnalogChapterPage({ chapter }) {
               href="/notes/analog-electronics"
               className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
             >
-              Download Notes
+              Download Quick Notes
             </Link>
             <Link
               href="/subjects/analog-electronics"
@@ -14898,7 +14896,7 @@ function buildSubjectSeo(subject, theoryKnowledge, learningTopics = []) {
     about: [...chapterNames, ...topicNames],
     breadcrumbItems: [
       { name: "Home", item: "/" },
-      { name: "Subjects", item: "/subjects" },
+      { name: "Notes", item: "/subjects" },
       { name: subject.title, item: `/subjects/${getSubjectSlug(subject.title)}` },
     ],
     faqItems,
@@ -15085,7 +15083,7 @@ const SUBJECT_LANDING_CONTENT = {
       "Many students ask the same question when they start this subject: \"Why do we need to study Network Analysis?\"",
       "The answer is simple: Network Analysis is the foundation of almost every electrical and electronic system we use in daily life. Before an engineer can design, build, or troubleshoot any circuit, they must first understand how electricity behaves inside that circuit. That understanding comes from Network Analysis.",
       "This subject teaches us how to analyze electrical circuits by finding the current flowing through them, the voltage across different components, and the power consumed or delivered in the system. Without these basics, it becomes very difficult to understand advanced electrical or electronic subjects.",
-      "Network Analysis is considered one of the core subjects in electrical and electronics engineering because many advanced topics directly depend on it. Subjects like power systems, analog electronics, digital electronics, communication systems, control systems, and embedded systems all use the concepts learned in Network Analysis.",
+      "Network Analysis is considered one of the core notes areas in electrical and electronics engineering because many advanced topics directly depend on it. Notes areas like power systems, analog electronics, digital electronics, communication systems, control systems, and embedded systems all use the concepts learned in Network Analysis.",
       "For example, in power systems, engineers use Network Analysis to study how electrical power flows from generating stations to homes and industries. It helps in understanding transmission lines, fault conditions, and power distribution.",
       "In electronics, every device, whether it is a mobile phone, laptop, television, or charger, contains electronic circuits. Network Analysis helps engineers design these circuits correctly and ensure they work efficiently.",
       "In communication systems, signals travel through different electronic networks. Understanding how circuits respond to signals is important for designing reliable communication devices such as radios, antennas, routers, and wireless systems.",
@@ -15339,7 +15337,7 @@ function NetworkEducationalContent() {
           Network Analysis for Beginners
         </h2>
         <p className="mt-4 text-base leading-8 text-slate-700">
-          These Network Analysis notes for ECE students are written for beginners
+          These Network Analysis quick notes for ECE students are written for beginners
           who want the subject explained in a simple order. The goal is to understand
           what a circuit is doing before memorizing formulas. Once voltage, current,
           resistance, source polarity, node voltage, and loop current become clear,
@@ -15725,9 +15723,7 @@ function NetworkAnalysisLandingPage({ subject, seo, concepts, activeConceptIndex
             </li>
             <li className="shrink-0 text-[#0b58b4]">/</li>
             <li className="shrink-0">
-              <Link href="/subjects" className="font-medium transition hover:text-[#061642]">
-                Subjects
-              </Link>
+              <Link href="/subjects" className="font-medium transition hover:text-[#061642]">Notes</Link>
             </li>
             <li className="shrink-0 text-[#0b58b4]">/</li>
             <li className="min-w-0">
@@ -15746,7 +15742,7 @@ function NetworkAnalysisLandingPage({ subject, seo, concepts, activeConceptIndex
             <div className="grid h-full gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(320px,0.72fr)] lg:items-center">
               <div>
                 <h1 className="text-5xl font-black leading-none tracking-normal text-[#061642] sm:text-6xl">
-                  {subject.title} GATE ECE Notes, PYQs, and Formulas
+                  {subject.title} GATE ECE Quick Notes, PYQs, and Formulas
                 </h1>
                 <span className="mt-7 block h-1 w-28 bg-[#1d68bd]" />
                 <p className="mt-8 max-w-[560px] text-lg leading-8 text-slate-950">
@@ -15910,9 +15906,7 @@ export default function SubjectTheoryPage({
                 <Link
                   href="/subjects"
                   className="font-medium text-slate-600 transition hover:text-portal-700"
-                >
-                  Subjects
-                </Link>
+                >Notes</Link>
               </li>
               <li className="shrink-0 text-slate-300">/</li>
               <li className="min-w-0 basis-full sm:basis-auto">
@@ -16244,7 +16238,7 @@ export default function SubjectTheoryPage({
           href="/notes/network-analysis"
           className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
         >
-          Download Notes
+          Download Quick Notes
         </Link>
         <Link
           href="/circuit-elements"
@@ -16256,14 +16250,14 @@ export default function SubjectTheoryPage({
     );
 
     return (
-      <Layout title="Basic Concepts GATE ECE Notes + Formulas + PYQs | Network Analysis" pageClassName="py-3 sm:py-4">
+      <Layout title="Basic Concepts GATE ECE Quick Notes + Formulas + PYQs | Network Analysis" pageClassName="py-3 sm:py-4">
         <EducationalTheoryLayout
           eyebrow="Network Analysis"
           title="Basic Concepts"
           summary="Basic Concepts is the starting chapter of Network Analysis. It explains charge, current, voltage, power, energy, active and passive elements, linear and non-linear behavior, and bilateral and unilateral elements before you move into KCL, KVL, theorems, and circuit solving."
           breadcrumbs={[
             { label: "Home", href: "/" },
-            { label: "Subjects", href: "/subjects" },
+            { label: "Notes", href: "/subjects" },
             { label: "Network Analysis", href: "/subjects/network-analysis" },
             { label: "Basic Concepts" },
           ]}
@@ -16283,7 +16277,7 @@ export default function SubjectTheoryPage({
 
   if (standaloneTopicPage === "diodes") {
     return (
-      <Layout title="Diodes GATE ECE Notes + PN Junction Formulas + PYQs" pageClassName="py-3 sm:py-4">
+      <Layout title="Diodes GATE ECE Quick Notes + PN Junction Formulas + PYQs" pageClassName="py-3 sm:py-4">
         <div className="mx-auto max-w-[1440px] pb-24">
           <nav
             aria-label="Breadcrumb"
@@ -16297,9 +16291,7 @@ export default function SubjectTheoryPage({
               </li>
               <li className="text-slate-300">/</li>
               <li>
-                <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
-                  Subjects
-                </Link>
+                <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link>
               </li>
               <li className="text-slate-300">/</li>
               <li>
@@ -16342,7 +16334,7 @@ export default function SubjectTheoryPage({
                 href="/notes/analog-electronics"
                 className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
               >
-                Download Notes
+                Download Quick Notes
               </Link>
               <Link
                 href="/subjects/analog-electronics"
@@ -16361,7 +16353,7 @@ export default function SubjectTheoryPage({
 
   if (standaloneTopicPage === "bjt-mosfet") {
     const pageTitle =
-      "BJT and MOSFET GATE ECE Notes + Regions + PYQs | Analog Electronics";
+      "BJT and MOSFET GATE ECE Quick Notes + Regions + PYQs | Analog Electronics";
     const pageDescription =
       "Learn BJT and MOSFET working step by step with structure, current relations, operating regions, characteristics, amplifier and switch applications, and comparison.";
     const canonicalUrl = `${SITE_URL}/bjt-and-mosfet`;
@@ -16379,7 +16371,7 @@ export default function SubjectTheoryPage({
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+        { "@type": "ListItem", position: 2, name: "Notes", item: `${SITE_URL}/subjects` },
         { "@type": "ListItem", position: 3, name: "Analog Electronics", item: `${SITE_URL}/subjects/analog-electronics` },
         { "@type": "ListItem", position: 4, name: "BJT and MOSFET", item: canonicalUrl },
       ],
@@ -16450,9 +16442,7 @@ export default function SubjectTheoryPage({
               </li>
               <li className="text-slate-300">/</li>
               <li>
-                <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
-                  Subjects
-                </Link>
+                <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link>
               </li>
               <li className="text-slate-300">/</li>
               <li>
@@ -16501,7 +16491,7 @@ export default function SubjectTheoryPage({
                 href="/notes/analog-electronics"
                 className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
               >
-                Download Notes
+                Download Quick Notes
               </Link>
               <Link
                 href="/subjects/analog-electronics"
@@ -16520,7 +16510,7 @@ export default function SubjectTheoryPage({
 
   if (standaloneTopicPage === "amplifiers") {
     const pageTitle =
-      "Amplifiers GATE ECE Notes + Gain Formulas + PYQs | Analog Electronics";
+      "Amplifiers GATE ECE Quick Notes + Gain Formulas + PYQs | Analog Electronics";
     const pageDescription =
       "Learn amplifiers step by step with gain, BJT amplifier, MOSFET amplifier, phase shift, frequency response, bandwidth, classes, distortion and practical parameters.";
     const canonicalUrl = `${SITE_URL}/amplifiers`;
@@ -16538,7 +16528,7 @@ export default function SubjectTheoryPage({
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: "Subjects", item: `${SITE_URL}/subjects` },
+        { "@type": "ListItem", position: 2, name: "Notes", item: `${SITE_URL}/subjects` },
         { "@type": "ListItem", position: 3, name: "Analog Electronics", item: `${SITE_URL}/subjects/analog-electronics` },
         { "@type": "ListItem", position: 4, name: "Amplifiers", item: canonicalUrl },
       ],
@@ -16609,9 +16599,7 @@ export default function SubjectTheoryPage({
               </li>
               <li className="text-slate-300">/</li>
               <li>
-                <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">
-                  Subjects
-                </Link>
+                <Link href="/subjects" className="font-medium text-slate-600 transition hover:text-portal-700">Notes</Link>
               </li>
               <li className="text-slate-300">/</li>
               <li>
@@ -16660,7 +16648,7 @@ export default function SubjectTheoryPage({
                 href="/notes/analog-electronics"
                 className="inline-flex justify-center rounded-xl border border-portal-200 bg-white px-5 py-3 text-sm font-bold text-portal-700 transition hover:bg-portal-50"
               >
-                Download Notes
+                Download Quick Notes
               </Link>
               <Link
                 href="/subjects/analog-electronics"
@@ -16727,9 +16715,7 @@ export default function SubjectTheoryPage({
               <Link
                 href="/subjects"
                 className="font-medium text-slate-600 transition hover:text-portal-700"
-              >
-                Subjects
-              </Link>
+              >Notes</Link>
             </li>
             <li className="shrink-0 text-slate-300">/</li>
             <li className="min-w-0 basis-full sm:basis-auto">

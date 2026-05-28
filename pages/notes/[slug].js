@@ -114,12 +114,12 @@ function buildNotesSeo(subject, theoryKnowledge, seoOverride = null) {
   const keywords = generateKeywords({
     subjectName: subject.title,
     topicNames,
-    extraKeywords: ["handwritten notes", "chapter wise notes", "exam revision"],
+    extraKeywords: ["quick notes", "handwritten notes", "chapter wise notes", "exam revision"],
   });
   const canonicalUrl = generateCanonical(`/notes/${getSubjectSlug(subject.title)}`);
   const structuredData = generateStructuredData({
     type: "notes",
-    title: `${subject.title} Notes`,
+    title: `${subject.title} Quick Notes`,
     description,
     path: `/notes/${getSubjectSlug(subject.title)}`,
     subjectName: subject.title,
@@ -127,12 +127,13 @@ function buildNotesSeo(subject, theoryKnowledge, seoOverride = null) {
     about: topicNames,
     breadcrumbItems: [
       { name: "Home", item: "/" },
-      { name: "Notes", item: "/notes" },
+      { name: "Quick Notes", item: "/notes" },
       { name: subject.title, item: `/notes/${getSubjectSlug(subject.title)}` },
     ],
     faqItems,
   });
   const searchIntents = [
+    `${subject.title} quick notes`,
     `${subject.title} notes`,
     `${subject.title} handwritten notes`,
     `${subject.title} gate ece notes`,
@@ -350,7 +351,7 @@ function FallbackNotesPage({ subject, steps, seoOverride }) {
             /
           </span>
           <Link href="/notes" className="font-medium text-portal-600 transition hover:text-portal-700">
-            Notes
+            Quick Notes
           </Link>
           <span className="text-slate-300" aria-hidden="true">
             /
@@ -489,8 +490,8 @@ export default function NoteTopicPage({
     }
 
     const shareData = {
-      title: `${subject.title} Notes`,
-      text: `Read ${subject.title} notes on ECE Exam Guide`,
+      title: `${subject.title} Quick Notes`,
+      text: `Read ${subject.title} quick notes on ECE Exam Guide`,
       url: window.location.href,
     };
 
@@ -696,7 +697,7 @@ export default function NoteTopicPage({
             /
           </span>
           <Link href="/notes" className="font-medium text-portal-600 transition hover:text-portal-700">
-            Notes
+            Quick Notes
           </Link>
           <span className="text-slate-300" aria-hidden="true">
             /
@@ -772,7 +773,7 @@ export default function NoteTopicPage({
                   onClick={downloadNotes}
                   className="rounded-xl border border-portal-200 bg-white px-4 py-3 text-sm font-semibold text-portal-700 transition hover:bg-portal-50"
                 >
-                  Download Notes PDF
+                  Download Quick Notes PDF
                 </button>
               </div>
             </div>
@@ -783,10 +784,10 @@ export default function NoteTopicPage({
           <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
             <div className="max-w-4xl">
               <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-                Network Analysis Notes
+                Network Analysis Quick Notes
               </h2>
               <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-                Download Network Analysis notes, formulas, important questions, and previous
+                Download Network Analysis quick notes, formulas, important questions, and previous
                 year paper support for ECE students. This page is designed for quick revision
                 as well as concept building, so you can move from basic circuit laws to
                 systematic problem solving without depending only on short formula lists.
@@ -802,7 +803,7 @@ export default function NoteTopicPage({
 
               <h3 className="mt-6 text-xl font-bold text-slate-900">Topics Covered</h3>
               <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
-                These notes focus on the high-value topics that usually appear in university
+                These quick notes focus on the high-value topics that usually appear in university
                 exams, GATE ECE revision, and practice sets for circuit problem solving.
               </p>
               <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700 sm:text-base">
@@ -1019,7 +1020,7 @@ export default function NoteTopicPage({
                   <div className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3">
                     <p className="text-sm font-bold text-slate-900">{learningMeta.readyTopics}</p>
                     <p className="mt-1 text-xs uppercase tracking-[0.14em] text-slate-500">
-                      Ready Notes
+                      Ready Quick Notes
                     </p>
                   </div>
                 </div>
@@ -1037,7 +1038,7 @@ export default function NoteTopicPage({
             Related {subject.title} Topics
           </h2>
           <p className="mt-2 text-sm leading-7 text-slate-600 sm:text-base">
-            Use these internal links to move from general {subject.title.toLowerCase()} notes
+            Use these internal links to move from general {subject.title.toLowerCase()} quick notes
             into exam-focused topics and explanations.
           </p>
           <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
@@ -1061,7 +1062,7 @@ export default function NoteTopicPage({
             Continue With {subject.title}
           </h2>
           <p className="mt-2 text-sm leading-7 text-slate-600 sm:text-base">
-            These links connect your notes page to the main subject hub and the most
+            These links connect your quick notes page to the main subject hub and the most
             important learning topics, making it easier for both students and search
             engines to navigate the full {subject.title.toLowerCase()} preparation path.
           </p>
@@ -1069,16 +1070,16 @@ export default function NoteTopicPage({
           <div className="mt-5 grid gap-3 md:grid-cols-3">
             {[
               {
-                title: `${subject.title} Subject Hub`,
+                title: `${subject.title} Notes Hub`,
                 description: "Open the roadmap, chapter sequence, and subject-level preparation guidance.",
                 href: subjectHubHref,
                 badge: "Subject",
               },
               {
-                title: `${subject.title} Notes Home`,
-                description: "Stay on the full notes path for this subject and revise it chapter by chapter.",
+                title: `${subject.title} Quick Notes Home`,
+                description: "Stay on the full quick notes path for this subject and revise it chapter by chapter.",
                 href: subjectNotesHref,
-                badge: "Notes",
+                badge: "Quick Notes",
               },
               {
                 title: `${subject.title} Search`,
@@ -1126,7 +1127,7 @@ export default function NoteTopicPage({
           </h2>
           <p className="mt-2 text-sm leading-7 text-slate-600 sm:text-base">
             These are the common search phrases students use when looking for {subject.title.toLowerCase()}
-            notes, revision material, and exam-focused study help.
+            quick notes, revision material, and exam-focused study help.
           </p>
 
           <div className="mt-5 flex flex-wrap gap-2">
@@ -1144,7 +1145,7 @@ export default function NoteTopicPage({
 
         <section className="mt-6 rounded-[30px] border border-slate-200 bg-white p-4 shadow-panel sm:p-5">
           <h2 className="text-2xl font-bold tracking-tight text-slate-900">
-            {subject.title} Notes FAQ
+            {subject.title} Quick Notes FAQ
           </h2>
           <div className="mt-5 grid gap-3">
             {seo.faqItems.map((item) => (
