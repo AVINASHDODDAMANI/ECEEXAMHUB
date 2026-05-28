@@ -27,7 +27,7 @@
       <path d="M76 130V102L122 82V36" stroke="url(#lockupBlue)" stroke-width="10"/>
       <circle cx="122" cy="26" r="8.5" fill="white" stroke="url(#lockupBlue)" stroke-width="7"/>
       <path d="M199 75C182.5 59.9 161.2 51.7 138.7 52C92.7 52.5 55.6 89.9 55.6 136C55.6 181.8 92.7 219 138.6 219C181.8 219 217.3 186.2 221.5 144.1" stroke="url(#lockupBlue)" stroke-width="16"/>
-      <path d="M173.5 91.6C163.9 84.2 152 80 139.2 80C108.4 80 83.5 105.1 83.5 136C83.5 166.9 108.4 192 139.2 192C159.1 192 176.5 181.6 186.4 166" stroke="url(#lockupOrange)" stroke-width="14"/>
+      <path d="M184 92C172 82 156 76 139 76C105.5 76 78 103 78 136C78 169 105.5 196 139 196C158 196 175 188 187 174" stroke="url(#lockupOrange)" stroke-width="15"/>
       <path d="M144 143H220" stroke="url(#lockupBlue)" stroke-width="17"/>
     </g>
   </g>
