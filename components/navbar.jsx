@@ -333,7 +333,7 @@ export default function Navbar({
     <>
       <form
         onSubmit={handleSearchSubmit}
-        className="flex h-11 items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 text-sm shadow-[0_18px_45px_rgba(15,23,42,0.12)] transition focus-within:border-[#ff7417]"
+        className="flex h-10 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 text-sm shadow-[0_12px_28px_rgba(15,23,42,0.10)] transition focus-within:border-[#ff7417] lg:h-11 lg:px-4"
       >
         <input
           type="search"
@@ -341,7 +341,7 @@ export default function Navbar({
           onChange={(event) => handleSearchChange(event.target.value)}
           onFocus={handleSearchFocus}
           placeholder={searchPlaceholder}
-          className="navbar-search-input min-w-0 flex-1 appearance-none border-0 bg-transparent p-0 text-sm font-medium text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0 [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none"
+          className="navbar-search-input min-w-0 flex-1 appearance-none border-0 bg-transparent p-0 text-xs font-medium text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0 sm:text-sm [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none"
         />
         <button
           type="submit"
@@ -383,13 +383,13 @@ export default function Navbar({
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex min-h-[86px] max-w-[1440px] items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex min-h-[70px] max-w-[1440px] items-center gap-2 px-3 py-2 sm:px-6 lg:min-h-[86px] lg:gap-4 lg:px-8 lg:py-3">
         <Link href="/" className="min-w-0 flex-none">
           <BrandLogo
-            className="max-w-[124px] sm:max-w-[270px]"
-            markClassName="h-9 w-9 sm:h-14 sm:w-14"
-            titleClassName="text-[0.78rem] sm:text-[1.45rem]"
-            taglineClassName="text-[10px] normal-case tracking-normal"
+            className="max-w-[108px] sm:max-w-[270px]"
+            markClassName="h-8 w-8 sm:h-14 sm:w-14"
+            titleClassName="text-[0.68rem] sm:text-[1.45rem]"
+            taglineClassName="text-[9px] normal-case tracking-normal sm:text-[10px]"
           />
         </Link>
 
@@ -484,7 +484,7 @@ export default function Navbar({
         <button
           type="button"
           onClick={() => setIsMobileMenuOpen((value) => !value)}
-          className="flex h-11 w-11 flex-none items-center justify-center rounded-lg border border-slate-200 bg-white text-[#071d49] shadow-sm transition hover:border-[#ff7417] hover:text-[#ff7417] lg:hidden"
+          className="flex h-10 w-10 flex-none items-center justify-center rounded-lg border border-slate-200 bg-white text-[#071d49] shadow-sm transition hover:border-[#ff7417] hover:text-[#ff7417] lg:hidden"
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-main-nav"
@@ -574,15 +574,15 @@ export default function Navbar({
         </div>
       ) : null}
 
-      <nav className="grid grid-cols-4 gap-1 border-t border-slate-100 px-2 py-1.5 lg:hidden">
-        {navItems.slice(0, 4).map((item) => {
+      <nav className="flex gap-1 overflow-x-auto border-t border-slate-100 px-2 py-1.5 [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden">
+        {navItems.map((item) => {
           const isActive = isTopNavActive(router.pathname, item.href);
 
           return (
             <Link
               key={`mobile-${item.href}`}
               href={item.href}
-              className={`relative flex min-h-9 items-center justify-center rounded-lg px-1.5 py-1.5 text-center text-[11px] font-extrabold leading-tight transition ${
+              className={`relative flex h-8 flex-none items-center justify-center rounded-md px-2.5 text-center text-[11px] font-extrabold leading-tight transition ${
                 isActive ? "bg-orange-50 text-[#ff7417]" : "text-[#071d49]"
               }`}
             >
