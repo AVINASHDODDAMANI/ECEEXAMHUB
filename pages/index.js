@@ -193,21 +193,23 @@ function HeroBooks() {
 
 function ResourceRow({ icon, title, text, cta, children }) {
   return (
-    <section className="grid gap-6 rounded-xl bg-white p-5 shadow-[0_16px_45px_rgba(15,23,42,0.06)] lg:grid-cols-[210px_1fr] lg:items-center">
-      <div>
-        <span className="text-[#061b4f]">
-          <LineIcon type={icon} className="h-8 w-8" />
+    <section className="grid gap-4 border-t border-slate-200 py-5 lg:grid-cols-[190px_1fr] lg:items-start">
+      <div className="flex gap-3 lg:block">
+        <span className="mt-1 flex h-9 w-9 flex-none items-center justify-center rounded-lg bg-[#061b4f] text-white lg:bg-transparent lg:text-[#061b4f]">
+          <LineIcon type={icon} className="h-5 w-5 lg:h-7 lg:w-7" />
         </span>
-        <h2 className="mt-3 text-2xl font-extrabold leading-tight text-[#071d49]">{title}</h2>
-        <p className="mt-3 text-sm font-medium leading-6 text-[#243653]">{text}</p>
-        <Link
-          href={cta[1]}
-          className="mt-4 inline-flex h-10 items-center rounded-md bg-[#061b4f] px-4 text-xs font-extrabold text-white transition hover:bg-[#0b2a70]"
-        >
-          {cta[0]} <span className="ml-2">-&gt;</span>
-        </Link>
+        <div>
+          <h2 className="text-xl font-extrabold leading-tight text-[#071d49] lg:mt-2 lg:text-2xl">{title}</h2>
+          <p className="mt-1 text-sm font-medium leading-6 text-[#243653] lg:mt-2">{text}</p>
+          <Link
+            href={cta[1]}
+            className="mt-3 inline-flex h-9 items-center rounded-md bg-[#061b4f] px-3 text-xs font-extrabold text-white transition hover:bg-[#0b2a70]"
+          >
+            {cta[0]} <span className="ml-2">-&gt;</span>
+          </Link>
+        </div>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">{children}</div>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">{children}</div>
     </section>
   );
 }
@@ -216,11 +218,11 @@ function ContentCard({ title, meta, action, href, icon, badge, warm = false }) {
   return (
     <Link
       href={href}
-      className="flex min-h-[160px] flex-col rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-[#ff7417] hover:shadow-[0_14px_35px_rgba(15,23,42,0.10)]"
+      className="flex min-h-[122px] flex-col rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:border-[#ff7417] hover:shadow-[0_10px_24px_rgba(15,23,42,0.08)] sm:min-h-[136px] sm:p-4"
     >
       {icon ? (
-        <span className={`mb-4 flex h-14 w-14 items-center justify-center rounded-full ${warm ? "bg-orange-100 text-[#061b4f]" : "bg-[#173d78] text-white"}`}>
-          <LineIcon type={icon} className="h-8 w-8" />
+        <span className={`mb-3 flex h-10 w-10 items-center justify-center rounded-lg ${warm ? "bg-orange-100 text-[#061b4f]" : "bg-[#173d78] text-white"}`}>
+          <LineIcon type={icon} className="h-6 w-6" />
         </span>
       ) : null}
       {badge ? (
@@ -228,9 +230,9 @@ function ContentCard({ title, meta, action, href, icon, badge, warm = false }) {
           {badge}
         </span>
       ) : null}
-      <h3 className="text-base font-extrabold leading-snug text-[#071d49]">{title}</h3>
-      <p className="mt-3 text-xs font-semibold leading-5 text-[#243653]">{meta}</p>
-      <span className="mt-auto pt-5 text-xs font-extrabold text-[#ff5f00]">
+      <h3 className="text-sm font-extrabold leading-snug text-[#071d49] sm:text-base">{title}</h3>
+      <p className="mt-2 text-xs font-semibold leading-5 text-[#243653]">{meta}</p>
+      <span className="mt-auto pt-3 text-xs font-extrabold text-[#ff5f00]">
         {action} <span aria-hidden="true">-&gt;</span>
       </span>
     </Link>
@@ -318,22 +320,22 @@ export default function Home() {
           aria-hidden="true"
           className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(44,121,210,0.25)_1px,transparent_1px),linear-gradient(90deg,rgba(44,121,210,0.22)_1px,transparent_1px)] [background-size:72px_72px]"
         />
-        <div className="relative mx-auto grid max-w-[1320px] gap-8 px-4 py-8 sm:px-8 sm:py-12 lg:grid-cols-[minmax(0,1fr)_520px] lg:items-center lg:py-16">
+        <div className="relative mx-auto grid max-w-[1320px] gap-6 px-4 py-6 sm:px-8 sm:py-12 lg:grid-cols-[minmax(0,1fr)_520px] lg:items-center lg:py-16">
           <div>
-            <h1 className="max-w-3xl text-[2.35rem] font-extrabold leading-[1.08] tracking-normal text-white min-[380px]:text-[2.75rem] sm:text-5xl lg:text-[3.8rem]">
+            <h1 className="max-w-3xl text-[2rem] font-extrabold leading-[1.08] tracking-normal text-white min-[380px]:text-[2.25rem] sm:text-5xl lg:text-[3.8rem]">
               ECE Exam Guide
               <span className="block text-[#ff7a1a]">for ECE Exam Success</span>
             </h1>
-            <p className="mt-4 max-w-2xl text-base font-medium leading-7 !text-white/90 sm:mt-5 sm:text-lg sm:leading-8">
+            <p className="mt-3 max-w-2xl text-sm font-medium leading-6 !text-white/90 sm:mt-5 sm:text-lg sm:leading-8">
               Find high-quality quick notes, PYQ papers, study materials and resources designed
               to help ECE students excel in their exams.
             </p>
 
-            <form onSubmit={handleHomeSearch} className="mt-6 grid max-w-[590px] grid-cols-[2.75rem_minmax(0,1fr)] gap-1.5 overflow-hidden rounded-lg border border-white/20 bg-white p-1.5 shadow-[0_18px_45px_rgba(0,0,0,0.25)] sm:mt-7 sm:flex sm:gap-0">
+            <form onSubmit={handleHomeSearch} className="mt-5 grid max-w-[590px] grid-cols-[2.5rem_minmax(0,1fr)_auto] items-center overflow-hidden rounded-lg border border-white/20 bg-white p-1 shadow-[0_14px_34px_rgba(0,0,0,0.22)] sm:mt-7 sm:flex">
               <label htmlFor="home-search" className="sr-only">
                 Search quick notes, subjects, PYQ papers
               </label>
-              <span className="flex h-12 w-11 items-center justify-center text-[#061f45] sm:w-12">
+              <span className="flex h-10 w-10 items-center justify-center text-[#061f45] sm:h-12 sm:w-12">
                 <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                   <path d="M14.167 14.167 17.5 17.5M15.833 9.167A6.667 6.667 0 1 1 2.5 9.167a6.667 6.667 0 0 1 13.333 0Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                 </svg>
@@ -344,28 +346,28 @@ export default function Home() {
                 type="search"
                 value={homeSearchValue}
                 onChange={(event) => setHomeSearchValue(event.target.value)}
-                placeholder="Search quick notes, subjects, PYQ papers, concepts, numericals..."
-                className="min-w-0 flex-1 border-0 bg-transparent px-1 text-sm font-semibold text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0"
+                placeholder="Search notes, PYQs, concepts..."
+                className="min-w-0 flex-1 border-0 bg-transparent px-1 text-xs font-semibold text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0 sm:text-sm"
               />
-              <button className="col-span-2 h-12 rounded-md bg-[#ff7417] px-5 text-sm font-extrabold text-white transition hover:bg-[#e96009] sm:col-auto sm:px-7 sm:py-3">
+              <button className="h-10 rounded-md bg-[#ff7417] px-4 text-xs font-extrabold text-white transition hover:bg-[#e96009] sm:h-12 sm:px-7 sm:text-sm">
                 Search
               </button>
             </form>
 
-            <div className="mt-7 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-4 lg:grid-cols-4">
+            <div className="mt-5 grid grid-cols-2 gap-2 sm:mt-8 sm:gap-4 lg:grid-cols-4">
               {stats.map(([value, label, icon], index) => (
                 <div
                   key={label}
-                  className={`flex min-h-[92px] items-center gap-3 rounded-lg border border-white/15 bg-white/5 p-3 sm:gap-4 sm:bg-transparent sm:p-0 ${index ? "lg:border-l lg:border-white/25 lg:pl-5" : ""}`}
+                  className={`flex min-h-[70px] items-center gap-2 rounded-lg border border-white/12 bg-white/5 p-2 sm:min-h-[92px] sm:gap-4 sm:bg-transparent sm:p-0 ${index ? "lg:border-l lg:border-white/25 lg:pl-5" : ""}`}
                 >
-                  <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full border border-[#ff7417] text-[#ff7417] sm:h-12 sm:w-12">
-                    <LineIcon type={icon} className="h-5 w-5 sm:h-6 sm:w-6" />
+                  <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full border border-[#ff7417] text-[#ff7417] sm:h-12 sm:w-12">
+                    <LineIcon type={icon} className="h-4 w-4 sm:h-6 sm:w-6" />
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-base font-extrabold leading-tight text-white sm:text-xl">
+                    <span className="block text-sm font-extrabold leading-tight text-white sm:text-xl">
                       {value}
                     </span>
-                    <span className="mt-1 block text-[11px] font-semibold leading-4 !text-white/85 sm:text-xs">{label}</span>
+                    <span className="mt-0.5 block text-[10px] font-semibold leading-3 !text-white/85 sm:mt-1 sm:text-xs sm:leading-4">{label}</span>
                   </span>
                 </div>
               ))}
@@ -376,8 +378,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#f5f8fc] px-5 py-7 sm:px-8">
-        <div className="mx-auto max-w-[1320px] space-y-7">
+      <section className="bg-[#f5f8fc] px-4 py-5 sm:px-8 sm:py-7">
+        <div className="mx-auto max-w-[1320px] space-y-5 sm:space-y-6">
           <ResourceRow
             icon="calendar"
             title="Important Quick Notes"
@@ -450,67 +452,48 @@ export default function Home() {
             ))}
           </ResourceRow>
 
-          <section className="grid gap-5 rounded-xl bg-[#061f55] px-6 py-6 text-white shadow-[0_18px_45px_rgba(6,31,85,0.22)] md:grid-cols-4">
+          <section className="grid gap-3 border-t border-slate-200 bg-[#061f55] px-4 py-4 text-white shadow-[0_12px_30px_rgba(6,31,85,0.16)] md:grid-cols-4 md:px-5">
             {featureBand.map(([title, text, icon, color], index) => (
               <div
                 key={title}
-                className={`flex items-center gap-4 ${index ? "border-t border-white/20 pt-5 md:border-l md:border-t-0 md:pl-6 md:pt-0" : ""}`}
+                className={`flex items-center gap-3 ${index ? "border-t border-white/20 pt-3 md:border-l md:border-t-0 md:pl-4 md:pt-0" : ""}`}
               >
-                <span className={`flex h-14 w-14 flex-none items-center justify-center rounded-xl border border-current ${color}`}>
-                  <LineIcon type={icon} className="h-7 w-7" />
+                <span className={`flex h-10 w-10 flex-none items-center justify-center rounded-lg border border-current ${color}`}>
+                  <LineIcon type={icon} className="h-5 w-5" />
                 </span>
                 <span>
-                  <span className="block text-base font-extrabold text-white">{title}</span>
-                  <span className="mt-1 block text-sm font-medium text-white/85">{text}</span>
+                  <span className="block text-sm font-extrabold text-white">{title}</span>
+                  <span className="mt-0.5 block text-xs font-medium text-white/85">{text}</span>
                 </span>
               </div>
             ))}
           </section>
 
-          <section className="rounded-xl bg-white p-5 shadow-[0_16px_45px_rgba(15,23,42,0.06)]">
-            <div className="text-center">
-              <h2 className="text-2xl font-extrabold text-[#071d49]">Quick Revision Hub</h2>
-              <div className="mx-auto mt-1 h-1 w-12 rounded-full bg-[#ff7417]" />
+          <section className="border-t border-slate-200 py-5">
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-extrabold text-[#071d49] sm:text-2xl">Quick Revision Hub</h2>
+                <div className="mt-1 h-1 w-10 rounded-full bg-[#ff7417]" />
+              </div>
             </div>
-            <div className="mt-6 grid gap-4 md:grid-cols-5">
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 md:grid-cols-5">
               {revision.map(([title, meta, icon, href]) => (
                 <Link
                   key={title}
                   href={href}
-                  className="flex min-h-[84px] items-center gap-4 rounded-lg border border-slate-200 bg-white p-4 transition hover:border-[#ff7417] hover:shadow-sm"
+                  className="flex min-h-[68px] items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 transition hover:border-[#ff7417] hover:shadow-sm"
                 >
                   <span className="text-[#ff7417]">
-                    <LineIcon type={icon} className="h-8 w-8" />
+                    <LineIcon type={icon} className="h-6 w-6" />
                   </span>
                   <span>
                     <span className="block text-sm font-extrabold text-[#071d49]">{title}</span>
-                    <span className="mt-1 block text-xs font-semibold text-[#243653]">{meta}</span>
+                    <span className="mt-0.5 block text-xs font-semibold text-[#243653]">{meta}</span>
                   </span>
                 </Link>
               ))}
             </div>
           </section>
-
-          <div className="grid overflow-hidden rounded-xl bg-[#061f55] shadow-[0_18px_45px_rgba(6,31,85,0.22)] md:grid-cols-4">
-            {stats.map(([value, label, icon], index) => (
-              <div
-                key={label}
-                className={`flex items-center justify-center gap-5 px-6 py-7 ${
-                  index ? "border-t border-white/20 md:border-l md:border-t-0" : ""
-                }`}
-              >
-                <span className="flex h-14 w-14 items-center justify-center rounded-full border border-[#ff7417] text-[#ff7417]">
-                  <LineIcon type={icon} className="h-7 w-7" />
-                </span>
-                <span>
-                  <span className="block text-2xl font-extrabold leading-tight text-white">
-                    {value}
-                  </span>
-                  <span className="text-sm font-semibold text-white/86">{label}</span>
-                </span>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
     </Layout>
