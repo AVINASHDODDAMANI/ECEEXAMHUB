@@ -191,7 +191,7 @@ function HeroBooks() {
   );
 }
 
-function ResourceRow({ icon, title, text, cta, children }) {
+function ResourceRow({ icon, title, titleNode, text, cta, children }) {
   return (
     <section className="grid gap-3 border-t border-slate-200 py-4 lg:grid-cols-[190px_1fr] lg:items-start lg:py-5">
       <div className="flex gap-3 lg:block">
@@ -199,7 +199,9 @@ function ResourceRow({ icon, title, text, cta, children }) {
           <LineIcon type={icon} className="h-4 w-4 lg:h-7 lg:w-7" />
         </span>
         <div>
-          <h2 className="text-lg font-extrabold leading-tight text-[#071d49] lg:mt-2 lg:text-2xl">{title}</h2>
+          <h2 className="text-lg font-extrabold leading-tight text-[#071d49] lg:mt-2 lg:text-2xl">
+            {titleNode || title}
+          </h2>
           <p className="mt-1 text-xs font-medium leading-5 text-[#243653] sm:text-sm sm:leading-6 lg:mt-2">{text}</p>
           <Link
             href={cta[1]}
@@ -214,11 +216,13 @@ function ResourceRow({ icon, title, text, cta, children }) {
   );
 }
 
-function ContentCard({ title, meta, action, href, icon, badge, warm = false }) {
+function ContentCard({ title, meta, action, href, icon, badge, warm = false, accent = false }) {
   return (
     <Link
       href={href}
-      className="flex min-h-[78px] flex-row items-center gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:border-[#ff7417] hover:shadow-[0_10px_24px_rgba(15,23,42,0.08)] sm:min-h-[136px] sm:flex-col sm:items-start sm:gap-0 sm:p-4"
+      className={`flex min-h-[78px] flex-row items-center gap-3 rounded-lg border bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:border-[#ff7417] hover:shadow-[0_10px_24px_rgba(15,23,42,0.08)] sm:min-h-[136px] sm:flex-col sm:items-start sm:gap-0 sm:p-4 ${
+        accent ? "border-orange-200 bg-[linear-gradient(180deg,#fffdf8,#fff7ed)]" : "border-slate-200"
+      }`}
     >
       {icon ? (
         <span className={`flex h-9 w-9 flex-none items-center justify-center rounded-lg sm:mb-3 sm:h-10 sm:w-10 ${warm ? "bg-orange-100 text-[#061b4f]" : "bg-[#173d78] text-white"}`}>
@@ -226,7 +230,7 @@ function ContentCard({ title, meta, action, href, icon, badge, warm = false }) {
         </span>
       ) : null}
       {badge ? (
-        <span className={`w-fit flex-none rounded px-2 py-0.5 text-[10px] font-extrabold text-white sm:mb-3 ${badge === "NEW" ? "bg-green-500" : "bg-violet-600"}`}>
+        <span className={`w-fit flex-none rounded px-2 py-0.5 text-[10px] font-extrabold text-white sm:mb-3 ${badge === "NEW" ? "bg-[#ff7417]" : "bg-[#0b4f92]"}`}>
           {badge}
         </span>
       ) : null}
@@ -403,6 +407,13 @@ export default function Home() {
           <ResourceRow
             icon="paper"
             title="Latest Updated PYQs"
+            titleNode={
+              <>
+                <span className="text-[#ff7417]">Latest</span>{" "}
+                <span>Updated</span>{" "}
+                <span className="text-[#0b4f92]">PYQs</span>
+              </>
+            }
             text="Stay ahead with the most recently updated papers."
             cta={["View All PYQs", "/previous-year"]}
           >
@@ -414,6 +425,7 @@ export default function Home() {
                 action="View Paper"
                 href={href}
                 badge={badge}
+                accent
               />
             ))}
           </ResourceRow>

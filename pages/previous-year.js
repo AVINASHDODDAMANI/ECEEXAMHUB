@@ -1625,40 +1625,49 @@ export default function PreviousYearPage() {
       pageClassName="py-3 sm:py-6"
     >
       <div className="mx-auto max-w-[1440px] space-y-3 sm:space-y-6">
-        <section className="rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_10px_24px_rgba(15,23,42,0.05)] sm:rounded-[24px] sm:p-6 sm:shadow-[0_14px_38px_rgba(15,23,42,0.06)]">
+        <section className="relative overflow-hidden rounded-2xl border border-[#163f76]/20 bg-[#061f45] p-3 shadow-[0_14px_34px_rgba(6,31,85,0.18)] sm:rounded-[24px] sm:p-6">
+          <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(44,121,210,0.24)_1px,transparent_1px),linear-gradient(90deg,rgba(44,121,210,0.2)_1px,transparent_1px)] [background-size:58px_58px]" />
           <nav
-            className="flex flex-wrap items-center gap-1.5 text-xs text-slate-500 sm:gap-2 sm:text-sm"
+            className="relative flex flex-wrap items-center gap-1.5 text-xs text-white/70 sm:gap-2 sm:text-sm"
             aria-label="Breadcrumb"
           >
             <Link
               href="/"
-              className="font-semibold text-portal-700 transition hover:text-portal-800"
+              className="font-semibold text-[#ffb36f] transition hover:text-white"
             >
               Home
             </Link>
-            <span aria-hidden="true" className="text-slate-300">
+            <span aria-hidden="true" className="text-white/35">
               /
             </span>
-            <span className="font-semibold text-slate-800">Previous Papers</span>
+            <span className="font-semibold text-white">Previous Papers</span>
           </nav>
 
-          <div className="mt-3 flex flex-col gap-3 sm:mt-5 sm:gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="relative mt-3 flex flex-col gap-3 sm:mt-5 sm:gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <h1 className="text-2xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
-                Previous Year Papers
+              <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-4xl">
+                <span className="text-[#ff7417]">Previous</span>{" "}
+                <span>Year</span>{" "}
+                <span className="text-[#7ec8ff]">Papers</span>
               </h1>
-              <p className="mt-1.5 text-xs leading-5 text-slate-600 sm:mt-3 sm:text-base sm:leading-7">
+              <p className="mt-1.5 text-xs leading-5 !text-white/86 sm:mt-3 sm:text-base sm:leading-7">
                 Browse exam-wise ECE papers, filter by year or subject, and open solved sets when available.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
-              {archiveMetrics.slice(0, 3).map((metric) => (
+              {archiveMetrics.slice(0, 3).map((metric, index) => (
                 <span
                   key={metric.label}
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-700 sm:rounded-xl sm:px-3 sm:py-2 sm:text-sm"
+                  className={`rounded-lg border px-2 py-1 text-xs font-semibold sm:rounded-xl sm:px-3 sm:py-2 sm:text-sm ${
+                    index === 0
+                      ? "border-orange-300/70 bg-orange-400/15 text-orange-50"
+                      : index === 1
+                        ? "border-sky-300/70 bg-sky-400/15 text-sky-50"
+                        : "border-emerald-300/70 bg-emerald-400/15 text-emerald-50"
+                  }`}
                 >
-                  <span className="font-extrabold text-slate-950">{metric.value}</span>{" "}
+                  <span className="font-extrabold text-white">{metric.value}</span>{" "}
                   {metric.label.toLowerCase()}
                 </span>
               ))}
@@ -1666,16 +1675,18 @@ export default function PreviousYearPage() {
           </div>
         </section>
 
-        <section className="overflow-hidden rounded-2xl border border-[#e2e9f7] bg-white shadow-[0_10px_32px_rgba(17,43,92,0.06)] sm:rounded-[30px] sm:shadow-[0_18px_60px_rgba(17,43,92,0.08)]">
+        <section className="overflow-hidden rounded-2xl border border-[#d9c9ff] bg-[linear-gradient(135deg,#ffeaff_0%,#eef5ff_48%,#dff3ff_100%)] shadow-[0_16px_48px_rgba(97,55,180,0.14)] sm:rounded-[24px]">
           <div className="space-y-3 p-2.5 sm:space-y-6 sm:p-6">
             <section className="space-y-3 sm:space-y-4">
               <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
                 <div>
-                  <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-portal-700 sm:text-xs sm:tracking-[0.18em]">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#8a2be2] sm:text-xs sm:tracking-[0.18em]">
                     Exam archive
                   </p>
                   <h2 className="mt-1 text-xl font-extrabold tracking-tight text-slate-950 sm:mt-2 sm:text-2xl">
-                    Select Exam Family
+                    <span className="text-[#0b4f92]">Select</span>{" "}
+                    <span>Exam</span>{" "}
+                    <span className="text-[#8a2be2]">Family</span>
                   </h2>
                   <p className="mt-1 text-xs leading-5 text-slate-600 sm:mt-2 sm:text-sm sm:leading-6">
                     Choose an exam family to open a focused previous-paper library with year-wise practice.
@@ -1689,10 +1700,10 @@ export default function PreviousYearPage() {
                     key={`mobile-${card.key}`}
                     type="button"
                     onClick={() => handleExamCardSelect(card)}
-                    className={`group flex min-h-[84px] w-full flex-col rounded-xl border bg-white p-2.5 text-left shadow-[0_8px_20px_rgba(15,23,42,0.035)] transition sm:min-h-[126px] sm:rounded-[18px] sm:p-3.5 ${
+                    className={`group flex min-h-[76px] w-full flex-col rounded-xl border p-2.5 text-left shadow-[0_8px_20px_rgba(97,55,180,0.06)] transition sm:min-h-[112px] sm:rounded-[16px] sm:p-3 ${
                       card.isSelected
-                        ? "border-portal-500 ring-1 ring-portal-500"
-                        : "border-[#e3eaf7] hover:border-portal-300"
+                        ? "border-[#b54cff] bg-white/85 ring-1 ring-[#b54cff]"
+                        : "border-white/75 bg-white/70 hover:border-[#b54cff] hover:bg-white"
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2.5 sm:gap-3">
@@ -1700,7 +1711,7 @@ export default function PreviousYearPage() {
                       <span
                         className={`inline-flex h-5 w-5 items-center justify-center rounded-full sm:h-6 sm:w-6 ${
                           card.isSelected
-                            ? "bg-portal-600 text-white"
+                            ? "bg-[#8a2be2] text-white"
                             : "bg-slate-100 text-transparent"
                         }`}
                       >
@@ -1708,7 +1719,7 @@ export default function PreviousYearPage() {
                       </span>
                     </div>
 
-                    <h2 className="mt-1.5 min-h-[2rem] text-[0.78rem] font-bold leading-4 tracking-tight text-slate-900 sm:mt-3 sm:min-h-[2.5rem] sm:text-[0.95rem] sm:leading-5">
+                    <h2 className="mt-1.5 min-h-[2rem] text-[0.76rem] font-bold leading-4 tracking-tight text-slate-900 sm:mt-2.5 sm:min-h-[2.25rem] sm:text-sm sm:leading-5">
                       {getExamCardDisplayText(card)}
                     </h2>
                   </button>
@@ -1734,10 +1745,10 @@ export default function PreviousYearPage() {
                       key={card.key}
                       type="button"
                       onClick={() => handleExamCardSelect(card)}
-                      className={`group min-w-[132px] snap-start rounded-[18px] border bg-white p-3 text-left shadow-[0_12px_32px_rgba(15,23,42,0.04)] transition ${
+                      className={`group min-w-[118px] snap-start rounded-[14px] border p-2.5 text-left shadow-[0_10px_26px_rgba(97,55,180,0.08)] transition ${
                         card.isSelected
-                          ? "border-portal-500 ring-1 ring-portal-500"
-                          : "border-[#e3eaf7] hover:border-portal-300"
+                          ? "border-[#b54cff] bg-white/85 ring-1 ring-[#b54cff]"
+                          : "border-white/75 bg-white/70 hover:border-[#b54cff] hover:bg-white"
                       }`}
                     >
                       <div className="flex items-start justify-between gap-3">
@@ -1745,7 +1756,7 @@ export default function PreviousYearPage() {
                         <span
                           className={`inline-flex h-6 w-6 items-center justify-center rounded-full ${
                             card.isSelected
-                              ? "bg-portal-600 text-white"
+                              ? "bg-[#8a2be2] text-white"
                               : "bg-slate-100 text-transparent"
                           }`}
                         >
@@ -1753,7 +1764,7 @@ export default function PreviousYearPage() {
                         </span>
                       </div>
 
-                      <h2 className="mt-3 min-h-[2.5rem] text-sm font-bold leading-5 tracking-tight text-slate-900">
+                      <h2 className="mt-2.5 min-h-[2.25rem] text-xs font-bold leading-4 tracking-tight text-slate-900">
                         {getExamCardDisplayText(card)}
                       </h2>
                     </button>
@@ -1773,12 +1784,12 @@ export default function PreviousYearPage() {
 
             <section
               id="paper-library"
-              className="overflow-hidden rounded-2xl border border-[#e6edf9] bg-white sm:rounded-[24px]"
+              className="overflow-hidden rounded-2xl border border-[#d9c9ff] bg-white/82 shadow-[0_14px_36px_rgba(97,55,180,0.10)] sm:rounded-[20px]"
             >
-              <div className="border-b border-[#e9eef8] px-3 py-2.5 sm:px-6 sm:py-4">
+              <div className="border-b border-[#e2d8ff] px-3 py-2.5 sm:px-6 sm:py-4">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
                   <div>
-                    <p className="text-[11px] font-semibold text-slate-500 sm:text-sm">Selected Exam / Filter</p>
+                    <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#8a2be2] sm:text-xs">Paper Library</p>
                     <p className="mt-0.5 text-sm font-bold text-slate-900 sm:mt-1 sm:text-lg">
                       {formatCurrentSelection(activeFilters)}
                     </p>
@@ -1787,10 +1798,10 @@ export default function PreviousYearPage() {
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    <span className="rounded-full border border-[#dfe7f6] bg-[#f7faff] px-2 py-0.5 text-[11px] font-semibold text-portal-700 sm:px-3 sm:py-1.5 sm:text-sm">
+                    <span className="rounded-full border border-[#eccdff] bg-[#fbf1ff] px-2 py-0.5 text-[11px] font-semibold text-[#9a22d8] sm:px-3 sm:py-1.5 sm:text-sm">
                       {visiblePapers.length} papers
                     </span>
-                    <span className="rounded-full border border-[#dfe7f6] bg-white px-2 py-0.5 text-[11px] font-semibold text-slate-600 sm:px-3 sm:py-1.5 sm:text-sm">
+                    <span className="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-[11px] font-semibold text-sky-700 sm:px-3 sm:py-1.5 sm:text-sm">
                       Latest {latestYear}
                     </span>
                   </div>
@@ -1818,11 +1829,11 @@ export default function PreviousYearPage() {
                       return (
                         <article
                           key={paper.id}
-                          className="rounded-2xl border border-[#e4eaf6] bg-[#fbfdff] p-3 shadow-[0_8px_22px_rgba(15,23,42,0.035)] sm:rounded-[20px] sm:p-4 sm:shadow-[0_10px_30px_rgba(15,23,42,0.04)]"
+                          className="rounded-2xl border border-[#e5d7ff] bg-[linear-gradient(135deg,#fffaff,#f5fbff)] p-3 shadow-[0_8px_22px_rgba(97,55,180,0.055)] sm:rounded-[18px] sm:p-4"
                         >
                           <div className="flex items-start justify-between gap-2.5 sm:gap-3">
                             <div>
-                              <span className="inline-flex rounded-full bg-[#eef5ff] px-2.5 py-0.5 text-[11px] font-bold text-portal-700 sm:px-3 sm:py-1 sm:text-xs">
+                              <span className="inline-flex rounded-full bg-[#8a2be2] px-2.5 py-0.5 text-[11px] font-bold text-white sm:px-3 sm:py-1 sm:text-xs">
                                 {paper.year}
                               </span>
                               <p className="mt-2 text-sm font-bold text-slate-900 sm:mt-3 sm:text-base">
@@ -1836,7 +1847,7 @@ export default function PreviousYearPage() {
                               className={`inline-flex rounded-full px-2 py-0.5 text-[11px] font-semibold sm:px-3 sm:py-1 sm:text-xs ${
                                 hasPaperAccess
                                   ? "bg-emerald-50 text-emerald-700"
-                                  : "bg-amber-50 text-amber-700"
+                                  : "bg-sky-50 text-sky-700"
                               }`}
                             >
                               {hasPaperAccess ? "Available" : "Pending"}
@@ -1848,13 +1859,13 @@ export default function PreviousYearPage() {
                           </p>
 
                           <div className="mt-2 grid grid-cols-2 gap-1.5 text-xs sm:mt-3 sm:gap-2 sm:text-sm">
-                            <div className="rounded-lg border border-[#e4eaf6] bg-white px-2.5 py-1.5 sm:rounded-xl sm:px-3 sm:py-2">
+                            <div className="rounded-lg border border-[#eadcff] bg-white px-2.5 py-1.5 sm:rounded-xl sm:px-3 sm:py-2">
                               <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400 sm:text-[11px]">
                                 Type
                               </p>
                               <p className="mt-0.5 font-semibold text-slate-800 sm:mt-1">{paper.paperType}</p>
                             </div>
-                            <div className="rounded-lg border border-[#e4eaf6] bg-white px-2.5 py-1.5 sm:rounded-xl sm:px-3 sm:py-2">
+                            <div className="rounded-lg border border-sky-100 bg-white px-2.5 py-1.5 sm:rounded-xl sm:px-3 sm:py-2">
                               <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400 sm:text-[11px]">
                                 Questions
                               </p>
@@ -1862,7 +1873,7 @@ export default function PreviousYearPage() {
                                 {getQuestionMetricLabel(paper)}
                               </p>
                             </div>
-                            <div className="rounded-lg border border-[#e4eaf6] bg-white px-2.5 py-1.5 sm:rounded-xl sm:px-3 sm:py-2">
+                            <div className="rounded-lg border border-emerald-100 bg-white px-2.5 py-1.5 sm:rounded-xl sm:px-3 sm:py-2">
                               <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400 sm:text-[11px]">
                                 Solved
                               </p>
@@ -1870,7 +1881,7 @@ export default function PreviousYearPage() {
                                 {getSolvedMetricLabel(paper)}
                               </p>
                             </div>
-                            <div className="rounded-lg border border-[#e4eaf6] bg-white px-2.5 py-1.5 sm:rounded-xl sm:px-3 sm:py-2">
+                            <div className="rounded-lg border border-violet-100 bg-white px-2.5 py-1.5 sm:rounded-xl sm:px-3 sm:py-2">
                               <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-400 sm:text-[11px]">
                                 Signals
                               </p>
@@ -1884,7 +1895,7 @@ export default function PreviousYearPage() {
                             {hasPaperAccess ? (
                               <Link
                                 href={solutionHref}
-                                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-portal-700 px-3 py-2 text-xs font-bold text-white transition hover:bg-portal-800 sm:gap-2 sm:rounded-xl sm:py-2.5 sm:text-sm"
+                                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-3 py-2 text-xs font-bold text-white transition hover:opacity-90 sm:gap-2 sm:rounded-xl sm:py-2.5 sm:text-sm"
                               >
                                 <UiIcon type="eye" className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                                 View Solution
@@ -1953,7 +1964,7 @@ export default function PreviousYearPage() {
                   <div className="hidden overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:block">
                     <div className="min-w-[980px]">
                       <table className="min-w-full text-left">
-                        <thead className="bg-[#fbfcff] text-sm text-slate-500">
+                        <thead className="bg-[linear-gradient(90deg,#8a2be2_0%,#b02cff_45%,#0796e8_100%)] text-xs uppercase tracking-wide text-white/90">
                           <tr>
                             <th className="px-6 py-4 font-bold">Year</th>
                             <th className="px-6 py-4 font-bold">Paper / Exam</th>
@@ -1972,12 +1983,12 @@ export default function PreviousYearPage() {
                                 key={paper.id}
                                 className={
                                   index === paginatedPapers.length - 1
-                                    ? ""
-                                    : "border-b border-[#edf1f8]"
+                                    ? "bg-white"
+                                    : "border-b border-[#edf1f8] bg-white"
                                 }
                               >
                                 <td className="px-6 py-5 align-top">
-                                  <span className="text-lg font-bold text-portal-600">
+                                  <span className="rounded-lg bg-[#fbf1ff] px-3 py-1 text-lg font-bold text-[#8a2be2]">
                                     {paper.year}
                                   </span>
                                 </td>
@@ -2010,7 +2021,7 @@ export default function PreviousYearPage() {
                                     {hasPaperAccess ? (
                                       <Link
                                         href={solutionHref}
-                                        className="inline-flex items-center gap-2 rounded-xl bg-portal-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-portal-800"
+                                        className="inline-flex items-center gap-2 rounded-xl bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-4 py-2.5 text-sm font-bold text-white transition hover:opacity-90"
                                       >
                                         <UiIcon type="eye" className="h-4 w-4" />
                                         View Solution

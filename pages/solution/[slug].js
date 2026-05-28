@@ -871,20 +871,24 @@ export default function SolutionPage({
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   <a
                     href="#viewer"
-                    className="inline-flex min-h-8 items-center justify-center rounded-lg bg-white px-3 py-1.5 text-[11px] font-extrabold text-[#0c4286] shadow-[0_8px_18px_rgba(255,255,255,0.12)] transition hover:bg-sky-50 sm:min-h-9 sm:px-3.5 sm:py-1.5"
+                    className="inline-flex min-h-8 items-center justify-center rounded-lg bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-3 py-1.5 text-[11px] font-extrabold text-white shadow-[0_10px_22px_rgba(120,55,230,0.25)] transition hover:opacity-90 sm:min-h-9 sm:px-3.5 sm:py-1.5"
                   >
+                    <svg className="mr-1.5 h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M2.5 10s2.7-4.5 7.5-4.5S17.5 10 17.5 10 14.8 14.5 10 14.5 2.5 10 2.5 10Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      <circle cx="10" cy="10" r="2" stroke="currentColor" strokeWidth="1.8" />
+                    </svg>
                     View Solution
                   </a>
                   <button
                     type="button"
                     onClick={handleDownloadPdf}
-                    className="inline-flex min-h-8 items-center justify-center rounded-lg border border-white/25 px-3 py-1.5 text-[11px] font-bold text-white transition hover:bg-white/10 sm:min-h-9 sm:px-3.5 sm:py-1.5"
+                    className="inline-flex min-h-8 items-center justify-center rounded-lg bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-3 py-1.5 text-[11px] font-extrabold text-white shadow-[0_10px_22px_rgba(120,55,230,0.22)] transition hover:opacity-90 sm:min-h-9 sm:px-3.5 sm:py-1.5"
                   >
                     Download PDF
                   </button>
                   <Link
                     href={practiceHref}
-                    className="inline-flex min-h-8 items-center justify-center rounded-lg border border-white/25 px-3 py-1.5 text-[11px] font-bold text-white transition hover:bg-white/10 sm:min-h-9 sm:px-3.5 sm:py-1.5"
+                    className="inline-flex min-h-8 items-center justify-center rounded-lg bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-3 py-1.5 text-[11px] font-extrabold text-white shadow-[0_10px_22px_rgba(120,55,230,0.22)] transition hover:opacity-90 sm:min-h-9 sm:px-3.5 sm:py-1.5"
                   >
                     Practice Online
                   </Link>
@@ -897,8 +901,8 @@ export default function SolutionPage({
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_62%_28%,rgba(96,165,250,0.42),transparent_16%),linear-gradient(135deg,transparent_0%,rgba(255,255,255,0.06)_100%)]" />
               </div>
               <div className="relative z-10 flex h-full flex-col items-center justify-center gap-2.5">
-                <div className="w-full rounded-[14px] border border-white/12 bg-white/8 p-2 backdrop-blur-sm sm:p-2.5">
-                  <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-sky-100/90 sm:text-[11px] sm:tracking-[0.16em]">
+                <div className="w-full rounded-[14px] border border-white/70 bg-[linear-gradient(135deg,rgba(176,44,255,0.22),rgba(7,150,232,0.20))] p-2 backdrop-blur-sm sm:p-2.5">
+                  <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-white sm:text-[11px] sm:tracking-[0.16em]">
                     Paper Info
                   </p>
                   <div className="mt-2 grid grid-cols-2 gap-1.5 sm:mt-2.5 sm:gap-2">
@@ -908,9 +912,9 @@ export default function SolutionPage({
                       ["Repeated", paper.repeatedCount],
                       ["Important", paper.importantCount],
                     ].map(([label, value]) => (
-                      <div key={label} className="rounded-lg border border-white/12 bg-white p-2 text-slate-950 shadow-sm sm:rounded-lg sm:p-2.5">
-                        <p className="text-base font-extrabold sm:text-lg">{value}</p>
-                        <p className="mt-0.5 text-[9px] font-extrabold uppercase tracking-[0.1em] text-slate-500">
+                      <div key={label} className="rounded-lg border border-white/70 bg-white p-2 text-slate-950 shadow-[0_8px_18px_rgba(11,31,85,0.10)] sm:rounded-lg sm:p-2.5">
+                        <p className="text-base font-extrabold text-[#1f2f47] sm:text-lg">{value}</p>
+                        <p className="mt-0.5 text-[9px] font-extrabold uppercase tracking-[0.1em] text-[#64748b]">
                           {label}
                         </p>
                       </div>
@@ -956,7 +960,7 @@ export default function SolutionPage({
               <button
                 type="button"
                 onClick={handleDownloadPdf}
-                className="inline-flex min-h-11 items-center justify-center rounded-xl border border-portal-300 bg-portal-50 px-5 py-3 text-sm font-extrabold text-portal-700 transition hover:bg-white"
+                className="inline-flex min-h-11 items-center justify-center rounded-xl bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-5 py-3 text-sm font-extrabold text-white shadow-[0_10px_24px_rgba(120,55,230,0.18)] transition hover:opacity-90"
               >
                 Download PDF
               </button>
