@@ -139,7 +139,11 @@ export default function LearningTopicPage({ topic }) {
     ],
     [relatedTopics, topic]
   );
-  const canonicalUrl = generateCanonical(`/learn/${topic.subjectSlug}/${topic.slug}`);
+  const canonicalPath =
+    topic.subjectSlug === "digital" && topic.slug === "boolean-algebra-and-kmaps"
+      ? "/karnaugh-map"
+      : `/learn/${topic.subjectSlug}/${topic.slug}`;
+  const canonicalUrl = generateCanonical(canonicalPath);
   const seoTitle = generateTitle({
     type: "topic",
     title: topic.title,
@@ -164,7 +168,7 @@ export default function LearningTopicPage({ topic }) {
     type: "topic",
     title: topic.title,
     description: seoDescription,
-    path: `/learn/${topic.subjectSlug}/${topic.slug}`,
+    path: canonicalPath,
     subjectName: topic.subjectName,
     chapterTitle: topic.chapterTitle,
     keywords: seoKeywords,

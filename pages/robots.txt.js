@@ -1,4 +1,4 @@
-const ROBOTS_SITE_URL = "https://eceexamguide.com";
+import { SITE_URL } from "../lib/seo";
 
 function buildRobotsTxt() {
   return `User-agent: *
@@ -15,13 +15,16 @@ Allow: /ece-exams/
 Allow: /insights/
 Disallow: /admin
 Disallow: /api
+Disallow: /login
 Disallow: /search
+Disallow: /signup
 
-Sitemap: ${ROBOTS_SITE_URL}/sitemap.xml`;
+Sitemap: ${SITE_URL}/sitemap.xml`;
 }
 
 export async function getServerSideProps({ res }) {
   res.setHeader("Content-Type", "text/plain");
+  res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800");
   res.write(buildRobotsTxt());
   res.end();
 

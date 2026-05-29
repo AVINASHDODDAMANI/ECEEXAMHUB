@@ -45,6 +45,44 @@ const adminRateLimit = redis
     })
   : null;
 
+const CANONICAL_SOLUTION_QUERY_REDIRECTS = [
+  {
+    pathname: "/solution/gate-2025",
+    params: {
+      exam: "GATE",
+      year: "2025",
+      paperId: "gate-ece-2025",
+    },
+  },
+  {
+    pathname: "/solution/bel-may-2025",
+    params: {
+      exam: "BEL",
+      year: "2025",
+      month: "May",
+      paperId: "bel-engineer-electronics-may-2025",
+    },
+  },
+  {
+    pathname: "/solution/bel-december-2025",
+    params: {
+      exam: "BEL",
+      year: "2025",
+      month: "December",
+      paperId: "bel-probationary-engineer-ece-december-2025",
+    },
+  },
+  {
+    pathname: "/solution/bel-december-2023",
+    params: {
+      exam: "BEL",
+      year: "2023",
+      month: "December",
+      paperId: "bel-probationary-engineer-electronics-december-2023",
+    },
+  },
+];
+
 function getClientIp(request) {
   const forwardedFor = request.headers.get("x-forwarded-for");
 
@@ -78,8 +116,34 @@ function setRateLimitHeaders(response, result) {
   response.headers.set("X-RateLimit-Reset", String(result.reset));
 }
 
+function getCanonicalSolutionRedirectUrl(request) {
+  const redirectMatch = CANONICAL_SOLUTION_QUERY_REDIRECTS.find((item) => {
+    if (request.nextUrl.pathname !== item.pathname) {
+      return false;
+    }
+
+    return Object.entries(item.params).every(
+      ([key, value]) => request.nextUrl.searchParams.get(key) === value
+    );
+  });
+
+  if (!redirectMatch) {
+    return null;
+  }
+
+  const redirectUrl = request.nextUrl.clone();
+  redirectUrl.pathname = redirectMatch.pathname;
+  redirectUrl.search = "";
+  return redirectUrl;
+}
+
 export async function proxy(request) {
   const { pathname } = request.nextUrl;
+  const canonicalRedirectUrl = getCanonicalSolutionRedirectUrl(request);
+
+  if (canonicalRedirectUrl) {
+    return NextResponse.redirect(canonicalRedirectUrl, 308);
+  }
 
   if (!isRateLimitEnabled) {
     return NextResponse.next();

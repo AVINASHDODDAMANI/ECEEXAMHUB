@@ -27,10 +27,10 @@
       stroke-width="16"
     />
     <path
-      d="M184 92C172 82 156 76 139 76C105.5 76 78 103 78 136C78 169 105.5 196 139 196C158 196 175 188 187 174"
+      d="M183 91C171 81 155 76 139 76C105.5 76 78 103 78 136C78 169 105.5 196 139 196C156 196 172 189 184 176"
       stroke="url(#guideOrange)"
       stroke-width="15"
     />
-    <path d="M144 143H220" stroke="url(#guideBlue)" stroke-width="17"/>
+    <path d="M151 143H216" stroke="url(#guideBlue)" stroke-width="17"/>
   </g>
 </svg>

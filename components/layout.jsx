@@ -4,8 +4,13 @@ import { useEffect } from "react";
 import Footer from "./Footer";
 import Navbar from "./navbar";
 import {
+  DEFAULT_OG_IMAGE_HEIGHT,
+  DEFAULT_OG_IMAGE_WIDTH,
   DEFAULT_OG_IMAGE,
   DEFAULT_META_DESCRIPTION,
+  SITE_ALTERNATE_NAMES,
+  SITE_LANGUAGE,
+  SITE_LOCALE,
   SITE_NAME,
   SITE_URL,
   generatePageDescription,
@@ -15,35 +20,73 @@ import {
   shouldNoIndexPath,
 } from "../lib/seo";
 
-const defaultStructuredData = [
-  {
-    "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
-    "@id": `${SITE_URL}/#organization`,
-    name: SITE_NAME,
-    alternateName: SITE_NAME,
-    url: `${SITE_URL}/`,
-    logo: `${SITE_URL}/brand/ece-exam-guide-mark-v2.svg`,
-    sameAs: [],
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": `${SITE_URL}/#website`,
-    name: SITE_NAME,
-    alternateName: SITE_NAME,
-    url: `${SITE_URL}/`,
-    publisher: {
-      "@id": `${SITE_URL}/#organization`,
+function buildDefaultStructuredData({
+  title,
+  description,
+  canonicalUrl,
+  image,
+  noIndex,
+}) {
+  const organizationId = `${SITE_URL}/#organization`;
+  const websiteId = `${SITE_URL}/#website`;
+  const webpageId = `${canonicalUrl}#webpage`;
+
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "@id": organizationId,
+      name: SITE_NAME,
+      alternateName: SITE_ALTERNATE_NAMES,
+      url: `${SITE_URL}/`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/brand/ece-exam-guide-mark-v2.svg`,
+      },
+      sameAs: [],
     },
-    inLanguage: "en-IN",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${SITE_URL}/search?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": websiteId,
+      name: SITE_NAME,
+      alternateName: SITE_ALTERNATE_NAMES,
+      url: `${SITE_URL}/`,
+      publisher: {
+        "@id": organizationId,
+      },
+      inLanguage: SITE_LANGUAGE,
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${SITE_URL}/search?q={search_term_string}`,
+        "query-input": "required name=search_term_string",
+      },
     },
-  },
-];
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": webpageId,
+      url: canonicalUrl,
+      name: title,
+      description,
+      isPartOf: {
+        "@id": websiteId,
+      },
+      publisher: {
+        "@id": organizationId,
+      },
+      image,
+      inLanguage: SITE_LANGUAGE,
+      isAccessibleForFree: true,
+      potentialAction: noIndex
+        ? undefined
+        : {
+            "@type": "ReadAction",
+            target: [canonicalUrl],
+          },
+    },
+  ];
+}
 
 function closeExpandedPopupMenus(eventTarget = null) {
   if (typeof document === "undefined") {
@@ -82,6 +125,8 @@ export default function Layout({
   keywords = "",
   ogType = "website",
   ogImage = DEFAULT_OG_IMAGE,
+  ogImageWidth = DEFAULT_OG_IMAGE_WIDTH,
+  ogImageHeight = DEFAULT_OG_IMAGE_HEIGHT,
   structuredData = [],
   noIndex = false,
   searchValue = "",
@@ -102,6 +147,13 @@ export default function Layout({
     ? String(keywords).replace(/\s+/g, " ").trim()
     : generatePageKeywords(title, pathOnly);
   const effectiveNoIndex = noIndex || shouldNoIndexPath(router.pathname || pathOnly, router.asPath || pathOnly);
+  const defaultStructuredData = buildDefaultStructuredData({
+    title: resolvedTitle,
+    description: resolvedDescription,
+    canonicalUrl: resolvedCanonicalUrl,
+    image: ogImage,
+    noIndex: effectiveNoIndex,
+  });
   const structuredDataItems = Array.isArray(structuredData)
     ? [...defaultStructuredData, ...structuredData]
     : [...defaultStructuredData, ...[structuredData].filter(Boolean)];
@@ -149,9 +201,12 @@ export default function Layout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content={SITE_NAME} key="author" />
         <meta name="publisher" content={SITE_NAME} key="publisher" />
+        <meta name="language" content={SITE_LANGUAGE} key="language" />
+        <meta name="rating" content="general" key="rating" />
+        <meta name="referrer" content="strict-origin-when-cross-origin" key="referrer" />
         <meta
           name="robots"
-          content={effectiveNoIndex ? "noindex, nofollow" : "index, follow"}
+          content={effectiveNoIndex ? "noindex, nofollow, noarchive" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"}
           key="robots"
         />
         <meta
@@ -159,12 +214,14 @@ export default function Layout({
           content={effectiveNoIndex ? "noindex, nofollow" : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"}
           key="googlebot"
         />
-        <link rel="icon" href="/favicon-v3.ico" sizes="any" key="favicon" />
+        <link rel="icon" href="/favicon-v4.ico" sizes="any" key="favicon" />
         <link rel="icon" href="/brand/ece-exam-guide-mark-v2.svg" type="image/svg+xml" key="favicon-svg" />
-        <link rel="icon" href="/favicon-v3-48x48.png" type="image/png" sizes="48x48" key="favicon-48" />
-        <link rel="icon" href="/favicon-v3-32x32.png" type="image/png" sizes="32x32" key="favicon-32" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon-v3.png" sizes="180x180" key="apple-touch-icon" />
+        <link rel="icon" href="/favicon-v4-48x48.png" type="image/png" sizes="48x48" key="favicon-48" />
+        <link rel="icon" href="/favicon-v4-32x32.png" type="image/png" sizes="32x32" key="favicon-32" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon-v4.png" sizes="180x180" key="apple-touch-icon" />
         <link rel="canonical" href={resolvedCanonicalUrl} key="canonical" />
+        <link rel="alternate" hrefLang="en-IN" href={resolvedCanonicalUrl} key="alternate-en-in" />
+        <link rel="alternate" hrefLang="x-default" href={resolvedCanonicalUrl} key="alternate-default" />
         <link rel="manifest" href="/site.webmanifest" key="manifest" />
         <meta name="application-name" content={SITE_NAME} key="application-name" />
         <meta name="apple-mobile-web-app-title" content={SITE_NAME} key="apple-title" />
@@ -175,9 +232,9 @@ export default function Layout({
         <meta property="og:url" content={resolvedCanonicalUrl} key="og:url" />
         {ogImage ? <meta property="og:image" content={ogImage} key="og:image" /> : null}
         {ogImage ? <meta property="og:image:alt" content={resolvedTitle} key="og:image:alt" /> : null}
-        {ogImage ? <meta property="og:image:width" content="1200" key="og:image:width" /> : null}
-        {ogImage ? <meta property="og:image:height" content="630" key="og:image:height" /> : null}
-        <meta property="og:locale" content="en_IN" key="og:locale" />
+        {ogImage ? <meta property="og:image:width" content={String(ogImageWidth)} key="og:image:width" /> : null}
+        {ogImage ? <meta property="og:image:height" content={String(ogImageHeight)} key="og:image:height" /> : null}
+        <meta property="og:locale" content={SITE_LOCALE} key="og:locale" />
         <meta name="twitter:card" content="summary_large_image" key="twitter:card" />
         <meta name="twitter:domain" content={twitterDomain} key="twitter:domain" />
         <meta name="twitter:url" content={resolvedCanonicalUrl} key="twitter:url" />

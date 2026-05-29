@@ -1,6 +1,6 @@
-import { getIndexableRoutes } from "../lib/seo";
+import { SITE_URL, getIndexableRoutes } from "../lib/seo";
 
-const SITEMAP_SITE_URL = "https://eceexamguide.com";
+const DEFAULT_LAST_MODIFIED = new Date("2026-05-29T00:00:00.000Z");
 
 function escapeXml(value = "") {
   return String(value)
@@ -30,14 +30,13 @@ function buildSitemapUrl(path = "/") {
     ? "/"
     : pathWithLeadingSlash.replace(/\/+$/, "");
 
-  return `${SITEMAP_SITE_URL}${normalizedPath}`;
+  return `${SITE_URL}${normalizedPath}`;
 }
 
 function buildSitemapXml() {
-  const generatedAt = new Date();
   const uniqueRoutes = getIndexableRoutes().map((route) => ({
     ...route,
-    lastModified: route.lastModified || generatedAt,
+    lastModified: route.lastModified ? new Date(route.lastModified) : DEFAULT_LAST_MODIFIED,
     changefreq: route.changefreq || "daily",
     priority: Number(route.priority ?? 0.8),
   }));
@@ -60,6 +59,7 @@ function buildSitemapXml() {
 
 export async function getServerSideProps({ res }) {
   res.setHeader("Content-Type", "application/xml");
+  res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800");
   res.write(buildSitemapXml());
   res.end();
 
