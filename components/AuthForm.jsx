@@ -42,7 +42,16 @@ export default function AuthForm({ mode = "login" }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-    const data = await response.json().catch(() => ({}));
+    const responseText = await response.text();
+    const data = responseText
+      ? (() => {
+          try {
+            return JSON.parse(responseText);
+          } catch {
+            return { message: responseText.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim() };
+          }
+        })()
+      : {};
 
     if (!response.ok) {
       throw new Error(data.message || "Something went wrong. Please try again.");

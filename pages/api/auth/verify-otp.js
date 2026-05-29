@@ -3,6 +3,7 @@ import { normalizeIdentifier } from "../../../lib/auth/identity";
 import { verifyOtpCode } from "../../../lib/auth/otp";
 import { createSessionToken, setAuthCookie } from "../../../lib/auth/session";
 import { checkRateLimit, getClientIp } from "../../../lib/auth/rate-limit";
+import { getSafeErrorMessage } from "../../../lib/auth/api-response";
 import User from "../../../models/User";
 
 export default async function handler(req, res) {
@@ -31,7 +32,11 @@ export default async function handler(req, res) {
     });
   }
 
-  await connectToDatabase();
+  try {
+    await connectToDatabase();
+  } catch (error) {
+    return res.status(503).json({ message: getSafeErrorMessage(error) });
+  }
 
   const otpResult = await verifyOtpCode({
     identifier: identity.value,

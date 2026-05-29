@@ -1,4 +1,5 @@
 import { connectToDatabase } from "../../../lib/mongodb";
+import { getSafeErrorMessage } from "../../../lib/auth/api-response";
 import { getSessionPayload } from "../../../lib/auth/session";
 import User from "../../../models/User";
 
@@ -14,7 +15,11 @@ export default async function handler(req, res) {
     return res.status(200).json({ user: null });
   }
 
-  await connectToDatabase();
+  try {
+    await connectToDatabase();
+  } catch (error) {
+    return res.status(503).json({ user: null, message: getSafeErrorMessage(error) });
+  }
 
   const user = await User.findById(session.sub);
 

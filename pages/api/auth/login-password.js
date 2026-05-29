@@ -3,6 +3,7 @@ import { normalizeIdentifier } from "../../../lib/auth/identity";
 import { verifyPassword } from "../../../lib/auth/password";
 import { createSessionToken, setAuthCookie } from "../../../lib/auth/session";
 import { checkRateLimit, getClientIp } from "../../../lib/auth/rate-limit";
+import { getSafeErrorMessage } from "../../../lib/auth/api-response";
 import User from "../../../models/User";
 
 const MAX_FAILED_LOGINS = 5;
@@ -33,7 +34,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: identity.error });
   }
 
-  await connectToDatabase();
+  try {
+    await connectToDatabase();
+  } catch (error) {
+    return res.status(503).json({ message: getSafeErrorMessage(error) });
+  }
 
   const user = await User.findOne({ [identity.field]: identity.value }).select("+passwordHash");
   const genericMessage = "Invalid login details.";

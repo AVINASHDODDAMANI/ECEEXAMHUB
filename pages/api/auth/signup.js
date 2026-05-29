@@ -3,6 +3,7 @@ import { normalizeIdentifier } from "../../../lib/auth/identity";
 import { hashPassword, validatePasswordStrength } from "../../../lib/auth/password";
 import { createAndSendOtp } from "../../../lib/auth/otp";
 import { checkRateLimit, getClientIp } from "../../../lib/auth/rate-limit";
+import { getSafeErrorMessage } from "../../../lib/auth/api-response";
 import User from "../../../models/User";
 
 export default async function handler(req, res) {
@@ -34,7 +35,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: passwordError });
   }
 
-  await connectToDatabase();
+  try {
+    await connectToDatabase();
+  } catch (error) {
+    return res.status(503).json({ message: getSafeErrorMessage(error) });
+  }
 
   const existingUser = await User.findOne({ [identity.field]: identity.value });
 

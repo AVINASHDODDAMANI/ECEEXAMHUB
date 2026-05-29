@@ -2,4 +2,13 @@
 > eceexamhub@1.0.0 dev
 > next dev --webpack --hostname 127.0.0.1 --port 3001
 
-[?25h
+▲ Next.js 16.2.6 (webpack)
+- Local:         http://127.0.0.1:3001
+- Network:       http://127.0.0.1:3001
+- Environments: .env.local
+✓ Ready in 791ms
+
+ GET /signup 200 in 257ms (next.js: 4ms, proxy.ts: 239ms, application-code: 14ms)
+ GET /api/auth/me 304 in 1953ms (next.js: 1901ms, proxy.ts: 15ms, application-code: 38ms)
+ POST /api/auth/request-otp 503 in 282ms (next.js: 239ms, proxy.ts: 11ms, application-code: 32ms)
+ GET /_next/data/development/signup.json 304 in 99ms (next.js: 67ms, proxy.ts: 4ms, application-code: 28ms)

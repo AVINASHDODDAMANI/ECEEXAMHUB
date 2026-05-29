@@ -22,6 +22,7 @@ const initialFilters = {
 };
 
 const paperTypeOptions = ["All Types", "Objective", "General Aptitude + Engineering"];
+const MIN_READY_PAPER_QUESTIONS = 10;
 
 const previousYearStructuredData = [
   ...generateStructuredData({
@@ -684,7 +685,7 @@ function getPaperContextLabel(paper) {
 
 function getQuestionCountLabel(paper) {
   if (!isPaperAvailable(paper)) {
-    return "Questions pending";
+    return "Questions coming soon";
   }
 
   if (paper.questionCount) {
@@ -696,7 +697,7 @@ function getQuestionCountLabel(paper) {
 
 function getPaperScopeLabel(paper) {
   if (!isPaperAvailable(paper)) {
-    return "Topics pending";
+    return "Topics coming soon";
   }
 
   if (!paper.topicCount) {
@@ -708,7 +709,7 @@ function getPaperScopeLabel(paper) {
 
 function getSolutionStatusLabel(paper) {
   if (!isPaperAvailable(paper)) {
-    return "Pending";
+    return "Coming Soon";
   }
 
   if (paper.isOfficialPdf && !paper.solvedCount) {
@@ -721,20 +722,28 @@ function getSolutionStatusLabel(paper) {
 }
 
 function isPaperAvailable(paper) {
-  return Boolean(paper?.isOfficialPdf);
+  return Boolean(
+    paper?.pdfHref ||
+      paper?.isOfficialPdf ||
+      Number(paper?.questionCount || 0) >= MIN_READY_PAPER_QUESTIONS
+  );
+}
+
+function isPaperListed(paper) {
+  return Boolean(paper?.questionCount || paper?.pdfHref || paper?.isOfficialPdf);
 }
 
 function getQuestionMetricLabel(paper) {
   if (!isPaperAvailable(paper)) {
-    return "Pending";
+    return "Coming Soon";
   }
 
-  return paper.questionCount || (paper.isOfficialPdf ? "PDF" : "Pending");
+  return paper.questionCount || (paper.pdfHref || paper.isOfficialPdf ? "PDF" : "Coming Soon");
 }
 
 function getSolvedMetricLabel(paper) {
   if (!isPaperAvailable(paper)) {
-    return "Pending";
+    return "Coming Soon";
   }
 
   return paper.questionCount
@@ -746,39 +755,26 @@ function mergeOfficialOptions(payload = {}, filters = initialFilters) {
   const matchingPapers = officialPreviousPapers.filter((paper) =>
     paperMatchesSelection(paper, "All Types", filters, "")
   );
-  const matchingCatalogPapers = previousPaperCatalogEntries.filter((paper) =>
-    paperMatchesSelection(paper, "All Types", filters, "")
-  );
   const appendUnique = (items = [], additions = []) =>
     Array.from(new Set([...(items || []), ...additions])).filter(Boolean);
 
   return {
     subjects: appendUnique(
       Array.isArray(payload.subjects) ? payload.subjects : SUBJECTS,
-      [
-        ...matchingPapers.flatMap((paper) => paper.subjects || []),
-        ...matchingCatalogPapers.flatMap((paper) => paper.subjects || []),
-      ]
+      matchingPapers.flatMap((paper) => paper.subjects || [])
     ),
     exams: appendUnique(
       Array.isArray(payload.exams) ? payload.exams : EXAMS,
-      [
-        ...matchingPapers.map((paper) => paper.exam),
-        ...matchingCatalogPapers.map((paper) => paper.exam),
-      ]
+      matchingPapers.map((paper) => paper.exam)
     ),
     topics: appendUnique(
       Array.isArray(payload.topics) ? payload.topics : ["All Topics"],
-      [
-        ...matchingPapers.flatMap((paper) => paper.topics || []),
-        ...matchingCatalogPapers.flatMap((paper) => paper.topics || []),
-      ]
+      matchingPapers.flatMap((paper) => paper.topics || [])
     ),
     years: Array.from(
       new Set([
         ...(Array.isArray(payload.years) ? payload.years : []),
         ...matchingPapers.map((paper) => paper.year),
-        ...matchingCatalogPapers.map((paper) => paper.year),
       ])
     ).sort((left, right) => Number(right) - Number(left)),
   };
@@ -1421,7 +1417,10 @@ export default function PreviousYearPage() {
   }, [questions, activeFilters.paperType]);
 
   const visiblePapers = useMemo(
-    () => buildPaperEntries(questions, activeFilters.paperType, activeFilters, search),
+    () =>
+      buildPaperEntries(questions, activeFilters.paperType, activeFilters, search).filter(
+        isPaperListed
+      ),
     [questions, activeFilters, search]
   );
 
@@ -1850,7 +1849,7 @@ export default function PreviousYearPage() {
                                   : "bg-sky-50 text-sky-700"
                               }`}
                             >
-                              {hasPaperAccess ? "Available" : "Pending"}
+                              {hasPaperAccess ? "Available" : "Coming Soon"}
                             </span>
                           </div>
 
@@ -1902,7 +1901,7 @@ export default function PreviousYearPage() {
                               </Link>
                             ) : (
                               <span className="inline-flex w-full items-center justify-center rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-bold text-amber-700 sm:rounded-xl sm:py-2.5 sm:text-sm">
-                                Pending
+                                Coming Soon
                               </span>
                             )}
                           </div>
@@ -2028,7 +2027,7 @@ export default function PreviousYearPage() {
                                       </Link>
                                     ) : (
                                       <span className="inline-flex items-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-bold text-amber-700">
-                                        Pending
+                                        Coming Soon
                                       </span>
                                     )}
                                   </div>

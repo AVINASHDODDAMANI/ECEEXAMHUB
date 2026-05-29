@@ -21,6 +21,8 @@ import {
   generateStructuredData,
 } from "../../lib/seo";
 
+const MIN_READY_PAPER_QUESTIONS = 10;
+
 function parsePaperSlug(slug = "") {
   const monthMatch = String(slug).match(/^(.+)-(january|february|march|april|may|june|july|august|september|october|november|december)-(\d{4})$/i);
 
@@ -147,15 +149,39 @@ function getPaperSolutionSlug(paper) {
 }
 
 function getQuestionMetric(paper, paperQuestions = []) {
-  return paper.questionCount || paperQuestions.length || "PDF";
+  if (paper.pdfHref || paper.isOfficialPdf) {
+    return paper.questionCount || paperQuestions.length || "PDF";
+  }
+
+  if (Number(paper.questionCount || paperQuestions.length || 0) >= MIN_READY_PAPER_QUESTIONS) {
+    return paper.questionCount || paperQuestions.length;
+  }
+
+  return paper.pdfHref ? "PDF" : "Coming Soon";
 }
 
 function getSolvedMetric(paper) {
+  if (
+    !paper.pdfHref &&
+    !paper.isOfficialPdf &&
+    Number(paper.questionCount || 0) < MIN_READY_PAPER_QUESTIONS
+  ) {
+    return "Coming Soon";
+  }
+
   if (paper.isOfficialPdf && !paper.solvedCount) {
     return "Official";
   }
 
   return `${getSolvedPercentage(paper.solvedCount, paper.questionCount)}%`;
+}
+
+function hasPaperContent(paper, paperQuestions = []) {
+  return Boolean(
+    paper?.pdfHref ||
+      paper?.isOfficialPdf ||
+      Number(paper?.questionCount || paperQuestions.length || 0) >= MIN_READY_PAPER_QUESTIONS
+  );
 }
 
 function getPreviewQuestionNumber(questions = [], index = 0) {
@@ -730,6 +756,7 @@ export default function SolutionPage({
     () => getPaperQuestions(questions, paper, paperType),
     [paper, paperType, questions]
   );
+  const paperHasContent = hasPaperContent(paper, paperQuestions);
   const viewerMarkup = useMemo(
     () => buildPaperPdfMarkup(paper, paperQuestions, { siteUrl }),
     [paper, paperQuestions, siteUrl]
@@ -774,6 +801,10 @@ export default function SolutionPage({
 
   function handleDownloadPdf() {
     if (typeof window === "undefined") {
+      return;
+    }
+
+    if (!paperHasContent) {
       return;
     }
 
@@ -827,6 +858,7 @@ export default function SolutionPage({
       keywords={`${paper.exam} ${paper.year} ECE previous paper, ${paper.exam} ECE question paper, ECE previous year questions, solved paper`}
       structuredData={structuredData}
       ogType="article"
+      noIndex={!paperHasContent}
       pageClassName="py-5 sm:py-6"
     >
       <div className="mx-auto max-w-[1440px] space-y-6">
@@ -865,27 +897,37 @@ export default function SolutionPage({
                 </h1>
                 <div className="mt-2 h-px w-full max-w-[180px] bg-gradient-to-r from-sky-200/40 via-sky-200/15 to-transparent sm:max-w-[220px]" />
                 <p className="mt-2 max-w-lg text-[11px] leading-5 text-slate-100/90 sm:text-[12px] sm:leading-5">
-                  {introContent?.summary ||
-                    "Go through solved BEL questions with clear explanations and easy navigation, all in one place."}
+                  {paperHasContent
+                    ? introContent?.summary ||
+                      "Go through solved BEL questions with clear explanations and easy navigation, all in one place."
+                    : "This paper page is reserved for the archive. Questions and solutions will appear here once the content is ready."}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-1.5">
-                  <a
-                    href="#viewer"
-                    className="inline-flex min-h-8 items-center justify-center rounded-lg bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-3 py-1.5 text-[11px] font-extrabold text-white shadow-[0_10px_22px_rgba(120,55,230,0.25)] transition hover:opacity-90 sm:min-h-9 sm:px-3.5 sm:py-1.5"
-                  >
-                    <svg className="mr-1.5 h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                      <path d="M2.5 10s2.7-4.5 7.5-4.5S17.5 10 17.5 10 14.8 14.5 10 14.5 2.5 10 2.5 10Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                      <circle cx="10" cy="10" r="2" stroke="currentColor" strokeWidth="1.8" />
-                    </svg>
-                    View Solution
-                  </a>
-                  <button
-                    type="button"
-                    onClick={handleDownloadPdf}
-                    className="inline-flex min-h-8 items-center justify-center rounded-lg bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-3 py-1.5 text-[11px] font-extrabold text-white shadow-[0_10px_22px_rgba(120,55,230,0.22)] transition hover:opacity-90 sm:min-h-9 sm:px-3.5 sm:py-1.5"
-                  >
-                    Download PDF
-                  </button>
+                  {paperHasContent ? (
+                    <>
+                      <a
+                        href="#viewer"
+                        className="inline-flex min-h-8 items-center justify-center rounded-lg bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-3 py-1.5 text-[11px] font-extrabold text-white shadow-[0_10px_22px_rgba(120,55,230,0.25)] transition hover:opacity-90 sm:min-h-9 sm:px-3.5 sm:py-1.5"
+                      >
+                        <svg className="mr-1.5 h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                          <path d="M2.5 10s2.7-4.5 7.5-4.5S17.5 10 17.5 10 14.8 14.5 10 14.5 2.5 10 2.5 10Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                          <circle cx="10" cy="10" r="2" stroke="currentColor" strokeWidth="1.8" />
+                        </svg>
+                        View Solution
+                      </a>
+                      <button
+                        type="button"
+                        onClick={handleDownloadPdf}
+                        className="inline-flex min-h-8 items-center justify-center rounded-lg bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-3 py-1.5 text-[11px] font-extrabold text-white shadow-[0_10px_22px_rgba(120,55,230,0.22)] transition hover:opacity-90 sm:min-h-9 sm:px-3.5 sm:py-1.5"
+                      >
+                        Download PDF
+                      </button>
+                    </>
+                  ) : (
+                    <span className="inline-flex min-h-8 items-center justify-center rounded-lg border border-white/25 bg-white/10 px-3 py-1.5 text-[11px] font-extrabold text-white sm:min-h-9 sm:px-3.5 sm:py-1.5">
+                      Coming Soon
+                    </span>
+                  )}
                   <Link
                     href={practiceHref}
                     className="inline-flex min-h-8 items-center justify-center rounded-lg bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-3 py-1.5 text-[11px] font-extrabold text-white shadow-[0_10px_22px_rgba(120,55,230,0.22)] transition hover:opacity-90 sm:min-h-9 sm:px-3.5 sm:py-1.5"
@@ -909,8 +951,8 @@ export default function SolutionPage({
                     {[
                       ["Questions", getQuestionMetric(paper, paperQuestions)],
                       ["Solved", getSolvedMetric(paper)],
-                      ["Repeated", paper.repeatedCount],
-                      ["Important", paper.importantCount],
+                      ["Repeated", paperHasContent ? paper.repeatedCount : "-"],
+                      ["Important", paperHasContent ? paper.importantCount : "-"],
                     ].map(([label, value]) => (
                       <div key={label} className="rounded-lg border border-white/70 bg-white p-2 text-slate-950 shadow-[0_8px_18px_rgba(11,31,85,0.10)] sm:rounded-lg sm:p-2.5">
                         <p className="text-base font-extrabold text-[#1f2f47] sm:text-lg">{value}</p>
@@ -954,16 +996,18 @@ export default function SolutionPage({
                     ? "Interactive question viewer"
                     : paper.pdfHref
                       ? "Official paper viewer"
-                      : "Embedded solution viewer"}
+                      : "Coming Soon"}
                 </h2>
               </div>
-              <button
-                type="button"
-                onClick={handleDownloadPdf}
-                className="inline-flex min-h-11 items-center justify-center rounded-xl bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-5 py-3 text-sm font-extrabold text-white shadow-[0_10px_24px_rgba(120,55,230,0.18)] transition hover:opacity-90"
-              >
-                Download PDF
-              </button>
+              {paperHasContent ? (
+                <button
+                  type="button"
+                  onClick={handleDownloadPdf}
+                  className="inline-flex min-h-11 items-center justify-center rounded-xl bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-5 py-3 text-sm font-extrabold text-white shadow-[0_10px_24px_rgba(120,55,230,0.18)] transition hover:opacity-90"
+                >
+                  Download PDF
+                </button>
+              ) : null}
             </div>
             {loading ? (
               <div className="flex min-h-[540px] items-center justify-center text-sm font-semibold text-slate-600">
@@ -999,12 +1043,32 @@ export default function SolutionPage({
                 />
               </>
             ) : (
-              <iframe
-                ref={viewerRef}
-                title={`${paper.exam} ${paper.year} paper viewer`}
-                srcDoc={viewerMarkup}
-                className="mt-4 h-[760px] w-full rounded-xl border border-slate-200 bg-white"
-              />
+              <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-5 sm:px-6 sm:py-7">
+                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-amber-700">
+                  Coming Soon
+                </p>
+                <h3 className="mt-2 text-xl font-extrabold text-slate-950">
+                  Questions are being prepared
+                </h3>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-700">
+                  This paper is listed for archive completeness, but the question set is not ready yet.
+                  It is marked noindex until real questions or an official PDF are available.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <Link
+                    href="/previous-year"
+                    className="inline-flex min-h-10 items-center justify-center rounded-xl bg-slate-950 px-4 py-2 text-sm font-extrabold text-white transition hover:bg-slate-800"
+                  >
+                    Browse Available Papers
+                  </Link>
+                  <Link
+                    href={practiceHref}
+                    className="inline-flex min-h-10 items-center justify-center rounded-xl border border-amber-300 bg-white px-4 py-2 text-sm font-extrabold text-amber-800 transition hover:border-amber-400"
+                  >
+                    Practice Similar Questions
+                  </Link>
+                </div>
+              </div>
             )}
           </div>
 

@@ -1,4 +1,317 @@
 export const seoLandingPages = {
+  "bel-previous-year-question-papers": {
+    path: "/bel-previous-year-question-papers",
+    title: "BEL Previous Year Question Papers PDF for ECE + Solutions",
+    description:
+      "Download and practice BEL previous year question papers for Electronics and Communication Engineering with solved papers, objective questions, and year-wise preparation links.",
+    eyebrow: "BEL PYQ Papers",
+    heading: "BEL Previous Year Question Papers",
+    summary:
+      "A focused landing page for students searching BEL ECE previous year question papers, solved objective papers, and paper-wise revision support.",
+    primaryAction: { label: "Open BEL Papers", href: "/previous-year?exam=BEL" },
+    secondaryAction: { label: "View BEL 2025 Solution", href: "/solution/bel-december-2025" },
+    metrics: [
+      { label: "Exam", value: "BEL" },
+      { label: "Branch", value: "ECE" },
+      { label: "Mode", value: "Solved PYQs" },
+    ],
+    sections: [
+      {
+        title: "BEL ECE Paper Practice",
+        text: "Use year-wise BEL papers to understand objective question patterns, repeated electronics topics, and preparation priority for Probationary Engineer and electronics recruitment exams.",
+      },
+      {
+        title: "Prepare With Notes First",
+        text: "Revise Network Analysis, Digital Electronics, Analog Electronics, Signals and Systems, Communication Systems, Control Systems, and Microprocessors before solving full BEL papers.",
+      },
+      {
+        title: "Solved Paper Revision",
+        text: "After attempting each paper, open the solution page and connect mistakes back to formulas, concepts, and quick notes.",
+      },
+    ],
+    links: [
+      { label: "BEL Previous Papers", href: "/previous-year?exam=BEL" },
+      { label: "BEL Electronics PYQs", href: "/bel-electronics-previous-year-questions" },
+      { label: "BEL Important Topics", href: "/bel-most-important-topics" },
+      { label: "BEL Formula Sheet", href: "/bel-formula-sheet" },
+      { label: "BEL December 2025 Solution", href: "/solution/bel-december-2025" },
+    ],
+    keywords:
+      "BEL previous year question papers, BEL ECE previous paper, BEL question paper PDF, BEL Electronics previous year paper, BEL solved papers",
+  },
+  "bel-electronics-previous-year-questions": {
+    path: "/bel-electronics-previous-year-questions",
+    title: "BEL Electronics Previous Year Questions for ECE + Solutions",
+    description:
+      "Practice BEL Electronics previous year questions for ECE with solved paper links, important topics, repeated question areas, and subject-wise revision paths.",
+    eyebrow: "BEL Electronics PYQs",
+    heading: "BEL Electronics Previous Year Questions",
+    summary:
+      "A focused BEL Electronics PYQ page for students who want solved ECE questions, paper-wise practice, and topic-wise revision before the exam.",
+    primaryAction: { label: "Open BEL Papers", href: "/previous-year?exam=BEL" },
+    secondaryAction: { label: "Practice BEL Questions", href: "/practice/bel" },
+    metrics: [
+      { label: "Exam", value: "BEL" },
+      { label: "Branch", value: "Electronics" },
+      { label: "Intent", value: "PYQs" },
+    ],
+    sections: [
+      {
+        title: "BEL Electronics PYQ Pattern",
+        text: "BEL Electronics questions usually reward fast recall of core ECE concepts, formula accuracy, and repeated objective patterns from analog, digital, networks, control, signals, and communication.",
+      },
+      {
+        title: "Best Way to Use PYQs",
+        text: "Revise one subject, solve related previous year questions, mark repeated mistakes, and then return to quick notes before attempting full paper practice.",
+      },
+      {
+        title: "High-Value Revision Areas",
+        text: "Start with Network Analysis, Analog Electronics, Digital Electronics, Control Systems, Signals and Systems, Communication Systems, Microprocessors, EMFT, DSP, and VLSI.",
+      },
+    ],
+    links: [
+      { label: "BEL Previous Papers", href: "/previous-year?exam=BEL" },
+      { label: "BEL Repeated Questions", href: "/bel-electronics-repeated-questions" },
+      { label: "BEL Chapter Wise PYQs", href: "/bel-chapter-wise-pyqs" },
+      { label: "BEL Formula Sheet", href: "/bel-formula-sheet" },
+    ],
+    keywords:
+      "BEL Electronics previous year questions, BEL ECE PYQ, BEL Electronics solved questions, BEL previous year questions ECE, BEL electronics question paper",
+  },
+  "bel-electronics-repeated-questions": {
+    path: "/bel-electronics-repeated-questions",
+    title: "BEL Electronics Repeated Questions for ECE + Important PYQs",
+    description:
+      "Find BEL Electronics repeated questions, repeated ECE topics, important PYQ areas, and quick revision links for BEL exam preparation.",
+    eyebrow: "BEL Repeated PYQs",
+    heading: "BEL Electronics Repeated Questions",
+    summary:
+      "Use repeated BEL question areas as a priority list for revision, practice, and last-week preparation.",
+    primaryAction: { label: "Search Repeated PYQs", href: "/previous-year?search=repeated&exam=BEL" },
+    secondaryAction: { label: "Open BEL Important Topics", href: "/bel-most-important-topics" },
+    metrics: [
+      { label: "Exam", value: "BEL" },
+      { label: "Focus", value: "Repeated" },
+      { label: "Use", value: "Revision" },
+    ],
+    sections: [
+      {
+        title: "Repeated Question Strategy",
+        text: "Repeated questions are not always exact copies. BEL often repeats the same concept, formula, circuit condition, or definition in a slightly changed objective format.",
+      },
+      {
+        title: "Frequently Revisited Areas",
+        text: "Prioritize Boolean algebra, sequential circuits, op-amps, BJT and MOSFET basics, modulation, control stability, network theorems, transforms, and microprocessor basics.",
+      },
+      {
+        title: "How to Practice",
+        text: "Make a short error list from repeated topics, revise the relevant formulas, and solve topic-wise MCQs before returning to full BEL papers.",
+      },
+    ],
+    links: [
+      { label: "BEL Electronics PYQs", href: "/bel-electronics-previous-year-questions" },
+      { label: "BEL Important Topics", href: "/bel-most-important-topics" },
+      { label: "BEL Chapter Wise PYQs", href: "/bel-chapter-wise-pyqs" },
+      { label: "Digital Electronics Notes", href: "/notes/digital-electronics" },
+    ],
+    keywords:
+      "BEL repeated questions, BEL Electronics repeated questions, BEL ECE repeated PYQ, BEL important repeated questions, BEL previous year repeated questions",
+  },
+  "bel-most-important-topics": {
+    path: "/bel-most-important-topics",
+    title: "BEL Most Important Topics for Electronics ECE Exam",
+    description:
+      "Study BEL most important topics for Electronics and ECE with subject-wise preparation priority, PYQ links, formulas, and quick notes.",
+    eyebrow: "BEL Important Topics",
+    heading: "BEL Most Important Topics",
+    summary:
+      "A priority map for BEL Electronics preparation, built around repeated ECE subjects, formulas, and objective question patterns.",
+    primaryAction: { label: "Practice BEL Questions", href: "/practice/bel" },
+    secondaryAction: { label: "Open BEL PYQs", href: "/bel-electronics-previous-year-questions" },
+    metrics: [
+      { label: "Exam", value: "BEL" },
+      { label: "Mode", value: "Priority" },
+      { label: "Branch", value: "ECE" },
+    ],
+    sections: [
+      {
+        title: "Tier 1 Topics",
+        text: "Network Analysis, Digital Electronics, Analog Electronics, Control Systems, Signals and Systems, and Communication Systems should be revised first because they support many objective questions.",
+      },
+      {
+        title: "Tier 2 Topics",
+        text: "Microprocessors, Electromagnetic Theory, DSP, VLSI, Antenna, Measurements, and Embedded Systems are useful for improving score after the core subjects are stable.",
+      },
+      {
+        title: "Revision Order",
+        text: "Use quick notes for theory, formula sheets for recall, chapter-wise PYQs for topic testing, and full papers for speed and accuracy.",
+      },
+    ],
+    links: [
+      { label: "BEL Formula Sheet", href: "/bel-formula-sheet" },
+      { label: "BEL Repeated Questions", href: "/bel-electronics-repeated-questions" },
+      { label: "Network Analysis Notes", href: "/notes/network-analysis" },
+      { label: "Communication Notes", href: "/notes/communication-systems" },
+    ],
+    keywords:
+      "BEL most important topics, BEL Electronics important topics, BEL ECE syllabus important topics, BEL preparation topics, BEL exam important questions",
+  },
+  "bel-chapter-wise-pyqs": {
+    path: "/bel-chapter-wise-pyqs",
+    title: "BEL Chapter Wise PYQs for Electronics ECE + Topic Practice",
+    description:
+      "Practice BEL chapter wise PYQs for Electronics and ECE with subject-wise links, repeated topics, formula revision, and solved paper paths.",
+    eyebrow: "BEL Chapter Wise PYQs",
+    heading: "BEL Chapter Wise PYQs",
+    summary:
+      "A chapter-wise entry point for BEL Electronics candidates who want to move from notes to topic practice before full paper attempts.",
+    primaryAction: { label: "Open ECE Notes", href: "/notes" },
+    secondaryAction: { label: "Open BEL Papers", href: "/previous-year?exam=BEL" },
+    metrics: [
+      { label: "Exam", value: "BEL" },
+      { label: "Mode", value: "Chapter Wise" },
+      { label: "Practice", value: "PYQ" },
+    ],
+    sections: [
+      {
+        title: "Chapter-Wise Flow",
+        text: "Study a chapter, revise formulas, solve MCQs, then check previous paper questions from the same area. This makes weak chapters visible quickly.",
+      },
+      {
+        title: "Core Chapters",
+        text: "Begin with network theorems, AC analysis, semiconductor devices, op-amps, Boolean algebra, counters, transforms, stability, modulation, and microprocessor basics.",
+      },
+      {
+        title: "Full Paper Readiness",
+        text: "After chapter-wise practice, attempt BEL paper sets in one sitting to improve speed, reading accuracy, and option elimination.",
+      },
+    ],
+    links: [
+      { label: "Network Analysis PYQ", href: "/network-analysis-pyq" },
+      { label: "Digital Electronics Notes", href: "/notes/digital-electronics" },
+      { label: "Analog Electronics Notes", href: "/notes/analog-electronics" },
+      { label: "BEL Previous Papers", href: "/previous-year?exam=BEL" },
+    ],
+    keywords:
+      "BEL chapter wise PYQs, BEL Electronics chapter wise questions, BEL ECE topic wise PYQ, BEL subject wise questions, BEL previous year topic wise questions",
+  },
+  "bel-expected-questions-2026": {
+    path: "/bel-expected-questions-2026",
+    title: "BEL Expected Questions 2026 for Electronics ECE",
+    description:
+      "Prepare BEL expected questions 2026 for Electronics and ECE using repeated PYQ patterns, important topics, formulas, and chapter-wise practice links.",
+    eyebrow: "BEL 2026 Preparation",
+    heading: "BEL Expected Questions 2026",
+    summary:
+      "A practical 2026 preparation page for BEL Electronics candidates, focused on expected question areas rather than fake paper predictions.",
+    primaryAction: { label: "Open Important Topics", href: "/bel-most-important-topics" },
+    secondaryAction: { label: "Practice BEL PYQs", href: "/bel-electronics-previous-year-questions" },
+    metrics: [
+      { label: "Year", value: "2026" },
+      { label: "Exam", value: "BEL" },
+      { label: "Focus", value: "Expected" },
+    ],
+    sections: [
+      {
+        title: "What Expected Means",
+        text: "Expected questions should be treated as likely concept areas based on repeated PYQ patterns, not as guaranteed leaked or predicted questions.",
+      },
+      {
+        title: "Likely High-Value Areas",
+        text: "Prepare digital logic, analog devices, op-amp circuits, modulation, network theorems, control stability, transforms, microprocessor basics, and ECE formula-based numericals.",
+      },
+      {
+        title: "2026 Study Plan",
+        text: "Revise formulas daily, solve chapter-wise PYQs, repeat weak subjects, and attempt available BEL papers under timed conditions.",
+      },
+    ],
+    links: [
+      { label: "BEL Most Important Topics", href: "/bel-most-important-topics" },
+      { label: "BEL Repeated Questions", href: "/bel-electronics-repeated-questions" },
+      { label: "BEL Formula Sheet", href: "/bel-formula-sheet" },
+      { label: "BEL Practice", href: "/practice/bel" },
+    ],
+    keywords:
+      "BEL expected questions 2026, BEL Electronics expected questions, BEL ECE expected questions 2026, BEL 2026 important questions, BEL preparation 2026",
+  },
+  "bel-formula-sheet": {
+    path: "/bel-formula-sheet",
+    title: "BEL Formula Sheet for Electronics ECE + Quick Revision",
+    description:
+      "Revise BEL Formula Sheet for Electronics and ECE with subject-wise formula links, important topics, PYQs, and quick notes for last-minute preparation.",
+    eyebrow: "BEL Formula Revision",
+    heading: "BEL Formula Sheet",
+    summary:
+      "A formula-first BEL Electronics revision page for quick recall before PYQs, MCQs, and full paper practice.",
+    primaryAction: { label: "Open Formula Revision", href: "/gate-ece-formulas" },
+    secondaryAction: { label: "Open BEL Important Topics", href: "/bel-most-important-topics" },
+    metrics: [
+      { label: "Exam", value: "BEL" },
+      { label: "Use", value: "Formulas" },
+      { label: "Branch", value: "ECE" },
+    ],
+    sections: [
+      {
+        title: "Circuit and Device Formulas",
+        text: "Keep KCL, KVL, Thevenin, Norton, transient relations, diode, BJT, MOSFET, op-amp, and power supply formulas ready for objective questions.",
+      },
+      {
+        title: "Signals, Control, and Communication",
+        text: "Revise Fourier, Laplace, Z-transform, sampling, time response, stability, modulation, bandwidth, noise, and information theory formulas.",
+      },
+      {
+        title: "Digital and Microprocessor Recall",
+        text: "Use Boolean identities, counters, flip-flops, number systems, ADC/DAC basics, 8085 instructions, addressing modes, and timing concepts for fast scoring.",
+      },
+    ],
+    links: [
+      { label: "GATE ECE Formula Sheet", href: "/gate-ece-formulas" },
+      { label: "BEL Chapter Wise PYQs", href: "/bel-chapter-wise-pyqs" },
+      { label: "Network Analysis Notes", href: "/notes/network-analysis" },
+      { label: "Analog Electronics Notes", href: "/notes/analog-electronics" },
+    ],
+    keywords:
+      "BEL formula sheet, BEL Electronics formulas, BEL ECE formula sheet, BEL exam formulas, electronics formula sheet for BEL",
+  },
+  "gate-previous-year-question-papers": {
+    path: "/gate-previous-year-question-papers",
+    title: "GATE ECE Previous Year Question Papers PDF + Solutions",
+    description:
+      "Practice GATE ECE previous year question papers with solved paper links, subject-wise quick notes, formulas, and PYQ preparation resources.",
+    eyebrow: "GATE ECE Papers",
+    heading: "GATE ECE Previous Year Question Papers",
+    summary:
+      "A search-focused entry point for GATE ECE previous year papers, solved questions, subject-wise PYQs, and formula revision.",
+    primaryAction: { label: "Open GATE Papers", href: "/previous-year?exam=GATE" },
+    secondaryAction: { label: "Open GATE PYQ Hub", href: "/gate-ece-pyq" },
+    metrics: [
+      { label: "Exam", value: "GATE ECE" },
+      { label: "Intent", value: "PYQ Papers" },
+      { label: "Mode", value: "Solutions" },
+    ],
+    sections: [
+      {
+        title: "Year-Wise GATE Paper Practice",
+        text: "Open GATE ECE papers year-wise and use them to check formula recall, numerical speed, and conceptual accuracy.",
+      },
+      {
+        title: "Subject-Wise Revision",
+        text: "Prepare Network Analysis, Signals and Systems, Communication Systems, Control Systems, Analog, Digital, EMFT, DSP, and Microprocessors before full paper attempts.",
+      },
+      {
+        title: "PYQ + Quick Notes Flow",
+        text: "Use quick notes for weak topics, then solve related GATE ECE previous year questions to improve retention.",
+      },
+    ],
+    links: [
+      { label: "GATE Previous Papers", href: "/previous-year?exam=GATE" },
+      { label: "GATE ECE PYQ Hub", href: "/gate-ece-pyq" },
+      { label: "GATE ECE 2025 Solution", href: "/solution/gate-2025" },
+      { label: "GATE Formula Revision", href: "/gate-ece-formulas" },
+    ],
+    keywords:
+      "GATE previous year question papers, GATE ECE previous year papers, GATE ECE question paper PDF, GATE ECE solved papers, GATE PYQ",
+  },
   "gate-ece-pyq": {
     path: "/gate-ece-pyq",
     title: "GATE ECE PYQ PDF + Previous Year Questions + Solutions",
@@ -154,6 +467,123 @@ export const seoLandingPages = {
     ],
     keywords:
       "Network Analysis PYQ, Network Theory previous year questions, GATE ECE Network Analysis, circuit theory PYQ, network analysis formulas",
+  },
+  "network-analysis-notes": {
+    path: "/network-analysis-notes",
+    title: "Network Analysis Notes PDF for GATE ECE + Formulas + PYQs",
+    description:
+      "Study Network Analysis notes for GATE ECE with circuit laws, network theorems, transient analysis, two-port networks, formulas, and PYQ practice links.",
+    eyebrow: "Network Notes PDF",
+    heading: "Network Analysis Notes PDF",
+    summary:
+      "A dedicated landing page for students searching Network Analysis notes PDF, quick notes, formulas, and solved practice for ECE.",
+    primaryAction: { label: "Open Network Notes", href: "/notes/network-analysis" },
+    secondaryAction: { label: "Practice Network MCQs", href: "/mcqs/network-analysis" },
+    metrics: [
+      { label: "Subject", value: "Networks" },
+      { label: "Use", value: "PDF Notes" },
+      { label: "Exam", value: "GATE ECE" },
+    ],
+    sections: [
+      {
+        title: "Core Network Topics",
+        text: "Revise KCL, KVL, nodal analysis, mesh analysis, source transformation, Thevenin, Norton, superposition, resonance, and transient response.",
+      },
+      {
+        title: "Formula Revision",
+        text: "Keep impedance, admittance, time constants, resonance relations, and two-port parameter formulas ready before attempting numerical problems.",
+      },
+      {
+        title: "PYQ-Oriented Study",
+        text: "Use notes first, then practice Network Analysis MCQs and previous year questions to build speed.",
+      },
+    ],
+    links: [
+      { label: "Network Analysis Quick Notes", href: "/notes/network-analysis" },
+      { label: "Network Theorems", href: "/network-theorems" },
+      { label: "Two-Port Networks", href: "/two-port-networks" },
+      { label: "Network MCQs", href: "/mcqs/network-analysis" },
+    ],
+    keywords:
+      "Network Analysis notes PDF, Network Analysis quick notes, Network Theory notes, circuit theory notes PDF, GATE ECE Network Analysis notes",
+  },
+  "signals-and-systems-notes": {
+    path: "/signals-and-systems-notes",
+    title: "Signals and Systems Notes PDF for GATE ECE + Formulas + PYQs",
+    description:
+      "Study Signals and Systems notes for GATE ECE with convolution, Fourier series, Fourier transform, Laplace transform, Z-transform, sampling theorem, formulas, and PYQs.",
+    eyebrow: "Signals Notes PDF",
+    heading: "Signals and Systems Notes PDF",
+    summary:
+      "A focused page for Signals and Systems notes PDF searches, quick revision, transform formulas, and PYQ preparation.",
+    primaryAction: { label: "Open Signals Notes", href: "/notes/signals-and-systems" },
+    secondaryAction: { label: "Practice Signals MCQs", href: "/mcqs/signals-and-systems" },
+    metrics: [
+      { label: "Subject", value: "Signals" },
+      { label: "Use", value: "PDF Notes" },
+      { label: "Exam", value: "GATE ECE" },
+    ],
+    sections: [
+      {
+        title: "Transform-Based Revision",
+        text: "Revise Fourier series, Fourier transform, Laplace transform, Z-transform, ROC, system properties, and sampling theorem.",
+      },
+      {
+        title: "Convolution and Systems",
+        text: "Build confidence in convolution, impulse response, LTI systems, stability, causality, and frequency response.",
+      },
+      {
+        title: "GATE PYQ Preparation",
+        text: "Use quick notes to revise formulas and then solve topic-wise GATE-style questions.",
+      },
+    ],
+    links: [
+      { label: "Signals Quick Notes", href: "/notes/signals-and-systems" },
+      { label: "Convolution", href: "/convolution" },
+      { label: "Sampling Theorem", href: "/sampling-theorem" },
+      { label: "Z-Transform", href: "/z-transform" },
+    ],
+    keywords:
+      "Signals and Systems notes PDF, Signals Systems quick notes, GATE ECE signals notes, Fourier transform notes, Laplace transform notes",
+  },
+  "communication-systems-pdf-notes": {
+    path: "/communication-systems-pdf-notes",
+    title: "Communication Systems PDF Notes for GATE ECE + Formulas + PYQs",
+    description:
+      "Download-style Communication Systems PDF notes for GATE ECE with AM, FM, digital communication, noise, information theory, formulas, and PYQ links.",
+    eyebrow: "Communication PDF Notes",
+    heading: "Communication Systems PDF Notes",
+    summary:
+      "A search-focused page for Communication Systems PDF notes, quick formulas, analog and digital communication revision, and PYQ preparation.",
+    primaryAction: { label: "Open Communication Notes", href: "/notes/communication-systems" },
+    secondaryAction: { label: "Open Communication Hub", href: "/subjects/communication-systems" },
+    metrics: [
+      { label: "Subject", value: "Communication" },
+      { label: "Use", value: "PDF Notes" },
+      { label: "Exam", value: "GATE ECE" },
+    ],
+    sections: [
+      {
+        title: "Analog Communication",
+        text: "Revise AM, FM, PM, modulation index, sidebands, bandwidth, receivers, and demodulation formulas.",
+      },
+      {
+        title: "Digital Communication",
+        text: "Study sampling, quantization, PCM, ASK, FSK, PSK, QPSK, QAM, and digital receiver basics.",
+      },
+      {
+        title: "Noise and Information Theory",
+        text: "Prepare SNR, noise figure, entropy, channel capacity, information rate, and coding concepts.",
+      },
+    ],
+    links: [
+      { label: "Communication Quick Notes", href: "/notes/communication-systems" },
+      { label: "Communication Notes Hub", href: "/subjects/communication-systems" },
+      { label: "Communication MCQs", href: "/mcqs/communication-systems" },
+      { label: "GATE ECE PYQ", href: "/gate-ece-pyq" },
+    ],
+    keywords:
+      "Communication Systems PDF notes, Communication Systems notes PDF, GATE ECE communication notes, analog communication notes, digital communication notes",
   },
   "communication-systems-notes": {
     path: "/communication-systems-notes",
