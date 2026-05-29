@@ -236,28 +236,28 @@ export default function Home() {
         <img
           src="/images/home-hero-ece-study.png"
           alt="ECE student studying electronics notes with laptop and circuit background"
-          className="absolute inset-y-0 right-0 hidden h-full w-[58%] object-cover object-center opacity-95 lg:block"
+          className="absolute inset-y-0 right-0 h-full w-full object-cover object-[72%_center] opacity-55 sm:opacity-65 lg:w-[58%] lg:object-center lg:opacity-95"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,#061f45_0%,rgba(6,31,69,0.96)_34%,rgba(6,31,69,0.45)_62%,rgba(6,31,69,0.05)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,#061f45_0%,rgba(6,31,69,0.94)_52%,rgba(6,31,69,0.42)_100%)] lg:bg-[linear-gradient(90deg,#061f45_0%,rgba(6,31,69,0.96)_34%,rgba(6,31,69,0.45)_62%,rgba(6,31,69,0.05)_100%)]" />
 
-        <div className="relative mx-auto max-w-[1440px] px-4 py-8 sm:px-8 sm:py-12 lg:py-14">
+        <div className="relative mx-auto max-w-[1440px] px-4 py-5 sm:px-8 sm:py-9 lg:py-14">
           <div className="max-w-[650px]">
-            <p className="text-sm font-extrabold text-[#ff7417] sm:text-base">
+            <p className="text-xs font-extrabold text-[#ff7417] sm:text-base">
               Your One Stop Destination for ECE Exam Success
             </p>
-            <h1 className="mt-3 text-[2.4rem] font-extrabold leading-tight text-white sm:text-5xl lg:text-[3.8rem]">
+            <h1 className="mt-2 text-[2rem] font-extrabold leading-tight text-white sm:mt-3 sm:text-5xl lg:text-[3.8rem]">
               Learn. Practice. Excel.
               <span className="block">
                 Crack Every <span className="text-[#ff7417]">ECE Exam</span>
               </span>
             </h1>
-            <p className="mt-4 max-w-[590px] text-sm font-medium leading-7 !text-white/90 sm:text-lg sm:leading-8">
+            <p className="mt-3 max-w-[590px] text-sm font-medium leading-6 !text-white/90 sm:mt-4 sm:text-lg sm:leading-8">
               High quality notes, quick revision sheets, previous year questions,
               numericals and exam resources for GATE, BEL, ISRO, DRDO, ESE, PSU and University exams.
             </p>
 
-            <form onSubmit={handleHomeSearch} className="mt-6 grid max-w-[620px] grid-cols-[44px_minmax(0,1fr)_auto] items-center rounded-lg bg-white p-1 shadow-[0_18px_36px_rgba(0,0,0,0.22)]">
-              <span className="flex h-12 items-center justify-center text-[#071d49]">
+            <form onSubmit={handleHomeSearch} className="mt-4 grid max-w-[620px] grid-cols-[40px_minmax(0,1fr)_auto] items-center rounded-lg bg-white p-1 shadow-[0_18px_36px_rgba(0,0,0,0.22)] sm:mt-6 sm:grid-cols-[44px_minmax(0,1fr)_auto]">
+              <span className="flex h-10 items-center justify-center text-[#071d49] sm:h-12">
                 <Icon type="search" className="h-5 w-5" />
               </span>
               <input
@@ -265,33 +265,33 @@ export default function Home() {
                 value={homeSearchValue}
                 onChange={(event) => setHomeSearchValue(event.target.value)}
                 placeholder="Search notes, PYQs, concepts, numericals..."
-                className="min-w-0 border-0 bg-transparent text-sm font-semibold text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0"
+                className="min-w-0 border-0 bg-transparent text-xs font-semibold text-slate-800 outline-none placeholder:text-slate-400 focus:ring-0 sm:text-sm"
               />
-              <button className="h-12 rounded-md bg-[#ff7417] px-5 text-sm font-extrabold text-white transition hover:bg-[#e96009] sm:px-8">
+              <button className="h-10 rounded-md bg-[#ff7417] px-4 text-xs font-extrabold text-white transition hover:bg-[#e96009] sm:h-12 sm:px-8 sm:text-sm">
                 Search
               </button>
             </form>
 
-            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-6 sm:grid-cols-4 sm:gap-3">
               {[
-                ["50,000+", "Students", "users"],
-                ["10,000+", "Questions", "paper"],
-                ["500+", "Notes", "book"],
-                ["100+", "PYQ Papers", "file"],
+                ["Growing", "Student Community", "users"],
+                ["Curated", "Question Bank", "paper"],
+                ["Ready", "Quick Notes", "book"],
+                ["Updating", "PYQ Papers", "file"],
               ].map(([value, label, icon]) => (
-                <div key={label} className="flex min-h-[70px] items-center gap-3 rounded-lg border border-white/18 bg-white/5 px-4 py-3 text-white backdrop-blur-sm">
-                  <Icon type={icon} className="h-6 w-6 text-[#ff7417]" />
+                <div key={label} className="flex min-h-[58px] items-center gap-2 rounded-lg border border-white/18 bg-white/5 px-3 py-2 text-white backdrop-blur-sm sm:min-h-[70px] sm:gap-3 sm:px-4 sm:py-3">
+                  <Icon type={icon} className="h-5 w-5 text-[#ff7417] sm:h-6 sm:w-6" />
                   <span>
-                    <span className="block text-lg font-extrabold leading-5">{value}</span>
-                    <span className="text-xs font-semibold !text-white/85">{label}</span>
+                    <span className="block text-sm font-extrabold leading-5 sm:text-lg">{value}</span>
+                    <span className="text-[10px] font-semibold !text-white/85 sm:text-xs">{label}</span>
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-8 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6">
               {exams.map(([label, href, icon]) => (
-                <Link key={label} href={href} className="flex min-h-[58px] items-center justify-center gap-2 rounded-lg bg-white px-3 text-sm font-extrabold text-[#071d49] shadow-[0_10px_22px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:text-[#ff7417]">
+                <Link key={label} href={href} className="flex min-h-[46px] items-center justify-center gap-2 rounded-lg bg-white px-3 text-xs font-extrabold text-[#071d49] shadow-[0_10px_22px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:text-[#ff7417] sm:min-h-[58px] sm:text-sm">
                   <Icon type={icon} className="h-5 w-5 text-[#145dff]" />
                   {label}
                 </Link>
@@ -360,34 +360,35 @@ export default function Home() {
 
             <aside className="rounded-lg border border-orange-200 bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.04)]">
               <div className="flex items-center justify-between gap-3 border-b border-[#edf1f7] pb-4">
-                <h2 className="text-lg font-extrabold text-[#071d49]">My Study Progress</h2>
-                <Link href="/learn" className="rounded-md bg-blue-50 px-3 py-1.5 text-xs font-extrabold text-[#004ce8]">
-                  View Dashboard
-                </Link>
+                <h2 className="text-lg font-extrabold text-[#071d49]">Study Dashboard</h2>
+                <ComingSoonBadge />
               </div>
               <div className="mt-5 grid gap-5 sm:grid-cols-[132px_1fr] xl:grid-cols-1">
-                <div className="relative mx-auto flex h-32 w-32 items-center justify-center rounded-full bg-[conic-gradient(#27b57a_0_75%,#edf1f7_75%_100%)]">
+                <div className="relative mx-auto flex h-32 w-32 items-center justify-center rounded-full bg-[conic-gradient(#f59e0b_0_32%,#edf1f7_32%_100%)]">
                   <div className="flex h-24 w-24 flex-col items-center justify-center rounded-full bg-white">
-                    <span className="text-2xl font-extrabold text-[#071d49]">75%</span>
-                    <span className="mt-1 text-[10px] font-bold text-[#33415c]">Overall Progress</span>
+                    <span className="text-xl font-extrabold text-[#071d49]">Soon</span>
+                    <span className="mt-1 text-[10px] font-bold text-[#33415c]">Progress Tools</span>
                   </div>
                 </div>
                 <div className="grid gap-3">
                   {[
-                    ["32", "Topics Completed", "book", "text-blue-600"],
-                    ["120", "PYQs Solved", "paper", "text-blue-600"],
-                    ["18", "Numericals Solved", "calculator", "text-orange-600"],
-                    ["12", "Day Study Streak", "clock", "text-orange-600"],
+                    ["Track", "Topic completion", "book", "text-blue-600"],
+                    ["Save", "Solved PYQ history", "paper", "text-blue-600"],
+                    ["Review", "Numerical practice", "calculator", "text-orange-600"],
+                    ["Build", "Daily study streak", "clock", "text-orange-600"],
                   ].map(([value, label, icon, color]) => (
                     <div key={label} className="flex items-center gap-3">
                       <Icon type={icon} className={`h-6 w-6 ${color}`} />
                       <span>
-                        <span className="block text-base font-extrabold text-[#071d49]">{value}</span>
+                        <span className="block text-sm font-extrabold text-[#071d49]">{value}</span>
                         <span className="text-xs font-semibold text-[#33415c]">{label}</span>
                       </span>
                     </div>
                   ))}
                 </div>
+                <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold leading-6 text-amber-800">
+                  We are preparing personal progress tracking. Until then, use notes and PYQs directly.
+                </p>
               </div>
             </aside>
           </section>
