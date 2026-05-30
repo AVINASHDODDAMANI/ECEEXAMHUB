@@ -151,7 +151,7 @@ export default function IntroductionToControlSystemsPage() {
           <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">Control Systems</p>
           <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Introduction to Control Systems</h1>
           <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
-            A control system is an arrangement of components that directs or regulates the behavior of another system. It decides how an output should respond when the input, load, environment, or disturbance changes.
+            Modern engineering systems are expected to perform specific tasks accurately and consistently. A room air conditioner should maintain the desired temperature, a motor should run at the required speed, and a voltage regulator should provide a stable output despite changes in load conditions. The ability of a system to achieve and maintain a desired performance is made possible through control systems.
           </p>
           <div className="mt-4 grid gap-3 text-sm text-slate-700 sm:grid-cols-3">
             <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
@@ -186,11 +186,33 @@ export default function IntroductionToControlSystemsPage() {
         <article className="mt-5 grid gap-5">
           <TopicSection id="introduction" title="Introduction">
             <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-              Control Systems begins with a simple engineering desire: we want machines and circuits to behave predictably even when conditions change. A room heater should maintain temperature, a motor should maintain speed, and a voltage regulator should maintain output voltage.
+              Control Systems is the branch of engineering that deals with the analysis and design of systems that can regulate their own behavior. It provides techniques to control the output of a system so that it closely follows the desired input. By understanding how systems respond to different inputs and disturbances, engineers can design machines and processes that are accurate, reliable, and efficient.
             </p>
             <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-              The subject gives us a language to compare the desired output with the actual output, correct the error, and design systems that are fast, accurate, and stable.
+             Control systems are found everywhere around us, from household appliances and automobiles to industrial automation, robotics, aerospace systems, and power plants. The study of control systems forms the foundation for designing intelligent and automated technologies used in modern engineering.
             </p>
+          </TopicSection>
+
+          <TopicSection id="what-is-a-control-system" title="What is a Control System?">
+            <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+             A control system is an arrangement of components that work together to achieve a desired output. Its primary function is to regulate the behavior of a system and ensure that the output remains within acceptable limits.
+            </p>
+            <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+             Consider a simple example of a room heater. During winter, a person may want the room temperature to remain at 25°C. The heater supplies heat to the room, but the desired goal is not merely to generate heat; it is to maintain the required temperature. The mechanism responsible for achieving this objective represents the control system.
+             </p>
+             <p>In general, every control system consists of three basic elements:
+              <ul className="mt-3 list-disc pl-6 text-slate-700">
+          <li>
+         <strong>Input:</strong> The desired value or command given to the system.
+         </li>
+         <li>
+         <strong>System or Process:</strong> The component that performs the required operation.
+         </li>
+        <li>
+        <strong>Output:</strong> The actual result produced by the system.
+          </li>
+          </ul>
+          </p>
           </TopicSection>
 
           <TopicSection id="why-it-matters" title="Why It Matters">
