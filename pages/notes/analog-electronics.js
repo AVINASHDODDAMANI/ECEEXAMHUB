@@ -7,16 +7,16 @@ import {
 } from "../../data/subject-theory-roadmaps";
 import { getLearningSubject } from "../../lib/learning-utils";
 
-const SUBJECT_TITLE = "Digital Electronics";
-const LEARNING_SUBJECT_SLUG = "digital";
-const QUESTION_SUBJECT = "Digital";
+const SUBJECT_TITLE = "Analog Electronics";
+const LEARNING_SUBJECT_SLUG = "analog";
+const QUESTION_SUBJECT = "Analog";
 const SEO_OVERRIDE = {
-  title: "Digital Electronics Quick Notes for GATE ECE PDF + Logic + PYQs",
+  title: "Analog Electronics Quick Notes for GATE ECE PDF + Formulas + PYQs",
   description:
-    "Download Digital Electronics quick notes for ECE with number systems, logic gates, Boolean algebra, K-map, flip-flops, counters, ADC, DAC, formulas, and PYQs.",
+    "Download Analog Electronics quick notes for ECE with diodes, BJT, MOSFET, amplifiers, op-amps, filters, oscillators, formulas, and previous year questions.",
 };
 
-export default function DigitalElectronicsNotesPage(props) {
+export default function AnalogElectronicsNotesPage(props) {
   return <NoteTopicPage {...props} />;
 }
 

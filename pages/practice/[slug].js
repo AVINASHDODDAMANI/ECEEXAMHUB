@@ -317,6 +317,7 @@ function PracticeQuestionBlock({
 
       <div className="mt-3 grid gap-2 sm:grid-cols-2">
         {(question.options || []).map((option, optionIndex) => {
+          const optionDiagram = question.optionDiagrams?.[optionIndex];
           const isSelected = selectedAnswer === option;
           const isCorrect = option === question.correctAnswer;
           const showCorrect = hasAnswered && isCorrect;
@@ -340,7 +341,13 @@ function PracticeQuestionBlock({
                 <span className="flex h-7 w-7 flex-none items-center justify-center rounded-md border border-slate-200 bg-white text-xs font-bold text-slate-700">
                   {String.fromCharCode(65 + optionIndex)}
                 </span>
-                <span>{option}</span>
+                {optionDiagram ? (
+                  <span className="min-w-0 flex-1 max-w-[540px]">
+                    <CircuitDiagram question={{ ...question, diagram: optionDiagram }} />
+                  </span>
+                ) : (
+                  <span>{option}</span>
+                )}
               </span>
             </button>
           );

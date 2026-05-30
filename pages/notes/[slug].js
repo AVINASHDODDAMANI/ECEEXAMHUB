@@ -34,6 +34,7 @@ const SUBJECT_TO_LEARNING_SLUG = {
 
 const DEDICATED_NOTE_SLUGS = new Set([
   "network-analysis",
+  "analog-electronics",
   "digital-electronics",
 ]);
 

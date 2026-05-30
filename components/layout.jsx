@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { AdRail } from "./AdSlot";
 import Footer from "./Footer";
 import Navbar from "./navbar";
 import {
@@ -133,6 +134,7 @@ export default function Layout({
   onSearchChange,
   hideNavbar = false,
   pageClassName = "py-2 sm:py-3",
+  showAds = true,
 }) {
   const router = useRouter();
   const pathOnly = (router.asPath || "/").split("#")[0].split("?")[0] || "/";
@@ -147,6 +149,7 @@ export default function Layout({
     ? String(keywords).replace(/\s+/g, " ").trim()
     : generatePageKeywords(title, pathOnly);
   const effectiveNoIndex = noIndex || shouldNoIndexPath(router.pathname || pathOnly, router.asPath || pathOnly);
+  const shouldShowAds = showAds && !effectiveNoIndex && !hideNavbar;
   const defaultStructuredData = buildDefaultStructuredData({
     title: resolvedTitle,
     description: resolvedDescription,
@@ -262,10 +265,15 @@ export default function Layout({
         />
         <div className="relative z-10">
           {!hideNavbar && <Navbar searchValue={searchValue} onSearchChange={onSearchChange} />}
-          <main
-            className={`mx-auto w-full max-w-[1440px] px-3 pb-5 ${pageClassName} sm:px-6 sm:pb-7 lg:px-8`}
-          >
-            {children}
+          <main className={`mx-auto w-full max-w-[1440px] px-3 pb-5 ${pageClassName} sm:px-6 sm:pb-7 lg:px-8`}>
+            {shouldShowAds ? (
+              <div className="site-ad-layout">
+                <div className="min-w-0">{children}</div>
+                <AdRail />
+              </div>
+            ) : (
+              children
+            )}
           </main>
           <Footer />
         </div>

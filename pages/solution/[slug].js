@@ -333,6 +333,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
     ? sameAnswerSet(selectedAnswerList, correctAnswers)
     : selectedAnswer === correctAnswers[0];
   const sectionQuestionNumber = getPreviewQuestionNumber(questions, currentQuestionIndex);
+  const displayQuestionNumber = currentQuestion.questionId || sectionQuestionNumber;
   const canGoPrevious = currentQuestionIndex > 0;
   const canGoNext = currentQuestionIndex < questions.length - 1;
   const sectionTabs = buildQuestionSectionTabs(questions, exam);
@@ -483,7 +484,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
         </p>
         <article className="w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
           <div className="flex min-w-0 flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">
-            <span>Q.{sectionQuestionNumber}</span>
+            <span>Q.{displayQuestionNumber}</span>
             <span className="text-slate-300">|</span>
             <span className="min-w-0 break-words">{currentQuestion.topic || "Previous Paper"}</span>
           </div>
@@ -515,6 +516,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
 
           <div className="mt-4 grid gap-2">
             {(currentQuestion.options || []).map((option, optionIndex) => {
+                const optionDiagram = currentQuestion.optionDiagrams?.[optionIndex];
                 const isSelected = selectedAnswerList.includes(option);
                 const isCorrectOption = correctAnswers.includes(option);
                 const isSelectionLimitReached =
@@ -557,9 +559,15 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
                       <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-extrabold text-slate-500">
                         {showCorrectOption ? "OK" : showWrongOption ? "X" : String.fromCharCode(65 + optionIndex)}
                       </span>
-                      <span className="min-w-0 flex-1 break-words [overflow-wrap:anywhere]">
-                        {option}
-                      </span>
+                      {optionDiagram ? (
+                        <span className="min-w-0 flex-1 max-w-[540px]">
+                          <CircuitDiagram question={{ ...currentQuestion, diagram: optionDiagram }} />
+                        </span>
+                      ) : (
+                        <span className="min-w-0 flex-1 break-words [overflow-wrap:anywhere]">
+                          {option}
+                        </span>
+                      )}
                       {showCorrectOption ? (
                         <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-emerald-700">
                           Correct
@@ -899,7 +907,7 @@ export default function SolutionPage({
                 <p className="mt-2 max-w-lg text-[11px] leading-5 text-slate-100/90 sm:text-[12px] sm:leading-5">
                   {paperHasContent
                     ? introContent?.summary ||
-                      "Go through solved BEL questions with clear explanations and easy navigation, all in one place."
+                      `Go through solved ${paper.exam} questions with clear explanations and easy navigation, all in one place.`
                     : "This paper page is reserved for the archive. Questions and solutions will appear here once the content is ready."}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-1.5">

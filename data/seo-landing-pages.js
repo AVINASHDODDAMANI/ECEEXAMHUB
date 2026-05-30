@@ -507,6 +507,123 @@ export const seoLandingPages = {
     keywords:
       "Network Analysis notes PDF, Network Analysis quick notes, Network Theory notes, circuit theory notes PDF, GATE ECE Network Analysis notes",
   },
+  "network-analysis-intro": {
+    path: "/what-is-network-analysis",
+    title: "What Is Network Analysis? Introduction, Theory Notes, PDF Notes + PYQs",
+    description:
+      "Learn what is Network Analysis with an introduction, theory notes, PDF-style quick notes, formulas, solved examples, and previous year questions for GATE ECE.",
+    eyebrow: "Network Analysis Introduction",
+    heading: "What Is Network Analysis?",
+    summary:
+      "A dedicated page for students searching what is network analysis, introduction to network analysis, network analysis notes, PDF notes, theory notes, and previous year questions.",
+    primaryAction: { label: "Read Network Notes", href: "/notes/network-analysis" },
+    secondaryAction: { label: "Practice PYQs", href: "/network-analysis-pyq" },
+    metrics: [
+      { label: "Subject", value: "Network Analysis" },
+      { label: "Intent", value: "Introduction + Notes" },
+      { label: "Use", value: "Theory + PYQs" },
+    ],
+    sections: [
+      {
+        title: "What Is Network Analysis?",
+        text: "Understand the definition, core circuit variables, and why Network Analysis is the foundation of circuit theory and ECE exam preparation.",
+      },
+      {
+        title: "Introduction and Theory Notes",
+        text: "Open structured introduction notes that explain KCL, KVL, nodal analysis, mesh analysis, network theorems, transient response, and AC circuit behavior.",
+      },
+      {
+        title: "PDF Notes and Previous Year Questions",
+        text: "Use PDF note-style quick revision, formulas, and previous year question practice to connect theory with exam-style numerical problems.",
+      },
+    ],
+    links: [
+      { label: "Network Analysis Quick Notes", href: "/notes/network-analysis" },
+      { label: "Network Analysis PYQs", href: "/network-analysis-pyq" },
+      { label: "Network Theorems", href: "/network-theorems" },
+      { label: "Two-Port Networks", href: "/two-port-networks" },
+    ],
+    keywords:
+      "what is network analysis, introduction to network analysis, network analysis theory notes, network analysis notes PDF, network analysis previous year questions, network analysis PYQ, network analysis quick notes",
+  },
+  "analog-electronics-notes": {
+    path: "/analog-electronics-notes",
+    title: "Analog Electronics Notes PDF for GATE ECE + Formulas + PYQs",
+    description:
+      "Study Analog Electronics notes for GATE ECE with diodes, BJT, MOSFET, amplifiers, op-amps, filters, oscillators, formulas, and PYQ revision links.",
+    eyebrow: "Analog Notes PDF",
+    heading: "Analog Electronics Notes PDF",
+    summary:
+      "A dedicated landing page for students searching Analog Electronics notes, quick revision, formulas, solved examples, and ECE exam preparation.",
+    primaryAction: { label: "Open Analog Notes", href: "/notes/analog-electronics" },
+    secondaryAction: { label: "Open Analog Hub", href: "/subjects/analog-electronics" },
+    metrics: [
+      { label: "Subject", value: "Analog" },
+      { label: "Use", value: "PDF Notes" },
+      { label: "Exam", value: "GATE ECE" },
+    ],
+    sections: [
+      {
+        title: "Device Concepts",
+        text: "Revise PN junction diodes, rectifiers, clippers, clampers, BJT operation, MOSFET operation, biasing, and small-signal models.",
+      },
+      {
+        title: "Amplifiers and Op-Amps",
+        text: "Prepare gain formulas, frequency response, feedback amplifiers, operational amplifier circuits, active filters, oscillators, and power supplies.",
+      },
+      {
+        title: "PYQ-Oriented Revision",
+        text: "Use quick notes first, then solve Analog Electronics MCQs and previous year questions to improve formula recall and circuit interpretation.",
+      },
+    ],
+    links: [
+      { label: "Analog Electronics Quick Notes", href: "/notes/analog-electronics" },
+      { label: "Semiconductor Fundamentals", href: "/semiconductor-fundamentals" },
+      { label: "BJT and MOSFET", href: "/bjt-and-mosfet" },
+      { label: "Operational Amplifiers", href: "/operational-amplifiers" },
+    ],
+    keywords:
+      "Analog Electronics notes PDF, Analog Electronics quick notes, GATE ECE Analog Electronics, electronic devices and circuits notes, op amp notes",
+  },
+  "digital-electronics-notes": {
+    path: "/digital-electronics-notes",
+    title: "Digital Electronics Notes PDF for GATE ECE + Logic + PYQs",
+    description:
+      "Study Digital Electronics notes for GATE ECE with number systems, logic gates, Boolean algebra, K-map, combinational circuits, flip-flops, counters, registers, ADC, DAC, and PYQs.",
+    eyebrow: "Digital Notes PDF",
+    heading: "Digital Electronics Notes PDF",
+    summary:
+      "A dedicated landing page for students searching Digital Electronics notes, logic design quick revision, formulas, MCQs, and ECE exam preparation.",
+    primaryAction: { label: "Open Digital Notes", href: "/notes/digital-electronics" },
+    secondaryAction: { label: "Open Digital Hub", href: "/subjects/digital-electronics" },
+    metrics: [
+      { label: "Subject", value: "Digital" },
+      { label: "Use", value: "PDF Notes" },
+      { label: "Exam", value: "GATE ECE" },
+    ],
+    sections: [
+      {
+        title: "Logic Foundation",
+        text: "Revise number systems, binary arithmetic, codes, logic gates, Boolean algebra, De Morgan's theorem, SOP, POS, and K-map simplification.",
+      },
+      {
+        title: "Circuit Design",
+        text: "Prepare combinational circuits, multiplexers, decoders, flip-flops, counters, shift registers, logic families, memories, ADC, and DAC.",
+      },
+      {
+        title: "Fast Exam Practice",
+        text: "Use Digital Electronics quick notes with MCQs and previous year questions to improve truth-table speed, simplification accuracy, and timing concept clarity.",
+      },
+    ],
+    links: [
+      { label: "Digital Electronics Quick Notes", href: "/notes/digital-electronics" },
+      { label: "Logic Gates and Boolean Algebra", href: "/logic-gates-and-boolean-algebra" },
+      { label: "Karnaugh Map", href: "/karnaugh-map" },
+      { label: "Sequential Circuits", href: "/sequential-circuits" },
+    ],
+    keywords:
+      "Digital Electronics notes PDF, Digital Electronics quick notes, GATE ECE Digital Electronics, logic gates notes, Boolean algebra K-map notes",
+  },
   "signals-and-systems-notes": {
     path: "/signals-and-systems-notes",
     title: "Signals and Systems Notes PDF for GATE ECE + Formulas + PYQs",

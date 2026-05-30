@@ -7,6 +7,8 @@ import "../styles/globals.css";
 const googleSiteVerification =
   process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
   "jhFrRO_BMQtPKAZBDFQyUiyjIu7kLsHh7RO7ovnXYkc";
+const googleAdsenseClient =
+  process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT || "ca-pub-1285915244515596";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -40,6 +42,11 @@ export default function App({ Component, pageProps }) {
           name="format-detection"
           content="telephone=no, date=no, email=no, address=no"
         />
+        <script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${googleAdsenseClient}`}
+          crossOrigin="anonymous"
+        />
       </Head>
       <Script
         id="mathjax-config"
@@ -71,12 +78,6 @@ export default function App({ Component, pageProps }) {
             window.MathJax.typesetPromise().catch(() => {});
           }
         }}
-      />
-      <Script
-        id="google-adsense"
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1285915244515596"
-        strategy="afterInteractive"
-        crossOrigin="anonymous"
       />
       <Component {...pageProps} />
     </>

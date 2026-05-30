@@ -527,6 +527,287 @@ function Gate2025ChargeSheetDiagram() {
   );
 }
 
+function Gate2025BlockSignalFlowDiagram() {
+  return (
+    <svg viewBox="0 0 520 180" className="h-auto w-full max-w-[520px]" role="img" aria-label="GATE 2025 Q56 block diagram">
+      <rect width="520" height="180" fill="#ffffff" />
+      <defs>
+        <marker id="gate-q56-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+          <path d="M0 0L7 3.5L0 7Z" fill="#111111" />
+        </marker>
+      </defs>
+
+      <g stroke="#111111" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M78 96h54" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M166 96h56" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M296 96h48" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M386 96h56" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M184 96V52" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M184 48h52" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M292 48h52" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M348 48v30" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M296 112v32" />
+        <path d="M296 144H156" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M150 144v-30" markerEnd="url(#gate-q56-arrow)" />
+      </g>
+      <g stroke="#111111" strokeWidth="1.7" fill="#ffffff">
+        <circle cx="150" cy="96" r="16" />
+        <rect x="224" y="80" width="72" height="32" rx="1" />
+        <rect x="242" y="32" width="50" height="32" rx="1" />
+        <circle cx="366" cy="96" r="18" />
+      </g>
+      <g fill="#111111" fontFamily="Times New Roman, serif" fontSize="17" fontStyle="italic">
+        <text x="42" y="100">R(s)</text>
+        <text x="248" y="101">G<tspan baselineShift="sub" fontSize="12">1</tspan></text>
+        <text x="257" y="53">G<tspan baselineShift="sub" fontSize="12">2</tspan></text>
+        <text x="452" y="101">Y(s)</text>
+      </g>
+      <g fill="#111111" fontFamily="Arial, sans-serif" fontSize="13" fontWeight="700">
+        <text x="144" y="91">+</text>
+        <text x="146" y="107">-</text>
+        <text x="359" y="91">+</text>
+        <text x="360" y="108">+</text>
+      </g>
+    </svg>
+  );
+}
+
+function Gate2025Q56OptionDiagram({ variant }) {
+  const nodeX = [78, 190, 302, 414];
+  const viewWidth = 460;
+  const Arrow = ({ x, y, angle = 0 }) => (
+    <path
+      d={`M${x} ${y}l-8 -4v8Z`}
+      fill="#111111"
+      transform={`rotate(${angle} ${x} ${y})`}
+    />
+  );
+  const Text = ({ x, y, children }) => (
+    <text x={x} y={y}>
+      {children}
+    </text>
+  );
+
+  return (
+    <svg viewBox={`0 0 ${viewWidth} 132`} className="h-auto w-full max-w-[460px]" role="img" aria-label={`GATE 2025 Q56 option ${variant.toUpperCase()} signal flow graph`}>
+      <rect width={viewWidth} height="132" fill="#ffffff" />
+      <g stroke="#111111" strokeWidth="1.9" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M82 66H140" />
+        <path d="M202 66H294" />
+        <path d="M306 66H412" />
+        <path d="M190 62C190 18 412 18 412 66" />
+        <path d="M302 66C302 112 178 112 178 66" />
+      </g>
+      <g>
+        <Arrow x={112} y={66} />
+        <Arrow x={248} y={66} />
+        <Arrow x={358} y={66} />
+        <Arrow x={400} y={18} />
+        <Arrow x={178} y={92} angle={205} />
+      </g>
+      <g fill="#ffffff" stroke="#111111" strokeWidth="1.8">
+        {nodeX.map((x) => (
+          <circle key={x} cx={x} cy="66" r="4.2" />
+        ))}
+      </g>
+      <g fill="#111111" fontFamily="Times New Roman, serif" fontSize="17" fontStyle="italic">
+        <Text x="20" y="70">R(s)</Text>
+        <Text x="394" y="70">Y(s)</Text>
+        {variant === "a" && (
+          <>
+            <Text x="110" y="88">1</Text>
+            <Text x="248" y="88">1</Text>
+            <Text x="350" y="88">G<tspan baselineShift="sub" fontSize="12">1</tspan></Text>
+            <Text x="314" y="24">G<tspan baselineShift="sub" fontSize="12">2</tspan></Text>
+            <Text x="188" y="119">-1</Text>
+          </>
+        )}
+        {variant === "b" && (
+          <>
+            <Text x="110" y="88">1</Text>
+            <Text x="248" y="88">G<tspan baselineShift="sub" fontSize="12">1</tspan></Text>
+            <Text x="350" y="88">1</Text>
+            <Text x="314" y="24">G<tspan baselineShift="sub" fontSize="12">2</tspan></Text>
+            <Text x="188" y="119">-1</Text>
+          </>
+        )}
+        {variant === "c" && (
+          <>
+            <Text x="110" y="88">1</Text>
+            <Text x="248" y="88">G<tspan baselineShift="sub" fontSize="12">1</tspan></Text>
+            <Text x="350" y="88">G<tspan baselineShift="sub" fontSize="12">2</tspan></Text>
+            <Text x="314" y="24">1</Text>
+            <Text x="188" y="119">-1</Text>
+          </>
+        )}
+        {variant === "d" && (
+          <>
+            <Text x="110" y="88">1</Text>
+            <Text x="248" y="88">G<tspan baselineShift="sub" fontSize="12">1</tspan></Text>
+            <Text x="350" y="88">1</Text>
+            <Text x="314" y="24">G<tspan baselineShift="sub" fontSize="12">2</tspan></Text>
+            <Text x="188" y="119">1</Text>
+          </>
+        )}
+      </g>
+    </svg>
+  );
+}
+
+function Gate2025DiodeBridgeDiagram() {
+  return (
+    <svg viewBox="0 0 760 420" className="h-auto w-full" role="img" aria-label="GATE 2025 Q57 ideal diode bridge circuit with correct plots">
+      <rect width="760" height="420" rx="14" fill="#f8fbff" />
+      <defs>
+        <marker id="gate-q57-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+          <path d="M0 0L10 5L0 10Z" fill="#154a96" />
+        </marker>
+      </defs>
+      <text x="32" y="40" fill="#0f172a" fontSize="18" fontWeight="900">Ideal bridge: Vo = |Vi| and Ii = Vi/R</text>
+      <g stroke="#1e293b" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M110 88v230M110 88h112M110 318h112M222 88h150M222 318h150" />
+        <path d="M372 88l78 78l-78 78l-78 -78Z" />
+        <path d="M294 166h156" />
+        <path d="M328 132l32 -32M390 100l32 32M328 200l32 32M390 232l32 -32" />
+        <path d="M336 120l18 -18M354 102l2 22M354 102l-22 2" />
+        <path d="M408 120l-18 -18M390 102l22 2M390 102l-2 22" />
+        <path d="M336 212l18 18M354 230l-22 -2M354 230l-2 -22" />
+        <path d="M408 212l-18 18M390 230l-2 -22M390 230l22 -2" />
+      </g>
+      <Resistor x={338} y={166} width={68} label="R" />
+      <g fill="#0f172a" fontSize="15" fontWeight="900">
+        <text x="74" y="82">+</text>
+        <text x="76" y="324">-</text>
+        <text x="72" y="204">Vi</text>
+        <text x="262" y="162">-</text>
+        <text x="464" y="162">+</text>
+        <text x="362" y="150">Vo</text>
+        <text x="150" y="78">Ii</text>
+      </g>
+      <path d="M142 76h58" stroke="#154a96" strokeWidth="3" markerEnd="url(#gate-q57-arrow)" />
+
+      <g transform="translate(492 88)" stroke="#1e293b" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M30 150V10M10 100h190" />
+        <path d="M30 100L100 30L170 100" stroke="#154a96" strokeWidth="4" />
+        <text x="4" y="16" fill="#0f172a" fontSize="14" fontWeight="900">Vo</text>
+        <text x="176" y="116" fill="#0f172a" fontSize="14" fontWeight="900">Vi</text>
+        <text x="76" y="24" fill="#0f172a" fontSize="14" fontWeight="900">A</text>
+      </g>
+      <g transform="translate(492 248)" stroke="#1e293b" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M30 120V10M10 65h190" />
+        <path d="M30 100L170 30" stroke="#154a96" strokeWidth="4" />
+        <text x="4" y="18" fill="#0f172a" fontSize="14" fontWeight="900">Ii</text>
+        <text x="176" y="82" fill="#0f172a" fontSize="14" fontWeight="900">Vi</text>
+        <text x="76" y="24" fill="#0f172a" fontSize="14" fontWeight="900">D</text>
+      </g>
+    </svg>
+  );
+}
+
+function Gate2025DiodeBiasDiagram() {
+  return (
+    <svg viewBox="0 0 560 340" className="h-auto w-full md:w-[82%]" role="img" aria-label="GATE 2025 Q61 ideal diode with 5 volt battery">
+      <rect width="560" height="340" rx="14" fill="#f8fbff" />
+      <text x="32" y="42" fill="#0f172a" fontSize="18" fontWeight="900">Diode conducts when Vi &gt; 5 V</text>
+      <g stroke="#1e293b" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M110 88h112" />
+        <Resistor x={222} y={88} width={92} label="R" />
+        <path d="M314 88h82v58" />
+        <path d="M396 254H110V88" />
+        <path d="M378 146h36l-18 30Z" />
+        <path d="M378 180h36" />
+        <path d="M396 180v34" />
+        <path d="M376 214h40M384 230h24" />
+        <path d="M396 230v24" />
+      </g>
+      <g fill="#0f172a" fontSize="16" fontWeight="900">
+        <text x="80" y="84">+</text>
+        <text x="82" y="260">-</text>
+        <text x="70" y="176">Vi</text>
+        <text x="424" y="228">5 V</text>
+      </g>
+      <g transform="translate(118 282)" stroke="#154a96" strokeWidth="3" fill="none" strokeLinecap="round">
+        <path d="M0 20h300" stroke="#94a3b8" />
+        <path d="M0 20C50 -18 100 -18 150 20S250 58 300 20" />
+        <path d="M25 0h100" stroke="#0f172a" strokeDasharray="6 5" />
+        <text x="132" y="5" fill="#0f172a" fontSize="13" fontWeight="900">5 V</text>
+      </g>
+    </svg>
+  );
+}
+
+function Gate2025SetupTimingDiagram() {
+  return (
+    <svg viewBox="0 0 720 340" className="h-auto w-full" role="img" aria-label="GATE 2025 Q62 two flip-flops and AND gate timing path">
+      <rect width="720" height="340" rx="14" fill="#f8fbff" />
+      <text x="32" y="42" fill="#0f172a" fontSize="18" fontWeight="900">Critical setup path: FF2 &gt; AND &gt; FF1</text>
+      <g stroke="#1e293b" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <rect x="132" y="110" width="96" height="108" rx="4" fill="#ffffff" />
+        <rect x="340" y="110" width="96" height="108" rx="4" fill="#ffffff" />
+        <path d="M228 140h112" />
+        <path d="M436 140h70" />
+        <path d="M506 124h32c40 0 40 56 0 56h-32Z" fill="#ffffff" />
+        <path d="M228 178h66v82h294V152h-50" />
+        <path d="M568 152v-70H92v82h40" />
+        <path d="M132 190l14 10l-14 10M340 190l14 10l-14 10" />
+        <path d="M106 232h470" />
+      </g>
+      <g fill="#0f172a" fontSize="16" fontWeight="900">
+        <text x="154" y="146">D</text>
+        <text x="198" y="146">Q</text>
+        <text x="154" y="204">CLK</text>
+        <text x="362" y="146">D</text>
+        <text x="406" y="146">Q</text>
+        <text x="362" y="204">CLK</text>
+        <text x="584" y="158">X</text>
+        <text x="248" y="130">0 ns comb</text>
+        <text x="438" y="104">1 ns AND</text>
+        <text x="246" y="292">Tclk &gt;= 2 ns + 1 ns + 2 ns = 5 ns</text>
+        <text x="96" y="252">CLK</text>
+      </g>
+    </svg>
+  );
+}
+
+function Gate2025InducedLoopDiagram() {
+  return (
+    <svg viewBox="0 0 620 420" className="h-auto w-full md:w-[88%]" role="img" aria-label="GATE 2025 Q65 rectangular loop with two 2 ohm resistors in changing magnetic field">
+      <rect width="620" height="420" rx="14" fill="#f8fbff" />
+      <text x="32" y="42" fill="#0f172a" fontSize="18" fontWeight="900">Single loop: total resistance = 4 ohm</text>
+      <defs>
+        <pattern id="gate-q65-hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <path d="M0 0h12" stroke="#cbd5e1" strokeWidth="4" />
+        </pattern>
+        <marker id="gate-q65-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+          <path d="M0 0L10 5L0 10Z" fill="#1e293b" />
+        </marker>
+      </defs>
+      <rect x="126" y="96" width="230" height="210" fill="url(#gate-q65-hatch)" stroke="#1e293b" strokeWidth="3" />
+      <VerticalResistor x={126} y={150} height={92} label="2 ohm" />
+      <VerticalResistor x={356} y={150} height={92} label="2 ohm" />
+      <path d="M356 96H126M126 306h230" stroke="#1e293b" strokeWidth="3" fill="none" />
+      <path d="M286 96h-70" stroke="#1e293b" strokeWidth="3" markerEnd="url(#gate-q65-arrow)" />
+      <path d="M238 316c-44 -34 -46 -92 -4 -128" stroke="#1e293b" strokeWidth="3" fill="none" markerEnd="url(#gate-q65-arrow)" />
+      <g fill="#0f172a" fontSize="16" fontWeight="900">
+        <text x="240" y="82">I</text>
+        <text x="178" y="340">Loop area = 5 m^2</text>
+        <text x="382" y="128">B(t) = 0.5t T</text>
+        <text x="382" y="154">along +z</text>
+      </g>
+      <g stroke="#154a96" strokeWidth="3" strokeLinecap="round" markerEnd="url(#gate-q65-arrow)">
+        <path d="M454 312h90" />
+        <path d="M454 312v-90" />
+        <path d="M454 312l-54 54" />
+      </g>
+      <g fill="#0f172a" fontSize="16" fontWeight="900">
+        <text x="552" y="318">x</text>
+        <text x="448" y="214">y</text>
+        <text x="390" y="386">z</text>
+      </g>
+    </svg>
+  );
+}
+
 function Gate2025GenericFigure({ diagram }) {
   const configs = {
     "gate-2025-q4-iteration-curve": {
@@ -767,6 +1048,42 @@ export default function CircuitDiagram({ question }) {
 
   if (diagram === "gate-2025-q49-charge-sheet") {
     return <Gate2025ChargeSheetDiagram />;
+  }
+
+  if (diagram === "gate-2025-q56-block-sfg") {
+    return <Gate2025BlockSignalFlowDiagram />;
+  }
+
+  if (diagram === "gate-2025-q56-option-a") {
+    return <Gate2025Q56OptionDiagram variant="a" />;
+  }
+
+  if (diagram === "gate-2025-q56-option-b") {
+    return <Gate2025Q56OptionDiagram variant="b" />;
+  }
+
+  if (diagram === "gate-2025-q56-option-c") {
+    return <Gate2025Q56OptionDiagram variant="c" />;
+  }
+
+  if (diagram === "gate-2025-q56-option-d") {
+    return <Gate2025Q56OptionDiagram variant="d" />;
+  }
+
+  if (diagram === "gate-2025-q57-diode-bridge") {
+    return <Gate2025DiodeBridgeDiagram />;
+  }
+
+  if (diagram === "gate-2025-q61-diode-bias") {
+    return <Gate2025DiodeBiasDiagram />;
+  }
+
+  if (diagram === "gate-2025-q62-setup-timing") {
+    return <Gate2025SetupTimingDiagram />;
+  }
+
+  if (diagram === "gate-2025-q65-induced-loop") {
+    return <Gate2025InducedLoopDiagram />;
   }
 
   if (diagram.startsWith("gate-2025-")) {

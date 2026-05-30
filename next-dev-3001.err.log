@@ -1,3 +1,9 @@
-⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-Invalid DOM property `crossorigin`. Did you mean `crossOrigin`?
+⨯ Failed to start server
+Error: listen EADDRINUSE: address already in use 127.0.0.1:3001
+    at <unknown> (Error: listen EADDRINUSE: address already in use 127.0.0.1:3001) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '127.0.0.1',
+  port: 3001
+}

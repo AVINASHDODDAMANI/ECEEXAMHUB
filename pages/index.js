@@ -194,7 +194,7 @@ export default function Home() {
   const [homeSearchValue, setHomeSearchValue] = useState("");
 
   const subjects = [
-    ["Network Theory", "/notes/network-analysis", "network", "text-emerald-600"],
+    ["Network Analysis", "/notes/network-analysis", "network", "text-emerald-600"],
     ["Analog Electronics", "/notes/analog-electronics", "analog", "text-orange-600"],
     ["Digital Electronics", "/notes/digital-electronics", "digital", "text-blue-600"],
     ["Signals & Systems", "/notes/signals-and-systems", "signal", "text-violet-600"],
@@ -226,9 +226,9 @@ export default function Home() {
 
   return (
     <Layout
-      title="ECE Exam Guide - Learn, Practice and Excel"
-      description="High quality ECE quick notes, previous year questions, numericals, formula sheets, and exam resources for GATE, BEL, ISRO, DRDO, ESE, PSU, and university exams."
-      keywords="ECE Exam Guide, ECE quick notes, ECE previous year questions, BEL ECE PYQ, GATE ECE notes, electronics formula sheet"
+      title="Network Analysis, Digital Electronics, Analog Electronics Notes | ECE Exam Guide"
+      description="Study Network Analysis, Digital Electronics, Analog Electronics and other ECE subjects with quick notes, PYQs, MCQs, formulas, numericals, and GATE, BEL, ISRO, DRDO, ESE, PSU, and university exam resources."
+      keywords="Network Analysis, Digital Electronics, Analog Electronics, ECE Exam Guide, ECE quick notes, GATE ECE notes, electronics formula sheet, ECE previous year questions, BEL ECE PYQ"
       pageClassName="!max-w-none !px-0 py-0"
     >
       <section className="relative overflow-hidden bg-[#061f45]">
@@ -252,7 +252,7 @@ export default function Home() {
               </span>
             </h1>
             <p className="mt-3 max-w-[590px] text-sm font-medium leading-6 !text-white/90 sm:mt-4 sm:text-lg sm:leading-8">
-              High quality notes, quick revision sheets, previous year questions,
+              Network Analysis, Digital Electronics, Analog Electronics, quick revision sheets, previous year questions,
               numericals and exam resources for GATE, BEL, ISRO, DRDO, ESE, PSU and University exams.
             </p>
 
@@ -351,7 +351,7 @@ export default function Home() {
             <div className="rounded-lg border border-[#dfe6f1] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.04)]">
               <SectionTitle title="Latest Updated Papers" actionLabel="View All Papers" href="/previous-year" />
               <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <PaperCard badge="NEW" title="GATE ECE 2025 Paper" text="55 solved questions with MSQ support" href="/solution/gate-2025" />
+                <PaperCard badge="NEW" title="GATE ECE 2025 Paper" text="65 solved questions with MSQ support" href="/solution/gate-2025" />
                 <PaperCard badge="NEW" title="BEL ECE Dec 2025 Paper" text="125 solved objective questions" href="/solution/bel-december-2025" />
                 <PaperCard badge="NEW" title="BEL ECE May 2025 Paper" text="125 solved objective questions" href="/solution/bel-may-2025" />
                 <PaperCard badge="UPDATED" title="BEL Electronics Dec 2023" text="125 official paper questions" href="/solution/bel-december-2023" updated />

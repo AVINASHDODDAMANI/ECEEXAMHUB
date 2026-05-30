@@ -5,7 +5,7 @@ export const subjectDirectory = [
     search: "Network Analysis",
     href: "/subjects/network-analysis",
     description:
-      "Circuit laws, theorems, AC/DC analysis, two-port networks, graph theory, and filters.",
+      "Network Analysis notes for circuit laws, KCL, KVL, theorems, AC/DC analysis, two-port networks, graph theory, and filters.",
     icon: "network",
     accent: {
       bg: "bg-blue-50",
@@ -19,7 +19,7 @@ export const subjectDirectory = [
     search: "Analog Electronics",
     href: "/subjects/analog-electronics",
     description:
-      "Diodes, BJTs, MOSFETs, amplifiers, op-amps, oscillators, and waveform generators.",
+      "Analog Electronics notes for diodes, BJTs, MOSFETs, amplifiers, op-amps, filters, oscillators, and waveform generators.",
     icon: "analog",
     accent: {
       bg: "bg-emerald-50",
@@ -33,7 +33,7 @@ export const subjectDirectory = [
     search: "Digital Electronics",
     href: "/subjects/digital-electronics",
     description:
-      "Logic gates, combinational and sequential circuits, flip-flops, counters, and registers.",
+      "Digital Electronics notes for logic gates, Boolean algebra, K-maps, combinational and sequential circuits, flip-flops, counters, and registers.",
     icon: "digital",
     accent: {
       bg: "bg-amber-50",

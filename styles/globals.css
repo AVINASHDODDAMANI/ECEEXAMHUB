@@ -210,6 +210,129 @@ mjx-container[display="true"] {
   padding: 0.875rem;
 }
 
+.site-ad-layout {
+  display: grid;
+  min-width: 0;
+  gap: 1rem;
+}
+
+.ad-rail {
+  display: none;
+}
+
+.ad-slot,
+.ad-placeholder {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--reader-line);
+  border-radius: 1.25rem;
+  background: rgba(255, 253, 248, 0.9);
+  box-shadow: 0 10px 26px rgba(31, 50, 75, 0.065);
+}
+
+.ad-slot {
+  padding: 0.75rem;
+}
+
+.ad-slot__label,
+.ad-placeholder__eyebrow,
+.ad-placeholder__size {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #647184;
+}
+
+.ad-slot__label {
+  margin-bottom: 0.5rem;
+}
+
+.ad-placeholder {
+  display: grid;
+  min-height: 540px;
+  place-items: center;
+  padding: 2rem 1.25rem;
+  text-align: center;
+}
+
+.ad-placeholder__body {
+  display: grid;
+  width: 100%;
+  justify-items: center;
+  gap: 1rem;
+}
+
+.ad-placeholder__title {
+  color: #132844;
+  font-size: clamp(1.8rem, 3.4vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.ad-placeholder__copy {
+  max-width: 16rem;
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.ad-placeholder__screen {
+  display: grid;
+  aspect-ratio: 16 / 10;
+  width: min(13rem, 86%);
+  place-items: center;
+  border: 0.5rem solid #4a4a4a;
+  border-bottom-width: 1.1rem;
+  border-radius: 0.35rem;
+  background:
+    linear-gradient(90deg, #2d75dc 0 36%, transparent 36%),
+    repeating-linear-gradient(0deg, #d9d9d9 0 0.35rem, transparent 0.35rem 0.9rem),
+    #f4f4f4;
+  background-position: 1rem 3rem, 6rem 2.1rem, 0 0;
+  background-size: 4rem 4rem, 6rem 5rem, auto;
+  background-repeat: no-repeat;
+}
+
+.ad-placeholder__screen span {
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.adsbygoogle,
+ins.adsbygoogle {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 280px;
+}
+
+iframe[title="Advertisement"],
+iframe[src*="googlesyndication"] {
+  max-width: 100% !important;
+}
+
+@media (min-width: 1180px) {
+  .site-ad-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+    align-items: start;
+  }
+
+  .ad-rail {
+    position: sticky;
+    top: 5.75rem;
+    display: block;
+    min-height: calc(100vh - 7rem);
+  }
+
+  .ad-rail__slot {
+    min-height: calc(100vh - 7rem);
+  }
+}
+
 @media (max-width: 639px) {
   [id$="-menu"],
   [id$="-popover"] {

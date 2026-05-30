@@ -115,8 +115,9 @@ export default function PreviousYearQuestionCard({
           : "Select an option to check your answer."}
       </p>
 
-      <div className="mt-3 grid gap-2 md:grid-cols-2">
+      <div className={question.optionDiagrams ? "mt-3 grid gap-3" : "mt-3 grid gap-2 md:grid-cols-2"}>
         {(question.options || []).map((option, index) => {
+          const optionDiagram = question.optionDiagrams?.[index];
           const isSelected = isMultiAnswer
             ? selectedOptions.includes(option)
             : selectedOption === option;
@@ -157,7 +158,13 @@ export default function PreviousYearQuestionCard({
                 </span>
               ) : null}
               <span className="mr-2 font-semibold">{String.fromCharCode(65 + index)}.</span>
-              <span>{option}</span>
+              {optionDiagram ? (
+                <span className="min-w-0 flex-1 max-w-[540px]">
+                  <CircuitDiagram question={{ ...question, diagram: optionDiagram }} />
+                </span>
+              ) : (
+                <span>{option}</span>
+              )}
             </button>
           );
         })}

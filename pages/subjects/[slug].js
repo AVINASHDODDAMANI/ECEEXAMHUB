@@ -14906,11 +14906,14 @@ function buildSubjectSeo(subject, theoryKnowledge, learningTopics = []) {
     .join(", ")} so students can move from fundamentals to exam-ready problem solving.`;
   const searchIntents = [
     `${subject.title} notes`,
+    `${subject.title} quick notes`,
+    `${subject.title} notes pdf`,
     `${subject.title} gate ece`,
     `${subject.title} handwritten notes`,
     `${subject.title} important questions`,
     `${subject.title} formulas`,
     `${subject.title} pyq`,
+    "Network Analysis Digital Electronics Analog Electronics",
   ];
 
   return {
