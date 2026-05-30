@@ -317,7 +317,7 @@ iframe[src*="googlesyndication"] {
 
 @media (min-width: 1180px) {
   .site-ad-layout {
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr); /* ~75% / 25% */
     align-items: start;
   }
 
@@ -325,7 +325,6 @@ iframe[src*="googlesyndication"] {
     position: sticky;
     top: 5.75rem;
     display: block;
-    min-height: calc(100vh - 7rem);
   }
 
   .ad-rail__slot {
