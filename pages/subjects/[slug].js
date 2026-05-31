@@ -1194,7 +1194,7 @@ const MICROPROCESSORS_CHAPTER_ROUTES = {
   "Memory Interfacing": "/learn/microprocessors/memory-interfacing",
   "I/O Interfacing": "/learn/microprocessors/io-interfacing",
   "8255 Programmable Peripheral Interface": "/learn/microprocessors/8255-programmable-peripheral-interface",
-  "8086 Microprocessor": "/learn/microprocessors/8086-microprocessor",
+  "8086 Microprocessor": "/8086-microprocessor",
   "Advanced Topics": "/learn/microprocessors/advanced-topics",
 };
 

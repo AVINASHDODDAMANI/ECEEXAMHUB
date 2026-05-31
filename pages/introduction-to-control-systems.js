@@ -33,6 +33,125 @@ function FormulaBox({ children }) {
   );
 }
 
+function BasicControlSystemRepresentation() {
+  const explanationItems = [
+    {
+      label: "Input (Command Signal):",
+      text: "The desired value or command provided to the system.",
+      swatchClassName: "border-emerald-700 bg-emerald-50",
+      labelClassName: "text-emerald-700",
+    },
+    {
+      label: "Control System (Processing Unit):",
+      text: "The combination of components and logic that processes the input and determines the appropriate action.",
+      swatchClassName: "border-blue-800 bg-blue-50",
+      labelClassName: "text-blue-800",
+    },
+    {
+      label: "Output (System Response):",
+      text: "The resulting response or controlled variable produced by the system.",
+      swatchClassName: "border-amber-600 bg-amber-50",
+      labelClassName: "text-amber-800",
+    },
+  ];
+
+  return (
+    <figure className="mx-auto my-6 w-full max-w-[900px] px-0 py-6">
+      <h3 className="text-center text-2xl font-black tracking-tight text-[#0b2d67] sm:text-3xl">
+        Basic Block Diagram of a Control System
+      </h3>
+      <p className="mx-auto mt-2 max-w-[620px] text-center text-sm font-medium leading-6 text-slate-950 sm:text-base">
+        A control system operates on an input and produces the desired output according to the
+        system objective.
+      </p>
+
+      <div className="mt-6 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-0">
+        <div className="rounded-xl border-2 border-emerald-800 bg-emerald-50 px-4 py-4 text-center shadow-sm sm:w-[24%]">
+          <p className="text-lg font-black text-emerald-800 sm:text-xl">INPUT</p>
+          <p className="mt-1 text-sm font-semibold leading-6 text-slate-950">
+            (Command Signal)
+          </p>
+        </div>
+
+        <div className="flex items-center justify-center sm:w-[13%]" aria-hidden="true">
+          <div className="h-6 w-1 bg-slate-950 sm:h-1 sm:w-full" />
+          <div className="hidden h-0 w-0 border-y-[8px] border-l-[14px] border-y-transparent border-l-slate-950 sm:block" />
+        </div>
+
+        <div className="rounded-xl border-2 border-blue-800 bg-blue-50 px-4 py-4 text-center shadow-sm sm:w-[28%]">
+          <p className="text-lg font-black text-blue-900 sm:text-xl">CONTROL SYSTEM</p>
+          <p className="mt-1 text-sm font-semibold leading-6 text-slate-950">
+            (Processing Unit)
+          </p>
+        </div>
+
+        <div className="flex items-center justify-center sm:w-[13%]" aria-hidden="true">
+          <div className="h-6 w-1 bg-slate-950 sm:h-1 sm:w-full" />
+          <div className="hidden h-0 w-0 border-y-[8px] border-l-[14px] border-y-transparent border-l-slate-950 sm:block" />
+        </div>
+
+        <div className="rounded-xl border-2 border-amber-600 bg-amber-50 px-4 py-4 text-center shadow-sm sm:w-[24%]">
+          <p className="text-lg font-black text-amber-800 sm:text-xl">OUTPUT</p>
+          <p className="mt-1 text-sm font-semibold leading-6 text-slate-950">
+            (System Response)
+          </p>
+        </div>
+      </div>
+
+      <figcaption className="mt-4 text-center text-sm italic leading-6 text-slate-950 sm:text-base">
+        Figure 1: Basic Block Diagram of a Control System
+      </figcaption>
+
+      <h4 className="mt-5 text-lg font-black text-[#0b2d67] sm:text-xl">
+        Elements of a Control System
+      </h4>
+      <div className="mt-3 grid gap-3">
+        {explanationItems.map((item) => (
+          <div key={item.label} className="grid gap-3 sm:grid-cols-[48px_1fr] sm:items-start">
+            <span
+              aria-hidden="true"
+              className={`mx-auto mt-0.5 h-6 w-6 rounded border-2 sm:mx-0 ${item.swatchClassName}`}
+            />
+            <p className="text-sm leading-6 text-slate-950 sm:text-base">
+              <span className={`font-black ${item.labelClassName}`}>{item.label}</span>{" "}
+              {item.text}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-4 border-t border-slate-300 pt-3">
+        <h4 className="text-lg font-black text-[#0b2d67] sm:text-xl">
+          Real-Life Examples of Control Systems
+        </h4>
+        <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-950 sm:text-base">
+          <li>
+            <strong>Air conditioner:</strong> Desired temperature (24&deg;C) &rarr; air conditioner
+            control system &rarr; room temperature.
+          </li>
+          <li>
+            <strong>Room heater:</strong> Set temperature &rarr; heater control action &rarr;
+            maintained room warmth.
+          </li>
+          <li>
+            <strong>Vehicle cruise control:</strong> Set speed &rarr; speed controller &rarr;
+            constant vehicle speed.
+          </li>
+        </ul>
+
+        <h4 className="mt-5 text-lg font-black text-[#0b2d67] sm:text-xl">
+          Applications of Control Systems
+        </h4>
+        <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-950 sm:text-base">
+          <li>Industrial automation and process control.</li>
+          <li>Robotics, CNC machines, and servo positioning systems.</li>
+          <li>Automobiles, power systems, communication systems, and consumer electronics.</li>
+        </ul>
+      </div>
+    </figure>
+  );
+}
+
 function BulletList({ items, bulletClassName = "bg-portal-600" }) {
   return (
     <ul className="mt-3 grid gap-2 text-sm leading-7 text-slate-700 sm:text-base">
@@ -186,7 +305,7 @@ export default function IntroductionToControlSystemsPage() {
         <article className="mt-5 grid gap-5">
           <TopicSection id="introduction" title="Introduction">
             <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-              Control Systems is the branch of engineering that deals with the analysis and design of systems that can regulate their own behavior. It provides techniques to control the output of a system so that it closely follows the desired input. By understanding how systems respond to different inputs and disturbances, engineers can design machines and processes that are accurate, reliable, and efficient.
+              Let’s break it down into engineering terms. A Control System is a configuration of components that directs, regulates, or commands the behavior of devices or processes to produce a desired output. In simple words, it acts like an invisible manager behind the scenes, ensuring that the system operates as intended and delivers the required performance.
             </p>
             <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
              Control systems are found everywhere around us, from household appliances and automobiles to industrial automation, robotics, aerospace systems, and power plants. The study of control systems forms the foundation for designing intelligent and automated technologies used in modern engineering.
@@ -200,7 +319,8 @@ export default function IntroductionToControlSystemsPage() {
             <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
              Consider a simple example of a room heater. During winter, a person may want the room temperature to remain at 25°C. The heater supplies heat to the room, but the desired goal is not merely to generate heat; it is to maintain the required temperature. The mechanism responsible for achieving this objective represents the control system.
              </p>
-             <p>In general, every control system consists of three basic elements:
+                <div className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
+                In general, every control system consists of three basic elements:
               <ul className="mt-3 list-disc pl-6 text-slate-700">
           <li>
          <strong>Input:</strong> The desired value or command given to the system.
@@ -212,7 +332,8 @@ export default function IntroductionToControlSystemsPage() {
         <strong>Output:</strong> The actual result produced by the system.
           </li>
           </ul>
-          </p>
+          </div>
+          <BasicControlSystemRepresentation />
           </TopicSection>
 
           <TopicSection id="why-it-matters" title="Why It Matters">

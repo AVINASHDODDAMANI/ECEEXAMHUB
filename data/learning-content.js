@@ -1182,10 +1182,21 @@ const microprocessorTopicDetails = Object.fromEntries(
   microprocessorTopicSeed.map(([slug, shortTitle, introLine, intuition, formula]) => [
     `microprocessors/${slug}`,
     {
-      metaTitle: `${shortTitle} GATE ECE Microprocessors Quick Notes + PYQs + Revision`,
-      metaDescription: `Learn ${shortTitle} with animated step-by-step visualization, 8085 notes, 8086 architecture links, PSU Microprocessors tips, and university exam preparation.`,
+      metaTitle:
+        slug === "8086-microprocessor"
+          ? "8086 Microprocessor - ECE Exam Guide"
+          : `${shortTitle} GATE ECE Microprocessors Quick Notes + PYQs + Revision`,
+      ...(slug === "8086-microprocessor"
+        ? { canonicalPath: "/8086-microprocessor" }
+        : {}),
+      metaDescription:
+        slug === "8086-microprocessor"
+          ? "Understand 8086 microprocessor architecture, BIU, EU, memory segmentation, register organization, addressing modes, and 20-bit physical address generation for ECE exams."
+          : `Learn ${shortTitle} with animated step-by-step visualization, microprocessor notes, PSU Microprocessors tips, and university exam preparation.`,
       keywords:
-        "GATE ECE Microprocessors, PSU Microprocessors, 8085 notes, 8086 architecture, university exam preparation",
+        slug === "8086-microprocessor"
+          ? "8086 microprocessor, 8086 architecture, BIU, EU, memory segmentation, 8086 addressing modes, ECE exam guide, GATE ECE Microprocessors"
+          : "GATE ECE Microprocessors, PSU Microprocessors, microprocessor notes, 8085 notes, 8086 architecture, university exam preparation",
       shortTitle,
       coreQuestion: `How does ${shortTitle} help explain processor operation?`,
       examFocus:

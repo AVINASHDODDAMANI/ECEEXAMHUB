@@ -4,7 +4,7 @@ import Link from "next/link";
 import Layout from "./layout";
 import LearningTopicNavigationMenus from "./LearningTopicNavigationMenus";
 import { getRelatedLearningTopics } from "../lib/learning-utils";
-import { generateKeywords, SITE_URL } from "../lib/seo";
+import { generateCanonical, generateKeywords, SITE_URL } from "../lib/seo";
 
 const MicroprocessorVisualizer = dynamic(
   () => import("./visualizers/MicroprocessorVisualizer"),
@@ -67,6 +67,8 @@ export default function MicroprocessorTopicPage({ topic }) {
   const relatedTopics = useMemo(() => getRelatedLearningTopics(topic.relatedTopics || []), [topic.relatedTopics]);
   const previousTopic = topic.previous || null;
   const nextTopic = topic.next || null;
+  const canonicalPath = topic.canonicalPath || `/learn/microprocessors/${topic.slug}`;
+  const canonicalUrl = generateCanonical(canonicalPath);
 
   const faqItems = useMemo(
     () => [
@@ -103,6 +105,13 @@ export default function MicroprocessorTopicPage({ topic }) {
         "@type": "LearningResource",
         name: `${topic.shortTitle} Microprocessors Quick Notes`,
         description: topic.metaDescription,
+        url: canonicalUrl,
+        isPartOf: `${SITE_URL}/subjects/microprocessors`,
+        provider: {
+          "@type": "EducationalOrganization",
+          name: "ECE Exam Guide",
+          url: SITE_URL,
+        },
         learningResourceType: "Theory Quick Notes",
         educationalLevel: "Undergraduate engineering",
         teaches: topic.shortTitle,
@@ -124,11 +133,11 @@ export default function MicroprocessorTopicPage({ topic }) {
           { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
           { "@type": "ListItem", position: 2, name: "Notes", item: `${SITE_URL}/subjects` },
           { "@type": "ListItem", position: 3, name: "Microprocessors", item: `${SITE_URL}/subjects/microprocessors` },
-          { "@type": "ListItem", position: 4, name: topic.shortTitle, item: `${SITE_URL}/learn/microprocessors/${topic.slug}` },
+          { "@type": "ListItem", position: 4, name: topic.shortTitle, item: canonicalUrl },
         ],
       },
     ],
-    [faqItems, seoKeywords, topic]
+    [canonicalUrl, faqItems, seoKeywords, topic]
   );
 
   return (
@@ -136,7 +145,7 @@ export default function MicroprocessorTopicPage({ topic }) {
       title={topic.metaTitle}
       description={topic.metaDescription}
       keywords={seoKeywords}
-      canonicalUrl={`${SITE_URL}/learn/microprocessors/${topic.slug}`}
+      canonicalUrl={canonicalUrl}
       structuredData={structuredData}
       pageClassName="py-3 sm:py-4"
     >
