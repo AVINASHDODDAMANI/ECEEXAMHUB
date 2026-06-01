@@ -803,7 +803,7 @@ const gate2025Questions = [
   {
     _id: "gate-2025-networks-q40",
     question:
-      "The Z-parameter matrix of a two-port network relates the port voltages and port currents as [V1 V2]^T = Z[I1 I2]^T. The Z-parameter matrix, with each entry in ohms, of the given two-port resistive ladder network is:",
+      "The Z-parameter matrix of a two port network relates the port voltages and port currents as follows:\n\n[V₁]\n[V₂] = Z [I₁]\n         [I₂]\n\nThe Z-parameter matrix (with each entry in Ohms) of the network shown below is ________.",
     options: [
       "[[10/3, 2/3], [2/3, 10/3]]",
       "[[2/3, 10/3], [10/3, 2/3]]",
@@ -812,7 +812,7 @@ const gate2025Questions = [
     ],
     correctAnswer: "[[10/3, 2/3], [2/3, 10/3]]",
     explanation:
-      "Writing nodal equations for the two internal nodes and eliminating them gives the port admittance matrix [[5/16, -1/16], [-1/16, 5/16]]. Inverting it gives Z = [[10/3, 2/3], [2/3, 10/3]] ohm.",
+      "Quick GATE Shortcut (Using Y-Parameters)\n\nFor this ladder network:\n\n1. Write nodal admittance matrix:\n\n        Y = [  0.3125   -0.0625 ]\n            [ -0.0625    0.3125 ]\n\n2. Invert the matrix:\n\n        Z = Y⁻¹\n\n3. Result:\n\n        Z = [ 10/3   2/3 ] Ω\n            [  2/3  10/3 ]\n\nKey Formula\n\n[ V₁ ]   [ Z₁₁  Z₁₂ ] [ I₁ ]\n[ V₂ ] = [ Z₂₁  Z₂₂ ] [ I₂ ]\n\n✅ Final Z-parameter matrix\n\n        [ 3.33   0.67 ] Ω\n        [ 0.67   3.33 ]",
     subject: "Network Analysis",
     topic: "Two-Port Networks",
     exam: ["GATE"],
@@ -821,7 +821,7 @@ const gate2025Questions = [
     questionId: "40",
     marks: 2,
     section: "ECE Notes",
-    diagram: "gate-2025-q40-two-port",
+    diagram: "/circuits/image40.png",
   },
   {
     _id: "gate-2025-communications-q41",
@@ -876,7 +876,7 @@ const gate2025Questions = [
     ],
     correctAnswer: "4 - 0.05 sin(omega t)",
     explanation:
-      "The 2 mA tail current splits equally at the bias point, so the left drain voltage is 5 - 1 mA x 1 kohm = 4 V. The differential input is 0.02 sin(omega t), giving a left-branch current change of gm(v1-v2)/2 = 0.05 mA sin(omega t), so V3 decreases by 0.05 sin(omega t).",
+      "GATE Shortcut\n\nFor a differential pair:\n\n        vₒ = - (gₘRᴅ / 2) vᵢd\n\nHere,\n\n        gₘRᴅ = (5 mS)(1 kΩ) = 5\n\nand\n\n        vᵢd = 0.02 sinωt\n\nThus,\n\n        vₒ = - (5 / 2)(0.02 sinωt)\n           = -0.05 sinωt\n\nAdding the DC drain voltage:\n\n        V₃ = 4 - 0.05 sinωt\n\nKey Formula\n\nvₒ = - (gₘRᴅ / 2) vᵢd\n\n✅ Answer: (D) 4 - 0.05 sinωt",
     subject: "Analog Electronics",
     topic: "MOSFET Differential Amplifier",
     exam: ["GATE"],
@@ -885,7 +885,7 @@ const gate2025Questions = [
     questionId: "43",
     marks: 2,
     section: "ECE Notes",
-    diagram: "gate-2025-q43-mos-differential",
+    diagram: "/circuits/image43.png",
   },
   {
     _id: "gate-2025-digital-q44",
@@ -921,7 +921,7 @@ const gate2025Questions = [
     questionId: "45",
     marks: 2,
     section: "ECE Notes",
-    diagram: "gate-2025-q45-sequential",
+    diagram: "/circuits/image45.png",
   },
   {
     _id: "gate-2025-edc-q46",
@@ -957,7 +957,7 @@ const gate2025Questions = [
     questionId: "47",
     marks: 2,
     section: "ECE Notes",
-    diagram: "",
+    diagram: "/circuits/image47.png",
   },
   {
     _id: "gate-2025-edc-q48",
@@ -975,7 +975,7 @@ const gate2025Questions = [
     questionId: "48",
     marks: 2,
     section: "ECE Notes",
-    diagram: "",
+    diagram: "/circuits/image47.png",
   },
   {
     _id: "gate-2025-emt-q49",
@@ -984,7 +984,7 @@ const gate2025Questions = [
     options: ["16", "85", "64", "256"],
     correctAnswer: "64",
     explanation:
-      "The sheet covers -2 <= x <= 2 and -2 <= y <= 2. Total charge is integral from -2 to 2 integral from -2 to 2 of 4|y| dx dy = 4 x 4 x integral from -2 to 2 |y| dy = 64 microcoulomb.",
+      "GATE Shortcut\nThe charge density depends only on y, so:\n\n1. Average value of 4|y| over -2 <= y <= 2:\n   Average |y| = (1/4) \u222b_{-2}^{2} |y| dy = 4/4 = 1\n\nThus average charge density:\n   ρ_avg = 4 × 1 = 4 μC/m^2\n\n2. Area of sheet:\n   A = 4 × 4 = 16 m^2\n\n3. Total charge:\n   Q = ρ_avg A\n   Q = 4 × 16\n   Q = 64 μC\n\nKey Formula\nQ = ∬_S ρ_s dS\nTopic: Electrostatics – Surface Charge Distribution\nAnswer: 64 μC ✅",
     subject: "Electromagnetic Theory",
     topic: "Surface Charge Density",
     exam: ["GATE"],

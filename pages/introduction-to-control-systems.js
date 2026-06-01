@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Layout from "../components/layout";
 import ControlSystemSubtopicMenu from "../components/ControlSystemSubtopicMenu";
-import ControlSystemVisualizer from "../components/ControlSystemVisualizer";
 import { controlSystemTopicPages } from "../data/control-system-topic-pages";
 
 function TopicSection({ id, title, children }) {
@@ -169,7 +168,6 @@ const sectionLinks = [
   { id: "introduction", label: "Introduction" },
   { id: "why-it-matters", label: "Why It Matters" },
   { id: "intuition", label: "Intuition" },
-  { id: "visualization", label: "Visualization" },
   { id: "theory", label: "Core Theory" },
   { id: "working", label: "Working" },
   { id: "formulas", label: "Formulas" },
@@ -367,13 +365,6 @@ export default function IntroductionToControlSystemsPage() {
             <div className="animation-placeholder mt-3 rounded-2xl border border-dashed border-portal-200 bg-portal-50 p-5 text-center text-sm font-bold text-portal-700">
               Animated Feedback Error Correction Visualization
             </div>
-          </TopicSection>
-
-          <TopicSection id="visualization" title="Step-by-Step Visualization">
-            <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-              Use this animated view to compare open-loop action with closed-loop feedback correction.
-            </p>
-            <ControlSystemVisualizer slug="introduction-to-control-systems" />
           </TopicSection>
 
           <TopicSection id="theory" title="Core Theory">
