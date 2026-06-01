@@ -1,6 +1,6 @@
 import { SITE_URL, getIndexableRoutes } from "../lib/seo";
 
-const DEFAULT_LAST_MODIFIED = new Date("2026-05-29T00:00:00.000Z");
+const DEFAULT_LAST_MODIFIED = new Date("2026-06-01T00:00:00.000Z");
 
 function escapeXml(value = "") {
   return String(value)

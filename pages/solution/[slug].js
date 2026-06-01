@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import CircuitDiagram from "../../components/CircuitDiagram";
+import QuestionStem from "../../components/QuestionStem";
 import Layout from "../../components/layout";
 import { getOfficialPaper } from "../../data/official-previous-papers";
 import { getPracticeSlug } from "../../data/practice-sections";
@@ -339,6 +340,13 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
   const sectionTabs = buildQuestionSectionTabs(questions, exam);
   const activeSectionTab =
     sectionTabs.find((tab) => tab.match(currentQuestion))?.key || sectionTabs[0]?.key;
+  const isBlankQuestion =
+    !String(currentQuestion.question || "").trim() &&
+    !String(currentQuestion.diagram || "").trim() &&
+    !(currentQuestion.options || []).length &&
+    !(currentQuestion.optionDiagrams || []).length &&
+    !getCorrectAnswers(currentQuestion).length &&
+    !String(currentQuestion.explanation || "").trim();
 
   function toggleAnswer(questionKey) {
     setRevealedAnswers((current) => ({
@@ -482,6 +490,12 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
         <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-slate-500">
           Section : {section}
         </p>
+        {isBlankQuestion ? (
+          <article
+            className="min-h-[220px] w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4"
+            aria-label={`Question ${displayQuestionNumber} intentionally blank`}
+          />
+        ) : (
         <article className="w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
           <div className="flex min-w-0 flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">
             <span>Q.{displayQuestionNumber}</span>
@@ -489,9 +503,10 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
             <span className="min-w-0 break-words">{currentQuestion.topic || "Previous Paper"}</span>
           </div>
 
-          <p className="mt-3 max-w-full break-words text-base font-bold leading-7 text-slate-950 [overflow-wrap:anywhere]">
-            {currentQuestion.question}
-          </p>
+          <QuestionStem
+            question={currentQuestion}
+            className="mt-3 max-w-full break-words text-base font-bold leading-7 text-slate-950 [overflow-wrap:anywhere]"
+          />
 
           <div className="mt-3 max-w-[640px]">
             <CircuitDiagram question={currentQuestion} />
@@ -514,7 +529,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
               : "Select one option, then reveal the answer."}
           </p>
 
-          <div className="mt-4 grid gap-2">
+          <div className={currentQuestion.optionDiagrams ? "mt-4 grid grid-cols-2 gap-3" : "mt-4 grid gap-2"}>
             {(currentQuestion.options || []).map((option, optionIndex) => {
                 const optionDiagram = currentQuestion.optionDiagrams?.[optionIndex];
                 const isSelected = selectedAnswerList.includes(option);
@@ -560,7 +575,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
                         {showCorrectOption ? "OK" : showWrongOption ? "X" : String.fromCharCode(65 + optionIndex)}
                       </span>
                       {optionDiagram ? (
-                        <span className="min-w-0 flex-1 max-w-[540px]">
+                        <span className="flex min-w-0 flex-1 items-center justify-center">
                           <CircuitDiagram question={{ ...currentQuestion, diagram: optionDiagram }} />
                         </span>
                       ) : (
@@ -631,7 +646,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
           </div>
 
           {isAnswerRevealed && currentQuestion.explanation ? (
-            <p className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
+            <p className="mt-3 whitespace-pre-line rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
               <span className="font-extrabold">Explanation:</span> {currentQuestion.explanation}
             </p>
           ) : null}
@@ -639,6 +654,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
             <StudyLinks question={currentQuestion} />
           ) : null}
         </article>
+        )}
 
         <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 sm:flex sm:justify-between sm:gap-3">
           <button
@@ -863,7 +879,17 @@ export default function SolutionPage({
       title={pageTitle}
       description={paperDescription}
       canonicalUrl={generateCanonical(canonicalPath)}
-      keywords={`${paper.exam} ${paper.year} ECE previous paper, ${paper.exam} ECE question paper, ECE previous year questions, solved paper`}
+      keywords={[
+        `${paper.exam} ${paper.year} ECE previous paper`,
+        `${paper.exam} ${paper.year} ECE question paper`,
+        `${paper.exam} ${paper.year} EC question paper`,
+        `${paper.exam} ECE previous year questions`,
+        `${paper.exam} ECE solved paper`,
+        `${paper.exam} ${paper.year} answer key`,
+        `${paper.exam} ${paper.year} paper PDF`,
+        paper.exam === "GATE" ? `GATE ${paper.year} ECE question paper with solutions` : "",
+        paper.exam === "GATE" ? `GATE EC ${paper.year} solved paper` : "",
+      ].filter(Boolean).join(", ")}
       structuredData={structuredData}
       ogType="article"
       noIndex={!paperHasContent}
@@ -992,7 +1018,7 @@ export default function SolutionPage({
           </section>
         ) : null}
 
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+        <section className="grid gap-6">
           <div id="viewer" className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:p-4">
             <div className="flex flex-col gap-3 border-b border-slate-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -1080,12 +1106,12 @@ export default function SolutionPage({
             )}
           </div>
 
-          <aside className="space-y-5">
+          <aside className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.7fr)]">
             <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
                 Other papers
               </p>
-              <div className="mt-4 grid gap-3">
+              <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                 {relatedPapers.map((item) => (
                   <Link
                     key={`${item.exam}-${item.year}-${item.month || ""}`}
@@ -1109,7 +1135,7 @@ export default function SolutionPage({
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-orange-700">
                 Related resources
               </p>
-              <div className="mt-4 grid gap-3">
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {[
                   ["Important PYQs", "/practice?search=important"],
                   ["Repeated Questions", "/previous-year?search=repeated"],

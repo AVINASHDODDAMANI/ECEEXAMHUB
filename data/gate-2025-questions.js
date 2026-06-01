@@ -1134,7 +1134,7 @@ const gate2025Questions = [
   {
     _id: "gate-2025-control-q56",
     question:
-      "Consider a system represented by the given block diagram. Which of the following signal flow graphs represents this system? Choose the correct option.",
+      "Consider a system represented by the block diagram shown below. Which of the following signal flow graphs represent(s) this system? Choose the correct option(s).",
     options: ["A", "B", "C", "D"],
     optionDiagrams: [
       "gate-2025-q56-option-a",
@@ -1142,9 +1142,10 @@ const gate2025Questions = [
       "gate-2025-q56-option-c",
       "gate-2025-q56-option-d",
     ],
-    correctAnswer: "B",
+    correctAnswer: "A and B",
+    correctAnswers: ["A", "B"],
     explanation:
-      "Let x be the signal after the first summing junction and let z be the output of G1. The block diagram gives z = G1 x. The feedback to the first summer is taken from z with negative sign, so x = R(s) - z. The upper branch gives G2 x and the final summer adds z and G2 x to form Y(s). Therefore the signal flow graph must contain R(s) -> x with gain 1, x -> z with gain G1, z -> output-summing node with gain 1, x -> output-summing node with gain G2, and z -> x with gain -1. This is exactly option B.",
+      "Let x be the signal after the first summing junction and z be the output of G1. The block diagram gives z = G1x and the feedback to the first summer is -z, so x = R(s) - z. The upper branch contributes G2x and the final summer adds z and G2x to form Y(s). Therefore the signal flow graph must include R(s) to x with gain 1, x to z with gain G1, z to the output-summing node with gain 1, x to the output-summing node with gain G2, and z back to x with gain -1. This matches option B.",
     subject: "Control Systems",
     topic: "Signal Flow Graph",
     exam: ["GATE"],
@@ -1159,17 +1160,15 @@ const gate2025Questions = [
     _id: "gate-2025-edc-q57",
     question:
       "All the diodes in the given bridge circuit are ideal. Which of the following plots is/are correct when Vi is swept from -M to M?",
-    options: [
-      "A: Vo is a full-wave rectified V-shaped plot, Vo = |Vi|",
-      "B: Vo varies linearly as Vi",
-      "C: Ii is a full-wave rectified current, Ii = |Vi|/R",
-      "D: Ii varies linearly as Vi/R",
+    options: ["A", "B", "C", "D"],
+    optionDiagrams: [
+      "gate-2025-q57-option-a",
+      "gate-2025-q57-option-b",
+      "gate-2025-q57-option-c",
+      "gate-2025-q57-option-d",
     ],
     correctAnswer: "A and D",
-    correctAnswers: [
-      "A: Vo is a full-wave rectified V-shaped plot, Vo = |Vi|",
-      "D: Ii varies linearly as Vi/R",
-    ],
+    correctAnswers: ["A", "D"],
     questionType: "MSQ",
     explanation:
       "For Vi > 0, one diagonal pair of ideal diodes conducts and places the resistor across the source with the shown output polarity. Hence Vo = Vi. For Vi < 0, the other diagonal pair conducts and reverses the connection across R, so the shown polarity again gives Vo = -Vi. Thus Vo = |Vi|, making plot A correct. From the source side, the bridge and R behave like a resistor R for both polarities, so Ii = Vi/R with sign. Therefore plot D is also correct, while B and C are not.",
@@ -1190,7 +1189,7 @@ const gate2025Questions = [
     options: ["7.00", "6.50", "3.50", "12.00"],
     correctAnswer: "7.00",
     explanation:
-      "Let the two dice outcomes be A and B. For one fair die, E[A] = (1 + 2 + 3 + 4 + 5 + 6)/6 = 3.5 and similarly E[B] = 3.5. By linearity of expectation, E[X] = E[A + B] = E[A] + E[B] = 3.5 + 3.5 = 7.00.",
+      "Given\nTwo fair dice are rolled.\nLet X = sum of the numbers obtained on the two dice.\nWe need to find E(X), the expectation of X.\n\nMethod 1: Fastest method\nLet D1 be the outcome of the first die and D2 be the outcome of the second die.\n\nThen,\nX = D1 + D2\n\nUsing linearity of expectation,\nE(X) = E(D1 + D2)\nE(X) = E(D1) + E(D2)\n\nSince both dice are fair,\nE(D1) = E(D2) = (1 + 2 + 3 + 4 + 5 + 6) / 6\n= 21 / 6\n= 3.5\n\nTherefore,\nE(X) = 3.5 + 3.5\nE(X) = 7\n\nSo, the expectation of the sum is 7.00.",
     subject: "Engineering Mathematics",
     topic: "Expected Value",
     exam: ["GATE"],
@@ -1208,7 +1207,7 @@ const gate2025Questions = [
     options: ["3.00", "2.12", "4.24", "9.00"],
     correctAnswer: "3.00",
     explanation:
-      "The closest vector ax to b is the projection of b on a. The minimizing scalar is x = (a^T b)/(a^T a) = (3sqrt(2))/(2). The minimum squared error is ||b||^2 - (a^T b)^2/(a^T a) = 18 - 18/2 = 9. Hence the minimum Euclidean norm is sqrt(9) = 3.00.",
+      "Solution\n\nStep 1: Given vectors\na = [1, 1]^T,  b = [0, 3 sqrt(2)]^T\n\nWe need to find\nmin over x of ||xa - b||2\n\nStep 2: Compute xa - b\nxa = [x, x]^T\n\nxa - b = [x, x - 3 sqrt(2)]^T\n\nStep 3: Write the norm expression\n||xa - b||2 = sqrt(x^2 + (x - 3 sqrt(2))^2)\n\nTo simplify the minimization, minimize the square:\nf(x) = x^2 + (x - 3 sqrt(2))^2\n\nStep 4: Expand and differentiate\nf(x) = 2x^2 - 6 sqrt(2)x + 18\nf'(x) = 4x - 6 sqrt(2)\n\nSetting f'(x) = 0,\nx = 3 sqrt(2) / 2\n\nStep 5: Calculate the minimum value\nfmin = 9\n||xa - b||min = sqrt(9) = 3\n\nFinal Answer\n3.00\n\nGATE Shortcut (Exam Tip)\nUsing the least-squares formula,\nx = (a^T b) / (a^T a)\nx = 3 sqrt(2) / 2\n\nwhich directly gives the same answer.",
     subject: "Engineering Mathematics",
     topic: "Vector Projection",
     exam: ["GATE"],
@@ -1242,9 +1241,9 @@ const gate2025Questions = [
     question:
       "The diode in the circuit shown is ideal. The input voltage is Vi = 10 sin(100 pi t), where time t is in seconds. The time duration in ms for which the diode is forward biased during one period of the input is ______, rounded off to two decimal places.",
     options: ["6.67", "10.00", "13.33", "3.33"],
-    correctAnswer: "6.67",
+    correctAnswer: "13.33",
     explanation:
-      "The ideal diode conducts only when the sinusoidal input exceeds the 5 V battery level in the forward direction. Thus 10 sin(100 pi t) > 5, or sin(100 pi t) > 0.5. In one cycle this occurs from pi/6 to 5pi/6, an angular interval of 2pi/3. The period is T = 2pi/(100pi) = 0.02 s = 20 ms. Therefore the conduction duration is (2pi/3)/(2pi) x 20 ms = 20/3 ms = 6.67 ms.",
+      "GATE Shortcut\n\nFrom the circuit polarity, the diode is forward biased when\nVI > -5 V.\n\nHere,\nVI = 10 sin(100 pi t), so\n10 sin theta > -5\nsin theta > -1 / 2.\n\nIn one full cycle, sin theta is less than -1/2 only from 210 degrees to 330 degrees, i.e. for 120 degrees. Therefore, the diode is forward biased for the remaining\n360 degrees - 120 degrees = 240 degrees.\n\nConduction fraction = 240 degrees / 360 degrees = 2 / 3.\n\nThe period is\nT = 2 pi / (100 pi) = 0.02 s = 20 ms.\n\nForward-biased duration = (2 / 3)(20 ms) = 13.33 ms.\n\nFinal Answer\n13.33 ms",
     subject: "Electronic Devices and Circuits",
     topic: "Ideal Diode Circuits",
     exam: ["GATE"],
@@ -1262,7 +1261,7 @@ const gate2025Questions = [
     options: ["200", "250", "333", "500"],
     correctAnswer: "200",
     explanation:
-      "For a setup-safe synchronous path, Tclk must be at least tCQ + tcomb + tsetup. The direct path from the first flip-flop to the second has delay 2 + 0 + 2 = 4 ns. The feedback path through the AND gate has delay 2 + 1 + 2 = 5 ns, which is the critical path. Hence Tclk,min = 5 ns and fmax = 1/(5 ns) = 200 MHz.",
+      "GATE Shortcut\n\nFor setup timing questions:\n\nfmax = 1 / (Tcq + Tcomb + Tsetup)\n\nSubstitute directly:\n\nfmax = 1 / (2 + 1 + 2)\n= 1 / 5 ns\n= 200 MHz\n\nFinal Answer\n200 MHz\n\nKey Formula for GATE\n\nTclk(min) = Tcq + Tcomb + Tsetup\n\nRemember:\n\nSetup violation -> use Tcq + Tcomb + Tsetup\n\nHold violation -> use Tcq(min) + Tcomb(min) >= Thold\n\nThis is one of the most frequently tested concepts in Digital Electronics and VLSI timing analysis.",
     subject: "Digital Electronics",
     topic: "Sequential Circuit Timing",
     exam: ["GATE"],
@@ -1280,7 +1279,7 @@ const gate2025Questions = [
     options: ["0.24", "0.12", "0.36", "0.60"],
     correctAnswer: "0.24",
     explanation:
-      "For an ideal diode, I = Is(exp(V/VT) - 1), where VT = kT/e. At 300 K, VT = (1.38 x 10^-23 x 300)/(1.6 x 10^-19) = 0.025875 V. The current ratio is I/Is = 100 mA/10 microA = 10000. Therefore V = VT ln(10000 + 1) = 0.025875 ln(10001) = 0.238 V, which rounds to 0.24 V.",
+      "GATE Shortcut\n\nAt 300 K,\n\nkBT / e ≈ 26 mV\n\nSo directly use\n\nV = 26 mV x ln(I / IS)\n\nV = 26 mV x ln(10^4)\n\nV = 26 mV x 9.21\n\nV ≈ 0.24 V\n\nKey Formula\n\nI = IS(e^(eV / kBT) - 1)\n\nThis question is based on the Diode Current Equation (Semiconductor Devices), a frequently tested GATE topic.",
     subject: "Electronic Devices and Circuits",
     topic: "PN Junction Diode Equation",
     exam: ["GATE"],
@@ -1298,7 +1297,7 @@ const gate2025Questions = [
     options: ["6.4", "3.6", "10.0", "5.0"],
     correctAnswer: "6.4",
     explanation:
-      "The load reflection coefficient is Gamma = (ZL - Z0)/(ZL + Z0) = (-j75)/(100 - j75). Hence |Gamma|^2 = 75^2/(100^2 + 75^2) = 5625/15625 = 0.36. The delivered power is Pload = Pincident(1 - |Gamma|^2) = 10(1 - 0.36) = 6.4 mW.",
+      "GATE Shortcut\n\nFor power delivered to a load:\n\nPL = Pi(1 - |Gamma|^2)\n\nwhere\n\n|Gamma|^2 = |ZL - Z0|^2 / |ZL + Z0|^2\n\nHere,\n\n|ZL - Z0|^2 = 75^2\n\n|ZL + Z0|^2 = 100^2 + 75^2\n\n|Gamma|^2 = 0.36\n\nPL = 10(1 - 0.36) = 6.4 mW\n\nFinal Answer\n6.4 mW\n\nKey Formula\n\nPL = Pi(1 - |Gamma|^2)\n\nThis is a very common GATE concept from Transmission Lines and Waveguides.",
     subject: "Communication Systems",
     topic: "Transmission Lines",
     exam: ["GATE"],
@@ -1316,7 +1315,7 @@ const gate2025Questions = [
     options: ["0.63", "1.25", "2.50", "0.31"],
     correctAnswer: "0.63",
     explanation:
-      "The induced emf magnitude is |emf| = A dB/dt = 5 x 0.5 = 2.5 V. The two 2 ohm resistors are in series around the single loop, so Rtotal = 2 + 2 = 4 ohm. Therefore the induced current magnitude is I = emf/Rtotal = 2.5/4 = 0.625 A, which rounds to 0.63 A.",
+      "GATE Shortcut\n\n1. Find rate of change of magnetic field:\n\ndB / dt = 0.5\n\n2. Induced emf:\n\ne = A dB / dt\n\ne = 5 x 0.5 = 2.5 V\n\n3. Total resistance:\n\nR = 2 + 2 = 4 ohm\n\n4. Current:\n\nI = 2.5 / 4 = 0.625 A\n\nFinal Answer\n0.63 A\n\nKey Formula\n\ne = -dPhi / dt = -A dB / dt\n\nTopic: Electromagnetic Induction (Faraday's Law + Lenz's Law)\n\nAnswer: 0.63 A",
     subject: "Electromagnetic Theory",
     topic: "Faraday Law",
     exam: ["GATE"],

@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import CircuitDiagram from "../../components/CircuitDiagram";
 import EmptyState from "../../components/EmptyState";
+import QuestionStem from "../../components/QuestionStem";
 import Layout from "../../components/layout";
 import { getOfficialPaper } from "../../data/official-previous-papers";
 import { getPracticeSlug, practiceSections } from "../../data/practice-sections";
@@ -302,9 +303,10 @@ function PracticeQuestionBlock({
           <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-600">
             Question {index + 1} of {total}
           </p>
-          <h2 className="mt-1 text-sm font-bold leading-6 text-slate-950 sm:text-base">
-            {question.question}
-          </h2>
+          <QuestionStem
+            question={question}
+            className="mt-1 text-sm font-bold leading-6 text-slate-950 sm:text-base"
+          />
         </div>
         <span className="w-fit rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold text-slate-600">
           {question.subject}
@@ -315,7 +317,7 @@ function PracticeQuestionBlock({
         <CircuitDiagram question={question} />
       </div>
 
-      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+      <div className={question.optionDiagrams ? "mt-3 grid grid-cols-2 gap-3" : "mt-3 grid gap-2 sm:grid-cols-2"}>
         {(question.options || []).map((option, optionIndex) => {
           const optionDiagram = question.optionDiagrams?.[optionIndex];
           const isSelected = selectedAnswer === option;
@@ -342,7 +344,7 @@ function PracticeQuestionBlock({
                   {String.fromCharCode(65 + optionIndex)}
                 </span>
                 {optionDiagram ? (
-                  <span className="min-w-0 flex-1 max-w-[540px]">
+                  <span className="flex min-w-0 flex-1 items-center justify-center">
                     <CircuitDiagram question={{ ...question, diagram: optionDiagram }} />
                   </span>
                 ) : (
@@ -376,7 +378,7 @@ function PracticeQuestionBlock({
                 {showExplanation ? "Hide Explanation" : "Show Explanation"}
               </button>
               {showExplanation ? (
-                <p className="mt-3 text-sm leading-6 text-slate-700">
+                <p className="mt-3 whitespace-pre-line text-sm leading-6 text-slate-700">
                   {question.explanation}
                 </p>
               ) : null}

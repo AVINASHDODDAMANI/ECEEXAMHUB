@@ -1,3 +1,5 @@
+import { circuitDiagramLibrary } from "./CircuitDiagramLibrary";
+
 function OpAmpDifferentiatorDiagram() {
   return (
     <svg viewBox="0 0 520 220" className="h-auto w-full md:w-[78%]" role="img" aria-label="Op-amp differentiator circuit">
@@ -529,126 +531,233 @@ function Gate2025ChargeSheetDiagram() {
 
 function Gate2025BlockSignalFlowDiagram() {
   return (
-    <svg viewBox="0 0 520 180" className="h-auto w-full max-w-[520px]" role="img" aria-label="GATE 2025 Q56 block diagram">
-      <rect width="520" height="180" fill="#ffffff" />
+    <svg viewBox="0 0 900 520" className="h-auto w-full max-w-[450px]" role="img" aria-label="GATE 2025 Q56 block diagram">
+      <rect width="900" height="520" fill="#ffffff" />
       <defs>
-        <marker id="gate-q56-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
-          <path d="M0 0L7 3.5L0 7Z" fill="#111111" />
+        <marker id="gate-q56-arrow" markerWidth="9.6" markerHeight="9.6" refX="8.8" refY="4.8" orient="auto">
+          <path d="M0 0L9.6 4.8L0 9.6Z" fill="#111111" />
         </marker>
       </defs>
 
-      <g stroke="#111111" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" fill="none">
-        <path d="M78 96h54" markerEnd="url(#gate-q56-arrow)" />
-        <path d="M166 96h56" markerEnd="url(#gate-q56-arrow)" />
-        <path d="M296 96h48" markerEnd="url(#gate-q56-arrow)" />
-        <path d="M386 96h56" markerEnd="url(#gate-q56-arrow)" />
-        <path d="M184 96V52" markerEnd="url(#gate-q56-arrow)" />
-        <path d="M184 48h52" markerEnd="url(#gate-q56-arrow)" />
-        <path d="M292 48h52" markerEnd="url(#gate-q56-arrow)" />
-        <path d="M348 48v30" markerEnd="url(#gate-q56-arrow)" />
-        <path d="M296 112v32" />
-        <path d="M296 144H156" markerEnd="url(#gate-q56-arrow)" />
-        <path d="M150 144v-30" markerEnd="url(#gate-q56-arrow)" />
+      <g stroke="#111111" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M68 250h120" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M266 250h178" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M570 250h164" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M822 250h58" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M320 250V82" />
+        <path d="M320 82h140" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M606 82h172" />
+        <path d="M778 82v124" markerEnd="url(#gate-q56-arrow)" />
+        <path d="M650 250v206" />
+        <path d="M650 456H220" />
+        <path d="M220 456V294" markerEnd="url(#gate-q56-arrow)" />
       </g>
-      <g stroke="#111111" strokeWidth="1.7" fill="#ffffff">
-        <circle cx="150" cy="96" r="16" />
-        <rect x="224" y="80" width="72" height="32" rx="1" />
-        <rect x="242" y="32" width="50" height="32" rx="1" />
-        <circle cx="366" cy="96" r="18" />
+      <g stroke="#111111" strokeWidth="4" fill="#ffffff">
+        <circle cx="220" cy="250" r="44" />
+        <rect x="446" y="209" width="124" height="82" rx="1" />
+        <rect x="462" y="36" width="144" height="92" rx="1" />
+        <circle cx="778" cy="250" r="44" />
       </g>
-      <g fill="#111111" fontFamily="Times New Roman, serif" fontSize="17" fontStyle="italic">
-        <text x="42" y="100">R(s)</text>
-        <text x="248" y="101">G<tspan baselineShift="sub" fontSize="12">1</tspan></text>
-        <text x="257" y="53">G<tspan baselineShift="sub" fontSize="12">2</tspan></text>
-        <text x="452" y="101">Y(s)</text>
+      <g fill="#111111" fontFamily="Times New Roman, serif" fontSize="34" fontStyle="italic">
+        <text x="10" y="224">R(s)</text>
+        <text x="498" y="262">G<tspan baselineShift="sub" fontSize="22">1</tspan></text>
+        <text x="516" y="96">G<tspan baselineShift="sub" fontSize="22">2</tspan></text>
+        <text x="856" y="224">Y(s)</text>
       </g>
-      <g fill="#111111" fontFamily="Arial, sans-serif" fontSize="13" fontWeight="700">
-        <text x="144" y="91">+</text>
-        <text x="146" y="107">-</text>
-        <text x="359" y="91">+</text>
-        <text x="360" y="108">+</text>
+      <g fill="#111111" fontFamily="Arial, sans-serif" fontSize="24" fontWeight="800">
+        <text x="190" y="258">+</text>
+        <text x="212" y="286">-</text>
+        <text x="770" y="225">+</text>
+        <text x="752" y="258">+</text>
       </g>
+      <path d="M190 220l60 60M250 220l-60 60M748 220l60 60M808 220l-60 60" stroke="#111111" strokeWidth="3" strokeLinecap="round" />
     </svg>
   );
 }
 
 function Gate2025Q56OptionDiagram({ variant }) {
-  const nodeX = [78, 190, 302, 414];
-  const viewWidth = 460;
+  const viewWidth = 620;
+  const nodeY = 104;
   const Arrow = ({ x, y, angle = 0 }) => (
     <path
-      d={`M${x} ${y}l-8 -4v8Z`}
+      d={`M${x} ${y}l-9.9 -5.5v11Z`}
       fill="#111111"
       transform={`rotate(${angle} ${x} ${y})`}
     />
   );
-  const Text = ({ x, y, children }) => (
-    <text x={x} y={y}>
-      {children}
-    </text>
+  const Node = ({ x, y = nodeY }) => (
+    <circle cx={x} cy={y} r="5.2" fill="#ffffff" stroke="#111111" strokeWidth="2.1" />
   );
+  const Label = ({ x, y, children }) => <text x={x} y={y}>{children}</text>;
+  const labels = {
+    a: { first: "1", mid: "1", out: "G1", top: "G2", feedback: "-1" },
+    b: { first: "1", mid: "G1", out: "1", top: "G2", feedback: "-1" },
+    c: { first: "1", mid: "G1", out: "G2", top: "1", feedback: "-1" },
+    d: { first: "1", mid: "G1", out: "1", top: "G2", feedback: "1" },
+  }[variant];
+  const compact = variant === "a" || variant === "c";
+  const x1 = 156;
+  const x2 = 292;
+  const x3 = compact ? 428 : 444;
+  const x4 = 548;
+
+  function GainText({ gain, x, y }) {
+    if (gain === "G1") {
+      return <Label x={x} y={y}>G<tspan baselineShift="sub" fontSize="13">1</tspan></Label>;
+    }
+
+    if (gain === "G2") {
+      return <Label x={x} y={y}>G<tspan baselineShift="sub" fontSize="13">2</tspan></Label>;
+    }
+
+    return <Label x={x} y={y}>{gain}</Label>;
+  }
+
+  if (variant === "a" || variant === "c") {
+    const feedbackLabel = variant === "c" ? "1" : "-1";
+
+    return (
+      <svg viewBox="0 0 820 330" className="h-auto w-full max-w-[260px] sm:max-w-[390px]" role="img" aria-label={`GATE 2025 Q56 option ${variant.toUpperCase()} signal flow graph`}>
+        <rect width="820" height="330" fill="#ffffff" />
+        <g stroke="#111111" strokeWidth="3.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M72 156H194" />
+          <path d="M224 156H606" />
+          <path d="M636 156H750" />
+          <path d="M210 146C238 40 580 40 620 146" />
+          <path d="M620 168C575 286 270 286 210 168" />
+        </g>
+        <Arrow x="162" y="156" />
+        <Arrow x="410" y="156" />
+        <Arrow x="710" y="156" />
+        <Arrow x="615" y="142" angle="74" />
+        <Arrow x="210" y="168" angle="-84" />
+        <circle cx="54" cy="156" r="18" fill="#ffffff" stroke="#111111" strokeWidth="3.2" />
+        <circle cx="210" cy="156" r="15" fill="#111111" />
+        <circle cx="620" cy="156" r="15" fill="#111111" />
+        <circle cx="768" cy="156" r="18" fill="#ffffff" stroke="#111111" strokeWidth="3.2" />
+        <g fill="#111111" fontFamily="Times New Roman, serif" fontSize="28" fontStyle="italic">
+          <text x="30" y="206">R(s)</text>
+          <text x="742" y="206">Y(s)</text>
+          <text x="382" y="54">G<tspan baselineShift="sub" fontSize="18">2</tspan></text>
+          <text x="365" y="144">G<tspan baselineShift="sub" fontSize="18">1</tspan></text>
+        </g>
+        <g fill="#111111" fontFamily="Times New Roman, serif" fontSize="26">
+          <text x="130" y="136">1</text>
+          <text x="698" y="136">1</text>
+          <text x="390" y="306">{feedbackLabel}</text>
+        </g>
+      </svg>
+    );
+  }
+
+  if (variant === "b") {
+    return (
+      <svg viewBox="0 0 1100 540" className="h-auto w-full max-w-[260px] sm:max-w-[390px]" role="img" aria-label="GATE 2025 Q56 option B signal flow graph">
+        <rect width="1100" height="540" fill="#ffffff" />
+        <g stroke="#111111" strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M92 260H270" />
+          <path d="M304 260H540" />
+          <path d="M574 260H810" />
+          <path d="M844 260H1010" />
+          <path d="M288 248C330 82 770 82 828 248" />
+          <path d="M558 280C540 398 330 398 288 280" />
+        </g>
+        <Arrow x="236" y="260" />
+        <Arrow x="464" y="260" />
+        <Arrow x="716" y="260" />
+        <Arrow x="942" y="260" />
+        <Arrow x="822" y="236" angle="75" />
+        <Arrow x="288" y="280" angle="-84" />
+        <circle cx="54" cy="260" r="28" fill="#ffffff" stroke="#111111" strokeWidth="5" />
+        <circle cx="288" cy="260" r="22" fill="#111111" />
+        <circle cx="558" cy="260" r="22" fill="#111111" />
+        <circle cx="828" cy="260" r="22" fill="#111111" />
+        <circle cx="1048" cy="260" r="28" fill="#ffffff" stroke="#111111" strokeWidth="5" />
+        <g fill="#111111" fontFamily="Times New Roman, serif" fontSize="52" fontStyle="italic">
+          <text x="16" y="330">R(s)</text>
+          <text x="1015" y="330">Y(s)</text>
+          <text x="532" y="82">G<tspan baselineShift="sub" fontSize="32">2</tspan></text>
+          <text x="430" y="300">G<tspan baselineShift="sub" fontSize="32">1</tspan></text>
+        </g>
+        <g fill="#111111" fontFamily="Times New Roman, serif" fontSize="44">
+          <text x="158" y="236">1</text>
+          <text x="418" y="236">1</text>
+          <text x="672" y="236">1</text>
+          <text x="932" y="236">1</text>
+          <text x="548" y="150">1</text>
+          <text x="410" y="420">-1</text>
+        </g>
+      </svg>
+    );
+  }
+
+  if (variant === "d") {
+    return (
+      <svg viewBox="0 0 1100 540" className="h-auto w-full max-w-[260px] sm:max-w-[390px]" role="img" aria-label="GATE 2025 Q56 option D signal flow graph">
+        <rect width="1100" height="540" fill="#ffffff" />
+        <g stroke="#111111" strokeWidth="5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M92 260H270" />
+          <path d="M306 260H636" />
+          <path d="M672 260H860" />
+          <path d="M896 260H1010" />
+          <path d="M288 248C318 72 590 72 654 248" />
+          <path d="M878 280C812 448 398 448 288 280" />
+        </g>
+        <Arrow x="214" y="260" />
+        <Arrow x="424" y="260" />
+        <Arrow x="760" y="260" />
+        <Arrow x="954" y="260" />
+        <Arrow x="448" y="82" angle="17" />
+        <Arrow x="564" y="404" angle="180" />
+        <circle cx="54" cy="260" r="28" fill="#ffffff" stroke="#111111" strokeWidth="5" />
+        <circle cx="288" cy="260" r="28" fill="#ffffff" stroke="#111111" strokeWidth="5" />
+        <circle cx="654" cy="260" r="28" fill="#ffffff" stroke="#111111" strokeWidth="5" />
+        <circle cx="878" cy="260" r="28" fill="#ffffff" stroke="#111111" strokeWidth="5" />
+        <circle cx="1048" cy="260" r="28" fill="#ffffff" stroke="#111111" strokeWidth="5" />
+        <g fill="#111111" fontFamily="Times New Roman, serif" fontSize="52" fontStyle="italic">
+          <text x="16" y="330">R(s)</text>
+          <text x="1015" y="330">Y(s)</text>
+          <text x="430" y="92">G<tspan baselineShift="sub" fontSize="32">2</tspan></text>
+          <text x="410" y="312">G<tspan baselineShift="sub" fontSize="32">1</tspan></text>
+        </g>
+        <g fill="#111111" fontFamily="Times New Roman, serif" fontSize="44">
+          <text x="146" y="310">1</text>
+          <text x="740" y="310">1</text>
+          <text x="940" y="310">1</text>
+          <text x="560" y="468">-1</text>
+        </g>
+      </svg>
+    );
+  }
 
   return (
-    <svg viewBox={`0 0 ${viewWidth} 132`} className="h-auto w-full max-w-[460px]" role="img" aria-label={`GATE 2025 Q56 option ${variant.toUpperCase()} signal flow graph`}>
-      <rect width={viewWidth} height="132" fill="#ffffff" />
-      <g stroke="#111111" strokeWidth="1.9" fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M82 66H140" />
-        <path d="M202 66H294" />
-        <path d="M306 66H412" />
-        <path d="M190 62C190 18 412 18 412 66" />
-        <path d="M302 66C302 112 178 112 178 66" />
+    <svg viewBox={`0 0 ${viewWidth} 180`} className="h-auto w-full max-w-[260px] sm:max-w-[390px]" role="img" aria-label={`GATE 2025 Q56 option ${variant.toUpperCase()} signal flow graph`}>
+      <rect width={viewWidth} height="180" fill="#ffffff" />
+      <g stroke="#111111" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path d={`M82 ${nodeY}H${x1 - 12}`} />
+        <path d={`M${x1 + 12} ${nodeY}H${x2 - 12}`} />
+        <path d={`M${x2 + 12} ${nodeY}H${x3 - 12}`} />
+        {!compact ? <path d={`M${x3 + 12} ${nodeY}H${x4 - 26}`} /> : null}
+        <path d={`M${x1} ${nodeY - 4}C${x1 + 8} 28 ${x3 - 12} 28 ${x3} ${nodeY}`} />
+        <path d={`M${x2} ${nodeY}C${x2} 158 ${x1 - 16} 158 ${x1 - 16} ${nodeY}`} />
       </g>
-      <g>
-        <Arrow x={112} y={66} />
-        <Arrow x={248} y={66} />
-        <Arrow x={358} y={66} />
-        <Arrow x={400} y={18} />
-        <Arrow x={178} y={92} angle={205} />
-      </g>
-      <g fill="#ffffff" stroke="#111111" strokeWidth="1.8">
-        {nodeX.map((x) => (
-          <circle key={x} cx={x} cy="66" r="4.2" />
-        ))}
-      </g>
+      <Arrow x="116" y={nodeY} />
+      <Arrow x="226" y={nodeY} />
+      <Arrow x={compact ? 358 : 368} y={nodeY} />
+      {!compact ? <Arrow x="502" y={nodeY} /> : null}
+      <Arrow x={x3 - 18} y="28" />
+      <Arrow x={x1 - 16} y="136" angle="205" />
+      <Node x={x1} />
+      <Node x={x2} />
+      {!compact ? <Node x={x3} /> : null}
       <g fill="#111111" fontFamily="Times New Roman, serif" fontSize="17" fontStyle="italic">
-        <Text x="20" y="70">R(s)</Text>
-        <Text x="394" y="70">Y(s)</Text>
-        {variant === "a" && (
-          <>
-            <Text x="110" y="88">1</Text>
-            <Text x="248" y="88">1</Text>
-            <Text x="350" y="88">G<tspan baselineShift="sub" fontSize="12">1</tspan></Text>
-            <Text x="314" y="24">G<tspan baselineShift="sub" fontSize="12">2</tspan></Text>
-            <Text x="188" y="119">-1</Text>
-          </>
-        )}
-        {variant === "b" && (
-          <>
-            <Text x="110" y="88">1</Text>
-            <Text x="248" y="88">G<tspan baselineShift="sub" fontSize="12">1</tspan></Text>
-            <Text x="350" y="88">1</Text>
-            <Text x="314" y="24">G<tspan baselineShift="sub" fontSize="12">2</tspan></Text>
-            <Text x="188" y="119">-1</Text>
-          </>
-        )}
-        {variant === "c" && (
-          <>
-            <Text x="110" y="88">1</Text>
-            <Text x="248" y="88">G<tspan baselineShift="sub" fontSize="12">1</tspan></Text>
-            <Text x="350" y="88">G<tspan baselineShift="sub" fontSize="12">2</tspan></Text>
-            <Text x="314" y="24">1</Text>
-            <Text x="188" y="119">-1</Text>
-          </>
-        )}
-        {variant === "d" && (
-          <>
-            <Text x="110" y="88">1</Text>
-            <Text x="248" y="88">G<tspan baselineShift="sub" fontSize="12">1</tspan></Text>
-            <Text x="350" y="88">1</Text>
-            <Text x="314" y="24">G<tspan baselineShift="sub" fontSize="12">2</tspan></Text>
-            <Text x="188" y="119">1</Text>
-          </>
-        )}
+        <Label x="28" y="109">R(s)</Label>
+        <Label x={compact ? "440" : "558"} y="109">Y(s)</Label>
+        <GainText gain={labels.first} x="112" y="132" />
+        <GainText gain={labels.mid} x="222" y="132" />
+        <GainText gain={labels.out} x={compact ? "356" : "370"} y="132" />
+        <GainText gain={labels.top} x={compact ? "300" : "312"} y="34" />
+        <GainText gain={labels.feedback} x="164" y="168" />
       </g>
     </svg>
   );
@@ -656,49 +765,68 @@ function Gate2025Q56OptionDiagram({ variant }) {
 
 function Gate2025DiodeBridgeDiagram() {
   return (
-    <svg viewBox="0 0 760 420" className="h-auto w-full" role="img" aria-label="GATE 2025 Q57 ideal diode bridge circuit with correct plots">
-      <rect width="760" height="420" rx="14" fill="#f8fbff" />
+    <svg viewBox="0 0 765 470" className="h-auto w-full" role="img" aria-label="GATE 2025 Q57 ideal diode bridge circuit">
+      <rect width="765" height="470" fill="#ffffff" />
       <defs>
-        <marker id="gate-q57-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-          <path d="M0 0L10 5L0 10Z" fill="#154a96" />
+        <marker id="gate-q57-current-arrow" markerWidth="16" markerHeight="16" refX="15" refY="8" orient="auto" markerUnits="strokeWidth">
+          <path d="M0 0L16 8L0 16Z" fill="#000000" />
         </marker>
       </defs>
-      <text x="32" y="40" fill="#0f172a" fontSize="18" fontWeight="900">Ideal bridge: Vo = |Vi| and Ii = Vi/R</text>
-      <g stroke="#1e293b" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none">
-        <path d="M110 88v230M110 88h112M110 318h112M222 88h150M222 318h150" />
-        <path d="M372 88l78 78l-78 78l-78 -78Z" />
-        <path d="M294 166h156" />
-        <path d="M328 132l32 -32M390 100l32 32M328 200l32 32M390 232l32 -32" />
-        <path d="M336 120l18 -18M354 102l2 22M354 102l-22 2" />
-        <path d="M408 120l-18 -18M390 102l22 2M390 102l-2 22" />
-        <path d="M336 212l18 18M354 230l-22 -2M354 230l-2 -22" />
-        <path d="M408 212l-18 18M390 230l-2 -22M390 230l22 -2" />
-      </g>
-      <Resistor x={338} y={166} width={68} label="R" />
-      <g fill="#0f172a" fontSize="15" fontWeight="900">
-        <text x="74" y="82">+</text>
-        <text x="76" y="324">-</text>
-        <text x="72" y="204">Vi</text>
-        <text x="262" y="162">-</text>
-        <text x="464" y="162">+</text>
-        <text x="362" y="150">Vo</text>
-        <text x="150" y="78">Ii</text>
-      </g>
-      <path d="M142 76h58" stroke="#154a96" strokeWidth="3" markerEnd="url(#gate-q57-arrow)" />
 
-      <g transform="translate(492 88)" stroke="#1e293b" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M30 150V10M10 100h190" />
-        <path d="M30 100L100 30L170 100" stroke="#154a96" strokeWidth="4" />
-        <text x="4" y="16" fill="#0f172a" fontSize="14" fontWeight="900">Vo</text>
-        <text x="176" y="116" fill="#0f172a" fontSize="14" fontWeight="900">Vi</text>
-        <text x="76" y="24" fill="#0f172a" fontSize="14" fontWeight="900">A</text>
+      <g stroke="#000000" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M110 51H560" />
+        <path d="M110 412H560" />
+        <path d="M560 51L389 231L560 412L733 231Z" />
+        <path d="M389 231H733" />
       </g>
-      <g transform="translate(492 248)" stroke="#1e293b" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M30 120V10M10 65h190" />
-        <path d="M30 100L170 30" stroke="#154a96" strokeWidth="4" />
-        <text x="4" y="18" fill="#0f172a" fontSize="14" fontWeight="900">Ii</text>
-        <text x="176" y="82" fill="#0f172a" fontSize="14" fontWeight="900">Vi</text>
-        <text x="76" y="24" fill="#0f172a" fontSize="14" fontWeight="900">D</text>
+
+      <g fill="#ffffff" stroke="#000000" strokeWidth="4.5">
+        <circle cx="110" cy="51" r="13" />
+        <circle cx="110" cy="412" r="13" />
+      </g>
+      <g fill="#000000">
+        <circle cx="560" cy="51" r="9.5" />
+        <circle cx="389" cy="231" r="9.5" />
+        <circle cx="733" cy="231" r="9.5" />
+        <circle cx="560" cy="412" r="9.5" />
+      </g>
+
+      <g stroke="#000000" strokeWidth="3.7" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M497 144l42 31l-46 16Z" />
+        <path d="M497 144l42 42" />
+        <path d="M512 190l-24 25" />
+
+        <path d="M646 144l-42 31l46 16Z" />
+        <path d="M646 144l-42 42" />
+        <path d="M655 190l27 27" />
+
+        <path d="M498 319l42 -31l-46 -16Z" />
+        <path d="M498 319l42 -42" />
+        <path d="M514 273l-29 -29" />
+
+        <path d="M646 319l-42 -31l46 -16Z" />
+        <path d="M646 319l-42 -42" />
+        <path d="M655 273l27 -28" />
+      </g>
+
+      <g stroke="#000000" strokeWidth="4.2" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M506 231h31l8 -14l16 28l16 -28l16 28l16 -28l16 28l8 -14h31" />
+      </g>
+
+      <g stroke="#000000" strokeWidth="3" strokeLinecap="round" fill="none">
+        <path d="M253 78H356" markerEnd="url(#gate-q57-current-arrow)" />
+        <path d="M57 64v84" />
+        <path d="M57 141l-27 0l27 53l27 -53Z" fill="#000000" />
+        <path d="M57 404v-66" />
+        <path d="M57 338l-27 53h54Z" fill="#000000" />
+      </g>
+
+      <g fill="#000000" fontFamily="Times New Roman, serif" fontStyle="italic">
+        <text x="28" y="86" fontSize="36">+</text>
+        <text x="92" y="337" fontSize="42">V<tspan baselineShift="sub" fontSize="25">I</tspan></text>
+        <text x="286" y="176" fontSize="42">I<tspan baselineShift="sub" fontSize="25">I</tspan></text>
+        <text x="534" y="211" fontSize="39">- V<tspan baselineShift="sub" fontSize="24">O</tspan> +</text>
+        <text x="546" y="316" fontSize="46" fontStyle="normal">R</text>
       </g>
     </svg>
   );
@@ -706,31 +834,46 @@ function Gate2025DiodeBridgeDiagram() {
 
 function Gate2025DiodeBiasDiagram() {
   return (
-    <svg viewBox="0 0 560 340" className="h-auto w-full md:w-[82%]" role="img" aria-label="GATE 2025 Q61 ideal diode with 5 volt battery">
-      <rect width="560" height="340" rx="14" fill="#f8fbff" />
-      <text x="32" y="42" fill="#0f172a" fontSize="18" fontWeight="900">Diode conducts when Vi &gt; 5 V</text>
-      <g stroke="#1e293b" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" fill="none">
-        <path d="M110 88h112" />
-        <Resistor x={222} y={88} width={92} label="R" />
-        <path d="M314 88h82v58" />
-        <path d="M396 254H110V88" />
-        <path d="M378 146h36l-18 30Z" />
-        <path d="M378 180h36" />
-        <path d="M396 180v34" />
-        <path d="M376 214h40M384 230h24" />
-        <path d="M396 230v24" />
+    <svg viewBox="0 0 760 520" className="h-auto w-full md:w-[82%]" role="img" aria-label="GATE 2025 Q61 ideal diode circuit">
+      <rect width="760" height="520" fill="#ffffff" />
+
+      <g stroke="#111111" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M160 90H355" />
+        <path d="M455 90H610V450H160" />
+        <path d="M160 115V390" />
+        <path d="M610 90V190" />
+        <path d="M610 240V300" />
+        <path d="M610 375V450" />
       </g>
-      <g fill="#0f172a" fontSize="16" fontWeight="900">
-        <text x="80" y="84">+</text>
-        <text x="82" y="260">-</text>
-        <text x="70" y="176">Vi</text>
-        <text x="424" y="228">5 V</text>
+
+      <g stroke="#111111" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M355 90h14l10 -28l22 56l22 -56l22 56l10 -28h14" />
       </g>
-      <g transform="translate(118 282)" stroke="#154a96" strokeWidth="3" fill="none" strokeLinecap="round">
-        <path d="M0 20h300" stroke="#94a3b8" />
-        <path d="M0 20C50 -18 100 -18 150 20S250 58 300 20" />
-        <path d="M25 0h100" stroke="#0f172a" strokeDasharray="6 5" />
-        <text x="132" y="5" fill="#0f172a" fontSize="13" fontWeight="900">5 V</text>
+
+      <g stroke="#111111" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M575 190h70l-35 50Z" />
+        <path d="M575 250h70" />
+        <path d="M610 250v50" />
+      </g>
+
+      <g stroke="#111111" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M582 300h56" />
+        <path d="M550 330h120" />
+      </g>
+
+      <g fill="#ffffff" stroke="#111111" strokeWidth="5">
+        <circle cx="160" cy="90" r="13" />
+        <circle cx="160" cy="450" r="13" />
+      </g>
+
+      <g fill="#111111" fontFamily="Times New Roman, serif">
+        <text x="385" y="45" fontSize="46" fontWeight="700">R</text>
+        <text x="102" y="125" fontSize="42">+</text>
+        <text x="102" y="458" fontSize="42">-</text>
+        <text x="142" y="300" fontSize="42" fontStyle="italic" textAnchor="end">
+          V<tspan baselineShift="sub" fontSize="25">I</tspan>
+        </text>
+        <text x="665" y="378" fontSize="42">5 V</text>
       </g>
     </svg>
   );
@@ -738,32 +881,50 @@ function Gate2025DiodeBiasDiagram() {
 
 function Gate2025SetupTimingDiagram() {
   return (
-    <svg viewBox="0 0 720 340" className="h-auto w-full" role="img" aria-label="GATE 2025 Q62 two flip-flops and AND gate timing path">
-      <rect width="720" height="340" rx="14" fill="#f8fbff" />
-      <text x="32" y="42" fill="#0f172a" fontSize="18" fontWeight="900">Critical setup path: FF2 &gt; AND &gt; FF1</text>
-      <g stroke="#1e293b" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none">
-        <rect x="132" y="110" width="96" height="108" rx="4" fill="#ffffff" />
-        <rect x="340" y="110" width="96" height="108" rx="4" fill="#ffffff" />
-        <path d="M228 140h112" />
-        <path d="M436 140h70" />
-        <path d="M506 124h32c40 0 40 56 0 56h-32Z" fill="#ffffff" />
-        <path d="M228 178h66v82h294V152h-50" />
-        <path d="M568 152v-70H92v82h40" />
-        <path d="M132 190l14 10l-14 10M340 190l14 10l-14 10" />
-        <path d="M106 232h470" />
+    <svg viewBox="0 0 980 570" className="h-auto w-[70%] max-w-full" role="img" aria-label="GATE 2025 Q62 sequential circuit with two D flip-flops and AND feedback">
+      <rect width="980" height="570" fill="#ffffff" />
+
+      <g stroke="#000000" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M38 68H885V246" />
+        <path d="M38 68V218H128" />
+        <path d="M306 218H440" />
+        <path d="M616 218H744" />
+        <path d="M842 246H920" />
+        <path d="M885 68V246" />
+        <path d="M38 475H514V396" />
+        <path d="M218 475V396" />
       </g>
-      <g fill="#0f172a" fontSize="16" fontWeight="900">
-        <text x="154" y="146">D</text>
-        <text x="198" y="146">Q</text>
-        <text x="154" y="204">CLK</text>
-        <text x="362" y="146">D</text>
-        <text x="406" y="146">Q</text>
-        <text x="362" y="204">CLK</text>
-        <text x="584" y="158">X</text>
-        <text x="248" y="130">0 ns comb</text>
-        <text x="438" y="104">1 ns AND</text>
-        <text x="246" y="292">Tclk &gt;= 2 ns + 1 ns + 2 ns = 5 ns</text>
-        <text x="96" y="252">CLK</text>
+
+      <g stroke="#000000" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="#ffffff">
+        <rect x="128" y="170" width="178" height="226" rx="2" />
+        <rect x="440" y="170" width="176" height="226" rx="2" />
+        <path d="M744 198H798C852 198 876 225 876 262C876 299 852 326 798 326H744Z" />
+      </g>
+
+      <g stroke="#000000" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M128 358l32 19l-32 19" />
+        <path d="M440 358l32 19l-32 19" />
+        <path d="M678 276H744" />
+      </g>
+
+      <circle cx="218" cy="475" r="11" fill="#000000" />
+
+      <g fill="#000000" fontFamily="Times New Roman, serif">
+        <text x="148" y="228" fontSize="42">D</text>
+        <text x="260" y="228" fontSize="42">Q</text>
+        <text x="256" y="354" fontSize="42">
+          <tspan textDecoration="overline">Q</tspan>
+        </text>
+
+        <text x="462" y="228" fontSize="42">D</text>
+        <text x="573" y="228" fontSize="42">Q</text>
+        <text x="570" y="354" fontSize="42">
+          <tspan textDecoration="overline">Q</tspan>
+        </text>
+
+        <text x="55" y="527" fontSize="42" fontStyle="italic">CLK</text>
+        <text x="690" y="323" fontSize="42" fontStyle="italic">X</text>
+        <text x="936" y="260" fontSize="42" fontStyle="italic">X</text>
       </g>
     </svg>
   );
@@ -1007,12 +1168,12 @@ function Gate2025GenericFigure({ diagram }) {
   );
 }
 
-function QuestionImageDiagram({ src, alt }) {
+function QuestionImageDiagram({ src, alt, className = "" }) {
   return (
     <img
       src={src}
       alt={alt}
-      className="h-auto max-h-[420px] w-auto max-w-full rounded-lg border border-slate-200 bg-white object-contain"
+      className={className || "h-auto max-h-[420px] w-auto max-w-full rounded-lg border border-slate-200 bg-white object-contain"}
     />
   );
 }
@@ -1025,6 +1186,22 @@ export default function CircuitDiagram({ question }) {
   const diagram = question?.diagram || "";
   const topic = (question?.topic || "").toLowerCase();
   const text = `${question?.question || ""} ${topic}`.toLowerCase();
+  const libraryDiagram = circuitDiagramLibrary[diagram];
+
+  if (typeof libraryDiagram === "function") {
+    const LibraryDiagram = libraryDiagram;
+    return <LibraryDiagram question={question} />;
+  }
+
+  if (libraryDiagram?.src) {
+    return (
+      <QuestionImageDiagram
+        src={libraryDiagram.src}
+        alt={libraryDiagram.alt || `${question?.exam?.join(" ") || "Question"} diagram`}
+        className={libraryDiagram.className}
+      />
+    );
+  }
 
   if (diagram === "bel-dec-2023-q17-circuit") {
     return <BelMaximumPowerCircuit />;

@@ -46,6 +46,22 @@ export default function SeoLandingPage({ page }) {
       about: page.sections.map((section) => section.title),
       keywords: page.keywords,
     },
+    ...(page.faqs?.length
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: page.faqs.map((item) => ({
+              "@type": "Question",
+              name: item.question,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: item.answer,
+              },
+            })),
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -124,6 +140,22 @@ export default function SeoLandingPage({ page }) {
             ))}
           </div>
         </section>
+
+        {page.faqs?.length ? (
+          <section className="mt-5 rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+            <h2 className="text-xl font-black tracking-tight text-slate-950">
+              Common Searches
+            </h2>
+            <div className="mt-4 grid gap-3">
+              {page.faqs.map((item) => (
+                <article key={item.question} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                  <h3 className="text-sm font-black text-slate-900">{item.question}</h3>
+                  <p className="mt-1 text-sm leading-7 text-slate-600">{item.answer}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="mt-5 rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <h2 className="text-xl font-black tracking-tight text-slate-950">

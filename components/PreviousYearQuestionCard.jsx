@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CircuitDiagram from "./CircuitDiagram";
+import QuestionStem from "./QuestionStem";
 import { formatQuestionTag, hasQuestionTag } from "../lib/question-utils";
 
 function getCorrectAnswers(question = {}) {
@@ -104,7 +105,7 @@ export default function PreviousYearQuestionCard({
         </div>
       </div>
 
-      <p className="mt-3 text-sm leading-6 text-slate-800">{question.question}</p>
+      <QuestionStem question={question} className="mt-3 text-sm leading-6 text-slate-800" />
 
       <div className="mt-3 max-w-[560px]">
         <CircuitDiagram question={question} />
@@ -115,7 +116,7 @@ export default function PreviousYearQuestionCard({
           : "Select an option to check your answer."}
       </p>
 
-      <div className={question.optionDiagrams ? "mt-3 grid gap-3" : "mt-3 grid gap-2 md:grid-cols-2"}>
+      <div className={question.optionDiagrams ? "mt-3 grid grid-cols-2 gap-3" : "mt-3 grid gap-2 md:grid-cols-2"}>
         {(question.options || []).map((option, index) => {
           const optionDiagram = question.optionDiagrams?.[index];
           const isSelected = isMultiAnswer
@@ -134,7 +135,7 @@ export default function PreviousYearQuestionCard({
               key={`${index}-${option}`}
               type="button"
               onClick={() => handleOptionSelect(option)}
-              className={`flex items-start rounded-lg border px-3 py-2.5 text-left text-sm transition ${
+              className={`flex min-w-0 items-start rounded-lg border px-2 py-2.5 text-left text-sm transition sm:px-3 ${
                 showCorrect
                   ? "border-emerald-400 bg-emerald-50 text-emerald-800"
                   : showIncorrect
@@ -159,7 +160,7 @@ export default function PreviousYearQuestionCard({
               ) : null}
               <span className="mr-2 font-semibold">{String.fromCharCode(65 + index)}.</span>
               {optionDiagram ? (
-                <span className="min-w-0 flex-1 max-w-[540px]">
+                <span className="flex min-w-0 flex-1 items-center justify-center">
                   <CircuitDiagram question={{ ...question, diagram: optionDiagram }} />
                 </span>
               ) : (
@@ -240,7 +241,7 @@ export default function PreviousYearQuestionCard({
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slatebrand-500">
               Explanation
             </p>
-            <p className="mt-2 text-sm leading-6 text-slate-700">{question.explanation}</p>
+            <p className="mt-2 whitespace-pre-line text-sm leading-6 text-slate-700">{question.explanation}</p>
           </div>
         ) : null}
       </div>
