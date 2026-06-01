@@ -17,6 +17,39 @@ function getCorrectAnswerText(question = {}) {
   return question.correctAnswer || correctAnswers.join(", ");
 }
 
+function getQuestionExamLabel(question = {}) {
+  const exam = (question.exam || []).includes("GATE")
+    ? "GATE"
+    : (question.exam || [])[0] || "ECE";
+  const year = question.year ? ` ${question.year}` : "";
+  const branch = exam === "GATE" ? " ECE" : "";
+
+  return `${exam}${year}${branch}`.trim();
+}
+
+function getQuestionSeoTitle(question = {}) {
+  const questionNumber = question.questionId ? ` Question ${question.questionId}` : " Question";
+  const subject = question.subject || "Electronics";
+
+  return `${getQuestionExamLabel(question)} ${subject}${questionNumber}`;
+}
+
+function getQuestionDifficulty(question = {}) {
+  if (question.difficulty) {
+    return question.difficulty;
+  }
+
+  if (Number(question.marks || 0) >= 2) {
+    return "Medium";
+  }
+
+  return "Easy";
+}
+
+function getQuestionConcept(question = {}) {
+  return question.concept || question.topic || question.subject || "ECE concept";
+}
+
 function sameAnswerSet(left = [], right = []) {
   return (
     left.length === right.length &&
@@ -37,6 +70,9 @@ export default function PreviousYearQuestionCard({
   const isRepeated = hasQuestionTag(question, "repeated");
   const correctAnswers = getCorrectAnswers(question);
   const correctAnswerText = getCorrectAnswerText(question);
+  const seoTitle = getQuestionSeoTitle(question);
+  const difficulty = getQuestionDifficulty(question);
+  const concept = getQuestionConcept(question);
   const isMultiAnswer = correctAnswers.length > 1 || question.questionType === "MSQ";
   const maxSelectableAnswers =
     isMultiAnswer && correctAnswers.length > 1
@@ -96,9 +132,14 @@ export default function PreviousYearQuestionCard({
               </span>
             ) : null}
           </div>
-          <h2 className="mt-1.5 text-base font-semibold text-slate-900">
-            {showTopicMeta ? `${question.subject} | ${question.topic}` : question.topic}
+          <h2 id={`question-${question._id || question.questionId || "pyq"}`} className="mt-1.5 text-base font-semibold text-slate-900">
+            {seoTitle}
           </h2>
+          {showTopicMeta ? (
+            <p className="mt-1 text-xs font-semibold text-slate-500">
+              {question.subject} | {question.topic}
+            </p>
+          ) : null}
         </div>
         <div className="rounded-md bg-slate-100 px-2 py-1 text-[11px] font-medium text-slate-600">
           Year {question.year}
@@ -106,6 +147,20 @@ export default function PreviousYearQuestionCard({
       </div>
 
       <QuestionStem question={question} className="mt-3 text-sm leading-6 text-slate-800" />
+
+      <dl className="mt-3 grid gap-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          ["Topic", question.topic || "Previous year question"],
+          ["Concept", concept],
+          ["Difficulty", difficulty],
+          ["Solution", question.explanation ? "Step-by-step explanation" : "Answer key pending"],
+        ].map(([label, value]) => (
+          <div key={label}>
+            <dt className="font-extrabold uppercase tracking-[0.12em] text-slate-500">{label}</dt>
+            <dd className="mt-1 font-semibold text-slate-800">{value}</dd>
+          </div>
+        ))}
+      </dl>
 
       <div className="mt-3 max-w-[560px]">
         <CircuitDiagram question={question} />

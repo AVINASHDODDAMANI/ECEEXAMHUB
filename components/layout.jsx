@@ -130,6 +130,7 @@ export default function Layout({
   ogImageHeight = DEFAULT_OG_IMAGE_HEIGHT,
   structuredData = [],
   noIndex = false,
+  appendSiteName = true,
   searchValue = "",
   onSearchChange,
   hideNavbar = false,
@@ -139,7 +140,9 @@ export default function Layout({
   const router = useRouter();
   const pathOnly = (router.asPath || "/").split("#")[0].split("?")[0] || "/";
   const resolvedCanonicalUrl = generateCanonical(canonicalUrl || pathOnly);
-  const resolvedTitle = normalizeMetaTitle(title);
+  const resolvedTitle = appendSiteName
+    ? normalizeMetaTitle(title)
+    : String(title || SITE_NAME).replace(/\s+/g, " ").trim() || SITE_NAME;
   const resolvedDescription = String(description || "").trim()
     ? String(description).replace(/\s+/g, " ").trim()
     : title === SITE_NAME

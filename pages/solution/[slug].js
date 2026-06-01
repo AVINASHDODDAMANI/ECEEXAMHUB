@@ -75,6 +75,9 @@ function buildPaperSummary(questions = [], exam, year, options = {}) {
     month: officialPaper?.month || options.month || "",
     paperType: getPaperTypeFromExamName(exam),
     title: officialPaper?.title,
+    seoTitle: officialPaper?.seoTitle,
+    seoDescription: officialPaper?.seoDescription,
+    seoKeywords: officialPaper?.seoKeywords,
     role: officialPaper?.role,
     questionCount: officialPaper?.questionCount || paperQuestions.length,
     solvedCount:
@@ -299,6 +302,99 @@ function sameAnswerSet(left = [], right = []) {
   );
 }
 
+function cleanQuestionText(value = "") {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getQuestionSeoExamLabel(question = {}) {
+  const exam = (question.exam || []).includes("GATE")
+    ? "GATE"
+    : (question.exam || [])[0] || "ECE";
+  const year = question.year ? ` ${question.year}` : "";
+  const branch = exam === "GATE" ? " ECE" : "";
+
+  return `${exam}${year}${branch}`.trim();
+}
+
+function getQuestionSeoTitle(question = {}) {
+  const questionNumber = question.questionId ? ` Question ${question.questionId}` : " Question";
+  const subject = question.subject || "Electronics";
+
+  return `${getQuestionSeoExamLabel(question)} ${subject}${questionNumber}`;
+}
+
+function getQuestionDifficulty(question = {}) {
+  if (question.difficulty) {
+    return question.difficulty;
+  }
+
+  if (Number(question.marks || 0) >= 2) {
+    return "Medium";
+  }
+
+  return "Easy";
+}
+
+function getQuestionConcept(question = {}) {
+  return question.concept || question.topic || question.subject || "ECE concept";
+}
+
+function buildQuestionStructuredData(questions = [], canonicalPath = "") {
+  const itemList = questions.slice(0, 65).map((question, index) => {
+    const title = getQuestionSeoTitle(question);
+    const topic = question.topic || "Previous year question";
+    const concept = getQuestionConcept(question);
+    const difficulty = getQuestionDifficulty(question);
+    const answerText = cleanQuestionText(
+      [
+        question.correctAnswer ? `Correct answer: ${question.correctAnswer}.` : "",
+        question.explanation,
+      ].filter(Boolean).join(" ")
+    );
+
+    return {
+      "@type": "ListItem",
+      position: index + 1,
+      url: `${generateCanonical(canonicalPath)}#question-${question.questionId || index + 1}`,
+      item: {
+        "@type": "Question",
+        name: title,
+        text: cleanQuestionText(question.question || title),
+        educationalLevel: "GATE ECE",
+        about: [question.subject, topic, concept].filter(Boolean),
+        keywords: [
+          title,
+          `${getQuestionSeoExamLabel(question)} ${topic}`,
+          `${getQuestionSeoExamLabel(question)} ${concept}`,
+          "GATE ECE solved questions",
+          "GATE ECE PYQ",
+          "GATE ECE numerical solutions",
+        ].join(", "),
+        educationalAlignment: {
+          "@type": "AlignmentObject",
+          alignmentType: "educationalSubject",
+          targetName: `${topic} | ${concept} | Difficulty: ${difficulty}`,
+        },
+        acceptedAnswer: answerText
+          ? {
+              "@type": "Answer",
+              text: answerText,
+            }
+          : undefined,
+      },
+    };
+  });
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Question-level GATE ECE PYQ solutions",
+    itemListElement: itemList,
+  };
+}
+
 function OfficialQuestionPreview({ questions = [], exam = "" }) {
   const questionStripRef = useRef(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -340,6 +436,9 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
   const sectionTabs = buildQuestionSectionTabs(questions, exam);
   const activeSectionTab =
     sectionTabs.find((tab) => tab.match(currentQuestion))?.key || sectionTabs[0]?.key;
+  const currentSeoTitle = getQuestionSeoTitle(currentQuestion);
+  const currentConcept = getQuestionConcept(currentQuestion);
+  const currentDifficulty = getQuestionDifficulty(currentQuestion);
   const isBlankQuestion =
     !String(currentQuestion.question || "").trim() &&
     !String(currentQuestion.diagram || "").trim() &&
@@ -496,12 +595,33 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
             aria-label={`Question ${displayQuestionNumber} intentionally blank`}
           />
         ) : (
-        <article className="w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+        <article
+          id={`question-${displayQuestionNumber}`}
+          className="w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4"
+        >
           <div className="flex min-w-0 flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">
             <span>Q.{displayQuestionNumber}</span>
             <span className="text-slate-300">|</span>
             <span className="min-w-0 break-words">{currentQuestion.topic || "Previous Paper"}</span>
           </div>
+
+          <h4 className="mt-2 text-lg font-black leading-7 text-slate-950">
+            {currentSeoTitle}
+          </h4>
+
+          <dl className="mt-3 grid gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["Topic", currentQuestion.topic || "Previous year question"],
+              ["Concept", currentConcept],
+              ["Difficulty", currentDifficulty],
+              ["Solution", currentQuestion.explanation ? "Step-by-step explanation" : "Answer key pending"],
+            ].map(([label, value]) => (
+              <div key={label}>
+                <dt className="font-extrabold uppercase tracking-[0.12em] text-slate-500">{label}</dt>
+                <dd className="mt-1 font-semibold text-slate-800">{value}</dd>
+              </div>
+            ))}
+          </dl>
 
           <QuestionStem
             question={currentQuestion}
@@ -796,10 +916,11 @@ export default function SolutionPage({
   const paperTitle = seoOverride?.heading || defaultPaperTitle;
   const paperDescription =
     seoOverride?.description ||
+    paper.seoDescription ||
     `View ${defaultPaperTitle} with ECE previous year questions, solutions, paper preview, download support, and related study resources.`;
-  const pageTitle = seoOverride?.title
+  const pageTitle = paper.seoTitle || (seoOverride?.title
     ? `${seoOverride.title} | ECE Exam Guide`
-    : `${paperTitle} | ECE Exam Guide`;
+    : `${paperTitle} | ECE Exam Guide`);
   const structuredData = [
     ...generateStructuredData({
       type: "topic",
@@ -821,6 +942,7 @@ export default function SolutionPage({
       { name: "Previous Papers", item: "/previous-year" },
       { name: paperTitle, item: canonicalPath },
     ]),
+    buildQuestionStructuredData(paperQuestions, canonicalPath),
   ];
 
   function handleDownloadPdf() {
@@ -879,17 +1001,21 @@ export default function SolutionPage({
       title={pageTitle}
       description={paperDescription}
       canonicalUrl={generateCanonical(canonicalPath)}
-      keywords={[
-        `${paper.exam} ${paper.year} ECE previous paper`,
-        `${paper.exam} ${paper.year} ECE question paper`,
-        `${paper.exam} ${paper.year} EC question paper`,
-        `${paper.exam} ECE previous year questions`,
-        `${paper.exam} ECE solved paper`,
-        `${paper.exam} ${paper.year} answer key`,
-        `${paper.exam} ${paper.year} paper PDF`,
-        paper.exam === "GATE" ? `GATE ${paper.year} ECE question paper with solutions` : "",
-        paper.exam === "GATE" ? `GATE EC ${paper.year} solved paper` : "",
-      ].filter(Boolean).join(", ")}
+      keywords={
+        paper.seoKeywords ||
+        [
+          `${paper.exam} ${paper.year} ECE previous paper`,
+          `${paper.exam} ${paper.year} ECE question paper`,
+          `${paper.exam} ${paper.year} EC question paper`,
+          `${paper.exam} ECE previous year questions`,
+          `${paper.exam} ECE solved paper`,
+          `${paper.exam} ${paper.year} answer key`,
+          `${paper.exam} ${paper.year} paper PDF`,
+          paper.exam === "GATE" ? `GATE ${paper.year} ECE question paper with solutions` : "",
+          paper.exam === "GATE" ? `GATE EC ${paper.year} solved paper` : "",
+        ].filter(Boolean).join(", ")
+      }
+      appendSiteName={!paper.seoTitle}
       structuredData={structuredData}
       ogType="article"
       noIndex={!paperHasContent}

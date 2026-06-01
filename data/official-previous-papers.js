@@ -4,7 +4,12 @@ export const officialPreviousPapers = [
     slug: "gate-2025",
     exam: "GATE",
     year: 2025,
-    title: "GATE ECE Previous Paper - 2025",
+    title: "GATE 2025 ECE Question Paper with Detailed Solutions",
+    seoTitle: "GATE 2025 ECE Question Paper with Detailed Solutions | PYQ Analysis",
+    seoDescription:
+      "Practice the GATE 2025 ECE Question Paper with detailed solutions, GATE ECE solved questions, GATE ECE PYQ analysis, Electronics previous year questions, numerical solutions, answer choices, and circuit diagrams.",
+    seoKeywords:
+      "GATE 2025 ECE Question Paper, GATE ECE Solved Questions, GATE ECE PYQ, GATE Electronics Previous Year Questions, GATE ECE Numerical Solutions, GATE EC 2025 question paper, GATE 2025 ECE solved paper, GATE ECE question paper with detailed solutions",
     role: "GATE ECE Previous Paper",
     paperType: "General Aptitude + Engineering",
     subjects: [
