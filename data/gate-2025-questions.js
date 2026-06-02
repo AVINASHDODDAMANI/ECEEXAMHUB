@@ -693,7 +693,7 @@ const gate2025Questions = [
     questionId: "34",
     marks: 1,
     section: "ECE Notes",
-    diagram: "gate-2025-q34-bandpass-filter",
+    diagram: "/circuits/image34.png",
   },
   {
     _id: "gate-2025-digital-q35",
@@ -702,7 +702,7 @@ const gate2025Questions = [
     options: ["250"],
     correctAnswer: "250",
     explanation:
-      "With Rf = R and Vref = 2 V, code 1110 gives output magnitude 2 + 1 + 0.5 = 3.5 V, while code 1101 gives 2 + 1 + 0.25 = 3.25 V. The change is 0.25 V = 250 mV.",
+      "GATE Shortcut\n\nObserve the bit change:\n\n1110 -> 1101\n\nOnly two bits change:\n\nb1 : 1 -> 0\nb0 : 0 -> 1\n\nChange due to b1:\n\nDelta Vb1 = 2 x 1/4 = 0.5 V\n\nChange due to b0:\n\nDelta Vb0 = 2 x 1/8 = 0.25 V\n\nNet change:\n\n0.5 - 0.25 = 0.25 V\n\n250 mV\n\nKey Formula\n\nVo = -VREF (b3 + b2/2 + b1/4 + b0/8)\n\nAnswer: 250 mV",
     subject: "Digital Electronics",
     topic: "Digital to Analog Converters",
     exam: ["GATE"],
@@ -711,7 +711,7 @@ const gate2025Questions = [
     questionId: "35",
     marks: 1,
     section: "ECE Notes",
-    diagram: "gate-2025-q35-dac",
+    diagram: "/circuits/image35.png",
   },
   {
     _id: "gate-2025-control-q36",
