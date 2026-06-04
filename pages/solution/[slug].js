@@ -911,7 +911,10 @@ export default function SolutionPage({
   );
   const practiceSlug = getPracticeSlug(paper.exam);
   const practiceHref = practiceSlug ? `/practice/${practiceSlug}` : "/practice";
-  const canonicalPath = `/solution/${getPaperSolutionSlug(paper)}`;
+  const canonicalPath =
+    paper.exam === "GATE" && Number(paper.year) === 2025
+      ? "/gate-2025-ece-question-paper"
+      : `/solution/${getPaperSolutionSlug(paper)}`;
   const defaultPaperTitle = getPaperDisplayTitle(paper);
   const paperTitle = seoOverride?.heading || defaultPaperTitle;
   const paperDescription =
