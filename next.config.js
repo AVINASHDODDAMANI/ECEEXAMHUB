@@ -152,6 +152,11 @@ const nextConfig = {
         destination: "/network-theorems",
         permanent: true,
       },
+      {
+        source: "/learn/digital/boolean-algebra-and-kmaps",
+        destination: "/logic-gates-and-boolean-algebra",
+        permanent: true,
+      },
     ];
   },
 };

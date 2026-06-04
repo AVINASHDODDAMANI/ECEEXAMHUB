@@ -35,15 +35,18 @@ function buildDefaultStructuredData({
   return [
     {
       "@context": "https://schema.org",
-      "@type": "EducationalOrganization",
+      "@type": ["EducationalOrganization", "Organization"],
       "@id": organizationId,
       name: SITE_NAME,
       alternateName: SITE_ALTERNATE_NAMES,
       url: `${SITE_URL}/`,
       logo: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/brand/ece-exam-guide-mark-v2.svg`,
+        url: `${SITE_URL}/favicon-v4-192x192.png`,
+        width: 192,
+        height: 192,
       },
+      image: `${SITE_URL}/favicon-v4-192x192.png`,
       sameAs: [],
     },
     {
@@ -221,7 +224,6 @@ export default function Layout({
           key="googlebot"
         />
         <link rel="icon" href="/favicon-v4.ico" sizes="any" key="favicon" />
-        <link rel="icon" href="/brand/ece-exam-guide-mark-v2.svg" type="image/svg+xml" key="favicon-svg" />
         <link rel="icon" href="/favicon-v4-48x48.png" type="image/png" sizes="48x48" key="favicon-48" />
         <link rel="icon" href="/favicon-v4-32x32.png" type="image/png" sizes="32x32" key="favicon-32" />
         <link rel="apple-touch-icon" href="/apple-touch-icon-v4.png" sizes="180x180" key="apple-touch-icon" />

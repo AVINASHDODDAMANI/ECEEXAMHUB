@@ -141,7 +141,7 @@ export default function LearningTopicPage({ topic }) {
   );
   const canonicalPath =
     topic.subjectSlug === "digital" && topic.slug === "boolean-algebra-and-kmaps"
-      ? "/karnaugh-map"
+      ? "/logic-gates-and-boolean-algebra"
       : `/learn/${topic.subjectSlug}/${topic.slug}`;
   const canonicalUrl = generateCanonical(canonicalPath);
   const seoTitle = generateTitle({

@@ -53,7 +53,9 @@ export default function Navbar({
   const [authUser, setAuthUser] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const desktopSearchRef = useRef(null);
+  const desktopSearchInputRef = useRef(null);
   const mobileSearchRef = useRef(null);
+  const mobileSearchInputRef = useRef(null);
   const isMountedRef = useRef(true);
   const searchRuntimePromiseRef = useRef(null);
   const hasFetchedRemoteQuestionsRef = useRef(false);
@@ -272,6 +274,18 @@ export default function Navbar({
     void ensureSearchRuntime();
   }
 
+  function focusSearchInput(inputRef) {
+    window.requestAnimationFrame(() => {
+      inputRef.current?.focus();
+    });
+  }
+
+  function handleDesktopSearchOpen() {
+    setIsSearchOpen(true);
+    void ensureSearchRuntime();
+    focusSearchInput(desktopSearchInputRef);
+  }
+
   async function handleSearchSubmit(event) {
     event.preventDefault();
 
@@ -329,13 +343,15 @@ export default function Navbar({
     });
   }
 
-  const searchBox = (
+  function renderSearchBox(inputRef) {
+    return (
     <>
       <form
         onSubmit={handleSearchSubmit}
         className="flex h-10 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 text-sm shadow-[0_12px_28px_rgba(15,23,42,0.10)] transition focus-within:border-[#ff7417] lg:h-11 lg:px-4"
       >
         <input
+          ref={inputRef}
           type="search"
           value={resolvedSearchValue}
           onChange={(event) => handleSearchChange(event.target.value)}
@@ -379,7 +395,8 @@ export default function Navbar({
         </div>
       ) : null}
     </>
-  );
+    );
+  }
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
@@ -420,10 +437,7 @@ export default function Navbar({
           <div ref={desktopSearchRef} className="relative">
             <button
               type="button"
-              onClick={() => {
-                setIsSearchOpen((value) => !value);
-                void ensureSearchRuntime();
-              }}
+              onClick={handleDesktopSearchOpen}
               className="flex h-11 w-11 items-center justify-center rounded-full text-[#071d49] transition hover:bg-slate-100 hover:text-[#ff7417]"
               aria-label="Open search"
             >
@@ -439,7 +453,7 @@ export default function Navbar({
             </button>
             {isSearchOpen ? (
               <div className="absolute right-0 top-full z-50 mt-3 w-[420px]">
-                {searchBox}
+                {renderSearchBox(desktopSearchInputRef)}
               </div>
             ) : null}
           </div>
@@ -478,7 +492,7 @@ export default function Navbar({
         </div>
 
         <div ref={mobileSearchRef} className="relative min-w-0 flex-1 lg:hidden">
-          {searchBox}
+          {renderSearchBox(mobileSearchInputRef)}
         </div>
 
         <button
