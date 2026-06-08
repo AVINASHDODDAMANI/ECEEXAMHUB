@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import CircuitDiagram from "../../components/CircuitDiagram";
 import EmptyState from "../../components/EmptyState";
+import FormattedText, { InlineFormattedText } from "../../components/FormattedText";
 import QuestionStem from "../../components/QuestionStem";
 import Layout from "../../components/layout";
 import { getOfficialPaper } from "../../data/official-previous-papers";
@@ -348,7 +349,7 @@ function PracticeQuestionBlock({
                     <CircuitDiagram question={{ ...question, diagram: optionDiagram }} />
                   </span>
                 ) : (
-                  <span>{option}</span>
+                  <InlineFormattedText text={option} />
                 )}
               </span>
             </button>
@@ -378,9 +379,7 @@ function PracticeQuestionBlock({
                 {showExplanation ? "Hide Explanation" : "Show Explanation"}
               </button>
               {showExplanation ? (
-                <p className="mt-3 whitespace-pre-line text-sm leading-6 text-slate-700">
-                  {question.explanation}
-                </p>
+                <FormattedText text={question.explanation} className="mt-3 text-sm leading-6 text-slate-700" />
               ) : null}
             </>
           ) : null}

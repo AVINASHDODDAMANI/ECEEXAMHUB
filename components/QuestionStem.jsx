@@ -1,3 +1,5 @@
+import { InlineFormattedText } from "./FormattedText";
+
 function ColumnVector({ values }) {
   return (
     <span className="mx-1 inline-grid grid-cols-[auto_auto_auto] items-center align-middle">
@@ -126,5 +128,9 @@ export default function QuestionStem({ question, className = "" }) {
     );
   }
 
-  return <p className={className}>{question?.question}</p>;
+  return (
+    <p className={className}>
+      <InlineFormattedText text={question?.question} />
+    </p>
+  );
 }

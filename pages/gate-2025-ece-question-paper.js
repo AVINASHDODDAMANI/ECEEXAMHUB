@@ -1,5 +1,6 @@
 import Link from "next/link";
 import CircuitDiagram from "../components/CircuitDiagram";
+import FormattedText, { InlineFormattedText } from "../components/FormattedText";
 import Layout from "../components/layout";
 import QuestionStem from "../components/QuestionStem";
 import gate2025Questions from "../data/gate-2025-questions";
@@ -319,7 +320,8 @@ export default function Gate2025EceQuestionPaperPage() {
                         key={`${question._id}-${optionIndex}`}
                         className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-700"
                       >
-                        <strong>{String.fromCharCode(65 + optionIndex)}.</strong> {option}
+                        <strong>{String.fromCharCode(65 + optionIndex)}.</strong>{" "}
+                        <InlineFormattedText text={option} />
                       </li>
                     ))}
                   </ol>
@@ -330,9 +332,7 @@ export default function Gate2025EceQuestionPaperPage() {
                     Correct Answer: {getCorrectAnswer(question)}
                   </p>
                   {question.explanation ? (
-                    <p className="mt-2 whitespace-pre-line text-sm leading-7 text-emerald-950">
-                      {question.explanation}
-                    </p>
+                    <FormattedText text={question.explanation} className="mt-2 text-sm leading-7 text-emerald-950" />
                   ) : null}
                 </div>
               </article>

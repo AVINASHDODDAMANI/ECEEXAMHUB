@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CircuitDiagram from "./CircuitDiagram";
+import FormattedText, { InlineFormattedText } from "./FormattedText";
 import QuestionStem from "./QuestionStem";
 import { formatQuestionTag, hasQuestionTag } from "../lib/question-utils";
 
@@ -219,7 +220,7 @@ export default function PreviousYearQuestionCard({
                   <CircuitDiagram question={{ ...question, diagram: optionDiagram }} />
                 </span>
               ) : (
-                <span>{option}</span>
+                <InlineFormattedText text={option} />
               )}
             </button>
           );
@@ -269,7 +270,7 @@ export default function PreviousYearQuestionCard({
             </p>
             {!isCorrect ? (
               <p className="mt-2 text-sm font-medium text-slate-700">
-                Correct answer: {correctAnswerText}
+                Correct answer: <InlineFormattedText text={correctAnswerText} />
               </p>
             ) : null}
           </div>
@@ -296,7 +297,7 @@ export default function PreviousYearQuestionCard({
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slatebrand-500">
               Explanation
             </p>
-            <p className="mt-2 whitespace-pre-line text-sm leading-6 text-slate-700">{question.explanation}</p>
+            <FormattedText text={question.explanation} className="mt-2 text-sm leading-6 text-slate-700" />
           </div>
         ) : null}
       </div>

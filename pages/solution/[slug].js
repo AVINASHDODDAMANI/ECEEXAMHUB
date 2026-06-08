@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import CircuitDiagram from "../../components/CircuitDiagram";
+import FormattedText, { InlineFormattedText } from "../../components/FormattedText";
 import QuestionStem from "../../components/QuestionStem";
 import Layout from "../../components/layout";
 import { getOfficialPaper } from "../../data/official-previous-papers";
@@ -700,7 +701,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
                         </span>
                       ) : (
                         <span className="min-w-0 flex-1 break-words [overflow-wrap:anywhere]">
-                          {option}
+                          <InlineFormattedText text={option} />
                         </span>
                       )}
                       {showCorrectOption ? (
@@ -738,7 +739,7 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
               </p>
             ) : isAnswerRevealed ? (
               <p className="text-sm font-semibold text-emerald-700">
-                Answer: {correctAnswerText}
+                Answer: <InlineFormattedText text={correctAnswerText} />
               </p>
             ) : hasSelectedAnswer ? (
               <p
@@ -766,9 +767,10 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
           </div>
 
           {isAnswerRevealed && currentQuestion.explanation ? (
-            <p className="mt-3 whitespace-pre-line rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
-              <span className="font-extrabold">Explanation:</span> {currentQuestion.explanation}
-            </p>
+            <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
+              <p className="font-extrabold">Explanation:</p>
+              <FormattedText text={currentQuestion.explanation} className="mt-2" />
+            </div>
           ) : null}
           {isAnswerRevealed ? (
             <StudyLinks question={currentQuestion} />
@@ -820,7 +822,6 @@ export default function SolutionPage({
   const [questions, setQuestions] = useState(seedQuestions);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
-  const [siteUrl, setSiteUrl] = useState("");
 
   const slug = typeof router.query.slug === "string" ? router.query.slug : initialSlug;
   const slugPaper = parsePaperSlug(slug);
@@ -881,7 +882,6 @@ export default function SolutionPage({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setSiteUrl(window.location.origin);
     }
   }, []);
 
@@ -902,8 +902,8 @@ export default function SolutionPage({
   );
   const paperHasContent = hasPaperContent(paper, paperQuestions);
   const viewerMarkup = useMemo(
-    () => buildPaperPdfMarkup(paper, paperQuestions, { siteUrl }),
-    [paper, paperQuestions, siteUrl]
+    () => buildPaperPdfMarkup(paper, paperQuestions),
+    [paper, paperQuestions]
   );
   const relatedPapers = useMemo(
     () => buildRelatedPapers(questions, paper),
