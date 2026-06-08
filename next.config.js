@@ -105,6 +105,42 @@ const nextConfig = {
         source: "/:path*",
         headers: securityHeaders,
       },
+      ...[
+        "/favicon.ico",
+        "/favicon-32x32.png",
+        "/favicon-48x48.png",
+        "/favicon-192x192.png",
+        "/favicon-v3.ico",
+        "/favicon-v3-16x16.png",
+        "/favicon-v3-32x32.png",
+        "/favicon-v3-48x48.png",
+        "/favicon-v3-192x192.png",
+        "/favicon-v4.ico",
+        "/favicon-v4-16x16.png",
+        "/favicon-v4-32x32.png",
+        "/favicon-v4-48x48.png",
+        "/favicon-v4-192x192.png",
+        "/apple-touch-icon.png",
+        "/apple-touch-icon-v3.png",
+        "/apple-touch-icon-v4.png",
+      ].map((source) => ({
+        source,
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, must-revalidate",
+          },
+        ],
+      })),
+      {
+        source: "/site.webmanifest",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, must-revalidate",
+          },
+        ],
+      },
       {
         source: "/brand/:path*",
         headers: [
@@ -142,6 +178,17 @@ const nextConfig = {
           {
             type: "host",
             value: "www.eceexamguide.com",
+          },
+        ],
+        destination: "https://eceexamguide.com/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "eceexamguide.vercel.app",
           },
         ],
         destination: "https://eceexamguide.com/:path*",

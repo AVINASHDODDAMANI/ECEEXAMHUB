@@ -134,7 +134,9 @@ const convolutionStructuredData = [
       name: "ECE Exam Guide",
       logo: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/brand/ece-exam-guide-mark-v2.svg`,
+        url: `${SITE_URL}/favicon-v4-192x192.png`,
+        width: 192,
+        height: 192,
       },
     },
     mainEntityOfPage: `${SITE_URL}/convolution`,

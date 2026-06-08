@@ -4,7 +4,7 @@ export function BrandMark({
 }) {
   return (
     <img
-      src="/brand/ece-exam-guide-mark-v2.svg"
+      src="/favicon-v4-192x192.png"
       alt={alt}
       width="48"
       height="48"
