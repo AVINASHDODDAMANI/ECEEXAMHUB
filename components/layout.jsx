@@ -38,7 +38,7 @@ function buildDefaultStructuredData({
       "@type": ["EducationalOrganization", "Organization"],
       "@id": organizationId,
       name: SITE_NAME,
-      alternateName: SITE_ALTERNATE_NAMES,
+      alternateName: SITE_ALTERNATE_NAMES.length ? SITE_ALTERNATE_NAMES : undefined,
       url: `${SITE_URL}/`,
       logo: {
         "@type": "ImageObject",
@@ -54,7 +54,7 @@ function buildDefaultStructuredData({
       "@type": "WebSite",
       "@id": websiteId,
       name: SITE_NAME,
-      alternateName: SITE_ALTERNATE_NAMES,
+      alternateName: SITE_ALTERNATE_NAMES.length ? SITE_ALTERNATE_NAMES : undefined,
       url: `${SITE_URL}/`,
       publisher: {
         "@id": organizationId,

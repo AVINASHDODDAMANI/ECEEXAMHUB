@@ -226,9 +226,9 @@ export default function Home() {
 
   return (
     <Layout
-      title="Network Analysis, Digital Electronics, Analog Electronics Notes | ECE Exam Guide"
+      title="Network Analysis, Digital Electronics, Analog Electronics Notes | ECEExamGuide"
       description="Study Network Analysis, Digital Electronics, Analog Electronics and other ECE subjects with quick notes, PYQs, MCQs, formulas, numericals, and GATE, BEL, ISRO, DRDO, ESE, PSU, and university exam resources."
-      keywords="Network Analysis, Digital Electronics, Analog Electronics, ECE Exam Guide, ECE quick notes, GATE ECE notes, electronics formula sheet, ECE previous year questions, BEL ECE PYQ"
+      keywords="Network Analysis, Digital Electronics, Analog Electronics, ECEExamGuide, ECE quick notes, GATE ECE notes, electronics formula sheet, ECE previous year questions, BEL ECE PYQ"
       pageClassName="!max-w-none !px-0 py-0"
     >
       <section className="relative overflow-hidden bg-[#061f45]">
@@ -405,7 +405,7 @@ export default function Home() {
           </section>
 
           <section className="rounded-lg border border-[#dfe6f1] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.04)]">
-            <h2 className="text-xl font-extrabold text-[#071d49] sm:text-2xl">Why ECE Exam Guide?</h2>
+            <h2 className="text-xl font-extrabold text-[#071d49] sm:text-2xl">Why ECEExamGuide?</h2>
             <div className="mt-4 grid gap-2 md:grid-cols-5">
               <WhyItem icon="target" title="Exam Focused Content" text="Curated for ECE exams" color="bg-orange-50 text-orange-600" />
               <WhyItem icon="book" title="Easy to Understand" text="Simple language and neat diagrams" color="bg-sky-50 text-sky-600" />

@@ -1,6 +1,6 @@
 export function BrandMark({
   className = "",
-  alt = "ECE Exam Guide logo mark",
+  alt = "ECEExamGuide logo mark",
 }) {
   return (
     <img
@@ -31,16 +31,16 @@ export function BrandLogo({
         <p
           className={`font-extrabold leading-[0.95] tracking-tight sm:whitespace-nowrap ${titleClassName}`.trim()}
         >
-          <span className="text-[#0d2a66]">ECE </span>
-          <span className="text-[#ff6b00]">EXAM </span>
-          <span className="text-[#0d2a66]">GUIDE</span>
+          <span className="text-[#0d2a66]">ECE</span>
+          <span className="text-[#ff6b00]">Exam</span>
+          <span className="text-[#0d2a66]">Guide</span>
         </p>
 
         {showTagline ? (
           <p
             className={`mt-1 hidden truncate font-semibold uppercase tracking-[0.16em] text-[#20386f] sm:block ${taglineClassName}`.trim()}
           >
-            ECE Exam Guide for Quick Notes, PYQs &amp; Revision
+            ECEExamGuide for Quick Notes, PYQs &amp; Revision
           </p>
         ) : null}
       </div>
