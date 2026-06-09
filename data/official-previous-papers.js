@@ -4,12 +4,12 @@ export const officialPreviousPapers = [
     slug: "gate-2026",
     exam: "GATE",
     year: 2026,
-    title: "GATE 2026 ECE Question Paper with Detailed Solutions",
-    seoTitle: "GATE 2026 ECE Question Paper with Detailed Solutions | PYQ Analysis",
+    title: "GATE 2026 ECE Question Paper",
+    seoTitle: "GATE 2026 ECE Question Paper PDF with Solutions",
     seoDescription:
-      "Practice the GATE 2026 ECE Question Paper with solved General Aptitude questions, answer choices, explanations, and figure-based reasoning.",
+      "Download and practice the GATE 2026 ECE question paper PDF with answer key, solved questions, detailed explanations, General Aptitude, Engineering Mathematics, and ECE subject-wise solutions.",
     seoKeywords:
-      "GATE 2026 ECE Question Paper, GATE 2026 EC question paper, GATE ECE PYQ, GATE 2026 solved questions, GATE 2026 General Aptitude questions",
+      "GATE 2026 ECE Question Paper, GATE 2026 EC question paper PDF, GATE ECE 2026 answer key, GATE 2026 ECE solved paper, GATE ECE PYQ, GATE 2026 solved questions, GATE 2026 General Aptitude questions",
     role: "GATE ECE Previous Paper",
     paperType: "General Aptitude + Engineering",
     subjects: [
@@ -97,17 +97,17 @@ export const officialPreviousPapers = [
     topicCount: 62,
     sourceLabel: "GATE 2026 added questions",
     summary:
-      "GATE ECE 2026 paper currently includes the added General Aptitude, Engineering Mathematics, and ECE questions with answer choices, explanations, and saved figures.",
+      "GATE ECE 2026 paper includes General Aptitude, Engineering Mathematics, and ECE questions with answer choices, explanations, saved figures, and answer-key style solutions.",
   },
   {
     id: "gate-ece-2025",
     slug: "gate-2025",
     exam: "GATE",
     year: 2025,
-    title: "GATE 2025 ECE Question Paper with Detailed Solutions",
-    seoTitle: "GATE 2025 ECE Question Paper with Detailed Solutions | PYQ Analysis",
+    title: "GATE 2025 ECE Question Paper",
+    seoTitle: "GATE 2025 ECE Question Paper PDF with Solutions",
     seoDescription:
-      "Practice the GATE 2025 ECE Question Paper with detailed solutions, GATE ECE solved questions, GATE ECE PYQ analysis, Electronics previous year questions, numerical solutions, answer choices, and circuit diagrams.",
+      "Download and practice the complete GATE 2025 ECE question paper PDF with detailed solutions, answer key, 65 solved questions, circuit diagrams, numerical explanations, and topic-wise analysis.",
     seoKeywords:
       "GATE 2025 ECE Question Paper, GATE ECE Solved Questions, GATE ECE PYQ, GATE Electronics Previous Year Questions, GATE ECE Numerical Solutions, GATE EC 2025 question paper, GATE 2025 ECE solved paper, GATE ECE question paper with detailed solutions",
     role: "GATE ECE Previous Paper",

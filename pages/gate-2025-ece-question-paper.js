@@ -152,11 +152,12 @@ export default function Gate2025EceQuestionPaperPage() {
 
   return (
     <Layout
-      title="GATE ECE 2025 Previous Year Question Paper with Detailed Solutions"
-      description="Download and practice the complete GATE Electronics and Communication Engineering (ECE) 2025 question paper with detailed solutions, explanations, answer keys, and topic-wise analysis."
+      title="GATE 2025 ECE Question Paper PDF with Solutions"
+      description="Download and practice the complete GATE 2025 ECE question paper PDF with detailed solutions, answer key, 65 solved questions, circuit diagrams, numerical explanations, and topic-wise analysis."
       keywords={page.keywords}
       canonicalUrl={page.path}
       structuredData={structuredData}
+      appendSiteName={false}
       pageClassName="py-3 sm:py-4"
     >
       <main className="mx-auto max-w-6xl pb-12">
@@ -182,10 +183,10 @@ export default function Gate2025EceQuestionPaperPage() {
           <div className="mt-3 grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
             <div>
               <h1 className="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                GATE ECE 2025 Previous Year Question Paper with Detailed Solutions
+                GATE 2025 ECE Question Paper PDF with Solutions
               </h1>
               <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">
-                Download and practice the complete GATE Electronics and Communication Engineering (ECE) 2025 question paper with detailed solutions, explanations, answer keys, and topic-wise analysis.
+                Download and practice the complete GATE 2025 ECE question paper PDF with detailed solutions, answer key, 65 solved questions, circuit diagrams, numerical explanations, and topic-wise analysis.
               </p>
               <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">
                 This clean URL includes the full question list, subject-wise weightage, difficulty guidance, important topics, and FAQ content directly in the page HTML for easier crawling and revision.

@@ -275,24 +275,25 @@ export const seoLandingPages = {
   },
   "gate-previous-year-question-papers": {
     path: "/gate-previous-year-question-papers",
-    title: "GATE ECE Previous Year Question Papers PDF + Solutions",
+    title: "GATE ECE Question Papers",
+    appendSiteName: false,
     description:
-      "Practice GATE ECE previous year question papers, GATE EC solved papers, year-wise PYQ PDFs, 2025 question paper solutions, formulas, and subject-wise revision resources.",
+      "Download GATE ECE question papers with year-wise PDFs, answer keys, solved PYQs, GATE EC 2026 and 2025 papers, detailed solutions, formulas, and subject-wise revision links.",
     eyebrow: "GATE ECE Papers",
-    heading: "GATE ECE Previous Year Question Papers",
+    heading: "GATE ECE Question Papers",
     summary:
-      "A search-focused entry point for students looking for GATE ECE previous year papers, GATE EC question papers, solved PYQs, 2025 paper solutions, subject-wise questions, and formula revision.",
+      "A search-focused entry point for students looking for GATE ECE question papers, GATE EC previous year papers, solved PYQs, 2026 and 2025 paper solutions, answer keys, subject-wise questions, and formula revision.",
     primaryAction: { label: "Open GATE Papers", href: "/previous-year?exam=GATE" },
     secondaryAction: { label: "Open GATE PYQ Hub", href: "/gate-ece-pyq" },
     metrics: [
       { label: "Exam", value: "GATE ECE" },
-      { label: "Intent", value: "PYQ Papers" },
-      { label: "Mode", value: "Solutions" },
+      { label: "Latest", value: "2026" },
+      { label: "Mode", value: "PDF + Solutions" },
     ],
     sections: [
       {
         title: "Year-Wise GATE Paper Practice",
-        text: "Open GATE ECE papers year-wise, including the GATE 2025 ECE question paper with solutions, and use them to check formula recall, numerical speed, and conceptual accuracy.",
+        text: "Open GATE ECE papers year-wise, including GATE 2026 and GATE 2025 ECE question papers with solutions, and use them to check formula recall, numerical speed, and conceptual accuracy.",
       },
       {
         title: "Subject-Wise Revision",
@@ -306,17 +307,18 @@ export const seoLandingPages = {
     links: [
       { label: "GATE Previous Papers", href: "/previous-year?exam=GATE" },
       { label: "GATE ECE PYQ Hub", href: "/gate-ece-pyq" },
+      { label: "GATE 2026 ECE Question Paper", href: "/solution/gate-2026" },
       { label: "GATE 2025 ECE Question Paper", href: "/gate-2025-ece-question-paper" },
       { label: "GATE ECE 2025 Solution", href: "/solution/gate-2025" },
       { label: "GATE Formula Revision", href: "/gate-ece-formulas" },
     ],
     keywords:
-      "GATE previous year question papers, GATE ECE previous year papers, GATE EC previous year question paper, GATE ECE question paper PDF, GATE ECE 2025 question paper, GATE 2025 ECE question paper with solutions, GATE EC 2025 paper, GATE ECE solved papers, GATE PYQ, GATE EC PYQ PDF",
+      "GATE ECE question papers, GATE previous year question papers, GATE ECE previous year papers, GATE EC previous year question paper, GATE ECE question paper PDF, GATE ECE 2026 question paper, GATE 2026 ECE question paper with solutions, GATE ECE 2025 question paper, GATE 2025 ECE question paper with solutions, GATE EC 2025 paper, GATE ECE solved papers, GATE PYQ, GATE EC PYQ PDF",
     faqs: [
       {
         question: "Where can I find GATE ECE previous year question papers?",
         answer:
-          "Use this page to open GATE ECE previous year question papers, solved paper links, year-wise GATE EC PYQs, and the dedicated GATE 2025 ECE question paper solution.",
+          "Use this page to open GATE ECE question papers, solved paper links, year-wise GATE EC PYQs, and dedicated GATE 2026 and GATE 2025 ECE question paper solutions.",
       },
       {
         question: "Is the GATE 2025 ECE question paper available with solutions?",

@@ -203,13 +203,32 @@ const faqItems = [
   },
 ];
 
+const pageTitle = "Introduction To Control Systems";
+const pageDescription =
+  "A Control System is a configuration of components that directs, regulates, or commands the behavior of devices or processes to produce a desired output.";
+const pageDate = "2026-06-09";
+
 const structuredData = [
   {
     "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: pageTitle,
+    description: pageDescription,
+    datePublished: pageDate,
+    dateModified: pageDate,
+    educationalLevel: "Undergraduate engineering",
+    about: [
+      "Control Systems",
+      "Open-loop control system",
+      "Closed-loop control system",
+      "Feedback control",
+    ],
+  },
+  {
+    "@context": "https://schema.org",
     "@type": "LearningResource",
-    name: "Introduction to Control Systems",
-    description:
-      "Conceptual ECE notes on control systems, open-loop and closed-loop control, feedback, system types, examples, GATE quick notes, and interview preparation.",
+    name: pageTitle,
+    description: pageDescription,
     learningResourceType: "Theory Quick Notes",
     educationalLevel: "Undergraduate engineering",
     teaches: [
@@ -238,10 +257,11 @@ const structuredData = [
 export default function IntroductionToControlSystemsPage() {
   return (
     <Layout
-      title="Introduction to Control Systems GATE ECE Quick Notes + Formulas + PYQs"
-      description="Learn introduction to control systems with open-loop and closed-loop intuition, animated feedback visualization, formulas, examples, GATE notes, FAQ, and practice questions."
+      title={pageTitle}
+      description={pageDescription}
       keywords="Introduction to Control Systems, open-loop control system, closed-loop control system, feedback control, automatic voltage regulator, GATE ECE"
       structuredData={structuredData}
+      appendSiteName={false}
       pageClassName="py-3 sm:py-4"
     >
       <div className="mx-auto max-w-[1440px] pb-20">
@@ -266,9 +286,12 @@ export default function IntroductionToControlSystemsPage() {
 
         <header className="rounded-2xl border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
           <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-portal-700">Control Systems</p>
-          <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Introduction to Control Systems</h1>
+          <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">{pageTitle}</h1>
+          <p className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
+            Updated <time dateTime={pageDate}>9 Jun 2026</time>
+          </p>
           <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
-            Modern engineering systems are expected to perform specific tasks accurately and consistently. A room air conditioner should maintain the desired temperature, a motor should run at the required speed, and a voltage regulator should provide a stable output despite changes in load conditions. The ability of a system to achieve and maintain a desired performance is made possible through control systems.
+            {pageDescription} Modern engineering systems are expected to perform specific tasks accurately and consistently. A room air conditioner should maintain the desired temperature, a motor should run at the required speed, and a voltage regulator should provide a stable output despite changes in load conditions.
           </p>
           <div className="mt-4 grid gap-3 text-sm text-slate-700 sm:grid-cols-3">
             <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">

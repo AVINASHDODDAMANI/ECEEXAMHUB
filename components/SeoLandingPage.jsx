@@ -46,6 +46,21 @@ export default function SeoLandingPage({ page }) {
       about: page.sections.map((section) => section.title),
       keywords: page.keywords,
     },
+    ...(page.links?.length
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: `${page.heading} links`,
+            itemListElement: page.links.map((item, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              name: item.label,
+              url: generateCanonical(item.href),
+            })),
+          },
+        ]
+      : []),
     ...(page.faqs?.length
       ? [
           {
@@ -71,6 +86,7 @@ export default function SeoLandingPage({ page }) {
       keywords={page.keywords}
       canonicalUrl={page.path}
       structuredData={structuredData}
+      appendSiteName={page.appendSiteName ?? true}
       pageClassName="py-3 sm:py-4"
     >
       <div className="mx-auto max-w-6xl pb-12">

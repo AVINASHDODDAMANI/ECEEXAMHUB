@@ -1,7 +1,7 @@
 {
-  "name": "ECEExamGuide",
-  "short_name": "ECEExamGuide",
-  "description": "ECEExamGuide provides structured ECE preparation with subject-wise quick notes, MCQs, previous papers, and exam-focused revision.",
+  "name": "ECE Exam Guide",
+  "short_name": "ECE Guide",
+  "description": "ECE Exam Guide provides structured ECE preparation with subject-wise quick notes, MCQs, previous papers, and exam-focused revision.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
