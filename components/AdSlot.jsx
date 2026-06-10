@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const ADSENSE_CLIENT =
   process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT || "ca-pub-1285915244515596";
@@ -43,11 +43,32 @@ export default function AdSlot({
   className = "",
 }) {
   const hasSlot = Boolean(slot);
+  const slotRef = useRef(null);
+  const [isHidden, setIsHidden] = useState(false);
 
   useEffect(() => {
-    if (hasSlot) {
-      pushAd();
+    if (!hasSlot) {
+      return undefined;
     }
+
+    setIsHidden(false);
+    pushAd();
+
+    const timeoutId = window.setTimeout(() => {
+      const root = slotRef.current;
+      const adElement = root?.querySelector(".adsbygoogle");
+      const iframe = root?.querySelector("iframe");
+      const adStatus = adElement?.getAttribute("data-ad-status");
+      const hasVisibleFrame = iframe && iframe.clientHeight > 40;
+      const hasFilledAd = adStatus === "filled" || hasVisibleFrame;
+      const isDefinitelyUnfilled = adStatus === "unfilled" && !hasVisibleFrame;
+
+      if (isDefinitelyUnfilled || !hasFilledAd) {
+        setIsHidden(true);
+      }
+    }, 12000);
+
+    return () => window.clearTimeout(timeoutId);
   }, [hasSlot, slot]);
 
   if (!hasSlot) {
@@ -55,7 +76,7 @@ export default function AdSlot({
   }
 
   return (
-    <div className={`ad-slot ${className}`}>
+    <div ref={slotRef} className={`ad-slot ${isHidden ? "ad-slot--hidden" : ""} ${className}`}>
       <p className="ad-slot__label">Advertisement</p>
       <ins
         className="adsbygoogle"

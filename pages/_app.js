@@ -42,12 +42,14 @@ export default function App({ Component, pageProps }) {
           name="format-detection"
           content="telephone=no, date=no, email=no, address=no"
         />
-        <script
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${googleAdsenseClient}`}
-          crossOrigin="anonymous"
-        />
       </Head>
+      <Script
+        id="google-adsense"
+        strategy="afterInteractive"
+        async
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${googleAdsenseClient}`}
+        crossOrigin="anonymous"
+      />
       <Script
         id="mathjax-config"
         strategy="beforeInteractive"

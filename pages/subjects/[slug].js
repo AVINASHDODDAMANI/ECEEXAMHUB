@@ -15630,7 +15630,7 @@ function NetworkLandingIcon({ name, className = "h-8 w-8" }) {
 
 function NetworkHeroCircuit() {
   return (
-    <svg viewBox="0 0 500 250" className="h-auto w-full max-w-[470px]" role="img" aria-label="Network analysis circuit diagram">
+    <svg viewBox="0 0 500 250" className="h-auto w-full max-w-[340px]" role="img" aria-label="Network analysis circuit diagram">
       <path d="M70 165V72h58" fill="none" stroke="#334155" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M325 72h58v93H252" fill="none" stroke="#334155" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M70 165h182V72h36" fill="none" stroke="#334155" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
@@ -15740,15 +15740,15 @@ function NetworkAnalysisLandingPage({ subject, seo, concepts, activeConceptIndex
           />
         </nav>
 
-        <section className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_250px]">
-          <div className="overflow-hidden rounded-xl bg-[#eaf5ff] px-6 py-8 sm:px-12 lg:min-h-[350px]">
-            <div className="grid h-full gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(320px,0.72fr)] lg:items-center">
+        <section className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_230px]">
+          <div className="overflow-hidden rounded-xl bg-[#eaf5ff] px-5 py-6 sm:px-8 lg:min-h-[260px]">
+            <div className="grid h-full gap-5 lg:grid-cols-[minmax(0,0.82fr)_minmax(240px,0.58fr)] lg:items-center">
               <div>
-                <h1 className="text-5xl font-black leading-none tracking-normal text-[#061642] sm:text-6xl">
+                <h1 className="max-w-[620px] text-4xl font-black leading-[0.98] tracking-normal text-[#061642] sm:text-5xl lg:text-[3.4rem]">
                   {subject.title} GATE ECE Quick Notes, PYQs, and Formulas
                 </h1>
-                <span className="mt-7 block h-1 w-28 bg-[#1d68bd]" />
-                <p className="mt-8 max-w-[560px] text-lg leading-8 text-slate-950">
+                <span className="mt-4 block h-1 w-20 bg-[#1d68bd]" />
+                <p className="mt-5 max-w-[520px] text-base leading-7 text-slate-950">
                   {content.description}
                 </p>
               </div>
@@ -15758,16 +15758,16 @@ function NetworkAnalysisLandingPage({ subject, seo, concepts, activeConceptIndex
             </div>
           </div>
 
-          <aside className="flex min-h-[350px] flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-6 text-center shadow-[0_8px_24px_rgba(15,23,42,0.05)]">
-            <NetworkLandingIcon name="clipboard" className="h-12 w-12 text-[#0b58b4]" />
-            <h2 className="mt-7 text-xl font-black text-[#0b58b4]">
+          <aside className="flex min-h-[260px] flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-5 text-center shadow-[0_8px_24px_rgba(15,23,42,0.05)]">
+            <NetworkLandingIcon name="clipboard" className="h-9 w-9 text-[#0b58b4]" />
+            <h2 className="mt-5 text-lg font-black text-[#0b58b4]">
               {subject.title} Topics <span className="text-base">(Coming Soon)</span>
             </h2>
-            <p className="mt-7 text-left text-lg leading-8 text-slate-950">
+            <p className="mt-5 text-left text-base leading-7 text-slate-950">
               In this section, I will explain each and every topic and subtopic step
               by step in depth.
             </p>
-            <NetworkLandingIcon name="book" className="mt-7 h-12 w-12 text-slate-600" />
+            <NetworkLandingIcon name="book" className="mt-5 h-9 w-9 text-slate-600" />
           </aside>
         </section>
 
