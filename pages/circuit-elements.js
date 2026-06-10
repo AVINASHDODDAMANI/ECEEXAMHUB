@@ -1679,7 +1679,11 @@ function ExamRetentionSection() {
 
 export default function CircuitElementsPage() {
   return (
-    <Layout title="Circuit Elements GATE ECE Quick Notes + Formulas + PYQs | Network Analysis" pageClassName="py-3 sm:py-4">
+    <Layout
+      title="Circuit Elements GATE ECE Quick Notes + Formulas + PYQs | Network Analysis"
+      description="Network Analysis circuit elements notes for GATE ECE: resistor, capacitor, inductor, independent voltage source, independent current source, dependent source, controlled sources, and source transformation."
+      pageClassName="py-3 sm:py-4"
+    >
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav
           aria-label="Breadcrumb"

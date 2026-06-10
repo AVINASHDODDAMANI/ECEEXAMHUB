@@ -15961,6 +15961,51 @@ export default function SubjectTheoryPage({
   const isConceptIntroPage = activeConceptIndex === 0;
   const activeConceptDataIndex = isConceptIntroPage ? 0 : activeConceptIndex - 1;
   const activeConcept = concepts[activeConceptDataIndex] || concepts[0];
+  const isExternalDiodeConcept =
+    subject.title === "Analog Electronics" &&
+    ["diodes-and-pn-junction", "transistor-basics", "amplifier-fundamentals"].includes(activeConcept?.slug) &&
+    !["diodes", "bjt-mosfet", "amplifiers"].includes(standaloneTopicPage);
+  const shouldShowInlineConcept =
+    subject.title !== "Digital Electronics" &&
+    subject.title !== "Electromagnetic Theory" &&
+    subject.title !== "VLSI Design" &&
+    subject.title !== "Microprocessors" &&
+    subject.title !== "Embedded Systems" &&
+    subject.title !== "Digital Signal Processing" &&
+    !isConceptIntroPage &&
+    !isExternalDiodeConcept;
+
+  useEffect(() => {
+    if (!selectedLearningTopicSlug) {
+      return;
+    }
+
+    setActiveConceptIndex(selectedTopicConceptIndex);
+  }, [selectedLearningTopicSlug, selectedTopicConceptIndex]);
+
+  useEffect(() => {
+    if (
+      !selectedLearningTopicSlug ||
+      !shouldShowInlineConcept ||
+      activeConceptIndex !== selectedTopicConceptIndex
+    ) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      document.getElementById("subject-concept")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 60);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [
+    activeConceptIndex,
+    selectedLearningTopicSlug,
+    selectedTopicConceptIndex,
+    shouldShowInlineConcept,
+  ]);
 
   if (
     [
@@ -15982,19 +16027,6 @@ export default function SubjectTheoryPage({
     );
   }
 
-  const isExternalDiodeConcept =
-    subject.title === "Analog Electronics" &&
-    ["diodes-and-pn-junction", "transistor-basics", "amplifier-fundamentals"].includes(activeConcept?.slug) &&
-    !["diodes", "bjt-mosfet", "amplifiers"].includes(standaloneTopicPage);
-  const shouldShowInlineConcept =
-    subject.title !== "Digital Electronics" &&
-    subject.title !== "Electromagnetic Theory" &&
-    subject.title !== "VLSI Design" &&
-    subject.title !== "Microprocessors" &&
-    subject.title !== "Embedded Systems" &&
-    subject.title !== "Digital Signal Processing" &&
-    !isConceptIntroPage &&
-    !isExternalDiodeConcept;
   const activeTeaching = activeConcept?.teaching || {};
   const subjectProgress = progressStats.subjects.find(
     (item) => item.slug === learningMeta.learningSubjectSlug
@@ -16027,37 +16059,6 @@ export default function SubjectTheoryPage({
   const isQuizAnswered = typeof selectedQuizIndex === "number";
   const isQuizCorrect = isQuizAnswered && selectedQuizIndex === activeQuiz?.correctIndex;
   const analogStandaloneChapter = ANALOG_STANDALONE_PAGES[standaloneTopicPage];
-  useEffect(() => {
-    if (!selectedLearningTopicSlug) {
-      return;
-    }
-
-    setActiveConceptIndex(selectedTopicConceptIndex);
-  }, [selectedLearningTopicSlug, selectedTopicConceptIndex]);
-
-  useEffect(() => {
-    if (
-      !selectedLearningTopicSlug ||
-      !shouldShowInlineConcept ||
-      activeConceptIndex !== selectedTopicConceptIndex
-    ) {
-      return undefined;
-    }
-
-    const timeoutId = window.setTimeout(() => {
-      document.getElementById("subject-concept")?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 60);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [
-    activeConceptIndex,
-    selectedLearningTopicSlug,
-    selectedTopicConceptIndex,
-    shouldShowInlineConcept,
-  ]);
 
   if (analogStandaloneChapter) {
     return <AnalogChapterPage chapter={analogStandaloneChapter} />;
