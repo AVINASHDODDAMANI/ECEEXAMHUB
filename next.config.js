@@ -195,6 +195,16 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/gate-2025-ece-question-paper",
+        destination: "/solution/gate-2025",
+        permanent: true,
+      },
+      {
+        source: "/gate-previous-year-question-papers",
+        destination: "/previous-year?exam=GATE",
+        permanent: true,
+      },
+      {
         source: "/learn/networks/network-theorems-topic",
         destination: "/network-theorems",
         permanent: true,

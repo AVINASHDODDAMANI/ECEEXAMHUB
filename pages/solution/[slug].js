@@ -500,10 +500,10 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
       <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
-            Added Questions
+            Single Paper View
           </p>
           <h3 className="mt-1 text-lg font-extrabold text-slate-950">
-            Official paper questions
+            Interactive solved questions
           </h3>
         </div>
         <span className="text-sm font-bold text-slate-500">
@@ -911,10 +911,7 @@ export default function SolutionPage({
   );
   const practiceSlug = getPracticeSlug(paper.exam);
   const practiceHref = practiceSlug ? `/practice/${practiceSlug}` : "/practice";
-  const canonicalPath =
-    paper.exam === "GATE" && Number(paper.year) === 2025
-      ? "/gate-2025-ece-question-paper"
-      : `/solution/${getPaperSolutionSlug(paper)}`;
+  const canonicalPath = `/solution/${getPaperSolutionSlug(paper)}`;
   const defaultPaperTitle = getPaperDisplayTitle(paper);
   const paperTitle = seoOverride?.heading || defaultPaperTitle;
   const paperDescription =
@@ -1076,7 +1073,7 @@ export default function SolutionPage({
                           <path d="M2.5 10s2.7-4.5 7.5-4.5S17.5 10 17.5 10 14.8 14.5 10 14.5 2.5 10 2.5 10Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                           <circle cx="10" cy="10" r="2" stroke="currentColor" strokeWidth="1.8" />
                         </svg>
-                        View Solution
+                        Open Questions
                       </a>
                       <button
                         type="button"
@@ -1152,11 +1149,11 @@ export default function SolutionPage({
             <div className="flex flex-col gap-3 border-b border-slate-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
-                  Question Paper Preview
+                  Question Paper
                 </p>
                 <h2 className="mt-1 text-xl font-extrabold text-slate-950">
                   {paperQuestions.length
-                    ? "Interactive question viewer"
+                    ? "Interactive solved paper"
                     : paper.pdfHref
                       ? "Official paper viewer"
                       : "Coming Soon"}
@@ -1180,7 +1177,7 @@ export default function SolutionPage({
               <div className="mt-4 space-y-4">
                 <OfficialQuestionPreview questions={paperQuestions} exam={paper.exam} />
                 <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600">
-                  Download PDF generates the clean ECE Exam Guide printable paper from these solved questions.
+                  This is the only in-site question view for this paper. Use the question tabs instead of a separate long scrolling duplicate page.
                   {paper.pdfHref ? (
                     <>
                       {" "}

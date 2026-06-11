@@ -273,123 +273,6 @@ export const seoLandingPages = {
     keywords:
       "BEL formula sheet, BEL Electronics formulas, BEL ECE formula sheet, BEL exam formulas, electronics formula sheet for BEL",
   },
-  "gate-previous-year-question-papers": {
-    path: "/gate-previous-year-question-papers",
-    title: "GATE ECE Question Papers",
-    appendSiteName: false,
-    description:
-      "Download GATE ECE question papers with year-wise PDFs, answer keys, solved PYQs, GATE EC 2026 and 2025 papers, detailed solutions, formulas, and subject-wise revision links.",
-    eyebrow: "GATE ECE Papers",
-    heading: "GATE ECE Question Papers",
-    summary:
-      "A search-focused entry point for students looking for GATE ECE question papers, GATE EC previous year papers, solved PYQs, 2026 and 2025 paper solutions, answer keys, subject-wise questions, and formula revision.",
-    primaryAction: { label: "Open GATE Papers", href: "/previous-year?exam=GATE" },
-    secondaryAction: { label: "Open GATE PYQ Hub", href: "/gate-ece-pyq" },
-    metrics: [
-      { label: "Exam", value: "GATE ECE" },
-      { label: "Latest", value: "2026" },
-      { label: "Mode", value: "PDF + Solutions" },
-    ],
-    sections: [
-      {
-        title: "Year-Wise GATE Paper Practice",
-        text: "Open GATE ECE papers year-wise, including GATE 2026 and GATE 2025 ECE question papers with solutions, and use them to check formula recall, numerical speed, and conceptual accuracy.",
-      },
-      {
-        title: "Subject-Wise Revision",
-        text: "Prepare Network Analysis, Signals and Systems, Communication Systems, Control Systems, Analog, Digital, EMFT, DSP, and Microprocessors before full paper attempts.",
-      },
-      {
-        title: "PYQ + Quick Notes Flow",
-        text: "Use quick notes for weak topics, then solve related GATE ECE previous year questions, GATE EC PYQs, and solved question paper sets to improve retention.",
-      },
-    ],
-    links: [
-      { label: "GATE Previous Papers", href: "/previous-year?exam=GATE" },
-      { label: "GATE ECE PYQ Hub", href: "/gate-ece-pyq" },
-      { label: "GATE 2026 ECE Question Paper", href: "/solution/gate-2026" },
-      { label: "GATE 2025 ECE Question Paper", href: "/gate-2025-ece-question-paper" },
-      { label: "GATE ECE 2025 Solution", href: "/solution/gate-2025" },
-      { label: "GATE Formula Revision", href: "/gate-ece-formulas" },
-    ],
-    keywords:
-      "GATE ECE question papers, GATE previous year question papers, GATE ECE previous year papers, GATE EC previous year question paper, GATE ECE question paper PDF, GATE ECE 2026 question paper, GATE 2026 ECE question paper with solutions, GATE ECE 2025 question paper, GATE 2025 ECE question paper with solutions, GATE EC 2025 paper, GATE ECE solved papers, GATE PYQ, GATE EC PYQ PDF",
-    faqs: [
-      {
-        question: "Where can I find GATE ECE previous year question papers?",
-        answer:
-          "Use this page to open GATE ECE question papers, solved paper links, year-wise GATE EC PYQs, and dedicated GATE 2026 and GATE 2025 ECE question paper solutions.",
-      },
-      {
-        question: "Is the GATE 2025 ECE question paper available with solutions?",
-        answer:
-          "Yes. The GATE 2025 ECE paper is linked with 65 solved questions, detailed explanations, answer choices, and circuit diagrams where required.",
-      },
-      {
-        question: "Which keywords can students use to find this GATE paper page?",
-        answer:
-          "Students often search GATE ECE previous year paper, GATE EC question paper PDF, GATE 2025 ECE solved paper, GATE ECE PYQ, and GATE Electronics Communication previous paper.",
-      },
-    ],
-  },
-  "gate-2025-ece-question-paper": {
-    path: "/gate-2025-ece-question-paper",
-    title: "GATE 2025 ECE Question Paper PDF + Solutions | GATE EC PYQ",
-    description:
-      "Open the GATE 2025 ECE question paper with 65 solved questions, detailed explanations, circuit diagrams, answer keys, and subject-wise GATE EC PYQ revision links.",
-    eyebrow: "GATE 2025 ECE Paper",
-    heading: "GATE 2025 ECE Question Paper",
-    summary:
-      "A dedicated page for students searching GATE 2025 ECE question paper, GATE EC 2025 paper, GATE ECE 2025 solved paper, previous year question paper PDF, answer key, and PYQ solutions.",
-    primaryAction: { label: "Open 2025 Solution", href: "/solution/gate-2025" },
-    secondaryAction: { label: "Browse All GATE Papers", href: "/gate-previous-year-question-papers" },
-    metrics: [
-      { label: "Year", value: "2025" },
-      { label: "Branch", value: "ECE / EC" },
-      { label: "Questions", value: "65 Solved" },
-    ],
-    sections: [
-      {
-        title: "GATE EC 2025 Solved Paper",
-        text: "Use the solved GATE 2025 Electronics and Communication Engineering paper to revise General Aptitude, Engineering Mathematics, Networks, Signals, Communication, Control, Analog, Digital, EMFT, and Devices.",
-      },
-      {
-        title: "Search-Friendly Paper Access",
-        text: "This page is built for common search intents such as GATE 2025 ECE question paper, GATE EC 2025 paper PDF, GATE ECE previous year question paper 2025, and GATE 2025 solved paper.",
-      },
-      {
-        title: "Best Revision Flow",
-        text: "Open the solved paper first, mark weak topics, revise the linked quick notes and formulas, then return to topic-wise GATE ECE PYQs for repeated practice.",
-      },
-    ],
-    links: [
-      { label: "GATE 2025 Full Solution", href: "/solution/gate-2025" },
-      { label: "All GATE Previous Papers", href: "/gate-previous-year-question-papers" },
-      { label: "GATE ECE PYQ Hub", href: "/gate-ece-pyq" },
-      { label: "GATE ECE Formula Sheet", href: "/gate-ece-formulas" },
-      { label: "Network Analysis PYQs", href: "/network-analysis-pyq" },
-      { label: "Digital Electronics Notes", href: "/notes/digital-electronics" },
-    ],
-    keywords:
-      "GATE 2025 ECE question paper, GATE EC 2025 question paper, GATE ECE 2025 paper PDF, GATE 2025 ECE previous year question paper, GATE 2025 ECE solved paper, GATE EC 2025 solved questions, GATE 2025 answer key ECE, GATE ECE PYQ 2025, GATE Electronics Communication 2025 paper, GATE ECE previous year question paper with solutions",
-    faqs: [
-      {
-        question: "Where is the GATE 2025 ECE question paper with solutions?",
-        answer:
-          "Open the GATE 2025 full solution link on this page to view all 65 solved GATE ECE questions with explanations and diagrams.",
-      },
-      {
-        question: "Is GATE EC 2025 the same as GATE ECE 2025?",
-        answer:
-          "Yes. GATE EC and GATE ECE both refer to Electronics and Communication Engineering, so this page targets both common search terms.",
-      },
-      {
-        question: "Does this page help with GATE 2025 ECE paper PDF searches?",
-        answer:
-          "Yes. It gives a direct route to the solved paper view and related GATE ECE PYQ resources for students searching paper PDF, previous year paper, answer key, or solved questions.",
-      },
-    ],
-  },
   "gate-ece-pyq": {
     path: "/gate-ece-pyq",
     title: "GATE ECE PYQ PDF + Previous Year Questions + Solutions",
@@ -421,7 +304,7 @@ export const seoLandingPages = {
       },
     ],
     links: [
-      { label: "GATE 2025 ECE Question Paper", href: "/gate-2025-ece-question-paper" },
+      { label: "GATE 2025 ECE Question Paper", href: "/solution/gate-2025" },
       { label: "GATE Practice", href: "/practice/gate" },
       { label: "Previous Year Papers", href: "/previous-year" },
       { label: "Network Analysis Quick Notes", href: "/notes/network-analysis" },

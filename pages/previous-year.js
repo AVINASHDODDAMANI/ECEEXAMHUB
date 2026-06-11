@@ -27,15 +27,15 @@ const MIN_READY_PAPER_QUESTIONS = 10;
 const previousYearStructuredData = [
   ...generateStructuredData({
     type: "topic",
-    title: "ECE Previous Year Question Papers",
+    title: "GATE ECE Question Papers and ECE Previous Year Papers",
     description:
-      "Browse ECE previous year question papers for GATE, ISRO, BEL, BARC, ESE, DRDO, IOCL, SSC JE, RRB JE, and State AE/JE with year-wise paper links and solved questions.",
+      "Browse GATE ECE question papers, GATE EC PYQs, and ECE previous year question papers for ISRO, BEL, BARC, ESE, DRDO, IOCL, SSC JE, RRB JE, and State AE/JE with year-wise solved paper links.",
     path: "/previous-year",
     subjectName: "Electronics and Communication Engineering",
-    chapterTitle: "Previous Year Papers",
+    chapterTitle: "GATE ECE Question Papers",
     keywords:
-      "ECE previous year papers, GATE ECE question papers, ISRO ECE previous papers, BEL electronics paper, solved previous year questions, ECE PYQ",
-    about: ["GATE ECE", "ECE question papers", "solved previous year questions"],
+      "GATE ECE question papers, GATE EC question papers, GATE previous year papers, ECE previous year papers, solved GATE ECE PYQ, ISRO ECE previous papers, BEL electronics paper, solved previous year questions, ECE PYQ",
+    about: ["GATE ECE question papers", "GATE EC PYQ", "ECE previous year questions"],
   }),
   buildBreadcrumbList([
     { name: "Home", item: "/" },
@@ -1614,9 +1614,9 @@ export default function PreviousYearPage() {
 
   return (
     <Layout
-      title="ECE Previous Year Papers | GATE and PSU PYQs"
-      description="Browse searchable ECE previous year question papers for GATE, ISRO, BEL, BARC, ESE, DRDO, IOCL, SSC JE, RRB JE, and State AE/JE with year-wise paper solutions."
-      keywords="ECE previous year papers, GATE ECE previous papers, ECE question paper, solved previous year questions, ISRO ECE paper, BEL electronics paper"
+      title="GATE ECE Question Papers & ECE Previous Year Papers | PYQs"
+      description="Search GATE ECE question papers, GATE EC previous year papers, solved GATE 2025 and 2026 papers, and ECE PYQs for BEL, ISRO, DRDO, ESE, IOCL, SSC JE, and more."
+      keywords="GATE ECE question papers, GATE EC previous year papers, GATE ECE PYQ, ECE previous year papers, ECE question paper, solved previous year questions, ISRO ECE paper, BEL electronics paper"
       canonicalUrl="/previous-year"
       structuredData={previousYearStructuredData}
       searchValue={search}
@@ -1645,12 +1645,12 @@ export default function PreviousYearPage() {
           <div className="relative mt-3 flex flex-col gap-3 sm:mt-5 sm:gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-4xl">
-                <span className="text-[#ff7417]">Previous</span>{" "}
-                <span>Year</span>{" "}
+                <span className="text-[#ff7417]">GATE ECE</span>{" "}
+                <span>Question</span>{" "}
                 <span className="text-[#7ec8ff]">Papers</span>
               </h1>
               <p className="mt-1.5 text-xs leading-5 !text-white/86 sm:mt-3 sm:text-base sm:leading-7">
-                Browse exam-wise ECE papers, filter by year or subject, and open solved sets when available.
+                Search GATE ECE question papers, GATE EC PYQs, and other exam-wise ECE previous papers by year, subject, or exam family.
               </p>
             </div>
 
@@ -1897,7 +1897,7 @@ export default function PreviousYearPage() {
                                 className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-3 py-2 text-xs font-bold text-white transition hover:opacity-90 sm:gap-2 sm:rounded-xl sm:py-2.5 sm:text-sm"
                               >
                                 <UiIcon type="eye" className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                                View Solution
+                                Open Paper
                               </Link>
                             ) : (
                               <span className="inline-flex w-full items-center justify-center rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-bold text-amber-700 sm:rounded-xl sm:py-2.5 sm:text-sm">
@@ -2023,7 +2023,7 @@ export default function PreviousYearPage() {
                                         className="inline-flex items-center gap-2 rounded-xl bg-[linear-gradient(90deg,#b02cff,#0796e8)] px-4 py-2.5 text-sm font-bold text-white transition hover:opacity-90"
                                       >
                                         <UiIcon type="eye" className="h-4 w-4" />
-                                        View Solution
+                                        Open Paper
                                       </Link>
                                     ) : (
                                       <span className="inline-flex items-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-bold text-amber-700">

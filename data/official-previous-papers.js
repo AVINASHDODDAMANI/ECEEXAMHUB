@@ -195,9 +195,9 @@ export const officialPreviousPapers = [
     importantCount: 0,
     subjectCount: 9,
     topicCount: 65,
-    sourceLabel: "GATE 2025 added questions",
+    sourceLabel: "GATE 2025 interactive solution",
     summary:
-      "GATE ECE 2025 paper includes 65 solved questions with in-site practice, detailed explanations, and clean diagrams for circuit-based questions.",
+      "GATE ECE 2025 opens as one interactive paper page with 65 solved questions, detailed explanations, and clean diagrams without a duplicate long-scroll page.",
   },
   {
     id: "bel-engineer-electronics-may-2025",
