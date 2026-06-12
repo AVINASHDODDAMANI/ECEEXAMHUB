@@ -345,7 +345,10 @@ const circuitElementSections = [
 
 function ElementCard({ section, index }) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_10px_26px_rgba(15,23,42,0.05)] sm:p-3">
+    <article
+      id={toSectionId(section.title)}
+      className="scroll-mt-32 rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_10px_26px_rgba(15,23,42,0.05)] sm:p-3"
+    >
       <div className="flex flex-col gap-2.5 sm:flex-row sm:items-start">
         <span className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-portal-600 text-xs font-black text-white shadow-[0_8px_18px_rgba(20,118,212,0.2)]">
           {String(index + 1).padStart(2, "0")}
@@ -993,6 +996,14 @@ export function CircuitElementVisualizationGallery() {
 function getStepNumber(label = "", index = 0) {
   const match = label.match(/\d+/);
   return match ? match[0] : String(index + 1);
+}
+
+function toSectionId(value = "") {
+  return String(value)
+    .toLowerCase()
+    .replace(/['']/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 function getCompactStepTitle(title = "") {

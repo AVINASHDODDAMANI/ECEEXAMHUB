@@ -231,7 +231,7 @@ export default function EmbeddedSystemsTopicPage({ topic }) {
           </TopicSection>
 
           <TopicSection id="related-topics" title="Related Embedded Systems Topics">
-            <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">Continue in the same order as the Embedded Systems hamburger menu.</p>
+            <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">Continue in the same order as the Embedded Systems chapter links.</p>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {relatedTopics.map((relatedTopic) => (
                 <Link key={`${relatedTopic.subjectSlug}-${relatedTopic.slug}`} href={`/learn/${relatedTopic.subjectSlug}/${relatedTopic.slug}`} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-portal-200 hover:bg-portal-50">

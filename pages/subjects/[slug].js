@@ -6902,7 +6902,7 @@ function VlsiDesignOverviewPanel() {
           <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
             For Graduate Aptitude Test in Engineering and PSU exams, prepare VLSI
             Design in a structured format: Chapter - Topics - Subtopics. Use the
-            hamburger menu to open the complete chapter and topic hierarchy.
+            chapter links to open the complete chapter and topic hierarchy.
           </p>
           <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
             {[
@@ -6959,7 +6959,7 @@ function AntennaWavePropagationOverviewPanel() {
           <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
             For Graduate Aptitude Test in Engineering and PSU exams, prepare
             Antenna and Wave Propagation in a structured format: Chapter - Topics -
-            Subtopics. Use the hamburger menu to open the complete hierarchy.
+            Subtopics. Use the chapter links to open the complete hierarchy.
           </p>
           <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
             {[
@@ -7016,7 +7016,7 @@ function DigitalSignalProcessingOverviewPanel() {
           <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
             For Graduate Aptitude Test in Engineering and PSU exams, prepare
             Digital Signal Processing in a structured format: Chapter - Topics -
-            Subtopics. Use the hamburger menu to open the complete chapter and
+            Subtopics. Use the chapter links to open the complete chapter and
             topic hierarchy.
           </p>
           <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
@@ -7076,7 +7076,7 @@ function MicroprocessorsOverviewPanel() {
           <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
             For Graduate Aptitude Test in Engineering and PSU exams, prepare
             Microprocessors in a structured format: Chapter - Topics - Subtopics.
-            Use the hamburger menu to open the complete chapter hierarchy.
+            Use the chapter links to open the complete chapter hierarchy.
           </p>
           <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
             {[
@@ -7134,7 +7134,7 @@ function EmbeddedSystemsOverviewPanel() {
           <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
             For Graduate Aptitude Test in Engineering and PSU exams, prepare
             Embedded Systems in a structured format: Chapter - Topics - Subtopics.
-            Use the hamburger menu to open the complete hierarchy.
+            Use the chapter links to open the complete hierarchy.
           </p>
           <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700 sm:grid-cols-2">
             {[
@@ -7590,74 +7590,37 @@ function MobileConceptRoadmap({ concepts, activeIndex }) {
 }
 
 function NetworkTopicMenu({ concepts, activeIndex }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const menuRootRef = useRef(null);
-
-  useEffect(() => {
-    if (!isOpen) {
-      return undefined;
-    }
-
-    function handlePointerDown(event) {
-      if (!menuRootRef.current?.contains(event.target)) {
-        setIsOpen(false);
-      }
-    }
-
-    function handleKeyDown(event) {
-      if (event.key === "Escape") {
-        setIsOpen(false);
-      }
-    }
-
-    document.addEventListener("pointerdown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isOpen]);
-
-  function closeMenu() {
-    setIsOpen(false);
-  }
-
   return (
-    <div ref={menuRootRef} className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Network Analysis topics"
-        aria-expanded={isOpen}
-        aria-controls="network-topic-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
+    <nav
+      aria-label="Network Analysis topic links"
+      className="flex max-w-full flex-wrap justify-end gap-2"
+    >
+      {concepts.map((concept, index) => {
+        const href =
+          NETWORK_TOPIC_ROUTES[concept.shortTitle || concept.title] ||
+          `/subjects/network-analysis?topic=${concept.slug}`;
+        const isActive = activeIndex === index + 1;
 
-      {isOpen ? (
-        <div
-          id="network-topic-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(20rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-        >
-          <NetworkTopicList
-            compact
-            concepts={concepts}
-            activeIndex={activeIndex}
-            onNavigateTopic={closeMenu}
-          />
-        </div>
-      ) : null}
-    </div>
+        return (
+          <Link
+            key={concept.slug}
+            href={href}
+            className={`inline-flex min-h-10 items-center gap-2 rounded-xl border px-3 py-2 text-left text-xs font-bold shadow-sm transition ${
+              isActive
+                ? "border-portal-300 bg-portal-50 text-portal-800"
+                : "border-portal-200 bg-white text-slate-800 hover:border-portal-300 hover:bg-portal-50"
+            }`}
+          >
+            <span className="flex h-6 w-6 flex-none items-center justify-center rounded-lg bg-white text-[10px] font-black text-portal-700 shadow-sm">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className="max-w-[12rem] truncate">
+              {concept.shortTitle || concept.title}
+            </span>
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
 
@@ -7779,994 +7742,290 @@ function SubjectConceptMenu({ subjectTitle, concepts = [], activeIndex = 0, onSe
 }
 
 function DigitalChapterMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Digital Electronics topics"
-        aria-expanded={isOpen}
-        aria-controls="digital-chapter-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
-
-      {isOpen ? (
-        <div
-          id="digital-chapter-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(26rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-        >
-          <div className="grid gap-2">
-            {DIGITAL_ELECTRONICS_CHAPTERS.map((chapter, chapterIndex) => {
-              const routeHref = DIGITAL_CHAPTER_ROUTES[chapter.title] || "/subjects/digital-electronics";
-
-              return (
-                <Link
-                  key={chapter.title}
-                  href={routeHref}
-                  onClick={() => setIsOpen(false)}
-                  className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-                >
-                  <span className="flex items-start gap-2.5">
-                    <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
-                      {String(chapterIndex + 1).padStart(2, "0")}
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block text-sm font-black leading-snug text-slate-950">
-                        {chapter.title}
-                      </span>
-                    </span>
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      ) : null}
-    </div>
+    <ChapterLinkStrip
+      id="digital-chapter-links"
+      label="Digital Electronics topics"
+      items={DIGITAL_ELECTRONICS_CHAPTERS.map((chapter, index) => ({
+        title: chapter.title,
+        href: DIGITAL_CHAPTER_ROUTES[chapter.title] || "/subjects/digital-electronics",
+        number: index + 1,
+      }))}
+    />
   );
 }
 
 function ElectromagneticTheoryChapterMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Electromagnetic Theory chapters"
-        aria-expanded={isOpen}
-        aria-controls="electromagnetic-theory-chapter-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
-
-      {isOpen ? (
-        <div
-          id="electromagnetic-theory-chapter-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-        >
-          <div className="grid gap-2">
-            {ELECTROMAGNETIC_THEORY_CHAPTERS.map((chapter, chapterIndex) => {
-              const routeHref =
-                ELECTROMAGNETIC_CHAPTER_ROUTES[chapter.title] ||
-                "/subjects/electromagnetic-theory";
-
-              return (
-              <Link
-                key={chapter.title}
-                href={routeHref}
-                onClick={() => setIsOpen(false)}
-                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-              >
-                <span className="flex items-start gap-2.5">
-                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
-                    {String(chapterIndex + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-black leading-snug text-slate-950">
-                      {chapter.title}
-                    </span>
-                  </span>
-                </span>
-              </Link>
-              );
-            })}
-          </div>
-        </div>
-      ) : null}
-    </div>
+    <ChapterLinkStrip
+      id="electromagnetic-theory-chapter-links"
+      label="Electromagnetic Theory chapters"
+      items={ELECTROMAGNETIC_THEORY_CHAPTERS.map((chapter, index) => ({
+        title: chapter.title,
+        href: ELECTROMAGNETIC_CHAPTER_ROUTES[chapter.title] || "/subjects/electromagnetic-theory",
+        number: index + 1,
+      }))}
+    />
   );
 }
 
 function AntennaWavePropagationChapterMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Antenna and Wave Propagation chapters"
-        aria-expanded={isOpen}
-        aria-controls="antenna-wave-propagation-chapter-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
-
-      {isOpen ? (
-        <div
-          id="antenna-wave-propagation-chapter-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(30rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-        >
-          <div className="grid gap-2">
-            {ANTENNA_WAVE_PROPAGATION_CHAPTERS.map((chapter, chapterIndex) => (
-              <Link
-                key={chapter.title}
-                href={ANTENNA_TOPIC_ROUTES[chapterIndex] || "/subjects/antenna-and-wave-propagation"}
-                onClick={() => setIsOpen(false)}
-                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-              >
-                <span className="flex items-start gap-2.5">
-                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
-                    {String(chapterIndex + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-black leading-snug text-slate-950">
-                      {chapter.title}
-                    </span>
-                  </span>
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      ) : null}
-    </div>
+    <ChapterLinkStrip
+      id="antenna-wave-propagation-chapter-links"
+      label="Antenna and Wave Propagation chapters"
+      items={ANTENNA_WAVE_PROPAGATION_CHAPTERS.map((chapter, index) => ({
+        title: chapter.title,
+        href: ANTENNA_TOPIC_ROUTES[index] || "/subjects/antenna-and-wave-propagation",
+        number: index + 1,
+      }))}
+    />
   );
 }
 
 function VlsiDesignChapterMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open VLSI Design chapters"
-        aria-expanded={isOpen}
-        aria-controls="vlsi-design-chapter-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
-
-      {isOpen ? (
-        <div
-          id="vlsi-design-chapter-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-        >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              VLSI Design Structure
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
-              Chapter - Topics - Subtopics for GATE/PSU revision.
-            </p>
-          </div>
-
-          <div className="mb-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-700">
-              Most Important Topics
-            </p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {VLSI_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
-                <span
-                  key={topic}
-                  className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700"
-                >
-                  {topic}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid gap-2">
-            {VLSI_DESIGN_CHAPTERS.map((chapter, chapterIndex) => (
-              <Link
-                key={chapter.title}
-                href={VLSI_TOPIC_ROUTES[chapterIndex] || `#vlsi-chapter-${chapterIndex + 1}`}
-                onClick={() => setIsOpen(false)}
-                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-              >
-                <span className="flex items-start gap-2.5">
-                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
-                    {String(chapterIndex + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-black leading-snug text-slate-950">
-                      {chapter.title}
-                    </span>
-                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
-                      {chapter.topics.map((topic) => topic.title).join(", ")}
-                    </span>
-                  </span>
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      ) : null}
-    </div>
+    <ChapterLinkStrip
+      id="vlsi-design-chapter-links"
+      label="VLSI Design chapters"
+      items={VLSI_DESIGN_CHAPTERS.map((chapter, index) => ({
+        title: chapter.title,
+        detail: chapter.topics.map((topic) => topic.title).join(", "),
+        href: VLSI_TOPIC_ROUTES[index] || `#vlsi-chapter-${index + 1}`,
+        number: index + 1,
+      }))}
+    />
   );
 }
 
 function DigitalSignalProcessingChapterMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Digital Signal Processing chapters"
-        aria-expanded={isOpen}
-        aria-controls="digital-signal-processing-chapter-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
-
-      {isOpen ? (
-        <div
-          id="digital-signal-processing-chapter-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-        >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              Digital Signal Processing Structure
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
-              Chapter - Topics - Subtopics for GATE/PSU revision.
-            </p>
-          </div>
-
-          <div className="mb-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-700">
-              Most Important Topics
-            </p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {DIGITAL_SIGNAL_PROCESSING_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
-                <span
-                  key={topic}
-                  className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700"
-                >
-                  {topic}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid gap-2">
-            {DIGITAL_SIGNAL_PROCESSING_CHAPTERS.map((chapter, chapterIndex) => {
-              const routeHref =
-                DIGITAL_SIGNAL_PROCESSING_CHAPTER_ROUTES[chapter.title] ||
-                "/subjects/digital-signal-processing";
-
-              return (
-                <Link
-                  key={chapter.title}
-                  href={routeHref}
-                  onClick={() => setIsOpen(false)}
-                  className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-                >
-                  <span className="flex items-start gap-2.5">
-                    <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
-                      {String(chapterIndex + 1).padStart(2, "0")}
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block text-sm font-black leading-snug text-slate-950">
-                        {chapter.title}
-                      </span>
-                      <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
-                        {chapter.topics.map((topic) => topic.title).join(", ")}
-                      </span>
-                    </span>
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      ) : null}
-    </div>
+    <ChapterLinkStrip
+      id="digital-signal-processing-chapter-links"
+      label="Digital Signal Processing chapters"
+      items={DIGITAL_SIGNAL_PROCESSING_CHAPTERS.map((chapter, index) => ({
+        title: chapter.title,
+        detail: chapter.topics.map((topic) => topic.title).join(", "),
+        href: DIGITAL_SIGNAL_PROCESSING_CHAPTER_ROUTES[chapter.title] || "/subjects/digital-signal-processing",
+        number: index + 1,
+      }))}
+    />
   );
 }
 
 function MicroprocessorsChapterMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Microprocessors chapters"
-        aria-expanded={isOpen}
-        aria-controls="microprocessors-chapter-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
-
-      {isOpen ? (
-        <div
-          id="microprocessors-chapter-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-        >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              Microprocessors Structure
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
-              Chapter - Topics - Subtopics for GATE/PSU revision.
-            </p>
-          </div>
-
-          <div className="mb-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-700">
-              Most Important Topics
-            </p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {MICROPROCESSORS_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
-                <span
-                  key={topic}
-                  className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700"
-                >
-                  {topic}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid gap-2">
-            {MICROPROCESSORS_CHAPTERS.map((chapter, chapterIndex) => {
-              const routeHref =
-                MICROPROCESSORS_CHAPTER_ROUTES[chapter.title] ||
-                "/subjects/microprocessors";
-
-              return (
-              <Link
-                key={chapter.title}
-                href={routeHref}
-                onClick={() => setIsOpen(false)}
-                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-              >
-                <span className="flex items-start gap-2.5">
-                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
-                    {String(chapterIndex + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-black leading-snug text-slate-950">
-                      {chapter.title}
-                    </span>
-                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
-                      {chapter.topics.map((topic) => topic.title).join(", ")}
-                    </span>
-                  </span>
-                </span>
-              </Link>
-              );
-            })}
-          </div>
-        </div>
-      ) : null}
-    </div>
+    <ChapterLinkStrip
+      id="microprocessors-chapter-links"
+      label="Microprocessors chapters"
+      items={MICROPROCESSORS_CHAPTERS.map((chapter, index) => ({
+        title: chapter.title,
+        detail: chapter.topics.map((topic) => topic.title).join(", "),
+        href: MICROPROCESSORS_CHAPTER_ROUTES[chapter.title] || "/subjects/microprocessors",
+        number: index + 1,
+      }))}
+    />
   );
 }
 
 function EmbeddedSystemsChapterMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Embedded Systems chapters"
-        aria-expanded={isOpen}
-        aria-controls="embedded-systems-chapter-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
-
-      {isOpen ? (
-        <div
-          id="embedded-systems-chapter-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-        >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              Embedded Systems Structure
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
-              Chapter - Topics - Subtopics for GATE/PSU revision.
-            </p>
-          </div>
-
-          <div className="mb-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-slate-700">
-              Most Important Topics
-            </p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {EMBEDDED_SYSTEMS_HIGH_WEIGHTAGE_TOPICS.map((topic) => (
-                <span
-                  key={topic}
-                  className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-bold text-portal-700"
-                >
-                  {topic}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid gap-2">
-            {EMBEDDED_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => (
-              <Link
-                key={chapter.title}
-                href={EMBEDDED_SYSTEMS_TOPIC_ROUTES[chapterIndex] || "/subjects/embedded-systems"}
-                onClick={() => setIsOpen(false)}
-                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-              >
-                <span className="flex items-start gap-2.5">
-                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
-                    {String(chapterIndex + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-black leading-snug text-slate-950">
-                      {chapter.title}
-                    </span>
-                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
-                      {chapter.topics.map((topic) => topic.title).join(", ")}
-                    </span>
-                  </span>
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      ) : null}
-    </div>
+    <ChapterLinkStrip
+      id="embedded-systems-chapter-links"
+      label="Embedded Systems chapters"
+      items={EMBEDDED_SYSTEMS_CHAPTERS.map((chapter, index) => ({
+        title: chapter.title,
+        detail: chapter.topics.map((topic) => topic.title).join(", "),
+        href: EMBEDDED_SYSTEMS_TOPIC_ROUTES[index] || "/subjects/embedded-systems",
+        number: index + 1,
+      }))}
+    />
   );
 }
 
 function SignalsChapterMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Signals and Systems chapters"
-        aria-expanded={isOpen}
-        aria-controls="signals-chapter-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
-
-      {isOpen ? (
-        <div
-          id="signals-chapter-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-        >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              Signals and Systems Structure
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
-              Chapter - Topics - Subtopics for GATE/PSU revision.
-            </p>
-          </div>
-
-          <div className="grid gap-2">
-            {SIGNALS_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => {
-              const routeHref =
-                chapter.title === "Introduction to Signals"
-                  ? "/introduction-to-signals"
-                  : chapter.title === "Systems and Their Properties"
-                  ? "/systems-and-their-properties"
-                  : chapter.title === "Mathematical Representation of Signals"
-                  ? "/mathematical-representation-of-signals"
-                  : chapter.title === "Convolution"
-                  ? "/convolution"
-                  : chapter.title === "Fourier Series"
-                  ? "/fourier-series"
-                  : chapter.title === "Fourier Transform"
-                  ? "/fourier-transform"
-                  : chapter.title === "Laplace Transform"
-                  ? "/laplace-transform"
-                  : chapter.title === "Z-Transform"
-                  ? "/z-transform"
-                  : chapter.title === "Sampling Theorem"
-                  ? "/sampling-theorem"
-                  : chapter.title === "Frequency Response and Filters"
-                  ? "/frequency-response-and-filters"
-                  : "";
-              const content = (
-                <span className="flex items-start gap-2.5">
-                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
-                    {String(chapterIndex + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-black leading-snug text-slate-950">
-                      {chapter.title}
-                    </span>
-                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
-                      {chapter.topics.map((topic) => topic.title).join(", ")}
-                    </span>
-                  </span>
-                </span>
-              );
-
-              if (routeHref) {
-                return (
-                  <Link
-                    key={chapter.title}
-                    href={routeHref}
-                    onClick={() => setIsOpen(false)}
-                    className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-                  >
-                    {content}
-                  </Link>
-                );
-              }
-
-              return (
-                <button
-                  type="button"
-                  key={chapter.title}
-                  onClick={() => setIsOpen(false)}
-                  className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-                >
-                  {content}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      ) : null}
-    </div>
+    <ChapterLinkStrip
+      id="signals-chapter-links"
+      label="Signals and Systems chapters"
+      items={SIGNALS_SYSTEMS_CHAPTERS.map((chapter, index) => ({
+        title: chapter.title,
+        detail: chapter.topics.map((topic) => topic.title).join(", "),
+        href:
+          chapter.title === "Introduction to Signals"
+            ? "/introduction-to-signals"
+            : chapter.title === "Systems and Their Properties"
+            ? "/systems-and-their-properties"
+            : chapter.title === "Mathematical Representation of Signals"
+            ? "/mathematical-representation-of-signals"
+            : chapter.title === "Convolution"
+            ? "/convolution"
+            : chapter.title === "Fourier Series"
+            ? "/fourier-series"
+            : chapter.title === "Fourier Transform"
+            ? "/fourier-transform"
+            : chapter.title === "Laplace Transform"
+            ? "/laplace-transform"
+            : chapter.title === "Z-Transform"
+            ? "/z-transform"
+            : chapter.title === "Sampling Theorem"
+            ? "/sampling-theorem"
+            : chapter.title === "Frequency Response and Filters"
+            ? "/frequency-response-and-filters"
+            : "/subjects/signals-and-systems",
+        number: index + 1,
+      }))}
+    />
   );
 }
 
 function CommunicationSystemsChapterMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Communication Systems chapters"
-        aria-expanded={isOpen}
-        aria-controls="communication-systems-chapter-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
-
-      {isOpen ? (
-        <div
-          id="communication-systems-chapter-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-        >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              Communication Systems Structure
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
-              Chapter - Topics - Subtopics for GATE/PSU revision.
-            </p>
-          </div>
-
-          <div className="grid gap-2">
-            {COMMUNICATION_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => {
-              const routeHref =
-                chapter.title === "Introduction to Communication Systems"
-                  ? "/learn/communications/introduction-to-communication-systems"
-                  : chapter.title === "Signals and Spectra"
-                  ? "/learn/communications/signals-and-spectra"
-                  : chapter.title === "Amplitude Modulation (AM)"
-                  ? "/learn/communications/amplitude-modulation"
-                  : chapter.title === "Angle Modulation"
-                  ? "/learn/communications/angle-modulation"
-                  : chapter.title === "Pulse Modulation"
-                  ? "/learn/communications/pulse-modulation"
-                  : chapter.title === "Digital Communication"
-                  ? "/learn/communications/digital-communication"
-                  : chapter.title === "Digital Modulation Techniques"
-                  ? "/learn/communications/digital-modulation-techniques"
-                  : chapter.title === "Noise in Communication Systems"
-                  ? "/learn/communications/noise-in-communication-systems"
-                  : chapter.title === "Information Theory"
-                  ? "/learn/communications/information-theory"
-                  : chapter.title === "Communication Receivers"
-                  ? "/learn/communications/communication-receivers"
-                  : chapter.title === "Antennas and Propagation Basics"
-                  ? "/learn/communications/antennas-and-propagation-basics"
-                  : "";
-              const content = (
-                <span className="flex items-start gap-2.5">
-                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
-                    {String(chapterIndex + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-black leading-snug text-slate-950">
-                      {chapter.title}
-                    </span>
-                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
-                      {chapter.topics.map((topic) => topic.title).join(", ")}
-                    </span>
-                  </span>
-                </span>
-              );
-
-              if (routeHref) {
-                return (
-                  <Link
-                    key={chapter.title}
-                    href={routeHref}
-                    onClick={() => setIsOpen(false)}
-                    className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-                  >
-                    {content}
-                  </Link>
-                );
-              }
-
-              return (
-                <button
-                  type="button"
-                  key={chapter.title}
-                  onClick={() => setIsOpen(false)}
-                  className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-                >
-                  {content}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      ) : null}
-    </div>
+    <ChapterLinkStrip
+      id="communication-systems-chapter-links"
+      label="Communication Systems chapters"
+      items={COMMUNICATION_SYSTEMS_CHAPTERS.map((chapter, index) => ({
+        title: chapter.title,
+        detail: chapter.topics.map((topic) => topic.title).join(", "),
+        href:
+          chapter.title === "Introduction to Communication Systems"
+            ? "/learn/communications/introduction-to-communication-systems"
+            : chapter.title === "Signals and Spectra"
+            ? "/learn/communications/signals-and-spectra"
+            : chapter.title === "Amplitude Modulation (AM)"
+            ? "/learn/communications/amplitude-modulation"
+            : chapter.title === "Angle Modulation"
+            ? "/learn/communications/angle-modulation"
+            : chapter.title === "Pulse Modulation"
+            ? "/learn/communications/pulse-modulation"
+            : chapter.title === "Digital Communication"
+            ? "/learn/communications/digital-communication"
+            : chapter.title === "Digital Modulation Techniques"
+            ? "/learn/communications/digital-modulation-techniques"
+            : chapter.title === "Noise in Communication Systems"
+            ? "/learn/communications/noise-in-communication-systems"
+            : chapter.title === "Information Theory"
+            ? "/learn/communications/information-theory"
+            : chapter.title === "Communication Receivers"
+            ? "/learn/communications/communication-receivers"
+            : chapter.title === "Antennas and Propagation Basics"
+            ? "/learn/communications/antennas-and-propagation-basics"
+            : "/subjects/communication-systems",
+        number: index + 1,
+      }))}
+    />
   );
 }
 
 function ControlSystemsChapterMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Control Systems topics"
-        aria-expanded={isOpen}
-        aria-controls="control-systems-chapter-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
-
-      {isOpen ? (
-        <div
-          id="control-systems-chapter-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[72vh] w-[min(28rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-        >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              Control Systems Topics
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-4 text-slate-700">
-              Jump directly to any Control Systems topic.
-            </p>
-          </div>
-
-          <div className="grid gap-2">
-            {CONTROL_SYSTEMS_CHAPTERS.map((chapter, chapterIndex) => {
-              const routeHref =
-                chapter.title === "Introduction to Control Systems"
-                  ? "/introduction-to-control-systems"
-                : chapter.title === "Mathematical Modeling of Systems"
-                  ? "/mathematical-modeling-of-systems"
-                : chapter.title === "Block Diagram and Signal Flow Graph"
-                  ? "/block-diagram-and-signal-flow-graph"
-                : chapter.title === "Time Response Analysis"
-                  ? "/time-response-analysis"
-                : chapter.title === "Stability Analysis"
-                  ? "/stability-analysis"
-                : chapter.title === "Root Locus Technique"
-                  ? "/root-locus-technique"
-                : chapter.title === "Frequency Response Analysis"
-                  ? "/frequency-response-analysis"
-                : chapter.title === "Controllers and Compensators"
-                  ? "/controllers-and-compensators"
-                : chapter.title === "State Space Analysis"
-                  ? "/state-space-analysis"
-                : chapter.title === "Control System Design"
-                  ? "/control-system-design"
-                  : "";
-              const content = (
-                <span className="flex items-start gap-2.5">
-                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
-                    {String(chapterIndex + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-black leading-snug text-slate-950">
-                      {chapter.title}
-                    </span>
-                  </span>
-                </span>
-              );
-
-              if (routeHref) {
-                return (
-                  <Link
-                    key={chapter.title}
-                    href={routeHref}
-                    onClick={() => setIsOpen(false)}
-                    className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-                  >
-                    {content}
-                  </Link>
-                );
-              }
-
-              return (
-                <button
-                  key={chapter.title}
-                  type="button"
-                  onClick={() => setIsOpen(false)}
-                  className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-                >
-                  {content}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      ) : null}
-    </div>
+    <ChapterLinkStrip
+      id="control-systems-chapter-links"
+      label="Control Systems topics"
+      items={CONTROL_SYSTEMS_CHAPTERS.map((chapter, index) => ({
+        title: chapter.title,
+        href:
+          chapter.title === "Introduction to Control Systems"
+            ? "/introduction-to-control-systems"
+            : chapter.title === "Mathematical Modeling of Systems"
+            ? "/mathematical-modeling-of-systems"
+            : chapter.title === "Block Diagram and Signal Flow Graph"
+            ? "/block-diagram-and-signal-flow-graph"
+            : chapter.title === "Time Response Analysis"
+            ? "/time-response-analysis"
+            : chapter.title === "Stability Analysis"
+            ? "/stability-analysis"
+            : chapter.title === "Root Locus Technique"
+            ? "/root-locus-technique"
+            : chapter.title === "Frequency Response Analysis"
+            ? "/frequency-response-analysis"
+            : chapter.title === "Controllers and Compensators"
+            ? "/controllers-and-compensators"
+            : chapter.title === "State Space Analysis"
+            ? "/state-space-analysis"
+            : chapter.title === "Control System Design"
+            ? "/control-system-design"
+            : "/subjects/control-systems",
+        number: index + 1,
+      }))}
+    />
   );
 }
 
 function AnalogChapterMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Analog Electronics chapters"
-        aria-expanded={isOpen}
-        aria-controls="analog-chapter-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
+    <ChapterLinkStrip
+      id="analog-chapter-links"
+      label="Analog Electronics chapters"
+      items={ANALOG_CHAPTERS.map((chapter) => ({
+        title: chapter.title,
+        href: chapter.route,
+        number: chapter.number,
+      }))}
+    />
+  );
+}
 
-      {isOpen ? (
-        <div
-          id="analog-chapter-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(23rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2.5 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
+function ChapterLinkStrip({ id, label, items = [] }) {
+  return (
+    <nav
+      id={id}
+      aria-label={label}
+      className="flex max-w-full flex-wrap justify-end gap-2"
+    >
+      {items.map((item, index) => (
+        <Link
+          key={`${item.href}-${item.title}`}
+          href={item.href}
+          title={item.detail || item.title}
+          className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-portal-200 bg-white px-3 py-2 text-left text-xs font-bold text-slate-800 shadow-sm transition hover:border-portal-300 hover:bg-portal-50"
         >
-          <div className="grid gap-1.5">
-            {ANALOG_CHAPTERS.map((chapter) => (
-              <Link
-                key={chapter.slug}
-                href={chapter.route}
-                onClick={() => setIsOpen(false)}
-                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-2.5 text-left transition hover:border-portal-300 hover:bg-white"
-              >
-                <span className="flex items-start gap-2.5">
-                  <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-white text-[11px] font-black text-portal-700 shadow-sm">
-                    {String(chapter.number).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-black leading-snug text-slate-950">
-                      {chapter.title}
-                    </span>
-                  </span>
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      ) : null}
-    </div>
+          <span className="flex h-6 w-6 flex-none items-center justify-center rounded-lg bg-portal-50 text-[10px] font-black text-portal-700">
+            {String(item.number || index + 1).padStart(2, "0")}
+          </span>
+          <span className="max-w-[12rem] truncate">{item.title}</span>
+        </Link>
+      ))}
+    </nav>
   );
 }
 
 function BasicConceptSubtopicMenu({ topics = [] }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  function scrollToTopic(title) {
+  function scrollToTopic(event, title) {
+    event.preventDefault();
     const targetId = `basic-concept-${toAnchorId(title)}`;
-    document.getElementById(targetId)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-    setIsOpen(false);
+    const target = document.getElementById(targetId);
+
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.history.replaceState(null, "", `#${targetId}`);
+    }
   }
 
   return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label="Open Basic Concepts subtopics"
-        aria-expanded={isOpen}
-        aria-controls="basic-concepts-subtopic-menu"
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
+    <nav
+      aria-label="Basic Concepts section links"
+      className="flex max-w-full flex-wrap justify-end gap-2"
+    >
+      {topics.map((topic, index) => {
+        const targetId = `basic-concept-${toAnchorId(topic.title)}`;
 
-      {isOpen ? (
-        <div
-          id="basic-concepts-subtopic-menu"
-          className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-        >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              Basic Concepts
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-5 text-slate-700">
-              Jump to the main topic and view its subtopics.
-            </p>
-          </div>
-
-          <div className="grid gap-2">
-            {topics.map((topic, index) => (
-              <button
-                key={topic.title}
-                type="button"
-                onClick={() => scrollToTopic(topic.title)}
-                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-              >
-                <span className="flex items-start gap-3">
-                  <span className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-white text-xs font-black text-portal-700 shadow-sm">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-black text-slate-950">
-                      {topic.title}
-                    </span>
-                    <span className="mt-2 grid gap-1">
-                      {topic.sections.map((section) => (
-                        <span
-                          key={`${topic.title}-${section.heading}`}
-                          className="block text-xs font-semibold leading-5 text-slate-700"
-                        >
-                          {section.heading}
-                        </span>
-                      ))}
-                    </span>
-                  </span>
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-      ) : null}
-    </div>
+        return (
+          <a
+            key={topic.title}
+            href={`#${targetId}`}
+            onClick={(event) => scrollToTopic(event, topic.title)}
+            title={topic.sections.map((section) => section.heading).join(", ")}
+            className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-portal-200 bg-white px-3 py-2 text-left text-xs font-bold text-slate-800 shadow-sm transition hover:border-portal-300 hover:bg-portal-50"
+          >
+            <span className="flex h-6 w-6 flex-none items-center justify-center rounded-lg bg-portal-50 text-[10px] font-black text-portal-700">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className="max-w-[12rem] truncate">{topic.title}</span>
+          </a>
+        );
+      })}
+    </nav>
   );
 }
 
@@ -12690,82 +11949,47 @@ const AMPLIFIER_TOPIC_MENU = [
 ];
 
 function TopicJumpMenu({ label, topics = [], idPrefix, controlId }) {
-  const [isOpen, setIsOpen] = useState(false);
+  function getTopicTargetId(title) {
+    return `${idPrefix}-${toAnchorId(title)}`;
+  }
 
-  function scrollToTopic(title) {
-    const targetId = `${idPrefix}-${toAnchorId(title)}`;
+  function scrollToTopic(event, title) {
+    event.preventDefault();
+    const targetId = getTopicTargetId(title);
     const target = document.getElementById(targetId);
 
     if (target) {
       const top = target.getBoundingClientRect().top + window.scrollY - 96;
       window.scrollTo({ top: Math.max(top, 0), left: 0, behavior: "auto" });
+      window.history.replaceState(null, "", `#${targetId}`);
     }
-
-    setIsOpen(false);
   }
 
   return (
-    <div className="relative flex-none">
-      <button
-        type="button"
-        onClick={() => setIsOpen((currentValue) => !currentValue)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-portal-200 bg-white text-portal-700 shadow-sm transition hover:bg-portal-50"
-        aria-label={`Open ${label} topics`}
-        aria-expanded={isOpen}
-        aria-controls={controlId}
-      >
-        {isOpen ? (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 6h12M4 10h12M4 14h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )}
-      </button>
+    <nav
+      id={controlId}
+      aria-label={`${label} topic links`}
+      className="flex max-w-full flex-wrap justify-end gap-2"
+    >
+      {topics.map((topic, index) => {
+        const targetId = getTopicTargetId(topic.title);
 
-      {isOpen ? (
-        <div
-          id={controlId}
-          className="absolute right-0 z-30 mt-2 max-h-[70vh] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_22px_60px_rgba(15,23,42,0.18)]"
-        >
-          <div className="mb-2 rounded-xl border border-portal-200 bg-portal-50 px-3 py-2">
-            <p className="text-xs font-black uppercase tracking-[0.12em] text-portal-700">
-              {label}
-            </p>
-            <p className="mt-1 text-xs font-semibold leading-5 text-slate-700">
-              Jump to any topic in this explanation.
-            </p>
-          </div>
-
-          <div className="grid gap-2">
-            {topics.map((topic, index) => (
-              <button
-                key={topic.title}
-                type="button"
-                onClick={() => scrollToTopic(topic.title)}
-                className="rounded-xl border border-slate-200 bg-[#f8fbff] p-3 text-left transition hover:border-portal-300 hover:bg-white"
-              >
-                <span className="flex items-start gap-3">
-                  <span className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-white text-xs font-black text-portal-700 shadow-sm">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-black text-slate-950">
-                      {topic.title}
-                    </span>
-                    <span className="mt-1 block text-xs font-semibold leading-5 text-slate-600">
-                      {topic.detail}
-                    </span>
-                  </span>
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-      ) : null}
-    </div>
+        return (
+          <a
+            key={topic.title}
+            href={`#${targetId}`}
+            onClick={(event) => scrollToTopic(event, topic.title)}
+            title={topic.detail}
+            className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-portal-200 bg-white px-3 py-2 text-left text-xs font-bold text-slate-800 shadow-sm transition hover:border-portal-300 hover:bg-portal-50"
+          >
+            <span className="flex h-6 w-6 flex-none items-center justify-center rounded-lg bg-portal-50 text-[10px] font-black text-portal-700">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className="max-w-[12rem] truncate">{topic.title}</span>
+          </a>
+        );
+      })}
+    </nav>
   );
 }
 
@@ -13956,7 +13180,7 @@ function SubjectSeoDepthSection({
     .slice(0, 6);
   const readyTopicLinks = learningTopics.slice(0, 6);
   const studyRouteItems = [
-    "Use the hamburger menu to move chapter by chapter instead of reading everything on the first page.",
+    "Use the chapter links to move chapter by chapter instead of reading everything on the first page.",
     "Open notes when you want the full explanation, then return here to continue navigation.",
     "After finishing one chapter, solve questions before jumping to the next.",
   ];
@@ -15523,7 +14747,7 @@ function buildSubjectLandingCards(subjectTitle) {
 
 function SubjectLandingMenu({ subjectTitle, concepts, activeConceptIndex }) {
   if (subjectTitle === "Network Analysis") {
-    return <NetworkTopicMenu concepts={concepts} activeIndex={activeConceptIndex} />;
+    return null;
   }
 
   if (subjectTitle === "Analog Electronics") {
@@ -15721,6 +14945,29 @@ const NETWORK_BEGINNER_TOC = [
   "Previous Year Questions (PYQs)",
   "Frequently Asked Questions (FAQs)",
 ];
+
+const NETWORK_BEGINNER_TOC_ROUTES = {
+  "What is Network Analysis?": "/what-is-network-analysis",
+  "Basic Terminologies": "/basic-concepts",
+  "Types of Electrical Networks": "/network-topology",
+  "Circuit Elements": "/circuit-elements",
+  "Ohm's Law, KCL and KVL": "/circuit-laws#ohms-law",
+  "Ohm's Law, KCL & KVL": "/circuit-laws#ohms-law",
+  "Mesh Analysis": "/dc-circuit-analysis#mesh-analysis",
+  "Nodal Analysis": "/dc-circuit-analysis#nodal-analysis",
+  "Nodes & Subcircuits": "/circuit-laws#kirchhoffs-current-law-kcl",
+  "Network Theorems": "/network-theorems",
+  "Superposition Theorem": "/network-theorems#superposition-theorem",
+  "Thevenin's Theorem": "/network-theorems#thevenins-theorem",
+  "Dependent Sources": "/circuit-elements#dependent-source",
+  "Norton's Theorem": "/network-theorems#nortons-theorem",
+  "Maximum Power Transfer": "/network-theorems#maximum-power-transfer-theorem",
+  "AC Circuit Analysis": "/ac-circuit-analysis",
+  "Solved Examples": "/network-analysis-pyq",
+  "Solved Examples & Numericals": "/network-analysis-pyq",
+  "Previous Year Questions (PYQs)": "/network-analysis-pyq",
+  "Frequently Asked Questions (FAQs)": "/faq",
+};
 
 const NETWORK_CHAPTER_STATS = [
   { label: "Estimated Time", value: "8-10 Hours", icon: "clock" },
@@ -15991,11 +15238,11 @@ const SUBJECT_CHAPTER_HOME = {
     difficulty: "Medium",
     time: "6-8 Hours",
     links: [
-      { title: "Antenna Basics Notes", href: "/subjects/antenna-wave-propagation" },
-      { title: "Antenna Parameters Notes", href: "/subjects/antenna-wave-propagation" },
-      { title: "Antenna Arrays Notes", href: "/subjects/antenna-wave-propagation" },
-      { title: "Wave Propagation Notes", href: "/subjects/antenna-wave-propagation" },
-      { title: "Space Wave Notes", href: "/subjects/antenna-wave-propagation" },
+      { title: "Antenna Basics Notes", href: "/learn/antenna-wave-propagation/introduction-to-antennas" },
+      { title: "Antenna Parameters Notes", href: "/learn/antenna-wave-propagation/antenna-fundamentals" },
+      { title: "Antenna Arrays Notes", href: "/learn/antenna-wave-propagation/antenna-arrays" },
+      { title: "Wave Propagation Notes", href: "/learn/antenna-wave-propagation/wave-propagation-basics" },
+      { title: "Space Wave Notes", href: "/learn/antenna-wave-propagation/space-wave-propagation" },
     ],
   },
   "Electromagnetic Theory": {
@@ -16129,6 +15376,172 @@ const SUBJECT_CHAPTER_HOME = {
     ],
   },
 };
+
+const SUBJECT_HOME_FALLBACK_HREFS = {
+  "Analog Electronics": "/subjects/analog-electronics",
+  "Antenna & Wave Propagation": "/subjects/antenna-and-wave-propagation",
+  "Communication Systems": "/subjects/communication-systems",
+  "Control Systems": "/subjects/control-systems",
+  "Digital Electronics": "/subjects/digital-electronics",
+  "Digital Signal Processing": "/subjects/digital-signal-processing",
+  "Electromagnetic Theory": "/subjects/electromagnetic-theory",
+  "Embedded Systems": "/subjects/embedded-systems",
+  Microprocessors: "/subjects/microprocessors",
+  "Network Analysis": "/subjects/network-analysis",
+  "Signals and Systems": "/subjects/signals-and-systems",
+  "VLSI Design": "/subjects/vlsi-design",
+};
+
+const SIGNALS_CHAPTER_HOME_ROUTES = {
+  "Introduction to Signals": "/introduction-to-signals",
+  "Systems and Their Properties": "/systems-and-their-properties",
+  "Mathematical Representation of Signals": "/mathematical-representation-of-signals",
+  Convolution: "/convolution",
+  "Fourier Series": "/fourier-series",
+  "Fourier Transform": "/fourier-transform",
+  "Laplace Transform": "/laplace-transform",
+  "Z-Transform": "/z-transform",
+  "Sampling Theorem": "/sampling-theorem",
+  "Frequency Response and Filters": "/frequency-response-and-filters",
+};
+
+const COMMUNICATION_CHAPTER_HOME_ROUTES = {
+  "Introduction to Communication Systems": "/learn/communications/introduction-to-communication-systems",
+  "Signals and Spectra": "/learn/communications/signals-and-spectra",
+  "Amplitude Modulation (AM)": "/learn/communications/amplitude-modulation",
+  "Angle Modulation": "/learn/communications/angle-modulation",
+  "Pulse Modulation": "/learn/communications/pulse-modulation",
+  "Digital Communication": "/learn/communications/digital-communication",
+  "Digital Modulation Techniques": "/learn/communications/digital-modulation-techniques",
+  "Noise in Communication Systems": "/learn/communications/noise-in-communication-systems",
+  "Information Theory": "/learn/communications/information-theory",
+  "Communication Receivers": "/learn/communications/communication-receivers",
+  "Antennas and Propagation Basics": "/learn/communications/antennas-and-propagation-basics",
+};
+
+const CONTROL_CHAPTER_HOME_ROUTES = {
+  "Introduction to Control Systems": "/introduction-to-control-systems",
+  "Mathematical Modeling of Systems": "/mathematical-modeling-of-systems",
+  "Block Diagram and Signal Flow Graph": "/block-diagram-and-signal-flow-graph",
+  "Time Response Analysis": "/time-response-analysis",
+  "Stability Analysis": "/stability-analysis",
+  "Root Locus Technique": "/root-locus-technique",
+  "Frequency Response Analysis": "/frequency-response-analysis",
+  "Controllers and Compensators": "/controllers-and-compensators",
+  "State Space Analysis": "/state-space-analysis",
+  "Control System Design": "/control-system-design",
+};
+
+function buildChapterTocItems(chapters, getHref, fallbackHref) {
+  return chapters.map((chapter, index) => ({
+    title: chapter.title,
+    href: getHref(chapter, index) || fallbackHref,
+  }));
+}
+
+function getNetworkHomeTocItems() {
+  return NETWORK_ANALYSIS_TOPIC_GROUPS.filter((group) => NETWORK_TOPIC_ROUTES[group.title]).map((group) => ({
+    title: group.title,
+    href: NETWORK_TOPIC_ROUTES[group.title],
+  }));
+}
+
+function getSubjectHomeTocItems(chapter, concepts = []) {
+  const fallbackHref = SUBJECT_HOME_FALLBACK_HREFS[chapter.title] || "/subjects";
+
+  if (chapter.title === "Network Analysis") {
+    return getNetworkHomeTocItems();
+  }
+
+  if (chapter.title === "Analog Electronics") {
+    return buildChapterTocItems(ANALOG_CHAPTERS, (item) => item.route, fallbackHref);
+  }
+
+  if (chapter.title === "Digital Electronics") {
+    return buildChapterTocItems(
+      DIGITAL_ELECTRONICS_CHAPTERS,
+      (item) => DIGITAL_CHAPTER_ROUTES[item.title],
+      fallbackHref
+    );
+  }
+
+  if (chapter.title === "Electromagnetic Theory") {
+    return buildChapterTocItems(
+      ELECTROMAGNETIC_THEORY_CHAPTERS,
+      (item) => ELECTROMAGNETIC_CHAPTER_ROUTES[item.title],
+      fallbackHref
+    );
+  }
+
+  if (chapter.title === "Antenna & Wave Propagation") {
+    return buildChapterTocItems(
+      ANTENNA_WAVE_PROPAGATION_CHAPTERS,
+      (item, index) => ANTENNA_TOPIC_ROUTES[index],
+      fallbackHref
+    );
+  }
+
+  if (chapter.title === "VLSI Design") {
+    return buildChapterTocItems(
+      VLSI_DESIGN_CHAPTERS,
+      (item, index) => VLSI_TOPIC_ROUTES[index],
+      fallbackHref
+    );
+  }
+
+  if (chapter.title === "Digital Signal Processing") {
+    return buildChapterTocItems(
+      DIGITAL_SIGNAL_PROCESSING_CHAPTERS,
+      (item) => DIGITAL_SIGNAL_PROCESSING_CHAPTER_ROUTES[item.title],
+      fallbackHref
+    );
+  }
+
+  if (chapter.title === "Microprocessors") {
+    return buildChapterTocItems(
+      MICROPROCESSORS_CHAPTERS,
+      (item) => MICROPROCESSORS_CHAPTER_ROUTES[item.title],
+      fallbackHref
+    );
+  }
+
+  if (chapter.title === "Embedded Systems") {
+    return buildChapterTocItems(
+      EMBEDDED_SYSTEMS_CHAPTERS,
+      (item, index) => EMBEDDED_SYSTEMS_TOPIC_ROUTES[index],
+      fallbackHref
+    );
+  }
+
+  if (chapter.title === "Signals and Systems") {
+    return buildChapterTocItems(
+      SIGNALS_SYSTEMS_CHAPTERS,
+      (item) => SIGNALS_CHAPTER_HOME_ROUTES[item.title],
+      fallbackHref
+    );
+  }
+
+  if (chapter.title === "Communication Systems") {
+    return buildChapterTocItems(
+      COMMUNICATION_SYSTEMS_CHAPTERS,
+      (item) => COMMUNICATION_CHAPTER_HOME_ROUTES[item.title],
+      fallbackHref
+    );
+  }
+
+  if (chapter.title === "Control Systems") {
+    return buildChapterTocItems(
+      CONTROL_SYSTEMS_CHAPTERS,
+      (item) => CONTROL_CHAPTER_HOME_ROUTES[item.title],
+      fallbackHref
+    );
+  }
+
+  return (chapter.toc || []).map((title) => ({
+    title,
+    href: NETWORK_BEGINNER_TOC_ROUTES[title] || fallbackHref,
+  }));
+}
 
 function NetworkSmallIcon({ name, className = "h-6 w-6" }) {
   const common = {
@@ -16592,12 +16005,15 @@ function ChapterHeroDiagram({ type }) {
   return <BeginnerSeriesCircuitDiagram />;
 }
 
-function NetworkBeginnerGuide({ chapter }) {
+function NetworkBeginnerGuide({ chapter, concepts = [] }) {
+  const tocItems = getSubjectHomeTocItems(chapter, concepts);
   const stats = NETWORK_CHAPTER_STATS.map((item) =>
     item.label === "Difficulty"
       ? { ...item, value: chapter.difficulty }
       : item.label === "Estimated Time"
       ? { ...item, value: chapter.time || item.value }
+      : item.label === "Topics"
+      ? { ...item, value: `${tocItems.length} Main Topics` }
       : item
   );
 
@@ -16629,17 +16045,17 @@ function NetworkBeginnerGuide({ chapter }) {
             <h2 className="text-2xl font-black text-[#137d46]">Table of Contents</h2>
           </div>
           <div className="mt-5 grid gap-x-7 gap-y-0 md:grid-cols-2 xl:grid-cols-3">
-            {chapter.toc.map((item, index) => (
-              <a
-                key={item}
-                href="#network-beginner-guide"
+            {tocItems.map((item, index) => (
+              <Link
+                key={`${item.title}-${item.href}`}
+                href={item.href}
                 className="flex items-center gap-3 border-b border-slate-200 py-3 text-sm font-black text-[#0754c9] transition hover:text-[#061642] sm:text-base"
               >
                 <span className="flex h-8 w-8 flex-none items-center justify-center rounded-md bg-[#2f9f45] text-sm font-black text-white">
                   {index + 1}
                 </span>
-                <span>{item}</span>
-              </a>
+                <span>{item.title}</span>
+              </Link>
             ))}
           </div>
         </div>
@@ -16743,14 +16159,9 @@ function NetworkAnalysisLandingPage({ subject, seo, concepts, activeConceptIndex
               <span className="font-black text-[#061642]">{subject.title}</span>
             </li>
           </ol>
-          <SubjectLandingMenu
-            subjectTitle={subject.title}
-            concepts={concepts}
-            activeConceptIndex={activeConceptIndex}
-          />
         </nav>
 
-        <NetworkBeginnerGuide chapter={chapter} />
+        <NetworkBeginnerGuide chapter={chapter} concepts={concepts} />
 
         <section className="mt-6 rounded-lg border border-slate-200 bg-white p-5 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
           <h2 className="text-2xl font-black text-[#061642]">{subject.title} FAQ</h2>
@@ -16860,25 +16271,6 @@ export default function SubjectTheoryPage({
                 </span>
               </li>
             </ol>
-            <div className="flex items-center gap-2">
-              {subject.title === "Electromagnetic Theory" ? (
-                <ElectromagneticTheoryChapterMenu />
-              ) : subject.title === "VLSI Design" ? (
-                <VlsiDesignChapterMenu />
-              ) : subject.title === "Microprocessors" ? (
-                <MicroprocessorsChapterMenu />
-              ) : subject.title === "Embedded Systems" ? (
-                <EmbeddedSystemsChapterMenu />
-              ) : subject.title === "Digital Signal Processing" ? (
-                <DigitalSignalProcessingChapterMenu />
-              ) : subject.title === "Signals and Systems" ? (
-                <SignalsChapterMenu />
-              ) : subject.title === "Communication Systems" ? (
-                <CommunicationSystemsChapterMenu />
-              ) : subject.title === "Control Systems" ? (
-                <ControlSystemsChapterMenu />
-              ) : null}
-            </div>
           </nav>
 
           <FallbackSubjectPage
@@ -17680,43 +17072,6 @@ export default function SubjectTheoryPage({
               </>
             ) : null}
           </ol>
-          <div className="flex items-center gap-2">
-            {subject.title === "Network Analysis" ? (
-              <NetworkTopicMenu
-                concepts={concepts}
-                activeIndex={activeConceptIndex}
-              />
-            ) : subject.title === "Analog Electronics" ? (
-              <AnalogChapterMenu />
-            ) : subject.title === "Digital Electronics" ? (
-              <DigitalChapterMenu />
-            ) : subject.title === "Electromagnetic Theory" ? (
-              <ElectromagneticTheoryChapterMenu />
-            ) : subject.title === "Antenna & Wave Propagation" ? (
-              <AntennaWavePropagationChapterMenu />
-            ) : subject.title === "VLSI Design" ? (
-              <VlsiDesignChapterMenu />
-            ) : subject.title === "Microprocessors" ? (
-              <MicroprocessorsChapterMenu />
-            ) : subject.title === "Embedded Systems" ? (
-              <EmbeddedSystemsChapterMenu />
-            ) : subject.title === "Digital Signal Processing" ? (
-              <DigitalSignalProcessingChapterMenu />
-            ) : subject.title === "Signals and Systems" ? (
-              <SignalsChapterMenu />
-            ) : subject.title === "Communication Systems" ? (
-              <CommunicationSystemsChapterMenu />
-            ) : subject.title === "Control Systems" ? (
-              <ControlSystemsChapterMenu />
-            ) : concepts.length ? (
-              <SubjectConceptMenu
-                subjectTitle={subject.title}
-                concepts={concepts}
-                activeIndex={activeConceptIndex}
-                onSelectTopic={selectRoadmapTopic}
-              />
-            ) : null}
-          </div>
         </nav>
 
         <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-panel sm:p-5">

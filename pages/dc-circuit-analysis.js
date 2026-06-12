@@ -180,9 +180,20 @@ const analysisFlow = [
   "Check power direction and signs to confirm the result makes physical sense.",
 ];
 
+function toSectionId(value = "") {
+  return String(value)
+    .toLowerCase()
+    .replace(/['']/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 function TopicCard({ topic, index }) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+    <article
+      id={toSectionId(topic.title)}
+      className="scroll-mt-32 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
+    >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
         <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-portal-600 text-sm font-black text-white">
           {String(index + 1).padStart(2, "0")}
