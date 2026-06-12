@@ -41,6 +41,7 @@ export default function AdSlot({
   layout = "",
   responsive = true,
   className = "",
+  onVisibilityChange,
 }) {
   const hasSlot = Boolean(slot);
   const slotRef = useRef(null);
@@ -48,10 +49,12 @@ export default function AdSlot({
 
   useEffect(() => {
     if (!hasSlot) {
+      onVisibilityChange?.(false);
       return undefined;
     }
 
     setIsHidden(false);
+    onVisibilityChange?.(true);
     pushAd();
 
     const timeoutId = window.setTimeout(() => {
@@ -65,14 +68,15 @@ export default function AdSlot({
 
       if (isDefinitelyUnfilled || !hasFilledAd) {
         setIsHidden(true);
+        onVisibilityChange?.(false);
       }
-    }, 12000);
+    }, 4500);
 
     return () => window.clearTimeout(timeoutId);
-  }, [hasSlot, slot]);
+  }, [hasSlot, onVisibilityChange, slot]);
 
   if (!hasSlot) {
-    return <AdPlaceholder format={format} className={className} />;
+    return null;
   }
 
   return (
@@ -92,9 +96,15 @@ export default function AdSlot({
 }
 
 export function AdRail() {
+  const [isVisible, setIsVisible] = useState(Boolean(DEFAULT_DISPLAY_SLOT));
+
   return (
-    <aside className="ad-rail" aria-label="Advertisement">
-      <AdSlot format="vertical" className="ad-rail__slot" />
+    <aside className={`ad-rail ${isVisible ? "" : "ad-rail--hidden"}`} aria-label="Advertisement">
+      <AdSlot
+        format="vertical"
+        className="ad-rail__slot"
+        onVisibilityChange={setIsVisible}
+      />
     </aside>
   );
 }

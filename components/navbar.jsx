@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { isNavigationActive } from "../lib/site-navigation";
 import { sanitizeSearchInput } from "../lib/sanitize";
 import { getSearchRedirectHref } from "../lib/search-redirects";
+import { subjectDirectory } from "../data/subject-directory";
 import { BrandLogo } from "./BrandIdentity";
 
 const SmartSearchDropdown = dynamic(() => import("./SmartSearchDropdown"), {
@@ -24,6 +25,11 @@ const navItems = [
 
 const activeNavClass = "text-[#071d49] after:absolute after:inset-x-3 after:-bottom-3 after:h-0.5 after:rounded-full after:bg-[#ff7417]";
 const inactiveNavClass = "text-[#071d49] hover:text-[#ff7417]";
+
+const notesMenuSubjects = subjectDirectory.map((subject) => ({
+  label: subject.title,
+  href: subject.href,
+}));
 
 function isTopNavActive(pathname, href) {
   if (pathname === "/learn/[subjectSlug]/[topicSlug]") {
@@ -410,9 +416,53 @@ export default function Navbar({
           />
         </Link>
 
-        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-2 overflow-x-auto whitespace-nowrap [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex">
+        <nav className="hidden min-w-0 flex-1 items-center justify-center gap-2 overflow-visible whitespace-nowrap lg:flex">
           {navItems.map((item) => {
             const isActive = isTopNavActive(router.pathname, item.href);
+            const isNotesMenu = item.label === "Notes";
+
+            if (isNotesMenu) {
+              return (
+                <div key={item.href} className="group relative">
+                  <Link
+                    href={item.href}
+                    className={`relative inline-flex items-center gap-1 px-3 py-2 text-sm font-extrabold transition ${
+                      isActive ? activeNavClass : inactiveNavClass
+                    }`}
+                    aria-haspopup="true"
+                  >
+                    {item.label}
+                    <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
+
+                  <div className="invisible absolute left-1/2 top-full z-50 w-[min(520px,calc(100vw-32px))] -translate-x-1/2 pt-2 text-left opacity-0 transition duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                    <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-[0_18px_48px_rgba(15,23,42,0.14)]">
+                    <div className="mb-2 flex items-center justify-between border-b border-slate-100 pb-2">
+                      <div>
+                        <p className="text-[11px] font-black uppercase tracking-[0.12em] text-[#ff7417]">Notes Chapters</p>
+                      </div>
+                      <Link href="/subjects" className="text-xs font-black text-[#071d49] hover:text-[#ff7417]">
+                        View all
+                      </Link>
+                    </div>
+                    <div className="grid max-h-56 gap-1 overflow-y-auto pr-1 sm:grid-cols-2">
+                      {notesMenuSubjects.map((subject) => (
+                        <Link
+                          key={subject.href}
+                          href={subject.href}
+                          className="min-w-0 rounded-md border border-transparent px-2.5 py-2 transition hover:border-orange-100 hover:bg-orange-50/70"
+                        >
+                          <span className="block truncate text-xs font-black text-[#071d49]">{subject.label}</span>
+                        </Link>
+                      ))}
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
 
             return (
               <Link
@@ -531,22 +581,37 @@ export default function Navbar({
           <nav className="grid gap-1">
             {navItems.map((item) => {
               const isActive = isTopNavActive(router.pathname, item.href);
+              const isNotesMenu = item.label === "Notes";
 
               return (
-                <Link
-                  key={`mobile-menu-${item.href}`}
-                  href={item.href}
-                  className={`flex min-h-11 items-center justify-between rounded-lg px-3 py-2 text-sm font-extrabold transition ${
-                    isActive ? "bg-orange-50 text-[#ff7417]" : "text-[#071d49] hover:bg-slate-50"
-                  }`}
-                >
-                  <span>{item.mobileLabel || item.label}</span>
-                  {item.hasMenu ? (
-                    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                      <path d="m7 5 5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                <div key={`mobile-menu-${item.href}`}>
+                  <Link
+                    href={item.href}
+                    className={`flex min-h-11 items-center justify-between rounded-lg px-3 py-2 text-sm font-extrabold transition ${
+                      isActive ? "bg-orange-50 text-[#ff7417]" : "text-[#071d49] hover:bg-slate-50"
+                    }`}
+                  >
+                    <span>{item.mobileLabel || item.label}</span>
+                    {item.hasMenu ? (
+                      <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="m7 5 5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    ) : null}
+                  </Link>
+                  {isNotesMenu ? (
+                    <div className="ml-3 mt-1 grid gap-1 border-l border-orange-100 pl-3">
+                      {notesMenuSubjects.map((subject) => (
+                        <Link
+                          key={`mobile-note-${subject.href}`}
+                          href={subject.href}
+                          className="rounded-lg px-3 py-2 text-xs font-bold text-slate-700 hover:bg-orange-50 hover:text-[#ff7417]"
+                        >
+                          {subject.label}
+                        </Link>
+                      ))}
+                    </div>
                   ) : null}
-                </Link>
+                </div>
               );
             })}
           </nav>

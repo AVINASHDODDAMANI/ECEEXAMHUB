@@ -805,9 +805,23 @@ function OfficialQuestionPreview({ questions = [], exam = "" }) {
 }
 
 export async function getServerSideProps({ params }) {
+  const initialSlug = typeof params?.slug === "string" ? params.slug : "";
+  const slugPaper = parsePaperSlug(initialSlug);
+  const paper = buildPaperSummary(seedQuestions, slugPaper.exam, slugPaper.year, {
+    month: slugPaper.month,
+    paperSlug: slugPaper.paperSlug,
+  });
+  const paperQuestions = getPaperQuestions(seedQuestions, paper, "All Types");
+
+  if (!hasPaperContent(paper, paperQuestions)) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
-      initialSlug: typeof params?.slug === "string" ? params.slug : "",
+      initialSlug,
     },
   };
 }

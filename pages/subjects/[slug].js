@@ -15542,6 +15542,10 @@ function SubjectLandingMenu({ subjectTitle, concepts, activeConceptIndex }) {
     return <CommunicationSystemsChapterMenu />;
   }
 
+  if (subjectTitle === "Control Systems") {
+    return <ControlSystemsChapterMenu />;
+  }
+
   return null;
 }
 
@@ -15703,9 +15707,1015 @@ function NetworkLandingCard({ card, index }) {
   );
 }
 
+const NETWORK_BEGINNER_TOC = [
+  "What is Network Analysis?",
+  "Basic Terminologies",
+  "Types of Electrical Networks",
+  "Circuit Elements",
+  "Ohm's Law, KCL and KVL",
+  "Mesh Analysis",
+  "Nodal Analysis",
+  "Network Theorems",
+  "AC Circuit Analysis",
+  "Solved Examples",
+  "Previous Year Questions (PYQs)",
+  "Frequently Asked Questions (FAQs)",
+];
+
+const NETWORK_CHAPTER_STATS = [
+  { label: "Estimated Time", value: "8-10 Hours", icon: "clock" },
+  { label: "Difficulty", value: "Medium to High", icon: "bars" },
+  { label: "Topics", value: "12 Detailed Topics", icon: "layers" },
+  { label: "Level", value: "Beginner to GATE", icon: "target" },
+];
+
+const NETWORK_FEATURES = [
+  { title: "Detailed Notes", text: "Easy to understand", icon: "book", color: "bg-blue-500" },
+  { title: "Important Formulas", text: "Quick revision", icon: "clipboard", color: "bg-emerald-600" },
+  { title: "MCQs & PYQs", text: "Exam oriented", icon: "question", color: "bg-violet-600" },
+  { title: "Solved Examples", text: "Step-by-step", icon: "edit", color: "bg-orange-600" },
+  { title: "Downloadable PDFs", text: "Save & study offline", icon: "download", color: "bg-blue-700" },
+  { title: "Updated Regularly", text: "Latest syllabus", icon: "check", color: "bg-green-600" },
+];
+
+const SUBJECT_CHAPTER_HOME = {
+  "Analog Electronics": {
+    title: "Analog Electronics",
+    diagram: "analog",
+    intro: [
+      "Analog Electronics deals with the analysis, design, and application of circuits that process continuous signals. It is the foundation of many real-world electronic systems.",
+      "It includes semiconductor devices, amplifiers, oscillators, filters, and power supplies.",
+    ],
+    toc: [
+      "Semiconductor Devices",
+      "Diode Circuits",
+      "BJT Fundamentals",
+      "BJT Amplifiers",
+      "FET & MOSFET",
+      "Operational Amplifier (Op-Amp)",
+      "Oscillators",
+      "Filters",
+      "Power Amplifiers",
+      "Voltage Regulators & Power Supplies",
+      "Analog IC Applications",
+      "Solved Examples & Numericals",
+    ],
+    overview:
+      "Analog Electronics is essential for understanding and designing real-world electronic circuits used in communication, instrumentation, control systems, and signal processing.",
+    difficulty: "Medium",
+    links: [
+      { title: "Op-Amp Notes", href: "/operational-amplifiers" },
+      { title: "BJT Amplifier Notes", href: "/bjt-amplifiers" },
+      { title: "Oscillator Notes", href: "/oscillators" },
+      { title: "Filter Notes", href: "/filters" },
+      { title: "Voltage Regulator Notes", href: "/power-supplies" },
+    ],
+  },
+  "Digital Electronics": {
+    title: "Digital Electronics",
+    diagram: "digital",
+    intro: [
+      "Digital Electronics focuses on digital circuits that operate with discrete values, usually 0 and 1. It forms the backbone of modern computing, control, and communication systems.",
+      "It includes logic gates, combinational circuits, sequential circuits, and digital ICs.",
+    ],
+    toc: [
+      "Number Systems & Codes",
+      "Logic Gates",
+      "Boolean Algebra",
+      "Combinational Circuits",
+      "Karnaugh Map",
+      "Adders & Subtractors",
+      "Multiplexers & Demultiplexers",
+      "Flip-Flops",
+      "Counters",
+      "Registers & Shift Registers",
+      "Digital ICs & Applications",
+      "Solved Examples & Numericals",
+    ],
+    overview:
+      "Digital Electronics is the foundation of digital systems, microprocessors, embedded systems, and modern electronic devices.",
+    difficulty: "Medium",
+    links: [
+      { title: "Logic Gates Notes", href: "/logic-gates-and-boolean-algebra" },
+      { title: "Flip-Flop Notes", href: "/sequential-circuits" },
+      { title: "Counters Notes", href: "/counters" },
+      { title: "Number Systems Notes", href: "/number-systems-and-codes" },
+      { title: "Digital ICs Notes", href: "/digital-ics-and-applications" },
+    ],
+  },
+  "Signals and Systems": {
+    title: "Signals and Systems",
+    diagram: "signals",
+    intro: [
+      "Signals and Systems is the study of signals and their behavior through systems. It is widely used in communication, control, and signal processing applications.",
+      "It includes time-domain and frequency-domain analysis of continuous and discrete signals.",
+    ],
+    toc: [
+      "Introduction to Signals",
+      "Continuous-Time Signals",
+      "Discrete-Time Signals",
+      "Basic Operations on Signals",
+      "Systems",
+      "LTI Systems",
+      "Convolution",
+      "Fourier Transforms",
+      "Laplace Transform",
+      "Z-Transform",
+      "Frequency Response",
+      "Solved Examples & Problems",
+    ],
+    overview:
+      "Signals and Systems is essential for communication, signal processing, control systems, and many advanced engineering applications.",
+    difficulty: "Medium to High",
+    links: [
+      { title: "Continuous-Time Signals Notes", href: "/introduction-to-signals" },
+      { title: "LTI Systems Notes", href: "/systems-and-their-properties" },
+      { title: "Convolution Notes", href: "/convolution" },
+      { title: "Fourier Series Notes", href: "/fourier-series" },
+      { title: "Laplace Transform Notes", href: "/laplace-transform" },
+    ],
+  },
+  "Network Analysis": {
+    title: "Network Analysis",
+    diagram: "network",
+    intro: [
+      "Network Analysis, also called Network Theory, is the foundation of Electrical and Electronics Engineering. It helps in determining voltage, current, and power in electrical networks.",
+      "It includes network laws, theorems, and various analysis techniques.",
+    ],
+    toc: [
+      "Basic Concepts",
+      "Circuit Elements",
+      "Ohm's Law, KCL & KVL",
+      "Mesh Analysis",
+      "Nodal Analysis",
+      "Nodes & Subcircuits",
+      "Superposition Theorem",
+      "Thevenin's Theorem",
+      "Dependent Sources",
+      "Norton's Theorem",
+      "Maximum Power Transfer",
+      "Solved Examples & Numericals",
+    ],
+    overview:
+      "Network Analysis builds the base for advanced subjects like Control Systems, Power Systems, and Communication Engineering.",
+    difficulty: "Medium to High",
+    links: [
+      { title: "KCL and KVL Notes", href: "/circuit-laws" },
+      { title: "Mesh Analysis Notes", href: "/dc-circuit-analysis" },
+      { title: "Nodal Analysis Notes", href: "/dc-circuit-analysis" },
+      { title: "Thevenin Theorem Notes", href: "/network-theorems" },
+      { title: "AC Circuit Analysis Notes", href: "/ac-circuit-analysis" },
+    ],
+  },
+  "Control Systems": {
+    title: "Control Systems",
+    diagram: "control",
+    intro: [
+      "Control Systems deals with the modeling, analysis, design, and performance evaluation of dynamic systems to achieve desired behavior.",
+      "It uses concepts from mathematics, electronics, and engineering to regulate the output of a system using feedback.",
+    ],
+    toc: [
+      "Introduction to Control Systems",
+      "Mathematical Modeling",
+      "Transfer Function",
+      "Block Diagram Algebra",
+      "Signal Flow Graphs",
+      "Time Response Analysis",
+      "Stability Analysis",
+      "Root Locus Technique",
+      "Frequency Response",
+      "Compensation Techniques",
+      "State Variable Analysis",
+      "Solved Examples & Numericals",
+    ],
+    overview:
+      "Control Systems is essential in automation, robotics, aerospace, process control, communication, and many real-world engineering applications.",
+    difficulty: "Medium to High",
+    time: "10-12 Hours",
+    links: [
+      { title: "Laplace Transform Notes", href: "/laplace-transform" },
+      { title: "Block Diagram Reduction Notes", href: "/block-diagram-and-signal-flow-graph" },
+      { title: "Root Locus Notes", href: "/root-locus-technique" },
+      { title: "Bode Plot Notes", href: "/frequency-response-analysis" },
+      { title: "Stability Notes", href: "/stability-analysis" },
+    ],
+  },
+  "Communication Systems": {
+    title: "Communication Systems",
+    diagram: "communication",
+    intro: [
+      "Communication Systems deals with the transmission, reception, and protection of information over wired and wireless channels.",
+      "It covers modulation, demodulation, noise, bandwidth, digital communication, and reliable signal transfer through real channels.",
+    ],
+    toc: [
+      "Introduction to Communication Systems",
+      "Signals and Spectra",
+      "Amplitude Modulation",
+      "Angle Modulation",
+      "Pulse Modulation",
+      "Digital Modulation",
+      "Baseband Transmission",
+      "Noise in Communication Systems",
+      "Information Theory",
+      "Receivers",
+      "Channel Coding",
+      "Solved Examples & Numericals",
+    ],
+    overview:
+      "Communication Systems is essential for understanding broadcasting, mobile networks, satellite links, radar, optical links, and modern digital communication.",
+    difficulty: "Medium",
+    links: [
+      { title: "Signals and Spectra Notes", href: "/learn/communications/signals-and-spectra" },
+      { title: "Amplitude Modulation Notes", href: "/learn/communications/amplitude-modulation-am" },
+      { title: "Angle Modulation Notes", href: "/learn/communications/angle-modulation-fm-and-pm" },
+      { title: "Digital Modulation Notes", href: "/learn/communications/digital-modulation-techniques" },
+      { title: "Noise Notes", href: "/learn/communications/noise-in-communication-systems" },
+    ],
+  },
+  Microprocessors: {
+    title: "Microprocessors",
+    diagram: "microprocessors",
+    intro: [
+      "Microprocessors explains processor architecture, instruction execution, programming, timing, interrupts, and interfacing.",
+      "It helps students understand how a CPU communicates with memory, I/O devices, buses, and peripheral circuits.",
+    ],
+    toc: [
+      "Introduction to Microprocessors",
+      "8085 Microprocessor Architecture",
+      "8085 Instruction Set",
+      "Assembly Language Programming",
+      "Timing Diagrams and Machine Cycles",
+      "Interrupts in 8085",
+      "Memory Interfacing",
+      "I/O Interfacing",
+      "8255 Programmable Peripheral Interface",
+      "8086 Microprocessor",
+      "Advanced Topics",
+      "Solved Examples & Numericals",
+    ],
+    overview:
+      "Microprocessors is important for understanding CPU architecture, instruction flow, interfacing, embedded controllers, and low-level system design.",
+    difficulty: "Medium",
+    time: "7-9 Hours",
+    links: [
+      { title: "8085 Architecture Notes", href: MICROPROCESSORS_CHAPTER_ROUTES["8085 Microprocessor Architecture"] },
+      { title: "Instruction Set Notes", href: MICROPROCESSORS_CHAPTER_ROUTES["8085 Instruction Set"] },
+      { title: "Timing Diagrams Notes", href: MICROPROCESSORS_CHAPTER_ROUTES["Timing Diagrams and Machine Cycles"] },
+      { title: "Interrupts Notes", href: MICROPROCESSORS_CHAPTER_ROUTES["Interrupts in 8085"] },
+      { title: "8086 Notes", href: MICROPROCESSORS_CHAPTER_ROUTES["8086 Microprocessor"] },
+    ],
+  },
+  "Antenna & Wave Propagation": {
+    title: "Antenna & Wave Propagation",
+    diagram: "antenna",
+    intro: [
+      "Antenna and Wave Propagation explains how antennas radiate, receive, and direct electromagnetic energy.",
+      "It covers antenna parameters, radiation patterns, arrays, propagation modes, and practical wireless link behavior.",
+    ],
+    toc: [
+      "Introduction to Antennas",
+      "Antenna Fundamentals",
+      "Dipole and Monopole Antennas",
+      "Antenna Arrays",
+      "Aperture Antennas",
+      "Reflector Antennas",
+      "Microstrip Antennas",
+      "Wave Propagation",
+      "Ground Wave Propagation",
+      "Sky Wave Propagation",
+      "Space Wave Propagation",
+      "Solved Examples & Numericals",
+    ],
+    overview:
+      "Antenna and Wave Propagation is essential for wireless communication, satellite links, radar, broadcasting, mobile networks, and microwave systems.",
+    difficulty: "Medium",
+    time: "6-8 Hours",
+    links: [
+      { title: "Antenna Basics Notes", href: "/subjects/antenna-wave-propagation" },
+      { title: "Antenna Parameters Notes", href: "/subjects/antenna-wave-propagation" },
+      { title: "Antenna Arrays Notes", href: "/subjects/antenna-wave-propagation" },
+      { title: "Wave Propagation Notes", href: "/subjects/antenna-wave-propagation" },
+      { title: "Space Wave Notes", href: "/subjects/antenna-wave-propagation" },
+    ],
+  },
+  "Electromagnetic Theory": {
+    title: "Electromagnetic Theory",
+    diagram: "electromagnetic",
+    intro: [
+      "Electromagnetic Theory explains the behavior of electric and magnetic fields and their interaction with matter. It forms the foundation for many advanced ECE subjects and real-world applications.",
+      "It helps in analyzing field distributions, wave propagation, transmission lines, and electromagnetic devices and systems.",
+    ],
+    toc: [
+      "Vector Analysis",
+      "Electrostatics",
+      "Magnetostatics",
+      "Time-Varying Fields",
+      "Maxwell's Equations",
+      "Plane Electromagnetic Waves",
+      "Wave Propagation",
+      "Poynting Theorem",
+      "Boundary Conditions",
+      "Transmission Lines",
+      "Reflection & Refraction",
+      "Solved Examples & Numericals",
+    ],
+    overview:
+      "Electromagnetic Theory is essential for understanding antennas, waveguides, transmission lines, microwave engineering, wireless communication, and field-based devices.",
+    difficulty: "Medium to High",
+    links: [
+      { title: "Vector Analysis Notes", href: "/learn/electromagnetics/vector-calculus" },
+      { title: "Maxwell Equations Notes", href: "/learn/electromagnetics/maxwell-equations" },
+      { title: "Plane Waves Notes", href: "/learn/electromagnetics/electromagnetic-waves" },
+      { title: "Transmission Lines Notes", href: "/learn/electromagnetics/transmission-lines" },
+      { title: "Boundary Conditions Notes", href: "/learn/electromagnetics/boundary-conditions" },
+    ],
+  },
+  "Digital Signal Processing": {
+    title: "Digital Signal Processing",
+    diagram: "dsp",
+    intro: [
+      "Digital Signal Processing focuses on analyzing, modifying, and synthesizing signals using digital techniques and algorithms.",
+      "It is widely used in communication, audio, image processing, control systems, and many real-time applications.",
+    ],
+    toc: [
+      "Discrete-Time Signals",
+      "Systems & LTI Systems",
+      "Convolution",
+      "Z-Transform",
+      "Fourier Series & Transform",
+      "Sampling Theorem",
+      "DFT & FFT",
+      "Filter Design",
+      "IIR Filter Design",
+      "Windowing Techniques",
+      "Applications of DSP",
+      "Solved Examples & Numericals",
+    ],
+    overview:
+      "Digital Signal Processing builds the base for digital communication, speech processing, image processing, embedded signal analysis, and real-time filtering.",
+    difficulty: "Medium to High",
+    links: [
+      { title: "Discrete-Time Signals Notes", href: "/learn/dsp/discrete-time-signals" },
+      { title: "Convolution Notes", href: "/convolution" },
+      { title: "Z-Transform Notes", href: "/z-transform" },
+      { title: "DFT and FFT Notes", href: "/learn/dsp/dft-and-fft" },
+      { title: "Digital Filters Notes", href: "/learn/dsp/digital-filters" },
+    ],
+  },
+  "VLSI Design": {
+    title: "VLSI Design",
+    diagram: "vlsi",
+    intro: [
+      "VLSI Design is the process of designing and implementing integrated circuits by combining thousands to millions of transistors on a single chip.",
+      "It involves multiple stages from specification and architecture to physical implementation and verification.",
+    ],
+    toc: [
+      "Introduction to VLSI",
+      "MOS Transistors",
+      "Logic Gates & Circuits",
+      "Combinational Logic Design",
+      "Sequential Logic Design",
+      "CMOS Logic Design",
+      "Memory Design",
+      "Programmable Logic Devices",
+      "ASIC Design Flow",
+      "Physical Design",
+      "Testing & Verification",
+      "Solved Examples & Numericals",
+    ],
+    overview:
+      "VLSI Design is important for understanding CMOS circuits, chip design flow, digital IC implementation, low-power design, and modern semiconductor systems.",
+    difficulty: "Medium to High",
+    time: "7-9 Hours",
+    links: [
+      { title: "MOS Transistor Notes", href: "/learn/vlsi-design/mos-transistor-basics" },
+      { title: "CMOS Logic Notes", href: "/learn/vlsi-design/cmos-logic-design" },
+      { title: "VLSI Design Flow Notes", href: "/learn/vlsi-design/introduction-to-vlsi-design" },
+      { title: "Physical Design Notes", href: "/learn/vlsi-design/physical-design" },
+      { title: "Testing Notes", href: "/learn/vlsi-design/testing-and-verification" },
+    ],
+  },
+  "Embedded Systems": {
+    title: "Embedded Systems",
+    diagram: "embedded",
+    intro: [
+      "Embedded Systems are specialized computing systems designed to perform specific tasks within larger systems.",
+      "They combine hardware and software to deliver efficient, reliable, and real-time solutions for various applications.",
+    ],
+    toc: [
+      "Introduction to Embedded Systems",
+      "Microprocessors vs Microcontrollers",
+      "Embedded System Architecture",
+      "Memory & I/O Organization",
+      "Embedded C Programming",
+      "Timers & Counters",
+      "Interrupts",
+      "Serial Communication",
+      "Real-Time Systems",
+      "Applications",
+      "Debugging & Testing",
+      "Solved Examples & Numericals",
+    ],
+    overview:
+      "Embedded Systems is essential for microcontroller-based design, interfacing, firmware development, real-time control, and hardware-software integration.",
+    difficulty: "Medium",
+    time: "7-9 Hours",
+    links: [
+      { title: "Embedded Basics Notes", href: "/learn/embedded-systems/introduction-to-embedded-systems" },
+      { title: "Microcontrollers Notes", href: "/learn/embedded-systems/microprocessors-vs-microcontrollers" },
+      { title: "Embedded C Notes", href: "/learn/embedded-systems/embedded-c-programming" },
+      { title: "Interrupts Notes", href: "/learn/embedded-systems/interrupts" },
+      { title: "Real-Time Systems Notes", href: "/learn/embedded-systems/real-time-systems" },
+    ],
+  },
+};
+
+function NetworkSmallIcon({ name, className = "h-6 w-6" }) {
+  const common = {
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2.2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": "true",
+  };
+
+  if (name === "clock") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 2" />
+      </svg>
+    );
+  }
+
+  if (name === "bars") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <path d="M5 19V13M12 19V8M19 19V4" />
+      </svg>
+    );
+  }
+
+  if (name === "layers") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <path d="M12 3 21 8l-9 5-9-5 9-5Z" />
+        <path d="M3 12l9 5 9-5" />
+        <path d="M3 16l9 5 9-5" />
+      </svg>
+    );
+  }
+
+  if (name === "target") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <circle cx="12" cy="12" r="8" />
+        <circle cx="12" cy="12" r="3" />
+        <path d="M15 9l5-5M17 4h3v3" />
+      </svg>
+    );
+  }
+
+  if (name === "edit") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <path d="M12 20h9" />
+        <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z" />
+      </svg>
+    );
+  }
+
+  if (name === "download") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <path d="M12 3v12" />
+        <path d="m7 10 5 5 5-5" />
+        <path d="M5 21h14" />
+      </svg>
+    );
+  }
+
+  if (name === "check") {
+    return (
+      <svg viewBox="0 0 24 24" className={className} {...common}>
+        <path d="M20 6 9 17l-5-5" />
+      </svg>
+    );
+  }
+
+  return <NetworkLandingIcon name={name} className={className} />;
+}
+
+function BeginnerSeriesCircuitDiagram() {
+  return (
+    <svg viewBox="0 0 420 220" className="h-auto w-full max-w-[420px]" role="img" aria-label="Simple network with source and three resistors">
+      <path d="M96 48h104M246 48h84v130H246M198 178H96V48" fill="none" stroke="#111827" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="96" cy="112" r="20" fill="#fffaf0" stroke="#f59e0b" strokeWidth="3" />
+      <path d="M96 56v36M96 132v46" stroke="#111827" strokeWidth="3.2" strokeLinecap="round" />
+      <text x="55" y="117" fill="#0f172a" fontSize="22" fontWeight="700">V</text>
+      <text x="71" y="85" fill="#0f172a" fontSize="18" fontWeight="700">+</text>
+      <text x="73" y="151" fill="#0f172a" fontSize="22" fontWeight="700">-</text>
+      <path d="M200 48h10l8-14 15 28 15-28 15 28 8-14h10" fill="none" stroke="#111827" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M330 88v10l14 8-28 15 28 15-28 15 14 8v10" fill="none" stroke="#111827" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M198 178h10l8-14 15 28 15-28 15 28 8-14h10" fill="none" stroke="#111827" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="220" y="27" fill="#0f172a" fontSize="20" fontWeight="800">R<tspan baselineShift="sub" fontSize="13">1</tspan></text>
+      <text x="351" y="119" fill="#0f172a" fontSize="20" fontWeight="800">R<tspan baselineShift="sub" fontSize="13">2</tspan></text>
+      <text x="220" y="211" fill="#0f172a" fontSize="20" fontWeight="800">R<tspan baselineShift="sub" fontSize="13">3</tspan></text>
+      <path d="M196 96h48" stroke="#dc2626" strokeWidth="2.6" strokeLinecap="round" />
+      <path d="M244 96l-10-6m10 6l-10 6" stroke="#dc2626" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+      <text x="213" y="86" fill="#dc2626" fontSize="19" fontWeight="800">I</text>
+    </svg>
+  );
+}
+
+function BeginnerMeshCircuitDiagram() {
+  return (
+    <svg viewBox="0 0 520 230" className="h-auto w-full max-w-[520px]" role="img" aria-label="Two mesh network with nodes and loop currents">
+      <rect x="22" y="18" width="476" height="194" rx="10" fill="#ffffff" stroke="#d7e2ee" strokeWidth="2" />
+      <path d="M90 44h122M278 44h120v136H90V44" fill="none" stroke="#0f3f78" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M250 44v136" stroke="#0f3f78" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="90" cy="112" r="18" fill="#fffaf0" stroke="#f59e0b" strokeWidth="3" />
+      <path d="M90 62v32M90 130v50" stroke="#0f3f78" strokeWidth="3" strokeLinecap="round" />
+      <path d="M212 44h10l8-14 15 28 15-28 15 28 8-14h10" fill="none" stroke="#0f3f78" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M398 44h10l8-14 15 28 15-28 15 28 8-14h10" fill="none" stroke="#0f3f78" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" transform="translate(-116 0)" />
+      <path d="M250 78v9l14 8-28 15 28 15-28 15 14 8v10" fill="none" stroke="#0f3f78" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M398 78v9l14 8-28 15 28 15-28 15 14 8v10" fill="none" stroke="#0f3f78" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="90" cy="44" r="5" fill="#137d46" />
+      <circle cx="250" cy="44" r="5" fill="#137d46" />
+      <circle cx="250" cy="180" r="5" fill="#137d46" />
+      <text x="84" y="29" fill="#137d46" fontSize="18" fontWeight="900">1</text>
+      <text x="244" y="29" fill="#137d46" fontSize="18" fontWeight="900">2</text>
+      <text x="244" y="205" fill="#137d46" fontSize="18" fontWeight="900">3</text>
+      <text x="156" y="29" fill="#0b58b4" fontSize="18" fontWeight="900">R<tspan baselineShift="sub" fontSize="12">1</tspan></text>
+      <text x="338" y="29" fill="#0f766e" fontSize="18" fontWeight="900">R<tspan baselineShift="sub" fontSize="12">3</tspan></text>
+      <text x="265" y="112" fill="#0f766e" fontSize="18" fontWeight="900">R<tspan baselineShift="sub" fontSize="12">3</tspan></text>
+      <text x="416" y="112" fill="#0f766e" fontSize="18" fontWeight="900">R<tspan baselineShift="sub" fontSize="12">3</tspan></text>
+      <text x="56" y="122" fill="#0b58b4" fontSize="19" fontWeight="900">V</text>
+      <path d="M140 122c0-36 54-40 72-8" fill="none" stroke="#ef4444" strokeWidth="2" />
+      <path d="M198 138c-10 10-26 14-42 7" fill="none" stroke="#ef4444" strokeWidth="2" />
+      <path d="M320 122c0-36 54-40 72-8" fill="none" stroke="#ef4444" strokeWidth="2" />
+      <path d="M378 138c-10 10-26 14-42 7" fill="none" stroke="#ef4444" strokeWidth="2" />
+      <text x="169" y="128" fill="#dc2626" fontSize="20" fontWeight="900">I<tspan baselineShift="sub" fontSize="12">1</tspan></text>
+      <text x="349" y="128" fill="#dc2626" fontSize="20" fontWeight="900">I<tspan baselineShift="sub" fontSize="12">2</tspan></text>
+    </svg>
+  );
+}
+
+function AnalogHeroDiagram() {
+  return (
+    <svg viewBox="0 0 420 220" className="h-auto w-full max-w-[420px]" role="img" aria-label="Operational amplifier analog electronics diagram">
+      <path d="M74 92h70" stroke="#111827" strokeWidth="3" strokeLinecap="round" />
+      <path d="M144 92h10l8-14 15 28 15-28 15 28 8-14h20" fill="none" stroke="#111827" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M235 72v92l98-46-98-46Z" fill="#f8fbff" stroke="#111827" strokeWidth="3" strokeLinejoin="round" />
+      <path d="M185 145h50M333 118h52" stroke="#111827" strokeWidth="3" strokeLinecap="round" />
+      <path d="M280 77v-38h56v79" fill="none" stroke="#111827" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M296 39h10l8-14 15 28 15-28 15 28 8-14h10" fill="none" stroke="#111827" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" transform="translate(-12 0)" />
+      <path d="M235 62V32M235 174v28" stroke="#111827" strokeWidth="3" strokeLinecap="round" />
+      <text x="45" y="99" fill="#061642" fontSize="16" fontWeight="800">Vin</text>
+      <text x="389" y="125" fill="#061642" fontSize="16" fontWeight="800">Vout</text>
+      <text x="159" y="72" fill="#061642" fontSize="16" fontWeight="800">R<tspan baselineShift="sub" fontSize="11">1</tspan></text>
+      <text x="311" y="24" fill="#061642" fontSize="16" fontWeight="800">R<tspan baselineShift="sub" fontSize="11">f</tspan></text>
+      <text x="223" y="29" fill="#061642" fontSize="15" fontWeight="800">+VCC</text>
+      <text x="223" y="216" fill="#061642" fontSize="15" fontWeight="800">-VEE</text>
+      <text x="252" y="106" fill="#64748b" fontSize="20" fontWeight="900">-</text>
+      <text x="252" y="143" fill="#64748b" fontSize="20" fontWeight="900">+</text>
+    </svg>
+  );
+}
+
+function DigitalHeroDiagram() {
+  return (
+    <svg viewBox="0 0 420 220" className="h-auto w-full max-w-[420px]" role="img" aria-label="Digital logic gates diagram">
+      <path d="M55 62h54M55 102h54M55 154h54M55 194h54" stroke="#111827" strokeWidth="3" strokeLinecap="round" />
+      <path d="M109 42h54c39 0 58 19 58 40s-19 40-58 40h-54Z" fill="#ffffff" stroke="#111827" strokeWidth="3" />
+      <path d="M109 134h54c39 0 58 19 58 40s-19 40-58 40h-54Z" fill="#ffffff" stroke="#111827" strokeWidth="3" />
+      <path d="M221 82h48v46M221 174h48v-46" stroke="#111827" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M269 98h50c39 0 58 20 58 40s-19 40-58 40h-50Z" fill="#ffffff" stroke="#111827" strokeWidth="3" />
+      <path d="M377 138h32" stroke="#111827" strokeWidth="3" strokeLinecap="round" />
+      <text x="32" y="68" fill="#061642" fontSize="17" fontWeight="900">A</text>
+      <text x="32" y="108" fill="#061642" fontSize="17" fontWeight="900">B</text>
+      <text x="32" y="160" fill="#061642" fontSize="17" fontWeight="900">C</text>
+      <text x="398" y="130" fill="#061642" fontSize="17" fontWeight="900">Y</text>
+    </svg>
+  );
+}
+
+function SignalsHeroDiagram() {
+  return (
+    <svg viewBox="0 0 420 220" className="h-auto w-full max-w-[420px]" role="img" aria-label="Continuous and discrete signals diagram">
+      <path d="M56 88h300M76 42v84" stroke="#111827" strokeWidth="2.6" strokeLinecap="round" />
+      <path d="M356 88l-10-6m10 6l-10 6" stroke="#111827" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M86 88c24-76 56-76 80 0s56 76 80 0 56-76 80 0" fill="none" stroke="#1d4ed8" strokeWidth="3" strokeLinecap="round" />
+      <text x="45" y="40" fill="#061642" fontSize="16" fontWeight="900">x(t)</text>
+      <text x="368" y="94" fill="#061642" fontSize="16" fontWeight="900">t</text>
+      <path d="M56 188h300M76 130v78" stroke="#111827" strokeWidth="2.6" strokeLinecap="round" />
+      <path d="M356 188l-10-6m10 6l-10 6" stroke="#111827" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+      {[102, 130, 158, 186, 214, 242, 270, 298, 326].map((x, index) => {
+        const heights = [18, 32, 52, 68, 58, 38, 24, 14, 8];
+        return (
+          <g key={x}>
+            <path d={`M${x} 188V${188 - heights[index]}`} stroke="#1d4ed8" strokeWidth="3" strokeLinecap="round" />
+            <circle cx={x} cy={188 - heights[index]} r="4" fill="#1d4ed8" />
+          </g>
+        );
+      })}
+      <text x="43" y="132" fill="#061642" fontSize="16" fontWeight="900">x[n]</text>
+      <text x="368" y="194" fill="#061642" fontSize="16" fontWeight="900">n</text>
+    </svg>
+  );
+}
+
+function ControlHeroDiagram() {
+  return (
+    <svg viewBox="0 0 500 250" className="h-auto w-full max-w-[500px]" role="img" aria-label="Closed loop control system block diagram">
+      <defs>
+        <marker id="controlArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0 0 8 4 0 8Z" fill="#061642" />
+        </marker>
+      </defs>
+      <path d="M42 88h90" stroke="#061642" strokeWidth="3" markerEnd="url(#controlArrow)" />
+      <circle cx="160" cy="88" r="28" fill="#ffffff" stroke="#061642" strokeWidth="3" />
+      <path d="M140 68l40 40M180 68l-40 40" stroke="#061642" strokeWidth="2" />
+      <path d="M188 88h126" stroke="#061642" strokeWidth="3" markerEnd="url(#controlArrow)" />
+      <rect x="314" y="56" width="86" height="64" rx="8" fill="#ffffff" stroke="#079455" strokeWidth="3" />
+      <path d="M400 88h96" stroke="#061642" strokeWidth="3" markerEnd="url(#controlArrow)" />
+      <path d="M440 88v94H275" stroke="#061642" strokeWidth="3" markerEnd="url(#controlArrow)" fill="none" />
+      <rect x="190" y="150" width="86" height="64" rx="8" fill="#ffffff" stroke="#ef4444" strokeWidth="3" />
+      <path d="M190 182h-30V116" stroke="#061642" strokeWidth="3" markerEnd="url(#controlArrow)" fill="none" />
+      <text x="35" y="80" fill="#061642" fontSize="18" fontWeight="900">R(s)</text>
+      <text x="214" y="78" fill="#061642" fontSize="18" fontWeight="900">E(s)</text>
+      <text x="342" y="94" fill="#061642" fontSize="24" fontWeight="900">G(s)</text>
+      <text x="468" y="78" fill="#061642" fontSize="18" fontWeight="900">C(s)</text>
+      <text x="217" y="190" fill="#061642" fontSize="24" fontWeight="900">H(s)</text>
+      <text x="340" y="34" fill="#061642" fontSize="17" fontWeight="800">Forward</text>
+      <text x="350" y="53" fill="#061642" fontSize="17" fontWeight="800">Path</text>
+      <text x="202" y="232" fill="#061642" fontSize="17" fontWeight="800">Feedback</text>
+      <text x="222" y="248" fill="#061642" fontSize="17" fontWeight="800">Path</text>
+      <text x="126" y="127" fill="#061642" fontSize="18" fontWeight="900">-</text>
+      <text x="124" y="77" fill="#061642" fontSize="18" fontWeight="900">+</text>
+    </svg>
+  );
+}
+
+function ElectromagneticHeroDiagram() {
+  return (
+    <svg viewBox="0 0 420 240" className="h-auto w-full max-w-[420px]" role="img" aria-label="Electromagnetic field axes diagram">
+      <defs>
+        <marker id="emArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0 0 8 4 0 8Z" fill="#061642" />
+        </marker>
+      </defs>
+      <path d="M210 196V38" stroke="#061642" strokeWidth="3" markerEnd="url(#emArrow)" />
+      <path d="M98 164l210-84" stroke="#061642" strokeWidth="3" markerEnd="url(#emArrow)" />
+      <path d="M122 72l172 112" stroke="#061642" strokeWidth="3" markerEnd="url(#emArrow)" />
+      <path d="M154 138c18-48 96-48 114 0" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" />
+      <path d="M138 154c30-72 124-72 154 0" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
+      <path d="M172 122c20-26 56-26 76 0" fill="none" stroke="#0ea5e9" strokeWidth="3" strokeLinecap="round" />
+      <path d="M254 118c38 6 62 24 72 54" fill="none" stroke="#0ea5e9" strokeWidth="3" strokeLinecap="round" />
+      <path d="M210 140v-66" stroke="#ef4444" strokeWidth="4" markerEnd="url(#emArrow)" />
+      <text x="222" y="75" fill="#ef4444" fontSize="20" fontWeight="900">E</text>
+      <text x="329" y="168" fill="#0ea5e9" fontSize="20" fontWeight="900">B</text>
+      <text x="210" y="30" fill="#061642" fontSize="17" fontWeight="900">Z</text>
+      <text x="311" y="78" fill="#061642" fontSize="17" fontWeight="900">Y</text>
+      <text x="296" y="202" fill="#061642" fontSize="17" fontWeight="900">X</text>
+    </svg>
+  );
+}
+
+function DspHeroDiagram() {
+  const samples = [
+    { x: 86, y: 176, label: "-2" },
+    { x: 128, y: 142, label: "-1" },
+    { x: 170, y: 94, label: "0" },
+    { x: 212, y: 116, label: "1" },
+    { x: 254, y: 154, label: "2" },
+    { x: 296, y: 184, label: "3" },
+    { x: 338, y: 194, label: "4" },
+  ];
+
+  return (
+    <svg viewBox="0 0 420 240" className="h-auto w-full max-w-[420px]" role="img" aria-label="Digital signal processing discrete signal diagram">
+      <defs>
+        <marker id="dspArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0 0 8 4 0 8Z" fill="#061642" />
+        </marker>
+      </defs>
+      <path d="M58 192h310" stroke="#061642" strokeWidth="3" markerEnd="url(#dspArrow)" />
+      <path d="M88 206V44" stroke="#061642" strokeWidth="3" markerEnd="url(#dspArrow)" />
+      {samples.map((sample) => (
+        <g key={sample.label}>
+          <path d={`M${sample.x} 192V${sample.y}`} stroke="#1d4ed8" strokeWidth="4" strokeLinecap="round" />
+          <circle cx={sample.x} cy={sample.y} r="6" fill="#1d4ed8" />
+          <text x={sample.x - 7} y="222" fill="#061642" fontSize="16" fontWeight="900">{sample.label}</text>
+        </g>
+      ))}
+      <text x="72" y="38" fill="#061642" fontSize="18" fontWeight="900">x[n]</text>
+      <text x="374" y="198" fill="#061642" fontSize="18" fontWeight="900">n</text>
+    </svg>
+  );
+}
+
+function VlsiHeroDiagram() {
+  const pins = [32, 56, 80, 104, 128, 152, 176, 200];
+
+  return (
+    <svg viewBox="0 0 420 240" className="h-auto w-full max-w-[420px]" role="img" aria-label="VLSI integrated circuit diagram">
+      <rect x="142" y="58" width="136" height="124" rx="14" fill="#1f2937" stroke="#061642" strokeWidth="4" />
+      <text x="178" y="128" fill="#ffffff" fontSize="34" fontWeight="900">VLSI</text>
+      {pins.map((y, index) => (
+        <g key={`left-${y}`}>
+          <path d={`M142 ${y + 28}h-42l-18 ${index % 2 ? 18 : -18}`} stroke="#111827" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          <circle cx={82} cy={y + 28 + (index % 2 ? 18 : -18)} r="4" fill="#ffffff" stroke="#111827" strokeWidth="2" />
+        </g>
+      ))}
+      {pins.map((y, index) => (
+        <g key={`right-${y}`}>
+          <path d={`M278 ${y + 28}h42l18 ${index % 2 ? -18 : 18}`} stroke="#111827" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          <circle cx={338} cy={y + 28 + (index % 2 ? -18 : 18)} r="4" fill="#ffffff" stroke="#111827" strokeWidth="2" />
+        </g>
+      ))}
+      {[-46, -22, 2, 26, 50].map((x) => (
+        <path key={`top-${x}`} d={`M${210 + x} 58V24`} stroke="#111827" strokeWidth="2.5" strokeLinecap="round" />
+      ))}
+      {[-46, -22, 2, 26, 50].map((x) => (
+        <path key={`bottom-${x}`} d={`M${210 + x} 182v34`} stroke="#111827" strokeWidth="2.5" strokeLinecap="round" />
+      ))}
+    </svg>
+  );
+}
+
+function EmbeddedHeroDiagram() {
+  return (
+    <svg viewBox="0 0 420 240" className="h-auto w-full max-w-[420px]" role="img" aria-label="Embedded systems circuit board diagram">
+      <g transform="translate(42 46) skewY(-12)">
+        <rect x="18" y="28" width="292" height="136" rx="16" fill="#16a34a" stroke="#047857" strokeWidth="4" />
+        <rect x="120" y="70" width="82" height="58" rx="8" fill="#1f2937" stroke="#111827" strokeWidth="3" />
+        <rect x="36" y="48" width="46" height="28" rx="5" fill="#dbeafe" stroke="#075985" strokeWidth="3" />
+        <rect x="228" y="48" width="56" height="26" rx="5" fill="#e0f2fe" stroke="#075985" strokeWidth="3" />
+        <path d="M82 62h38M202 96h62M74 128h46M202 118h44" stroke="#d9f99d" strokeWidth="4" strokeLinecap="round" />
+        {[50, 94, 218, 274].map((x) => (
+          <circle key={x} cx={x} cy="144" r="8" fill="#fde68a" stroke="#92400e" strokeWidth="3" />
+        ))}
+        {[130, 146, 162, 178, 194].map((x) => (
+          <path key={x} d={`M${x} 62v-18`} stroke="#fef3c7" strokeWidth="3" strokeLinecap="round" />
+        ))}
+        {[130, 146, 162, 178, 194].map((x) => (
+          <path key={`b-${x}`} d={`M${x} 136v18`} stroke="#fef3c7" strokeWidth="3" strokeLinecap="round" />
+        ))}
+      </g>
+    </svg>
+  );
+}
+
+function CommunicationHeroDiagram() {
+  return (
+    <svg viewBox="0 0 500 250" className="h-auto w-full max-w-[500px]" role="img" aria-label="Communication system transmitter channel receiver diagram">
+      <defs>
+        <marker id="commArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0 0 8 4 0 8Z" fill="#061642" />
+        </marker>
+      </defs>
+      <rect x="28" y="84" width="98" height="64" rx="10" fill="#ffffff" stroke="#0b58b4" strokeWidth="3" />
+      <rect x="202" y="84" width="96" height="64" rx="10" fill="#ffffff" stroke="#079455" strokeWidth="3" />
+      <rect x="374" y="84" width="98" height="64" rx="10" fill="#ffffff" stroke="#0b58b4" strokeWidth="3" />
+      <path d="M126 116h76M298 116h76" stroke="#061642" strokeWidth="3" markerEnd="url(#commArrow)" />
+      <path d="M55 58c16-22 28-22 44 0s28 22 44 0" fill="none" stroke="#ff7417" strokeWidth="3" strokeLinecap="round" />
+      <path d="M226 52c10-12 20-12 30 0s20 12 30 0" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" />
+      <path d="M400 58c16-22 28-22 44 0s28 22 44 0" fill="none" stroke="#ff7417" strokeWidth="3" strokeLinecap="round" />
+      <path d="M246 156l-18 42M260 156l18 42" stroke="#061642" strokeWidth="3" strokeLinecap="round" />
+      <path d="M216 198h74" stroke="#061642" strokeWidth="3" strokeLinecap="round" />
+      <text x="48" y="122" fill="#061642" fontSize="18" fontWeight="900">TX</text>
+      <text x="220" y="122" fill="#061642" fontSize="18" fontWeight="900">Channel</text>
+      <text x="397" y="122" fill="#061642" fontSize="18" fontWeight="900">RX</text>
+      <text x="51" y="170" fill="#061642" fontSize="15" fontWeight="800">Transmitter</text>
+      <text x="390" y="170" fill="#061642" fontSize="15" fontWeight="800">Receiver</text>
+    </svg>
+  );
+}
+
+function MicroprocessorsHeroDiagram() {
+  return (
+    <svg viewBox="0 0 500 250" className="h-auto w-full max-w-[500px]" role="img" aria-label="Microprocessor CPU memory input output block diagram">
+      <defs>
+        <marker id="microArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0 0 8 4 0 8Z" fill="#061642" />
+        </marker>
+      </defs>
+      <rect x="178" y="58" width="144" height="98" rx="14" fill="#1f2937" stroke="#061642" strokeWidth="4" />
+      <text x="214" y="102" fill="#ffffff" fontSize="22" fontWeight="900">8085</text>
+      <text x="202" y="130" fill="#ffffff" fontSize="18" fontWeight="900">CPU</text>
+      <rect x="28" y="42" width="104" height="54" rx="10" fill="#ffffff" stroke="#0b58b4" strokeWidth="3" />
+      <rect x="368" y="42" width="104" height="54" rx="10" fill="#ffffff" stroke="#0b58b4" strokeWidth="3" />
+      <rect x="28" y="162" width="104" height="54" rx="10" fill="#ffffff" stroke="#079455" strokeWidth="3" />
+      <rect x="368" y="162" width="104" height="54" rx="10" fill="#ffffff" stroke="#079455" strokeWidth="3" />
+      <path d="M132 70h46M322 70h46M132 190h46M322 190h46" stroke="#061642" strokeWidth="3" markerEnd="url(#microArrow)" />
+      <path d="M250 156v64" stroke="#ff7417" strokeWidth="4" strokeLinecap="round" />
+      <path d="M124 220h252" stroke="#ff7417" strokeWidth="4" strokeLinecap="round" />
+      <text x="58" y="75" fill="#061642" fontSize="16" fontWeight="900">ROM</text>
+      <text x="398" y="75" fill="#061642" fontSize="16" fontWeight="900">RAM</text>
+      <text x="62" y="195" fill="#061642" fontSize="16" fontWeight="900">I/O</text>
+      <text x="388" y="195" fill="#061642" fontSize="16" fontWeight="900">8255</text>
+      <text x="210" y="238" fill="#061642" fontSize="16" fontWeight="900">System Bus</text>
+    </svg>
+  );
+}
+
+function AntennaHeroDiagram() {
+  return (
+    <svg viewBox="0 0 500 250" className="h-auto w-full max-w-[500px]" role="img" aria-label="Antenna wave propagation radiation pattern diagram">
+      <defs>
+        <marker id="antennaArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0 0 8 4 0 8Z" fill="#061642" />
+        </marker>
+      </defs>
+      <path d="M250 190V80" stroke="#061642" strokeWidth="5" strokeLinecap="round" />
+      <path d="M218 190h64M250 190l-36 38M250 190l36 38" stroke="#061642" strokeWidth="4" strokeLinecap="round" />
+      <path d="M250 70c-42 14-70 42-86 86" fill="none" stroke="#0b58b4" strokeWidth="3" strokeLinecap="round" />
+      <path d="M250 70c42 14 70 42 86 86" fill="none" stroke="#0b58b4" strokeWidth="3" strokeLinecap="round" />
+      <path d="M250 48c-78 22-126 72-148 148" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" />
+      <path d="M250 48c78 22 126 72 148 148" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" />
+      <path d="M250 110h146" stroke="#ff7417" strokeWidth="4" markerEnd="url(#antennaArrow)" />
+      <path d="M250 138h110" stroke="#ff7417" strokeWidth="3" markerEnd="url(#antennaArrow)" opacity="0.75" />
+      <path d="M250 166h78" stroke="#ff7417" strokeWidth="3" markerEnd="url(#antennaArrow)" opacity="0.55" />
+      <text x="306" y="96" fill="#061642" fontSize="18" fontWeight="900">Radiation</text>
+      <text x="214" y="70" fill="#061642" fontSize="18" fontWeight="900">Antenna</text>
+    </svg>
+  );
+}
+
+function ChapterHeroDiagram({ type }) {
+  if (type === "analog") {
+    return <AnalogHeroDiagram />;
+  }
+
+  if (type === "digital") {
+    return <DigitalHeroDiagram />;
+  }
+
+  if (type === "signals") {
+    return <SignalsHeroDiagram />;
+  }
+
+  if (type === "control") {
+    return <ControlHeroDiagram />;
+  }
+
+  if (type === "electromagnetic") {
+    return <ElectromagneticHeroDiagram />;
+  }
+
+  if (type === "dsp") {
+    return <DspHeroDiagram />;
+  }
+
+  if (type === "vlsi") {
+    return <VlsiHeroDiagram />;
+  }
+
+  if (type === "embedded") {
+    return <EmbeddedHeroDiagram />;
+  }
+
+  if (type === "communication") {
+    return <CommunicationHeroDiagram />;
+  }
+
+  if (type === "microprocessors") {
+    return <MicroprocessorsHeroDiagram />;
+  }
+
+  if (type === "antenna") {
+    return <AntennaHeroDiagram />;
+  }
+
+  return <BeginnerSeriesCircuitDiagram />;
+}
+
+function NetworkBeginnerGuide({ chapter }) {
+  const stats = NETWORK_CHAPTER_STATS.map((item) =>
+    item.label === "Difficulty"
+      ? { ...item, value: chapter.difficulty }
+      : item.label === "Estimated Time"
+      ? { ...item, value: chapter.time || item.value }
+      : item
+  );
+
+  return (
+    <section id="network-beginner-guide" className="grid gap-5">
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white px-4 py-6 shadow-[0_10px_32px_rgba(15,23,42,0.06)] sm:px-6 lg:px-8">
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px] xl:items-start">
+          <div className="min-w-0">
+            <span className="inline-flex rounded-lg bg-blue-50 px-3 py-1 text-xs font-black uppercase tracking-normal text-[#0754c9]">
+              ECE Core Chapter
+            </span>
+            <h1 className="mt-4 text-4xl font-black leading-tight tracking-normal text-[#061642] sm:text-5xl">
+              {chapter.title}
+            </h1>
+            <div className="mt-4 grid gap-3 text-base leading-8 text-slate-950">
+              {chapter.intro.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+          <div className="hidden justify-center xl:flex">
+            <ChapterHeroDiagram type={chapter.diagram} />
+          </div>
+        </div>
+
+        <div className="mt-7 rounded-lg border border-green-200 bg-[#f5fbf4] p-4 sm:p-5">
+          <div className="flex items-center gap-3">
+            <NetworkLandingIcon name="clipboard" className="h-8 w-8 text-[#137d46]" />
+            <h2 className="text-2xl font-black text-[#137d46]">Table of Contents</h2>
+          </div>
+          <div className="mt-5 grid gap-x-7 gap-y-0 md:grid-cols-2 xl:grid-cols-3">
+            {chapter.toc.map((item, index) => (
+              <a
+                key={item}
+                href="#network-beginner-guide"
+                className="flex items-center gap-3 border-b border-slate-200 py-3 text-sm font-black text-[#0754c9] transition hover:text-[#061642] sm:text-base"
+              >
+                <span className="flex h-8 w-8 flex-none items-center justify-center rounded-md bg-[#2f9f45] text-sm font-black text-white">
+                  {index + 1}
+                </span>
+                <span>{item}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(280px,0.82fr)]">
+        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-[0_8px_24px_rgba(15,23,42,0.05)]">
+          <div className="flex items-center gap-3">
+            <NetworkLandingIcon name="clipboard" className="h-7 w-7 text-[#0754c9]" />
+            <h2 className="text-2xl font-black text-[#0754c9]">Chapter Overview</h2>
+          </div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            {stats.map((item) => (
+              <div key={item.label} className="rounded-lg border border-slate-200 bg-white p-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-[#2563eb]">
+                    <NetworkSmallIcon name={item.icon} />
+                  </span>
+                  <div>
+                    <p className="text-xs font-bold text-slate-600">{item.label}</p>
+                    <p className="text-sm font-black text-[#061642]">{item.value}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-5 text-base leading-7 text-slate-950">
+            {chapter.overview}
+          </p>
+        </section>
+
+        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-[0_8px_24px_rgba(15,23,42,0.05)]">
+          <div className="flex items-center gap-3">
+            <span className="text-[#0754c9]">
+              <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M10 13a5 5 0 0 0 7.1 0l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1" />
+                <path d="M14 11a5 5 0 0 0-7.1 0l-2 2A5 5 0 0 0 12 20.1l1.1-1.1" />
+              </svg>
+            </span>
+            <h2 className="text-2xl font-black text-[#0754c9]">Contextual Study Links</h2>
+          </div>
+          <div className="mt-4 overflow-hidden rounded-lg border border-slate-200">
+            {chapter.links.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex items-center justify-between gap-3 border-b border-slate-200 px-4 py-3 text-sm font-black text-[#061642] last:border-b-0 hover:bg-[#f8fbff]"
+              >
+                <span>{item.title}</span>
+                <span aria-hidden="true">&gt;</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <div className="grid gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-[0_8px_24px_rgba(15,23,42,0.05)] sm:grid-cols-2 xl:grid-cols-6">
+        {NETWORK_FEATURES.map((item) => (
+          <div key={item.title} className="flex items-center gap-3 border-slate-200 xl:border-r xl:last:border-r-0">
+            <span className={`flex h-11 w-11 flex-none items-center justify-center rounded-lg text-white ${item.color}`}>
+              <NetworkSmallIcon name={item.icon} />
+            </span>
+            <span>
+              <span className="block text-sm font-black text-[#061642]">{item.title}</span>
+              <span className="block text-xs font-semibold text-slate-600">{item.text}</span>
+            </span>
+          </div>
+        ))}
+      </div>
+
+    </section>
+  );
+}
+
 function NetworkAnalysisLandingPage({ subject, seo, concepts, activeConceptIndex }) {
-  const content = SUBJECT_LANDING_CONTENT[subject.title] || SUBJECT_LANDING_CONTENT["Network Analysis"];
-  const landingCards = buildSubjectLandingCards(subject.title);
+  const chapter = SUBJECT_CHAPTER_HOME[subject.title] || SUBJECT_CHAPTER_HOME["Network Analysis"];
 
   return (
     <Layout
@@ -15740,75 +16750,7 @@ function NetworkAnalysisLandingPage({ subject, seo, concepts, activeConceptIndex
           />
         </nav>
 
-        <section className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_230px]">
-          <div className="overflow-hidden rounded-xl bg-[#eaf5ff] px-5 py-6 sm:px-8 lg:min-h-[260px]">
-            <div className="grid h-full gap-5 lg:grid-cols-[minmax(0,0.82fr)_minmax(240px,0.58fr)] lg:items-center">
-              <div>
-                <h1 className="max-w-[620px] text-4xl font-black leading-[0.98] tracking-normal text-[#061642] sm:text-5xl lg:text-[3.4rem]">
-                  {subject.title} GATE ECE Quick Notes, PYQs, and Formulas
-                </h1>
-                <span className="mt-4 block h-1 w-20 bg-[#1d68bd]" />
-                <p className="mt-5 max-w-[520px] text-base leading-7 text-slate-950">
-                  {content.description}
-                </p>
-              </div>
-              <div className="flex justify-center lg:justify-end">
-                <NetworkHeroCircuit />
-              </div>
-            </div>
-          </div>
-
-          <aside className="flex min-h-[260px] flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-5 text-center shadow-[0_8px_24px_rgba(15,23,42,0.05)]">
-            <NetworkLandingIcon name="clipboard" className="h-9 w-9 text-[#0b58b4]" />
-            <h2 className="mt-5 text-lg font-black text-[#0b58b4]">
-              {subject.title} Topics <span className="text-base">(Coming Soon)</span>
-            </h2>
-            <p className="mt-5 text-left text-base leading-7 text-slate-950">
-              In this section, I will explain each and every topic and subtopic step
-              by step in depth.
-            </p>
-            <NetworkLandingIcon name="book" className="mt-5 h-9 w-9 text-slate-600" />
-          </aside>
-        </section>
-
-        <section className="mt-6">
-          <div className="flex items-center gap-5">
-            <NetworkLandingIcon name="clipboard" className="h-8 w-8 text-[#0b58b4]" />
-            <h2 className="text-2xl font-black uppercase text-[#0b58b4]">Overview</h2>
-            <span className="h-px flex-1 bg-slate-200" />
-          </div>
-          <div className="mt-7 grid gap-4">
-            {landingCards.map((card, index) => (
-              <NetworkLandingCard key={card.title} card={card} index={index} />
-            ))}
-          </div>
-        </section>
-
-        {subject.title === "Network Analysis" ? <NetworkEducationalContent /> : null}
-
-        <section className="mt-6 overflow-hidden rounded-lg border border-blue-300 bg-[#f0f8ff] px-6 py-5">
-          <div className="grid gap-5 sm:grid-cols-[88px_minmax(0,1fr)_160px] sm:items-center">
-            <span className="flex h-20 w-20 items-center justify-center rounded-full border border-blue-300 bg-blue-50 text-[#1d68bd]">
-              <svg viewBox="0 0 24 24" className="h-12 w-12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M22 10L12 5 2 10l10 5 10-5Z" />
-                <path d="M6 12.5v4.5c3.8 2.4 8.2 2.4 12 0v-4.5" />
-                <path d="M2 10v7" />
-              </svg>
-            </span>
-            <div>
-              <h2 className="text-2xl font-black text-[#0b58b4]">Start Your Journey</h2>
-              <p className="mt-2 text-base leading-7 text-slate-950">
-                {content.journey}
-              </p>
-            </div>
-            <svg viewBox="0 0 150 105" className="hidden h-24 w-36 justify-self-end text-[#1d68bd] sm:block" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M20 90h110" />
-              <path d="M28 90V72h16v18M58 90V62h16v28M88 90V48h16v42M118 90V28h16v62" />
-              <path d="M24 58l26-20 24 10 48-36" />
-              <path d="M122 12h16v16" />
-            </svg>
-          </div>
-        </section>
+        <NetworkBeginnerGuide chapter={chapter} />
 
         <section className="mt-6 rounded-lg border border-slate-200 bg-white p-5 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
           <h2 className="text-2xl font-black text-[#061642]">{subject.title} FAQ</h2>
@@ -16007,16 +16949,7 @@ export default function SubjectTheoryPage({
     shouldShowInlineConcept,
   ]);
 
-  if (
-    [
-      "Network Analysis",
-      "Analog Electronics",
-      "Digital Electronics",
-      "Signals and Systems",
-      "Communication Systems",
-    ].includes(subject.title) &&
-    isConceptIntroPage
-  ) {
+  if (SUBJECT_CHAPTER_HOME[subject.title] && isConceptIntroPage) {
     return (
       <NetworkAnalysisLandingPage
         subject={subject}

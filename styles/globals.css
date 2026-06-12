@@ -220,6 +220,10 @@ mjx-container[display="true"] {
   display: none;
 }
 
+.ad-rail--hidden {
+  display: none !important;
+}
+
 .ad-slot,
 .ad-placeholder {
   width: 100%;
@@ -329,6 +333,10 @@ iframe[src*="googlesyndication"] {
     position: sticky;
     top: 5.75rem;
     display: block;
+  }
+
+  .site-ad-layout:has(.ad-rail--hidden) {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .ad-rail__slot {
