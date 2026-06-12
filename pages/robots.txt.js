@@ -15,9 +15,6 @@ Allow: /ece-exams/
 Allow: /insights/
 Disallow: /admin
 Disallow: /api
-Disallow: /login
-Disallow: /search
-Disallow: /signup
 
 Sitemap: ${SITE_URL}/sitemap.xml`;
 }
