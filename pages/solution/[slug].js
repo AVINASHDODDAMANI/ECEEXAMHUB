@@ -5,7 +5,7 @@ import CircuitDiagram from "../../components/CircuitDiagram";
 import FormattedText, { InlineFormattedText } from "../../components/FormattedText";
 import QuestionStem from "../../components/QuestionStem";
 import Layout from "../../components/layout";
-import { getOfficialPaper } from "../../data/official-previous-papers";
+import { getOfficialPaper, officialPreviousPapers } from "../../data/official-previous-papers";
 import { getPracticeSlug } from "../../data/practice-sections";
 import seedQuestions from "../../data/questions";
 import { fetchQuestions } from "../../lib/api-client";
@@ -24,6 +24,70 @@ import {
 } from "../../lib/seo";
 
 const MIN_READY_PAPER_QUESTIONS = 10;
+const BEL_HUB_PATH = "/previous-year-papers/bel";
+
+const BEL_CORE_SUBJECTS = [
+  { label: "Network Analysis", href: "/subjects/network-analysis" },
+  { label: "Control Systems", href: "/subjects/control-systems" },
+  { label: "Analog Electronics", href: "/subjects/analog-electronics" },
+  { label: "Digital Electronics", href: "/subjects/digital-electronics" },
+  { label: "Communication Systems", href: "/subjects/communication-systems" },
+  { label: "Signals & Systems", href: "/subjects/signals-and-systems" },
+  { label: "Electromagnetic Theory", href: "/subjects/electromagnetic-theory" },
+];
+
+const BEL_IMPORTANT_TOPICS = [
+  { label: "Thevenin Theorem", href: "/network-theorems" },
+  { label: "Norton Theorem", href: "/network-theorems" },
+  { label: "BJT", href: "/bipolar-junction-transistor" },
+  { label: "MOSFET", href: "/bjt-and-mosfet" },
+  { label: "Op-Amp", href: "/operational-amplifiers" },
+  { label: "Root Locus", href: "/root-locus-technique" },
+  { label: "Bode Plot", href: "/frequency-response-analysis" },
+  { label: "Modulation", href: "/subjects/communication-systems" },
+  { label: "Sampling", href: "/sampling-theorem" },
+  { label: "Digital Logic", href: "/logic-gates-and-boolean-algebra" },
+];
+
+const BEL_CLUSTER_LINKS = [
+  { label: "BEL Hub", href: BEL_HUB_PATH },
+  { label: "BEL Syllabus", href: `${BEL_HUB_PATH}#bel-syllabus` },
+  { label: "BEL Mock Tests", href: "/mock-tests" },
+  { label: "BEL Previous Papers", href: `${BEL_HUB_PATH}#bel-previous-year-papers` },
+  { label: "Topic Wise Questions", href: "/practice/bel" },
+  { label: "BEL Important Topics", href: "/bel-most-important-topics" },
+];
+
+const BEL_TOPIC_SUBJECT_RULES = [
+  {
+    label: "Network Analysis",
+    patterns: ["network", "mesh", "node", "nodal", "superposition", "thevenin", "norton", "resonance", "two-port", "two port", "h-parameters", "capacitor in dc"],
+  },
+  {
+    label: "Control Systems",
+    patterns: ["control", "root locus", "bode", "routh", "nyquist", "signal flow", "transfer function", "pid", "pi controller", "compensator", "state variables", "summing point"],
+  },
+  {
+    label: "Analog Electronics",
+    patterns: ["bjt", "mosfet", "diode", "op-amp", "operational amplifier", "amplifier", "zener", "oscillator", "filter", "555 timer", "vco", "differential amplifier", "photodiode", "sample and hold"],
+  },
+  {
+    label: "Digital Electronics",
+    patterns: ["boolean", "karnaugh", "gray code", "sequential", "logic", "shift register", "fsm", "finite state", "memory", "microprocessor", "8085", "configurable logic"],
+  },
+  {
+    label: "Communication Systems",
+    patterns: ["modulation", "am ", "fm", "pcm", "tdma", "matched filter", "ber", "hamming", "superheterodyne", "mutual information", "digital modulation", "ask", "amplitude shift"],
+  },
+  {
+    label: "Signals & Systems",
+    patterns: ["signals", "lti", "z-transform", "sampling", "power spectral", "window", "time-invariant", "distortion", "dft"],
+  },
+  {
+    label: "Electromagnetic Theory",
+    patterns: ["electromagnetic", "transmission line", "smith", "waveguide", "antenna", "plane wave", "poynting", "radar", "optical fiber"],
+  },
+];
 
 function parsePaperSlug(slug = "") {
   const monthMatch = String(slug).match(/^(.+)-(january|february|march|april|may|june|july|august|september|october|november|december)-(\d{4})$/i);
@@ -162,11 +226,11 @@ function getBelPaperHeading(paper = {}) {
 }
 
 function getBelPaperSeoTitle(paper = {}) {
-  return `BEL Probationary Engineer ECE Question Paper ${getBelPaperDateLabel(paper)} with Detailed Solutions | Previous Year Papers`;
+  return `BEL Probationary Engineer ECE Question Paper ${getBelPaperYearLabel(paper)} with Detailed Solutions | ECEExamGuide`;
 }
 
 function getBelPaperDescription(paper = {}) {
-  return `Download and solve BEL Probationary Engineer ECE Question Paper ${getBelPaperDateLabel(paper)} with detailed solutions, answer explanations, topic-wise analysis, previous year papers, exam pattern and preparation resources.`;
+  return `Practice BEL Probationary Engineer ECE Question Paper ${getBelPaperYearLabel(paper)} with solved questions, detailed explanations, topic-wise analysis, previous year papers, and preparation resources.`;
 }
 
 function getBelPaperBreadcrumbLabel(paper = {}) {
@@ -175,6 +239,203 @@ function getBelPaperBreadcrumbLabel(paper = {}) {
 
 function getBelPaperSummary(paper = {}) {
   return `Practice the BEL Probationary Engineer ECE ${getBelPaperDateLabel(paper)} paper with detailed solutions, answer explanations, topic-wise analysis and exam-pattern focused revision.`;
+}
+
+function getBelPaperYearLabel(paper = {}) {
+  return String(paper.year || "").trim();
+}
+
+function classifyBelTechnicalSubject(question = {}) {
+  const text = [question.subject, question.topic, question.concept, question.question]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  const matchedRule = BEL_TOPIC_SUBJECT_RULES.find((rule) =>
+    rule.patterns.some((pattern) => text.includes(pattern))
+  );
+
+  return matchedRule?.label || "";
+}
+
+function buildBelSectionCounts(questions = []) {
+  const counts = {
+    technical: 0,
+    aptitude: 0,
+    reasoning: 0,
+  };
+
+  questions.forEach((question) => {
+    const subject = String(question.subject || "").toLowerCase();
+
+    if (subject.includes("reasoning")) {
+      counts.reasoning += 1;
+      return;
+    }
+
+    if (subject.includes("aptitude") || subject.includes("general")) {
+      counts.aptitude += 1;
+      return;
+    }
+
+    counts.technical += 1;
+  });
+
+  return counts;
+}
+
+function buildBelWeightageRows(questions = []) {
+  const counts = Object.fromEntries(BEL_CORE_SUBJECTS.map((subject) => [subject.label, 0]));
+
+  questions.forEach((question) => {
+    const subjectLabel = classifyBelTechnicalSubject(question);
+
+    if (subjectLabel && counts[subjectLabel] !== undefined) {
+      counts[subjectLabel] += 1;
+    }
+  });
+
+  return BEL_CORE_SUBJECTS.map((subject) => ({
+    ...subject,
+    questions: counts[subject.label] || 0,
+  }));
+}
+
+function getBelDifficultyLevel(paper = {}, sectionCounts = {}) {
+  const totalQuestions = Number(paper.questionCount || 0);
+  const technicalQuestions = Number(sectionCounts.technical || 0);
+  const technicalRatio = totalQuestions ? technicalQuestions / totalQuestions : 0;
+
+  if (technicalRatio >= 0.72) {
+    return "Moderate to Difficult";
+  }
+
+  if (technicalRatio >= 0.55) {
+    return "Moderate";
+  }
+
+  return "Easy to Moderate";
+}
+
+function getBelExamAnalysisText(paper = {}, sectionCounts = {}, weightageRows = []) {
+  const year = getBelPaperYearLabel(paper);
+  const highWeightageSubjects = weightageRows
+    .filter((row) => row.questions > 0)
+    .sort((left, right) => right.questions - left.questions)
+    .slice(0, 5)
+    .map((row) => row.label)
+    .join(", ");
+
+  return `The BEL Probationary Engineer ECE ${year} examination was ${getBelDifficultyLevel(paper, sectionCounts).toLowerCase()} in difficulty. The paper mixed core Electronics questions with General Aptitude and Reasoning. Most technical questions were concentrated around ${highWeightageSubjects || "Network Analysis, Analog Electronics, Control Systems, Digital Electronics and Communication Systems"}, so candidates should revise formulas, circuit concepts, control-system plots, modulation basics and digital logic before attempting the full paper.`;
+}
+
+function getBelFaqItems(paper = {}, sectionCounts = {}, weightageRows = []) {
+  const year = getBelPaperYearLabel(paper);
+  const totalQuestions = paper.questionCount || "the full set of";
+  const importantSubjects = weightageRows
+    .filter((row) => row.questions > 0)
+    .sort((left, right) => right.questions - left.questions)
+    .slice(0, 4)
+    .map((row) => row.label)
+    .join(", ");
+
+  return [
+    {
+      question: `What is the difficulty level of BEL PE ${year}?`,
+      answer: `The BEL PE ECE ${year} paper is best treated as ${getBelDifficultyLevel(paper, sectionCounts).toLowerCase()}, with a mix of technical ECE, aptitude and reasoning questions.`,
+    },
+    {
+      question: `How many questions were asked in BEL PE ${year}?`,
+      answer: `This BEL Probationary Engineer ECE ${year} paper contains ${totalQuestions} questions for practice with solutions and answer explanations.`,
+    },
+    {
+      question: "Is BEL PE suitable for ECE students?",
+      answer: "Yes. BEL Probationary Engineer Electronics/ECE papers strongly overlap with core ECE subjects such as networks, analog, digital, control, communication, signals and electromagnetic theory.",
+    },
+    {
+      question: "Which topics are most important for BEL PE?",
+      answer: `Important BEL PE ECE areas include ${importantSubjects || "Network Analysis, Analog Electronics, Control Systems, Digital Electronics and Communication Systems"}, along with reasoning and aptitude practice.`,
+    },
+    {
+      question: "Where can I practice BEL previous year papers?",
+      answer: "You can practice BEL previous year papers on ECE Exam Guide using the BEL paper hub, solved paper pages and BEL practice section.",
+    },
+  ];
+}
+
+function buildFaqStructuredData(faqItems = []) {
+  if (!faqItems.length) {
+    return null;
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+function buildArticleStructuredData({ title, description, canonicalPath, paper }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description,
+    url: generateCanonical(canonicalPath),
+    mainEntityOfPage: generateCanonical(canonicalPath),
+    articleSection: "BEL Probationary Engineer Previous Year Papers",
+    about: [
+      "BEL Probationary Engineer ECE Question Paper",
+      "BEL PE Solved Papers",
+      "BEL Electronics Previous Year Papers",
+      ...(paper.topics || []).slice(0, 12),
+    ],
+    author: {
+      "@type": "Organization",
+      name: "ECE Exam Guide",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "ECE Exam Guide",
+    },
+  };
+}
+
+function getRelatedBelPapers(currentPaper = {}) {
+  const knownPapers = officialPreviousPapers
+    .filter((paper) => paper.exam === "BEL")
+    .map((paper) => ({
+      title: `BEL ${paper.month ? `${paper.month} ` : ""}${paper.year} Paper`,
+      href: `/solution/${paper.slug}`,
+      year: paper.year,
+      month: paper.month || "",
+      slug: paper.slug,
+    }));
+  const fallbackPapers = [
+    { title: "BEL 2024 Paper", href: "/previous-year?exam=BEL&year=2024", year: 2024, month: "" },
+  ];
+  const seen = new Set();
+
+  return [...knownPapers, ...fallbackPapers]
+    .filter((paper) => {
+      const key = paper.slug || paper.href;
+
+      if (seen.has(key)) {
+        return false;
+      }
+
+      seen.add(key);
+      return key !== currentPaper.slug;
+    })
+    .sort((left, right) => right.year - left.year || String(right.month).localeCompare(String(left.month)))
+    .slice(0, 4);
 }
 
 function getPaperSolutionSlug(paper) {
@@ -959,6 +1220,12 @@ export default function SolutionPage({
   const belPaperHeading = belPaper ? getBelPaperHeading(paper) : "";
   const belPaperDescription = belPaper ? getBelPaperDescription(paper) : "";
   const belPaperSummary = belPaper ? getBelPaperSummary(paper) : "";
+  const belSectionCounts = belPaper ? buildBelSectionCounts(paperQuestions) : null;
+  const belWeightageRows = belPaper ? buildBelWeightageRows(paperQuestions) : [];
+  const belDifficultyLevel = belPaper ? getBelDifficultyLevel(paper, belSectionCounts) : "";
+  const belExamAnalysisText = belPaper ? getBelExamAnalysisText(paper, belSectionCounts, belWeightageRows) : "";
+  const belFaqItems = belPaper ? getBelFaqItems(paper, belSectionCounts, belWeightageRows) : [];
+  const relatedBelPapers = belPaper ? getRelatedBelPapers(paper) : [];
   const paperTitle = belPaperHeading || seoOverride?.heading || defaultPaperTitle;
   const paperDescription =
     belPaperDescription ||
@@ -1002,8 +1269,17 @@ export default function SolutionPage({
       { name: belPaper ? "BEL Previous Papers" : "Previous Papers", item: "/previous-year" },
       { name: belPaper ? getBelPaperBreadcrumbLabel(paper) : paperTitle, item: canonicalPath },
     ]),
+    belPaper
+      ? buildArticleStructuredData({
+          title: paperTitle,
+          description: paperDescription,
+          canonicalPath,
+          paper,
+        })
+      : null,
+    belPaper ? buildFaqStructuredData(belFaqItems) : null,
     buildQuestionStructuredData(paperQuestions, canonicalPath),
-  ];
+  ].filter(Boolean);
 
   function handleDownloadPdf() {
     if (typeof window === "undefined") {
@@ -1257,6 +1533,112 @@ export default function SolutionPage({
           </section>
         ) : null}
 
+        {belPaper ? (
+          <section className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
+            <article className="rounded-[18px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
+                Exam Analysis
+              </p>
+              <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
+                BEL Probationary Engineer ECE {getBelPaperYearLabel(paper)} Exam Analysis
+              </h2>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {[
+                  ["Exam Date", getBelPaperDateLabel(paper)],
+                  ["Total Questions", getQuestionMetric(paper, paperQuestions)],
+                  ["Difficulty Level", belDifficultyLevel],
+                  ["Technical Questions", belSectionCounts.technical],
+                  ["Aptitude Questions", belSectionCounts.aptitude],
+                  ["Reasoning Questions", belSectionCounts.reasoning],
+                ].map(([label, value]) => (
+                  <div key={label} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                    <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-slate-500">{label}</p>
+                    <p className="mt-1 text-lg font-extrabold text-slate-950">{value || "-"}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-5 text-sm leading-7 text-slate-700 sm:text-base">
+                {belExamAnalysisText}
+              </p>
+            </article>
+
+            <article className="rounded-[18px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
+                Topic-Wise Weightage
+              </p>
+              <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
+                Topic-Wise Question Distribution
+              </h2>
+              <div className="mt-5 overflow-hidden rounded-2xl border border-slate-200">
+                <table className="w-full border-collapse text-left text-sm">
+                  <thead className="bg-slate-950 text-white">
+                    <tr>
+                      <th className="px-4 py-3 font-extrabold">Subject</th>
+                      <th className="px-4 py-3 text-right font-extrabold">Questions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-200 bg-white">
+                    {belWeightageRows.map((row) => (
+                      <tr key={row.label}>
+                        <td className="px-4 py-3">
+                          <Link href={row.href} className="font-bold text-slate-800 transition hover:text-portal-700">
+                            {row.label}
+                          </Link>
+                        </td>
+                        <td className="px-4 py-3 text-right font-extrabold text-slate-950">{row.questions}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </article>
+          </section>
+        ) : null}
+
+        {belPaper ? (
+          <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+            <article className="rounded-[18px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
+                High-Yield Revision
+              </p>
+              <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
+                Most Important Topics Asked
+              </h2>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {BEL_IMPORTANT_TOPICS.map((topicLink) => (
+                  <Link
+                    key={topicLink.label}
+                    href={topicLink.href}
+                    className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-extrabold text-slate-800 transition hover:border-portal-300 hover:bg-portal-50 hover:text-portal-700"
+                  >
+                    {topicLink.label}
+                  </Link>
+                ))}
+              </div>
+            </article>
+
+            <article className="rounded-[18px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
+                Learn Related Topics
+              </p>
+              <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
+                Subject navigation for BEL ECE
+              </h2>
+              <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                {BEL_CORE_SUBJECTS.map((subjectLink) => (
+                  <Link
+                    key={subjectLink.label}
+                    href={subjectLink.href}
+                    className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-extrabold text-slate-800 transition hover:border-portal-300 hover:bg-white hover:text-portal-700"
+                  >
+                    {subjectLink.label}
+                  </Link>
+                ))}
+              </div>
+            </article>
+          </section>
+        ) : null}
+
         <section className="grid gap-6">
           <div id="viewer" className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:p-4">
             <div className="flex flex-col gap-3 border-b border-slate-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
@@ -1347,6 +1729,7 @@ export default function SolutionPage({
             )}
           </div>
 
+          {!belPaper ? (
           <aside className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.7fr)]">
             <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
@@ -1394,7 +1777,74 @@ export default function SolutionPage({
               </div>
             </section>
           </aside>
+          ) : null}
         </section>
+
+        {belPaper ? (
+          <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.75fr)]">
+            <article className="rounded-[18px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
+                Related BEL Papers
+              </p>
+              <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
+                Continue year-wise BEL practice
+              </h2>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {relatedBelPapers.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-portal-300 hover:bg-white"
+                  >
+                    <p className="font-extrabold text-slate-950">{item.title}</p>
+                    <p className="mt-1 text-sm text-slate-600">Open solved paper and analysis</p>
+                  </Link>
+                ))}
+              </div>
+            </article>
+
+            <article className="rounded-[18px] border border-orange-200 bg-orange-50 p-5 shadow-sm sm:p-6">
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-orange-700">
+                BEL Preparation Cluster
+              </p>
+              <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
+                Explore BEL resources
+              </h2>
+              <div className="mt-5 grid gap-2">
+                {BEL_CLUSTER_LINKS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="rounded-xl bg-white px-4 py-3 text-sm font-extrabold text-slate-800 transition hover:text-portal-700"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </article>
+          </section>
+        ) : null}
+
+        {belPaper ? (
+          <section className="rounded-[18px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
+              BEL PE FAQ
+            </p>
+            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
+              Frequently asked questions
+            </h2>
+            <div className="mt-5 divide-y divide-slate-200 rounded-2xl border border-slate-200">
+              {belFaqItems.map((item) => (
+                <details key={item.question} className="group p-4">
+                  <summary className="cursor-pointer text-sm font-extrabold text-slate-950">
+                    {item.question}
+                  </summary>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        ) : null}
       </div>
     </Layout>
   );

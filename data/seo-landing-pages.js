@@ -15,7 +15,7 @@ export const seoLandingPages = {
     ],
     summary:
       "A focused landing page for students searching BEL Probationary Engineer papers, BEL ECE previous year question papers, solved objective papers, and paper-wise revision support.",
-    primaryAction: { label: "Open BEL PE Papers", href: "/previous-year?exam=BEL" },
+    primaryAction: { label: "Open BEL PE Papers", href: "/previous-year-papers/bel" },
     secondaryAction: { label: "View BEL 2025 Solution", href: "/solution/bel-december-2025" },
     metrics: [
       { label: "Exam", value: "BEL" },
@@ -37,7 +37,7 @@ export const seoLandingPages = {
       },
     ],
     links: [
-      { label: "BEL Probationary Engineer Papers", href: "/previous-year?exam=BEL" },
+      { label: "BEL Probationary Engineer Papers", href: "/previous-year-papers/bel" },
       { label: "BEL Electronics PYQs", href: "/bel-electronics-previous-year-questions" },
       { label: "BEL Important Topics", href: "/bel-most-important-topics" },
       { label: "BEL Formula Sheet", href: "/bel-formula-sheet" },

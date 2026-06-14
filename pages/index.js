@@ -206,7 +206,7 @@ export default function Home() {
 
   const exams = [
     ["GATE ECE", "/previous-year?exam=GATE", "atom"],
-    ["BEL PE", "/bel-previous-year-question-papers", "shield"],
+    ["BEL PE", "/previous-year-papers/bel", "shield"],
     ["ISRO", "/previous-year?search=ISRO", "antenna"],
     ["DRDO", "/previous-year?search=DRDO", "network"],
     ["ESE", "/previous-year?search=ESE", "file"],

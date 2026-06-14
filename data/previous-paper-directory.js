@@ -28,7 +28,7 @@ export const previousPaperDirectory = [
   {
     id: 3,
     title: "BEL Probationary Engineer Papers",
-    href: "/bel-previous-year-question-papers",
+    href: "/previous-year-papers/bel",
     meta: "BEL PE ECE Papers",
     description: "BEL Probationary Engineer previous year papers, solved ECE questions, and electronics revision support.",
     icon: "industry",
