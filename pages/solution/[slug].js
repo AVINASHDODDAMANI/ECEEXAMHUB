@@ -149,6 +149,34 @@ function getPaperShortTitle(paper) {
   return [paper.exam, paper.month, paper.year].filter(Boolean).join(" ");
 }
 
+function isBelPaper(paper = {}) {
+  return String(paper.exam || "").toUpperCase() === "BEL";
+}
+
+function getBelPaperDateLabel(paper = {}) {
+  return [paper.month, paper.year].filter(Boolean).join(" ") || String(paper.year || "").trim();
+}
+
+function getBelPaperHeading(paper = {}) {
+  return `BEL Probationary Engineer (ECE) Question Paper ${getBelPaperDateLabel(paper)} with Solutions`;
+}
+
+function getBelPaperSeoTitle(paper = {}) {
+  return `BEL Probationary Engineer ECE Question Paper ${getBelPaperDateLabel(paper)} with Detailed Solutions | Previous Year Papers`;
+}
+
+function getBelPaperDescription(paper = {}) {
+  return `Download and solve BEL Probationary Engineer ECE Question Paper ${getBelPaperDateLabel(paper)} with detailed solutions, answer explanations, topic-wise analysis, previous year papers, exam pattern and preparation resources.`;
+}
+
+function getBelPaperBreadcrumbLabel(paper = {}) {
+  return `BEL ECE ${getBelPaperDateLabel(paper)}`;
+}
+
+function getBelPaperSummary(paper = {}) {
+  return `Practice the BEL Probationary Engineer ECE ${getBelPaperDateLabel(paper)} paper with detailed solutions, answer explanations, topic-wise analysis and exam-pattern focused revision.`;
+}
+
 function getPaperSolutionSlug(paper) {
   return paper.slug || slugifyPaper(paper.exam, paper.year);
 }
@@ -927,14 +955,23 @@ export default function SolutionPage({
   const practiceHref = practiceSlug ? `/practice/${practiceSlug}` : "/practice";
   const canonicalPath = `/solution/${getPaperSolutionSlug(paper)}`;
   const defaultPaperTitle = getPaperDisplayTitle(paper);
-  const paperTitle = seoOverride?.heading || defaultPaperTitle;
+  const belPaper = isBelPaper(paper);
+  const belPaperHeading = belPaper ? getBelPaperHeading(paper) : "";
+  const belPaperDescription = belPaper ? getBelPaperDescription(paper) : "";
+  const belPaperSummary = belPaper ? getBelPaperSummary(paper) : "";
+  const paperTitle = belPaperHeading || seoOverride?.heading || defaultPaperTitle;
   const paperDescription =
+    belPaperDescription ||
     seoOverride?.description ||
     paper.seoDescription ||
     `View ${defaultPaperTitle} with ECE previous year questions, solutions, paper preview, download support, and related study resources.`;
-  const pageTitle = paper.seoTitle || (seoOverride?.title
-    ? `${seoOverride.title} | ECE Exam Guide`
-    : `${paperTitle} | ECE Exam Guide`);
+  const pageTitle =
+    paper.seoTitle ||
+    (belPaper
+      ? getBelPaperSeoTitle(paper)
+      : seoOverride?.title
+        ? `${seoOverride.title} | ECE Exam Guide`
+        : `${paperTitle} | ECE Exam Guide`);
   const structuredData = [
     ...generateStructuredData({
       type: "topic",
@@ -943,7 +980,16 @@ export default function SolutionPage({
       path: canonicalPath,
       subjectName: "Electronics and Communication Engineering",
       chapterTitle: `${paper.exam} Previous Year Paper`,
-      keywords: `${paper.exam} ${paper.year} ECE previous paper, ${paper.exam} question paper, GATE ECE previous year questions, ECE solved paper`,
+      keywords: belPaper
+        ? [
+            `BEL Probationary Engineer ECE Question Paper ${getBelPaperDateLabel(paper)}`,
+            `BEL ECE ${paper.year} solved paper`,
+            "BEL previous year question papers",
+            "BEL ECE detailed solutions",
+            "BEL ECE topic-wise analysis",
+            "BEL ECE exam pattern",
+          ].join(", ")
+        : `${paper.exam} ${paper.year} ECE previous paper, ${paper.exam} question paper, GATE ECE previous year questions, ECE solved paper`,
       about: [
         paper.exam,
         "ECE previous year questions",
@@ -953,8 +999,8 @@ export default function SolutionPage({
     }),
     buildBreadcrumbList([
       { name: "Home", item: "/" },
-      { name: "Previous Papers", item: "/previous-year" },
-      { name: paperTitle, item: canonicalPath },
+      { name: belPaper ? "BEL Previous Papers" : "Previous Papers", item: "/previous-year" },
+      { name: belPaper ? getBelPaperBreadcrumbLabel(paper) : paperTitle, item: canonicalPath },
     ]),
     buildQuestionStructuredData(paperQuestions, canonicalPath),
   ];
@@ -1017,19 +1063,29 @@ export default function SolutionPage({
       canonicalUrl={generateCanonical(canonicalPath)}
       keywords={
         paper.seoKeywords ||
-        [
-          `${paper.exam} ${paper.year} ECE previous paper`,
-          `${paper.exam} ${paper.year} ECE question paper`,
-          `${paper.exam} ${paper.year} EC question paper`,
-          `${paper.exam} ECE previous year questions`,
-          `${paper.exam} ECE solved paper`,
-          `${paper.exam} ${paper.year} answer key`,
-          `${paper.exam} ${paper.year} paper PDF`,
-          paper.exam === "GATE" ? `GATE ${paper.year} ECE question paper with solutions` : "",
-          paper.exam === "GATE" ? `GATE EC ${paper.year} solved paper` : "",
-        ].filter(Boolean).join(", ")
+        (belPaper
+          ? [
+              `BEL Probationary Engineer ECE Question Paper ${getBelPaperDateLabel(paper)}`,
+              `BEL ECE ${paper.year} question paper with solutions`,
+              `BEL ECE previous year papers`,
+              `BEL Probationary Engineer previous year question paper`,
+              `BEL Electronics solved paper`,
+              `BEL ECE answer explanations`,
+              `BEL ECE exam pattern`,
+            ]
+          : [
+              `${paper.exam} ${paper.year} ECE previous paper`,
+              `${paper.exam} ${paper.year} ECE question paper`,
+              `${paper.exam} ${paper.year} EC question paper`,
+              `${paper.exam} ECE previous year questions`,
+              `${paper.exam} ECE solved paper`,
+              `${paper.exam} ${paper.year} answer key`,
+              `${paper.exam} ${paper.year} paper PDF`,
+              paper.exam === "GATE" ? `GATE ${paper.year} ECE question paper with solutions` : "",
+              paper.exam === "GATE" ? `GATE EC ${paper.year} solved paper` : "",
+            ]).filter(Boolean).join(", ")
       }
-      appendSiteName={!paper.seoTitle}
+      appendSiteName={!paper.seoTitle && !belPaper}
       structuredData={structuredData}
       ogType="article"
       noIndex={!paperHasContent}
@@ -1042,11 +1098,11 @@ export default function SolutionPage({
           </Link>
           <span aria-hidden="true">&gt;</span>
           <Link href="/previous-year" className="font-semibold transition hover:text-portal-700">
-            Previous Papers
+            {belPaper ? "BEL Papers" : "Previous Papers"}
           </Link>
           <span aria-hidden="true">&gt;</span>
           <span className="font-extrabold text-slate-800">
-            {getPaperShortTitle(paper)}
+            {belPaper ? getBelPaperBreadcrumbLabel(paper) : getPaperShortTitle(paper)}
           </span>
         </nav>
 
@@ -1064,7 +1120,7 @@ export default function SolutionPage({
                       <path fill="currentColor" d="M5 2.5A1.5 1.5 0 0 0 3.5 4v12A1.5 1.5 0 0 0 5 17.5h10A1.5 1.5 0 0 0 16.5 16V7.8a1.5 1.5 0 0 0-.44-1.06l-3.3-3.3A1.5 1.5 0 0 0 11.7 3H5Zm6 .9v2.85c0 .41.34.75.75.75h2.85L11 3.4ZM6.5 9.25c0-.41.34-.75.75-.75h5.5a.75.75 0 1 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75Zm0 3c0-.41.34-.75.75-.75h5.5a.75.75 0 1 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75Z" />
                     </svg>
                   </span>
-                  Previous Paper
+                  {belPaper ? "BEL ECE PYQ" : "Previous Paper"}
                 </div>
                 <h1 className="mt-2.5 max-w-3xl text-[1.2rem] font-extrabold leading-tight tracking-tight text-white sm:text-[1.45rem] lg:text-[1.65rem]">
                   {paperTitle}
@@ -1072,7 +1128,8 @@ export default function SolutionPage({
                 <div className="mt-2 h-px w-full max-w-[180px] bg-gradient-to-r from-sky-200/40 via-sky-200/15 to-transparent sm:max-w-[220px]" />
                 <p className="mt-2 max-w-lg text-[11px] leading-5 text-slate-100/90 sm:text-[12px] sm:leading-5">
                   {paperHasContent
-                    ? introContent?.summary ||
+                    ? belPaperSummary ||
+                      introContent?.summary ||
                       `Go through solved ${paper.exam} questions with clear explanations and easy navigation, all in one place.`
                     : "This paper page is reserved for the archive. Questions and solutions will appear here once the content is ready."}
                 </p>
@@ -1119,15 +1176,22 @@ export default function SolutionPage({
               <div className="relative z-10 flex h-full flex-col items-center justify-center gap-2.5">
                 <div className="w-full rounded-[14px] border border-white/70 bg-[linear-gradient(135deg,rgba(176,44,255,0.22),rgba(7,150,232,0.20))] p-2 backdrop-blur-sm sm:p-2.5">
                   <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-white sm:text-[11px] sm:tracking-[0.16em]">
-                    Paper Info
+                    {belPaper ? "BEL ECE Details" : "Paper Info"}
                   </p>
                   <div className="mt-2 grid grid-cols-2 gap-1.5 sm:mt-2.5 sm:gap-2">
-                    {[
-                      ["Questions", getQuestionMetric(paper, paperQuestions)],
-                      ["Solved", getSolvedMetric(paper)],
-                      ["Repeated", paperHasContent ? paper.repeatedCount : "-"],
-                      ["Important", paperHasContent ? paper.importantCount : "-"],
-                    ].map(([label, value]) => (
+                    {(belPaper
+                      ? [
+                          ["Questions", getQuestionMetric(paper, paperQuestions)],
+                          ["Solutions", getSolvedMetric(paper)],
+                          ["Sections", paperHasContent ? paper.subjectCount || paper.subjects?.length || "-" : "-"],
+                          ["Topics", paperHasContent ? paper.topicCount || paper.topics?.length || "-" : "-"],
+                        ]
+                      : [
+                          ["Questions", getQuestionMetric(paper, paperQuestions)],
+                          ["Solved", getSolvedMetric(paper)],
+                          ["Repeated", paperHasContent ? paper.repeatedCount : "-"],
+                          ["Important", paperHasContent ? paper.importantCount : "-"],
+                        ]).map(([label, value]) => (
                       <div key={label} className="rounded-lg border border-white/70 bg-white p-2 text-slate-950 shadow-[0_8px_18px_rgba(11,31,85,0.10)] sm:rounded-lg sm:p-2.5">
                         <p className="text-base font-extrabold text-[#1f2f47] sm:text-lg">{value}</p>
                         <p className="mt-0.5 text-[9px] font-extrabold uppercase tracking-[0.1em] text-[#64748b]">
@@ -1158,22 +1222,59 @@ export default function SolutionPage({
           </section>
         ) : null}
 
+        {belPaper ? (
+          <section className="rounded-[18px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
+              Paper Overview
+            </p>
+            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
+              BEL ECE {getBelPaperDateLabel(paper)} solved paper overview
+            </h2>
+            <p className="mt-3 max-w-5xl text-sm leading-7 text-slate-700 sm:text-base">
+              {belPaperSummary} Use this page to move from the year-wise BEL previous paper into solved questions, quick notes, MCQs and preparation resources without opening duplicate paper views.
+            </p>
+            <div className="mt-5 grid gap-3 md:grid-cols-3">
+              {[
+                {
+                  title: "Detailed Solutions",
+                  text: `${getQuestionMetric(paper, paperQuestions)} questions are arranged for step-by-step answer review and objective-question practice.`,
+                },
+                {
+                  title: "Topic-Wise Analysis",
+                  text: `Revise high-value areas such as ${(paper.topics || []).slice(0, 5).join(", ") || "Reasoning, General Aptitude and Electronics"}.`,
+                },
+                {
+                  title: "Exam Pattern Resources",
+                  text: "Use section counts, topic coverage, related notes and MCQs to plan BEL Probationary Engineer ECE preparation.",
+                },
+              ].map((item) => (
+                <article key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <h3 className="text-base font-extrabold text-slate-950">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
         <section className="grid gap-6">
           <div id="viewer" className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:p-4">
             <div className="flex flex-col gap-3 border-b border-slate-200 pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
-                  Question Paper
+                  {belPaper ? "Solved Questions" : "Question Paper"}
                 </p>
                 <h2 className="mt-1 text-xl font-extrabold text-slate-950">
                   {paperQuestions.length
-                    ? "Interactive solved paper"
+                    ? belPaper
+                      ? "Interactive BEL ECE solutions"
+                      : "Interactive solved paper"
                     : paper.pdfHref
                       ? "Official paper viewer"
                       : "Coming Soon"}
                 </h2>
               </div>
-              {paperHasContent ? (
+              {paperHasContent && !belPaper ? (
                 <button
                   type="button"
                   onClick={handleDownloadPdf}

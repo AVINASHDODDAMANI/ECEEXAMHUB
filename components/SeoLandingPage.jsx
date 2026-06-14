@@ -36,6 +36,7 @@ export default function SeoLandingPage({ page }) {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: page.heading,
+      alternateName: page.alternateNames,
       headline: page.title,
       description: page.description,
       url: generateCanonical(page.path),

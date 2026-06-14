@@ -1,24 +1,31 @@
 export const seoLandingPages = {
   "bel-previous-year-question-papers": {
     path: "/bel-previous-year-question-papers",
-    title: "BEL Previous Year Question Papers PDF for ECE + Solutions",
+    title: "BEL Probationary Engineer Papers for ECE + Solutions",
     description:
-      "Download and practice BEL previous year question papers for Electronics and Communication Engineering with solved papers, objective questions, and year-wise preparation links.",
-    eyebrow: "BEL PYQ Papers",
-    heading: "BEL Previous Year Question Papers",
+      "Practice BEL Probationary Engineer previous year papers for ECE with solved objective questions, year-wise paper links, and electronics revision support.",
+    eyebrow: "BEL Probationary Engineer Papers",
+    heading: "BEL Probationary Engineer Previous Year Papers",
+    alternateNames: [
+      "BEL Probationary Engineer papers",
+      "BEL Probationary Engineer question papers",
+      "BEL Probationary Engineer previous year papers",
+      "BEL PE Electronics papers",
+      "BEL ECE papers",
+    ],
     summary:
-      "A focused landing page for students searching BEL ECE previous year question papers, solved objective papers, and paper-wise revision support.",
-    primaryAction: { label: "Open BEL Papers", href: "/previous-year?exam=BEL" },
+      "A focused landing page for students searching BEL Probationary Engineer papers, BEL ECE previous year question papers, solved objective papers, and paper-wise revision support.",
+    primaryAction: { label: "Open BEL PE Papers", href: "/previous-year?exam=BEL" },
     secondaryAction: { label: "View BEL 2025 Solution", href: "/solution/bel-december-2025" },
     metrics: [
       { label: "Exam", value: "BEL" },
-      { label: "Branch", value: "ECE" },
+      { label: "Post", value: "Probationary Engineer" },
       { label: "Mode", value: "Solved PYQs" },
     ],
     sections: [
       {
-        title: "BEL ECE Paper Practice",
-        text: "Use year-wise BEL papers to understand objective question patterns, repeated electronics topics, and preparation priority for Probationary Engineer and electronics recruitment exams.",
+        title: "BEL Probationary Engineer Paper Practice",
+        text: "Use year-wise BEL Probationary Engineer papers to understand objective question patterns, repeated electronics topics, and preparation priority for ECE and electronics recruitment exams.",
       },
       {
         title: "Prepare With Notes First",
@@ -30,14 +37,26 @@ export const seoLandingPages = {
       },
     ],
     links: [
-      { label: "BEL Previous Papers", href: "/previous-year?exam=BEL" },
+      { label: "BEL Probationary Engineer Papers", href: "/previous-year?exam=BEL" },
       { label: "BEL Electronics PYQs", href: "/bel-electronics-previous-year-questions" },
       { label: "BEL Important Topics", href: "/bel-most-important-topics" },
       { label: "BEL Formula Sheet", href: "/bel-formula-sheet" },
       { label: "BEL December 2025 Solution", href: "/solution/bel-december-2025" },
     ],
     keywords:
-      "BEL previous year question papers, BEL ECE previous paper, BEL question paper PDF, BEL Electronics previous year paper, BEL solved papers",
+      "BEL Probationary Engineer papers, BEL Probationary Engineer previous year papers, BEL Probationary Engineer question papers, BEL PE ECE papers, BEL previous year question papers, BEL ECE previous paper, BEL question paper PDF, BEL Electronics previous year paper, BEL solved papers",
+    faqs: [
+      {
+        question: "Where can I find BEL Probationary Engineer papers for ECE?",
+        answer:
+          "Use this page to open BEL Probationary Engineer previous year paper links, solved ECE questions, and related electronics revision resources.",
+      },
+      {
+        question: "Are BEL Probationary Engineer and BEL Electronics papers covered here?",
+        answer:
+          "Yes. The page targets BEL Probationary Engineer ECE and Electronics paper searches, including solved objective papers and year-wise practice links.",
+      },
+    ],
   },
   "bel-electronics-previous-year-questions": {
     path: "/bel-electronics-previous-year-questions",

@@ -226,9 +226,10 @@ export default function Home() {
 
   return (
     <Layout
-      title="Network Analysis, Digital Electronics, Analog Electronics Notes | ECE Exam Guide"
+      title="ECE Exam Guide | GATE, BEL, ISRO & BARC ECE Notes, PYQs, MCQs & Study Materials"
       description="Study Network Analysis, Digital Electronics, Analog Electronics and other ECE subjects with quick notes, PYQs, MCQs, formulas, numericals, and GATE, BEL, ISRO, DRDO, ESE, PSU, and university exam resources."
       keywords="Network Analysis, Digital Electronics, Analog Electronics, ECE Exam Guide, ECEExamGuide, ECE quick notes, GATE ECE notes, electronics formula sheet, ECE previous year questions, BEL ECE PYQ"
+      appendSiteName={false}
       pageClassName="!max-w-none !px-0 py-0"
     >
       <section className="relative overflow-hidden bg-[#061f45]">

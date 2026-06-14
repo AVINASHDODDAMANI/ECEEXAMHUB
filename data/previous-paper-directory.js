@@ -27,10 +27,10 @@ export const previousPaperDirectory = [
   },
   {
     id: 3,
-    title: "PSU Exams",
-    href: "/previous-year?search=BEL",
-    meta: "BHEL, BEL, DRDO & more",
-    description: "Previous papers and repeated patterns from PSU-focused technical exams.",
+    title: "BEL Probationary Engineer Papers",
+    href: "/bel-previous-year-question-papers",
+    meta: "BEL PE ECE Papers",
+    description: "BEL Probationary Engineer previous year papers, solved ECE questions, and electronics revision support.",
     icon: "industry",
     accent: {
       bg: "bg-orange-50",

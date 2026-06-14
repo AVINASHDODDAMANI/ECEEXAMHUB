@@ -27,15 +27,19 @@ const MIN_READY_PAPER_QUESTIONS = 10;
 const previousYearStructuredData = [
   ...generateStructuredData({
     type: "topic",
-    title: "GATE ECE Question Papers and ECE Previous Year Papers",
+    title: "ECE Previous Year Question Papers with Detailed Solutions",
     description:
-      "Browse GATE ECE question papers, GATE EC PYQs, and ECE previous year question papers for ISRO, BEL, BARC, ESE, DRDO, IOCL, SSC JE, RRB JE, and State AE/JE with year-wise solved paper links.",
+      "Practice ECE previous year question papers with detailed solutions, year-wise PYQ links, solved questions, and exam-wise paper archives for GATE, ISRO, BEL, BARC, ESE, DRDO, IOCL, SSC JE, RRB JE, and State AE/JE.",
     path: "/previous-year",
     subjectName: "Electronics and Communication Engineering",
-    chapterTitle: "GATE ECE Question Papers",
+    chapterTitle: "ECE Previous Year Question Papers",
     keywords:
-      "GATE ECE question papers, GATE EC question papers, GATE previous year papers, ECE previous year papers, solved GATE ECE PYQ, ISRO ECE previous papers, BEL electronics paper, solved previous year questions, ECE PYQ",
-    about: ["GATE ECE question papers", "GATE EC PYQ", "ECE previous year questions"],
+      "ECE previous year question papers, ECE PYQ papers with solutions, GATE ECE previous year papers, ISRO ECE previous papers, BEL electronics previous papers, BARC ECE papers, ESE ECE papers, DRDO ECE papers, SSC JE electronics papers",
+    about: [
+      "ECE previous year question papers",
+      "exam-wise ECE PYQ papers",
+      "year-wise solved ECE papers",
+    ],
   }),
   buildBreadcrumbList([
     { name: "Home", item: "/" },
@@ -1457,28 +1461,6 @@ export default function PreviousYearPage() {
       : search.trim()
         ? `${search.trim()} Previous Papers`
         : "ECE Previous Papers Archive";
-  const archiveMetrics = [
-    {
-      label: "Papers",
-      value: String(visiblePapers.length),
-      detail: "Exam-wise sets",
-    },
-    {
-      label: "Questions",
-      value: String(visibleQuestions.length),
-      detail: "Currently in view",
-    },
-    {
-      label: "Solutions",
-      value: `${solutionCoverage}%`,
-      detail: `${solvedCount} explained`,
-    },
-    {
-      label: "Latest year",
-      value: String(latestYear),
-      detail: "Newest paper found",
-    },
-  ];
   const activeFilterBadges = useMemo(
     () => buildActiveFilterBadges(search, activeFilters),
     [search, activeFilters]
@@ -1614,9 +1596,9 @@ export default function PreviousYearPage() {
 
   return (
     <Layout
-      title="GATE ECE Question Papers & ECE Previous Year Papers | PYQs"
-      description="Search GATE ECE question papers, GATE EC previous year papers, solved GATE 2025 and 2026 papers, and ECE PYQs for BEL, ISRO, DRDO, ESE, IOCL, SSC JE, and more."
-      keywords="GATE ECE question papers, GATE EC previous year papers, GATE ECE PYQ, ECE previous year papers, ECE question paper, solved previous year questions, ISRO ECE paper, BEL electronics paper"
+      title="ECE Previous Year Question Papers with Detailed Solutions | PYQ Papers"
+      description="Download and practice ECE previous year question papers with detailed solutions, year-wise solved PYQs, question counts, and exam-wise paper links for GATE, ISRO, BEL, BARC, ESE, DRDO, IOCL, SSC JE, RRB JE, and State AE/JE."
+      keywords="ECE previous year question papers, ECE PYQ papers with solutions, GATE ECE previous papers, ISRO ECE previous papers, BEL electronics previous papers, ESE ECE papers, DRDO ECE papers, SSC JE electronics papers"
       canonicalUrl="/previous-year"
       structuredData={previousYearStructuredData}
       searchValue={search}
@@ -1624,52 +1606,79 @@ export default function PreviousYearPage() {
       pageClassName="py-3 sm:py-6"
     >
       <div className="mx-auto max-w-[1440px] space-y-3 sm:space-y-6">
-        <section className="relative overflow-hidden rounded-2xl border border-[#163f76]/20 bg-[#061f45] p-3 shadow-[0_14px_34px_rgba(6,31,85,0.18)] sm:rounded-[24px] sm:p-6">
-          <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(44,121,210,0.24)_1px,transparent_1px),linear-gradient(90deg,rgba(44,121,210,0.2)_1px,transparent_1px)] [background-size:58px_58px]" />
+        <section className="overflow-hidden rounded-2xl border border-[#d8e4f5] bg-white p-4 shadow-[0_12px_34px_rgba(15,23,42,0.08)] sm:rounded-[24px] sm:p-6">
           <nav
-            className="relative flex flex-wrap items-center gap-1.5 text-xs text-white/70 sm:gap-2 sm:text-sm"
+            className="flex flex-wrap items-center gap-1.5 text-xs text-slate-500 sm:gap-2 sm:text-sm"
             aria-label="Breadcrumb"
           >
             <Link
               href="/"
-              className="font-semibold text-[#ffb36f] transition hover:text-white"
+              className="font-semibold text-[#ff7417] transition hover:text-[#0b4f92]"
             >
               Home
             </Link>
-            <span aria-hidden="true" className="text-white/35">
+            <span aria-hidden="true" className="text-slate-300">
               /
             </span>
-            <span className="font-semibold text-white">Previous Papers</span>
+            <span className="font-semibold text-slate-900">Previous Papers</span>
           </nav>
 
-          <div className="relative mt-3 flex flex-col gap-3 sm:mt-5 sm:gap-5 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-3xl">
-              <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-4xl">
-                <span className="text-[#ff7417]">GATE ECE</span>{" "}
-                <span>Question</span>{" "}
-                <span className="text-[#7ec8ff]">Papers</span>
-              </h1>
-              <p className="mt-1.5 text-xs leading-5 !text-white/86 sm:mt-3 sm:text-base sm:leading-7">
-                Search GATE ECE question papers, GATE EC PYQs, and other exam-wise ECE previous papers by year, subject, or exam family.
+          <div className="mt-4 grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center">
+            <div className="max-w-4xl">
+              <p className="inline-flex rounded-full border border-[#bde0ff] bg-[#eef7ff] px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#0b64b4]">
+                Year-wise solved ECE PYQ archive
               </p>
+              <h1 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-slate-950 sm:text-5xl">
+                <span className="text-[#ff7417]">ECE</span>{" "}
+                Previous Year Question Papers with Detailed Solutions
+              </h1>
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700 sm:text-lg sm:leading-8">
+                Practice previous year papers for GATE ECE, ISRO, BEL, BARC, ESE,
+                DRDO, IOCL, SSC JE, RRB JE, and State AE/JE. Open solved PYQs,
+                revise detailed explanations, and filter papers by year, subject,
+                topic, or exam family.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Link
+                  href="/previous-year"
+                  className="inline-flex items-center justify-center rounded-xl bg-[#0b4f92] px-4 py-2 text-sm font-bold text-white shadow-[0_10px_22px_rgba(11,79,146,0.22)] transition hover:bg-[#083c70]"
+                >
+                  Open All PYQ Papers
+                </Link>
+                <Link
+                  href="/previous-year?exam=GATE"
+                  className="inline-flex items-center justify-center rounded-xl border border-[#cbd8ea] bg-white px-4 py-2 text-sm font-bold text-slate-800 transition hover:border-[#0b74c9] hover:text-[#0b74c9]"
+                >
+                  GATE ECE Papers
+                </Link>
+              </div>
             </div>
 
-            <div className="flex flex-wrap gap-1.5 sm:gap-2">
-              {archiveMetrics.slice(0, 3).map((metric, index) => (
-                <span
-                  key={metric.label}
-                  className={`rounded-lg border px-2 py-1 text-xs font-semibold sm:rounded-xl sm:px-3 sm:py-2 sm:text-sm ${
-                    index === 0
-                      ? "border-orange-300/70 bg-orange-400/15 text-orange-50"
-                      : index === 1
-                        ? "border-sky-300/70 bg-sky-400/15 text-sky-50"
-                        : "border-emerald-300/70 bg-emerald-400/15 text-emerald-50"
-                  }`}
-                >
-                  <span className="font-extrabold text-white">{metric.value}</span>{" "}
-                  {metric.label.toLowerCase()}
-                </span>
-              ))}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-2xl border border-[#ffe0c4] bg-[#fff7ef] p-4">
+                <p className="text-2xl font-black text-[#ff7417]">All Exams</p>
+                <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
+                  ECE archive
+                </p>
+              </div>
+              <div className="rounded-2xl border border-[#c9e5ff] bg-[#f0f8ff] p-4">
+                <p className="text-2xl font-black text-[#0b74c9]">{visiblePapers.length}</p>
+                <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
+                  Paper links
+                </p>
+              </div>
+              <div className="rounded-2xl border border-[#bfead7] bg-[#effcf6] p-4">
+                <p className="text-2xl font-black text-[#168650]">{solutionCoverage}%</p>
+                <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
+                  Solutions
+                </p>
+              </div>
+              <div className="rounded-2xl border border-[#ddd8ff] bg-[#f6f4ff] p-4">
+                <p className="text-2xl font-black text-[#5b4cc4]">{visibleQuestions.length}</p>
+                <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
+                  Questions
+                </p>
+              </div>
             </div>
           </div>
         </section>

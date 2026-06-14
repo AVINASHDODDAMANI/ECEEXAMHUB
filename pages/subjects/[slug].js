@@ -1334,6 +1334,10 @@ const EMBEDDED_SYSTEMS_TOPIC_ROUTES = [
 const CONTROL_SYSTEMS_CHAPTERS = [
   {
     title: "Introduction to Control Systems",
+    overview:
+      "A control system is an arrangement of components that makes a device or process produce the required output. It compares what is needed with what is happening, then uses control action to reduce error and keep the system accurate, stable, and reliable.",
+    why:
+      "This chapter explains why control is needed in systems such as air conditioners, motor speed control, voltage regulators, aircraft, robotics, and industrial automation. It builds the base for feedback, error signal, open-loop and closed-loop control.",
     topics: [
       {
         title: "Basic Concepts",
@@ -7281,10 +7285,10 @@ function ControlSystemsOverviewPanel() {
             What Is Control Systems?
           </h2>
           <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
-            Control Systems studies how a system output is regulated using input,
-            feedback, modeling, stability analysis, and design. It explains how
-            practical systems such as speed controllers, temperature controllers,
-            voltage regulators, robotics, and automation loops behave.
+            Control Systems is the subject that connects system behavior with
+            correction. Start from the introduction chapter to understand input,
+            output, feedback, and error, then move into modeling, stability, root
+            locus, frequency response, and controller design.
           </p>
         </article>
 
@@ -7370,6 +7374,12 @@ function ControlSystemsSyllabusSection() {
             <h3 className="mt-1 text-lg font-bold leading-snug tracking-tight text-slate-950">
               {chapter.title}
             </h3>
+            {chapter.overview ? (
+              <div className="mt-3 rounded-xl border border-portal-100 bg-white px-3 py-3 text-sm leading-7 text-slate-700">
+                <p>{chapter.overview}</p>
+                {chapter.why ? <p className="mt-2">{chapter.why}</p> : null}
+              </div>
+            ) : null}
 
             <div className="mt-3 grid gap-3">
               {chapter.topics.map((topic, topicIndex) => (
