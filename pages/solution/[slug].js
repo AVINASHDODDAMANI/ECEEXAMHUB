@@ -326,7 +326,7 @@ function getBelExamAnalysisText(paper = {}, sectionCounts = {}, weightageRows = 
     .map((row) => row.label)
     .join(", ");
 
-  return `The BEL Probationary Engineer ECE ${year} examination was ${getBelDifficultyLevel(paper, sectionCounts).toLowerCase()} in difficulty. The paper mixed core Electronics questions with General Aptitude and Reasoning. Most technical questions were concentrated around ${highWeightageSubjects || "Network Analysis, Analog Electronics, Control Systems, Digital Electronics and Communication Systems"}, so candidates should revise formulas, circuit concepts, control-system plots, modulation basics and digital logic before attempting the full paper.`;
+  return `The BEL Probationary Engineer ECE ${year} paper was ${getBelDifficultyLevel(paper, sectionCounts).toLowerCase()}. The strongest technical weightage appears in ${highWeightageSubjects || "Network Analysis, Analog Electronics, Control Systems, Digital Electronics and Communication Systems"}, so revision should prioritize formulas, circuit concepts, control-system plots, modulation basics and digital logic.`;
 }
 
 function getBelFaqItems(paper = {}, sectionCounts = {}, weightageRows = []) {
@@ -1373,7 +1373,7 @@ export default function SolutionPage({
             Home
           </Link>
           <span aria-hidden="true">&gt;</span>
-          <Link href="/previous-year" className="font-semibold transition hover:text-portal-700">
+          <Link href={belPaper ? BEL_HUB_PATH : "/previous-year"} className="font-semibold transition hover:text-portal-700">
             {belPaper ? "BEL Papers" : "Previous Papers"}
           </Link>
           <span aria-hidden="true">&gt;</span>
@@ -1495,41 +1495,6 @@ export default function SolutionPage({
             <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
               {introContent.body}
             </p>
-          </section>
-        ) : null}
-
-        {belPaper ? (
-          <section className="rounded-[18px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-portal-700">
-              Paper Overview
-            </p>
-            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-950">
-              BEL ECE {getBelPaperDateLabel(paper)} solved paper overview
-            </h2>
-            <p className="mt-3 max-w-5xl text-sm leading-7 text-slate-700 sm:text-base">
-              {belPaperSummary} Use this page to move from the year-wise BEL previous paper into solved questions, quick notes, MCQs and preparation resources without opening duplicate paper views.
-            </p>
-            <div className="mt-5 grid gap-3 md:grid-cols-3">
-              {[
-                {
-                  title: "Detailed Solutions",
-                  text: `${getQuestionMetric(paper, paperQuestions)} questions are arranged for step-by-step answer review and objective-question practice.`,
-                },
-                {
-                  title: "Topic-Wise Analysis",
-                  text: `Revise high-value areas such as ${(paper.topics || []).slice(0, 5).join(", ") || "Reasoning, General Aptitude and Electronics"}.`,
-                },
-                {
-                  title: "Exam Pattern Resources",
-                  text: "Use section counts, topic coverage, related notes and MCQs to plan BEL Probationary Engineer ECE preparation.",
-                },
-              ].map((item) => (
-                <article key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                  <h3 className="text-base font-extrabold text-slate-950">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
-                </article>
-              ))}
-            </div>
           </section>
         ) : null}
 
@@ -1673,6 +1638,7 @@ export default function SolutionPage({
             ) : paperQuestions.length ? (
               <div className="mt-4 space-y-4">
                 <OfficialQuestionPreview questions={paperQuestions} exam={paper.exam} />
+                {!belPaper ? (
                 <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600">
                   This is the only in-site question view for this paper. Use the question tabs instead of a separate long scrolling duplicate page.
                   {paper.pdfHref ? (
@@ -1689,6 +1655,7 @@ export default function SolutionPage({
                     </>
                   ) : null}
                 </div>
+                ) : null}
               </div>
             ) : paper.pdfHref ? (
               <>
