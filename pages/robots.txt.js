@@ -7,6 +7,7 @@ Allow: /subjects/
 Allow: /notes/
 Allow: /learn/
 Allow: /previous-year/
+Allow: /previous-year-papers/
 Allow: /solution/
 Allow: /mcqs/
 Allow: /practice/

@@ -5,8 +5,15 @@ const ADSENSE_CLIENT =
 
 const DEFAULT_DISPLAY_SLOT = process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_DISPLAY_SLOT || "";
 
-function pushAd() {
+function pushAd(root) {
   if (typeof window === "undefined") {
+    return;
+  }
+
+  const adElement = root?.querySelector(".adsbygoogle");
+  const slotWidth = adElement?.offsetWidth || root?.offsetWidth || 0;
+
+  if (slotWidth <= 0) {
     return;
   }
 
@@ -44,6 +51,7 @@ export default function AdSlot({
   onVisibilityChange,
 }) {
   const hasSlot = Boolean(slot);
+  const shouldUseLiveAds = process.env.NODE_ENV === "production";
   const slotRef = useRef(null);
   const [isHidden, setIsHidden] = useState(false);
 
@@ -53,9 +61,42 @@ export default function AdSlot({
       return undefined;
     }
 
+    if (!shouldUseLiveAds) {
+      setIsHidden(false);
+      onVisibilityChange?.(true);
+      return undefined;
+    }
+
     setIsHidden(false);
     onVisibilityChange?.(true);
-    pushAd();
+    let observer = null;
+    let animationFrameId = 0;
+    let didPushAd = false;
+
+    function pushWhenSized() {
+      if (didPushAd) {
+        return;
+      }
+
+      const root = slotRef.current;
+      const adElement = root?.querySelector(".adsbygoogle");
+      const slotWidth = adElement?.offsetWidth || root?.offsetWidth || 0;
+
+      if (slotWidth <= 0) {
+        return;
+      }
+
+      didPushAd = true;
+      pushAd(root);
+      observer?.disconnect();
+    }
+
+    animationFrameId = window.requestAnimationFrame(pushWhenSized);
+
+    if (typeof ResizeObserver !== "undefined" && slotRef.current) {
+      observer = new ResizeObserver(pushWhenSized);
+      observer.observe(slotRef.current);
+    }
 
     const timeoutId = window.setTimeout(() => {
       const root = slotRef.current;
@@ -72,11 +113,19 @@ export default function AdSlot({
       }
     }, 4500);
 
-    return () => window.clearTimeout(timeoutId);
-  }, [hasSlot, onVisibilityChange, slot]);
+    return () => {
+      window.clearTimeout(timeoutId);
+      window.cancelAnimationFrame(animationFrameId);
+      observer?.disconnect();
+    };
+  }, [hasSlot, onVisibilityChange, shouldUseLiveAds, slot]);
 
   if (!hasSlot) {
     return null;
+  }
+
+  if (!shouldUseLiveAds) {
+    return <AdPlaceholder format={format} className={className} />;
   }
 
   return (

@@ -7977,27 +7977,7 @@ function AnalogChapterMenu() {
 }
 
 function ChapterLinkStrip({ id, label, items = [] }) {
-  return (
-    <nav
-      id={id}
-      aria-label={label}
-      className="flex max-w-full flex-wrap justify-end gap-2"
-    >
-      {items.map((item, index) => (
-        <Link
-          key={`${item.href}-${item.title}`}
-          href={item.href}
-          title={item.detail || item.title}
-          className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-portal-200 bg-white px-3 py-2 text-left text-xs font-bold text-slate-800 shadow-sm transition hover:border-portal-300 hover:bg-portal-50"
-        >
-          <span className="flex h-6 w-6 flex-none items-center justify-center rounded-lg bg-portal-50 text-[10px] font-black text-portal-700">
-            {String(item.number || index + 1).padStart(2, "0")}
-          </span>
-          <span className="max-w-[12rem] truncate">{item.title}</span>
-        </Link>
-      ))}
-    </nav>
-  );
+  return null;
 }
 
 function BasicConceptSubtopicMenu({ topics = [] }) {
@@ -13263,15 +13243,6 @@ function SubjectSeoDepthSection({
             >
               Previous year papers
             </Link>
-            {readyTopicLinks.map((topic) => (
-              <Link
-                key={topic.slug || topic.title}
-                href={topic.href}
-                className="rounded-xl border border-white bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-portal-200 hover:text-portal-700"
-              >
-                {topic.title}
-              </Link>
-            ))}
           </div>
 
           <div className="mt-5 border-t border-portal-100 pt-4">

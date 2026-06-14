@@ -9,6 +9,7 @@ const googleSiteVerification =
   "jhFrRO_BMQtPKAZBDFQyUiyjIu7kLsHh7RO7ovnXYkc";
 const googleAdsenseClient =
   process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT || "ca-pub-1285915244515596";
+const shouldLoadAdsense = process.env.NODE_ENV === "production" && googleAdsenseClient;
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -43,13 +44,15 @@ export default function App({ Component, pageProps }) {
           content="telephone=no, date=no, email=no, address=no"
         />
       </Head>
-      <Script
-        id="google-adsense"
-        strategy="afterInteractive"
-        async
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${googleAdsenseClient}`}
-        crossOrigin="anonymous"
-      />
+      {shouldLoadAdsense ? (
+        <Script
+          id="google-adsense"
+          strategy="afterInteractive"
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${googleAdsenseClient}`}
+          crossOrigin="anonymous"
+        />
+      ) : null}
       <Script
         id="mathjax-config"
         strategy="beforeInteractive"
