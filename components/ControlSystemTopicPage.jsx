@@ -152,10 +152,6 @@ export default function ControlSystemTopicPage({ topic }) {
             <li className="text-slate-300">/</li>
             <li><span className="font-semibold text-portal-700">{topic.title}</span></li>
           </ol>
-          <ControlSystemSubtopicMenu
-            title={topic.shortTitle || topic.title}
-            subtopics={getControlSystemSubtopics(topic)}
-          />
         </nav>
 
         <header className="rounded-2xl border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
@@ -177,6 +173,11 @@ export default function ControlSystemTopicPage({ topic }) {
             </div>
           </div>
         </header>
+
+        <ControlSystemSubtopicMenu
+          title={topic.shortTitle || topic.title}
+          subtopics={getControlSystemSubtopics(topic)}
+        />
 
         <nav aria-label={`${topic.title} topic sections`} className="sticky top-20 z-20 mt-4 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-sm backdrop-blur">
           <div className="flex gap-2 overflow-x-auto pb-1">

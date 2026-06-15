@@ -844,10 +844,6 @@ export default function IntroductionToControlSystemsPage() {
             <li className="text-slate-300">/</li>
             <li><span className="font-semibold text-portal-700">Introduction to Control Systems</span></li>
           </ol>
-          <ControlSystemSubtopicMenu
-            title="Introduction"
-            subtopics={introSubtopics}
-          />
         </nav>
 
         <header className="rounded-2xl border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
@@ -875,6 +871,11 @@ export default function IntroductionToControlSystemsPage() {
           </div>
         </header>
 
+        <ControlSystemSubtopicMenu
+          title="Introduction"
+          subtopics={introSubtopics}
+        />
+
         <nav aria-label="Introduction to Control Systems topic sections" className="sticky top-20 z-20 mt-4 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-sm backdrop-blur">
           <div className="flex gap-2 overflow-x-auto pb-1">
             {sectionLinks.map((section) => (
@@ -888,27 +889,6 @@ export default function IntroductionToControlSystemsPage() {
             ))}
           </div>
         </nav>
-
-        <section className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-          <h2 className="text-xl font-black tracking-tight text-slate-950">
-            Control Systems Concept Index
-          </h2>
-          <p className="mt-2 text-sm leading-7 text-slate-700 sm:text-base">
-            Use these concept links to jump directly to searchable subtopics inside this Introduction to Control Systems note.
-          </p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {conceptLinks.map((concept) => (
-              <a
-                key={concept.id}
-                href={`#${concept.id}`}
-                className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-portal-200 hover:bg-portal-50"
-              >
-                <h3 className="text-sm font-black text-slate-950">{concept.label}</h3>
-                <p className="mt-1 text-xs leading-5 text-slate-600">{concept.description}</p>
-              </a>
-            ))}
-          </div>
-        </section>
 
         <article className="mt-5 grid gap-5">
           <TopicSection id="introduction" title="What is a Control System?">

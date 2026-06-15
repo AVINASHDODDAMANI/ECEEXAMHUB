@@ -201,6 +201,32 @@ mjx-container[display="true"] {
   word-break: normal;
 }
 
+.site-compact .topic-section {
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.site-compact .topic-section > h2 {
+  border-bottom: 1px solid rgba(215, 226, 238, 0.82);
+  padding-bottom: 0.55rem;
+}
+
+.site-compact .topic-section :where(.rounded-2xl, .rounded-xl):not(a):not(button):not(input):not(textarea):not(select):not(.diagram-placeholder):not(.animation-placeholder) {
+  box-shadow: none !important;
+}
+
+.site-compact .topic-section :where(.border-slate-200, .border-white, .border-white\/80, .border-white\/60):not(a):not(button):not(input):not(textarea):not(select):not(.diagram-placeholder):not(.animation-placeholder) {
+  border-color: transparent !important;
+}
+
+.site-compact .topic-section :where(.bg-white, .bg-white\/95, .bg-white\/90, .bg-white\/80, .bg-slate-50, .bg-slate-50\/80):not(a):not(button):not(input):not(textarea):not(select):not(.diagram-placeholder):not(.animation-placeholder) {
+  background: transparent !important;
+}
+
 .basic-concept-guide-content > div > section {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -208,6 +234,15 @@ mjx-container[display="true"] {
 
 .basic-concept-guide-content section.rounded-2xl {
   padding: 0.875rem;
+}
+
+.site-compact .basic-concept-guide-content > div > section,
+.site-compact .basic-concept-guide-content section.rounded-2xl {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
 }
 
 .site-ad-layout {
