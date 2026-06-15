@@ -1,5 +1,14 @@
 import Link from "next/link";
 
+function slugify(value = "") {
+  return String(value)
+    .toLowerCase()
+    .replace(/['']/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, "-");
+}
+
 export default function LearningTopicCard({
   topic,
   chapterTitle,
@@ -67,12 +76,13 @@ export default function LearningTopicCard({
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
             {(topic.subtopics || []).slice(0, 4).map((subtopic) => (
-              <span
+              <Link
                 key={`${topic.slug}-${subtopic}`}
-                className="rounded-full border border-portal-200 bg-white px-2.5 py-1 text-[11px] font-medium text-slate-600"
+                href={`${topic.href}#${slugify(subtopic)}`}
+                className="rounded-full border border-emerald-200 bg-white px-2.5 py-1 text-[11px] font-bold text-emerald-700 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-900"
               >
                 {subtopic}
-              </span>
+              </Link>
             ))}
           </div>
         </div>

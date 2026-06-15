@@ -54,7 +54,7 @@ export default function ControlSystemSubtopicMenu({ title, subtopics = [] }) {
             <span className="flex h-8 w-8 flex-none items-center justify-center rounded-md bg-emerald-600 text-sm font-black text-white transition group-hover:bg-emerald-700">
               {index + 1}
             </span>
-            <span className="text-sm font-black leading-5 text-[#005fd8] transition group-hover:text-emerald-700">
+            <span className="text-sm font-black leading-5 text-emerald-700 transition group-hover:text-emerald-900">
               {subtopic.label}
             </span>
           </a>

@@ -227,6 +227,37 @@ mjx-container[display="true"] {
   background: transparent !important;
 }
 
+.site-compact main article > :where(section[id], article[id], div[id]),
+.site-compact main .basic-concept-guide-content :where(section[id], article[id], div[id]) {
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.site-compact main article > :where(section[id], article[id], div[id]) > :where(h2, h3):first-child,
+.site-compact main .basic-concept-guide-content :where(section[id], article[id], div[id]) > :where(h2, h3):first-child {
+  border-bottom: 1px solid rgba(215, 226, 238, 0.82);
+  padding-bottom: 0.55rem;
+}
+
+.site-compact main article > :where(section[id], article[id], div[id])
+  :where(article, section, div, li):not(nav):not(form):not(table):not(thead):not(tbody):not(tr):not(th):not(td):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder) {
+  box-shadow: none !important;
+}
+
+.site-compact main article > :where(section[id], article[id], div[id])
+  :where(.border-slate-200, .border-white, .border-white\/80, .border-white\/60):not(a):not(button):not(input):not(textarea):not(select):not(table):not(th):not(td):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder) {
+  border-color: transparent !important;
+}
+
+.site-compact main article > :where(section[id], article[id], div[id])
+  :where(.bg-white, .bg-white\/95, .bg-white\/90, .bg-white\/80, .bg-slate-50, .bg-slate-50\/80, .bg-\[\#f8fbff\]):not(a):not(button):not(input):not(textarea):not(select):not(table):not(th):not(td):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder) {
+  background: transparent !important;
+}
+
 .basic-concept-guide-content > div > section {
   padding-top: 1rem;
   padding-bottom: 1rem;

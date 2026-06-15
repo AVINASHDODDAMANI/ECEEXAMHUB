@@ -121,7 +121,7 @@ export default function NetworkTopicMenu({ currentPath = "" }) {
           key={subtopic}
           href={`#${normalizeText(subtopic).replaceAll(" ", "-")}`}
           onClick={(event) => jumpToSubtopic(event, subtopic)}
-          className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-emerald-200 bg-white px-3 py-2 text-left text-xs font-bold text-slate-800 shadow-sm transition hover:border-emerald-300 hover:bg-emerald-50"
+          className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-emerald-200 bg-white px-3 py-2 text-left text-xs font-bold text-emerald-700 shadow-sm transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-900"
         >
           <span className="flex h-6 w-6 flex-none items-center justify-center rounded-lg bg-emerald-50 text-[10px] font-black text-emerald-700">
             {index + 1}

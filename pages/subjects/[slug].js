@@ -7405,7 +7405,9 @@ function ControlSystemsSyllabusSection() {
                           {topic.subtopics.map((subtopic) => (
                             <li key={subtopic} className="flex gap-2">
                               <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-emerald-500" />
-                              <span>{subtopic}</span>
+                              <a href={`#${toAnchorId(subtopic)}`} className="font-bold text-emerald-700 transition hover:text-emerald-900">
+                                {subtopic}
+                              </a>
                             </li>
                           ))}
                         </ul>
@@ -8215,9 +8217,11 @@ function AnalogChapterTopicCard({ topic, chapter, topicIndex }) {
       <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_0.9fr]">
         <div className="grid gap-3">
           {topic.subtopics.map((subtopic, subtopicIndex) => (
-            <div key={subtopic} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-3">
+            <div id={toAnchorId(subtopic)} key={subtopic} className="scroll-mt-32 rounded-2xl border border-slate-200 bg-slate-50/80 p-3">
               <p className="text-sm font-bold text-slate-950">
-                {chapter.number}.{topicIndex + 1}.{subtopicIndex + 1} {subtopic}
+                <a href={`#${toAnchorId(subtopic)}`} className="text-emerald-700 transition hover:text-emerald-900">
+                  {chapter.number}.{topicIndex + 1}.{subtopicIndex + 1} {subtopic}
+                </a>
               </p>
               <p className="mt-2 text-sm leading-6 text-slate-700">
                 Study this subtopic by asking what the input condition is, what device
@@ -8238,7 +8242,7 @@ function AnalogChapterTopicCard({ topic, chapter, topicIndex }) {
 
 function SemiconductorSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <article id={toAnchorId(subtopic.name)} className="scroll-mt-32 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-center gap-3">
         <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
           1.{topicIndex + 1}.{subtopicIndex + 1}
@@ -8247,8 +8251,10 @@ function SemiconductorSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex
           <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
             {lesson.title}
           </p>
-          <h3 className="text-base font-bold tracking-tight text-slate-950">
-            {subtopic.name}
+          <h3 className="text-base font-bold tracking-tight">
+            <a href={`#${toAnchorId(subtopic.name)}`} className="text-emerald-700 transition hover:text-emerald-900">
+              {subtopic.name}
+            </a>
           </h3>
         </div>
       </div>
@@ -8479,7 +8485,7 @@ function DiodeApplicationDiagram({ visual = "vi", title = "Diode application" })
 
 function DiodeApplicationSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <article id={toAnchorId(subtopic.name)} className="scroll-mt-32 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-center gap-3">
         <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
           2.{topicIndex + 1}.{subtopicIndex + 1}
@@ -8488,8 +8494,10 @@ function DiodeApplicationSubtopicCard({ lesson, topicIndex, subtopic, subtopicIn
           <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
             {lesson.title}
           </p>
-          <h3 className="text-base font-bold tracking-tight text-slate-950">
-            {subtopic.name}
+          <h3 className="text-base font-bold tracking-tight">
+            <a href={`#${toAnchorId(subtopic.name)}`} className="text-emerald-700 transition hover:text-emerald-900">
+              {subtopic.name}
+            </a>
           </h3>
         </div>
       </div>
@@ -8693,7 +8701,7 @@ function BjtDiagram({ visual = "working", title = "BJT operation" }) {
 
 function BjtSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <article id={toAnchorId(subtopic.name)} className="scroll-mt-32 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-center gap-3">
         <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
           3.{topicIndex + 1}.{subtopicIndex + 1}
@@ -8702,8 +8710,10 @@ function BjtSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
           <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
             {lesson.title}
           </p>
-          <h3 className="text-base font-bold tracking-tight text-slate-950">
-            {subtopic.name}
+          <h3 className="text-base font-bold tracking-tight">
+            <a href={`#${toAnchorId(subtopic.name)}`} className="text-emerald-700 transition hover:text-emerald-900">
+              {subtopic.name}
+            </a>
           </h3>
         </div>
       </div>
@@ -8927,7 +8937,7 @@ function BjtAmplifierDiagram({ visual = "ceamp", title = "BJT amplifier" }) {
 
 function BjtAmplifierSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <article id={toAnchorId(subtopic.name)} className="scroll-mt-32 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-center gap-3">
         <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
           4.{topicIndex + 1}.{subtopicIndex + 1}
@@ -8936,7 +8946,11 @@ function BjtAmplifierSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex 
           <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">
             {lesson.title}
           </p>
-          <h3 className="text-base font-bold tracking-tight text-slate-950">{subtopic.name}</h3>
+          <h3 className="text-base font-bold tracking-tight">
+            <a href={`#${toAnchorId(subtopic.name)}`} className="text-emerald-700 transition hover:text-emerald-900">
+              {subtopic.name}
+            </a>
+          </h3>
         </div>
       </div>
       <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">{subtopic.explanation}</p>
@@ -9111,14 +9125,18 @@ function FetDiagram({ visual = "jfet-working", title = "FET operation" }) {
 
 function FetSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <article id={toAnchorId(subtopic.name)} className="scroll-mt-32 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-center gap-3">
         <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
           5.{topicIndex + 1}.{subtopicIndex + 1}
         </span>
         <div>
           <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">{lesson.title}</p>
-          <h3 className="text-base font-bold tracking-tight text-slate-950">{subtopic.name}</h3>
+          <h3 className="text-base font-bold tracking-tight">
+            <a href={`#${toAnchorId(subtopic.name)}`} className="text-emerald-700 transition hover:text-emerald-900">
+              {subtopic.name}
+            </a>
+          </h3>
         </div>
       </div>
       <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">{subtopic.explanation}</p>
@@ -9593,14 +9611,18 @@ function FeedbackDiagram({ visual = "closed-loop", title = "Feedback amplifier" 
 
 function FeedbackSubtopicCard({ lesson, topicIndex, subtopic, subtopicIndex }) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <article id={toAnchorId(subtopic.name)} className="scroll-mt-32 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-center gap-3">
         <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-portal-600 text-xs font-black text-white">
           6.{topicIndex + 1}.{subtopicIndex + 1}
         </span>
         <div>
           <p className="text-[10px] font-black uppercase tracking-[0.14em] text-portal-700">{lesson.title}</p>
-          <h3 className="text-base font-bold tracking-tight text-slate-950">{subtopic.name}</h3>
+          <h3 className="text-base font-bold tracking-tight">
+            <a href={`#${toAnchorId(subtopic.name)}`} className="text-emerald-700 transition hover:text-emerald-900">
+              {subtopic.name}
+            </a>
+          </h3>
         </div>
       </div>
       <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">{subtopic.explanation}</p>
