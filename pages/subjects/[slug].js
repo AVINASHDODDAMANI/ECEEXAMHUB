@@ -1335,7 +1335,7 @@ const CONTROL_SYSTEMS_CHAPTERS = [
   {
     title: "Introduction to Control Systems",
     overview:
-      "A control system is an arrangement of components that makes a device or process produce the required output. It compares what is needed with what is happening, then uses control action to reduce error and keep the system accurate, stable, and reliable.",
+      "A control system is an arrangement of interconnected components that manages, directs, and regulates the behavior of a device or process to achieve a desired output. It continuously monitors the system's performance, compares the actual output with the desired value, and takes corrective action whenever necessary to minimize error and maintain the required performance.",
     why:
       "This chapter explains why control is needed in systems such as air conditioners, motor speed control, voltage regulators, aircraft, robotics, and industrial automation. It builds the base for feedback, error signal, open-loop and closed-loop control.",
     topics: [

@@ -893,7 +893,7 @@ export default function IntroductionToControlSystemsPage() {
         <article className="mt-5 grid gap-5">
           <TopicSection id="introduction" title="What is a Control System?">
             <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
-              A <strong>control system</strong> is an arrangement of components that monitors, regulates, and directs a device or process so that the output follows the desired value. In simple terms, it compares what we want with what the system is doing and applies corrective action whenever required.
+              A <strong>control system</strong> is an arrangement of interconnected components that manages, directs, and regulates the behavior of a device or process to achieve a desired output. It continuously monitors the system&apos;s performance, compares the actual output with the desired value, and takes corrective action whenever necessary to minimize error and maintain the required performance.
             </p>
             <p className="mt-3 text-sm leading-7 text-slate-700 sm:text-base">
               Imagine an air conditioner maintaining a room at 24&deg;C, a car automatically maintaining a set speed on a highway, or an autopilot guiding an aircraft along a predefined path. In all these examples, the system continuously observes the output, responds to disturbances, and tries to achieve the desired result. This is the basic idea behind an automatic control system.
