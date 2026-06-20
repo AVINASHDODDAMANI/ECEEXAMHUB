@@ -30,21 +30,60 @@ export default function GrammarTopicPage({ topic }) {
         <div className="mt-5 flex flex-wrap gap-3"><PrintButton/><a href="#practice" className="rounded-md bg-[#071d49] px-4 py-2 text-xs font-extrabold text-white hover:bg-portal-700">Start practice</a></div>
       </header>
 
-      <nav aria-label="On this page" className="mt-7 border-y border-slate-200 py-4"><p className="text-xs font-extrabold uppercase tracking-wider text-slate-500">On this page</p><div className="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold text-portal-700">{[["introduction","Introduction"],["definition","Definition"],["formula","Formula"],["rules","Rules"],["examples","Examples"],["mistakes","Common mistakes"],["practice","Practice"],["interview","Interview questions"],["faq","FAQ"]].map(([id,label]) => <a key={id} href={`#${id}`} className="hover:text-orange-600">{label}</a>)}</div></nav>
+      <nav aria-label="On this page" className="mt-7 border-y border-slate-200 py-4"><p className="text-xs font-extrabold uppercase tracking-wider text-slate-500">On this page</p><div className="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold text-portal-700">{[["introduction","Introduction"],["definition","Definition"],...(topic.importance ? [["importance","Why grammar is important"]] : []),["formula","Formula"],["rules","Rules"],["examples","Examples"],["mistakes","Common mistakes"],["practice","Practice"],["interview","Interview questions"],["faq","FAQ"]].map(([id,label]) => <a key={id} href={`#${id}`} className="hover:text-orange-600">{label}</a>)}</div></nav>
 
       <Section id="introduction" title="Introduction">{topic.introduction.map(paragraph => <p key={paragraph} className="mt-3 first:mt-0">{paragraph}</p>)}</Section>
-      <Section id="definition" title="Definition"><p>{topic.definition}</p><p className="mt-3">The definition should be applied through meaning and context. In objective examinations, two forms may appear structurally possible, but only one expresses the intended relationship accurately.</p></Section>
-      <Section id="formula" title="Formula and structure"><div className="space-y-2 border-l-4 border-portal-300 bg-slate-50 px-4 py-3 font-mono text-sm font-bold text-slate-900">{topic.formulas.map(formula => <p key={formula}>{formula}</p>)}</div></Section>
-      <Section id="rules" title={`${topic.shortTitle} rules`}><ol className="list-decimal space-y-3 pl-5">{topic.rules.map(rule => <li key={rule} className="pl-1">{rule}</li>)}</ol></Section>
+      <Section id="definition" title="Definition">{(topic.definitionDetails || [topic.definition,"The definition should be applied through meaning and context. In objective examinations, two forms may appear structurally possible, but only one expresses the intended relationship accurately."]).map(paragraph => <p key={paragraph} className="mt-3 first:mt-0">{paragraph}</p>)}</Section>{topic.importance ? <Section id="importance" title="Why Grammar Is Important">{topic.importance.map(paragraph => <p key={paragraph} className="mt-3 first:mt-0">{paragraph}</p>)}</Section> : null}
+      <Section id="formula" title="Formula and structure">
+        {topic.structure ? <div className="grid gap-5 md:grid-cols-2">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-5 sm:px-6">
+            <h3 className="font-bold text-slate-900">Formula</h3>
+            <div className="mt-5 space-y-5 font-mono text-sm font-semibold leading-7 text-slate-900">{topic.formulas.map((formula,index) => <div key={formula}>{index > 0 ? <p className="mb-4 font-sans font-bold">OR</p> : null}<p>{formula}</p></div>)}</div>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-5 sm:px-6">
+            <h3 className="font-bold text-slate-900">Structure</h3>
+            <div className="mt-5 font-mono text-sm font-semibold text-slate-900">{topic.structure.map((item,index) => <div key={item}><p>{item}</p>{index < topic.structure.length - 1 ? <p aria-hidden="true" className="py-1">↓</p> : null}</div>)}</div>
+          </div>
+        </div> : <div className="space-y-2 border-l-4 border-portal-300 bg-slate-50 px-4 py-3 font-mono text-sm font-bold text-slate-900">{topic.formulas.map(formula => <p key={formula}>{formula}</p>)}</div>}
+        {topic.formulaExplanation ? <div className="mt-5"><h3 className="font-bold text-slate-900">Explanation</h3><p className="mt-3">{topic.formulaExplanation}</p></div> : null}
+      </Section>
+      <Section id="rules" title={`${topic.shortTitle} rules`}>
+        {topic.ruleDetails ? <div>{topic.ruleDetails.map((rule,index) => <div key={rule.title} className="border-b border-slate-200 py-6 first:pt-0 last:border-b-0">
+          <h3 className="text-base font-bold text-slate-900">{index + 1}. {rule.title}</h3>
+          <p className="mt-3">{rule.explanation}</p>
+          <p className="mt-4"><strong className="text-slate-900">Example:</strong> {rule.example}</p>
+          {rule.incorrect ? <p><strong className="text-slate-900">Incorrect:</strong> {rule.incorrect}</p> : null}
+          {rule.note ? <p className="mt-1">{rule.note}</p> : null}
+        </div>)}</div> : <ol className="list-decimal space-y-3 pl-5">{topic.rules.map(rule => <li key={rule} className="pl-1">{rule}</li>)}</ol>}
+        {topic.rulesTakeaway ? <div className="mt-6 border-t border-slate-200 pt-6"><h3 className="font-bold text-slate-900">Key Takeaway</h3><p className="mt-3">{topic.rulesTakeaway}</p></div> : null}
+      </Section>
       <Section id="examples" title="Examples with explanation"><div className="space-y-3">{topic.examples.map((example,index) => <div key={example}><p className="font-semibold text-slate-900">{example}</p><p className="mt-1 text-xs text-slate-600">This example demonstrates rule {Math.min(index+1,topic.rules.length)}: {topic.rules[index % topic.rules.length]}</p></div>)}</div></Section>
       <Section id="mistakes" title="Common mistakes"><div className="space-y-3">{topic.mistakes.map(mistake => <p key={mistake} className="border-l-4 border-amber-300 pl-3">{mistake}</p>)}</div></Section>
 
       <Section id="practice" title={`${topic.shortTitle} practice questions`}>
-        <p>Answer each question before opening the solution. These initial questions demonstrate the practice format; the bank is designed to expand without changing the page URL.</p>
+        <p>{topic.slug === "what-is-grammar" ? "Choose the correct answer for each question and use the answer key to check your understanding of basic grammar." : "Answer each question before opening the solution. These initial questions demonstrate the practice format; the bank is designed to expand without changing the page URL."}</p>
         <h3 className="mt-6 text-lg font-extrabold text-slate-900">Multiple-choice questions</h3>
-        <div className="mt-3 space-y-3">{practice.mcqs.map((question,index) => <details key={question.id} className="border-b border-slate-200 pb-3"><summary className="cursor-pointer font-semibold text-slate-900">{index+1}. {question.question}</summary><div className="mt-2 pl-4"><ul className="list-[upper-alpha] pl-5 text-sm">{question.options.map(option => <li key={option}>{option}</li>)}</ul><p className="mt-2 font-bold text-emerald-700">Answer: {question.answer}</p></div></details>)}</div>
-        <h3 className="mt-7 text-lg font-extrabold text-slate-900">Fill in the blanks</h3><div className="mt-3 space-y-3">{practice.fills.map((item,index) => <details key={item.id} className="border-b border-slate-200 pb-3"><summary className="cursor-pointer font-semibold text-slate-900">{index+1}. {item.prompt}</summary><p className="mt-2 font-bold text-emerald-700">Answer: {item.answer}</p></details>)}</div>
-        <h3 className="mt-7 text-lg font-extrabold text-slate-900">Error detection</h3><div className="mt-3 space-y-3">{practice.errors.map((item,index) => <details key={item.id} className="border-b border-slate-200 pb-3"><summary className="cursor-pointer font-semibold text-slate-900">{index+1}. Find or correct the error: {item.prompt}</summary><p className="mt-2 font-bold text-emerald-700">Explanation: {item.answer}</p></details>)}</div>
+        {topic.slug === "what-is-grammar" ? <div className="mt-3 divide-y divide-slate-200">{practice.mcqs.map((question,index) => <div key={question.id} className="py-6 first:pt-2">
+          <p className="font-bold text-slate-900">Question {index + 1}</p>
+          <p className="mt-3 font-semibold text-slate-900">{question.question}</p>
+          <ol className="mt-4 list-[upper-alpha] space-y-3 pl-5">{question.options.map(option => <li key={option} className="pl-1">{option}</li>)}</ol>
+          <p className="mt-4 font-medium text-slate-900"><span aria-hidden="true" className="mr-2 text-emerald-600">☑</span>Answer: {question.answer}</p>
+        </div>)}</div> : <div className="mt-3 space-y-3">{practice.mcqs.map((question,index) => <details key={question.id} className="border-b border-slate-200 pb-3"><summary className="cursor-pointer font-semibold text-slate-900">{index+1}. {question.question}</summary><div className="mt-2 pl-4"><ul className="list-[upper-alpha] pl-5 text-sm">{question.options.map(option => <li key={option}>{option}</li>)}</ul><p className="mt-2 font-bold text-emerald-700">Answer: {question.answer}</p></div></details>)}</div>}
+        <h3 className="mt-7 text-lg font-extrabold text-slate-900">Fill in the blanks</h3>
+        {topic.slug === "what-is-grammar" ? <div className="mt-3 divide-y divide-slate-200">{practice.fills.map((item,index) => <div key={item.id} className="py-6 first:pt-2">
+          <p className="font-bold text-slate-900">{index + 1}. Complete the statement:</p>
+          <p className="mt-3">{item.prompt}</p>
+          <p className="mt-4"><strong className="text-slate-900">Answer:</strong> {item.answer}</p>
+          <p className="mt-3"><strong className="text-slate-900">Explanation:</strong> {item.explanation}</p>
+        </div>)}</div> : <div className="mt-3 space-y-3">{practice.fills.map((item,index) => <details key={item.id} className="border-b border-slate-200 pb-3"><summary className="cursor-pointer font-semibold text-slate-900">{index+1}. {item.prompt}</summary><p className="mt-2 font-bold text-emerald-700">Answer: {item.answer}</p></details>)}</div>}
+        <h3 className="mt-7 text-lg font-extrabold text-slate-900">Error detection</h3>
+        {topic.slug === "what-is-grammar" ? <div className="mt-3 divide-y divide-slate-200">{practice.errors.map((item,index) => <div key={item.id} className="py-6 first:pt-2">
+          <p className="font-bold text-slate-900">{index + 1}. Identify the error:</p>
+          <p className="mt-3"><strong className="text-slate-900">Incorrect:</strong> {item.incorrect}</p>
+          <p className="mt-3"><strong className="text-slate-900">Answer:</strong> {item.answer}</p>
+          {item.correct ? <p className="mt-3"><strong className="text-slate-900">Correct:</strong> {item.correct}</p> : null}
+          <p className="mt-3"><strong className="text-slate-900">Explanation:</strong> {item.explanation}</p>
+        </div>)}</div> : <div className="mt-3 space-y-3">{practice.errors.map((item,index) => <details key={item.id} className="border-b border-slate-200 pb-3"><summary className="cursor-pointer font-semibold text-slate-900">{index+1}. Find or correct the error: {item.prompt}</summary><p className="mt-2 font-bold text-emerald-700">Explanation: {item.answer}</p></details>)}</div>}
       </Section>
 
       <Section id="interview" title={`${topic.shortTitle} interview questions`}><ol className="list-decimal space-y-3 pl-5">{[`Explain ${topic.shortTitle.toLowerCase()} in your own words.`,`What is the most important rule in ${topic.shortTitle.toLowerCase()}?`,`Give a correct workplace example involving ${topic.shortTitle.toLowerCase()}.`,`Which ${topic.shortTitle.toLowerCase()} mistake do candidates make most often?`,`How would you correct an unclear sentence involving this topic?`].map(question => <li key={question}>{question}</li>)}</ol></Section>
