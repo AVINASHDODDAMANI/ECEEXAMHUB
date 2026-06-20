@@ -173,6 +173,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/learn-grammar",
+        destination: "/grammar/tenses",
+        permanent: true,
+      },
+      {
         source: "/:path*",
         has: [
           {

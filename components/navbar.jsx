@@ -20,6 +20,7 @@ const navItems = [
   { href: "/previous-year", label: "PYQ Papers", mobileLabel: "PYQs", mobilePrimary: true },
   { href: "/practice", label: "Numericals", mobileLabel: "Practice" },
   { href: "/ece-exams", label: "Resources", hasMenu: true, mobileLabel: "Resources" },
+  { href: "/placement-preparation", label: "Placement Preparation", hasMenu: true, mobileLabel: "Placement" },
   { href: "/about", label: "About Us", mobileLabel: "About" },
 ];
 
@@ -31,9 +32,22 @@ const notesMenuSubjects = subjectDirectory.map((subject) => ({
   href: subject.href,
 }));
 
+const placementMenuItems = [
+  { label: "English Grammar", href: "/grammar" },
+  { label: "Aptitude", href: "/practice" },
+  { label: "Logical Reasoning", href: "/placement-preparation#logical-reasoning" },
+  { label: "Verbal Ability", href: "/grammar/error-detection" },
+  { label: "Interview Questions", href: "/placement-preparation#interview-questions" },
+  { label: "Resume Building", href: "/placement-preparation#resume-building" },
+];
+
 function isTopNavActive(pathname, href) {
   if (pathname === "/learn/[subjectSlug]/[topicSlug]") {
     return href === "/subjects";
+  }
+
+  if (href === "/placement-preparation") {
+    return pathname === "/placement-preparation" || pathname === "/grammar" || pathname.startsWith("/grammar/");
   }
 
   if (href === "/learn") {
@@ -420,6 +434,7 @@ export default function Navbar({
           {navItems.map((item) => {
             const isActive = isTopNavActive(router.pathname, item.href);
             const isNotesMenu = item.label === "Notes";
+            const isPlacementMenu = item.href === "/placement-preparation";
 
             if (isNotesMenu) {
               return (
@@ -464,6 +479,22 @@ export default function Navbar({
               );
             }
 
+            if (isPlacementMenu) {
+              return (
+                <div key={item.href} className="group relative">
+                  <Link href={item.href} className={`relative inline-flex items-center gap-1 px-3 py-2 text-sm font-extrabold transition ${isActive ? activeNavClass : inactiveNavClass}`} aria-haspopup="true">
+                    {item.label}
+                    <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </Link>
+                  <div className="invisible absolute left-1/2 top-full z-50 w-[300px] -translate-x-1/2 pt-2 text-left opacity-0 transition duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                    <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-[0_18px_48px_rgba(15,23,42,0.14)]">
+                      <div className="mb-2 border-b border-slate-100 pb-2"><p className="text-[11px] font-black uppercase tracking-[0.12em] text-[#ff7417]">Placement Preparation</p></div>
+                      <div className="grid gap-1">{placementMenuItems.map(menuItem => <Link key={menuItem.label} href={menuItem.href} className="rounded-md px-3 py-2 text-xs font-black text-[#071d49] transition hover:bg-orange-50 hover:text-[#ff7417]">{menuItem.label}</Link>)}</div>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
             return (
               <Link
                 key={item.href}
@@ -582,6 +613,7 @@ export default function Navbar({
             {navItems.map((item) => {
               const isActive = isTopNavActive(router.pathname, item.href);
               const isNotesMenu = item.label === "Notes";
+            const isPlacementMenu = item.href === "/placement-preparation";
 
               return (
                 <div key={`mobile-menu-${item.href}`}>
@@ -608,6 +640,13 @@ export default function Navbar({
                         >
                           {subject.label}
                         </Link>
+                      ))}
+                    </div>
+                  ) : null}
+                  {isPlacementMenu ? (
+                    <div className="ml-3 mt-1 grid gap-1 border-l border-orange-100 pl-3">
+                      {placementMenuItems.map((menuItem) => (
+                        <Link key={`mobile-placement-${menuItem.label}`} href={menuItem.href} className="rounded-lg px-3 py-2 text-xs font-bold text-slate-700 hover:bg-orange-50 hover:text-[#ff7417]">{menuItem.label}</Link>
                       ))}
                     </div>
                   ) : null}

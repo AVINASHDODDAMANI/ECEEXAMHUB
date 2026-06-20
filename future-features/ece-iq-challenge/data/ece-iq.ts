@@ -1,0 +1,19 @@
+import type { ChallengeQuestion, GameMode } from "../types/ece-iq";
+
+export const gameModes: GameMode[] = [
+  { id: "circuit-detective", title: "Circuit Detective", shortTitle: "Circuit", description: "Trace the evidence. Find the fault and repair the electronic system.", skills: ["Fault finding", "Connections", "Repair"], icon: "search", accent: "cyan", available: 24 },
+  { id: "logic-gate-master", title: "Logic Gate Master", shortTitle: "Logic", description: "Crack increasingly complex Boolean puzzles and gate combinations.", skills: ["AND / OR", "XOR", "NAND"], icon: "logic", accent: "violet", available: 32 },
+  { id: "signal-analyst", title: "Signal Analyst", shortTitle: "Signals", description: "Read waveform clues, predict outputs and decode signal behavior.", skills: ["Waveforms", "Outputs", "Analysis"], icon: "wave", accent: "blue", available: 28 },
+  { id: "engineering-aptitude", title: "Engineering Aptitude", shortTitle: "Aptitude", description: "Build numerical speed and sharpen practical engineering reasoning.", skills: ["Numerical", "Logical", "Engineering IQ"], icon: "brain", accent: "amber", available: 40 },
+  { id: "network-challenge", title: "Network Challenge", shortTitle: "Network", description: "Complete current paths and conquer network-theory problems.", skills: ["Current paths", "Voltage", "Theory"], icon: "network", accent: "emerald", available: 30 },
+  { id: "memory-lab", title: "Memory Lab", shortTitle: "Memory", description: "Scan circuit diagrams, hold the pattern, then rebuild from memory.", skills: ["Observe", "Recall", "Rebuild"], icon: "memory", accent: "rose", available: 18 },
+];
+
+export const challengeQuestions: ChallengeQuestion[] = [
+  { id: "cd-01", mode: "circuit-detective", difficulty: "Beginner", prompt: "The LED does not glow although the 5 V supply is healthy. What is the most likely fault?", diagram: "circuit", options: ["LED polarity is reversed", "Resistor is too small", "Supply frequency is low", "Ground is too cold"], correctIndex: 0, explanation: "An LED is polarity-sensitive. A reverse-connected LED blocks current.", xp: 120, coins: 18 },
+  { id: "lg-01", mode: "logic-gate-master", difficulty: "GATE/BEL Level", prompt: "Which two-input gate is functionally complete when used by itself?", diagram: "logic", options: ["XOR", "AND", "NAND", "Buffer"], correctIndex: 2, explanation: "Any Boolean function can be implemented using NAND gates alone.", xp: 300, coins: 40 },
+  { id: "sa-01", mode: "signal-analyst", difficulty: "Intermediate", prompt: "A sine wave enters an ideal full-wave rectifier. What happens to its fundamental period?", diagram: "signal", options: ["It doubles", "It halves", "It is unchanged", "It becomes infinite"], correctIndex: 1, explanation: "Both half-cycles become positive, so the waveform repeats twice per original cycle.", xp: 170, coins: 24 },
+  { id: "ea-01", mode: "engineering-aptitude", difficulty: "Beginner", prompt: "A technician tests 12 boards in 3 hours. At the same rate, how many in 5 hours?", options: ["15", "18", "20", "24"], correctIndex: 2, explanation: "The rate is 4 boards/hour, giving 20 boards in 5 hours.", xp: 100, coins: 15 },
+  { id: "nc-01", mode: "network-challenge", difficulty: "Advanced", prompt: "A reciprocal two-port network must satisfy which z-parameter condition?", diagram: "network", options: ["z11 = z22", "z12 = z21", "z11z22 = 1", "z12 = 0"], correctIndex: 1, explanation: "Reciprocity requires the transfer impedances to be equal: z12 = z21.", xp: 240, coins: 32 },
+  { id: "ml-01", mode: "memory-lab", difficulty: "Intermediate", prompt: "Recall the sequence: source → switch → resistor → LED. Which component immediately precedes the LED?", diagram: "memory", options: ["Source", "Switch", "Resistor", "Ground"], correctIndex: 2, explanation: "The memorized path placed the current-limiting resistor directly before the LED.", xp: 180, coins: 26 },
+];
