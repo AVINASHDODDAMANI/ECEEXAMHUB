@@ -4,7 +4,7 @@ import Layout from "../components/layout";
 import seedQuestions from "../data/questions";
 import { fetchQuestions } from "../lib/api-client";
 import { getReadyLearningTopics } from "../lib/learning-utils";
-import { hasQuestionTag } from "../lib/question-utils";
+import { getUniqueQuestions, hasQuestionTag } from "../lib/question-utils";
 
 const tracks = [
   { key: "all", label: "All" },
@@ -155,6 +155,7 @@ export default function MockTestsPage() {
   const [questions, setQuestions] = useState(seedQuestions);
   const [activeTrack, setActiveTrack] = useState("all");
   const readyTopics = getReadyLearningTopics();
+  const uniqueQuestions = useMemo(() => getUniqueQuestions(questions), [questions]);
 
   useEffect(() => {
     let mounted = true;
@@ -180,13 +181,15 @@ export default function MockTestsPage() {
   }, []);
 
   const importantQuestions = useMemo(
-    () => questions.filter((question) => hasQuestionTag(question, "important")),
-    [questions]
+    () => uniqueQuestions.filter((question) => hasQuestionTag(question, "important")),
+    [uniqueQuestions]
   );
   const repeatedQuestions = useMemo(
-    () => questions.filter((question) => hasQuestionTag(question, "repeated")),
-    [questions]
+    () => uniqueQuestions.filter((question) => hasQuestionTag(question, "repeated")),
+    [uniqueQuestions]
   );
+  const gateQuestions = useMemo(() => uniqueQuestions.filter((q) => (q.exam || []).includes("GATE")), [uniqueQuestions]);
+  const belQuestions = useMemo(() => uniqueQuestions.filter((q) => (q.exam || []).includes("BEL")), [uniqueQuestions]);
 
   const mockTests = useMemo(
     () => [
@@ -196,12 +199,12 @@ export default function MockTestsPage() {
         title: "GATE ECE Full-Length Simulation",
         subtitle: "Complete exam pattern with timing, scoring discipline, and end-of-test review.",
         type: "Full mock",
-        count: Math.min(65, Math.max(30, questions.length)),
+        count: Math.min(65, gateQuestions.length),
         duration: "180m",
         marks: "100",
         review: "Full",
         difficulty: "Advanced",
-        href: "/practice/gate?mode=mock",
+        href: "/practice/gate?mode=mock&set=full&limit=65",
       },
       {
         id: "bel-style",
@@ -209,12 +212,12 @@ export default function MockTestsPage() {
         title: "BEL Previous-Paper Style Mock",
         subtitle: "Objective practice aligned with PSU-style technical and aptitude sections.",
         type: "PSU mock",
-        count: 10,
+        count: Math.min(10, belQuestions.length),
         duration: "25m",
         marks: "10",
         review: "Solved",
         difficulty: "Moderate",
-        href: "/practice/bel?mode=mock",
+        href: "/practice/bel?mode=mock&set=pyq&limit=10",
       },
       {
         id: "priority",
@@ -222,12 +225,12 @@ export default function MockTestsPage() {
         title: "High-Impact Questions Drill",
         subtitle: "Important-tagged questions for fast scoring-area revision before a mock.",
         type: "Priority",
-        count: importantQuestions.length,
+        count: Math.min(25, importantQuestions.length),
         duration: "45m",
         marks: "50",
         review: "Topic",
         difficulty: "Moderate",
-        href: "/mcqs",
+        href: "/practice/gate?mode=mock&set=important&scope=all&limit=25",
       },
       {
         id: "repeated",
@@ -235,12 +238,12 @@ export default function MockTestsPage() {
         title: "Repeated PYQ Pattern Mock",
         subtitle: "Repeated question styles grouped for pattern recognition and recall speed.",
         type: "PYQ",
-        count: repeatedQuestions.length,
+        count: Math.min(30, repeatedQuestions.length),
         duration: "60m",
         marks: "65",
         review: "PYQ",
         difficulty: "Moderate",
-        href: "/previous-year?search=repeated",
+        href: "/practice/gate?mode=mock&set=repeated&scope=all&limit=30",
       },
       {
         id: "weak-area",
@@ -256,7 +259,7 @@ export default function MockTestsPage() {
         href: "/learn",
       },
     ],
-    [importantQuestions.length, questions.length, readyTopics.length, repeatedQuestions.length]
+    [belQuestions.length, gateQuestions.length, importantQuestions.length, readyTopics.length, repeatedQuestions.length]
   );
 
   const visibleTests =
@@ -297,7 +300,7 @@ export default function MockTestsPage() {
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              <MetricCard label="Question bank" value={questions.length} detail="Available practice items" />
+              <MetricCard label="Question bank" value={uniqueQuestions.length} detail="Unique practice items" />
               <MetricCard label="Ready topics" value={readyTopics.length} detail="Linked revision modules" />
             </div>
           </div>
@@ -306,7 +309,7 @@ export default function MockTestsPage() {
         <section className="grid gap-3 md:grid-cols-4">
           <MetricCard label="Mock formats" value={mockTests.length} detail="Full, PYQ, and drills" />
           <MetricCard label="Important" value={importantQuestions.length} detail="High-priority questions" />
-          <MetricCard label="Repeated" value={repeatedQuestions.length} detail="Pattern-recall bank" />
+          <MetricCard label="PYQ patterns" value={repeatedQuestions.length} detail="Unique pattern-recall items" />
           <MetricCard label="Target pace" value="1.8m" detail="Average per question" />
         </section>
 

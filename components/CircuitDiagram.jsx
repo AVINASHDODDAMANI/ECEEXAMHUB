@@ -1173,7 +1173,8 @@ function QuestionImageDiagram({ src, alt, className = "" }) {
     <img
       src={src}
       alt={alt}
-      className={className || "h-auto max-h-[420px] w-auto max-w-full rounded-lg border border-slate-200 bg-white object-contain"}
+      loading="lazy"
+      className={className || "mx-auto h-auto max-h-[560px] w-auto max-w-full rounded-lg border border-slate-300 bg-white object-contain shadow-sm"}
     />
   );
 }

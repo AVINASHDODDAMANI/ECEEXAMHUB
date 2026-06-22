@@ -1,37 +1,65 @@
 import Link from "next/link";
 import Layout from "../components/layout";
 import { getPracticeSlug, practiceSections } from "../data/practice-sections";
-import { buildBreadcrumbList } from "../lib/seo";
+import questions from "../data/questions";
+import { getUniqueQuestions } from "../lib/question-utils";
+import { SITE_URL, buildBreadcrumbList } from "../lib/seo";
 
-const practiceStructuredData = [
-  buildBreadcrumbList([
-    { name: "Home", item: "/" },
-    { name: "Practice", item: "/practice" },
-  ]),
-];
+const uniqueQuestions = getUniqueQuestions(questions);
+const diagramQuestionCount = uniqueQuestions.filter((question) => question.diagram || question.optionDiagrams).length;
+const importantQuestionCount = uniqueQuestions.filter((question) => (question.tags || []).includes("important")).length;
 
 const heroStats = [
-  { label: "Accuracy", value: "82%", note: "Target score", tone: "blue", icon: "target" },
-  { label: "Questions Solved", value: "1240", note: "Practice bank", tone: "green", icon: "book" },
-  { label: "Daily Streak", value: "12", note: "Days", tone: "orange", icon: "fire" },
-  { label: "Exam Tracks", value: practiceSections.length, note: "Available", tone: "violet", icon: "trophy" },
+  { label: "Question Bank", value: uniqueQuestions.length, note: "Unique questions", tone: "blue", icon: "book" },
+  { label: "Diagram Questions", value: diagramQuestionCount, note: "Visual problems", tone: "green", icon: "target" },
+  { label: "Important Questions", value: importantQuestionCount, note: "Priority revision", tone: "orange", icon: "fire" },
+  { label: "Exam Tracks", value: practiceSections.length, note: "GATE and PSU", tone: "violet", icon: "trophy" },
 ];
 
 const practiceCategories = [
-  { label: "Network Theory", icon: "antenna" },
-  { label: "Signals & Systems", icon: "wave" },
-  { label: "Digital Electronics", icon: "chip" },
-  { label: "Analog Electronics", icon: "opamp" },
-  { label: "Control Systems", icon: "control" },
-  { label: "Communication", icon: "satellite" },
-  { label: "DSP", icon: "bars" },
-  { label: "EMFT", icon: "globe" },
+  { label: "Network Analysis", icon: "antenna", href: "/mcqs/network-analysis" },
+  { label: "Signals & Systems", icon: "wave", href: "/mcqs/signals-and-systems" },
+  { label: "Digital Electronics", icon: "chip", href: "/mcqs/digital-electronics" },
+  { label: "Analog Electronics", icon: "opamp", href: "/mcqs/analog-electronics" },
+  { label: "Control Systems", icon: "control", href: "/mcqs/control-systems" },
+  { label: "Communication", icon: "satellite", href: "/mcqs/communication-systems" },
+  { label: "DSP", icon: "bars", href: "/mcqs/digital-signal-processing" },
+  { label: "EMFT", icon: "globe", href: "/mcqs/electromagnetic-theory" },
 ];
 
-const progressItems = [
-  ["Questions Solved", "1240"],
-  ["Tests Attempted", "38"],
-  ["Correct Answers", "1017"],
+const practiceFaqs = [
+  ["What does ECE numerical practice include?", "It includes calculation-based and conceptual electronics questions from core ECE subjects, with answer checking, explanations, and diagrams where required."],
+  ["Which exams can I prepare for here?", "Choose focused practice tracks for GATE, ISRO, BEL, and BARC electronics examinations."],
+  ["How should I use these practice questions?", "Select an exam track, solve each question without notes, review the explanation, and revisit the related subject when you make a concept or calculation error."],
+];
+
+const practiceStructuredData = [
+  buildBreadcrumbList([{ name: "Home", item: "/" }, { name: "ECE Numerical Practice", item: "/practice" }]),
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "ECE Numerical Practice Questions",
+    description: "Free ECE numerical practice questions and exam-wise electronics question sets for GATE, ISRO, BEL, and BARC preparation.",
+    url: `${SITE_URL}/practice`,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: practiceSections.map((section, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: section.label,
+        url: `${SITE_URL}/practice/${getPracticeSlug(section.exam)}`,
+      })),
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: practiceFaqs.map(([question, answer]) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
+  },
 ];
 
 const toneClasses = {
@@ -125,16 +153,20 @@ function HeroVisual() {
       </MiniDiagramCard>
 
       <div className="absolute left-[38%] top-10 w-64 rounded-[20px] bg-[#111c67] p-4 text-white shadow-[0_22px_52px_rgba(17,24,100,0.26)]">
-        <p className="text-xs font-extrabold">Your Progress</p>
+        <p className="text-xs font-extrabold">ECE Practice Bank</p>
         <div className="mt-3 grid grid-cols-[76px_1fr] gap-4">
           <div className="grid h-[76px] w-[76px] place-items-center rounded-full bg-[conic-gradient(#18d8c8_0_82%,#6548f5_82%_100%)] p-1.5">
             <div className="grid h-full w-full place-items-center rounded-full bg-[#111c67] text-center">
-              <span className="block text-xl font-extrabold">82%</span>
-              <span className="block text-[10px] text-indigo-100">Accuracy</span>
+              <span className="block text-xl font-extrabold">{uniqueQuestions.length}</span>
+              <span className="block text-[10px] text-indigo-100">Questions</span>
             </div>
           </div>
           <div className="space-y-2 text-[11px]">
-            {progressItems.map(([label, value]) => (
+            {[
+              ["Exam tracks", practiceSections.length],
+              ["Diagram questions", diagramQuestionCount],
+              ["Priority questions", importantQuestionCount],
+            ].map(([label, value]) => (
               <div key={label} className="flex justify-between gap-4">
                 <span className="text-indigo-100">{label}</span>
                 <span className="font-bold">{value}</span>
@@ -211,9 +243,10 @@ function StatCard({ stat }) {
 export default function PracticePage() {
   return (
     <Layout
-      title="ECE Numerical Practice | Exam Question Sets"
-      description="Practice ECE numericals and exam-wise question sets for GATE, BEL, ISRO, BARC, and electronics engineering revision."
+      title="ECE Numerical Practice Questions for GATE & PSU Exams"
+      description="Solve free ECE numerical practice questions, MCQs, PYQs, and diagram-based problems for GATE, ISRO, BEL, and BARC electronics exam preparation."
       canonicalUrl="/practice"
+      keywords="ECE numerical practice, ECE practice questions, GATE ECE numericals, electronics engineering questions, BEL ECE questions, ISRO electronics practice, BARC ECE practice"
       structuredData={practiceStructuredData}
       pageClassName="py-3"
     >
@@ -226,7 +259,7 @@ export default function PracticePage() {
             Home
           </Link>
           <span className="text-slate-300" aria-hidden="true">/</span>
-          <span className="font-medium text-slate-700">Numerical Practice</span>
+          <span className="font-medium text-slate-700">ECE Numerical Practice</span>
         </nav>
 
         <section className="overflow-hidden rounded-[24px] border border-indigo-100 bg-white px-4 py-5 shadow-[0_20px_64px_rgba(67,56,202,0.08)] sm:px-6 lg:px-7">
@@ -234,20 +267,20 @@ export default function PracticePage() {
             <div className="flex flex-col justify-center">
               <div className="inline-flex w-fit items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-extrabold uppercase tracking-[0.06em] text-indigo-700">
                 <PracticeIcon type="target" className="h-4 w-4" />
-                Practice. Improve. Succeed.
+                Free ECE question practice
               </div>
 
               <h1 className="mt-7 max-w-3xl text-5xl font-black leading-[0.98] tracking-tight text-[#111a55] sm:text-6xl lg:text-7xl">
-                Practice ECE Questions Like a{" "}
+                ECE Numerical Practice for{" "}
                 <span className="relative inline-block text-violet-600">
-                  Real Exam
+                  GATE & PSU Exams
                   <span className="absolute -bottom-2 left-1 h-1.5 w-full rounded-full bg-gradient-to-r from-violet-600 to-indigo-300" />
                 </span>
               </h1>
 
               <p className="mt-7 max-w-2xl text-base font-medium leading-8 text-slate-600 sm:text-lg">
-                Topic-wise MCQs, previous year questions, mock tests, progress tracking,
-                and smart revision for GATE, BEL, DRDO, and semester exams.
+                Solve electronics numericals, conceptual MCQs, previous-year patterns, and
+                diagram-based questions for GATE, ISRO, BEL, BARC, and semester exams.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-4">
@@ -256,7 +289,7 @@ export default function PracticePage() {
                   className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 px-5 py-3 text-sm font-extrabold text-white shadow-[0_14px_30px_rgba(79,70,229,0.25)] transition hover:-translate-y-0.5"
                 >
                   <PracticeIcon type="rocket" className="h-5 w-5" />
-                  Start Practice
+                  Start GATE Practice
                 </Link>
                 <Link
                   href="/previous-year"
@@ -278,12 +311,12 @@ export default function PracticePage() {
           </div>
 
           <div className="mt-6 rounded-xl border border-indigo-100 bg-white/95 p-3 shadow-[0_14px_36px_rgba(79,70,229,0.07)]">
-            <h2 className="text-sm font-extrabold text-indigo-950">Popular Practice Categories</h2>
+            <h2 className="text-sm font-extrabold text-indigo-950">ECE Questions by Subject</h2>
             <div className="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-4 lg:grid-cols-8">
               {practiceCategories.map((category) => (
                 <Link
                   key={category.label}
-                  href={`/practice?search=${encodeURIComponent(category.label)}`}
+                  href={category.href}
                   className="group flex min-h-[88px] flex-col items-center justify-center rounded-xl border border-transparent bg-indigo-50/70 px-2 py-3 text-center transition hover:border-indigo-200 hover:bg-white hover:shadow-sm"
                 >
                   <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-indigo-700 shadow-sm transition group-hover:text-violet-700">
@@ -300,14 +333,14 @@ export default function PracticePage() {
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-portal-600">
-                Choose an exam track
+                Choose an exam
               </p>
               <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-900">
-                Numerical Practice Sections
+                Exam-Wise ECE Practice Questions
               </h2>
             </div>
             <p className="max-w-xl text-sm leading-6 text-slate-600">
-              Each track opens a focused question set so revision stays aligned with the exam pattern.
+              Choose a focused, duplicate-free question set with clear diagrams and answer explanations.
             </p>
           </div>
 
@@ -339,6 +372,56 @@ export default function PracticePage() {
                   <PracticeIcon type="arrow" className="h-4 w-4 transition group-hover:translate-x-0.5" />
                 </span>
               </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-6 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="rounded-2xl border border-portal-200 bg-white p-5 shadow-portal sm:p-6">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-portal-600">Simple practice method</p>
+            <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-900">How to Practice ECE Numericals Effectively</h2>
+            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+              {[
+                ["1", "Choose", "Select GATE or a PSU exam track that matches your target."],
+                ["2", "Solve", "Attempt the calculation or concept before checking the answer."],
+                ["3", "Review", "Read the explanation and revise the related subject after an error."],
+              ].map(([number, title, text]) => (
+                <article key={number} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-portal-700 text-sm font-extrabold text-white">{number}</span>
+                  <h3 className="mt-3 font-extrabold text-slate-950">{title}</h3>
+                  <p className="mt-1 text-sm leading-6 text-slate-600">{text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <aside className="rounded-2xl border border-indigo-200 bg-indigo-50 p-5 sm:p-6">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-700">Continue learning</p>
+            <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-900">Useful ECE Preparation Resources</h2>
+            <div className="mt-4 grid gap-2">
+              {[
+                ["Subject-wise ECE MCQs", "/mcqs"],
+                ["Previous-year questions", "/previous-year"],
+                ["Full-length mock tests", "/mock-tests"],
+                ["ECE notes and concepts", "/subjects"],
+              ].map(([label, href]) => (
+                <Link key={href} href={href} className="flex items-center justify-between rounded-xl border border-indigo-100 bg-white px-4 py-3 text-sm font-bold text-indigo-800 transition hover:border-indigo-300">
+                  {label}<PracticeIcon type="arrow" className="h-4 w-4" />
+                </Link>
+              ))}
+            </div>
+          </aside>
+        </section>
+
+        <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-portal sm:p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-portal-600">Common questions</p>
+          <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-900">ECE Numerical Practice FAQ</h2>
+          <div className="mt-4 grid gap-3">
+            {practiceFaqs.map(([question, answer]) => (
+              <details key={question} className="group rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <summary className="cursor-pointer font-bold text-slate-950">{question}</summary>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{answer}</p>
+              </details>
             ))}
           </div>
         </section>

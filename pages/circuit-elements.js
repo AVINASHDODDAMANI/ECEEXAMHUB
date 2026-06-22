@@ -418,6 +418,230 @@ function ElementCard({ section, index }) {
   );
 }
 
+function ResistorIntroduction() {
+  return (
+    <article className="mt-5 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_10px_26px_rgba(15,23,42,0.05)]">
+      <div>
+        <div className="p-5 sm:p-6">
+          <section>
+            <h2 className="text-2xl font-black tracking-tight text-slate-950">
+              What is a Resistor?
+            </h2>
+            <div className="mt-3 space-y-3 text-sm font-medium leading-7 text-slate-800 sm:text-base">
+              <p>
+                Imagine you connect a small LED directly to a battery. At first, the LED may glow
+                very brightly, but after a few moments it can become damaged. Why does this happen?
+              </p>
+              <p>
+                The battery tries to push a large amount of current through the LED. Electronic
+                components are designed to work within certain limits, and excessive current can
+                destroy them. To prevent this problem, we use a resistor.
+              </p>
+              <p>
+                A resistor is an electronic component that restricts the flow of electric current
+                in a circuit. In simple terms, it acts like a controller that prevents too much
+                current from reaching sensitive components.
+              </p>
+            </div>
+          </section>
+
+          <ResistorComponentDiagram />
+
+          <section className="mt-6 border-t border-slate-200 pt-6">
+            <h2 className="text-2xl font-black tracking-tight text-slate-950">
+              Why Was a Resistor Needed?
+            </h2>
+            <div className="mt-3 space-y-3 text-sm font-medium leading-7 text-slate-800 sm:text-base">
+              <p>
+                As electrical systems became more complex, engineers realized that simply
+                connecting wires and power sources was not enough. Different devices require
+                different amounts of current and voltage to operate safely.
+              </p>
+              <p>For example:</p>
+              <ul className="list-disc space-y-1 pl-7">
+                <li>A small LED needs only a few milliamperes of current.</li>
+                <li>A motor may require hundreds of milliamperes.</li>
+                <li>Electronic chips often need precise current levels.</li>
+              </ul>
+              <p>
+                Without a way to control current, many components would fail instantly. The
+                resistor was developed to solve this problem by introducing opposition to current
+                flow.
+              </p>
+            </div>
+          </section>
+        </div>
+
+        <div className="border-t border-slate-200 p-5 sm:p-6">
+          <section>
+            <h2 className="text-2xl font-black tracking-tight text-slate-950">
+              What Does a Resistor Actually Do?
+            </h2>
+            <p className="mt-3 text-sm font-medium leading-7 text-slate-800 sm:text-base">
+              A resistor performs several important functions:
+            </p>
+            <ol className="mt-2 list-decimal space-y-1 pl-7 text-sm font-semibold leading-7 text-slate-800 sm:text-base">
+              <li>Limits current flowing through a circuit.</li>
+              <li>Protects electronic components from damage.</li>
+              <li>Creates required voltage levels.</li>
+              <li>Helps control circuit behavior.</li>
+              <li>Converts excess electrical energy into heat.</li>
+            </ol>
+            <p className="mt-3 text-sm font-medium leading-7 text-slate-800 sm:text-base">
+              Because of these functions, resistors are found in almost every electronic device,
+              from mobile phones to satellites.
+            </p>
+          </section>
+
+          <section className="mt-6 border-t border-slate-200 pt-6">
+            <h2 className="text-2xl font-black tracking-tight text-slate-950">
+              What Happens Inside a Resistor?
+            </h2>
+            <div className="mt-3 space-y-3 text-sm font-medium leading-7 text-slate-800 sm:text-base">
+              <p>
+                Electric current consists of moving electrons. Inside a resistor, electrons do not
+                travel as freely as they do in a copper wire.
+              </p>
+              <p>
+                As electrons move through the resistive material, they collide with atoms. These
+                collisions slow down the flow of electrons and convert part of the electrical
+                energy into heat.
+              </p>
+              <p>This opposition offered by the material is called resistance.</p>
+            </div>
+          </section>
+
+          <section className="mt-6 border-t border-slate-200 pt-6">
+            <h2 className="text-2xl font-black tracking-tight text-slate-950">
+              Understanding Resistance
+            </h2>
+            <div className="mt-3 space-y-3 text-sm font-medium leading-7 text-slate-800 sm:text-base">
+              <p>Resistance is the property of a material that opposes electric current.</p>
+              <p>
+                Its unit is the ohm (Ω), named after <span className="font-semibold">Georg Simon Ohm</span>.
+              </p>
+              <p>
+                Higher resistance allows less current to flow for the same applied voltage, while
+                lower resistance allows more current to flow.
+              </p>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div className="border-t border-slate-200 bg-slate-50/70">
+        <section className="p-5 sm:p-6">
+          <h2 className="text-2xl font-black tracking-tight text-slate-950">Practical Example</h2>
+          <div className="mt-3 space-y-3 text-sm font-medium leading-7 text-slate-800 sm:text-base">
+            <p>Consider a 9 V battery and an LED.</p>
+            <p>
+              If the LED is connected directly to the battery, excessive current may flow and
+              damage the LED.
+            </p>
+            <p>
+              When a resistor is connected in series with the LED, it limits the current to a safe
+              value. As a result, the LED operates normally without being damaged.
+            </p>
+            <p>This is one of the most common applications of a resistor in electronics.</p>
+          </div>
+        </section>
+
+        <section className="border-t border-emerald-200 bg-emerald-50/70 p-5 sm:p-6">
+          <h2 className="text-2xl font-black tracking-tight text-emerald-950">Key Takeaway</h2>
+          <p className="mt-3 text-sm font-semibold leading-7 text-emerald-950 sm:text-base">
+            A resistor does not “stop” electricity. Instead, it controls the current flowing
+            through a circuit so electronic devices can operate safely and reliably.
+          </p>
+        </section>
+      </div>
+    </article>
+  );
+}
+
+function ResistorComponentDiagram() {
+  return (
+    <figure className="mt-6 overflow-hidden rounded-2xl border border-amber-200 bg-[linear-gradient(135deg,#fffdf7,#fff8e8)] p-4 shadow-sm sm:p-5">
+      <figcaption className="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <p className="text-[11px] font-black uppercase tracking-[0.14em] text-amber-700">
+            Real Component Diagram
+          </p>
+          <h3 className="mt-1 text-lg font-black text-slate-950">Axial Resistor</h3>
+        </div>
+        <span className="rounded-full border border-amber-200 bg-white px-3 py-1 text-xs font-bold text-amber-800">
+          Through-hole component
+        </span>
+      </figcaption>
+
+      <div className="mt-4 overflow-x-auto rounded-xl border border-amber-100 bg-white/80">
+        <svg
+          viewBox="0 0 900 300"
+          className="mx-auto h-auto min-w-[620px] max-w-full"
+          role="img"
+          aria-label="Physical axial resistor showing metal leads, ceramic body, and color bands"
+        >
+          <defs>
+            <linearGradient id="resistorBody" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#f4d58d" />
+              <stop offset="0.48" stopColor="#d8aa55" />
+              <stop offset="1" stopColor="#b77a2a" />
+            </linearGradient>
+            <linearGradient id="metalLead" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#e2e8f0" />
+              <stop offset="0.5" stopColor="#64748b" />
+              <stop offset="1" stopColor="#cbd5e1" />
+            </linearGradient>
+            <filter id="resistorShadow" x="-20%" y="-40%" width="140%" height="180%">
+              <feDropShadow dx="0" dy="8" stdDeviation="7" floodColor="#713f12" floodOpacity="0.2" />
+            </filter>
+          </defs>
+
+          <text x="450" y="36" textAnchor="middle" fill="#0f172a" fontSize="18" fontWeight="900">
+            Fixed Resistor (example: 1 kΩ ±5%)
+          </text>
+
+          <g filter="url(#resistorShadow)">
+            <path d="M72 151H292" stroke="url(#metalLead)" strokeWidth="10" strokeLinecap="round" />
+            <path d="M608 151H828" stroke="url(#metalLead)" strokeWidth="10" strokeLinecap="round" />
+            <path
+              d="M292 112c18 0 25-25 48-25h220c23 0 30 25 48 25v78c-18 0-25 25-48 25H340c-23 0-30-25-48-25z"
+              fill="url(#resistorBody)"
+              stroke="#92400e"
+              strokeWidth="4"
+            />
+            <rect x="360" y="88" width="25" height="126" rx="4" fill="#7c2d12" />
+            <rect x="415" y="88" width="25" height="126" rx="4" fill="#111827" />
+            <rect x="470" y="88" width="25" height="126" rx="4" fill="#dc2626" />
+            <rect x="544" y="88" width="20" height="126" rx="4" fill="#d4a017" />
+            <path d="M320 113c36-18 224-18 260 0" fill="none" stroke="#fff7d6" strokeWidth="7" strokeLinecap="round" opacity="0.55" />
+          </g>
+
+          <path d="M178 137V78H264" fill="none" stroke="#2563eb" strokeWidth="2.5" />
+          <circle cx="178" cy="151" r="5" fill="#2563eb" />
+          <text x="93" y="69" fill="#1e3a8a" fontSize="15" fontWeight="800">Metal lead</text>
+          <text x="93" y="88" fill="#475569" fontSize="12" fontWeight="700">Connects to the circuit</text>
+
+          <path d="M450 215v42" fill="none" stroke="#2563eb" strokeWidth="2.5" />
+          <circle cx="450" cy="210" r="5" fill="#2563eb" />
+          <text x="450" y="278" textAnchor="middle" fill="#1e3a8a" fontSize="15" fontWeight="800">
+            Color bands show resistance and tolerance
+          </text>
+
+          <path d="M680 137V78H596" fill="none" stroke="#2563eb" strokeWidth="2.5" />
+          <circle cx="680" cy="151" r="5" fill="#2563eb" />
+          <text x="702" y="69" fill="#1e3a8a" fontSize="15" fontWeight="800">Resistive body</text>
+          <text x="702" y="88" fill="#475569" fontSize="12" fontWeight="700">Dissipates energy as heat</text>
+        </svg>
+      </div>
+
+      <p className="mt-3 text-sm font-semibold leading-6 text-slate-700">
+        A resistor has no positive or negative terminal, so either lead can be connected in either
+        direction. Its color bands identify the resistance value and tolerance.
+      </p>
+    </figure>
+  );
+}
+
 function CircuitElementDiagram({ title }) {
   const label = `${title} circuit diagram`;
 
@@ -1763,6 +1987,8 @@ export default function CircuitElementsPage() {
         </section>
 
         <LearningHookPanel />
+
+        <ResistorIntroduction />
 
         <section id="circuit-elements-list" className="mt-5 grid gap-3">
           {circuitElementSections.map((section, index) => (

@@ -10,6 +10,7 @@ import { getOfficialPaper } from "../../data/official-previous-papers";
 import { getPracticeSlug, practiceSections } from "../../data/practice-sections";
 import seedQuestions from "../../data/questions";
 import { fetchQuestions } from "../../lib/api-client";
+import { getUniqueQuestions, hasQuestionTag } from "../../lib/question-utils";
 
 const belPracticePaper = getOfficialPaper({
   slug: "bel-may-2025",
@@ -17,22 +18,6 @@ const belPracticePaper = getOfficialPaper({
   year: 2025,
   month: "May",
 });
-
-function buildTenQuestionSet(examQuestions, allQuestions) {
-  const selected = [];
-  const usedIds = new Set();
-
-  [...examQuestions, ...allQuestions].forEach((question) => {
-    if (selected.length >= 10 || usedIds.has(question._id)) {
-      return;
-    }
-
-    selected.push(question);
-    usedIds.add(question._id);
-  });
-
-  return selected;
-}
 
 function isBelMay2025Question(question) {
   return (
@@ -42,22 +27,31 @@ function isBelMay2025Question(question) {
   );
 }
 
-function buildPracticeQuestions(section, sourceQuestions) {
+function buildPracticeQuestions(section, sourceQuestions, options = {}) {
+  const limit = Math.max(1, Math.min(65, Number(options.limit) || 10));
+  const uniqueSource = getUniqueQuestions(sourceQuestions);
+  const filterBySet = (items) => {
+    if (options.set === "important" || options.set === "repeated") {
+      return items.filter((question) => hasQuestionTag(question, options.set));
+    }
+    return items;
+  };
+
+  if (options.scope === "all") return filterBySet(uniqueSource).slice(0, limit);
+
   if (section.exam === "BEL") {
-    const paperQuestions = sourceQuestions.filter(isBelMay2025Question);
+    const paperQuestions = uniqueSource.filter(isBelMay2025Question);
 
     return paperQuestions.length
-      ? buildTenQuestionSet(paperQuestions, seedQuestions)
-      : buildTenQuestionSet(
-          seedQuestions.filter((question) => (question.exam || []).includes(section.exam)),
-          seedQuestions
-        );
+      ? filterBySet(paperQuestions).slice(0, limit)
+      : filterBySet(getUniqueQuestions(seedQuestions).filter((question) =>
+          (question.exam || []).includes(section.exam)
+        )).slice(0, limit);
   }
 
-  return buildTenQuestionSet(
-    sourceQuestions.filter((question) => (question.exam || []).includes(section.exam)),
-    seedQuestions
-  );
+  return filterBySet(uniqueSource.filter((question) =>
+    (question.exam || []).includes(section.exam)
+  )).slice(0, limit);
 }
 
 function PracticeSkeleton() {
@@ -87,9 +81,14 @@ function PracticeSkeleton() {
 
 export default function PracticeExamPage({ section }) {
   const router = useRouter();
+  const setOptions = useMemo(() => ({
+    set: String(router.query.set || "full"),
+    scope: String(router.query.scope || "exam"),
+    limit: String(router.query.limit || "10"),
+  }), [router.query.limit, router.query.scope, router.query.set]);
   const initialQuestions = useMemo(
-    () => buildPracticeQuestions(section, seedQuestions),
-    [section.exam]
+    () => buildPracticeQuestions(section, seedQuestions, setOptions),
+    [section.exam, setOptions]
   );
   const [questions, setQuestions] = useState(initialQuestions);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -98,7 +97,10 @@ export default function PracticeExamPage({ section }) {
   const isBelPractice = section.exam === "BEL";
   const isMockMode = router.query.mode === "mock";
   const practicePaper = isBelPractice ? belPracticePaper : null;
-  const practiceQuestions = buildPracticeQuestions(section, questions);
+  const practiceQuestions = useMemo(
+    () => buildPracticeQuestions(section, questions, setOptions),
+    [questions, section, setOptions]
+  );
   const pageLabel = isMockMode ? `${section.exam} Mock Test` : section.label;
   const heroDescription = isBelPractice
     ? isMockMode
@@ -120,12 +122,16 @@ export default function PracticeExamPage({ section }) {
         const data = await fetchQuestions(
           isBelPractice
             ? { exam: section.exam, year: String(practicePaper?.year || 2025) }
-            : { exam: section.exam },
+            : setOptions.scope === "all"
+              ? {}
+              : { exam: section.exam },
           { signal: controller.signal }
         );
 
         if (mounted) {
-          const nextQuestions = data.length ? buildPracticeQuestions(section, data) : initialQuestions;
+          const nextQuestions = data.length
+            ? buildPracticeQuestions(section, data, setOptions)
+            : initialQuestions;
           setQuestions(nextQuestions);
           setSelectedAnswers({});
         }
@@ -147,7 +153,7 @@ export default function PracticeExamPage({ section }) {
       mounted = false;
       controller.abort();
     };
-  }, [initialQuestions, isBelPractice, practicePaper?.year, section]);
+  }, [initialQuestions, isBelPractice, practicePaper?.year, section, setOptions]);
 
   function handleAnswer(questionId, option) {
     setSelectedAnswers((current) => {
@@ -225,6 +231,11 @@ export default function PracticeExamPage({ section }) {
               <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
                 {heroDescription}
               </p>
+              {isMockMode ? (
+                <p className="mt-3 text-xs font-bold text-emerald-700">
+                  Unique-question set: duplicate question stems are automatically removed.
+                </p>
+              ) : null}
               {isBelPractice ? (
                 <div className="mt-4 flex flex-wrap gap-2 text-xs font-bold text-slate-600">
                   <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
@@ -314,11 +325,15 @@ function PracticeQuestionBlock({
         </span>
       </div>
 
-      <div className="mt-3 max-w-[560px]">
-        <CircuitDiagram question={question} />
-      </div>
+      {question.diagram ? (
+        <div className="mt-4 flex w-full justify-center overflow-x-auto rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-5">
+          <div className="w-full min-w-[300px] max-w-[820px]">
+            <CircuitDiagram question={question} />
+          </div>
+        </div>
+      ) : null}
 
-      <div className={question.optionDiagrams ? "mt-3 grid grid-cols-2 gap-3" : "mt-3 grid gap-2 sm:grid-cols-2"}>
+      <div className={question.optionDiagrams ? "mt-4 grid gap-3 md:grid-cols-2" : "mt-3 grid gap-2 sm:grid-cols-2"}>
         {(question.options || []).map((option, optionIndex) => {
           const optionDiagram = question.optionDiagrams?.[optionIndex];
           const isSelected = selectedAnswer === option;
