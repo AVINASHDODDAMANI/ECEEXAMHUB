@@ -165,6 +165,17 @@ canvas {
   height: auto;
 }
 
+table {
+  max-width: 100%;
+}
+
+pre,
+code,
+.font-mono {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 #__next {
   position: relative;
   min-height: 100vh;
@@ -411,6 +422,116 @@ iframe[src*="googlesyndication"] {
 }
 
 @media (max-width: 639px) {
+  .site-compact main {
+    overflow-x: clip;
+  }
+
+  .site-compact main :where(article, aside, div, figure, header, nav, section) {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .site-compact main :where(p, li, dd, summary, figcaption, h1, h2, h3, h4, span, a, button) {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .site-compact main :where(h1) {
+    font-size: clamp(1.85rem, 9.2vw, 2.65rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .site-compact main :where(h2) {
+    font-size: clamp(1.35rem, 6.6vw, 1.9rem) !important;
+    line-height: 1.16 !important;
+  }
+
+  .site-compact main :where(h3) {
+    font-size: clamp(1rem, 4.8vw, 1.25rem) !important;
+    line-height: 1.24 !important;
+  }
+
+  .site-compact main :where(.rounded-\[30px\], .rounded-\[28px\], .rounded-\[26px\], .rounded-\[24px\], .rounded-2xl) {
+    border-radius: 1rem !important;
+  }
+
+  .site-compact main :where(section, article, aside, header, figure):not(.ad-slot):not(.ad-placeholder) {
+    padding-left: min(1rem, 4vw) !important;
+    padding-right: min(1rem, 4vw) !important;
+  }
+
+  .site-compact main :where(.shadow-panel, .shadow-portal, .shadow-sm) {
+    box-shadow: 0 8px 20px rgba(31, 50, 75, 0.055) !important;
+  }
+
+  .site-compact main :where(table) {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .site-compact main :where(th, td) {
+    min-width: 8.5rem;
+    padding: 0.7rem 0.8rem !important;
+    vertical-align: top;
+  }
+
+  .site-compact main :where(svg[viewBox]) {
+    max-width: 100%;
+  }
+
+  .site-compact main :where(.overflow-hidden):has(> svg[viewBox]),
+  .site-compact main :where(.overflow-hidden):has(> table) {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .site-compact main :where(.grid) {
+    max-width: 100%;
+  }
+
+  .site-compact main :where(.gap-6) {
+    gap: 1rem !important;
+  }
+
+  .site-compact main :where(.gap-5) {
+    gap: 0.95rem !important;
+  }
+
+  .site-compact main :where(.gap-4) {
+    gap: 0.85rem !important;
+  }
+
+  .site-compact main :where(.mt-6) {
+    margin-top: 1rem !important;
+  }
+
+  .site-compact main :where(.mt-5) {
+    margin-top: 0.9rem !important;
+  }
+
+  .site-compact main :where(.py-10, .py-8) {
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
+  }
+
+  .site-compact main :where(.pb-24, .pb-20, .pb-12) {
+    padding-bottom: 2rem !important;
+  }
+
+  .site-compact main :where(.text-base) {
+    line-height: 1.65 !important;
+  }
+
+  .site-compact main :where(.tracking-\[0\.16em\], .tracking-\[0\.14em\], .tracking-\[0\.12em\]) {
+    letter-spacing: 0.08em !important;
+  }
+
+  .site-compact main :where(a, button) {
+    white-space: normal;
+  }
+
   [id$="-menu"],
   [id$="-popover"] {
     position: fixed !important;

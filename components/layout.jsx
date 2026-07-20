@@ -270,14 +270,14 @@ export default function Layout({
         />
         <div className="relative z-10">
           {!hideNavbar && <Navbar searchValue={searchValue} onSearchChange={onSearchChange} />}
-          <main className={`mx-auto w-full max-w-[1440px] px-3 pb-5 ${pageClassName} sm:px-6 sm:pb-7 lg:px-8`}>
+          <main className={`mx-auto min-w-0 w-full max-w-[1440px] px-3 pb-5 ${pageClassName} sm:px-6 sm:pb-7 lg:px-8`}>
             {shouldShowAds ? (
               <div className="site-ad-layout">
                 <div className="min-w-0">{children}</div>
                 <AdRail />
               </div>
             ) : (
-              children
+              <div className="min-w-0">{children}</div>
             )}
           </main>
           <Footer />
