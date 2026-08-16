@@ -1,6 +1,43 @@
 import Link from "next/link";
 import Layout from "../components/layout";
 import { examGuidePillars, examGuideSections } from "../data/exam-guides";
+import { buildBreadcrumbList, generateCanonical, SITE_NAME } from "../lib/seo";
+
+const eceExamStructuredData = [
+  buildBreadcrumbList([
+    { name: "Home", item: "/" },
+    { name: "ECE Exams", item: "/ece-exams" },
+  ]),
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "ECE Exams",
+    headline: "ECE Exams for GATE, BEL, ISRO, DRDO and PSU Preparation",
+    description:
+      "Exam-wise ECE preparation guide with links to GATE ECE, BEL, ISRO, DRDO, PSU, previous papers, formulas, notes, MCQs and practice resources.",
+    url: generateCanonical("/ece-exams"),
+    publisher: {
+      "@type": "EducationalOrganization",
+      name: SITE_NAME,
+    },
+    about: examGuideSections.map((exam) => exam.title),
+    hasPart: examGuideSections.map((exam) => ({
+      "@type": "LearningResource",
+      name: exam.title,
+      description: exam.shortDescription,
+      url: generateCanonical(exam.href),
+    })),
+  },
+];
+
+const preparationLinks = [
+  { label: "GATE ECE PYQs", href: "/gate-ece-pyq", text: "Open solved GATE ECE question papers and previous year practice." },
+  { label: "Previous Papers", href: "/previous-year", text: "Browse year-wise ECE papers across GATE, BEL, ISRO, DRDO and PSU-style exams." },
+  { label: "ECE Formula Sheet", href: "/gate-ece-formulas", text: "Revise formulas subject wise before PYQs and timed MCQs." },
+  { label: "Quick Notes", href: "/notes", text: "Study theory, formulas and revision notes subject by subject." },
+  { label: "Topic MCQs", href: "/mcqs", text: "Practice topic-wise objective questions for core ECE subjects." },
+  { label: "Numerical Practice", href: "/practice", text: "Use exam-oriented practice sets after finishing each topic." },
+];
 
 function ExamIcon({ type }) {
   const common = "h-7 w-7";
@@ -158,8 +195,11 @@ function RoadmapStep({ step, index, accent }) {
 export default function EceExamsPage() {
   return (
     <Layout
-      title="ECE Exam Guide | Exam Guides"
-      description="Exam-wise guidance for ECE aspirants with syllabus focus, eligibility basics, selection stages, cutoff planning, strategy, and roadmaps."
+      title="ECE Exams - GATE, BEL, ISRO, DRDO & PSU Preparation"
+      description="Plan ECE exam preparation for GATE, BEL, ISRO, DRDO, PSU and related electronics exams with exam guides, previous papers, formulas, quick notes, MCQs and practice links."
+      canonicalUrl="/ece-exams"
+      keywords="ECE exams, ECE exam preparation, GATE ECE, BEL ECE, ISRO ECE, DRDO ECE, PSU ECE, electronics and communication engineering exams"
+      structuredData={eceExamStructuredData}
     >
       <div className="mx-auto max-w-[1440px] space-y-6">
         <div className="mb-1 flex items-center gap-2 border-b border-portal-100 pb-4 text-sm text-slate-500">
@@ -178,12 +218,12 @@ export default function EceExamsPage() {
                   Strategy Before PYQs
                 </p>
                 <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-                  Use ECE Exams as your guide section. Use Previous Papers only as the PYQ bank.
+                  ECE Exams for GATE, BEL, ISRO, DRDO and PSU Preparation
                 </h1>
                 <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
-                  This page is for exam-wise guidance: syllabus focus, eligibility basics,
-                  selection stages, cutoff thinking, strategy, and roadmap. When you want
-                  actual year-wise question practice, jump to the Previous Papers library.
+                  Use this page to choose the right Electronics and Communication Engineering
+                  exam path, then move into quick notes, formulas, topic-wise questions,
+                  previous year papers, and practice resources that already exist on ECE Exam Guide.
                 </p>
               </div>
 
@@ -216,6 +256,34 @@ export default function EceExamsPage() {
                 </article>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="rounded-[28px] border border-[#e2e9f7] bg-white p-5 shadow-[0_18px_60px_rgba(17,43,92,0.06)] sm:p-6">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-portal-600">
+                Study Resources
+              </p>
+              <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                Move from exam choice to actual practice
+              </h2>
+            </div>
+            <Link href="/subjects" className="text-sm font-semibold text-portal-700 transition hover:text-portal-800">
+              Browse ECE subjects
+            </Link>
+          </div>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {preparationLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-[22px] border border-[#e3eaf7] bg-[#f8fbff] p-4 transition hover:border-portal-300 hover:bg-white"
+              >
+                <h3 className="text-base font-bold text-slate-900">{item.label}</h3>
+                <p className="mt-2 text-sm leading-7 text-slate-600">{item.text}</p>
+              </Link>
+            ))}
           </div>
         </section>
 

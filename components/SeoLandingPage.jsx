@@ -26,6 +26,35 @@ function LinkCard({ label, href }) {
   );
 }
 
+function FormulaGroupCard({ group }) {
+  return (
+    <article className="rounded-[20px] border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h3 className="text-base font-black tracking-tight text-slate-950">
+            {group.subject}
+          </h3>
+          <p className="mt-1 text-sm leading-6 text-slate-600">{group.use}</p>
+        </div>
+        <Link
+          href={group.href}
+          className="shrink-0 rounded-lg border border-portal-200 px-3 py-1.5 text-xs font-bold text-portal-700 transition hover:bg-portal-50"
+        >
+          Notes
+        </Link>
+      </div>
+      <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-700">
+        {group.items.map((item) => (
+          <li key={`${group.subject}-${item}`} className="flex gap-2">
+            <span className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-portal-600" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
+}
+
 export default function SeoLandingPage({ page }) {
   const structuredData = [
     buildBreadcrumbList([
@@ -157,6 +186,29 @@ export default function SeoLandingPage({ page }) {
             ))}
           </div>
         </section>
+
+        {page.formulaGroups?.length ? (
+          <section className="mt-5 rounded-[24px] border border-slate-200 bg-slate-50/70 p-4 shadow-sm sm:p-5">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="text-xl font-black tracking-tight text-slate-950">
+                  Subject-Wise Formula Revision
+                </h2>
+                <p className="mt-1 text-sm leading-7 text-slate-600">
+                  Use these formula clusters with the linked notes before attempting PYQs or timed MCQs.
+                </p>
+              </div>
+              <Link href="/network-analysis-pyq" className="text-sm font-bold text-portal-700 transition hover:text-portal-800">
+                Practice network PYQs
+              </Link>
+            </div>
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              {page.formulaGroups.map((group) => (
+                <FormulaGroupCard key={group.subject} group={group} />
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         {page.faqs?.length ? (
           <section className="mt-5 rounded-[24px] border border-slate-200 bg-white p-4 shadow-sm sm:p-5">

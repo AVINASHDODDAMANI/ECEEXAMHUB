@@ -1,4 +1,18 @@
 const symbolReplacements = [
+  [/\\omega\b/g, "\u03c9"],
+  [/\\Omega\b/g, "\u03a9"],
+  [/\\theta\b/g, "\u03b8"],
+  [/\\lambda\b/g, "\u03bb"],
+  [/\\alpha\b/g, "\u03b1"],
+  [/\\beta\b/g, "\u03b2"],
+  [/\\pi\b/g, "\u03c0"],
+  [/\\mu\b/g, "\u00b5"],
+  [/\\infty\b/g, "\u221e"],
+  [/\\times\b/g, "\u00d7"],
+  [/\\pm\b/g, "\u00b1"],
+  [/\\leq\b/g, "\u2264"],
+  [/\\geq\b/g, "\u2265"],
+  [/\\neq\b/g, "\u2260"],
   [/\blambda(\d+)\b/gi, "λ_$1"],
   [/\btheta(\d+)\b/gi, "θ_$1"],
   [/\blambda\b/gi, "λ"],
@@ -22,10 +36,29 @@ const symbolReplacements = [
   [/\buy\b/g, "uᵧ"],
 ];
 
+function replaceLatexFractions(text = "") {
+  return String(text).replace(
+    /\\frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}/g,
+    "($1)/($2)"
+  );
+}
+
+function normalizeLatexLikeText(text = "") {
+  return replaceLatexFractions(text)
+    .replace(/\\sqrt\s*\{([^{}]+)\}/g, "sqrt($1)")
+    .replace(/sqrt\s*\{([^{}]+)\}/gi, "sqrt($1)")
+    .replace(/_\{([^{}]+)\}/g, "_($1)")
+    .replace(/\^\{([^{}]+)\}/g, "^($1)")
+    .replace(/\\left|\\right/g, "")
+    .replace(/\\,/g, " ")
+    .replace(/\\;/g, " ")
+    .replace(/\\:/g, " ");
+}
+
 function normalizeText(value = "") {
   return symbolReplacements.reduce(
     (text, [pattern, replacement]) => text.replace(pattern, replacement),
-    String(value || "")
+    normalizeLatexLikeText(String(value || ""))
   );
 }
 

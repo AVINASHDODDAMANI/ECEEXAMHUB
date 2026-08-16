@@ -385,13 +385,13 @@ export const seoLandingPages = {
   },
   "gate-ece-formulas": {
     path: "/gate-ece-formulas",
-    title: "GATE ECE Formulas PDF + Subject Wise Formula Revision",
+    title: "ECE Formula Sheet for GATE, BEL, ISRO & PSU Preparation",
     description:
-      "Revise GATE ECE formulas notes wise with links to Network Analysis, Signals, Control Systems, Communication Systems, DSP, Digital Electronics, and more.",
+      "Revise ECE formulas subject wise for GATE, BEL, ISRO, DRDO and PSU preparation with links to Network Analysis, Signals, Control, Communication, Digital, Analog, DSP and more.",
     eyebrow: "Formula Revision",
-    heading: "GATE ECE Formulas",
+    heading: "ECE Formula Sheet",
     summary:
-      "A formula-first landing page for students who want fast GATE ECE revision before solving questions.",
+      "A formula-first revision page for ECE students who want fast subject-wise recall before solving GATE ECE, BEL, ISRO, DRDO, PSU, PYQ, and MCQ questions.",
     primaryAction: { label: "Browse Quick Notes", href: "/notes" },
     secondaryAction: { label: "Solve PYQs", href: "/gate-ece-pyq" },
     metrics: [
@@ -414,13 +414,55 @@ export const seoLandingPages = {
       },
     ],
     links: [
-      { label: "Network Analysis", href: "/notes/network-analysis" },
-      { label: "Signals and Systems", href: "/notes/signals-and-systems" },
-      { label: "Control Systems", href: "/notes/control-systems" },
-      { label: "Communication Systems", href: "/notes/communication-systems" },
+      { label: "Network Analysis Formula Notes", href: "/notes/network-analysis" },
+      { label: "Signals and Systems Formula Notes", href: "/notes/signals-and-systems" },
+      { label: "Control Systems Formula Notes", href: "/notes/control-systems" },
+      { label: "Communication Systems Formula Notes", href: "/notes/communication-systems" },
+      { label: "Digital Electronics Notes", href: "/notes/digital-electronics" },
+      { label: "Analog Electronics Notes", href: "/notes/analog-electronics" },
+      { label: "Network Analysis PYQs", href: "/network-analysis-pyq" },
+      { label: "GATE ECE PYQs", href: "/gate-ece-pyq" },
+    ],
+    formulaGroups: [
+      {
+        subject: "Network Theory",
+        href: "/notes/network-analysis",
+        use: "Best before circuit numericals, network theorems, AC analysis, transients, and two-port questions.",
+        items: ["KCL and KVL", "Thevenin, Norton, superposition, and maximum power transfer", "Impedance, resonance, time constants, and two-port parameters"],
+      },
+      {
+        subject: "Signals and Systems",
+        href: "/notes/signals-and-systems",
+        use: "Use before convolution, transform, sampling, and LTI-system PYQs.",
+        items: ["Convolution and impulse response", "Fourier series, Fourier transform, Laplace transform, and Z-transform", "Sampling theorem, ROC, causality, and stability conditions"],
+      },
+      {
+        subject: "Control Systems",
+        href: "/notes/control-systems",
+        use: "Use before stability, time-response, root-locus, Bode, and compensator questions.",
+        items: ["Transfer function and block-diagram reduction", "Routh-Hurwitz, root locus, gain margin, and phase margin", "First-order and second-order time-response relations"],
+      },
+      {
+        subject: "Communication Systems",
+        href: "/notes/communication-systems",
+        use: "Use before analog communication, digital communication, noise, and information theory questions.",
+        items: ["AM, FM, PM, modulation index, bandwidth, and power relations", "PCM, line coding, ASK, FSK, PSK, QPSK, and QAM basics", "SNR, noise figure, entropy, information rate, and channel capacity"],
+      },
+      {
+        subject: "Analog and Electronic Devices",
+        href: "/notes/analog-electronics",
+        use: "Use before diode, BJT, MOSFET, op-amp, filters, oscillators, and power-supply numericals.",
+        items: ["Diode and rectifier relations", "BJT, MOSFET, amplifier gain, feedback, and op-amp formulas", "Cutoff frequency, filters, oscillators, and regulator power"],
+      },
+      {
+        subject: "Digital Electronics and DSP",
+        href: "/notes/digital-electronics",
+        use: "Use before Boolean algebra, counters, converters, transforms, DFT, FFT, and filter questions.",
+        items: ["Boolean identities, K-map forms, flip-flops, counters, and registers", "ADC and DAC resolution, quantization, and code relations", "DFT, FFT, Z-transform, FIR, IIR, and sampling relations"],
+      },
     ],
     keywords:
-      "GATE ECE formulas, ECE formula sheet, electronics formulas PDF, GATE ECE formula revision, network analysis formulas",
+      "ECE formulas, ECE formula sheet, GATE ECE formulas, electronics formulas PDF, BEL ECE formulas, ISRO ECE formulas, DRDO ECE formulas, PSU ECE formulas, network analysis formulas",
   },
   "network-analysis-pyq": {
     path: "/network-analysis-pyq",

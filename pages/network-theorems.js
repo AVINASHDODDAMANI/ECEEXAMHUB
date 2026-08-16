@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Layout from "../components/layout";
 import NetworkTopicMenu from "../components/NetworkTopicMenu";
+import { buildBreadcrumbList, generateStructuredData } from "../lib/seo";
 
 const theoremSections = [
   {
@@ -226,6 +227,37 @@ const learningFlow = [
   },
 ];
 
+const networkTheoremsPath = "/network-theorems";
+const networkTheoremsDescription =
+  "Learn Network Theorems for GATE ECE with Thevenin, Norton, superposition, maximum power transfer, reciprocity, Millman, star-delta formulas, steps and related Network Analysis practice.";
+const networkTheoremsStructuredData = [
+  ...generateStructuredData({
+    type: "topic",
+    title: "Network Theorems",
+    description: networkTheoremsDescription,
+    path: networkTheoremsPath,
+    subjectName: "Network Analysis",
+    chapterTitle: "Network Theorems",
+    keywords:
+      "network theorems, network theorem, Thevenin theorem, Norton theorem, superposition theorem, maximum power transfer theorem, GATE ECE network analysis",
+    about: theoremSections.map((theorem) => theorem.title),
+  }),
+  buildBreadcrumbList([
+    { name: "Home", item: "/" },
+    { name: "Network Analysis", item: "/subjects/network-analysis" },
+    { name: "Network Theorems", item: networkTheoremsPath },
+  ]),
+];
+
+const relatedNetworkPracticeLinks = [
+  { label: "Network Analysis PYQs", href: "/network-analysis-pyq" },
+  { label: "Network Analysis Notes", href: "/notes/network-analysis" },
+  { label: "Circuit Laws", href: "/circuit-laws" },
+  { label: "DC Circuit Analysis", href: "/dc-circuit-analysis" },
+  { label: "AC Circuit Analysis", href: "/ac-circuit-analysis" },
+  { label: "Two-Port Networks", href: "/two-port-networks" },
+];
+
 function toSectionId(value = "") {
   return String(value)
     .toLowerCase()
@@ -330,7 +362,14 @@ function FlowStep({ step, index }) {
 
 export default function NetworkTheoremsPage() {
   return (
-    <Layout title="Network Theorems GATE ECE Quick Notes + Formulas + PYQs | Network Analysis" pageClassName="py-3 sm:py-4">
+    <Layout
+      title="Network Theorems - Theory, Formulas & GATE ECE Questions"
+      description={networkTheoremsDescription}
+      canonicalUrl={networkTheoremsPath}
+      keywords="network theorems, network theorem, Thevenin theorem, Norton theorem, superposition theorem, maximum power transfer theorem, network analysis GATE questions"
+      structuredData={networkTheoremsStructuredData}
+      pageClassName="py-3 sm:py-4"
+    >
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav aria-label="Breadcrumb" className="mb-5 flex items-start justify-between gap-3 pt-1">
           <ol className="flex flex-wrap items-center gap-2 rounded-full border border-white/80 bg-white/85 px-4 py-2.5 text-sm text-slate-500 shadow-sm backdrop-blur">
@@ -395,6 +434,35 @@ export default function NetworkTheoremsPage() {
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {learningFlow.map((step, index) => (
               <FlowStep key={step.title} step={step} index={index} />
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-5 rounded-[30px] border border-slate-200 bg-white p-5 shadow-panel sm:p-6">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight text-slate-950">
+                Related Network Analysis Practice
+              </h2>
+              <p className="mt-2 max-w-4xl text-sm leading-7 text-slate-700 sm:text-base">
+                After learning Thevenin, Norton, superposition and maximum power transfer,
+                use these connected pages for formulas, solved numericals, PYQs and topic-wise practice.
+              </p>
+            </div>
+            <Link href="/gate-ece-formulas" className="text-sm font-bold text-portal-700 transition hover:text-portal-800">
+              ECE formula sheet
+            </Link>
+          </div>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedNetworkPracticeLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-portal-300 hover:bg-white hover:text-portal-700"
+              >
+                {item.label}
+              </Link>
             ))}
           </div>
         </section>
