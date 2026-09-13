@@ -19,6 +19,7 @@ const navItems = [
   { href: "/notes", label: "Quick Notes", hasMenu: true, mobileLabel: "Quick Notes", mobilePrimary: true },
   { href: "/previous-year", label: "PYQ Papers", mobileLabel: "PYQs", mobilePrimary: true },
   { href: "/practice", label: "Numericals", mobileLabel: "Practice" },
+  { href: "/document-tools", label: "Document Tools", mobileLabel: "Tools" },
   { href: "/ece-exams", label: "Resources", hasMenu: true, mobileLabel: "Resources" },
   { href: "/placement-preparation", label: "Placement Preparation", hasMenu: true, mobileLabel: "Placement" },
   { href: "/about", label: "About Us", mobileLabel: "About" },

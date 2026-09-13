@@ -7,6 +7,7 @@ const footerLinks = [
   { label: "Quick Notes", href: "/notes" },
   { label: "PYQs", href: "/previous-year" },
   { label: "Practice", href: "/practice" },
+  { label: "Document Tools", href: "/document-tools" },
   { label: "Dashboard", href: "/learn" },
   { label: "Resources", href: "/ece-exams" },
 ];

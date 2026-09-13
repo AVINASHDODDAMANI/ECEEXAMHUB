@@ -213,7 +213,24 @@ mjx-container[display="true"] {
 }
 
 .site-compact .topic-section {
-  border-color: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.site-compact main > div > :where(section[id], article[id]),
+.site-compact main > div > div > :where(section[id], article[id]),
+.site-compact main .site-ad-layout > div > div > :where(section[id], article[id]),
+.site-compact main article > section:has(> h2),
+.site-compact main article > article:has(> h2),
+.site-compact main article > div:has(> h2),
+.site-compact main .basic-concept-guide-content section:has(> h2),
+.site-compact main .basic-concept-guide-content article:has(> h2),
+.site-compact main .basic-concept-guide-content div:has(> h2) {
+  border: 0 !important;
   border-radius: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
@@ -222,25 +239,47 @@ mjx-container[display="true"] {
 }
 
 .site-compact .topic-section > h2 {
-  border-bottom: 1px solid rgba(215, 226, 238, 0.82);
-  padding-bottom: 0.55rem;
+  border-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
 
-.site-compact .topic-section :where(.rounded-2xl, .rounded-xl):not(a):not(button):not(input):not(textarea):not(select):not(.diagram-placeholder):not(.animation-placeholder) {
+.site-compact main > div > :where(section[id], article[id]) > :where(h2, h3):first-child,
+.site-compact main > div > div > :where(section[id], article[id]) > :where(h2, h3):first-child,
+.site-compact main .site-ad-layout > div > div > :where(section[id], article[id]) > :where(h2, h3):first-child,
+.site-compact main article > :where(section, article, div):has(> h2) > :where(h2, h3):first-child,
+.site-compact main .basic-concept-guide-content :where(section, article, div):has(> h2) > :where(h2, h3):first-child {
+  border-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.site-compact .topic-section :where(.rounded-2xl, .rounded-xl):not(a):not(button):not(input):not(textarea):not(select):not(.diagram-placeholder):not(.animation-placeholder),
+.site-compact main > div > :where(section[id], article[id]) :where(article, section, div, li):not(nav):not(form):not(table):not(thead):not(tbody):not(tr):not(th):not(td):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder),
+.site-compact main > div > div > :where(section[id], article[id]) :where(article, section, div, li):not(nav):not(form):not(table):not(thead):not(tbody):not(tr):not(th):not(td):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder),
+.site-compact main .site-ad-layout > div > div > :where(section[id], article[id]) :where(article, section, div, li):not(nav):not(form):not(table):not(thead):not(tbody):not(tr):not(th):not(td):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder) {
   box-shadow: none !important;
 }
 
-.site-compact .topic-section :where(.border-slate-200, .border-white, .border-white\/80, .border-white\/60):not(a):not(button):not(input):not(textarea):not(select):not(.diagram-placeholder):not(.animation-placeholder) {
+.site-compact .topic-section :where(.border-slate-200, .border-portal-200, .border-portal-100, .border-amber-200, .border-emerald-200, .border-cyan-200, .border-orange-200, .border-fuchsia-200, .border-violet-200, .border-white, .border-white\/80, .border-white\/60):not(a):not(button):not(input):not(textarea):not(select):not(.diagram-placeholder):not(.animation-placeholder),
+.site-compact main > div > :where(section[id], article[id]) :where(.border-slate-200, .border-portal-200, .border-portal-100, .border-amber-200, .border-emerald-200, .border-cyan-200, .border-orange-200, .border-fuchsia-200, .border-violet-200, .border-white, .border-white\/80, .border-white\/60):not(a):not(button):not(input):not(textarea):not(select):not(table):not(th):not(td):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder),
+.site-compact main > div > div > :where(section[id], article[id]) :where(.border-slate-200, .border-portal-200, .border-portal-100, .border-amber-200, .border-emerald-200, .border-cyan-200, .border-orange-200, .border-fuchsia-200, .border-violet-200, .border-white, .border-white\/80, .border-white\/60):not(a):not(button):not(input):not(textarea):not(select):not(table):not(th):not(td):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder),
+.site-compact main .site-ad-layout > div > div > :where(section[id], article[id]) :where(.border-slate-200, .border-portal-200, .border-portal-100, .border-amber-200, .border-emerald-200, .border-cyan-200, .border-orange-200, .border-fuchsia-200, .border-violet-200, .border-white, .border-white\/80, .border-white\/60):not(a):not(button):not(input):not(textarea):not(select):not(table):not(th):not(td):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder) {
   border-color: transparent !important;
 }
 
-.site-compact .topic-section :where(.bg-white, .bg-white\/95, .bg-white\/90, .bg-white\/80, .bg-slate-50, .bg-slate-50\/80):not(a):not(button):not(input):not(textarea):not(select):not(.diagram-placeholder):not(.animation-placeholder) {
+.site-compact .topic-section :where(.bg-white, .bg-white\/95, .bg-white\/90, .bg-white\/80, .bg-slate-50, .bg-slate-50\/80, .bg-amber-50, .bg-amber-50\/70, .bg-emerald-50, .bg-emerald-50\/70, .bg-portal-50, .bg-portal-50\/70, .bg-\[\#f8fbff\]):not(a):not(button):not(input):not(textarea):not(select):not(.diagram-placeholder):not(.animation-placeholder),
+.site-compact main > div > :where(section[id], article[id]) :where(.bg-white, .bg-white\/95, .bg-white\/90, .bg-white\/80, .bg-slate-50, .bg-slate-50\/80, .bg-amber-50, .bg-amber-50\/70, .bg-emerald-50, .bg-emerald-50\/70, .bg-portal-50, .bg-portal-50\/70, .bg-\[\#f8fbff\]):not(a):not(button):not(input):not(textarea):not(select):not(table):not(th):not(td):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder),
+.site-compact main > div > div > :where(section[id], article[id]) :where(.bg-white, .bg-white\/95, .bg-white\/90, .bg-white\/80, .bg-slate-50, .bg-slate-50\/80, .bg-amber-50, .bg-amber-50\/70, .bg-emerald-50, .bg-emerald-50\/70, .bg-portal-50, .bg-portal-50\/70, .bg-\[\#f8fbff\]):not(a):not(button):not(input):not(textarea):not(select):not(table):not(th):not(td):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder),
+.site-compact main .site-ad-layout > div > div > :where(section[id], article[id]) :where(.bg-white, .bg-white\/95, .bg-white\/90, .bg-white\/80, .bg-slate-50, .bg-slate-50\/80, .bg-amber-50, .bg-amber-50\/70, .bg-emerald-50, .bg-emerald-50\/70, .bg-portal-50, .bg-portal-50\/70, .bg-\[\#f8fbff\]):not(a):not(button):not(input):not(textarea):not(select):not(table):not(th):not(td):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder) {
+  background: transparent !important;
+}
+
+.site-compact main :where(section[id], article[id])[class*="bg-\\[linear-gradient"] {
   background: transparent !important;
 }
 
 .site-compact main article > :where(section[id], article[id], div[id]),
 .site-compact main .basic-concept-guide-content :where(section[id], article[id], div[id]) {
-  border-color: transparent !important;
+  border: 0 !important;
   border-radius: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
@@ -250,8 +289,8 @@ mjx-container[display="true"] {
 
 .site-compact main article > :where(section[id], article[id], div[id]) > :where(h2, h3):first-child,
 .site-compact main .basic-concept-guide-content :where(section[id], article[id], div[id]) > :where(h2, h3):first-child {
-  border-bottom: 1px solid rgba(215, 226, 238, 0.82);
-  padding-bottom: 0.55rem;
+  border-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .site-compact main article > :where(section[id], article[id], div[id])
@@ -267,6 +306,26 @@ mjx-container[display="true"] {
 .site-compact main article > :where(section[id], article[id], div[id])
   :where(.bg-white, .bg-white\/95, .bg-white\/90, .bg-white\/80, .bg-slate-50, .bg-slate-50\/80, .bg-\[\#f8fbff\]):not(a):not(button):not(input):not(textarea):not(select):not(table):not(th):not(td):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder) {
   background: transparent !important;
+}
+
+.site-compact main :where(section, article, aside, details):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder):has(:where(h2, h3, p, ul, ol)) {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.site-compact main :where(div[class*="rounded"], div[class*="shadow"], div[class*="border"]):not(.ad-slot):not(.ad-placeholder):not(.diagram-placeholder):not(.animation-placeholder):has(> :where(h2, h3, p, ul, ol)) {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.site-compact main :where(section, article, aside, details, div):has(> :where(h2, h3)) > :where(h2, h3):first-child {
+  border: 0 !important;
+  border-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .basic-concept-guide-content > div > section {
@@ -678,6 +737,17 @@ iframe[src*="googlesyndication"] {
 .site-compact .rounded-\[28px\],
 .site-compact .rounded-\[26px\] {
   border-radius: 1.5rem;
+}
+
+.site-compact main .document-tools-shell :where(section, article, aside, details, div),
+.site-compact main .document-tools-shell :where(.document-tools-card) {
+  border-color: var(--reader-line) !important;
+  background-color: rgba(255, 253, 248, 0.96) !important;
+}
+
+.site-compact main .document-tools-shell :where(.document-tools-card) {
+  border-radius: 0.5rem !important;
+  box-shadow: 0 10px 24px rgba(31, 50, 75, 0.055) !important;
 }
 
 @media (min-width: 640px) {
