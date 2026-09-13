@@ -8,6 +8,9 @@ export const DOCUMENT_TOOL_CATEGORIES = [
   "Text",
 ];
 
+export const DOCUMENT_TOOLS_PUBLIC_BASE_PATH = "/documents-tools";
+export const DOCUMENT_TOOLS_LEGACY_BASE_PATH = "/document-tools";
+
 export const documentTools = [
   {
     slug: "word-to-pdf",
@@ -60,6 +63,22 @@ export const documentTools = [
     related: ["pdf-to-jpg", "merge-pdf", "compress-pdf"],
   },
   {
+    slug: "compress-image",
+    name: "Compress Image",
+    shortName: "Compress Image",
+    category: "Images",
+    status: "enabled",
+    acceptedFormats: [".jpg", ".jpeg", ".png", ".webp"],
+    outputFormat: "JPG, PNG, or WebP",
+    limitLabel: "10 MB per image, up to 12 images",
+    title: "Compress Image Online",
+    metaDescription:
+      "Compress JPG, PNG, and WebP images online with target size, dimensions, quality, and format controls.",
+    intro:
+      "Reduce image size while controlling dimensions, output format, quality, and aspect ratio for uploads, forms, and sharing.",
+    related: ["jpg-to-pdf", "pdf-to-jpg", "compress-pdf"],
+  },
+  {
     slug: "pdf-to-jpg",
     name: "PDF to JPG/PNG",
     shortName: "PDF -> JPG/PNG",
@@ -82,7 +101,7 @@ export const documentTools = [
     name: "Merge PDF",
     shortName: "Merge PDF",
     category: "PDF",
-    status: "planned",
+    status: "enabled",
     acceptedFormats: [".pdf"],
     outputFormat: "PDF",
     limitLabel: "10 MB per PDF, up to 12 PDFs",
@@ -98,7 +117,7 @@ export const documentTools = [
     name: "Split PDF",
     shortName: "Split PDF",
     category: "PDF",
-    status: "planned",
+    status: "enabled",
     acceptedFormats: [".pdf"],
     outputFormat: "PDF or ZIP",
     limitLabel: "10 MB per file",
@@ -132,7 +151,7 @@ export const documentTools = [
     name: "Rotate PDF",
     shortName: "Rotate PDF",
     category: "PDF",
-    status: "planned",
+    status: "enabled",
     acceptedFormats: [".pdf"],
     outputFormat: "PDF",
     limitLabel: "10 MB per file",
@@ -148,7 +167,7 @@ export const documentTools = [
     name: "Extract/Delete/Reorder PDF Pages",
     shortName: "Organize PDF Pages",
     category: "PDF",
-    status: "planned",
+    status: "enabled",
     acceptedFormats: [".pdf"],
     outputFormat: "PDF",
     limitLabel: "10 MB per file",
@@ -164,7 +183,7 @@ export const documentTools = [
     name: "PDF to Text",
     shortName: "PDF -> Text",
     category: "Text",
-    status: "planned",
+    status: "enabled",
     acceptedFormats: [".pdf"],
     outputFormat: "TXT",
     limitLabel: "10 MB per file",
@@ -180,7 +199,7 @@ export const documentTools = [
     name: "Text to PDF",
     shortName: "Text -> PDF",
     category: "Text",
-    status: "planned",
+    status: "enabled",
     acceptedFormats: [".txt"],
     outputFormat: "PDF",
     limitLabel: "2 MB per file",

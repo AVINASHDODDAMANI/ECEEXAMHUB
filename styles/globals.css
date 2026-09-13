@@ -739,13 +739,12 @@ iframe[src*="googlesyndication"] {
   border-radius: 1.5rem;
 }
 
-.site-compact main .document-tools-shell :where(section, article, aside, details, div),
-.site-compact main .document-tools-shell :where(.document-tools-card) {
+.site-compact main .document-tools-shell :where(.document-tools-panel, .document-tools-card) {
   border-color: var(--reader-line) !important;
   background-color: rgba(255, 253, 248, 0.96) !important;
 }
 
-.site-compact main .document-tools-shell :where(.document-tools-card) {
+.site-compact main .document-tools-shell :where(.document-tools-panel, .document-tools-card) {
   border-radius: 0.5rem !important;
   box-shadow: 0 10px 24px rgba(31, 50, 75, 0.055) !important;
 }

@@ -65,7 +65,7 @@ export default function DocumentToolsIndexPage() {
           <span className="font-bold text-slate-800">Document Tools</span>
         </nav>
 
-        <header className="rounded-lg border border-[#dfe6f1] bg-white p-5 shadow-[0_12px_30px_rgba(15,23,42,0.055)] sm:p-6">
+        <header className="document-tools-panel rounded-lg border border-[#dfe6f1] bg-white p-5 shadow-[0_12px_30px_rgba(15,23,42,0.055)] sm:p-6">
           <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#ff7417]">PDF and file converters</p>
           <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[#071d49] sm:text-4xl">
             Document Tools

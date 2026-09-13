@@ -2,10 +2,11 @@ import { getDocumentTool } from "../../../data/document-tools";
 import { checkRateLimit, getClientIp } from "../../../lib/auth/rate-limit";
 import {
   cleanupDocumentToolWorkspace,
-  convertImagesToPdf,
   createDocumentToolWorkspace,
+  parseOptions,
   parseDocumentToolUpload,
-  validateImageUploads,
+  processDocumentTool,
+  validateDocumentToolUploads,
 } from "../../../lib/document-tools-server";
 
 export const config = {
@@ -51,7 +52,7 @@ export default async function documentToolHandler(req, res) {
     return;
   }
 
-  if (tool.slug !== "jpg-to-pdf") {
+  if (tool.status !== "enabled") {
     sendError(
       res,
       501,
@@ -67,16 +68,16 @@ export default async function documentToolHandler(req, res) {
 
   try {
     workspacePath = await createDocumentToolWorkspace();
-    const { files } = await parseDocumentToolUpload(req, workspacePath);
-    const imageFiles = await validateImageUploads(files);
-    const pdfBuffer = await convertImagesToPdf(imageFiles);
-    const fileBaseName = imageFiles.length === 1 ? "eceexamguide-image" : "eceexamguide-images";
+    const { fields, files } = await parseDocumentToolUpload(req, workspacePath);
+    const options = parseOptions(fields);
+    const uploadedFiles = await validateDocumentToolUploads(files, tool);
+    const output = await processDocumentTool(tool, uploadedFiles, options);
 
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Length", String(pdfBuffer.length));
-    res.setHeader("Content-Disposition", `attachment; filename="${fileBaseName}.pdf"`);
+    res.setHeader("Content-Type", output.contentType);
+    res.setHeader("Content-Length", String(output.buffer.length));
+    res.setHeader("Content-Disposition", `attachment; filename="${output.fileName}"`);
     res.setHeader("Cache-Control", "no-store, max-age=0");
-    res.status(200).send(pdfBuffer);
+    res.status(200).send(output.buffer);
   } catch (error) {
     const message = error?.message || "Unable to process the uploaded images.";
     const statusCode = /maxFileSize|maxTotalFileSize|larger|under|10 MB|30 MB/i.test(message)
